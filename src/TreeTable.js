@@ -114,7 +114,7 @@ const renderRow = ({ tree, stateNode, toggleRow, iconPath, columnFields, renderF
         <div style={{ display: 'flex' }}>
           <Indentation {...{ depth: stateNode.depth }} />
           <Toggle {...{ stateNode, toggleRow, iconPath }} />
-          <div style={{ flexGrow: 1 }}>
+          <div style={{ flexGrow: 1 }} onClick={(e) => e.stopPropagation()}>
             {fields[0]}
           </div>
         </div>
