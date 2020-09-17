@@ -114,7 +114,9 @@ const renderRow = ({ tree, stateNode, toggleRow, iconPath, columnFields, renderF
         <div style={{ display: 'flex' }}>
           <Indentation {...{ depth: stateNode.depth }} />
           <Toggle {...{ stateNode, toggleRow, iconPath }} />
-          {fields[0]}
+          <div style={{ flexGrow: 1 }}>
+            {fields[0]}
+          </div>
         </div>
       </td>
       {fields.slice(1).map((field, index) => (
