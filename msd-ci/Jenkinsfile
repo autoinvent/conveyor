@@ -19,6 +19,7 @@ pipeline {
         }
         stage('Show Environment') {
             steps {
+                sh 'node --version'
                 sh 'yarn --version'
                 sh 'env'
             }
@@ -30,10 +31,10 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'yarn run build'
+                sh 'yarn run lib'
             }
         }
-        stage('Test msd-react') {
+        stage('Test') {
             steps {
                 sh 'yarn test -- --ci --testResultsProcessor="jest-junit"'
                 junit 'junit.xml'
