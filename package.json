@@ -6,7 +6,8 @@
   "scripts": {
     "lib": "./node_modules/.bin/babel src --out-dir lib",
     "build-tar": "./buildFile",
-    "test": "jest"
+    "test": "jest",
+    "test:ci": "yarn test -- --ci --testResultsProcessor=jest-junit"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "eslint": "^6.0.1",
     "eslint-plugin-react": "^7.18.0",
     "jest": "^24.8.0",
+    "jest-junit": "^12.0.0",
     "jsdoc": "^3.6.2",
     "react-router-dom": "^4.3.1"
   },

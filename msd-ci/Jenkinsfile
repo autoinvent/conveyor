@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'yarn test -- --ci --testResultsProcessor="jest-junit"'
+                sh 'yarn test:ci'
                 junit 'junit.xml'
             }
         }
