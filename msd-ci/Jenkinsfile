@@ -1,0 +1,51 @@
+pipeline {
+    options {
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '7', numToKeepStr: '5')
+    }
+    agent { 
+        node {
+            label 'CTM'
+        }
+    }
+    tools {
+        nodejs 'NodeJS 12.x'
+    }
+    stages {
+        stage('Checkout code') {
+            steps {
+                checkout scm
+                sh 'git clean -fdx'
+            }
+        }
+        stage('Show Environment') {
+            steps {
+                sh 'yarn --version'
+                sh 'env'
+            }
+        }
+        stage('Install dependencies') {
+            steps {
+                sh 'yarn install'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'yarn run build'
+            }
+        }
+        stage('Test msd-react') {
+            steps {
+                sh 'yarn test -- --ci --testResultsProcessor="jest-junit"'
+                junit 'junit.xml'
+            }
+        }
+    }
+    post {
+        success {
+            slackSend channel: "#msd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+        }
+        failure {
+            slackSend channel: "#msd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+        }
+    }
+}
