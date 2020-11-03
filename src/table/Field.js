@@ -13,9 +13,9 @@ export const getRelSchemaEntry = ({ schema, modelName, fieldName }) => {
   return schema.getModel(fieldTargetModel)
 }
 
-const FieldString = ({ schema, modelName, fieldName, node }) => {
+const FieldString = ({ schema, modelName, fieldName, node, noDataDisplayValue }) => {
   const value = R.prop(fieldName, node)
-  const displayString = (R.isNil(value) || value === '') ? 'N/A' : value
+  const displayString = (R.isNil(value) || value === '') ? noDataDisplayValue : value
 
   return (
     <span className='text-area-display'>{displayString}</span>
@@ -31,11 +31,11 @@ const FieldBoolean = ({ schema, modelName, fieldName, node }) => {
 
 // Render a link to the value. If the value does not start with any of the prefixes,
 // append the first prefix. Produces HTTPS URLs by default.
-const FieldLink = ({ schema, modelName, fieldName, node, prefix = ['https://', 'http://']}) => {
+const FieldLink = ({ schema, modelName, fieldName, node, prefix = ['https://', 'http://'], noDataDisplayValue }) => {
   // Ensure prefix is a list, allowing a single string instead of a list.
   prefix = R.pipe(R.prepend(prefix), R.flatten)([])
   let href = R.prop(fieldName, node)
-  if (!href) { return <span>N/A</span> }
+  if (!href) { return <span>{noDataDisplayValue}</span> }
 
   const displayString = href
 
@@ -55,14 +55,14 @@ const FieldCurrency = ({ schema, modelName, fieldName, node }) => {
   )
 }
 
-const FieldEnum = ({ schema, modelName, fieldName, node }) => {
+const FieldEnum = ({ schema, modelName, fieldName, node, noDataDisplayValue }) => {
   const value = R.prop(fieldName, node)
   if (value) {
     return (
       <span>{ schema.getEnumLabel(modelName, fieldName, value) }</span>
     )
   }
-  return <span>{ 'N/A' }</span>
+  return <span>{noDataDisplayValue}</span>
 }
 
 const FieldImageModal = ({ schema, modelName, fieldName, id, node, customProps }) => {
@@ -73,7 +73,7 @@ const FieldImageModal = ({ schema, modelName, fieldName, id, node, customProps }
   return <ImageLinkModal {...{ id: modalId, title: label, url }} />
 }
 
-export const FieldToOne = ({ schema, modelName, fieldName, node, tooltipData, customProps }) => {
+export const FieldToOne = ({ schema, modelName, fieldName, node, tooltipData, noDataDisplayValue, customProps }) => {
   const relSchemaEntry = getRelSchemaEntry({ schema, modelName, fieldName })
 
   const relModelName = R.prop('modelName', relSchemaEntry)
@@ -81,7 +81,7 @@ export const FieldToOne = ({ schema, modelName, fieldName, node, tooltipData, cu
   const displayString = schema.getDisplayValue({ modelName: relModelName, node, customProps })
   const relId = R.prop('id', node)
 
-  if (!displayString) { return <span>N/A</span> }
+  if (!displayString) { return <span>{noDataDisplayValue}</span> }
 
   const displayTooltip = (schema.getTooltipFields({ modelName: relModelName, customProps }).length !== 0)
   if (displayTooltip) {
@@ -112,7 +112,7 @@ export const FieldToOne = ({ schema, modelName, fieldName, node, tooltipData, cu
   }
 }
 
-export const FieldToMany = ({ schema, modelName, fieldName, tooltipData, node }) => {
+export const FieldToMany = ({ schema, modelName, fieldName, tooltipData, node, noDataDisplayValue }) => {
   const multiRelField = R.prop(fieldName, node)
 
   const relListWithLink = (field, idx, obj) => (
@@ -127,7 +127,7 @@ export const FieldToMany = ({ schema, modelName, fieldName, tooltipData, node })
 
   return (
     <span>{ (multiRelField && multiRelField.length > 0)
-      ? multiRelField.map(relListWithLink) : 'N/A'}
+      ? multiRelField.map(relListWithLink) : noDataDisplayValue}
     </span>
   )
 }
@@ -144,6 +144,7 @@ export const Field = ({ schema, modelName, fieldName, tooltipData, node, id, cus
   }
 
   const type = schema.getType(modelName, fieldName)
+  const noDataDisplayValue = schema.getNoDataDisplayValue({ modelName, fieldName, node, customProps })
 
   switch (type) {
     case consts.inputTypes.STRING_TYPE:
@@ -152,17 +153,17 @@ export const Field = ({ schema, modelName, fieldName, tooltipData, node, id, cus
     case consts.inputTypes.DATE_TYPE:
     case consts.inputTypes.TEXTAREA_TYPE:
     case consts.inputTypes.CREATABLE_STRING_SELECT_TYPE:
-      return <FieldString {...props} />
+      return <FieldString {...{ noDataDisplayValue, ...props }} />
     case consts.inputTypes.ENUM_TYPE:
-      return <FieldEnum {...props} />
+      return <FieldEnum {...{ noDataDisplayValue, ...props }} />
     case consts.inputTypes.URL_TYPE:
-      return <FieldLink {...props} />
+      return <FieldLink {...{ noDataDisplayValue, ...props }} />
     case consts.inputTypes.FILE_TYPE:
       return <FieldImageModal {...props} />
     case consts.inputTypes.PHONE_TYPE:
-      return <FieldLink {...{ prefix: 'tel:', ...props }} />
+      return <FieldLink {...{ prefix: 'tel:', noDataDisplayValue, ...props }} />
     case consts.inputTypes.EMAIL_TYPE:
-      return <FieldLink {...{ prefix: 'mailto:', ...props }} />
+      return <FieldLink {...{ prefix: 'mailto:', noDataDisplayValue, ...props }} />
     case consts.inputTypes.BOOLEAN_TYPE:
       return <FieldBoolean {...props} />
     case consts.inputTypes.CURRENCY_TYPE:
@@ -174,11 +175,12 @@ export const Field = ({ schema, modelName, fieldName, tooltipData, node, id, cus
         schema,
         modelName,
         fieldName,
-        tooltipData
+        tooltipData,
+        noDataDisplayValue
       }} />
     case consts.inputTypes.MANY_TO_MANY_TYPE:
     case consts.inputTypes.ONE_TO_MANY_TYPE:
-      return <FieldToMany {...props} />
+      return <FieldToMany {...{ noDataDisplayValue, ...props }} />
     case consts.inputTypes.ONE_TO_ONE_TYPE:
       return <span>OneToOne</span>
     default:

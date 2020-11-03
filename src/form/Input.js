@@ -233,7 +233,7 @@ export const InputCore = ({
         customProps
       })
       return (
-        <FlexibleInput
+        <FlexibleInput key={`FlexibleInput-${id}-${modelName}-${fieldName}`}
           {...{
             ...defaultProps,
             type: inputTypes.SELECT_TYPE,
@@ -254,7 +254,7 @@ export const InputCore = ({
         customProps
       })
       return (
-        <FlexibleInput
+        <FlexibleInput key={`FlexibleInput-${id}-${modelName}-${fieldName}`}
           {...{
             ...R.dissoc('type', defaultProps),
             type: inputTypes.SELECT_TYPE,
@@ -270,7 +270,7 @@ export const InputCore = ({
       )
     case inputTypes.CREATABLE_STRING_SELECT_TYPE:
       return (
-        <FlexibleInput
+        <FlexibleInput key={`FlexibleInput-${id}-${modelName}-${fieldName}`}
           {...{
             ...defaultProps,
             customLabel,

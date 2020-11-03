@@ -1,5 +1,6 @@
 import { components } from 'react-select'
 import React from 'react'
+import * as R from 'ramda'
 import { FixedSizeList as List } from 'react-window'
 
 const OptimizedMenuList = props => {
@@ -7,15 +8,16 @@ const OptimizedMenuList = props => {
   if (!children || !Array.isArray(children)) return children
 
   const height = 38
+  const listHeight = height * children.length
   const [value] = getValue()
-  const initialOffset = value
-    ? options.indexOf(value) * height
+  const initialOffset = value && maxHeight < listHeight
+    ? options.findIndex(obj => R.equals(obj, value)) * height
     : 0
 
   return (
     <List
       width="100%"
-      height={Math.min(maxHeight, height * children.length)}
+      height={Math.min(maxHeight, listHeight)}
       itemCount={children.length}
       itemSize={height}
       initialScrollOffset={initialOffset}

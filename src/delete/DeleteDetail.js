@@ -30,7 +30,8 @@ const getRowFields = (schema, modelName, node, nodeOrder) => {
 
     if (exclusionCondition(key)) {
       if (schema.isEnum(modelName, key)) {
-        return schema.getEnumLabel(modelName, key, value)
+        const label = schema.getEnumLabel(modelName, key, value)
+        return label === undefined ? '' : label
       } else {
         return value
       }

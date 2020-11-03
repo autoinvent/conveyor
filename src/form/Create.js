@@ -108,9 +108,8 @@ export const DefaultCreatePage = ({
             autoFocusAdded = true
           }
           return (
-            <div className='mb-3'>
+            <div className='mb-3' key={`defaultCreatePage-${fieldName}`}>
               <Input
-                key={fieldName}
                 {...{
                   schema,
                   modelName,

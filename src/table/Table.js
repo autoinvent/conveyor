@@ -414,6 +414,9 @@ export const Table = ({
   customProps,
   summary
 }) => {
+  const paginateIndex = R.propOr(true, 'paginate', schema.getModel(modelName))
+  const paginateDetail = R.pathOr(true, ['fields', parentFieldName, 'paginate'], schema.getModel(parentModelName))
+
   if (!fromIndex && collapse) {
     return null
   }
@@ -422,7 +425,8 @@ export const Table = ({
     return <div>...Loading</div>
   }
   if (!fromIndex && data.length === 0) {
-    return <div style={{ paddingBottom: '10px' }}>N/A</div>
+    const noDataDisplayValue = schema.getNoDataDisplayValue({ modelName: parentModelName, fieldName: parentFieldName, node: parentNode, customProps })
+    return <div style={{ paddingBottom: '10px' }}>{noDataDisplayValue}</div>
   }
 
   const deletable = schema.isTableDeletable({
@@ -494,7 +498,7 @@ export const Table = ({
           }}
         />
       </table>
-      {fromIndex ? (
+      {paginateIndex && fromIndex ? (
         <IndexPagination
           {...{
             schema,
@@ -502,7 +506,7 @@ export const Table = ({
             tableView
           }}
         />
-      ) : (
+      ) : paginateDetail && (
         <DetailPagination
           {...{
             schema,

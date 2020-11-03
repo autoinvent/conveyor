@@ -26,6 +26,7 @@ The schema utilized by the framework will be different than the existing schema 
       fieldOrder: "" #List of ALL fields on a model in the order that they should be displayed on its own Detail and Index pages, also serves as a fall back if a different model is displaying this model without having specified the order in which the fields should be displayed.
       filterable: bool or func #Whether the given table should be filterable (can be set on field lvl as well)
       sortable: bool or func #Whether the given table should be sortable (can be set on field lvl as well)
+      paginate: bool #if false, deactivates pagination for the model index table
       fields: {
         <fieldName>: {
           components: {
@@ -40,6 +41,7 @@ The schema utilized by the framework will be different than the existing schema 
           fieldName: "" #Name of the field, used as the key in fields dictionary
           fieldHelp: "" #Text to display under the field when it is being edited
           displayName: "" or function #Provides how the field should be displayed or function that calculates displayName
+          noDataDisplayValue: "" or function #Value to display when a field has no data
           detailAttribute: boolean #Determines whether or not a field should display in the attribute or table section of a detail page
           type:  "" #When type is a string it provides the type of a simple type such as string, int, or date
           OR
@@ -70,6 +72,7 @@ The schema utilized by the framework will be different than the existing schema 
           showTooltip: boolean or function #Whether the given field should be displayed on the tooltip
           queryIndex: boolean #Whether should be queried while fetching index page; by default the query will look at 'showIndex' prop but, if showIndex is false and queryIndex is true, will still query the field; used if you wish to have a field be available but NOT displaying for index
           queryDetail: boolean #Whether should be queried while fetching detail page; by default the query will look at 'showDetail' prop but, if showDetail is false and queryDetail is true, will still query the field; used if you wish to have a field be available but NOT displaying for detail
+          virtualField: boolean #If set true, will deactivate the field from being queried so that no back end resolver needs to be created.
         }
       },
       //hold methods that will fire when certain events occur to fetch data for the related

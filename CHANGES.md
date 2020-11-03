@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+Added noDataDisplayValue to fields, which displays custom values when there is no data
 Added Alerts component
 
 

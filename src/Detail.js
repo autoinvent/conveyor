@@ -619,8 +619,7 @@ export const DetailFields = ({
         const DetailTable = override || DefaultDetailTable
         // same props go into DetailTable & DetailAttribute (even if not used) override gets all same props
         return (
-          <DetailTable
-            key={`DetailTable-${id}-${modelName}-${fieldName}`}
+          <DetailTable key={`DetailTable-${id}-${modelName}-${fieldName}`}
             {...{
               schema,
               modelName,
@@ -693,7 +692,7 @@ export const DefaultDetail = ({
   return (
     <Wrapper>
       {skipOverride(DetailTitleOverride) ? null : (
-        <DetailTitle
+        <DetailTitle key={`DetailTitle-${id}-${schema}-${modelName}`}
           {...{
             schema,
             modelName,
@@ -710,7 +709,7 @@ export const DefaultDetail = ({
         />
       )}
       {skipOverride(DetailPageOverride) ? null : (
-        <DetailPage
+        <DetailPage key={`DetailPage-${id}-${schema}-${modelName}`}
           {...{
             schema,
             modelName,
@@ -754,7 +753,7 @@ const Detail = ({
   const DetailComponent = DetailOverride || DefaultDetail
 
   return skipOverride(DetailOverride) ? null : (
-    <DetailComponent
+    <DetailComponent key={`DetailComponent-${id}-${schema}-${modelName}`}
       {...{
         schema,
         modelName,

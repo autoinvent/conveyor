@@ -4,7 +4,7 @@
   "description": "A frontend dashboard generator for inventory data.",
   "main": "lib/main.js",
   "scripts": {
-    "lib": "./node_modules/.bin/babel src --out-dir lib",
+    "build": "./node_modules/.bin/babel src --out-dir lib",
     "build-tar": "./buildFile",
     "test": "jest"
   },

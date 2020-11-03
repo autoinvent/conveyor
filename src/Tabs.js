@@ -51,21 +51,23 @@ const TabFields = ({
         })
 
   return (
-    <DetailFields {...{
-      schema,
-      modelName,
-      id,
-      node,
-      modalData,
-      path,
-      tableFields,
-      tooltipData,
-      editData,
-      descriptionList,
-      selectOptions,
-      tableView,
-      customProps
-    }} />
+    <div className='mt-3'>
+      <DetailFields {...{
+        schema,
+        modelName,
+        id,
+        node,
+        modalData,
+        path,
+        tableFields,
+        tooltipData,
+        editData,
+        descriptionList,
+        selectOptions,
+        tableView,
+        customProps
+      }} />
+    </div>
   )
 }
 

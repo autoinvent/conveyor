@@ -91,9 +91,10 @@ export const Search = ({
             position: 'absolute'
           }}
         >
-          {entries.map((entry, index) => (
+          {
+          entries.map((entry, index) => (
             <Link
-              key={index}
+              key={entry.name}
               onClick={() => onLinkClick()}
               className="dropdown-item"
               to={entry.detailURL}
@@ -109,7 +110,8 @@ export const Search = ({
                 {entry.modelLabel}
               </div>
             </Link>
-          ))}
+          ))
+          }
         </div>
       )}
     </div>
