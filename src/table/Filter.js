@@ -304,7 +304,7 @@ const FilterOptions = ({
   }
   return (
     <React.Fragment>
-      <FlexibleInput key={`FlexibleInput-${id}-${modelName}-${fieldName}`}
+      <FlexibleInput key={`FlexibleInput-${modelName}-${fieldName}`}
         type={inputTypes.SELECT_TYPE}
         onChange={val => onFilterDropdown({
           modelName,
