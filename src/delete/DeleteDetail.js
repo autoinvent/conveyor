@@ -39,8 +39,9 @@ const getRowFields = (schema, modelName, node, nodeOrder) => {
   })
 
   return R.pipe(
+    R.reject(val => val === undefined),
+    R.map(R.when(Array.isArray, R.join(" "))),
     R.flatten,
-    R.reject(val => val === undefined)
   )(fields)
 }
 

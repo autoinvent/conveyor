@@ -5,6 +5,7 @@
 Add classNames to common components Issue #13
 Refactor, added NullComponent branched lists to own branches
 Move styling from inside react components to the css
+Fix extra columns being generated in the DeleteDetail tables
 
 ## Version 0.6.0
 
