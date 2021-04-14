@@ -40,6 +40,7 @@ const getRowFields = (schema, modelName, node, nodeOrder) => {
 
   return R.pipe(
     R.reject(val => val === undefined),
+    // Makes sure the row never has more columns than the header
     R.map(R.when(Array.isArray, R.join(" "))),
     R.flatten,
   )(fields)
