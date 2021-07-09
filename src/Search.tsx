@@ -111,6 +111,15 @@ export const SearchPage = ({
       R.find(R.propEq('modelName', entry.modelName))(filters)
     )
   const history = useHistory()
+  const debouncedOnTriggerSearch = useCallback(
+    debounce((queryText) =>
+      handleSearchOnClick(queryText, onTriggerSearch, onBlur)
+    ),
+    []
+  )
+  if (searchText !== queryText) {
+    debouncedOnTriggerSearch(searchText)
+  }
   return (
     <div className="conv-search-page">
       <div
