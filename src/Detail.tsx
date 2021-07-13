@@ -344,7 +344,9 @@ export const DetailCreateButton = ({
       targetInverseFieldName,
       node
     })
-  return <CreateButton {...{ onClick, to: targetModelName }} />
+  return (
+    <CreateButton {...{ onClick, to: targetModelName, replaceEntry: false }} />
+  )
 }
 
 type DefaultDetailTableTitleWrapperProps = {

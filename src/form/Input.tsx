@@ -36,7 +36,8 @@ export const relationshipLabelFactory = ({
         <CreateButton
           {...{
             onClick,
-            to: relModelName
+            to: relModelName,
+            replaceEntry: true
           }}
         />
       )}
