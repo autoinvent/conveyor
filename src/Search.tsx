@@ -119,8 +119,9 @@ export const SearchPage = ({
     ),
     []
   )
-  if (searchText !== queryText) {
+  if (entries === null) {
     debouncedOnTriggerSearch(searchText)
+    return 'Loading...'
   }
   const queryTextUri = encodeURIComponent(queryText)
   return (
