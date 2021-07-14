@@ -63,7 +63,8 @@ const handleSearchOnEnter = (
   onBlur: CallableFunction
 ) => {
   if (evt.key === 'Enter' && queryText !== '') {
-    history.push(`/Search/${queryText}`)
+    const queryTextUri = encodeURIComponent(queryText)
+    history.push(`/Search?q=${queryTextUri}`)
     onTriggerSearch({ queryText, isOnSearchPage: true })
     onBlur()
   }
@@ -103,7 +104,8 @@ export const SearchPage = ({
   onTriggerSearch,
   onBlur
 }: SearchPageProps) => {
-  const searchText = location.pathname.split('/')[2]
+  const urlParams = new URLSearchParams(location.search)
+  const searchText = urlParams.get('q')
   const shouldShow = (entry: any) =>
     R.propOr(
       true,
@@ -111,6 +113,17 @@ export const SearchPage = ({
       R.find(R.propEq('modelName', entry.modelName))(filters)
     )
   const history = useHistory()
+  const debouncedOnTriggerSearch = useCallback(
+    debounce((queryText) =>
+      handleSearchOnClick(queryText, onTriggerSearch, onBlur)
+    ),
+    []
+  )
+  if (entries === null) {
+    debouncedOnTriggerSearch(searchText)
+    return 'Loading...'
+  }
+  const queryTextUri = encodeURIComponent(queryText)
   return (
     <div className="conv-search-page">
       <div
@@ -134,7 +147,7 @@ export const SearchPage = ({
           }}
         />
         <Link
-          to={`/Search/${queryText}`}
+          to={`/Search?q=${queryTextUri}`}
           onClick={() =>
             handleSearchOnClick(queryText, onTriggerSearch, onBlur)
           }
@@ -216,6 +229,7 @@ export const QuickSearch = ({
     debounce((queryText) => onTriggerSearch({ queryText }), 500),
     []
   )
+  const queryTextUri = encodeURIComponent(queryText)
   return (
     <div
       className="conv-search"
@@ -266,7 +280,7 @@ export const QuickSearch = ({
         </div>
       )}
       <Link
-        to={`/Search/${queryText}`}
+        to={`/Search?q=${queryTextUri}`}
         onClick={() => {
           handleSearchOnClick(queryText, onTriggerSearch, onBlur)
           debouncedOnTriggerSearch.cancel()
