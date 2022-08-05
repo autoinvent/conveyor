@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "eamodio.gitlens",
+    "kamikillerto.vscode-colorize",
+    "usernamehw.errorlens",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "mhutchie.git-graph",
+    "wix.vscode-import-cost",
+    "PKief.material-icon-theme",
+    "antfu.vite",
+    "zixuanchen.vitest-explorer",
+    "stylelint.vscode-stylelint"
+  ]
+}
