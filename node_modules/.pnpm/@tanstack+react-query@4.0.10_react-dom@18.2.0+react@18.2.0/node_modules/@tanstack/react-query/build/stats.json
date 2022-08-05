@@ -1,0 +1,666 @@
+{
+  "version": 2,
+  "tree": {
+    "name": "root",
+    "children": [
+      {
+        "name": "index.production.js",
+        "children": [
+          {
+            "name": "packages",
+            "children": [
+              {
+                "name": "query-core/build/esm/index.js",
+                "uid": "f80b-181"
+              },
+              {
+                "name": "react-query/src",
+                "children": [
+                  {
+                    "uid": "f80b-183",
+                    "name": "QueryClientProvider.tsx"
+                  },
+                  {
+                    "uid": "f80b-185",
+                    "name": "isRestoring.tsx"
+                  },
+                  {
+                    "uid": "f80b-187",
+                    "name": "useQueries.ts"
+                  },
+                  {
+                    "uid": "f80b-189",
+                    "name": "QueryErrorResetBoundary.tsx"
+                  },
+                  {
+                    "uid": "f80b-191",
+                    "name": "utils.ts"
+                  },
+                  {
+                    "uid": "f80b-193",
+                    "name": "useBaseQuery.ts"
+                  },
+                  {
+                    "uid": "f80b-195",
+                    "name": "useQuery.ts"
+                  },
+                  {
+                    "uid": "f80b-197",
+                    "name": "Hydrate.tsx"
+                  },
+                  {
+                    "uid": "f80b-199",
+                    "name": "useIsFetching.ts"
+                  },
+                  {
+                    "uid": "f80b-201",
+                    "name": "useIsMutating.ts"
+                  },
+                  {
+                    "uid": "f80b-203",
+                    "name": "useMutation.ts"
+                  },
+                  {
+                    "uid": "f80b-205",
+                    "name": "useInfiniteQuery.ts"
+                  },
+                  {
+                    "uid": "f80b-207",
+                    "name": "index.ts"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "isRoot": true
+  },
+  "nodeParts": {
+    "f80b-181": {
+      "renderedLength": 90221,
+      "gzipLength": 17158,
+      "brotliLength": 0,
+      "mainUid": "f80b-180"
+    },
+    "f80b-183": {
+      "renderedLength": 1782,
+      "gzipLength": 630,
+      "brotliLength": 0,
+      "mainUid": "f80b-182"
+    },
+    "f80b-185": {
+      "renderedLength": 219,
+      "gzipLength": 141,
+      "brotliLength": 0,
+      "mainUid": "f80b-184"
+    },
+    "f80b-187": {
+      "renderedLength": 1446,
+      "gzipLength": 596,
+      "brotliLength": 0,
+      "mainUid": "f80b-186"
+    },
+    "f80b-189": {
+      "renderedLength": 792,
+      "gzipLength": 325,
+      "brotliLength": 0,
+      "mainUid": "f80b-188"
+    },
+    "f80b-191": {
+      "renderedLength": 283,
+      "gzipLength": 177,
+      "brotliLength": 0,
+      "mainUid": "f80b-190"
+    },
+    "f80b-193": {
+      "renderedLength": 3348,
+      "gzipLength": 1057,
+      "brotliLength": 0,
+      "mainUid": "f80b-192"
+    },
+    "f80b-195": {
+      "renderedLength": 158,
+      "gzipLength": 118,
+      "brotliLength": 0,
+      "mainUid": "f80b-194"
+    },
+    "f80b-197": {
+      "renderedLength": 760,
+      "gzipLength": 384,
+      "brotliLength": 0,
+      "mainUid": "f80b-196"
+    },
+    "f80b-199": {
+      "renderedLength": 491,
+      "gzipLength": 271,
+      "brotliLength": 0,
+      "mainUid": "f80b-198"
+    },
+    "f80b-201": {
+      "renderedLength": 511,
+      "gzipLength": 277,
+      "brotliLength": 0,
+      "mainUid": "f80b-200"
+    },
+    "f80b-203": {
+      "renderedLength": 1078,
+      "gzipLength": 480,
+      "brotliLength": 0,
+      "mainUid": "f80b-202"
+    },
+    "f80b-205": {
+      "renderedLength": 162,
+      "gzipLength": 124,
+      "brotliLength": 0,
+      "mainUid": "f80b-204"
+    },
+    "f80b-207": {
+      "renderedLength": 0,
+      "gzipLength": 0,
+      "brotliLength": 0,
+      "mainUid": "f80b-206"
+    }
+  },
+  "nodeMetas": {
+    "f80b-180": {
+      "id": "/packages/query-core/build/esm/index.js",
+      "moduleParts": {
+        "index.production.js": "f80b-181"
+      },
+      "imported": [],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        },
+        {
+          "uid": "f80b-208"
+        },
+        {
+          "uid": "f80b-186"
+        },
+        {
+          "uid": "f80b-194"
+        },
+        {
+          "uid": "f80b-196"
+        },
+        {
+          "uid": "f80b-198"
+        },
+        {
+          "uid": "f80b-200"
+        },
+        {
+          "uid": "f80b-202"
+        },
+        {
+          "uid": "f80b-204"
+        },
+        {
+          "uid": "f80b-192"
+        }
+      ]
+    },
+    "f80b-182": {
+      "id": "/packages/react-query/src/QueryClientProvider.tsx",
+      "moduleParts": {
+        "index.production.js": "f80b-183"
+      },
+      "imported": [
+        {
+          "uid": "f80b-211"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        },
+        {
+          "uid": "f80b-186"
+        },
+        {
+          "uid": "f80b-196"
+        },
+        {
+          "uid": "f80b-198"
+        },
+        {
+          "uid": "f80b-200"
+        },
+        {
+          "uid": "f80b-202"
+        },
+        {
+          "uid": "f80b-192"
+        }
+      ]
+    },
+    "f80b-184": {
+      "id": "/packages/react-query/src/isRestoring.tsx",
+      "moduleParts": {
+        "index.production.js": "f80b-185"
+      },
+      "imported": [
+        {
+          "uid": "f80b-211"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        },
+        {
+          "uid": "f80b-186"
+        },
+        {
+          "uid": "f80b-192"
+        }
+      ]
+    },
+    "f80b-186": {
+      "id": "/packages/react-query/src/useQueries.ts",
+      "moduleParts": {
+        "index.production.js": "f80b-187"
+      },
+      "imported": [
+        {
+          "uid": "f80b-211"
+        },
+        {
+          "uid": "f80b-212"
+        },
+        {
+          "uid": "f80b-180"
+        },
+        {
+          "uid": "f80b-182"
+        },
+        {
+          "uid": "f80b-184"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        }
+      ]
+    },
+    "f80b-188": {
+      "id": "/packages/react-query/src/QueryErrorResetBoundary.tsx",
+      "moduleParts": {
+        "index.production.js": "f80b-189"
+      },
+      "imported": [
+        {
+          "uid": "f80b-211"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        },
+        {
+          "uid": "f80b-192"
+        }
+      ]
+    },
+    "f80b-190": {
+      "id": "/packages/react-query/src/utils.ts",
+      "moduleParts": {
+        "index.production.js": "f80b-191"
+      },
+      "imported": [],
+      "importedBy": [
+        {
+          "uid": "f80b-202"
+        },
+        {
+          "uid": "f80b-192"
+        }
+      ]
+    },
+    "f80b-192": {
+      "id": "/packages/react-query/src/useBaseQuery.ts",
+      "moduleParts": {
+        "index.production.js": "f80b-193"
+      },
+      "imported": [
+        {
+          "uid": "f80b-211"
+        },
+        {
+          "uid": "f80b-212"
+        },
+        {
+          "uid": "f80b-180"
+        },
+        {
+          "uid": "f80b-188"
+        },
+        {
+          "uid": "f80b-182"
+        },
+        {
+          "uid": "f80b-190"
+        },
+        {
+          "uid": "f80b-184"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-194"
+        },
+        {
+          "uid": "f80b-204"
+        }
+      ]
+    },
+    "f80b-194": {
+      "id": "/packages/react-query/src/useQuery.ts",
+      "moduleParts": {
+        "index.production.js": "f80b-195"
+      },
+      "imported": [
+        {
+          "uid": "f80b-180"
+        },
+        {
+          "uid": "f80b-192"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        }
+      ]
+    },
+    "f80b-196": {
+      "id": "/packages/react-query/src/Hydrate.tsx",
+      "moduleParts": {
+        "index.production.js": "f80b-197"
+      },
+      "imported": [
+        {
+          "uid": "f80b-211"
+        },
+        {
+          "uid": "f80b-180"
+        },
+        {
+          "uid": "f80b-182"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        }
+      ]
+    },
+    "f80b-198": {
+      "id": "/packages/react-query/src/useIsFetching.ts",
+      "moduleParts": {
+        "index.production.js": "f80b-199"
+      },
+      "imported": [
+        {
+          "uid": "f80b-211"
+        },
+        {
+          "uid": "f80b-180"
+        },
+        {
+          "uid": "f80b-212"
+        },
+        {
+          "uid": "f80b-182"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        }
+      ]
+    },
+    "f80b-200": {
+      "id": "/packages/react-query/src/useIsMutating.ts",
+      "moduleParts": {
+        "index.production.js": "f80b-201"
+      },
+      "imported": [
+        {
+          "uid": "f80b-211"
+        },
+        {
+          "uid": "f80b-212"
+        },
+        {
+          "uid": "f80b-180"
+        },
+        {
+          "uid": "f80b-182"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        }
+      ]
+    },
+    "f80b-202": {
+      "id": "/packages/react-query/src/useMutation.ts",
+      "moduleParts": {
+        "index.production.js": "f80b-203"
+      },
+      "imported": [
+        {
+          "uid": "f80b-211"
+        },
+        {
+          "uid": "f80b-212"
+        },
+        {
+          "uid": "f80b-180"
+        },
+        {
+          "uid": "f80b-182"
+        },
+        {
+          "uid": "f80b-190"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        }
+      ]
+    },
+    "f80b-204": {
+      "id": "/packages/react-query/src/useInfiniteQuery.ts",
+      "moduleParts": {
+        "index.production.js": "f80b-205"
+      },
+      "imported": [
+        {
+          "uid": "f80b-180"
+        },
+        {
+          "uid": "f80b-192"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        }
+      ]
+    },
+    "f80b-206": {
+      "id": "/packages/react-query/src/index.ts",
+      "moduleParts": {
+        "index.production.js": "f80b-207"
+      },
+      "imported": [
+        {
+          "uid": "f80b-208"
+        },
+        {
+          "uid": "f80b-180"
+        },
+        {
+          "uid": "f80b-209"
+        },
+        {
+          "uid": "f80b-186"
+        },
+        {
+          "uid": "f80b-194"
+        },
+        {
+          "uid": "f80b-182"
+        },
+        {
+          "uid": "f80b-196"
+        },
+        {
+          "uid": "f80b-188"
+        },
+        {
+          "uid": "f80b-198"
+        },
+        {
+          "uid": "f80b-200"
+        },
+        {
+          "uid": "f80b-202"
+        },
+        {
+          "uid": "f80b-204"
+        },
+        {
+          "uid": "f80b-184"
+        }
+      ],
+      "importedBy": [],
+      "isEntry": true
+    },
+    "f80b-208": {
+      "id": "/packages/react-query/src/setBatchUpdatesFn.ts",
+      "moduleParts": {},
+      "imported": [
+        {
+          "uid": "f80b-180"
+        },
+        {
+          "uid": "f80b-210"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        }
+      ]
+    },
+    "f80b-209": {
+      "id": "/packages/react-query/src/types.ts",
+      "moduleParts": {},
+      "imported": [],
+      "importedBy": [
+        {
+          "uid": "f80b-206"
+        }
+      ]
+    },
+    "f80b-210": {
+      "id": "/packages/react-query/src/reactBatchedUpdates.ts",
+      "moduleParts": {},
+      "imported": [
+        {
+          "uid": "f80b-213"
+        }
+      ],
+      "importedBy": [
+        {
+          "uid": "f80b-208"
+        }
+      ]
+    },
+    "f80b-211": {
+      "id": "react",
+      "moduleParts": {},
+      "imported": [],
+      "importedBy": [
+        {
+          "uid": "f80b-186"
+        },
+        {
+          "uid": "f80b-182"
+        },
+        {
+          "uid": "f80b-196"
+        },
+        {
+          "uid": "f80b-188"
+        },
+        {
+          "uid": "f80b-198"
+        },
+        {
+          "uid": "f80b-200"
+        },
+        {
+          "uid": "f80b-202"
+        },
+        {
+          "uid": "f80b-184"
+        },
+        {
+          "uid": "f80b-192"
+        }
+      ],
+      "isExternal": true
+    },
+    "f80b-212": {
+      "id": "use-sync-external-store/shim",
+      "moduleParts": {},
+      "imported": [],
+      "importedBy": [
+        {
+          "uid": "f80b-186"
+        },
+        {
+          "uid": "f80b-198"
+        },
+        {
+          "uid": "f80b-200"
+        },
+        {
+          "uid": "f80b-202"
+        },
+        {
+          "uid": "f80b-192"
+        }
+      ],
+      "isExternal": true
+    },
+    "f80b-213": {
+      "id": "/node_modules/react-dom/index.js",
+      "moduleParts": {},
+      "imported": [],
+      "importedBy": [
+        {
+          "uid": "f80b-210"
+        }
+      ]
+    }
+  },
+  "env": {
+    "rollup": "2.76.0"
+  },
+  "options": {
+    "gzip": true,
+    "brotli": false,
+    "sourcemap": false
+  }
+}
