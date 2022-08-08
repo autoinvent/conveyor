@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Container, Row, Table } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
-import * as R from 'ramda';
+import { useParams } from 'react-router-dom';
 import { gql } from 'graphql-request';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -21,7 +20,7 @@ import {
   getFieldTitle,
   getFieldType,
   getGraphQLFieldName,
-} from '../schema/schema';
+} from '../schema';
 
 function Model({ schema, fetcher }: { schema: Schema; fetcher: GraphQLFetcher }) {
   const { modelTitle } = useParams();
@@ -37,27 +36,27 @@ function Model({ schema, fetcher }: { schema: Schema; fetcher: GraphQLFetcher })
     // Creates a list of potential relational field types
     const models = getModels(schema);
     const relationalFieldTypes: string[] = [];
-    R.forEach((model) => {
-      R.append(getModelName(model), relationalFieldTypes);
-      // TODO changge 's' to 'List'
-      R.append(`${getModelName(model)}s`, relationalFieldTypes);
-    }, models);
+    models.forEach((model) => {
+      relationalFieldTypes.push(getModelName(model));
+      // TODO change 's' to 'List'
+      relationalFieldTypes.push(`${getModelName(model)}s`);
+    });
     // Creates a list of model fields that can be queried by graphQL
-    const queryModelFields = R.map((field) => {
+    const queryModelFields = currentModelFields.map((field) => {
       const fieldTitle = getFieldTitle(field);
       const fieldType = getFieldType(field);
       if (fieldType === 'string') {
         return fieldTitle;
       }
       return getGraphQLFieldName(fieldTitle);
-    }, currentModelFields);
+    });
     fetchModel = async () => {
       // TODO changge 's' to 'List'
       const query = gql`
         query {
           ${currentModelName}s {
             result {
-              ${R.join(' ', queryModelFields)}
+              ${queryModelFields.join(' ')}
             }
           }
         }
@@ -70,7 +69,7 @@ function Model({ schema, fetcher }: { schema: Schema; fetcher: GraphQLFetcher })
         // TODO: s to List
         (response: any) => {
           const { result } = response[`${currentModelName}s`];
-          const headers = R.map((field) => getFieldTitle(field), currentModelFields);
+          const headers = currentModelFields.map((field) => getFieldTitle(field));
           return { result, headers };
         },
       );
@@ -91,28 +90,23 @@ function Model({ schema, fetcher }: { schema: Schema; fetcher: GraphQLFetcher })
 
   const headers = fetchedData?.headers ?? [];
   const columnHelper = createColumnHelper<any>();
-  const columns = R.map(
-    (header) =>
-      columnHelper.accessor(header, {
-        cell: (info) => {
-          const val = info.getValue();
-          if (val?.name) {
-            return val.name;
-          }
-          if (val?.[0] && typeof val !== 'string') {
-            return R.map(
-              (v) => (
-                <a key={`${info.column.id}-${v.name}`} href="#s">
-                  {v.name}
-                </a>
-              ),
-              val,
-            );
-          }
-          return val;
-        },
-      }),
-    headers,
+  const columns = headers.map((header: any) =>
+    columnHelper.accessor(header, {
+      cell: (info) => {
+        const val = info.getValue();
+        if (val?.name) {
+          return val.name;
+        }
+        if (val?.[0] && typeof val !== 'string') {
+          return val.map((v: any) => (
+            <a key={`${info.column.id}-${v.name}`} href="#s">
+              {v.name}
+            </a>
+          ));
+        }
+        return val;
+      },
+    }),
   );
   const table = useReactTable({
     data,

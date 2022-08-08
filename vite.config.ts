@@ -15,4 +15,9 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/__tests__/setup.ts',
   },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5000',
+    },
+  },
 });

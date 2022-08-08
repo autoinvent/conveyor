@@ -1,31 +1,47 @@
 import { Routes, Route } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import * as R from 'ramda';
+import { useQuery } from '@tanstack/react-query';
 
+import QueryClientHOF from './components/ConveyorQueryClientHOF';
 import Navbar from './components/Navbar';
 import Models from './components/Models';
 import Model from './components/Model';
-import { GraphQLFetcher } from './commons/types';
-import { Schema, getModels, getModelPluralTitle } from './schema/schema';
+import { SchemaFetcher, GraphQLFetcher } from './commons/types';
+import { Schema, getModels, getModelPluralTitle } from './schema';
 
-function Conveyor({ schema, fetcher }: { schema: Schema; fetcher: GraphQLFetcher }) {
-  const queryClient = new QueryClient();
-  const modelPluralTitles = R.map(
-    (model) => getModelPluralTitle(model),
-    getModels(schema),
-  );
+function Conveyor({
+  schemaFetcher,
+  gqlFetcher,
+}: {
+  schemaFetcher: SchemaFetcher;
+  gqlFetcher: GraphQLFetcher;
+}) {
+  // Fetches Schema
+  const {
+    error: schemaFetchErr,
+    data: schema,
+  }: {
+    error: Error | null;
+    data: Schema | undefined;
+  } = useQuery(['schema'], schemaFetcher);
+
+  if (schemaFetchErr) throw new Error(schemaFetchErr.message);
+  const modelPluralTitles = schema
+    ? getModels(schema).map((model) => getModelPluralTitle(model))
+    : [];
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <Navbar modelTitles={modelPluralTitles} />
       <Routes>
         <Route path="/" element={<Models modelTitles={modelPluralTitles} />} />
-        <Route
-          path=":modelTitle"
-          element={<Model schema={schema} fetcher={fetcher} />}
-        />
+        {schema && (
+          <Route
+            path=":modelTitle"
+            element={<Model schema={schema} fetcher={gqlFetcher} />}
+          />
+        )}
       </Routes>
-    </QueryClientProvider>
+    </>
   );
 }
 
-export default Conveyor;
+export default QueryClientHOF(Conveyor);
