@@ -1,5 +1,3 @@
-import * as R from 'ramda';
-
 export type GraphQLFetcher = (param: { query: string; variables: any }) => any;
 
 export type RelationalFieldType = {
@@ -26,10 +24,10 @@ export type Schema = {
 
 export function getModelByPropName(
   schema: Schema,
-  propName: string,
+  propName: keyof Model,
   propValue: string,
 ) {
-  const model = R.find(R.propEq(propName, propValue), schema.models);
+  const model = schema.models.find((m) => m[propName] === propValue);
   if (!model) throw new Error('Model does not exist.');
   return model;
 }

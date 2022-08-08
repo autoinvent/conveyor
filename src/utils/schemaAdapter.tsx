@@ -1,19 +1,16 @@
-import * as R from 'ramda';
-import { Schema, ModelField } from '../conveyor/schema/schema';
+import { Schema, ModelField } from '../conveyor/schema';
 
 function autoInventAdapter(aiSchema: any): Schema {
-  const modelTitles = R.keys(aiSchema);
-  const modelNames = R.map(
-    (modelTitle) => String(modelTitle).toLowerCase(),
-    modelTitles,
-  );
-  const modelPluralNames = R.map((modelName) => `${modelName}s`, modelNames);
-  const relationalFieldTypes = R.concat(modelNames, modelPluralNames);
-  const conveyorSchema = R.map((modelTitle) => {
-    const fieldNames = R.keys(aiSchema[modelTitle].fields);
+  const modelTitles = Object.keys(aiSchema);
+  modelTitles.pop();
+  const modelNames = modelTitles.map((modelTitle) => String(modelTitle).toLowerCase());
+  const modelPluralNames = modelNames.map((modelName) => `${modelName}s`);
+  const relationalFieldTypes = modelNames.concat(modelPluralNames);
+  const conveyorSchema = modelTitles.map((modelTitle) => {
+    const fieldNames = Object.keys(aiSchema[modelTitle].fields);
     // Extracts conveyor schema fields
-    let compatibleFields: ModelField[] = [];
-    R.forEach((fieldName) => {
+    const compatibleFields: ModelField[] = [];
+    fieldNames.forEach((fieldName) => {
       // Gets rid of incompatible fields
       switch (fieldName) {
         case 'id':
@@ -41,7 +38,7 @@ function autoInventAdapter(aiSchema: any): Schema {
           type = 'string';
           break;
         default:
-          if (R.includes(currentField.fieldName, relationalFieldTypes)) {
+          if (relationalFieldTypes.includes(currentField.fieldName)) {
             type = {
               name: currentField.fieldName,
             };
@@ -53,16 +50,16 @@ function autoInventAdapter(aiSchema: any): Schema {
           type,
           required: aiSchema[modelTitle].fields[fieldName].required,
         };
-        compatibleFields = R.append(field, compatibleFields);
+        compatibleFields.push(field);
       }
-    }, fieldNames);
+    });
     return {
       title: String(modelTitle),
       title_plural: `${String(modelTitle)}s`,
       name: aiSchema[modelTitle].queryName,
       fields: compatibleFields,
     };
-  }, modelTitles);
+  });
   return { models: conveyorSchema };
 }
 

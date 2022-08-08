@@ -1,24 +1,26 @@
-import { Card, ListGroup } from 'react-bootstrap';
+import { Container, Row, ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import * as R from 'ramda';
 
 function Models({ modelTitles }: { modelTitles: string[] }) {
   return (
-    <Card>
-      <Card.Body>
-        <Card.Title>Models</Card.Title>
-        {R.map(
-          (modelTitle) => (
+    <Container>
+      <Row>
+        <h2>Models</h2>
+      </Row>
+      <Row>
+        {modelTitles.length > 0 ? (
+          modelTitles.map((modelTitle) => (
             <ListGroup key={`conveyor-content-models-${modelTitle}`}>
               <ListGroup.Item>
                 <Link to={`/Conveyor/${modelTitle}`}>{modelTitle}</Link>
               </ListGroup.Item>
             </ListGroup>
-          ),
-          modelTitles,
+          ))
+        ) : (
+          <h3>No Models Found</h3>
         )}
-      </Card.Body>
-    </Card>
+      </Row>
+    </Container>
   );
 }
 
