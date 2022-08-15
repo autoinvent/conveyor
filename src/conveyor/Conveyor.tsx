@@ -1,47 +1,48 @@
 import { Routes, Route } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
-import QueryClientHOF from './components/ConveyorQueryClientHOF';
 import Navbar from './components/Navbar';
-import Models from './components/Models';
-import Model from './components/Model';
+import Home from './components/Home';
+import ModelList from './components/ModelList';
+import ModelDetail from './components/ModelDetail';
+import ErrorToast, { ERR_FETCH_SCHEMA } from './commons/components/ErrorToast';
+import Loading, { LOADING_SCHEMA } from './commons/components/Loading';
+import withQueryClient from './commons/components/withQueryClient';
 import { SchemaFetcher, GraphQLFetcher } from './commons/types';
-import { Schema, getModels, getModelPluralTitle } from './schema';
+import { Schema } from './schema';
 
-function Conveyor({
-  schemaFetcher,
-  gqlFetcher,
-}: {
+interface ConveyorProps {
   schemaFetcher: SchemaFetcher;
   gqlFetcher: GraphQLFetcher;
-}) {
+}
+
+function Conveyor({ schemaFetcher, gqlFetcher }: ConveyorProps) {
   // Fetches Schema
   const {
+    isLoading: schemaLoading,
     error: schemaFetchErr,
     data: schema,
-  }: {
-    error: Error | null;
-    data: Schema | undefined;
-  } = useQuery(['schema'], schemaFetcher);
+  } = useQuery<Schema, Error>(['schema'], schemaFetcher);
 
-  if (schemaFetchErr) throw new Error(schemaFetchErr.message);
-  const modelPluralTitles = schema
-    ? getModels(schema).map((model) => getModelPluralTitle(model))
-    : [];
   return (
     <>
-      <Navbar modelTitles={modelPluralTitles} />
-      <Routes>
-        <Route path="/" element={<Models modelTitles={modelPluralTitles} />} />
-        {schema && (
+      <Navbar schema={schema} />
+      <ErrorToast error={schemaFetchErr} errorTitle={ERR_FETCH_SCHEMA} />
+      <Loading isLoading={schemaLoading} message={LOADING_SCHEMA}>
+        <Routes>
+          <Route path="/" element={<Home schema={schema} />} />
           <Route
-            path=":modelTitle"
-            element={<Model schema={schema} fetcher={gqlFetcher} />}
+            path=":modelName"
+            element={<ModelList schema={schema} gqlFetcher={gqlFetcher} />}
           />
-        )}
-      </Routes>
+          <Route
+            path=":modelName/:modelId"
+            element={<ModelDetail schema={schema} gqlFetcher={gqlFetcher} />}
+          />
+        </Routes>
+      </Loading>
     </>
   );
 }
 
-export default QueryClientHOF(Conveyor);
+export default withQueryClient(Conveyor);
