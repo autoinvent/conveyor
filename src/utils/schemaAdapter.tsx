@@ -13,7 +13,6 @@ function autoInventAdapter(aiSchema: any): Schema {
     fieldNames.forEach((fieldName) => {
       // Gets rid of incompatible fields
       switch (fieldName) {
-        case 'id':
         case 'noEditField':
         case 'noViewField':
         case 'noViewField2':
@@ -35,18 +34,17 @@ function autoInventAdapter(aiSchema: any): Schema {
         case 'email':
         case 'phone':
         case 'text':
-          type = 'string';
+        case 'ID':
+          type = currentField.type;
           break;
         default:
           if (relationalFieldTypes.includes(currentField.fieldName)) {
-            type = {
-              name: currentField.fieldName,
-            };
+            type = {};
           }
       }
       if (type) {
         const field = {
-          title: String(fieldName),
+          name: String(fieldName),
           type,
           required: aiSchema[modelTitle].fields[fieldName].required,
         };
@@ -54,8 +52,6 @@ function autoInventAdapter(aiSchema: any): Schema {
       }
     });
     return {
-      title: String(modelTitle),
-      title_plural: `${String(modelTitle)}s`,
       name: aiSchema[modelTitle].queryName,
       fields: compatibleFields,
     };
