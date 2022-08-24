@@ -1,4 +1,5 @@
 export type RelationalFieldType = {
+  name: string;
   args?: any;
 };
 

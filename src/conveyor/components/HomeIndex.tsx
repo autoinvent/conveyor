@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Schema, getAllModelNames } from '../schema';
 import { ERR_NO_MODELS } from '../commons/components/ErrorToast';
 
-function ModelList({ schema }: { schema: Schema | undefined }) {
+function HomeIndex({ schema }: { schema: Schema | undefined }) {
   const modelNames = getAllModelNames(schema);
 
   return (
@@ -29,4 +29,4 @@ function ModelList({ schema }: { schema: Schema | undefined }) {
   );
 }
 
-export default ModelList;
+export default HomeIndex;

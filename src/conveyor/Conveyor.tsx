@@ -2,8 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
 import Navbar from './components/Navbar';
-import Home from './components/Home';
-import ModelList from './components/ModelList';
+import HomeIndex from './components/HomeIndex';
+import ModelListIndex from './components/ModelListIndex';
 import ModelDetail from './components/ModelDetail';
 import ErrorToast, { ERR_FETCH_SCHEMA } from './commons/components/ErrorToast';
 import Loading, { LOADING_SCHEMA } from './commons/components/Loading';
@@ -30,10 +30,10 @@ function Conveyor({ schemaFetcher, gqlFetcher }: ConveyorProps) {
       <ErrorToast error={schemaFetchErr} errorTitle={ERR_FETCH_SCHEMA} />
       <Loading isLoading={schemaLoading} message={LOADING_SCHEMA}>
         <Routes>
-          <Route path="/" element={<Home schema={schema} />} />
+          <Route path="/" element={<HomeIndex schema={schema} />} />
           <Route
             path=":modelName"
-            element={<ModelList schema={schema} gqlFetcher={gqlFetcher} />}
+            element={<ModelListIndex schema={schema} gqlFetcher={gqlFetcher} />}
           />
           <Route
             path=":modelName/:modelId"

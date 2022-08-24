@@ -8,7 +8,7 @@ import { DataManagerProps, GraphqlFetchResult } from '../commons/types';
 import ModelTable from './ModelTable';
 import { getAllModelNames, toModelListName } from '../schema';
 
-function ModelList({ schema, gqlFetcher }: DataManagerProps) {
+function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
   if (!schema) throw new Error();
   const { modelName: currentModelName } = useParams();
   if (!currentModelName) throw new Error();
@@ -21,11 +21,10 @@ function ModelList({ schema, gqlFetcher }: DataManagerProps) {
     // relational field type
     const allModelNames = getAllModelNames(schema);
     const currentFields = currentModel.fields.map((field) => {
-      const fieldName = field.name;
       const fieldRel =
         allModelNames.find(
           (modelName) =>
-            modelName === fieldName || toModelListName(modelName) === fieldName,
+            typeof field.type !== 'string' && modelName === field.type.name,
         ) ?? '';
       return {
         name: field.name,
@@ -82,4 +81,4 @@ function ModelList({ schema, gqlFetcher }: DataManagerProps) {
   );
 }
 
-export default ModelList;
+export default ModelListIndex;

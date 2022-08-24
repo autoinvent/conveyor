@@ -20,11 +20,10 @@ function ModelDetail({ schema, gqlFetcher }: DataManagerProps) {
     // relational field type
     const allModelNames = getAllModelNames(schema);
     const currentFields = currentModel.fields.map((field) => {
-      const fieldName = field.name;
       const fieldRel =
         allModelNames.find(
           (modelName) =>
-            modelName === fieldName || toModelListName(modelName) === fieldName,
+            typeof field.type !== 'string' && modelName === field.type.name,
         ) ?? '';
       return {
         name: field.name,
@@ -74,9 +73,9 @@ function ModelDetail({ schema, gqlFetcher }: DataManagerProps) {
           modelDetails.fields.map((field) => {
             const fieldName = field.name;
             const fieldNav = field.rel;
-            const fieldValue = modelDetails.data[0][fieldName];
+            const fieldValue = modelDetails.data[0][fieldName] ?? 'N/A';
             const fieldRelValue =
-              fieldValue && !Array.isArray(fieldValue) && typeof fieldValue === 'object'
+              !Array.isArray(fieldValue) && typeof fieldValue === 'object'
                 ? [fieldValue]
                 : fieldValue;
             const fieldValueDisplay = Array.isArray(fieldRelValue)
