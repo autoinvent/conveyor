@@ -40,6 +40,7 @@ function ModelTable({
           const val = info.getValue();
           const relVals = !Array.isArray(val) ? [val] : val;
           if (!rel) return val;
+          if (!val) return val;
           return relVals.map((relVal, idx) => (
             <Link
               key={`${info.column.id}-${relVal.id}`}

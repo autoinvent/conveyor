@@ -4,9 +4,9 @@ import { useParams } from 'react-router-dom';
 import { gql } from 'graphql-request';
 import { useQuery } from '@tanstack/react-query';
 
-import { DataManagerProps, GraphqlFetchResult } from '../commons/types';
-import ModelTable from './ModelTable';
-import { getAllModelNames, toModelListName } from '../schema';
+import { DataManagerProps, GraphqlFetchResult } from '../../commons/types';
+import ModelTable from '../ModelTable';
+import { toModelListName } from '../../schema';
 
 function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
   if (!schema) throw new Error();
@@ -19,13 +19,8 @@ function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
   const fetchGQLModelList = useCallback(async () => {
     // Parses model fields into { name, rel } where rel is the model name of the
     // relational field type
-    const allModelNames = getAllModelNames(schema);
     const currentFields = currentModel.fields.map((field) => {
-      const fieldRel =
-        allModelNames.find(
-          (modelName) =>
-            typeof field.type !== 'string' && modelName === field.type.name,
-        ) ?? '';
+      const fieldRel = typeof field.type !== 'string' ? field.type.name : '';
       return {
         name: field.name,
         rel: fieldRel,
@@ -53,7 +48,7 @@ function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
       const { result: data } = response[currentModelListName];
       return { currentModelName, fields, data };
     });
-  }, [currentModelName, gqlFetcher, schema, currentModel, currentModelListName]);
+  }, [currentModelName, gqlFetcher, currentModel, currentModelListName]);
 
   const { error: errModelListData, data: modelListData } = useQuery<
     GraphqlFetchResult,
@@ -66,7 +61,7 @@ function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
 
   return (
     <Container>
-      {modelListData ? (
+      {modelListData && modelListData?.fields?.length > 0 ? (
         <Row>
           <ModelTable
             currentModelName={modelListData.currentModelName}

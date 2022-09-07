@@ -19,7 +19,8 @@ export type Schema = {
 };
 
 export function toModelListName(modelName: string) {
-  return `${modelName}s`; // TODO: change 's' to 'List'
+  const LIST_SUFFIX = 's';
+  return `${modelName}${LIST_SUFFIX}`; // TODO: change 's' to 'List'
 }
 
 export function getAllModelNames(schema: Schema | undefined) {

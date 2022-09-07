@@ -1,8 +1,8 @@
 import { Container, Row, ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { Schema, getAllModelNames } from '../schema';
-import { ERR_NO_MODELS } from '../commons/components/ErrorToast';
+import { Schema, getAllModelNames } from '../../schema';
+import { ERR_NO_MODELS } from '../../commons/components/ErrorToast';
 
 function HomeIndex({ schema }: { schema: Schema | undefined }) {
   const modelNames = getAllModelNames(schema);

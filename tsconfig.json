@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "types": ["vite/client", "vitest/globals"],
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": ["es6", "DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,

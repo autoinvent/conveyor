@@ -40,7 +40,8 @@ function autoInventAdapter(aiSchema: any): Schema {
         default:
           if (relationalFieldTypes.includes(currentField.fieldName)) {
             type = {
-              name: currentField.type.target.toLowerCase(),
+              // FieldName is the closest representation to what type should be
+              name: currentField.fieldName.toLowerCase(),
             };
           }
       }

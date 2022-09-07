@@ -2,9 +2,9 @@ import { Routes, Route } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
 import Navbar from './components/Navbar';
-import HomeIndex from './components/HomeIndex';
-import ModelListIndex from './components/ModelListIndex';
-import ModelDetail from './components/ModelDetail';
+import HomeIndex from './components/index/HomeIndex';
+import ModelListIndex from './components/index/ModelListIndex';
+import ModelDetail from './components/ModelDetailIndex';
 import ErrorToast, { ERR_FETCH_SCHEMA } from './commons/components/ErrorToast';
 import Loading, { LOADING_SCHEMA } from './commons/components/Loading';
 import withQueryClient from './commons/components/withQueryClient';
