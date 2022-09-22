@@ -8,14 +8,14 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { GraphqlFetchResult } from '../commons/types';
+import { ModelTableProps } from '../commons/types';
 import { toModelListName } from '../schema';
 
 function ModelTable({
   currentModelName,
   fields: headers,
   data: tableData,
-}: GraphqlFetchResult) {
+}: ModelTableProps) {
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Record<string, any>>();
     return headers.map((header) => {

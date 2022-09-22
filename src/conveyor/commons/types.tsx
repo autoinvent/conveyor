@@ -3,7 +3,7 @@ import { Schema } from '../schema';
 export type SchemaFetcher = () => Promise<Schema>;
 
 export type GraphQLFetcher = (param: {
-  query: string;
+  request: string;
   variables: any;
 }) => Promise<Record<string, any>>;
 
@@ -12,9 +12,10 @@ export interface DataManagerProps {
   gqlFetcher: GraphQLFetcher;
 }
 
-export type RelFieldOption = Record<string, string>;
+export type RelFieldOption = Record<string, string | null>;
 
-type DetailFieldValue = string | { label: string; value: string }[];
+type SelectOption = { label: string; value: string | null };
+export type DetailFieldValue = string | SelectOption[] | SelectOption | boolean;
 
 export type DetailField = {
   fieldName: string;
@@ -29,9 +30,8 @@ type FieldValue =
   | { name: string; id: string }
   | { name: string; id: string }[];
 
-export interface GraphqlFetchResult {
+export type ModelTableProps = {
   currentModelName: string;
   fields: { name: string; rel: string }[];
   data: Record<string, FieldValue>[];
-  relTypeOptions?: any;
-}
+};

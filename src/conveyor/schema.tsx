@@ -26,3 +26,13 @@ export function toModelListName(modelName: string) {
 export function getAllModelNames(schema: Schema | undefined) {
   return schema?.models.map((model) => model.name) ?? [];
 }
+
+// A relational type could be a model name in plural form, typeToModelName will
+// return the singular model name of the relational type; if the model does not exist,
+// it will return an empty string
+export function typeToModelName(schema: Schema, type: string | undefined) {
+  const typeModel = schema?.models.find(
+    (model) => model.name === type || toModelListName(model.name) === type,
+  );
+  return typeModel?.name ?? '';
+}

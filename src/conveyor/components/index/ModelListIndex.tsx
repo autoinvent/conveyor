@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { gql } from 'graphql-request';
 import { useQuery } from '@tanstack/react-query';
 
-import { DataManagerProps, GraphqlFetchResult } from '../../commons/types';
+import { DataManagerProps, ModelTableProps } from '../../commons/types';
 import ModelTable from '../ModelTable';
 import { toModelListName } from '../../schema';
 
@@ -40,7 +40,7 @@ function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
       }
     `;
     const param = {
-      query,
+      request: query,
       variables: {},
     };
     return gqlFetcher(param).then((response) => {
@@ -51,14 +51,13 @@ function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
   }, [currentModelName, gqlFetcher, currentModel, currentModelListName]);
 
   const { error: errModelListData, data: modelListData } = useQuery<
-    GraphqlFetchResult,
+    ModelTableProps,
     Error
   >(['model', currentModelListName], fetchGQLModelList);
-  if (errModelListData) throw new Error(errModelListData.message);
+  // if (errModelListData) throw new Error(errModelListData.message);
 
   // Memoize so the tableData isn't "new" on every render
   const tableData = useMemo(() => modelListData?.data ?? [], [modelListData]);
-
   return (
     <Container>
       {modelListData && modelListData?.fields?.length > 0 ? (

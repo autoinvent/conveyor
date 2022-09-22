@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import Navbar from './components/Navbar';
 import HomeIndex from './components/index/HomeIndex';
 import ModelListIndex from './components/index/ModelListIndex';
-import ModelDetail from './components/ModelDetailIndex';
+import ModelDetailIndex from './components/index/ModelDetailIndex';
 import ErrorToast, { ERR_FETCH_SCHEMA } from './commons/components/ErrorToast';
 import Loading, { LOADING_SCHEMA } from './commons/components/Loading';
 import withQueryClient from './commons/components/withQueryClient';
@@ -37,7 +37,7 @@ function Conveyor({ schemaFetcher, gqlFetcher }: ConveyorProps) {
           />
           <Route
             path=":modelName/:modelId"
-            element={<ModelDetail schema={schema} gqlFetcher={gqlFetcher} />}
+            element={<ModelDetailIndex schema={schema} gqlFetcher={gqlFetcher} />}
           />
         </Routes>
       </Loading>

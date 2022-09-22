@@ -23,7 +23,7 @@ function App() {
   const graphqlFetcher: GraphQLFetcher = async (graphQLParams) => {
     const result = await request(
       graphQLUrl,
-      graphQLParams.query,
+      graphQLParams.request,
       graphQLParams.variables,
     );
     return result;
