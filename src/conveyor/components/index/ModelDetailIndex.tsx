@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { gql } from 'graphql-request';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ToastContainer, Toast, Container } from 'react-bootstrap';
+import { ToastContainer, Toast, Container, Row } from 'react-bootstrap';
 
 import {
   DataManagerProps,
@@ -10,12 +10,13 @@ import {
   RelFieldOption,
   DetailFieldValue,
 } from '../../commons/types';
+import { CREATE_MODE } from '../../commons/constants';
 import { getAllModelNames, toModelListName, typeToModelName } from '../../schema';
 import ModelDetails from '../ModelDetails';
 
 interface DetailValues {
   detailFields: DetailField[];
-  relFieldOptions: Record<string, RelFieldOption>;
+  relFieldOptions: Record<string, RelFieldOption[]>;
 }
 
 function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
@@ -77,13 +78,17 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
         `${toModelListName(relTypesToLink[relType])} { result { id name } }`,
       ),
     );
-    const query = gql`
-      query model($id: ID!){
-        ${currentModelName}(id: $id) {
-          result {
-            id ${queryModelFields.join(' ')}
-          }
+    const currentModelQuery =
+      currentModelId !== CREATE_MODE
+        ? `($id: ID!){
+      ${currentModelName}(id: $id) {
+        result {
+          id ${queryModelFields.join(' ')}
         }
+      }`
+        : '{ ';
+    const query = gql`
+      query model${currentModelQuery}
         ${queryRelTypeList.join(' ')}
       }
     `;
@@ -93,36 +98,48 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
         id: currentModelId,
       },
     };
+
     return gqlFetcher(param).then((response) => {
-      const data = response[currentModelName].result;
+      const emptyModel: Record<string, null | string[]> = {};
+      currentFields.forEach((field) => {
+        let defaultVal = null;
+        if (field.fieldLink) {
+          // Plural rel type
+          if (field.fieldLink !== field.fieldType) {
+            defaultVal = [];
+          }
+        }
+        emptyModel[field.fieldName] = defaultVal;
+      });
+
+      const data =
+        currentModelId === CREATE_MODE ? emptyModel : response[currentModelName].result;
       const detailFields = currentFields.map((field) => {
         const detailField: DetailField = field;
         const dataFieldName = field.fieldLink ? field.fieldType : field.fieldName;
         const dataFieldValue = data[dataFieldName];
         if (!field.fieldLink) {
           detailField.fieldValue = dataFieldValue?.toString() ?? '';
+        } else if (field.fieldLink === field.fieldType) {
+          detailField.fieldValue = {
+            value: dataFieldValue ? String(dataFieldValue.id) : null,
+            label: dataFieldValue?.name ?? 'None',
+          };
         } else {
-          const relFieldValue = !Array.isArray(dataFieldValue)
-            ? [dataFieldValue]
-            : dataFieldValue;
-          if (dataFieldValue) {
-            detailField.fieldValue = relFieldValue.map((val) => ({
-              value: val.id,
-              label: val.name,
-            }));
-          } else {
-            detailField.fieldValue = { value: null, label: 'None' };
-          }
+          detailField.fieldValue = dataFieldValue.map((val: any) => ({
+            value: String(val.id),
+            label: val.name,
+          }));
         }
         return detailField;
       });
 
-      const relFieldOptions: Record<string, RelFieldOption> = {};
+      const relFieldOptions: Record<string, RelFieldOption[]> = {};
       relTypeList.forEach((relType) => {
         const relListName = toModelListName(relTypesToLink[relType]);
         const modelList = response[relListName].result;
         relFieldOptions[relType] = modelList.map((model: Record<string, string>) => ({
-          value: model.id,
+          value: String(model.id),
           label: model.name,
         }));
       });
@@ -133,8 +150,69 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
   const { error: errModelDetailData, data: modelDetails } = useQuery<
     DetailValues,
     Error
-  >(['model', currentModelListName], queryModelDetail);
+  >(['model', currentModelListName, currentModelId], queryModelDetail);
 
+  // Create Model
+  const createModelDetail = (formData: Record<string, DetailFieldValue>) => {
+    // Parses form values to appropriate values for the db
+    const formKeys = Object.keys(formData);
+    const modelData: Record<string, string | boolean | (string | null)[] | null> = {};
+    formKeys.forEach((formKey) => {
+      if (formKey === 'id') return;
+      const formValue = formData[formKey];
+      // formValue is a value for a relational type
+      if (typeof formValue === 'object') {
+        // Plural relational type
+        if (Array.isArray(formValue)) {
+          const relValueArr = formValue.map((val) => val.value);
+          modelData[formKey] =
+            typeToModelName(schema, formKey) === formKey ? relValueArr[0] : relValueArr;
+        } else {
+          modelData[formKey] = formValue.value;
+        }
+      } else {
+        modelData[formKey] = (formValue as string | boolean | null) || null;
+      }
+    });
+    // Constructs graphQL mutation
+    const modelSuffix =
+      currentModelName.charAt(0).toUpperCase() + currentModelName.slice(1);
+    const mutation = gql`
+      mutation CreateModel($input: ${modelSuffix}InputRequired!) {
+        create${modelSuffix}(input: $input) {
+          result {
+            name
+          }
+        }
+      }
+    `;
+    const param = {
+      request: mutation,
+      variables: {
+        input: modelData,
+      },
+    };
+    return gqlFetcher(param).then((response) => {
+      // TODO: Handle response of creations.
+    });
+  };
+  const { mutate: mutationCreate, isLoading: creating } = useMutation(
+    (createdDetail: Record<string, DetailFieldValue>) =>
+      createModelDetail(createdDetail),
+    {
+      onSuccess: () => {
+        toggleShowToast();
+        setToastMessage(`Successfully created ${currentModelName}!`);
+        navigate(-1);
+      },
+      onError: () => {
+        toggleShowToast();
+        setToastMessage(`Failed to create ${currentModelName}!`);
+      },
+    },
+  );
+
+  // Update Model
   const updateModelDetail = (formData: Record<string, DetailFieldValue>) => {
     // Parses form values to appropriate values for the db
     const formKeys = Object.keys(formData);
@@ -199,7 +277,7 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
     const modelSuffix =
       currentModelName.charAt(0).toUpperCase() + currentModelName.slice(1);
     const mutation = gql`
-      mutation UpdateModel($id: ID!) {
+      mutation DeleteModel($id: ID!) {
         delete${modelSuffix}(id: $id) {
           result {
             name
@@ -236,20 +314,28 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
 
   return modelDetails?.detailFields ? (
     <Container>
-      <ModelDetails
-        relFieldOptions={modelDetails.relFieldOptions}
-        detailFields={modelDetails.detailFields}
-        loading={updating}
-        mode=""
-        updateData={(updatedDetail: Record<string, DetailFieldValue>) =>
-          mutationUpdate(updatedDetail)
-        }
-        deleteData={() => {
-          mutationDelete();
-        }}
-      />
+      <Row>
+        <h3>{currentModelName}</h3>
+      </Row>
+      <Row>
+        <ModelDetails
+          relFieldOptions={modelDetails.relFieldOptions}
+          detailFields={modelDetails.detailFields}
+          loading={updating}
+          mode={currentModelId ?? ''}
+          createData={(createdDetail: Record<string, DetailFieldValue>) =>
+            mutationCreate(createdDetail)
+          }
+          updateData={(updatedDetail: Record<string, DetailFieldValue>) =>
+            mutationUpdate(updatedDetail)
+          }
+          deleteData={() => {
+            mutationDelete();
+          }}
+        />
+      </Row>
       <ToastContainer position="top-center">
-        <Toast show={showToast} delay={2000} onClose={toggleShowToast}>
+        <Toast autohide show={showToast} delay={2000} onClose={toggleShowToast}>
           <Toast.Header>{toastMessage}</Toast.Header>
         </Toast>
       </ToastContainer>

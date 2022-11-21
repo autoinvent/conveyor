@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
-import { Container, Row } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
 import { gql } from 'graphql-request';
 import { useQuery } from '@tanstack/react-query';
 
@@ -15,7 +15,7 @@ function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
   const currentModel = schema.models.find((model) => model.name === currentModelName);
   if (!currentModel) throw new Error();
   const currentModelListName = toModelListName(currentModelName);
-
+  const navigate = useNavigate();
   const fetchGQLModelList = useCallback(async () => {
     // Parses model fields into { name, rel } where rel is the model name of the
     // relational field type
@@ -61,13 +61,30 @@ function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
   return (
     <Container>
       {modelListData && modelListData?.fields?.length > 0 ? (
-        <Row>
-          <ModelTable
-            currentModelName={modelListData.currentModelName}
-            fields={modelListData.fields}
-            data={tableData}
-          />
-        </Row>
+        <>
+          <Row>
+            <Col>
+              <h3>{toModelListName(currentModelName)}</h3>
+            </Col>
+            <Col className="pe-0" style={{ display: 'flex', justifyContent: 'right' }}>
+              <Button
+                style={{ width: '45px', height: '45px' }}
+                onClick={() => {
+                  navigate(`/Conveyor/${currentModelName}/create`);
+                }}
+              >
+                <strong>+</strong>
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            <ModelTable
+              currentModelName={modelListData.currentModelName}
+              fields={modelListData.fields}
+              data={tableData}
+            />
+          </Row>
+        </>
       ) : (
         <h3>No model data exists for {currentModelListName}</h3>
       )}
