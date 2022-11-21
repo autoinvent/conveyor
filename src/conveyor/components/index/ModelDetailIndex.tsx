@@ -150,7 +150,14 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
 
       return { detailFields, relFieldOptions };
     });
-  }, [gqlFetcher, currentModelName, currentModel, currentModelId, relTypesToLink]);
+  }, [
+    gqlFetcher,
+    currentModelName,
+    currentModelListName,
+    currentModel,
+    currentModelId,
+    relTypesToLink,
+  ]);
   const { error: errModelDetailData, data: modelDetails } = useQuery<
     DetailValues,
     Error
