@@ -89,7 +89,11 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
         : '{ ';
     const query = gql`
       query model${currentModelQuery}
-        ${queryRelTypeList.join(' ')}
+        ${
+          queryRelTypeList.join(' ')
+            ? queryRelTypeList.join(' ')
+            : `${currentModelListName} {result { id } }`
+        }
       }
     `;
     const param = {
