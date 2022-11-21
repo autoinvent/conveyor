@@ -9,10 +9,10 @@ import {
   DetailField,
   RelFieldOption,
   DetailFieldValue,
-} from '../../commons/types';
-import { CREATE_MODE } from '../../commons/constants';
-import { getAllModelNames, toModelListName, typeToModelName } from '../../schema';
-import ModelDetails from '../ModelDetails';
+} from '../common/types';
+import { CREATE_MODE } from '../common/constants';
+import { getAllModelNames, toModelListName, typeToModelName } from '../schema';
+import ModelDetails from './ModelDetails';
 
 interface DetailValues {
   detailFields: DetailField[];
@@ -32,7 +32,7 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
   const allModelNames = getAllModelNames(schema);
   const relTypesToLink = useMemo(() => {
     const mapper: Record<string, string> = {};
-    allModelNames.forEach((modelName) => {
+    allModelNames.forEach((modelName: string) => {
       mapper[modelName] = modelName;
       mapper[toModelListName(modelName)] = modelName;
     });

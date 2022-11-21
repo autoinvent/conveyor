@@ -1,4 +1,4 @@
-import { Schema, ModelField } from '../conveyor/schema';
+import { Schema, ModelField } from '../src/schema';
 
 function autoInventAdapter(aiSchema: any): Schema {
   const modelTitles = Object.keys(aiSchema);

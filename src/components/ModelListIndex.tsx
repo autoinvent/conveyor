@@ -4,9 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { gql } from 'graphql-request';
 import { useQuery } from '@tanstack/react-query';
 
-import { DataManagerProps, ModelTableProps } from '../../commons/types';
-import ModelTable from '../ModelTable';
-import { toModelListName } from '../../schema';
+import { DataManagerProps, ModelTableProps } from '../common/types';
+import ModelTable from './ModelTable';
+import { toModelListName } from '../schema';
 
 function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
   if (!schema) throw new Error();

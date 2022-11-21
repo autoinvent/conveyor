@@ -18,13 +18,14 @@
     },
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "project": ["./tsconfig.json", "./example/tsconfig.json"]
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
-    "react/jsx-no-bind": "off"
+    "react/jsx-no-bind": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   }
 }

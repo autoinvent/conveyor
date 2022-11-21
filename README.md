@@ -1,4 +1,4 @@
-# Moebius UI Starter
+# Conveyor
 
 A modern minimal Vite + React + TypeScript template with pre-configured ESLint (with Airbnb JS/React rules), testing with Vitest and Testing Library, and Prettier, Stylelint and Git hooks powered by pre-commit out of the box 📦
 
@@ -23,8 +23,8 @@ pnpm dev
 
 ## Scripts
 
-- `pnpm dev` - start a development server with hot reload.
-- `pnpm build` - build for production. The generated files will be on the `dist` folder.
+- `pnpm dev` - start a development server for testing the conveyor library with hot reload.
+- `pnpm build` - build library for production. The generated files will be on the `dist` folder. `pnpm pack` will package these files into a tarball for install.
 - `pnpm preview` - locally preview the production build.
 - `pnpm test` - run tests in watch mode.
 - `pnpm test:ci` - run tests once without watch mode.

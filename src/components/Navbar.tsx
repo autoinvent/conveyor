@@ -2,9 +2,9 @@ import { Container, Nav, Navbar as ReactNavBar, NavDropdown } from 'react-bootst
 import { Helmet } from 'react-helmet';
 import { NavLink } from 'react-router-dom';
 
-import useThemeSelect, { ThemeName } from '../../common/hooks/useThemeSelect';
+import useThemeSelect, { ThemeName } from '../common/hooks/useThemeSelect';
 import { Schema, getAllModelNames } from '../schema';
-import { ERR_NO_MODELS } from '../commons/components/ErrorToast';
+import { ERR_NO_MODELS } from '../common/components/ErrorToast';
 
 function Navbar({ schema }: { schema: Schema | undefined }) {
   const { currentTheme, themeCSS, changeTheme } = useThemeSelect();

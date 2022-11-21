@@ -8,8 +8,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { ModelTableProps } from '../commons/types';
-import { toModelListName } from '../schema';
+import { ModelTableProps } from '../common/types';
 
 function ModelTable({
   currentModelName,

@@ -3,10 +3,9 @@ import { Helmet } from 'react-helmet';
 import { Routes, Route, Link } from 'react-router-dom';
 import { request } from 'graphql-request';
 
-import useThemeSelect from '../common/hooks/useThemeSelect';
-import Conveyor from '../conveyor/Conveyor';
-import { GraphQLFetcher } from '../conveyor/commons/types';
-import autoInventAdapter from '../utils/schemaAdapter';
+import { Conveyor, GraphQLFetcher } from '../src';
+import useThemeSelect from '../src/common/hooks/useThemeSelect';
+import autoInventAdapter from './schemaAdapter';
 
 function App() {
   const { themeCSS } = useThemeSelect();

@@ -1,15 +1,15 @@
 import { Routes, Route } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
-import Navbar from './components/Navbar';
-import HomeIndex from './components/index/HomeIndex';
-import ModelListIndex from './components/index/ModelListIndex';
-import ModelDetailIndex from './components/index/ModelDetailIndex';
-import ErrorToast, { ERR_FETCH_SCHEMA } from './commons/components/ErrorToast';
-import Loading, { LOADING_SCHEMA } from './commons/components/Loading';
-import withQueryClient from './commons/components/withQueryClient';
-import { SchemaFetcher, GraphQLFetcher } from './commons/types';
-import { Schema } from './schema';
+import Navbar from './Navbar';
+import HomeIndex from './HomeIndex';
+import ModelListIndex from './ModelListIndex';
+import ModelDetailIndex from './ModelDetailIndex';
+import ErrorToast, { ERR_FETCH_SCHEMA } from '../common/components/ErrorToast';
+import Loading, { LOADING_SCHEMA } from '../common/components/Loading';
+import withQueryClient from '../common/components/withQueryClient';
+import { SchemaFetcher, GraphQLFetcher } from '../common/types';
+import { Schema } from '../schema';
 
 interface ConveyorProps {
   schemaFetcher: SchemaFetcher;

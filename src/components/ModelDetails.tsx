@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useState, useMemo } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, ListGroup, Row, Col, Button, Form } from 'react-bootstrap';
 import Select from 'react-select';
 import { useForm, Controller } from 'react-hook-form';
 import { z as zod } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DetailField, RelFieldOption, DetailFieldValue } from '../commons/types';
-import { CREATE_MODE } from '../commons/constants';
-import { getAllModelNames, toModelListName } from '../schema';
+import { DetailField, RelFieldOption, DetailFieldValue } from '../common/types';
+import { CREATE_MODE } from '../common/constants';
+import { toModelListName } from '../schema';
 
 type ModelDetailProps = {
   detailFields: DetailField[];
