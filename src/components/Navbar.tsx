@@ -20,7 +20,7 @@ function Navbar({ schema }: { schema: Schema | undefined }) {
           <ReactNavBar.Brand as={NavLink} to="/Conveyor" end>
             <img
               alt="Conveyor Logo"
-              src="/src/conveyor/logo.svg"
+              src="/src/logo.svg"
               height="30"
               className="d-inline-block align-top"
             />{' '}
