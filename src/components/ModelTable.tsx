@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 import {
   createColumnHelper,
@@ -9,12 +8,15 @@ import {
 } from '@tanstack/react-table';
 
 import { ModelTableProps } from '../common/types';
+import { useConveyorStore } from '../store';
 
 function ModelTable({
   currentModelName,
   fields: headers,
   data: tableData,
 }: ModelTableProps) {
+  const { navigate } = useConveyorStore();
+
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<Record<string, any>>();
     return headers.map((header) => {
@@ -24,12 +26,13 @@ function ModelTable({
           cell: (info) => {
             const { id } = info.row.original;
             return [
-              <Link
+              <button
                 key={`${info.column.id}-${id}`}
-                to={`/Conveyor/${currentModelName}/${id}`}
+                type="button"
+                onClick={() => navigate(currentModelName, id)}
               >
                 {info.getValue()}
-              </Link>,
+              </button>,
             ];
           },
         });
@@ -37,22 +40,27 @@ function ModelTable({
       return columnHelper.accessor(name, {
         cell: (info) => {
           const val = info.getValue();
-          const relVals = !Array.isArray(val) ? [val] : val;
-          if (!rel) return val;
-          if (!val) return val;
+          const relVals = Array.isArray(val) ? val : [val];
+          if (!rel) {
+            return val;
+          }
+          if (!val) {
+            return val;
+          }
           return relVals.map((relVal, idx) => (
-            <Link
+            <button
               key={`${info.column.id}-${relVal.id}`}
-              to={`/Conveyor/${rel}/${relVal.id}`}
+              type="button"
+              onClick={() => navigate(rel, relVal.id)}
             >
               {relVal.name}
               {relVals.length - 1 > idx ? ', ' : ''}
-            </Link>
+            </button>
           ));
         },
       });
     });
-  }, [currentModelName, headers]);
+  }, [currentModelName, headers, navigate]);
 
   const table = useReactTable({
     data: tableData,

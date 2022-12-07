@@ -34,9 +34,10 @@ function autoInventAdapter(aiSchema: any): Schema {
         case 'email':
         case 'phone':
         case 'text':
-        case 'ID':
+        case 'ID': {
           type = currentField.type;
           break;
+        }
         default:
           if (relationalFieldTypes.includes(currentField.fieldName)) {
             type = {

@@ -1,14 +1,15 @@
 import { Container, Nav, Navbar as ReactNavBar, NavDropdown } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
-import { NavLink } from 'react-router-dom';
 
 import useThemeSelect, { ThemeName } from '../common/hooks/useThemeSelect';
 import { Schema, getAllModelNames } from '../schema';
 import { ERR_NO_MODELS } from '../common/components/ErrorToast';
+import { useConveyorStore } from '../store';
 
 function Navbar({ schema }: { schema: Schema | undefined }) {
   const { currentTheme, themeCSS, changeTheme } = useThemeSelect();
   const modelNames = getAllModelNames(schema);
+  const { navigate } = useConveyorStore();
 
   return (
     <>
@@ -17,7 +18,7 @@ function Navbar({ schema }: { schema: Schema | undefined }) {
       </Helmet>
       <ReactNavBar className="mb-3" variant="dark" bg="primary" expand="sm">
         <Container>
-          <ReactNavBar.Brand as={NavLink} to="/Conveyor" end>
+          <ReactNavBar.Brand onClick={() => navigate()}>
             <img
               alt="Conveyor Logo"
               src="/src/logo.svg"
@@ -41,9 +42,8 @@ function Navbar({ schema }: { schema: Schema | undefined }) {
                 {modelNames.length ? (
                   modelNames.map((modelName: string) => (
                     <NavDropdown.Item
-                      as={NavLink}
                       key={`conveyor-navbar-models-${modelName}`}
-                      to={`/Conveyor/${modelName}`}
+                      onClick={() => navigate(modelName)}
                     >
                       {modelName}
                     </NavDropdown.Item>
@@ -58,7 +58,9 @@ function Navbar({ schema }: { schema: Schema | undefined }) {
                 title="Theme"
                 align="end"
                 onSelect={(eventKey) => {
-                  if (eventKey) changeTheme(eventKey as ThemeName);
+                  if (eventKey) {
+                    changeTheme(eventKey as ThemeName);
+                  }
                 }}
               >
                 <NavDropdown.Item active={currentTheme === 'darkly'} eventKey="darkly">

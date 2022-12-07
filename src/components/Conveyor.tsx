@@ -1,4 +1,3 @@
-import { Routes, Route } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
 import Navbar from './Navbar';
@@ -10,6 +9,7 @@ import Loading, { LOADING_SCHEMA } from '../common/components/Loading';
 import withQueryClient from '../common/components/withQueryClient';
 import { SchemaFetcher, GraphQLFetcher } from '../common/types';
 import { Schema } from '../schema';
+import { useConveyorStore } from '../store';
 
 interface ConveyorProps {
   schemaFetcher: SchemaFetcher;
@@ -24,22 +24,24 @@ function Conveyor({ schemaFetcher, gqlFetcher }: ConveyorProps) {
     data: schema,
   } = useQuery<Schema, Error>(['schema'], schemaFetcher);
 
+  const { modelName, modelId } = useConveyorStore();
+
+  let page = <HomeIndex schema={schema} />;
+
+  if (modelName) {
+    if (modelId) {
+      page = <ModelDetailIndex schema={schema} gqlFetcher={gqlFetcher} />;
+    } else {
+      page = <ModelListIndex schema={schema} gqlFetcher={gqlFetcher} />;
+    }
+  }
+
   return (
     <>
       <Navbar schema={schema} />
       <ErrorToast error={schemaFetchErr} errorTitle={ERR_FETCH_SCHEMA} />
       <Loading isLoading={schemaLoading} message={LOADING_SCHEMA}>
-        <Routes>
-          <Route path="/" element={<HomeIndex schema={schema} />} />
-          <Route
-            path=":modelName"
-            element={<ModelListIndex schema={schema} gqlFetcher={gqlFetcher} />}
-          />
-          <Route
-            path=":modelName/:modelId"
-            element={<ModelDetailIndex schema={schema} gqlFetcher={gqlFetcher} />}
-          />
-        </Routes>
+        {page}
       </Loading>
     </>
   );

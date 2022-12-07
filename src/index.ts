@@ -1,5 +1,6 @@
+import { request } from 'graphql-request';
 import Conveyor from './components/Conveyor';
 
 export * from './common/types';
 export * from './schema';
-export { Conveyor };
+export { Conveyor, request };

@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Container, ListGroup, Row, Col, Button, Form } from 'react-bootstrap';
 import Select from 'react-select';
 import { useForm, Controller } from 'react-hook-form';
@@ -8,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { DetailField, RelFieldOption, DetailFieldValue } from '../common/types';
 import { CREATE_MODE } from '../common/constants';
 import { toModelListName } from '../schema';
+import { useConveyorStore } from '../store';
 
 type ModelDetailProps = {
   detailFields: DetailField[];
@@ -34,7 +34,7 @@ function ModelDetails({
     detailFields.forEach(
       ({ fieldName, fieldValue, fieldLink, fieldType, required }) => {
         switch (fieldType) {
-          case 'boolean':
+          case 'boolean': {
             defaultValues[fieldName] = Boolean(fieldValue);
             zSchema = zSchema.extend({
               [fieldName]: zod.boolean({
@@ -43,9 +43,10 @@ function ModelDetails({
               }),
             });
             break;
+          }
           case 'ID':
             break;
-          case toModelListName(fieldLink):
+          case toModelListName(fieldLink): {
             defaultValues[fieldName] = fieldValue;
             zSchema = zSchema.extend({
               [fieldName]: zod
@@ -54,7 +55,8 @@ function ModelDetails({
                 .optional(),
             });
             break;
-          case fieldLink:
+          }
+          case fieldLink: {
             defaultValues[fieldName] = fieldValue;
             zSchema = zSchema.extend({
               [fieldName]: zod
@@ -62,6 +64,7 @@ function ModelDetails({
                 .optional(),
             });
             break;
+          }
           default:
             defaultValues[fieldName] = fieldValue;
             zSchema = zSchema.extend({
@@ -87,7 +90,7 @@ function ModelDetails({
     resolver: zodResolver(zodSchema),
   });
 
-  const navigate = useNavigate();
+  const { modelName, navigate } = useConveyorStore();
 
   return (
     <Container>
@@ -157,7 +160,7 @@ function ModelDetails({
             className="m2 d-grid"
             md={{ span: 2, offset: mode === CREATE_MODE ? 4 : 3 }}
           >
-            <Button onClick={() => navigate(-1)} variant="secondary">
+            <Button onClick={() => navigate(modelName)} variant="secondary">
               Cancel
             </Button>
           </Col>

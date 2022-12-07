@@ -1,11 +1,13 @@
 import { Container, Row, ListGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 import { Schema, getAllModelNames } from '../schema';
 import { ERR_NO_MODELS } from '../common/components/ErrorToast';
+import { useConveyorStore } from '../store';
 
 function HomeIndex({ schema }: { schema: Schema | undefined }) {
   const modelNames = getAllModelNames(schema);
+
+  const { navigate } = useConveyorStore();
 
   return (
     <Container>
@@ -17,7 +19,9 @@ function HomeIndex({ schema }: { schema: Schema | undefined }) {
           modelNames.map((modelName) => (
             <ListGroup key={`conveyor-content-models-${modelName}`}>
               <ListGroup.Item>
-                <Link to={`/Conveyor/${modelName}`}>{modelName}</Link>
+                <button type="button" onClick={() => navigate(modelName)}>
+                  {modelName}
+                </button>
               </ListGroup.Item>
             </ListGroup>
           ))

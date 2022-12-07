@@ -1,15 +1,9 @@
-import { Card } from 'react-bootstrap';
-import { Helmet } from 'react-helmet';
-import { Routes, Route, Link } from 'react-router-dom';
 import { request } from 'graphql-request';
 
 import { Conveyor, GraphQLFetcher } from '../src';
-import useThemeSelect from '../src/common/hooks/useThemeSelect';
 import autoInventAdapter from './schemaAdapter';
 
 function App() {
-  const { themeCSS } = useThemeSelect();
-
   // Fetcher to retrieve schema from endpoint
   const schemaUrl = '/api/schema';
   const schemaFetcher = async () => {
@@ -28,29 +22,7 @@ function App() {
     return result;
   };
 
-  return (
-    <>
-      <Helmet defer>
-        <style>{themeCSS}</style>
-      </Helmet>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Card.Text>
-              <Link to="/Conveyor">Explore Data</Link>
-            </Card.Text>
-          }
-        />
-        <Route
-          path="Conveyor/*"
-          element={
-            <Conveyor schemaFetcher={schemaFetcher} gqlFetcher={graphqlFetcher} />
-          }
-        />
-      </Routes>
-    </>
-  );
+  return <Conveyor schemaFetcher={schemaFetcher} gqlFetcher={graphqlFetcher} />;
 }
 
 export default App;

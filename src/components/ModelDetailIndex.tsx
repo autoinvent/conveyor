@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import { gql } from 'graphql-request';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ToastContainer, Toast, Container, Row } from 'react-bootstrap';
@@ -13,6 +12,7 @@ import {
 import { CREATE_MODE } from '../common/constants';
 import { getAllModelNames, toModelListName, typeToModelName } from '../schema';
 import ModelDetails from './ModelDetails';
+import { useConveyorStore } from '../store';
 
 interface DetailValues {
   detailFields: DetailField[];
@@ -20,12 +20,22 @@ interface DetailValues {
 }
 
 function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
-  if (!schema) throw new Error();
-  const { modelName: paramModelName, modelId: currentModelId } = useParams();
+  if (!schema) {
+    throw new Error();
+  }
+  const {
+    modelName: paramModelName,
+    modelId: currentModelId,
+    navigate,
+  } = useConveyorStore();
   const currentModelName = typeToModelName(schema, paramModelName);
-  if (!currentModelName) throw new Error();
+  if (!currentModelName) {
+    throw new Error();
+  }
   const currentModel = schema.models.find((model) => model.name === currentModelName);
-  if (!currentModel) throw new Error();
+  if (!currentModel) {
+    throw new Error();
+  }
   const currentModelListName = toModelListName(currentModelName);
 
   // Mapping between singular and plural model names to its singular form
@@ -42,7 +52,6 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const toggleShowToast = () => setShowToast(!showToast);
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const queryModelDetail = useCallback(async () => {
     // A list of relational field types found in this model
@@ -169,7 +178,9 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
     const formKeys = Object.keys(formData);
     const modelData: Record<string, string | boolean | (string | null)[] | null> = {};
     formKeys.forEach((formKey) => {
-      if (formKey === 'id') return;
+      if (formKey === 'id') {
+        return;
+      }
       const formValue = formData[formKey];
       // formValue is a value for a relational type
       if (typeof formValue === 'object') {
@@ -214,7 +225,7 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
       onSuccess: () => {
         toggleShowToast();
         setToastMessage(`Successfully created ${currentModelName}!`);
-        navigate(-1);
+        navigate(currentModelName);
       },
       onError: () => {
         toggleShowToast();
@@ -312,7 +323,7 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
       onSuccess: () => {
         toggleShowToast();
         setToastMessage(`Successfully deleted ${currentModelName}!`);
-        navigate(-1);
+        navigate(currentModelName);
       },
       onError: () => {
         toggleShowToast();
@@ -321,7 +332,9 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
     },
   );
 
-  if (errModelDetailData) throw new Error(errModelDetailData.message);
+  if (errModelDetailData) {
+    throw new Error(errModelDetailData.message);
+  }
 
   return modelDetails?.detailFields ? (
     <Container>

@@ -1,21 +1,26 @@
 import { useMemo, useCallback } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
 import { gql } from 'graphql-request';
 import { useQuery } from '@tanstack/react-query';
 
 import { DataManagerProps, ModelTableProps } from '../common/types';
 import ModelTable from './ModelTable';
 import { toModelListName } from '../schema';
+import { useConveyorStore } from '../store';
 
 function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
-  if (!schema) throw new Error();
-  const { modelName: currentModelName } = useParams();
-  if (!currentModelName) throw new Error();
+  if (!schema) {
+    throw new Error();
+  }
+  const { modelName: currentModelName, navigate } = useConveyorStore();
+  if (!currentModelName) {
+    throw new Error();
+  }
   const currentModel = schema.models.find((model) => model.name === currentModelName);
-  if (!currentModel) throw new Error();
+  if (!currentModel) {
+    throw new Error();
+  }
   const currentModelListName = toModelListName(currentModelName);
-  const navigate = useNavigate();
   const fetchGQLModelList = useCallback(async () => {
     // Parses model fields into { name, rel } where rel is the model name of the
     // relational field type
@@ -70,7 +75,7 @@ function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
               <Button
                 style={{ width: '45px', height: '45px' }}
                 onClick={() => {
-                  navigate(`/Conveyor/${currentModelName}/create`);
+                  navigate(currentModelName);
                 }}
               >
                 <strong>+</strong>

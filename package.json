@@ -3,17 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "author": "Moebius Solutions",
-  "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/conveyor.umd.cjs",
-  "module": "./dist/conveyor.js",
+  "main": "./dist/conveyor.umd.js",
+  "module": "./dist/conveyor.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/conveyor.js",
-      "require": "./dist/conveyor.umd.cjs"
+      "import": "./dist/conveyor.mjs",
+      "require": "./dist/conveyor.umd.js"
     }
   },
   "scripts": {
@@ -46,7 +45,8 @@
     "react-hook-form": "^7.34.2",
     "react-select": "^5.4.0",
     "react-use": "^17.4.0",
-    "zod": "^3.18.0"
+    "zod": "^3.18.0",
+    "zustand": "^4.1.5"
   },
   "devDependencies": {
     "@testing-library/dom": "8.14.0",
@@ -76,7 +76,6 @@
     "prettier": "2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.3.0",
     "stylelint": "14.9.1",
     "stylelint-config-prettier": "9.0.3",
     "stylelint-config-standard": "26.0.0",
