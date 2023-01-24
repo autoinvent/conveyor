@@ -66,7 +66,7 @@ pnpm dev
 
 <body>
   <div id="conveyor">Loading...</div>
-  <script src="dist/conveyor.umd.js"></script>
+  <script src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.0/dist/conveyor.umd.js"></script>
   <script defer>
     function autoInventAdapter(aiSchema) {
       const modelTitles = Object.keys(aiSchema);

@@ -1,7 +1,8 @@
 {
-  "name": "conveyor",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@autoinvent/conveyor",
+  "version": "1.0.0-beta.0",
+  "description": "GraphiQL for magql",
+  "license": "BSD-3-Clause",
   "author": "Moebius Solutions",
   "files": [
     "dist"
