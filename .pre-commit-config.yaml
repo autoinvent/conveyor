@@ -2,7 +2,7 @@ repos:
   - repo: local
     hooks:
       - id: lint-format-compile
-        name: eslint, prettier, and tsc
+        name: rome and tsc
         entry: ./pre-commit.sh
         language: script
         always_run: true
