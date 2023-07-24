@@ -94,85 +94,99 @@ function ModelDetails({
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit(mode === CREATE_MODE ? createData : updateData)}>
+      <Form
+        onSubmit={handleSubmit(mode === CREATE_MODE ? createData : updateData)}
+      >
         <ListGroup>
-          {detailFields.map(({ fieldName, fieldValue, fieldType, fieldLink }) => {
-            if (fieldName === 'id') {
+          {detailFields.map(
+            ({ fieldName, fieldValue, fieldType, fieldLink }) => {
+              if (fieldName === 'id') {
+                return (
+                  <ListGroup.Item
+                    key={`model-detail-${fieldName}-list-group-item`}
+                  >
+                    <Row>
+                      <Col>id:</Col>
+                      <Col>{fieldValue as string}</Col>
+                    </Row>
+                  </ListGroup.Item>
+                );
+              }
               return (
-                <ListGroup.Item key={`model-detail-${fieldName}-list-group-item`}>
-                  <Row>
-                    <Col>id:</Col>
-                    <Col>{fieldValue as string}</Col>
-                  </Row>
+                <ListGroup.Item
+                  key={`model-detail-${fieldName}-list-group-item`}
+                >
+                  <Form.Group>
+                    <Row>
+                      <Col>
+                        <Form.Label>{fieldName}:</Form.Label>
+                      </Col>
+                      <Col>
+                        <Controller
+                          name={fieldName}
+                          control={control}
+                          render={({
+                            field: { onChange, onBlur, value, ref },
+                          }) => {
+                            // Show client data first; fallback to server data
+                            const currentValue = value ?? fieldValue;
+                            const formControlProps: Record<
+                              string,
+                              string | any
+                            > = {
+                              onChange,
+                              onBlur,
+                              ref,
+                              value: currentValue,
+                              isInvalid: Boolean(errors[fieldName]),
+                            };
+                            const options = relFieldOptions[fieldType];
+                            if (fieldLink) {
+                              const noneOption = { value: null, label: 'None' };
+                              formControlProps.as = Select;
+                              formControlProps.options =
+                                fieldType === fieldLink
+                                  ? options.concat([noneOption])
+                                  : options;
+                              formControlProps.isMulti =
+                                fieldType !== fieldLink;
+                            } else if (fieldType === 'boolean') {
+                              formControlProps.as = Form.Check;
+                              formControlProps.defaultChecked = fieldValue;
+                            }
+                            /* eslint-disable-next-line react/jsx-props-no-spreading */
+                            return <Form.Control {...formControlProps} />;
+                          }}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                          {errors[fieldName]?.message}
+                        </Form.Control.Feedback>
+                      </Col>
+                    </Row>
+                  </Form.Group>
                 </ListGroup.Item>
               );
-            }
-            return (
-              <ListGroup.Item key={`model-detail-${fieldName}-list-group-item`}>
-                <Form.Group>
-                  <Row>
-                    <Col>
-                      <Form.Label>{fieldName}:</Form.Label>
-                    </Col>
-                    <Col>
-                      <Controller
-                        name={fieldName}
-                        control={control}
-                        render={({ field: { onChange, onBlur, value, ref } }) => {
-                          // Show client data first; fallback to server data
-                          const currentValue = value ?? fieldValue;
-                          const formControlProps: Record<string, string | any> = {
-                            onChange,
-                            onBlur,
-                            ref,
-                            value: currentValue,
-                            isInvalid: Boolean(errors[fieldName]),
-                          };
-                          const options = relFieldOptions[fieldType];
-                          if (fieldLink) {
-                            const noneOption = { value: null, label: 'None' };
-                            formControlProps.as = Select;
-                            formControlProps.options =
-                              fieldType === fieldLink
-                                ? options.concat([noneOption])
-                                : options;
-                            formControlProps.isMulti = fieldType !== fieldLink;
-                          } else if (fieldType === 'boolean') {
-                            formControlProps.as = Form.Check;
-                            formControlProps.defaultChecked = fieldValue;
-                          }
-                          /* eslint-disable-next-line react/jsx-props-no-spreading */
-                          return <Form.Control {...formControlProps} />;
-                        }}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors[fieldName]?.message}
-                      </Form.Control.Feedback>
-                    </Col>
-                  </Row>
-                </Form.Group>
-              </ListGroup.Item>
-            );
-          })}
+            },
+          )}
         </ListGroup>
-        <Row className="mt-3">
+        <Row className='mt-3'>
           <Col
-            className="m2 d-grid"
+            className='m2 d-grid'
             md={{ span: 2, offset: mode === CREATE_MODE ? 4 : 3 }}
           >
-            <Button onClick={() => navigate(modelName)} variant="secondary">
+            <Button onClick={() => navigate(modelName)} variant='secondary'>
               Cancel
             </Button>
           </Col>
           {mode !== CREATE_MODE && (
-            <Col className="m2 d-grid" md={{ span: 2, offset: 0 }}>
-              <Button onClick={deleteData} variant="danger">
+            <Col className='m2 d-grid' md={{ span: 2, offset: 0 }}>
+              <Button onClick={deleteData} variant='danger'>
                 Delete
               </Button>
             </Col>
           )}
-          <Col className="d-grid" md={{ span: 2, offset: 0 }}>
-            <Button type="submit" disabled={loading} variant="primary">
+          <Col className='d-grid' md={{ span: 2, offset: 0 }}>
+            <Button type='submit' disabled={loading} variant='primary'>
               {mode === CREATE_MODE ? 'Create' : 'Save'}
             </Button>
           </Col>

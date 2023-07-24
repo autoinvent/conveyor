@@ -32,7 +32,9 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
   if (!currentModelName) {
     throw new Error();
   }
-  const currentModel = schema.models.find((model) => model.name === currentModelName);
+  const currentModel = schema.models.find(
+    (model) => model.name === currentModelName,
+  );
   if (!currentModel) {
     throw new Error();
   }
@@ -126,10 +128,14 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
       });
 
       const data =
-        currentModelId === CREATE_MODE ? emptyModel : response[currentModelName].result;
+        currentModelId === CREATE_MODE
+          ? emptyModel
+          : response[currentModelName].result;
       const detailFields = currentFields.map((field) => {
         const detailField: DetailField = field;
-        const dataFieldName = field.fieldLink ? field.fieldType : field.fieldName;
+        const dataFieldName = field.fieldLink
+          ? field.fieldType
+          : field.fieldName;
         const dataFieldValue = data[dataFieldName];
         if (!field.fieldLink) {
           detailField.fieldValue = dataFieldValue?.toString() ?? '';
@@ -151,10 +157,12 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
       relTypeList.forEach((relType) => {
         const relListName = toModelListName(relTypesToLink[relType]);
         const modelList = response[relListName].result;
-        relFieldOptions[relType] = modelList.map((model: Record<string, string>) => ({
-          value: String(model.id),
-          label: model.name,
-        }));
+        relFieldOptions[relType] = modelList.map(
+          (model: Record<string, string>) => ({
+            value: String(model.id),
+            label: model.name,
+          }),
+        );
       });
 
       return { detailFields, relFieldOptions };
@@ -176,7 +184,10 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
   const createModelDetail = (formData: Record<string, DetailFieldValue>) => {
     // Parses form values to appropriate values for the db
     const formKeys = Object.keys(formData);
-    const modelData: Record<string, string | boolean | (string | null)[] | null> = {};
+    const modelData: Record<
+      string,
+      string | boolean | (string | null)[] | null
+    > = {};
     formKeys.forEach((formKey) => {
       if (formKey === 'id') {
         return;
@@ -188,7 +199,9 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
         if (Array.isArray(formValue)) {
           const relValueArr = formValue.map((val) => val.value);
           modelData[formKey] =
-            typeToModelName(schema, formKey) === formKey ? relValueArr[0] : relValueArr;
+            typeToModelName(schema, formKey) === formKey
+              ? relValueArr[0]
+              : relValueArr;
         } else {
           modelData[formKey] = formValue.value;
         }
@@ -238,7 +251,10 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
   const updateModelDetail = (formData: Record<string, DetailFieldValue>) => {
     // Parses form values to appropriate values for the db
     const formKeys = Object.keys(formData);
-    const modelData: Record<string, string | boolean | (string | null)[] | null> = {};
+    const modelData: Record<
+      string,
+      string | boolean | (string | null)[] | null
+    > = {};
     formKeys.forEach((formKey) => {
       const formValue = formData[formKey];
       // formValue is a value for a relational type
@@ -247,7 +263,9 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
         if (Array.isArray(formValue)) {
           const relValueArr = formValue.map((val) => val.value);
           modelData[formKey] =
-            typeToModelName(schema, formKey) === formKey ? relValueArr[0] : relValueArr;
+            typeToModelName(schema, formKey) === formKey
+              ? relValueArr[0]
+              : relValueArr;
         } else {
           modelData[formKey] = formValue.value;
         }
@@ -358,7 +376,7 @@ function ModelDetailIndex({ schema, gqlFetcher }: DataManagerProps) {
           }}
         />
       </Row>
-      <ToastContainer position="top-center">
+      <ToastContainer position='top-center'>
         <Toast autohide show={showToast} delay={2000} onClose={toggleShowToast}>
           <Toast.Header>{toastMessage}</Toast.Header>
         </Toast>

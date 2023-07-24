@@ -19,7 +19,9 @@ const useThemeSelect = () => {
   );
   const [themeCSS, setThemeCSS] = useState<string | undefined>();
 
-  const systemTheme = useMedia('(prefers-color-scheme: dark)') ? 'darkly' : 'flatly';
+  const systemTheme = useMedia('(prefers-color-scheme: dark)')
+    ? 'darkly'
+    : 'flatly';
 
   useEffect(() => {
     const themeName =

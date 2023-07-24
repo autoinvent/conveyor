@@ -1,4 +1,9 @@
-import { Container, Nav, Navbar as ReactNavBar, NavDropdown } from 'react-bootstrap';
+import {
+  Container,
+  Nav,
+  Navbar as ReactNavBar,
+  NavDropdown,
+} from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
 import useThemeSelect, { ThemeName } from '../common/hooks/useThemeSelect';
@@ -16,28 +21,28 @@ function Navbar({ schema }: { schema: Schema | undefined }) {
       <Helmet defer>
         <style>{themeCSS}</style>
       </Helmet>
-      <ReactNavBar className="mb-3" variant="dark" bg="primary" expand="sm">
+      <ReactNavBar className='mb-3' variant='dark' bg='primary' expand='sm'>
         <Container>
           <ReactNavBar.Brand onClick={() => navigate()}>
             <img
-              alt="Conveyor Logo"
-              src="/src/logo.svg"
-              height="30"
-              className="d-inline-block align-top"
+              alt='Conveyor Logo'
+              src='/src/logo.svg'
+              height='30'
+              className='d-inline-block align-top'
             />{' '}
             Conveyor
           </ReactNavBar.Brand>
-          <ReactNavBar.Toggle aria-controls="moebius-example-navbar" />
+          <ReactNavBar.Toggle aria-controls='moebius-example-navbar' />
           <ReactNavBar.Collapse
-            id="moebius-example-navbar"
-            className="justify-content-end"
+            id='moebius-example-navbar'
+            className='justify-content-end'
           >
             <Nav>
               {/* Models Dropdown */}
               <NavDropdown
-                id="conveyor-navbar-models-dropdown"
-                title="Models"
-                align="end"
+                id='conveyor-navbar-models-dropdown'
+                title='Models'
+                align='end'
               >
                 {modelNames.length ? (
                   modelNames.map((modelName: string) => (
@@ -54,22 +59,31 @@ function Navbar({ schema }: { schema: Schema | undefined }) {
               </NavDropdown>
               {/* Theme Dropdown */}
               <NavDropdown
-                id="conveyor-navbar-theme-dropdown"
-                title="Theme"
-                align="end"
+                id='conveyor-navbar-theme-dropdown'
+                title='Theme'
+                align='end'
                 onSelect={(eventKey) => {
                   if (eventKey) {
                     changeTheme(eventKey as ThemeName);
                   }
                 }}
               >
-                <NavDropdown.Item active={currentTheme === 'darkly'} eventKey="darkly">
+                <NavDropdown.Item
+                  active={currentTheme === 'darkly'}
+                  eventKey='darkly'
+                >
                   Dark
                 </NavDropdown.Item>
-                <NavDropdown.Item active={currentTheme === 'flatly'} eventKey="flatly">
+                <NavDropdown.Item
+                  active={currentTheme === 'flatly'}
+                  eventKey='flatly'
+                >
                   Light
                 </NavDropdown.Item>
-                <NavDropdown.Item active={currentTheme === 'system'} eventKey="system">
+                <NavDropdown.Item
+                  active={currentTheme === 'system'}
+                  eventKey='system'
+                >
                   System
                 </NavDropdown.Item>
               </NavDropdown>

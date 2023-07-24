@@ -17,10 +17,10 @@ function ErrorToast({
   }, [error]);
 
   return (
-    <ToastContainer position="top-center">
+    <ToastContainer position='top-center'>
       <Toast show={showToast} onClose={() => setShowToast(false)}>
         <Toast.Header>
-          <strong className="me-auto">{errorTitle}</strong>
+          <strong className='me-auto'>{errorTitle}</strong>
         </Toast.Header>
         <Toast.Body>{error?.message}</Toast.Body>
       </Toast>

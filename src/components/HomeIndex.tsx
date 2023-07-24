@@ -19,7 +19,7 @@ function HomeIndex({ schema }: { schema: Schema | undefined }) {
           modelNames.map((modelName) => (
             <ListGroup key={`conveyor-content-models-${modelName}`}>
               <ListGroup.Item>
-                <button type="button" onClick={() => navigate(modelName)}>
+                <button type='button' onClick={() => navigate(modelName)}>
                   {modelName}
                 </button>
               </ListGroup.Item>

@@ -28,7 +28,7 @@ function ModelTable({
             return [
               <button
                 key={`${info.column.id}-${id}`}
-                type="button"
+                type='button'
                 onClick={() => navigate(currentModelName, id)}
               >
                 {info.getValue()}
@@ -50,7 +50,7 @@ function ModelTable({
           return relVals.map((relVal, idx) => (
             <button
               key={`${info.column.id}-${relVal.id}`}
-              type="button"
+              type='button'
               onClick={() => navigate(rel, relVal.id)}
             >
               {relVal.name}
@@ -77,7 +77,10 @@ function ModelTable({
               <th key={header.id}>
                 {header.isPlaceholder
                   ? null
-                  : flexRender(header.column.columnDef.header, header.getContext())}
+                  : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
               </th>
             ))}
           </tr>

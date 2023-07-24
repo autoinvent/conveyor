@@ -3,7 +3,9 @@ import { Schema, ModelField } from '../src/schema';
 function autoInventAdapter(aiSchema: any): Schema {
   const modelTitles = Object.keys(aiSchema);
   modelTitles.pop();
-  const modelNames = modelTitles.map((modelTitle) => String(modelTitle).toLowerCase());
+  const modelNames = modelTitles.map((modelTitle) =>
+    String(modelTitle).toLowerCase(),
+  );
   const modelPluralNames = modelNames.map((modelName) => `${modelName}s`);
   const relationalFieldTypes = modelNames.concat(modelPluralNames);
   const conveyorSchema = modelTitles.map((modelTitle) => {

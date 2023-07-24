@@ -16,7 +16,9 @@ function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
   if (!currentModelName) {
     throw new Error();
   }
-  const currentModel = schema.models.find((model) => model.name === currentModelName);
+  const currentModel = schema.models.find(
+    (model) => model.name === currentModelName,
+  );
   if (!currentModel) {
     throw new Error();
   }
@@ -71,7 +73,10 @@ function ModelListIndex({ schema, gqlFetcher }: DataManagerProps) {
             <Col>
               <h3>{toModelListName(currentModelName)}</h3>
             </Col>
-            <Col className="pe-0" style={{ display: 'flex', justifyContent: 'right' }}>
+            <Col
+              className='pe-0'
+              style={{ display: 'flex', justifyContent: 'right' }}
+            >
               <Button
                 style={{ width: '45px', height: '45px' }}
                 onClick={() => {

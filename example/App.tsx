@@ -15,10 +15,10 @@ function App() {
   const graphQLUrl = '/api/graphql';
   const graphqlFetcher: GraphQLFetcher = async (graphQLParams) => {
     return await request(
-          graphQLUrl,
-          graphQLParams.request,
-          graphQLParams.variables,
-        );
+      graphQLUrl,
+      graphQLParams.request,
+      graphQLParams.variables,
+    );
   };
 
   return <Conveyor schemaFetcher={schemaFetcher} gqlFetcher={graphqlFetcher} />;
