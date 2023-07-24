@@ -1,0 +1,21 @@
+{
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noExplicitAny": "warn"
+      }
+    },
+    "ignore": ["/dist", "*.scss", "*.css"]
+  },
+  "formatter": {
+    "ignore": ["/dist"],
+    "indentStyle": "space"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  }
+}

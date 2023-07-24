@@ -14,12 +14,11 @@ function App() {
   // Fetcher to retrieve GraphQL query/mutation from endpoint
   const graphQLUrl = '/api/graphql';
   const graphqlFetcher: GraphQLFetcher = async (graphQLParams) => {
-    const result = await request(
-      graphQLUrl,
-      graphQLParams.request,
-      graphQLParams.variables,
-    );
-    return result;
+    return await request(
+          graphQLUrl,
+          graphQLParams.request,
+          graphQLParams.variables,
+        );
   };
 
   return <Conveyor schemaFetcher={schemaFetcher} gqlFetcher={graphqlFetcher} />;
