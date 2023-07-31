@@ -1,16 +1,13 @@
 import { useContext } from "react";
 
-import { AlertsDispatchContext } from "../../ConveyorComponents/contexts/AlertsContext";
-import {
-  ConveyorContext,
-  GQLRequestParams,
-} from "../../ConveyorComponents/contexts/ConveyorContext";
+import { AlertsDispatchContext } from "../contexts/AlertsContext";
+import { ConveyorContext, GQLRequestParams } from "../contexts/ConveyorContext";
 import { SuccessMessage } from "../enums";
 import {
   AlertsAction,
   DEFAULT_SUCCESS_EXPIRE,
-} from "../../ConveyorComponents/reducers/alertsReducer";
-import { parseResponseError } from "../../ConveyorComponents/utils/common";
+} from "../reducers/alertsReducer";
+import { parseResponseError } from "../utils/common";
 
 export enum GQLMutationAction {
   MODEL_UPDATE = "update",

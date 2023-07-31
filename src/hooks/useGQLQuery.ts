@@ -1,12 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 
-import { AlertsDispatchContext } from "../../ConveyorComponents/contexts/AlertsContext";
-import {
-  ConveyorContext,
-  GQLRequestParams,
-} from "../../ConveyorComponents/contexts/ConveyorContext";
-import { AlertsAction } from "../../ConveyorComponents/reducers/alertsReducer";
-import { parseResponseError } from "../../ConveyorComponents/utils/common";
+import { AlertsDispatchContext } from "../contexts/AlertsContext";
+import { ConveyorContext, GQLRequestParams } from "../contexts/ConveyorContext";
+import { AlertsAction } from "../reducers/alertsReducer";
+import { parseResponseError } from "../utils/common";
 
 export enum GQLQueryAction {
   MODEL_ITEM = "Model",

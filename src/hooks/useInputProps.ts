@@ -1,14 +1,11 @@
 import { useContext, useMemo } from "react";
 
-import { InputTypes } from "../../ConveyorComponents/components/commons/FlexibleInput";
-import { LoadingContext } from "../../ConveyorComponents/contexts/commons/LoadingContext";
+import { InputTypes } from "../components/commons/FlexibleInput";
+import { LoadingContext } from "../contexts/commons/LoadingContext";
 import useGQLQuery, { GQLQueryAction } from "./useGQLQuery";
 import { FieldData } from "../types";
 
-import {
-  generateGQLAction,
-  generateGQLDocument,
-} from "../../ConveyorComponents/utils/gqlRequest";
+import { generateGQLAction, generateGQLDocument } from "../utils/gqlRequest";
 
 export interface UseInputProps {
   fieldData?: FieldData;

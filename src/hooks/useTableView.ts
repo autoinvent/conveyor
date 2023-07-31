@@ -3,11 +3,8 @@ import { useContext, useEffect } from "react";
 import {
   TableViewsContext,
   TableViewsDispatchContext,
-} from "../../ConveyorComponents/contexts/TableViewsContext";
-import {
-  TableViewsAction,
-  TableView,
-} from "../../ConveyorComponents/reducers/tableViewsReducer";
+} from "../contexts/TableViewsContext";
+import { TableViewsAction, TableView } from "../reducers/tableViewsReducer";
 
 interface UseTableViewProps {
   modelName: string;
