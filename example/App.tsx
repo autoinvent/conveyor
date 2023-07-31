@@ -1,27 +1,39 @@
-import { request } from 'graphql-request';
+import { request } from "graphql-request";
 
-import { Conveyor, GraphQLFetcher } from '../src';
-import autoInventAdapter from './schemaAdapter';
+import {
+  ConveyorAdmin,
+  UseGQLQueryResponse,
+  UseGQLMutationRequest,
+} from "../src";
 
 function App() {
-  // Fetcher to retrieve schema from endpoint
-  const schemaUrl = '/api/schema';
-  const schemaFetcher = async () => {
-    const response = await fetch(schemaUrl);
-    const remoteSchemaResponse = await response.json();
-    return autoInventAdapter(remoteSchemaResponse.definitions);
+  // Fetcher to retrieve introspection from endpoint
+  const introspectionFetcher = async (params: { document: string }) => {
+    const url = `/api/graphql`;
+    return request(url, params.document);
   };
   // Fetcher to retrieve GraphQL query/mutation from endpoint
-  const graphQLUrl = '/api/graphql';
-  const graphqlFetcher: GraphQLFetcher = async (graphQLParams) => {
-    return await request(
-      graphQLUrl,
-      graphQLParams.request,
-      graphQLParams.variables,
-    );
+  const graphQLUrl = "/api/graphql";
+  const useGQLQueryResponse: UseGQLQueryResponse = (graphQLParams) => {
+    return request(graphQLUrl, graphQLParams.document, graphQLParams.variables);
   };
 
-  return <Conveyor schemaFetcher={schemaFetcher} gqlFetcher={graphqlFetcher} />;
+  const useGQLMutationRequest: UseGQLMutationRequest = (graphQLParams) => {
+    return (options) =>
+      request(
+        graphQLUrl,
+        graphQLParams.document,
+        options?.variables ?? graphQLParams.variables
+      );
+  };
+
+  return (
+    <ConveyorAdmin
+      gqlIntrospectionFetcher={introspectionFetcher}
+      useGQLQueryResponse={useGQLQueryResponse}
+      useGQLMutationRequest={useGQLMutationRequest}
+    />
+  );
 }
 
 export default App;

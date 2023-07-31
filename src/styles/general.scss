@@ -1,0 +1,63 @@
+.alerts .close {
+  color: inherit
+}
+
+.cc-crud-header {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.cc-model-table-crud {
+  text-align: center;
+}
+
+table tr {
+  vertical-align: top;
+}
+
+table tr td button {
+  padding: 0
+}
+
+label {
+  display: block;
+}
+
+a {
+  padding: 0px 5px
+}
+
+dl {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+dt {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+dd {
+  flex: 0 0 75%;
+  max-width: 75%;
+}
+
+summary h4 {
+  display: inline;
+}
+
+.cc-table-pagination button {
+  background-color: transparent;
+  border-color: transparent;
+  color: inherit
+}
+
+.cc-table-pagination button.cc-table-pagination-active-page {
+  font-weight: bold;
+}
+
+
+.cc-table-pagination span:last-child {
+  font-size: .85rem;
+  margin: 10px
+}
