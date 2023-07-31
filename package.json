@@ -4,7 +4,9 @@
   "description": "GraphiQL for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/conveyor.umd.js",
   "module": "./dist/conveyor.mjs",
   "types": "./dist/index.d.ts",
@@ -42,6 +44,7 @@
     "react-bootstrap": "^2.8.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.45.2",
+    "react-icons": "^4.10.1",
     "react-select": "^5.7.4",
     "react-use": "^17.4.0",
     "zod": "^3.21.4",
