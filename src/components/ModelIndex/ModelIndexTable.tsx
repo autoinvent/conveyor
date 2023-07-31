@@ -32,7 +32,11 @@ const ModelIndexTable = ({
     fields,
     fieldsData
   )
-  const { data } = useGQLQuery({ action, document, variables: tableView })
+  const { data, error } = useGQLQuery({
+    action,
+    document,
+    variables: tableView,
+  })
   const { modelListData, modelListCount } = useMemo(
     () => ({
       modelListData: data?.[action]?.result,
@@ -40,7 +44,10 @@ const ModelIndexTable = ({
     }),
     [JSON.stringify(data?.[action]?.result)]
   )
-  return (
+  const loading = Object.values(Object.assign(data, error)).length === 0
+  return loading ? (
+    <>Loading...</>
+  ) : (
     <>
       <ModelTable
         id={id}

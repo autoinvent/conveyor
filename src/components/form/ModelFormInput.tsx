@@ -20,6 +20,7 @@ const ModelFormInput = ({
 }: ModelFormProps) => {
   const inputProps = useInputProps({ fieldData })
   inputProps.className = className ?? inputProps.className
+
   return (
     <Controller
       name={field}

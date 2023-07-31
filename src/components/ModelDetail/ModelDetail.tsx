@@ -43,7 +43,7 @@ const ModelDetail: FC<ModelDetailProps> = ({
     fields,
     fieldsData
   )
-  const { data } = useGQLQuery({
+  const { data, error } = useGQLQuery({
     action,
     document,
     variables: { id: modelId },
@@ -69,9 +69,13 @@ const ModelDetail: FC<ModelDetailProps> = ({
 
   const modelIdentifier =
     modelData?.name ?? modelData?.id ?? ErrorMessage.INV_MODEL_ID
+
+  const loading = Object.values(Object.assign(data, error)).length === 0
   return (
     <div id={id} className={className}>
-      {children ?? modelData ? (
+      {loading ? (
+        'Loading...'
+      ) : children ?? modelData ? (
         <>
           <ModelForm formMethods={formMethods}>
             <div className="mb-3">
@@ -124,7 +128,9 @@ const ModelDetail: FC<ModelDetailProps> = ({
             ) : null
           })}
         </>
-      ) : null}
+      ) : (
+        <h4>{modelName} does not exist.</h4>
+      )}
     </div>
   )
 }

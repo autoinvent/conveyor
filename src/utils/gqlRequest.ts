@@ -10,7 +10,7 @@ const gqlDocumentRecursion: any = (
   fieldsData?: Record<string, FieldData>
 ) => {
   return fields
-    ?.map((field) => {
+    .map((field) => {
       const related = fieldsData?.[field]?.related
       if (related) {
         return `${field} { ${gqlDocumentRecursion(
@@ -20,8 +20,8 @@ const gqlDocumentRecursion: any = (
       }
       return field
     })
-    ?.concat(['id'])
-    ?.join(' ')
+    .concat(['id'])
+    .join(' ')
 }
 
 export const generateGQLDocument = (
@@ -37,8 +37,11 @@ export const generateGQLDocument = (
     ?.map((field) => {
       const related = fieldsData?.[field]?.related
       if (related) {
-        const relatedFields = related.fields.join(' ')
-        return `${field} { id ${relatedFields} }`
+        const recursedFields = gqlDocumentRecursion(
+          related.fields,
+          related?.fieldsData
+        )
+        return `${field} { ${recursedFields} }`
       }
       return field
     })

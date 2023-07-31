@@ -13,6 +13,7 @@ export const queryToModelName = (queryName: string) => {
 export const modelToModelListName = (modelName: string) => {
   if (!modelName) return ''
   if (modelName.endsWith('y')) return modelName.slice(0, -1) + 'ies'
+  if (modelName.endsWith('s')) return modelName + 'es'
   return `${modelName}s`
 }
 
