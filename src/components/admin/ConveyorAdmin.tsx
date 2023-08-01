@@ -109,9 +109,12 @@ const ConveyorAdmin = ({
     [setCurrentPage]
   );
 
+  console.log(models);
+  console.log(modelName, id);
   let page;
   const fields = Object.keys(models?.[modelName] ?? {});
   const fieldsData = models?.[modelName] ?? {};
+  console.log(fields, fieldsData);
   switch (currentPage) {
     case Page.HOME: {
       page = <ConveyorAdminHome modelNames={models && Object.keys(models)} />;

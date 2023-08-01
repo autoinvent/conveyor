@@ -16,17 +16,18 @@ const useInputProps = ({ fieldData }: UseInputProps) => {
   const type = fieldData?.related ? InputTypes.SELECT : InputTypes.TEXT;
   const fieldModelName = fieldData?.related?.modelName ?? "";
   const relatedFields = fieldData?.related?.fields;
+  const relatedFieldsData = fieldData?.related?.fieldsData;
   const action = generateGQLAction(GQLQueryAction.MODEL_LIST, fieldModelName);
   let document = generateGQLDocument(
     GQLQueryAction.MODEL_LIST,
     fieldModelName,
-    relatedFields
+    relatedFields,
+    relatedFieldsData
   );
   if (!fieldData?.related) {
     document = "{ __typename }";
   }
   const { data } = useGQLQuery({ action, document });
-  console.log(fieldModelName, fieldData, data);
   return useMemo(() => {
     const inputProps = { type } as Record<string, any>;
     switch (type as InputTypes) {
@@ -41,7 +42,10 @@ const useInputProps = ({ fieldData }: UseInputProps) => {
         inputProps.getOptionLabel = (data: Record<string, any>) =>
           data?.name ?? data?.id;
         inputProps.getOptionValue = (data: Record<string, any>) => data?.id;
-        inputProps.options = data?.[action]?.result;
+        inputProps.options = data?.[action]?.result?.map((option: any) => ({
+          name: option?.name,
+          id: option?.id,
+        }));
         break;
       }
       default: {

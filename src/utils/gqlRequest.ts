@@ -1,9 +1,9 @@
-import { GQLQueryAction } from '../hooks/useGQLQuery'
-import { GQLMutationAction } from '../hooks/useGQLMutation'
-import { ErrorMessage } from '../enums'
-import { FieldData } from '../types'
+import { GQLQueryAction } from "../hooks/useGQLQuery";
+import { GQLMutationAction } from "../hooks/useGQLMutation";
+import { ErrorMessage } from "../enums";
+import { FieldData } from "../types";
 
-import { modelToQueryName, modelToModelListName } from './common'
+import { modelToQueryName, modelToModelListName } from "./common";
 
 const gqlDocumentRecursion: any = (
   fields: string[],
@@ -11,18 +11,18 @@ const gqlDocumentRecursion: any = (
 ) => {
   return fields
     .map((field) => {
-      const related = fieldsData?.[field]?.related
+      const related = fieldsData?.[field]?.related;
       if (related) {
         return `${field} { ${gqlDocumentRecursion(
           related.fields,
           related?.fieldsData
-        )} }`
+        )} }`;
       }
-      return field
+      return field;
     })
-    .concat(['id'])
-    .join(' ')
-}
+    .concat(["id"])
+    .join(" ");
+};
 
 export const generateGQLDocument = (
   action: GQLQueryAction | GQLMutationAction,
@@ -30,23 +30,22 @@ export const generateGQLDocument = (
   fields?: string[],
   fieldsData?: Record<string, FieldData>
 ) => {
-  const queryModelName = modelToQueryName(modelName)
-  const queryModelListName = modelToModelListName(queryModelName)
-  // const responseQuery = gqlDocumentRecursion(fields, fieldsData)
+  const queryModelName = modelToQueryName(modelName);
+  const queryModelListName = modelToModelListName(queryModelName);
   const responseQuery = fields
     ?.map((field) => {
-      const related = fieldsData?.[field]?.related
+      const related = fieldsData?.[field]?.related;
       if (related) {
         const recursedFields = gqlDocumentRecursion(
           related.fields,
           related?.fieldsData
-        )
-        return `${field} { ${recursedFields} }`
+        );
+        return `${field} { ${recursedFields} }`;
       }
-      return field
+      return field;
     })
-    ?.concat(['id'])
-    ?.join(' ')
+    ?.concat(["id"])
+    ?.join(" ");
 
   switch (action) {
     case GQLQueryAction.MODEL_ITEM: {
@@ -58,7 +57,7 @@ export const generateGQLDocument = (
             }
           }
         }
-      `
+      `;
     }
     case GQLQueryAction.MODEL_LIST: {
       return `
@@ -70,7 +69,7 @@ export const generateGQLDocument = (
             }
           }
         }
-      `
+      `;
     }
     case GQLMutationAction.MODEL_UPDATE: {
       return `
@@ -81,7 +80,7 @@ export const generateGQLDocument = (
             }
           }
         }
-      `
+      `;
     }
     case GQLMutationAction.MODEL_CREATE: {
       return `
@@ -92,7 +91,7 @@ export const generateGQLDocument = (
             }
           }
         }
-      `
+      `;
     }
     case GQLMutationAction.MODEL_DELETE: {
       return `
@@ -103,13 +102,13 @@ export const generateGQLDocument = (
             }
           }
         }
-      `
+      `;
     }
     default: {
-      throw Error(`${ErrorMessage.GQL_ACTION_DNE} ${action}`)
+      throw Error(`${ErrorMessage.GQL_ACTION_DNE} ${action}`);
     }
   }
-}
+};
 
 export const generateGQLAction = (
   action: GQLQueryAction | GQLMutationAction,
@@ -117,22 +116,22 @@ export const generateGQLAction = (
 ) => {
   switch (action) {
     case GQLQueryAction.MODEL_ITEM: {
-      return modelToQueryName(modelName)
+      return modelToQueryName(modelName);
     }
     case GQLQueryAction.MODEL_LIST: {
-      return modelToQueryName(modelToModelListName(modelName))
+      return modelToQueryName(modelToModelListName(modelName));
     }
     case GQLMutationAction.MODEL_CREATE: {
-      return GQLMutationAction.MODEL_CREATE + modelName
+      return GQLMutationAction.MODEL_CREATE + modelName;
     }
     case GQLMutationAction.MODEL_UPDATE: {
-      return GQLMutationAction.MODEL_UPDATE + modelName
+      return GQLMutationAction.MODEL_UPDATE + modelName;
     }
     case GQLMutationAction.MODEL_DELETE: {
-      return GQLMutationAction.MODEL_DELETE + modelName
+      return GQLMutationAction.MODEL_DELETE + modelName;
     }
     default: {
-      throw Error(`${ErrorMessage.GQL_ACTION_DNE} ${action}`)
+      throw Error(`${ErrorMessage.GQL_ACTION_DNE} ${action}`);
     }
   }
-}
+};
