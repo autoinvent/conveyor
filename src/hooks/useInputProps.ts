@@ -17,13 +17,16 @@ const useInputProps = ({ fieldData }: UseInputProps) => {
   const fieldModelName = fieldData?.related?.modelName ?? "";
   const relatedFields = fieldData?.related?.fields;
   const action = generateGQLAction(GQLQueryAction.MODEL_LIST, fieldModelName);
-  const document = generateGQLDocument(
+  let document = generateGQLDocument(
     GQLQueryAction.MODEL_LIST,
     fieldModelName,
     relatedFields
   );
+  if (!fieldData?.related) {
+    document = "{ __typename }";
+  }
   const { data } = useGQLQuery({ action, document });
-  console.log(fieldModelName, fieldData);
+  console.log(fieldModelName, fieldData, data);
   return useMemo(() => {
     const inputProps = { type } as Record<string, any>;
     switch (type as InputTypes) {

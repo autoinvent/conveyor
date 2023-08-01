@@ -21,8 +21,6 @@ const ModelFormInput = ({
   const inputProps = useInputProps({ fieldData });
   inputProps.className = className ?? inputProps.className;
 
-  console.log(field);
-
   return (
     <Controller
       name={field}

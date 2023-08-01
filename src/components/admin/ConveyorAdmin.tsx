@@ -77,7 +77,6 @@ const ConveyorAdmin = ({
   useEffect(() => {
     fetcher({ document: IntrospectionDocument })
       .then((response) => {
-        console.log(response);
         const models = extractModelsFromIntrospection(response);
         setModels(models);
       })
@@ -113,7 +112,6 @@ const ConveyorAdmin = ({
   let page;
   const fields = Object.keys(models?.[modelName] ?? {});
   const fieldsData = models?.[modelName] ?? {};
-  console.log(models);
   switch (currentPage) {
     case Page.HOME: {
       page = <ConveyorAdminHome modelNames={models && Object.keys(models)} />;
