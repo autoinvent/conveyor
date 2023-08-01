@@ -98,7 +98,7 @@ const ConveyorAdmin = ({
       setId(params.id ?? "");
       if (params.id === Page.CREATE) {
         setCurrentPage(Page.CREATE);
-      } else if (!params.id) {
+      } else if (!params.id && params.modelName) {
         setCurrentPage(Page.INDEX);
       } else if (params.modelName && params.id) {
         setCurrentPage(Page.DETAIL);
