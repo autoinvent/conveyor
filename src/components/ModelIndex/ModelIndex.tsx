@@ -1,24 +1,25 @@
-import { memo, FC } from 'react'
+import { memo, FC, ReactNode } from "react";
 
-import useTableView from '../../hooks/useTableView'
-import { PACKAGE_ABBR } from '../../package'
-import { DEFAULT_TABLE_VIEW } from '../../reducers/tableViewsReducer'
-import { BaseProps, FieldData } from '../../types'
-import { humanizeText } from '../../utils/common'
+import useTableView from "../../hooks/useTableView";
+import { PACKAGE_ABBR } from "../../package";
+import { DEFAULT_TABLE_VIEW } from "../../reducers/tableViewsReducer";
+import { BaseProps, FieldData } from "../../types";
+import { humanizeText } from "../../utils/common";
 
-import ModelCreateButton from '../ModelCreate/ModelCreateButton'
-import ModelIndexTable from './ModelIndexTable'
+import ModelCreateButton from "../ModelCreate/ModelCreateButton";
+import ModelIndexTable from "./ModelIndexTable";
 
 interface ModelIndexProps extends BaseProps {
-  modelName: string
-  fields: string[]
-  title?: string
-  fieldsData?: Record<string, FieldData>
-  editable?: boolean
-  deletable?: boolean
+  modelName: string;
+  fields: string[];
+  title?: string;
+  fieldsData?: Record<string, FieldData>;
+  editable?: boolean;
+  deletable?: boolean;
+  children?: ReactNode;
 }
 
-const ModelIndex: FC<ModelIndexProps> = ({
+const ModelIndex = ({
   id,
   className = `${PACKAGE_ABBR}-index`,
   modelName,
@@ -28,12 +29,12 @@ const ModelIndex: FC<ModelIndexProps> = ({
   editable = true,
   deletable = true,
   children,
-}) => {
+}: ModelIndexProps) => {
   // Will save onto some storage and retrieve the tableView in the future
   useTableView({
     modelName,
     tableViewInit: DEFAULT_TABLE_VIEW,
-  })
+  });
   return (
     <div id={id} className={className}>
       {children ?? (
@@ -53,7 +54,7 @@ const ModelIndex: FC<ModelIndexProps> = ({
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default memo(ModelIndex) as FC<ModelIndexProps>
+export default memo(ModelIndex) as FC<ModelIndexProps>;

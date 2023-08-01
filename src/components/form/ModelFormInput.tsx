@@ -1,15 +1,15 @@
-import { memo, FC } from 'react'
-import { Controller } from 'react-hook-form'
+import { memo, FC } from "react";
+import { Controller } from "react-hook-form";
 
-import FlexibleInput from '../commons/FlexibleInput'
-import { ErrorMessage } from '../../enums'
-import useInputProps from '../../hooks/useInputProps'
-import { BaseProps, FieldData } from '../../types'
-import { humanizeText } from '../../utils/common'
+import FlexibleInput from "../commons/FlexibleInput";
+import { ErrorMessage } from "../../enums";
+import useInputProps from "../../hooks/useInputProps";
+import { BaseProps, FieldData } from "../../types";
+import { humanizeText } from "../../utils/common";
 
 interface ModelFormProps extends BaseProps {
-  field: string
-  fieldData?: FieldData
+  field: string;
+  fieldData?: FieldData;
 }
 
 const ModelFormInput = ({
@@ -18,8 +18,10 @@ const ModelFormInput = ({
   field,
   fieldData,
 }: ModelFormProps) => {
-  const inputProps = useInputProps({ fieldData })
-  inputProps.className = className ?? inputProps.className
+  const inputProps = useInputProps({ fieldData });
+  inputProps.className = className ?? inputProps.className;
+
+  console.log(field);
 
   return (
     <Controller
@@ -30,19 +32,19 @@ const ModelFormInput = ({
           : false,
       }}
       render={({ field, fieldState }) => {
-        const error = fieldState.error?.message
+        const error = fieldState.error?.message;
         const props = {
           id,
           ...inputProps,
           ...field,
-        }
+        };
 
         return (
           <FlexibleInput key="flex-input" inputProps={props} errors={error} />
-        )
+        );
       }}
     />
-  )
-}
+  );
+};
 
-export default memo(ModelFormInput) as FC<ModelFormProps>
+export default memo(ModelFormInput) as FC<ModelFormProps>;

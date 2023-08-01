@@ -1,29 +1,30 @@
-import { memo, FC, createContext } from 'react'
+import { memo, FC, createContext, ReactNode } from "react";
 
-import { ErrorMessage } from '../enums'
+import { ErrorMessage } from "../enums";
 
-import AlertsProvider from './AlertsContext'
-import TableViewsProvider from './TableViewsContext'
+import AlertsProvider from "./AlertsContext";
+import TableViewsProvider from "./TableViewsContext";
 
 export interface GQLRequestParams {
-  action: string
-  document: string
-  variables?: Record<string, any>
+  action: string;
+  document: string;
+  variables?: Record<string, any>;
 }
 
 // Returns the response of the request
-export type UseGQLQueryResponse = (params: GQLRequestParams) => Promise<any>
+export type UseGQLQueryResponse = (params: GQLRequestParams) => Promise<any>;
 
 export type UseGQLMutationRequest = (
   params: GQLRequestParams
-) => (options?: { variables?: Record<string, any> }) => Promise<any>
+) => (options?: { variables?: Record<string, any> }) => Promise<any>;
 
-export type Navigate = (params: { modelName?: string; id?: string }) => void
+export type Navigate = (params: { modelName?: string; id?: string }) => void;
 
 export interface ConveyorProviderProps {
-  useGQLQueryResponse: UseGQLQueryResponse
-  useGQLMutationRequest: UseGQLMutationRequest
-  navigate: Navigate
+  useGQLQueryResponse: UseGQLQueryResponse;
+  useGQLMutationRequest: UseGQLMutationRequest;
+  navigate: Navigate;
+  children?: ReactNode;
 }
 
 const DEFAULT_CONTEXT = {
@@ -34,19 +35,19 @@ const DEFAULT_CONTEXT = {
       errors: [{ message: ErrorMessage.USE_GQL_MUTATION_DNE }],
     }),
   navigate: () => {
-    throw new Error(ErrorMessage.NAVIGATE_DNE)
+    throw new Error(ErrorMessage.NAVIGATE_DNE);
   },
-}
+};
 export const ConveyorContext = createContext(
   DEFAULT_CONTEXT as ConveyorProviderProps
-)
+);
 
-const ConveyorProvider: FC<ConveyorProviderProps> = ({
+const ConveyorProvider = ({
   useGQLQueryResponse,
   useGQLMutationRequest,
   navigate,
   children,
-}) => {
+}: ConveyorProviderProps) => {
   return (
     <ConveyorContext.Provider
       value={{
@@ -61,7 +62,7 @@ const ConveyorProvider: FC<ConveyorProviderProps> = ({
         <AlertsProvider>{children}</AlertsProvider>
       </TableViewsProvider>
     </ConveyorContext.Provider>
-  )
-}
+  );
+};
 
-export default memo(ConveyorProvider) as FC<ConveyorProviderProps>
+export default memo(ConveyorProvider) as FC<ConveyorProviderProps>;

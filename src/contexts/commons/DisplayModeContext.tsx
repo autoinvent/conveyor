@@ -7,34 +7,34 @@ import {
   useEffect,
   memo,
   FC,
-} from 'react'
+} from "react";
 
 export enum DisplayMode {
-  EDIT = 'edit',
-  DISPLAY = 'display',
+  EDIT = "edit",
+  DISPLAY = "display",
 }
 
 export const DisplayModeContext = createContext({
   mode: DisplayMode.DISPLAY,
   setMode: (() => null) as Dispatch<SetStateAction<DisplayMode>>,
-})
+});
 
 interface DisplayModeProviderProps {
-  children: ReactNode
-  mode?: DisplayMode
+  children?: ReactNode;
+  mode?: DisplayMode;
 }
 
 const DisplayModeProvider = ({
   children,
   mode = DisplayMode.DISPLAY,
 }: DisplayModeProviderProps) => {
-  const [modeProvider, setModeProvider] = useState(mode)
+  const [modeProvider, setModeProvider] = useState(mode);
 
   useEffect(() => {
     if (mode !== modeProvider) {
-      setModeProvider(mode)
+      setModeProvider(mode);
     }
-  }, [mode])
+  }, [mode]);
 
   return (
     <DisplayModeContext.Provider
@@ -45,7 +45,7 @@ const DisplayModeProvider = ({
     >
       {children}
     </DisplayModeContext.Provider>
-  )
-}
+  );
+};
 
-export default memo(DisplayModeProvider) as FC<DisplayModeProviderProps>
+export default memo(DisplayModeProvider) as FC<DisplayModeProviderProps>;

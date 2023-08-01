@@ -1,20 +1,21 @@
-import { FC, memo } from 'react'
+import { FC, ReactNode, memo } from "react";
 
-import { BaseProps, FieldData } from '../../types'
-import { humanizeText } from '../../utils/common'
+import { BaseProps, FieldData } from "../../types";
+import { humanizeText } from "../../utils/common";
 
-import ModelCreateForm from './ModelCreateForm'
-import ModelCreateCrud from './ModelCreateCrud'
-import ModelCreateInputs from './ModelCreateInputs'
+import ModelCreateForm from "./ModelCreateForm";
+import ModelCreateCrud from "./ModelCreateCrud";
+import ModelCreateInputs from "./ModelCreateInputs";
 
 interface ModelCreateProps extends BaseProps {
-  modelName: string
-  fields: string[]
-  title?: string
-  fieldsData?: Record<string, FieldData>
+  modelName: string;
+  fields: string[];
+  title?: string;
+  fieldsData?: Record<string, FieldData>;
+  children?: ReactNode;
 }
 
-const ModelCreate: FC<ModelCreateProps> = ({
+const ModelCreate = ({
   id,
   className,
   modelName,
@@ -22,7 +23,7 @@ const ModelCreate: FC<ModelCreateProps> = ({
   title = `Create ${humanizeText(modelName)}`,
   fieldsData,
   children,
-}) => {
+}: ModelCreateProps) => {
   return (
     <div id={id} className={className}>
       {children ?? (
@@ -38,7 +39,7 @@ const ModelCreate: FC<ModelCreateProps> = ({
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default memo(ModelCreate) as FC<ModelCreateProps>
+export default memo(ModelCreate) as FC<ModelCreateProps>;

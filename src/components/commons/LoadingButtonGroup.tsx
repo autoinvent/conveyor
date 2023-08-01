@@ -1,15 +1,20 @@
-import { FC, memo } from 'react'
-import { ButtonGroup, ButtonGroupProps, Button, Spinner } from 'react-bootstrap'
+import { FC, memo } from "react";
+import {
+  ButtonGroup,
+  ButtonGroupProps,
+  Button,
+  Spinner,
+} from "react-bootstrap";
 
-import { BaseProps } from '../../types'
+import { BaseProps } from "../../types";
 
 interface LoadingButtonGroupProps extends ButtonGroupProps, BaseProps {
-  loading: boolean
-  variant?: string
-  spinnerSize?: 'sm' | undefined
+  loading: boolean;
+  variant?: string;
+  spinnerSize?: "sm" | undefined;
 }
 
-const LoadingButtonGroup: FC<LoadingButtonGroupProps> = (props) => {
+const LoadingButtonGroup = (props: LoadingButtonGroupProps) => {
   return (
     <ButtonGroup id={props.id} className={props.className} size={props.size}>
       {props.loading ? (
@@ -17,14 +22,14 @@ const LoadingButtonGroup: FC<LoadingButtonGroupProps> = (props) => {
           <Spinner
             as="span"
             animation="border"
-            size={props.spinnerSize ?? 'sm'}
+            size={props.spinnerSize ?? "sm"}
           />
         </Button>
       ) : (
         props.children
       )}
     </ButtonGroup>
-  )
-}
+  );
+};
 
-export default memo(LoadingButtonGroup) as FC<LoadingButtonGroupProps>
+export default memo(LoadingButtonGroup) as FC<LoadingButtonGroupProps>;

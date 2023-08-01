@@ -23,7 +23,7 @@ const useInputProps = ({ fieldData }: UseInputProps) => {
     relatedFields
   );
   const { data } = useGQLQuery({ action, document });
-
+  console.log(fieldModelName, fieldData);
   return useMemo(() => {
     const inputProps = { type } as Record<string, any>;
     switch (type as InputTypes) {

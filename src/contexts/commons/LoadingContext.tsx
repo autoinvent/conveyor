@@ -5,29 +5,29 @@ import {
   SetStateAction,
   ReactNode,
   useEffect,
-} from 'react'
+} from "react";
 
 export const LoadingContext = createContext({
   loading: false,
   setLoading: (() => null) as Dispatch<SetStateAction<boolean>>,
-})
+});
 
 interface LoadingProviderProps {
-  children: ReactNode
-  loading?: boolean
+  children?: ReactNode;
+  loading?: boolean;
 }
 
 const LoadingProvider = ({
   children,
   loading = false,
 }: LoadingProviderProps) => {
-  const [loadingProvider, setLoadingProvider] = useState(loading)
+  const [loadingProvider, setLoadingProvider] = useState(loading);
 
   useEffect(() => {
     if (loading !== loadingProvider) {
-      setLoadingProvider(loading)
+      setLoadingProvider(loading);
     }
-  }, [loading])
+  }, [loading]);
 
   return (
     <LoadingContext.Provider
@@ -38,7 +38,7 @@ const LoadingProvider = ({
     >
       {children}
     </LoadingContext.Provider>
-  )
-}
+  );
+};
 
-export default LoadingProvider
+export default LoadingProvider;

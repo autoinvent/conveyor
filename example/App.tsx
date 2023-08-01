@@ -9,7 +9,7 @@ import {
 function App() {
   // Fetcher to retrieve introspection from endpoint
   const introspectionFetcher = async (params: { document: string }) => {
-    const url = `https://localhost/dc/api/graphiql`;
+    const url = `/api/graphiql`;
     return request(url, params.document);
   };
   // Fetcher to retrieve GraphQL query/mutation from endpoint

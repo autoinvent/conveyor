@@ -1,29 +1,30 @@
-import { useState, FC } from 'react'
-import { useForm } from 'react-hook-form'
+import { useState, ReactNode } from "react";
+import { useForm } from "react-hook-form";
 
-import { DisplayMode } from '../../contexts/commons/DisplayModeContext'
-import { Defaults } from '../../enums'
-import { BaseProps } from '../../types'
+import { DisplayMode } from "../../contexts/commons/DisplayModeContext";
+import { Defaults } from "../../enums";
+import { BaseProps } from "../../types";
 
-import ModelForm from '../form/ModelForm'
+import ModelForm from "../form/ModelForm";
 
 interface ModelCreateFormProps extends BaseProps {
-  fields: string[]
+  fields: string[];
+  children?: ReactNode;
 }
 
-const ModelCreateForm: FC<ModelCreateFormProps> = ({
+const ModelCreateForm = ({
   id,
   className,
   fields,
   children,
-}) => {
-  const [loading] = useState(false)
+}: ModelCreateFormProps) => {
+  const [loading] = useState(false);
   const values = fields.reduce((currValues, fieldName) => {
-    currValues[fieldName] = ''
-    return currValues
-  }, {} as Record<string, any>)
+    currValues[fieldName] = "";
+    return currValues;
+  }, {} as Record<string, any>);
 
-  const formMethods = useForm({ values, mode: Defaults.RHK_MODE })
+  const formMethods = useForm({ values, mode: Defaults.RHK_MODE });
   return (
     <ModelForm
       formMethods={formMethods}
@@ -34,7 +35,7 @@ const ModelCreateForm: FC<ModelCreateFormProps> = ({
         {children}
       </form>
     </ModelForm>
-  )
-}
+  );
+};
 
-export default ModelCreateForm
+export default ModelCreateForm;

@@ -1,24 +1,25 @@
-import { FC, useMemo, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { FC, ReactNode, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { Defaults } from '../../enums'
-import { PACKAGE_ABBR } from '../../package'
-import { BaseProps, FieldData } from '../../types'
-import ModelForm from '../form/ModelForm'
-import ModelFormField from '../form/ModelFormField'
+import { Defaults } from "../../enums";
+import { PACKAGE_ABBR } from "../../package";
+import { BaseProps, FieldData } from "../../types";
+import ModelForm from "../form/ModelForm";
+import ModelFormField from "../form/ModelFormField";
 
-import ModelTableCrud from './ModelTableCrud'
+import ModelTableCrud from "./ModelTableCrud";
 
 interface ModelTableRowProps extends BaseProps {
-  modelName: string
-  fields: string[]
-  data: Record<string, any>
-  fieldsData?: Record<string, FieldData>
-  editable?: boolean
-  deletable?: boolean
+  modelName: string;
+  fields: string[];
+  data: Record<string, any>;
+  fieldsData?: Record<string, FieldData>;
+  editable?: boolean;
+  deletable?: boolean;
+  children?: ReactNode;
 }
 
-const ModelTableRow: FC<ModelTableRowProps> = ({
+const ModelTableRow = ({
   id,
   className,
   modelName,
@@ -28,18 +29,18 @@ const ModelTableRow: FC<ModelTableRowProps> = ({
   editable,
   deletable,
   children,
-}) => {
-  const showCrud = editable || deletable
-  const [loading] = useState(false)
+}: ModelTableRowProps) => {
+  const showCrud = editable || deletable;
+  const [loading] = useState(false);
   const values = useMemo(
     () =>
       fields.reduce((currValues, fieldName) => {
-        currValues[fieldName] = data[fieldName] ?? ''
-        return currValues
+        currValues[fieldName] = data[fieldName] ?? "";
+        return currValues;
       }, {} as Record<string, any>),
     [fields, data]
-  )
-  const formMethods = useForm({ values, mode: Defaults.RHK_MODE })
+  );
+  const formMethods = useForm({ values, mode: Defaults.RHK_MODE });
 
   return (
     <ModelForm formMethods={formMethods} loading={loading}>
@@ -55,7 +56,7 @@ const ModelTableRow: FC<ModelTableRowProps> = ({
                   fieldData={fieldsData?.[field]}
                 />
               </td>
-            )
+            );
           })}
         {showCrud && !children ? (
           <td className={`${PACKAGE_ABBR}-model-table-crud `}>
@@ -71,7 +72,7 @@ const ModelTableRow: FC<ModelTableRowProps> = ({
         ) : null}
       </tr>
     </ModelForm>
-  )
-}
+  );
+};
 
-export default ModelTableRow
+export default ModelTableRow;
