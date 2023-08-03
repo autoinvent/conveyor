@@ -1,4 +1,4 @@
-import ConveyorAdmin from "./components/admin/ConveyorAdmin";
+import ConveyorAdmin from "./components/ConveyorAdmin/ConveyorAdmin";
 
 export * from "./enums";
 export * from "./types";

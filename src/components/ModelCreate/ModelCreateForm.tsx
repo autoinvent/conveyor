@@ -5,7 +5,7 @@ import { DisplayMode } from "../../contexts/commons/DisplayModeContext";
 import { Defaults } from "../../enums";
 import { BaseProps } from "../../types";
 
-import ModelForm from "../form/ModelForm";
+import ModelForm from "../ModelForm/ModelForm";
 
 interface ModelCreateFormProps extends BaseProps {
   fields: string[];

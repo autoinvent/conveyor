@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { Defaults } from "../../enums";
 import { PACKAGE_ABBR } from "../../package";
 import { BaseProps, FieldData } from "../../types";
-import ModelForm from "../form/ModelForm";
-import ModelFormField from "../form/ModelFormField";
+import ModelForm from "../ModelForm/ModelForm";
+import ModelFormField from "../ModelForm/ModelFormField";
 
 import ModelTableCrud from "./ModelTableCrud";
 

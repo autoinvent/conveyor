@@ -7,7 +7,7 @@ import {
   UseGQLMutationRequest,
 } from "../../contexts/ConveyorContext";
 import TableViewsProvider from "../../contexts/TableViewsContext";
-import Alerts from "../../components/Alerts";
+import Alerts from "../Alerts";
 import { ErrorMessage } from "../../enums";
 import { Alert } from "../../reducers/alertsReducer";
 import { Model } from "../../types";
@@ -109,12 +109,9 @@ const ConveyorAdmin = ({
     [setCurrentPage]
   );
 
-  console.log(models);
-  console.log(modelName, id);
   let page;
   const fields = Object.keys(models?.[modelName] ?? {});
   const fieldsData = models?.[modelName] ?? {};
-  console.log(fields, fieldsData);
   switch (currentPage) {
     case Page.HOME: {
       page = <ConveyorAdminHome modelNames={models && Object.keys(models)} />;

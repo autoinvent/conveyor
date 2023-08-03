@@ -87,6 +87,6 @@ export const useGQLMutation = ({
           });
         }
 
-        return error;
+        throw error;
       });
 };

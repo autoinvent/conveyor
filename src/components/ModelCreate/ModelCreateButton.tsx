@@ -1,22 +1,22 @@
-import { useContext } from 'react'
-import { Button } from 'react-bootstrap'
+import { useContext } from "react";
+import { Button } from "react-bootstrap";
 
-import { Page } from '../admin/ConveyorAdmin'
-import { ConveyorContext } from '../../contexts/ConveyorContext'
-import { BaseProps } from '../../types'
+import { Page } from "../ConveyorAdmin/ConveyorAdmin";
+import { ConveyorContext } from "../../contexts/ConveyorContext";
+import { BaseProps } from "../../types";
 
 interface ModelCreateButtonProps extends BaseProps {
-  modelName: string
-  editable?: boolean
+  modelName: string;
+  editable?: boolean;
 }
 
 const ModelCreateButton = ({
   id,
-  className = 'float-right',
+  className = "float-right",
   modelName,
   editable = true,
 }: ModelCreateButtonProps) => {
-  const { navigate } = useContext(ConveyorContext)
+  const { navigate } = useContext(ConveyorContext);
   return editable ? (
     <Button
       id={id}
@@ -26,7 +26,7 @@ const ModelCreateButton = ({
     >
       Create
     </Button>
-  ) : null
-}
+  ) : null;
+};
 
-export default ModelCreateButton
+export default ModelCreateButton;

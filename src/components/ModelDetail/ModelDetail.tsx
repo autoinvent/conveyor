@@ -7,7 +7,7 @@ import { PACKAGE_ABBR } from "../../package";
 import { BaseProps, FieldData } from "../../types";
 import { generateGQLAction, generateGQLDocument } from "../../utils/gqlRequest";
 import { humanizeText } from "../../utils/common";
-import ModelForm from "../form/ModelForm";
+import ModelForm from "../ModelForm/ModelForm";
 
 import ModelDetailTitle from "./ModelDetailTitle";
 import ModelDetailFields from "./ModelDetailFields";
@@ -106,7 +106,7 @@ const ModelDetail = ({
             const displayLabelFn = fieldData?.displayLabelFn || humanizeText;
             const dataList = modelData?.[field];
             return related?.many ? (
-              <details key={`${PACKAGE_ABBR}-details-${field}`} open>
+              <details key={`${PACKAGE_ABBR}-detail-details-${field}`} open>
                 <summary>
                   <h4>{displayLabelFn(field)}</h4>
                 </summary>

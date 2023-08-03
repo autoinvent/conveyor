@@ -4,6 +4,7 @@ import { Controller } from "react-hook-form";
 import FlexibleInput from "../commons/FlexibleInput";
 import { ErrorMessage } from "../../enums";
 import useInputProps from "../../hooks/useInputProps";
+import { PACKAGE_ABBR } from "../../package";
 import { BaseProps, FieldData } from "../../types";
 import { humanizeText } from "../../utils/common";
 
@@ -38,7 +39,11 @@ const ModelFormInput = ({
         };
 
         return (
-          <FlexibleInput key="flex-input" inputProps={props} errors={error} />
+          <FlexibleInput
+            key={`${PACKAGE_ABBR}-form-input-${field}`}
+            inputProps={props}
+            errors={error}
+          />
         );
       }}
     />

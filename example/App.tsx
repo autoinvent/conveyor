@@ -7,17 +7,15 @@ import {
 } from "../src";
 
 function App() {
+  const graphQLUrl = "/api/graphql";
   // Fetcher to retrieve introspection from endpoint
   const introspectionFetcher = async (params: { document: string }) => {
-    const url = `/api/graphiql`;
-    return request(url, params.document);
+    return request(graphQLUrl, params.document);
   };
   // Fetcher to retrieve GraphQL query/mutation from endpoint
-  const graphQLUrl = "/api/graphql";
   const useGQLQueryResponse: UseGQLQueryResponse = (graphQLParams) => {
     return request(graphQLUrl, graphQLParams.document, graphQLParams.variables);
   };
-
   const useGQLMutationRequest: UseGQLMutationRequest = (graphQLParams) => {
     return (options) =>
       request(

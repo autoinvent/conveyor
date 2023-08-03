@@ -1,22 +1,22 @@
-import { PACKAGE_ABBR } from '../../package'
-import { BaseProps, FieldData } from '../../types'
-import ModelFormField from '../form/ModelFormField'
-import ModelTable from '../table/ModelTable'
-import ModelTableHead from '../table/ModelTableHead'
-import ModelTableRow from '../table/ModelTableRow'
+import { PACKAGE_ABBR } from "../../package";
+import { BaseProps, FieldData } from "../../types";
+import ModelFormField from "../ModelForm/ModelFormField";
+import ModelTable from "../ModelTable/ModelTable";
+import ModelTableHead from "../ModelTable/ModelTableHead";
+import ModelTableRow from "../ModelTable/ModelTableRow";
 
-import ModelDetailTableCrud from './ModelDetailTableCrud'
+import ModelDetailTableCrud from "./ModelDetailTableCrud";
 
 interface ModelDetailTableProps extends BaseProps {
-  parentId: string
-  parentModelName: string
-  parentField: string
-  modelName: string
-  fields: string[]
-  dataList: Record<string, any>[]
-  fieldsData?: Record<string, FieldData>
-  editable?: boolean
-  deletable?: boolean
+  parentId: string;
+  parentModelName: string;
+  parentField: string;
+  modelName: string;
+  fields: string[];
+  dataList: Record<string, any>[];
+  fieldsData?: Record<string, FieldData>;
+  editable?: boolean;
+  deletable?: boolean;
 }
 
 const ModelDetailTable = ({
@@ -27,12 +27,12 @@ const ModelDetailTable = ({
   parentField,
   modelName,
   fields,
-  dataList,
+  dataList = [],
   fieldsData,
   editable = true,
   deletable = true,
 }: ModelDetailTableProps) => {
-  const showCrud = editable || deletable
+  const showCrud = editable || deletable;
 
   return (
     <ModelTable
@@ -73,7 +73,7 @@ const ModelDetailTable = ({
                       fieldData={fieldsData?.[field]}
                     />
                   </td>
-                )
+                );
               })}
               {showCrud ? (
                 <td className={`${PACKAGE_ABBR}-model-table-crud `}>
@@ -91,11 +91,11 @@ const ModelDetailTable = ({
                 </td>
               ) : null}
             </ModelTableRow>
-          )
+          );
         })}
       </tbody>
     </ModelTable>
-  )
-}
+  );
+};
 
-export default ModelDetailTable
+export default ModelDetailTable;
