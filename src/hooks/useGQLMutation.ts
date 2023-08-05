@@ -39,7 +39,7 @@ export const useGQLMutation = ({
         if (onSuccess) {
           onSuccess();
         } else {
-          if (action.startsWith(GQLMutationAction.MODEL_UPDATE)) {
+          if (action?.startsWith(GQLMutationAction.MODEL_UPDATE)) {
             dispatch({
               type: AlertsAction.ADD_ALERT,
               payload: {
@@ -48,7 +48,7 @@ export const useGQLMutation = ({
                 expires: Date.now() + DEFAULT_SUCCESS_EXPIRE,
               },
             });
-          } else if (action.startsWith(GQLMutationAction.MODEL_CREATE)) {
+          } else if (action?.startsWith(GQLMutationAction.MODEL_CREATE)) {
             dispatch({
               type: AlertsAction.ADD_ALERT,
               payload: {
@@ -57,7 +57,7 @@ export const useGQLMutation = ({
                 expires: Date.now() + DEFAULT_SUCCESS_EXPIRE,
               },
             });
-          } else if (action.startsWith(GQLMutationAction.MODEL_DELETE)) {
+          } else if (action?.startsWith(GQLMutationAction.MODEL_DELETE)) {
             dispatch({
               type: AlertsAction.ADD_ALERT,
               payload: {

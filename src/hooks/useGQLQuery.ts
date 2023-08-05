@@ -6,8 +6,8 @@ import { AlertsAction } from "../reducers/alertsReducer";
 import { parseResponseError } from "../utils/common";
 
 export enum GQLQueryAction {
-  MODEL_ITEM = "Model",
-  MODEL_LIST = "Models",
+  MODEL_ITEM = "item",
+  MODEL_LIST = "list",
 }
 
 export interface UseGQLQueryProps extends GQLRequestParams {

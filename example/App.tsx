@@ -7,7 +7,7 @@ import {
 } from "../src";
 
 function App() {
-  const graphQLUrl = "/api/graphql";
+  const graphQLUrl = "/graphql";
   // Fetcher to retrieve introspection from endpoint
   const introspectionFetcher = async (params: { document: string }) => {
     return request(graphQLUrl, params.document);
@@ -30,6 +30,7 @@ function App() {
       gqlIntrospectionFetcher={introspectionFetcher}
       useGQLQueryResponse={useGQLQueryResponse}
       useGQLMutationRequest={useGQLMutationRequest}
+      keyFallbacks={['id', 'name', 'message']}
     />
   );
 }

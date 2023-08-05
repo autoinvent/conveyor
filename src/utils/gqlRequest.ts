@@ -50,21 +50,19 @@ export const generateGQLDocument = (
   switch (action) {
     case GQLQueryAction.MODEL_ITEM: {
       return `
-        query ($id: ID!) {
-          ${queryModelName} (id: $id) {
-            result {
-              ${responseQuery}
-            }
+        query ($id: Int!) {
+          ${queryModelName}_item (id: $id) {
+            ${responseQuery}
           }
         }
       `;
     }
     case GQLQueryAction.MODEL_LIST: {
       return `
-        query ($filter: ${modelName}Filter, $sort: [${modelName}Sort!], $page: Page) {
-          ${queryModelListName} (filter: $filter, sort: $sort, page: $page) {
-            count
-            result {
+        query ($sort: [String!], $page: Int, $per_page: Int) {
+          ${queryModelListName} (sort: $sort, page: $page, per_page: $per_page) {
+            total
+            items {
               ${responseQuery}
             }
           }
@@ -84,8 +82,8 @@ export const generateGQLDocument = (
     }
     case GQLMutationAction.MODEL_CREATE: {
       return `
-        mutation ($input: ${modelName}InputRequired!) {
-          ${action}${modelName} (input: $input) {
+        mutation () {
+          ${queryModelName}_${action} (input: $input) {
             result {
               ${responseQuery}
             }
@@ -114,24 +112,6 @@ export const generateGQLAction = (
   action: GQLQueryAction | GQLMutationAction,
   modelName: string
 ) => {
-  switch (action) {
-    case GQLQueryAction.MODEL_ITEM: {
-      return modelToQueryName(modelName);
-    }
-    case GQLQueryAction.MODEL_LIST: {
-      return modelToQueryName(modelToModelListName(modelName));
-    }
-    case GQLMutationAction.MODEL_CREATE: {
-      return GQLMutationAction.MODEL_CREATE + modelName;
-    }
-    case GQLMutationAction.MODEL_UPDATE: {
-      return GQLMutationAction.MODEL_UPDATE + modelName;
-    }
-    case GQLMutationAction.MODEL_DELETE: {
-      return GQLMutationAction.MODEL_DELETE + modelName;
-    }
-    default: {
-      throw Error(`${ErrorMessage.GQL_ACTION_DNE} ${action}`);
-    }
-  }
+  const queryName = modelToQueryName(modelName)
+  return `${queryName}_${action}`
 };

@@ -1,129 +1,89 @@
-import { Model, Field, FieldData } from "../types";
+import { Model } from "../types";
+import { getFieldKeys } from "../utils/common"
 
-interface IntrospectionTypeInputField {
+
+interface IntrospectionType {
   name: string;
-  defaultValue?: string;
-  type?: IntrospectionType;
+  kind?: string;
+  fields?: IntrospectionTypeField[];
+  ofType?: { name: string; kind: string };
 }
 interface IntrospectionTypeField {
   name: string;
   type?: IntrospectionType;
 }
-interface IntrospectionType {
-  name: string;
-  kind?: string;
-  inputFields?: IntrospectionTypeInputField[];
-  fields?: IntrospectionTypeField[];
-  ofType?: { name: string; kind: string };
-}
 interface Introspection {
-  __schema: {
-    types: IntrospectionType[];
+  __type: {
+    name: 'Query'
+    fields: IntrospectionTypeField[];
   };
 }
 
+
+const extractInnerMostOfType: any = (modelFieldType: IntrospectionType) => {
+  if (!modelFieldType.ofType) return modelFieldType
+  const ofType = { ...modelFieldType.ofType }
+  if (modelFieldType.kind === 'OBJECT' || modelFieldType.kind === 'LIST') {
+    ofType.kind = modelFieldType.kind
+  }
+  return extractInnerMostOfType(ofType)
+}
+
 export const extractModelsFromIntrospection = (
-  introspection: Introspection
+  introspection: Introspection,
+  keyFallbacks: string[]
 ) => {
   const models: Record<string, Model> = {};
-  // Extract model names and required fields
-  introspection.__schema.types.forEach((type: IntrospectionType) => {
-    const typeName = type?.name;
-    if (typeName?.endsWith("InputRequired")) {
-      const modelName = typeName.replace("InputRequired", "");
-      const fields = {} as Record<string, Field>;
-      // Get required property for each field
-      type.inputFields?.forEach((field) => {
-        const required =
-          field.defaultValue === null && field.type?.kind === "NON_NULL";
-        fields[field.name] = { required };
-      });
-      models[modelName] = fields;
+  // Extract models
+  introspection.__type.fields.forEach((queryField: IntrospectionTypeField) => {
+    const queryName = queryField?.name;
+    if (queryName.endsWith('_item') && queryField?.type) {
+      const modelName = queryField.type.name
+      models[modelName] = {}
+      queryField.type?.fields?.forEach?.((modelField) => {
+        const required = Boolean(modelField.type?.kind === 'NON_NULL')
+        const ofType = extractInnerMostOfType(modelField.type)
+        models[modelName][modelField.name] = { required }
+        if (ofType.kind === 'LIST' || ofType.kind === 'OBJECT') {
+          models[modelName][modelField.name].related = {
+            modelName: ofType.name, many: ofType.kind === 'LIST'
+          }
+        }
+      })
     }
   });
 
-  // Get related property for each field
-  introspection.__schema.types.forEach((type: IntrospectionType) => {
-    const typeName = type?.name;
-    if (models?.[typeName]) {
-      type.fields?.forEach((field) => {
-        const fieldKind = field.type?.kind;
-        const fieldName = field.name;
-        const fields: string[] = [];
-        if (!models[typeName][fieldName]) {
-          models[typeName][fieldName] = { required: false };
-        }
-        switch (fieldKind) {
-          case "OBJECT": {
-            const modelName = field.type?.name ?? "";
-            models[typeName][fieldName].related = {
-              modelName,
-              many: false,
-              fields,
-            };
-            break;
-          }
-          case "LIST": {
-            if (field.type?.ofType?.kind === "OBJECT") {
-              const modelName = field.type?.ofType?.name;
-              models[typeName][fieldName].related = {
-                modelName,
-                many: true,
-                fields,
-              };
-            }
-            break;
-          }
-          default: {
-            if (!models[typeName][fieldName] && fieldName !== "id") {
-              models[typeName][fieldName] = { required: false };
-            }
-          }
-        }
-      });
-    }
-  });
-
-  // Get related.fields property for each field
+  // Extract each model's related fields
   Object.keys(models).forEach((modelName) => {
     Object.keys(models[modelName]).forEach((fieldName) => {
-      const related = models[modelName][fieldName].related;
+      const related = models[modelName][fieldName].related
       if (related) {
-        models[modelName][fieldName].related = {
-          ...related,
-          fields: Object.keys(models[related.modelName]),
-        };
+        related.fields = Object.keys(models[related.modelName])
       }
-    });
+    })
   });
 
-  // Get related.fieldsData property for each field
+  // Extract each model's related fieldsData
   Object.keys(models).forEach((modelName) => {
     Object.keys(models[modelName]).forEach((fieldName) => {
-      const related = models[modelName][fieldName].related;
+      const related = models[modelName][fieldName].related
       if (related) {
-        const fieldsData = {} as Record<string, FieldData>;
-        const fieldModel = models[related.modelName];
-        related.fields.forEach((subFieldName) => {
-          if (fieldModel[subFieldName].related) {
-            const subModelName =
-              fieldModel[subFieldName].related?.modelName ?? "";
-            const subFields = models[subModelName]["name"] ? ["name"] : [];
-            fieldsData[subFieldName] = {
+        related.fields?.forEach((fieldName2) => {
+          const { related: related2, required: required2 } = models[related.modelName][fieldName2]
+          if (related2) {
+            if (!related.fieldsData) related.fieldsData = {}
+            related.fieldsData[fieldName2] = {
+              required: required2,
               related: {
-                modelName: subModelName,
-                many: fieldModel[subFieldName].related?.many ?? false,
-                fields: subFields,
-              },
-            };
+                modelName: related2.modelName,
+                many: related2.many,
+                fields: getFieldKeys(related2.fields ?? [], keyFallbacks)
+              }
+            }
           }
-        });
-        models[modelName][fieldName].related = {
-          ...related,
-          fieldsData,
-        };
+        })
       }
-    });
+    })
   });
 
   return models;

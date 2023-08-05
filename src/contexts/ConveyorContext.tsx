@@ -6,9 +6,9 @@ import AlertsProvider from "./AlertsContext";
 import TableViewsProvider from "./TableViewsContext";
 
 export interface GQLRequestParams {
-  action: string;
   document: string;
   variables?: Record<string, any>;
+  action?: string;
 }
 
 // Returns the response of the request

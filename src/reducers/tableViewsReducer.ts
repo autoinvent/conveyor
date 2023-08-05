@@ -1,10 +1,7 @@
 import { ErrorMessage } from "../enums";
 import { ReducerAction } from "../types";
 
-export interface TableViewPage {
-  current: number;
-  per_page: number;
-}
+
 export type TableViewSort = string[];
 export interface TableViewFilter {
   [fieldName: string]: {
@@ -13,7 +10,8 @@ export interface TableViewFilter {
   };
 }
 export interface TableView {
-  page?: TableViewPage;
+  page?: number;
+  per_page?: number;
   sort?: TableViewSort;
   filter?: TableViewFilter;
 }
@@ -23,16 +21,10 @@ export enum TableViewsAction {
   NEXT_SORT = "NEXT_SORT",
   SET_PAGE = "SET_PAGE",
 }
-export enum SortDir {
-  ASC = "_asc",
-  DESC = "_desc",
-}
 
 export const DEFAULT_TABLE_VIEW = {
-  page: {
-    current: 1,
-    per_page: 20,
-  },
+  page: 1,
+  per_page: 20,
   sort: [],
   filter: {},
 };
@@ -49,46 +41,50 @@ const tableViewsReducer = (tableViews: TableViews, action: ReducerAction) => {
     }
     case TableViewsAction.NEXT_SORT: {
       const { modelName, fieldName } = payload;
-      const newTableViews = { ...tableViews };
-      newTableViews[modelName] = newTableViews[modelName]
-        ? { ...newTableViews[modelName] }
-        : {};
-      newTableViews[modelName].sort = newTableViews[modelName].sort
-        ? [...(newTableViews[modelName].sort as TableViewSort)]
-        : [];
+      if (!tableViews[modelName]) tableViews[modelName] = {}
+      tableViews[modelName].sort = ['name']
+      return tableViews
 
-      const sort = newTableViews[modelName].sort as TableViewSort;
-      const sortIdx = sort.findIndex((field) => field.startsWith(fieldName));
-      const nextDirection = {
-        [SortDir.ASC]: SortDir.DESC,
-        [SortDir.DESC]: null,
-        false: SortDir.ASC,
-      };
-      const currDir = sortIdx >= 0 && sort?.[sortIdx]?.slice(fieldName.length);
-      const nextDir = nextDirection[currDir as SortDir];
-      const newFieldSort = `${fieldName}${nextDir}`;
-      if (sortIdx >= 0) {
-        if (nextDir) sort[sortIdx] = newFieldSort;
-        else sort.splice(sortIdx, 1);
-        newTableViews[modelName].sort = sort;
-      } else {
-        newTableViews[modelName].sort?.push(newFieldSort);
-      }
-      return newTableViews;
+      // const newTableViews = { ...tableViews };
+      // newTableViews[modelName] = newTableViews[modelName]
+      //   ? { ...newTableViews[modelName] }
+      //   : {};
+      // newTableViews[modelName].sort = newTableViews[modelName].sort
+      //   ? [...(newTableViews[modelName].sort as TableViewSort)]
+      //   : [];
+
+      // const sort = newTableViews[modelName].sort as TableViewSort;
+      // const sortIdx = sort.findIndex((field) => field.endsWith(fieldName));
+      // const nextDirection = {
+      //   [SortDir.ASC]: SortDir.DESC,
+      //   [SortDir.DESC]: null,
+      //   false: SortDir.ASC,
+      // };
+      // const currDir = sortIdx >= 0 && sort?.[sortIdx]?.slice(fieldName.length);
+      // const nextDir = nextDirection[currDir as SortDir];
+      // const newFieldSort = `${fieldName}${nextDir}`;
+      // if (sortIdx >= 0) {
+      //   if (nextDir) sort[sortIdx] = newFieldSort;
+      //   else sort.splice(sortIdx, 1);
+      //   newTableViews[modelName].sort = sort;
+      // } else {
+      //   newTableViews[modelName].sort?.push(newFieldSort);
+      // }
+      // return newTableViews;
     }
     case TableViewsAction.SET_PAGE: {
-      const { modelName, current } = payload;
-      if (current <= 0) return tableViews;
+      const { modelName, page } = payload;
+      if (page <= 0) return tableViews;
       const newTableViews = { ...tableViews };
-      newTableViews[modelName] = tableViews[modelName]
-        ? { ...tableViews[modelName] }
-        : {};
-      newTableViews[modelName].page = {
-        current: current,
-        per_page:
-          newTableViews[modelName].page?.per_page ??
-          DEFAULT_TABLE_VIEW.page.per_page,
-      };
+      if (!newTableViews[modelName]) newTableViews[modelName] = {}
+      newTableViews[modelName].page = page
+      // newTableViews[modelName] = tableViews[modelName]
+      //   ? { ...tableViews[modelName] }
+      //   : {};
+      // newTableViews[modelName].page = page
+      // newTableViews[modelName].per_page = newTableViews[modelName].per_page ??
+      //   DEFAULT_TABLE_VIEW.per_page
+
       return newTableViews;
     }
     default: {

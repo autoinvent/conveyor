@@ -5,8 +5,8 @@ import { PACKAGE_ABBR } from "../../package";
 import { DEFAULT_TABLE_VIEW } from "../../reducers/tableViewsReducer";
 import { BaseProps, FieldData } from "../../types";
 import { humanizeText } from "../../utils/common";
-
 import ModelCreateButton from "../ModelCreate/ModelCreateButton";
+
 import ModelIndexTable from "./ModelIndexTable";
 
 interface ModelIndexProps extends BaseProps {
@@ -33,7 +33,7 @@ const ModelIndex = ({
   // Will save onto some storage and retrieve the tableView in the future
   useTableView({
     modelName,
-    tableViewInit: DEFAULT_TABLE_VIEW,
+    tableView: DEFAULT_TABLE_VIEW,
   });
   return (
     <div id={id} className={className}>

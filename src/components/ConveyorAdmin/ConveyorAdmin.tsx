@@ -29,25 +29,32 @@ export enum Page {
 
 const IntrospectionDocument = `
 {
-  __schema {
-    types {
-      name
-      kind
-      inputFields {
-        name
-        defaultValue
-        type { name kind }
-      }
+  __type(name: "Query") {
+      name     
       fields {
         name
         type {
           name
           kind
-          ofType { name kind }
-          fields { name }
+          fields {
+            name
+            type {
+              name kind
+              ofType { 
+                name kind 
+                ofType { 
+                  kind name
+                  ofType { name kind
+                  	ofType {
+                      kind name
+                    }
+                  }
+                } 
+              }
+            }
+          }
         }
       }
-    }
   }
 }
 `;
@@ -56,6 +63,7 @@ interface ConveyorAdminProps {
   gqlIntrospectionFetcher: (params: { document: string }) => Promise<any>;
   useGQLQueryResponse: UseGQLQueryResponse;
   useGQLMutationRequest: UseGQLMutationRequest;
+  keyFallbacks?: string[]
 }
 
 interface NavigateParams {
@@ -67,6 +75,7 @@ const ConveyorAdmin = ({
   gqlIntrospectionFetcher,
   useGQLQueryResponse,
   useGQLMutationRequest,
+  keyFallbacks = ['id']
 }: ConveyorAdminProps) => {
   const [currentPage, setCurrentPage] = useState(Page.HOME);
   const [models, setModels] = useState<Record<string, Model> | null>({});
@@ -77,8 +86,9 @@ const ConveyorAdmin = ({
   useEffect(() => {
     fetcher({ document: IntrospectionDocument })
       .then((response) => {
-        const models = extractModelsFromIntrospection(response);
+        const models = extractModelsFromIntrospection(response, keyFallbacks);
         setModels(models);
+        console.log(models)
       })
       .catch((error: Error) => {
         const errorMessages = parseResponseError(error).map(

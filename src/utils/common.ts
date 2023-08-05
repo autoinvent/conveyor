@@ -8,23 +8,16 @@ export const queryToModelName = (queryName: string) => {
   return upperCaseFirst(queryName)
 }
 
-// As of now, the list form is the plural form; it will be changed
-// to simply append the word `List` after the modelName
 export const modelToModelListName = (modelName: string) => {
   if (!modelName) return ''
-  if (modelName.endsWith('y')) return modelName.slice(0, -1) + 'ies'
-  if (modelName.endsWith('s')) return modelName + 'es'
-  return `${modelName}s`
+  return `${modelName}_list`
 }
 
 // As of now, the list form is the plural form; it will be changed
 // to simply remove the word `List` after the modelName
 export const modelListToModelName = (modelListName: string) => {
   if (!modelListName) return ''
-  if (modelListName.endsWith('ies')) return modelListName.slice(0, -3) + 'y'
-  if (modelListName.endsWith('ses')) return modelListName.slice(0, -2)
-  if (modelListName.endsWith('s')) return modelListName.slice(0, -1)
-  return modelListName
+  return modelListName.slice(0, -5)
 }
 
 export const humanizeText = (str: string) => {
@@ -63,4 +56,12 @@ export const parseResponseError = (error: any) => {
     throw Error(ErrorMessage.UNKNOWN_ERROR + error.message)
   }
   return errorMessages
+}
+
+export const getFieldKeys = (fields: string[], keyFallbacks: string[], amt: number = 2) => {
+  const keyFields: string[] = []
+  keyFallbacks.forEach((key) => {
+    if (fields.includes(key)) keyFields.push(key)
+  })
+  return keyFields.slice(0, amt)
 }

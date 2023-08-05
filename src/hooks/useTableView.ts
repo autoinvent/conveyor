@@ -8,21 +8,21 @@ import { TableViewsAction, TableView } from "../reducers/tableViewsReducer";
 
 interface UseTableViewProps {
   modelName: string;
-  tableViewInit?: TableView;
+  tableView?: TableView;
 }
-const useTableView = ({ modelName, tableViewInit }: UseTableViewProps) => {
+const useTableView = ({ modelName, tableView }: UseTableViewProps) => {
   const tableViews = useContext(TableViewsContext);
   const dispatch = useContext(TableViewsDispatchContext);
 
   // Set up initial tableView for the current modelName
   useEffect(() => {
-    if (tableViewInit) {
+    if (tableView) {
       dispatch({
         type: TableViewsAction.INIT,
-        payload: { modelName, tableView: tableViewInit },
+        payload: { modelName, tableView },
       });
     }
-  }, [modelName, tableViewInit]);
+  }, [modelName, tableView]);
   return { tableView: tableViews[modelName], dispatch };
 };
 

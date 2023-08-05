@@ -24,7 +24,8 @@ export interface FieldData extends Field {
 
 export interface RelatedField {
   modelName: string
-  fields: string[]
   many: boolean
+  fields?: string[]
   fieldsData?: Record<string, FieldData>
 }
+

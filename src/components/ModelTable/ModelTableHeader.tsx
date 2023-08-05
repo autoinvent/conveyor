@@ -3,7 +3,7 @@ import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa'
 
 import useTableView from '../../hooks/useTableView'
 import { PACKAGE_ABBR } from '../../package'
-import { SortDir, TableViewsAction } from '../../reducers/tableViewsReducer'
+import { TableViewsAction } from '../../reducers/tableViewsReducer'
 import { BaseProps } from '../../types'
 import { humanizeText } from '../../utils/common'
 
@@ -25,6 +25,7 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
   const { tableView, dispatch } = useTableView({ modelName })
   const fieldSort = tableView?.sort?.find((sort) => sort.startsWith(field))
   const dir = fieldSort?.slice(field.length) ?? ''
+  enum SortDir { ASC = 'saa', DESC = 'sa' }
   const getSortDisplay = (dir: string) => {
     switch (dir) {
       case SortDir.ASC:
