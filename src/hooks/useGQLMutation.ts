@@ -25,13 +25,19 @@ export const useGQLMutation = ({
   action,
   document,
   variables,
+  skip,
   modelName = "Model",
   onSuccess,
   onError,
 }: UseGQLMutationProps) => {
   const dispatch = useContext(AlertsDispatchContext);
   const { useGQLMutationRequest } = useContext(ConveyorContext);
-  const gqlRequest = useGQLMutationRequest({ action, document, variables });
+  const gqlRequest = useGQLMutationRequest({
+    action,
+    document,
+    variables,
+    skip,
+  });
 
   return (options: { variables: Record<string, any> }) =>
     gqlRequest({ variables: options.variables ?? variables })
@@ -39,7 +45,7 @@ export const useGQLMutation = ({
         if (onSuccess) {
           onSuccess();
         } else {
-          if (action?.startsWith(GQLMutationAction.MODEL_UPDATE)) {
+          if (action?.endsWith(GQLMutationAction.MODEL_UPDATE)) {
             dispatch({
               type: AlertsAction.ADD_ALERT,
               payload: {
@@ -48,7 +54,7 @@ export const useGQLMutation = ({
                 expires: Date.now() + DEFAULT_SUCCESS_EXPIRE,
               },
             });
-          } else if (action?.startsWith(GQLMutationAction.MODEL_CREATE)) {
+          } else if (action?.endsWith(GQLMutationAction.MODEL_CREATE)) {
             dispatch({
               type: AlertsAction.ADD_ALERT,
               payload: {
@@ -57,7 +63,7 @@ export const useGQLMutation = ({
                 expires: Date.now() + DEFAULT_SUCCESS_EXPIRE,
               },
             });
-          } else if (action?.startsWith(GQLMutationAction.MODEL_DELETE)) {
+          } else if (action?.endsWith(GQLMutationAction.MODEL_DELETE)) {
             dispatch({
               type: AlertsAction.ADD_ALERT,
               payload: {

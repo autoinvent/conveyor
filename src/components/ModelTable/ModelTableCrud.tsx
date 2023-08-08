@@ -1,14 +1,16 @@
 import { useContext } from "react";
 
+import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { LoadingContext } from "../../contexts/commons/LoadingContext";
 import { useGQLMutation, GQLMutationAction } from "../../hooks/useGQLMutation";
 import { BaseProps, FieldData } from "../../types";
-import { generateGQLAction, generateGQLDocument } from "../../utils/gqlRequest";
+import { getGQLAction, getGQLDocument } from "../../utils/gqlRequest";
 import ModelFormCrud from "../ModelForm/ModelFormCrud";
 
 interface ModelTableCrudProps extends BaseProps {
   modelName: string;
   data: Record<string, any>;
+  fields: string[];
   fieldsData?: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
@@ -19,35 +21,38 @@ const ModelTableCrud = ({
   className,
   modelName,
   data,
+  fields,
   fieldsData,
   editable,
   deletable,
 }: ModelTableCrudProps) => {
+  const { primaryKey } = useContext(ConveyorContext);
   const { setLoading } = useContext(LoadingContext);
 
-  const updateAction = generateGQLAction(
-    GQLMutationAction.MODEL_UPDATE,
-    modelName
-  );
-  const deleteAction = generateGQLAction(
-    GQLMutationAction.MODEL_DELETE,
-    modelName
-  );
-  const updateDocument = generateGQLDocument(
-    GQLMutationAction.MODEL_UPDATE,
+  const updateActionType = GQLMutationAction.MODEL_UPDATE;
+  const updateAction = getGQLAction(updateActionType, modelName);
+  const updateDocument = getGQLDocument(
+    updateActionType,
     modelName,
-    ["id"]
-  );
-  const deleteDocument = generateGQLDocument(
-    GQLMutationAction.MODEL_DELETE,
-    modelName,
-    ["id"]
+    primaryKey,
+    fields,
+    fieldsData
   );
   const updateTrigger = useGQLMutation({
     modelName,
     action: updateAction,
     document: updateDocument,
   });
+
+  const deleteActionType = GQLMutationAction.MODEL_DELETE;
+  const deleteAction = getGQLAction(deleteActionType, modelName);
+  const deleteDocument = getGQLDocument(
+    deleteActionType,
+    modelName,
+    primaryKey,
+    [primaryKey],
+    fieldsData
+  );
   const deleteTrigger = useGQLMutation({
     modelName,
     action: deleteAction,
@@ -69,7 +74,7 @@ const ModelTableCrud = ({
         }
       }
     });
-    const variables = { id: data.id, input };
+    const variables = { id: data.id, ...input };
     setLoading(true);
     updateTrigger({ variables }).finally(() => setLoading(false));
   };

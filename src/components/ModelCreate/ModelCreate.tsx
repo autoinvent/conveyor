@@ -34,7 +34,11 @@ const ModelCreate = ({
           </div>
           <ModelCreateForm fields={fields}>
             <ModelCreateInputs fields={fields} fieldsData={fieldsData} />
-            <ModelCreateCrud modelName={modelName} fieldsData={fieldsData} />
+            <ModelCreateCrud
+              modelName={modelName}
+              fields={fields}
+              fieldsData={fieldsData}
+            />
           </ModelCreateForm>
         </>
       )}

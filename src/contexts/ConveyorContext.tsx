@@ -9,6 +9,7 @@ export interface GQLRequestParams {
   document: string;
   variables?: Record<string, any>;
   action?: string;
+  skip?: boolean;
 }
 
 // Returns the response of the request
@@ -24,6 +25,8 @@ export interface ConveyorProviderProps {
   useGQLQueryResponse: UseGQLQueryResponse;
   useGQLMutationRequest: UseGQLMutationRequest;
   navigate: Navigate;
+  primaryKey: string;
+  secondaryKeys?: string[];
   children?: ReactNode;
 }
 
@@ -37,25 +40,28 @@ const DEFAULT_CONTEXT = {
   navigate: () => {
     throw new Error(ErrorMessage.NAVIGATE_DNE);
   },
+  primaryKey: "id",
 };
-export const ConveyorContext = createContext(
-  DEFAULT_CONTEXT as ConveyorProviderProps
-);
+
+export const ConveyorContext =
+  createContext<ConveyorProviderProps>(DEFAULT_CONTEXT);
 
 const ConveyorProvider = ({
-  useGQLQueryResponse,
-  useGQLMutationRequest,
-  navigate,
+  useGQLQueryResponse = DEFAULT_CONTEXT.useGQLQueryResponse,
+  useGQLMutationRequest = DEFAULT_CONTEXT.useGQLMutationRequest,
+  navigate = DEFAULT_CONTEXT.navigate,
+  primaryKey = DEFAULT_CONTEXT.primaryKey,
+  secondaryKeys,
   children,
 }: ConveyorProviderProps) => {
   return (
     <ConveyorContext.Provider
       value={{
-        useGQLQueryResponse:
-          useGQLQueryResponse ?? DEFAULT_CONTEXT.useGQLQueryResponse,
-        useGQLMutationRequest:
-          useGQLMutationRequest ?? DEFAULT_CONTEXT.useGQLMutationRequest,
-        navigate: navigate ?? DEFAULT_CONTEXT.navigate,
+        useGQLQueryResponse,
+        useGQLMutationRequest,
+        navigate,
+        primaryKey,
+        secondaryKeys,
       }}
     >
       <TableViewsProvider>

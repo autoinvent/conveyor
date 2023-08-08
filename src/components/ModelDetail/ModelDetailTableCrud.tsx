@@ -1,5 +1,6 @@
 import { useContext, FC, memo } from "react";
 
+import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { AlertsDispatchContext } from "../../contexts/AlertsContext";
 import { LoadingContext } from "../../contexts/commons/LoadingContext";
 import { SuccessMessage } from "../../enums";
@@ -9,7 +10,7 @@ import {
   DEFAULT_SUCCESS_EXPIRE,
 } from "../../reducers/alertsReducer";
 import { BaseProps, FieldData } from "../../types";
-import { generateGQLAction, generateGQLDocument } from "../../utils/gqlRequest";
+import { getGQLAction, getGQLDocument } from "../../utils/gqlRequest";
 import ModelFormCrud from "../ModelForm/ModelFormCrud";
 
 interface ModelDetailTableCrudProps extends BaseProps {
@@ -37,16 +38,18 @@ const ModelDetailTableCrud = ({
   editable = true,
   deletable = true,
 }: ModelDetailTableCrudProps) => {
+  const { primaryKey } = useContext(ConveyorContext);
   const { setLoading } = useContext(LoadingContext);
   const dispatch = useContext(AlertsDispatchContext);
 
-  const updateParentAction = generateGQLAction(
+  const updateParentAction = getGQLAction(
     GQLMutationAction.MODEL_UPDATE,
     parentModelName
   );
-  const updateParentDocument = generateGQLDocument(
+  const updateParentDocument = getGQLDocument(
     GQLMutationAction.MODEL_UPDATE,
     parentModelName,
+    primaryKey,
     ["id"]
   );
   const updateParentTrigger = useGQLMutation({
@@ -56,13 +59,11 @@ const ModelDetailTableCrud = ({
     onSuccess: () => {},
   });
 
-  const updateAction = generateGQLAction(
-    GQLMutationAction.MODEL_UPDATE,
-    modelName
-  );
-  const updateDocument = generateGQLDocument(
+  const updateAction = getGQLAction(GQLMutationAction.MODEL_UPDATE, modelName);
+  const updateDocument = getGQLDocument(
     GQLMutationAction.MODEL_UPDATE,
     modelName,
+    primaryKey,
     ["id"]
   );
   const updateTrigger = useGQLMutation({

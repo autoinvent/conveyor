@@ -1,89 +1,98 @@
-import { Model } from "../types";
-import { getFieldKeys } from "../utils/common"
-
+import { Model, Field } from "../types";
+import { getBaseGQLType } from "../utils/gqlRequest";
 
 interface IntrospectionType {
   name: string;
   kind?: string;
-  fields?: IntrospectionTypeField[];
   ofType?: { name: string; kind: string };
+  fields?: IntrospectionField[];
 }
-interface IntrospectionTypeField {
+interface IntrospectionArgs {
   name: string;
+  type: IntrospectionType;
+}
+interface IntrospectionField {
+  name: string;
+  args?: IntrospectionArgs[];
   type?: IntrospectionType;
 }
 interface Introspection {
-  __type: {
-    name: 'Query'
-    fields: IntrospectionTypeField[];
-  };
+  query: { fields: IntrospectionField[] };
+  mutation: { fields: IntrospectionField[] };
 }
 
-
-const extractInnerMostOfType: any = (modelFieldType: IntrospectionType) => {
-  if (!modelFieldType.ofType) return modelFieldType
-  const ofType = { ...modelFieldType.ofType }
-  if (modelFieldType.kind === 'OBJECT' || modelFieldType.kind === 'LIST') {
-    ofType.kind = modelFieldType.kind
+const getFieldType: any = (type?: IntrospectionType) => {
+  if (type?.kind === "NON_NULL") {
+    return getFieldType(type.ofType) + "!";
+  } else if (type?.kind === "LIST") {
+    return `[${getFieldType(type?.ofType)}]`;
+  } else {
+    return type?.name;
   }
-  return extractInnerMostOfType(ofType)
-}
+};
 
 export const extractModelsFromIntrospection = (
-  introspection: Introspection,
-  keyFallbacks: string[]
+  introspection: Introspection
 ) => {
   const models: Record<string, Model> = {};
   // Extract models
-  introspection.__type.fields.forEach((queryField: IntrospectionTypeField) => {
-    const queryName = queryField?.name;
-    if (queryName.endsWith('_item') && queryField?.type) {
-      const modelName = queryField.type.name
-      models[modelName] = {}
-      queryField.type?.fields?.forEach?.((modelField) => {
-        const required = Boolean(modelField.type?.kind === 'NON_NULL')
-        const ofType = extractInnerMostOfType(modelField.type)
-        models[modelName][modelField.name] = { required }
-        if (ofType.kind === 'LIST' || ofType.kind === 'OBJECT') {
-          models[modelName][modelField.name].related = {
-            modelName: ofType.name, many: ofType.kind === 'LIST'
-          }
-        }
-      })
+  introspection.query.fields.forEach((query) => {
+    if (query.name.endsWith("_item")) {
+      const model = query.type?.name;
+      if (model) {
+        const fields: Record<string, Field> = {};
+        query.type?.fields?.forEach((field) => {
+          fields[field.name] = {};
+          fields[field.name].type = getFieldType(field.type);
+        });
+        models[model] = { fields };
+      }
     }
   });
 
-  // Extract each model's related fields
-  Object.keys(models).forEach((modelName) => {
-    Object.keys(models[modelName]).forEach((fieldName) => {
-      const related = models[modelName][fieldName].related
-      if (related) {
-        related.fields = Object.keys(models[related.modelName])
+  // Extract model update and create arguments
+  introspection.mutation.fields.forEach((mutation) => {
+    const mutationArgs = mutation.name.split("_")[1] + "Args";
+    if (mutationArgs === "updateArgs" || mutationArgs === "createArgs") {
+      const model = mutation.type?.ofType?.name;
+      if (model) {
+        models[model][mutationArgs] = Object.fromEntries(
+          mutation.args?.map((arg) => [arg.name, getFieldType(arg.type)]) ?? []
+        );
       }
-    })
+    }
   });
 
-  // Extract each model's related fieldsData
-  Object.keys(models).forEach((modelName) => {
-    Object.keys(models[modelName]).forEach((fieldName) => {
-      const related = models[modelName][fieldName].related
-      if (related) {
-        related.fields?.forEach((fieldName2) => {
-          const { related: related2, required: required2 } = models[related.modelName][fieldName2]
-          if (related2) {
-            if (!related.fieldsData) related.fieldsData = {}
-            related.fieldsData[fieldName2] = {
-              required: required2,
-              related: {
-                modelName: related2.modelName,
-                many: related2.many,
-                fields: getFieldKeys(related2.fields ?? [], keyFallbacks)
-              }
-            }
-          }
-        })
+  // Parse model field type for relational types
+  const modelNames = Object.keys(models);
+  modelNames.forEach((model) => {
+    Object.keys(models[model].fields).forEach((field) => {
+      const type = models[model].fields[field].type;
+      if (typeof type === "string") {
+        const baseType = getBaseGQLType(type);
+        if (modelNames.includes(baseType)) {
+          models[model].fields[field].related = {
+            modelName: baseType,
+            many: type.startsWith("["),
+            fields: Object.keys(models[baseType].fields),
+            fieldsData: models[baseType].fields,
+          };
+        }
       }
-    })
+    });
+  });
+
+  // Set related field's fieldsData
+  modelNames.forEach((model) => {
+    Object.keys(models[model].fields).forEach((field) => {
+      const related = models[model].fields[field].related;
+      if (related) {
+        related.fields = related.fields?.filter((field) => {
+          const subRelated = related.fieldsData?.[field]?.related;
+          return !subRelated;
+        });
+      }
+    });
   });
 
   return models;

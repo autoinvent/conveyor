@@ -20,12 +20,13 @@ const useGQLQuery = ({
   action,
   document,
   variables,
+  skip,
   onSuccess,
   onError,
 }: UseGQLQueryProps) => {
   const dispatch = useContext(AlertsDispatchContext);
   const { useGQLQueryResponse } = useContext(ConveyorContext);
-  const gqlResponse = useGQLQueryResponse({ action, document, variables });
+  const gqlResponse = useGQLQueryResponse({ action, document, variables, skip });
   const [validResponseJson, setValidResponseJson] = useState(NO_RESPONSE);
   const [errorResponseJson, setErrorResponseJson] = useState(NO_RESPONSE);
 
@@ -70,7 +71,6 @@ const useGQLQuery = ({
       }
     }
   }, [validResponseJson, errorResponseJson]);
-
   return {
     data: JSON.parse(validResponseJson),
     error: JSON.parse(errorResponseJson),

@@ -4,12 +4,13 @@ import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { LoadingContext } from "../../contexts/commons/LoadingContext";
 import { useGQLMutation, GQLMutationAction } from "../../hooks/useGQLMutation";
 import { BaseProps, FieldData } from "../../types";
-import { generateGQLAction, generateGQLDocument } from "../../utils/gqlRequest";
+import { getGQLAction, getGQLDocument } from "../../utils/gqlRequest";
 
 import ModelFormCrud from "../ModelForm/ModelFormCrud";
 
 interface ModelCreateCrudProps extends BaseProps {
   modelName: string;
+  fields: string[];
   fieldsData?: Record<string, FieldData>;
 }
 
@@ -17,22 +18,21 @@ const ModelCreateCrud = ({
   id,
   className,
   modelName,
+  fields,
   fieldsData,
 }: ModelCreateCrudProps) => {
   const { setLoading } = useContext(LoadingContext);
-  const { navigate } = useContext(ConveyorContext);
+  const { navigate, primaryKey } = useContext(ConveyorContext);
 
-  const createAction = generateGQLAction(
-    GQLMutationAction.MODEL_CREATE,
-    modelName
-  );
-
-  const createDocument = generateGQLDocument(
-    GQLMutationAction.MODEL_CREATE,
+  const createActionType = GQLMutationAction.MODEL_CREATE;
+  const createAction = getGQLAction(createActionType, modelName);
+  const createDocument = getGQLDocument(
+    createActionType,
     modelName,
-    ["id"]
+    primaryKey,
+    fields,
+    fieldsData
   );
-
   const createTrigger = useGQLMutation({
     modelName,
     action: createAction,
@@ -54,9 +54,8 @@ const ModelCreateCrud = ({
         }
       }
     });
-    const variables = { input };
     setLoading(true);
-    createTrigger({ variables })
+    createTrigger({ variables: input })
       .then(() => navigate({ modelName }))
       .catch(() => setLoading(false));
   };

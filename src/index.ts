@@ -11,7 +11,6 @@ export * from "./contexts/TableViewsContext";
 
 export * from "./hooks/useGQLMutation";
 export * from "./hooks/useGQLQuery";
-export * from "./hooks/useInputProps";
 export * from "./hooks/useTableView";
 export * from "./hooks/useThemeSelect";
 

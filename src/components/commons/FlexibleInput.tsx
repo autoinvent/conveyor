@@ -1,31 +1,54 @@
-import CreatableSelect from 'react-select/creatable'
-import Select from 'react-select'
+import Select from "react-select";
 
-import ErrorList from './ErrorList'
+import { BaseProps } from "../../types";
+
+import ErrorList from "./ErrorList";
 
 export enum InputTypes {
-  TEXT = 'text',
-  NUMBER = 'number',
-  BOOLEAN = 'checkbox',
-  CREATABLE_SELECT = 'creatable_select',
-  SELECT = 'select',
+  TEXT = "text",
+  NUMBER = "number",
+  BOOLEAN = "checkbox",
+  SELECT = "select",
+  DATETIME = "date_time",
 }
-export interface FlexibleInputProps {
-  inputProps?: Record<string, any>
-  errors?: string | string[]
+export interface FlexibleInputProps extends BaseProps {
+  type: InputTypes;
+  disabled?: boolean;
+  inputProps?: Record<string, any>;
+  errors?: string | string[];
 }
 
-const FlexibleInput = ({ inputProps = {}, errors }: FlexibleInputProps) => {
-  let inputTag
-  switch (inputProps?.type) {
-    case InputTypes.CREATABLE_SELECT:
-      inputTag = <CreatableSelect {...inputProps} />
-      break
+const FlexibleInput = ({
+  id,
+  className,
+  type,
+  disabled,
+  inputProps = {},
+  errors,
+}: FlexibleInputProps) => {
+  let inputTag;
+  switch (type) {
     case InputTypes.SELECT:
-      inputTag = <Select {...inputProps} />
-      break
+      inputTag = (
+        <Select
+          id={id}
+          className={className ?? "basic-single"}
+          classNamePrefix="select"
+          isDisabled={disabled}
+          {...inputProps}
+        />
+      );
+      break;
     default:
-      inputTag = <input {...inputProps} />
+      inputTag = (
+        <input
+          id={id}
+          className={className ?? "form-control"}
+          type={type}
+          {...inputProps}
+          disabled={disabled}
+        />
+      );
   }
 
   return (
@@ -33,7 +56,7 @@ const FlexibleInput = ({ inputProps = {}, errors }: FlexibleInputProps) => {
       {inputTag}
       <ErrorList errors={errors} />
     </>
-  )
-}
+  );
+};
 
-export default FlexibleInput
+export default FlexibleInput;

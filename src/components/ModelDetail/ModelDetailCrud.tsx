@@ -4,7 +4,7 @@ import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { LoadingContext } from "../../contexts/commons/LoadingContext";
 import { useGQLMutation, GQLMutationAction } from "../../hooks/useGQLMutation";
 import { BaseProps, FieldData } from "../../types";
-import { generateGQLAction, generateGQLDocument } from "../../utils/gqlRequest";
+import { getGQLAction, getGQLDocument } from "../../utils/gqlRequest";
 import ModelFormCrud from "../ModelForm/ModelFormCrud";
 
 interface ModelDetailCrudProps extends BaseProps {
@@ -25,24 +25,20 @@ const ModelDetailCrud = ({
   deletable = true,
 }: ModelDetailCrudProps) => {
   const { setLoading } = useContext(LoadingContext);
-  const { navigate } = useContext(ConveyorContext);
+  const { navigate, primaryKey } = useContext(ConveyorContext);
 
-  const updateAction = generateGQLAction(
-    GQLMutationAction.MODEL_UPDATE,
-    modelName
-  );
-  const deleteAction = generateGQLAction(
-    GQLMutationAction.MODEL_DELETE,
-    modelName
-  );
-  const updateDocument = generateGQLDocument(
+  const updateAction = getGQLAction(GQLMutationAction.MODEL_UPDATE, modelName);
+  const deleteAction = getGQLAction(GQLMutationAction.MODEL_DELETE, modelName);
+  const updateDocument = getGQLDocument(
     GQLMutationAction.MODEL_UPDATE,
     modelName,
+    primaryKey,
     ["id"]
   );
-  const deleteDocument = generateGQLDocument(
+  const deleteDocument = getGQLDocument(
     GQLMutationAction.MODEL_DELETE,
     modelName,
+    primaryKey,
     ["id"]
   );
   const updateTrigger = useGQLMutation({

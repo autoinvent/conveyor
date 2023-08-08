@@ -1,11 +1,13 @@
+import { InputTypes } from "../components/commons/FlexibleInput";
 import { GQLQueryAction } from "../hooks/useGQLQuery";
 import { GQLMutationAction } from "../hooks/useGQLMutation";
 import { ErrorMessage } from "../enums";
 import { FieldData } from "../types";
 
-import { modelToQueryName, modelToModelListName } from "./common";
+import { lowerCaseFirst, upperCaseFirst } from "./common";
 
 const gqlDocumentRecursion: any = (
+  primaryKey: string,
   fields: string[],
   fieldsData?: Record<string, FieldData>
 ) => {
@@ -20,23 +22,30 @@ const gqlDocumentRecursion: any = (
       }
       return field;
     })
-    .concat(["id"])
+    .concat([primaryKey])
     .join(" ");
 };
 
-export const generateGQLDocument = (
-  action: GQLQueryAction | GQLMutationAction,
+export const getGQLDocument = (
+  actionType: GQLQueryAction | GQLMutationAction,
   modelName: string,
-  fields?: string[],
+  primaryKey: string,
+  fields: string[],
   fieldsData?: Record<string, FieldData>
 ) => {
-  const queryModelName = modelToQueryName(modelName);
-  const queryModelListName = modelToModelListName(queryModelName);
+  const action = getGQLAction(actionType, modelName);
+  const typeArgs =
+    fields.map((field) => {
+      let type = fieldsData?.[field]?.type;
+      return `$${field}: ${type}`;
+    }) ?? [];
+  const fieldArgs = fields.map((field) => `${field}: $${field}`) ?? [];
   const responseQuery = fields
-    ?.map((field) => {
+    .map((field) => {
       const related = fieldsData?.[field]?.related;
       if (related) {
         const recursedFields = gqlDocumentRecursion(
+          primaryKey,
           related.fields,
           related?.fieldsData
         );
@@ -44,14 +53,15 @@ export const generateGQLDocument = (
       }
       return field;
     })
-    ?.concat(["id"])
-    ?.join(" ");
+    .concat([primaryKey])
+    .join(" ");
 
-  switch (action) {
+  switch (actionType) {
+    //TODO
     case GQLQueryAction.MODEL_ITEM: {
       return `
         query ($id: Int!) {
-          ${queryModelName}_item (id: $id) {
+          ${action} (id: $id) {
             ${responseQuery}
           }
         }
@@ -60,7 +70,7 @@ export const generateGQLDocument = (
     case GQLQueryAction.MODEL_LIST: {
       return `
         query ($sort: [String!], $page: Int, $per_page: Int) {
-          ${queryModelListName} (sort: $sort, page: $page, per_page: $per_page) {
+          ${action} (sort: $sort, page: $page, per_page: $per_page) {
             total
             items {
               ${responseQuery}
@@ -69,36 +79,18 @@ export const generateGQLDocument = (
         }
       `;
     }
-    case GQLMutationAction.MODEL_UPDATE: {
-      return `
-        mutation ($id: ID!, $input: ${modelName}Input!) {
-          ${action}${modelName} (id: $id, input: $input) {
-            result {
-              ${responseQuery}
-            }
-          }
-        }
-      `;
-    }
+    case GQLMutationAction.MODEL_UPDATE:
     case GQLMutationAction.MODEL_CREATE: {
       return `
-        mutation () {
-          ${queryModelName}_${action} (input: $input) {
-            result {
-              ${responseQuery}
-            }
-          }
+        mutation (${typeArgs.join(", ")}) {
+          ${action} (${fieldArgs.join(", ")}) { ${responseQuery} }
         }
       `;
     }
     case GQLMutationAction.MODEL_DELETE: {
       return `
-        mutation ($id: ID!) {
-          ${action}${modelName} (id: $id) {
-            result {
-              ${responseQuery}
-            }
-          }
+        mutation (${typeArgs.join(", ")}) {
+          ${action} (${fieldArgs.join(", ")})
         }
       `;
     }
@@ -108,10 +100,57 @@ export const generateGQLDocument = (
   }
 };
 
-export const generateGQLAction = (
-  action: GQLQueryAction | GQLMutationAction,
+export const getGQLAction = (
+  actionType: GQLQueryAction | GQLMutationAction,
   modelName: string
 ) => {
-  const queryName = modelToQueryName(modelName)
-  return `${queryName}_${action}`
+  const queryName = modelToQueryName(modelName);
+  return `${queryName}_${actionType}`;
+};
+
+export const queryToModelName = (queryName: string) => {
+  return upperCaseFirst(queryName);
+};
+
+export const modelToQueryName = (modelName: string) => {
+  return lowerCaseFirst(modelName);
+};
+
+export const modelToModelListName = (modelName: string) => {
+  if (!modelName) return "";
+  return `${modelName}_list`;
+};
+
+export const modelListToModelName = (modelListName: string) => {
+  if (!modelListName) return "";
+  return modelListName.slice(0, -5);
+};
+
+export const getAvailableKeys = (
+  fields: string[],
+  keyFallbacks: string[],
+  maxKeys: number = 2
+) => {
+  const keys: string[] = keyFallbacks.filter((key) => fields.includes(key));
+  return keys.slice(0, maxKeys);
+};
+
+export const getBaseGQLType = (type: string) => {
+  return type.replaceAll(/[!\[\]]/g, "");
+};
+
+export const gqlTypeToFlexType = (type: string) => {
+  const baseGQLType = getBaseGQLType(type);
+  switch (baseGQLType) {
+    case "Int":
+      return InputTypes.NUMBER;
+    case "Boolean":
+      return InputTypes.BOOLEAN;
+    case "DateTime":
+      return InputTypes.DATETIME;
+    case "String":
+      return InputTypes.TEXT;
+    default:
+      return InputTypes.SELECT;
+  }
 };

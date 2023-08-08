@@ -1,69 +1,18 @@
-import { useState, useCallback, useEffect, memo, FC } from "react";
+import { useState, useCallback, memo, FC } from "react";
 
-import AlertsProvider from "../../contexts/AlertsContext";
-import {
-  ConveyorContext,
+import ConveyorProvider, {
   UseGQLQueryResponse,
   UseGQLMutationRequest,
 } from "../../contexts/ConveyorContext";
-import TableViewsProvider from "../../contexts/TableViewsContext";
-import Alerts from "../Alerts";
-import { ErrorMessage } from "../../enums";
-import { Alert } from "../../reducers/alertsReducer";
-import { Model } from "../../types";
-import { extractModelsFromIntrospection } from "../../utils/admin";
-import { parseResponseError } from "../../utils/common";
-import ModelCreate from "../ModelCreate/ModelCreate";
-import ModelDetail from "../ModelDetail/ModelDetail";
-import ModelIndex from "../ModelIndex/ModelIndex";
+import { Page } from "../../enums";
 
-import ConveyorAdminHome from "./ConveyorAdminHome";
-import ConveyorAdminNavbar from "./ConveyorAdminNavbar";
-
-export enum Page {
-  CREATE = "Create",
-  DETAIL = "Detail",
-  HOME = "Home",
-  INDEX = "Index",
-}
-
-const IntrospectionDocument = `
-{
-  __type(name: "Query") {
-      name     
-      fields {
-        name
-        type {
-          name
-          kind
-          fields {
-            name
-            type {
-              name kind
-              ofType { 
-                name kind 
-                ofType { 
-                  kind name
-                  ofType { name kind
-                  	ofType {
-                      kind name
-                    }
-                  }
-                } 
-              }
-            }
-          }
-        }
-      }
-  }
-}
-`;
+import ConveyorAdminContent from "./ConveyorAdminContent";
 
 interface ConveyorAdminProps {
-  gqlIntrospectionFetcher: (params: { document: string }) => Promise<any>;
   useGQLQueryResponse: UseGQLQueryResponse;
   useGQLMutationRequest: UseGQLMutationRequest;
-  keyFallbacks?: string[]
+  primaryKey: string;
+  secondaryKeys?: string[];
 }
 
 interface NavigateParams {
@@ -72,40 +21,19 @@ interface NavigateParams {
 }
 
 const ConveyorAdmin = ({
-  gqlIntrospectionFetcher,
   useGQLQueryResponse,
   useGQLMutationRequest,
-  keyFallbacks = ['id']
+  primaryKey,
+  secondaryKeys,
 }: ConveyorAdminProps) => {
   const [currentPage, setCurrentPage] = useState(Page.HOME);
-  const [models, setModels] = useState<Record<string, Model> | null>({});
-  const [alerts, setAlerts] = useState<Alert[]>([]);
-  const [modelName, setModelName] = useState("");
-  const [id, setId] = useState("");
-  const fetcher = useCallback(gqlIntrospectionFetcher, []); // NOT A DYNAMIC FETCHER
-  useEffect(() => {
-    fetcher({ document: IntrospectionDocument })
-      .then((response) => {
-        const models = extractModelsFromIntrospection(response, keyFallbacks);
-        setModels(models);
-        console.log(models)
-      })
-      .catch((error: Error) => {
-        const errorMessages = parseResponseError(error).map(
-          (errorMessage: string) => ({
-            type: "danger",
-            message: errorMessage,
-          })
-        );
-        setModels(null);
-        setAlerts(errorMessages);
-      });
-  }, [fetcher]);
+  const [currentModelName, setCurrentModelName] = useState("");
+  const [currentId, setCurrentId] = useState("");
 
   const navigate = useCallback(
     (params: NavigateParams) => {
-      setModelName(params?.modelName ?? "");
-      setId(params.id ?? "");
+      setCurrentModelName(params?.modelName ?? "");
+      setCurrentId(params.id ?? "");
       if (params.id === Page.CREATE) {
         setCurrentPage(Page.CREATE);
       } else if (!params.id && params.modelName) {
@@ -116,65 +44,23 @@ const ConveyorAdmin = ({
         setCurrentPage(Page.HOME);
       }
     },
-    [setCurrentPage]
+    [setCurrentPage, setCurrentModelName, setCurrentId]
   );
 
-  let page;
-  const fields = Object.keys(models?.[modelName] ?? {});
-  const fieldsData = models?.[modelName] ?? {};
-  switch (currentPage) {
-    case Page.HOME: {
-      page = <ConveyorAdminHome modelNames={models && Object.keys(models)} />;
-      break;
-    }
-    case Page.INDEX: {
-      page = (
-        <ModelIndex
-          modelName={modelName}
-          fields={fields.filter((field) => !fieldsData?.[field]?.related)}
-          fieldsData={fieldsData}
-        />
-      );
-      break;
-    }
-    case Page.DETAIL: {
-      page = (
-        <ModelDetail
-          modelId={id}
-          modelName={modelName}
-          fields={fields}
-          fieldsData={fieldsData}
-        />
-      );
-      break;
-    }
-    case Page.CREATE: {
-      page = (
-        <ModelCreate
-          modelName={modelName}
-          fields={fields}
-          fieldsData={fieldsData}
-        />
-      );
-      break;
-    }
-    default: {
-      throw new Error(ErrorMessage.INV_ADMIN_PAGE);
-    }
-  }
-
   return (
-    <ConveyorContext.Provider
-      value={{ navigate, useGQLQueryResponse, useGQLMutationRequest }}
+    <ConveyorProvider
+      useGQLQueryResponse={useGQLQueryResponse}
+      useGQLMutationRequest={useGQLMutationRequest}
+      navigate={navigate}
+      primaryKey={primaryKey}
+      secondaryKeys={secondaryKeys}
     >
-      <TableViewsProvider>
-        <AlertsProvider alerts={alerts}>
-          <ConveyorAdminNavbar modelNames={models && Object.keys(models)} />
-          <Alerts />
-          {page}
-        </AlertsProvider>
-      </TableViewsProvider>
-    </ConveyorContext.Provider>
+      <ConveyorAdminContent
+        currentPage={currentPage}
+        currentModelName={currentModelName}
+        currentId={currentId}
+      />
+    </ConveyorProvider>
   );
 };
 

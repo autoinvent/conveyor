@@ -1,4 +1,4 @@
-import { FC, ReactNode, useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Defaults } from "../../enums";
@@ -51,6 +51,7 @@ const ModelTableRow = ({
               <td key={`${PACKAGE_ABBR}-table-cell-${field}`}>
                 <ModelFormField
                   modelName={modelName}
+                  fields={fields}
                   field={field}
                   data={data}
                   fieldData={fieldsData?.[field]}
@@ -64,6 +65,7 @@ const ModelTableRow = ({
               key={`${PACKAGE_ABBR}-table-cell-crud`}
               modelName={modelName}
               data={data}
+              fields={fields}
               fieldsData={fieldsData}
               editable={editable}
               deletable={deletable}

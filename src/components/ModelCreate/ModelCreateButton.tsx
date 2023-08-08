@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button } from "react-bootstrap";
 
-import { Page } from "../ConveyorAdmin/ConveyorAdmin";
+import { Page } from "../../enums";
 import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { BaseProps } from "../../types";
 

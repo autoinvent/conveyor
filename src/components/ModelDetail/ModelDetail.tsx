@@ -1,11 +1,12 @@
-import { FC, memo, useMemo, ReactNode } from "react";
+import { FC, memo, useMemo, ReactNode, useContext } from "react";
 import { useForm } from "react-hook-form";
 
+import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { Defaults, ErrorMessage } from "../../enums";
 import useGQLQuery, { GQLQueryAction } from "../../hooks/useGQLQuery";
 import { PACKAGE_ABBR } from "../../package";
 import { BaseProps, FieldData } from "../../types";
-import { generateGQLAction, generateGQLDocument } from "../../utils/gqlRequest";
+import { getGQLAction, getGQLDocument } from "../../utils/gqlRequest";
 import { humanizeText } from "../../utils/common";
 import ModelForm from "../ModelForm/ModelForm";
 
@@ -37,10 +38,12 @@ const ModelDetail = ({
   deletable = true,
   children,
 }: ModelDetailProps) => {
-  const action = generateGQLAction(GQLQueryAction.MODEL_ITEM, modelName);
-  const document = generateGQLDocument(
+  const { primaryKey } = useContext(ConveyorContext);
+  const action = getGQLAction(GQLQueryAction.MODEL_ITEM, modelName);
+  const document = getGQLDocument(
     GQLQueryAction.MODEL_ITEM,
     modelName,
+    primaryKey,
     fields,
     fieldsData
   );
@@ -71,7 +74,7 @@ const ModelDetail = ({
   const modelIdentifier =
     modelData?.name ?? modelData?.id ?? ErrorMessage.INV_MODEL_ID;
 
-  const loading = Object.values(Object.assign(data, error)).length === 0;
+  const loading = Object.values({ ...data, ...error }).length === 0;
   return (
     <div id={id} className={className}>
       {loading ? (
@@ -116,7 +119,7 @@ const ModelDetail = ({
                     parentModelName={modelName}
                     parentField={field}
                     modelName={related.modelName}
-                    fields={related.fields}
+                    fields={related.fields ?? []}
                     dataList={dataList}
                     fieldsData={related.fieldsData}
                     editable={editable}
