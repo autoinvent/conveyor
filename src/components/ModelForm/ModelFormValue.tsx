@@ -33,7 +33,7 @@ const ModelFormValue = ({
   if (related) {
     const availableKeys = getAvailableKeys(related.fields ?? [], keyFallbacks);
     if (!related.many) {
-      displayData = [displayData];
+      displayData = displayData ? [displayData] : [];
     }
     displayData = displayData?.map(
       (val: Record<string, any>, index: number) => (

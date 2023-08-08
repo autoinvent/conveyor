@@ -1,36 +1,41 @@
-import { useContext } from 'react'
+import { useContext } from "react";
 
-import { ConveyorContext } from '../../contexts/ConveyorContext'
-import { BaseProps } from '../../types'
+import { ConveyorContext } from "../../contexts/ConveyorContext";
+import { BaseProps } from "../../types";
+import { humanizeText } from "../../utils/common";
 
 interface ModelDetailTitleProps extends BaseProps {
-  modelName: string
-  title: string
-  modelIdentifier: string
+  modelName: string;
+  modelLabel: string;
+  title?: JSX.Element | string;
 }
 
 const ModelDetailTitle = ({
   id,
-  className = 'd-inline',
+  className = "d-inline",
   modelName,
+  modelLabel,
   title,
-  modelIdentifier,
 }: ModelDetailTitleProps) => {
-  const { navigate } = useContext(ConveyorContext)
+  const { navigate } = useContext(ConveyorContext);
   return (
     <h2 id={id} className={className}>
-      <a
-        href="#"
-        onClick={(event) => {
-          event.preventDefault()
-          navigate({ modelName })
-        }}
-      >
-        {title}
-      </a>
-      : {modelIdentifier}
+      {title || (
+        <>
+          <a
+            href="#"
+            onClick={(event) => {
+              event.preventDefault();
+              navigate({ modelName });
+            }}
+          >
+            {humanizeText(modelName)}
+          </a>
+          :
+        </>
+      )}
     </h2>
-  )
-}
+  );
+};
 
-export default ModelDetailTitle
+export default ModelDetailTitle;

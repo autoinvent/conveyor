@@ -1,26 +1,16 @@
-import { useState, useCallback, useEffect, memo, FC, useContext } from "react";
+import { useState, useEffect } from "react";
 
-import AlertsProvider from "../../contexts/AlertsContext";
-import ConveyorProvider, {
-  ConveyorContext,
-  UseGQLQueryResponse,
-  UseGQLMutationRequest,
-} from "../../contexts/ConveyorContext";
-import useGQLQuery, { GQLQueryAction } from "../../hooks/useGQLQuery";
-import TableViewsProvider from "../../contexts/TableViewsContext";
+import useGQLQuery from "../../hooks/useGQLQuery";
 import Alerts from "../Alerts";
 import { ErrorMessage, Page } from "../../enums";
-import { Alert } from "../../reducers/alertsReducer";
 import { Model } from "../../types";
 import { extractModelsFromIntrospection } from "../../utils/admin";
-import { parseResponseError } from "../../utils/common";
 import ModelCreate from "../ModelCreate/ModelCreate";
 import ModelDetail from "../ModelDetail/ModelDetail";
 import ModelIndex from "../ModelIndex/ModelIndex";
 
 import ConveyorAdminHome from "./ConveyorAdminHome";
 import ConveyorAdminNavbar from "./ConveyorAdminNavbar";
-import { LoadingContext } from "../../contexts/commons/LoadingContext";
 import Loading from "../commons/Loading";
 
 const IntrospectionDocument = `
@@ -79,7 +69,6 @@ const ConveyorAdminContent = ({
     }
   }, [JSON.stringify(data), JSON.stringify(error)]);
 
-  console.log(models);
   let page = null;
   const modelNames = models ? Object.keys(models) : [];
   const fieldsData = models?.[currentModelName]?.fields ?? {};
@@ -95,6 +84,7 @@ const ConveyorAdminContent = ({
       );
       const updateFieldsData = { ...fieldsData };
       filteredFields.forEach((field) => {
+        updateFieldsData[field] = { ...updateFieldsData[field] };
         updateFieldsData[field].type =
           models?.[currentModelName]?.updateArgs?.[field];
         if (updateFieldsData[field].type?.endsWith("!")) {
@@ -114,14 +104,28 @@ const ConveyorAdminContent = ({
       const fields = Object.keys(models?.[currentModelName]?.updateArgs ?? {});
       const updateFieldsData = { ...fieldsData };
       fields.forEach((field) => {
+        updateFieldsData[field] = { ...updateFieldsData[field] };
         updateFieldsData[field].type =
           models?.[currentModelName]?.updateArgs?.[field];
         if (updateFieldsData[field].type?.endsWith("!")) {
           updateFieldsData[field].required = true;
         }
+        let related = updateFieldsData?.[field]?.related;
+        if (related) {
+          related = { ...related };
+          const subModel = related.modelName;
+          related.fields = Object.keys(models?.[subModel]?.updateArgs ?? {});
+          const subFieldsData = related.fieldsData
+            ? { ...related.fieldsData }
+            : {};
+          related.fields.forEach((subField) => {
+            subFieldsData[subField].type =
+              models?.[subModel]?.updateArgs?.[subField];
+          });
+          related.fieldsData = subFieldsData;
+          updateFieldsData[field].related = related;
+        }
       });
-      console.log("detail");
-      console.log(fields, updateFieldsData);
       page = (
         <ModelDetail
           modelId={currentId}
@@ -136,6 +140,7 @@ const ConveyorAdminContent = ({
       const fields = Object.keys(models?.[currentModelName]?.createArgs ?? {});
       const createFieldsData = { ...fieldsData };
       fields.forEach((field) => {
+        createFieldsData[field] = { ...createFieldsData[field] };
         createFieldsData[field].type =
           models?.[currentModelName]?.createArgs?.[field];
         if (createFieldsData[field].type?.endsWith("!")) {
@@ -146,7 +151,7 @@ const ConveyorAdminContent = ({
         <ModelCreate
           modelName={currentModelName}
           fields={fields}
-          fieldsData={fieldsData}
+          fieldsData={createFieldsData}
         />
       );
       break;

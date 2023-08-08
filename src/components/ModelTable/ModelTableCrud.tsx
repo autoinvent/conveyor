@@ -67,19 +67,23 @@ const ModelTableCrud = ({
       if (related) {
         if (related?.many) {
           input[fieldName] = input[fieldName]
-            ? input[fieldName].map((model: Record<string, any>) => model.id)
+            ? input[fieldName].map(
+                (model: Record<string, any>) => model[primaryKey]
+              )
             : [];
         } else {
-          input[fieldName] = input[fieldName] ? input[fieldName].id : "";
+          input[fieldName] = input[fieldName]
+            ? input[fieldName][primaryKey]
+            : "";
         }
       }
     });
-    const variables = { id: data.id, ...input };
+    const variables = { [primaryKey]: data[primaryKey], ...input };
     setLoading(true);
     updateTrigger({ variables }).finally(() => setLoading(false));
   };
   const onDelete = () => {
-    const variables = { id: data.id };
+    const variables = { [primaryKey]: data[primaryKey] };
     setLoading(true);
     deleteTrigger({ variables }).finally(() => setLoading(false));
   };

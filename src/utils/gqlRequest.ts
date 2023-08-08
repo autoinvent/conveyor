@@ -16,6 +16,7 @@ const gqlDocumentRecursion: any = (
       const related = fieldsData?.[field]?.related;
       if (related) {
         return `${field} { ${gqlDocumentRecursion(
+          primaryKey,
           related.fields,
           related?.fieldsData
         )} }`;
@@ -57,10 +58,9 @@ export const getGQLDocument = (
     .join(" ");
 
   switch (actionType) {
-    //TODO
     case GQLQueryAction.MODEL_ITEM: {
       return `
-        query ($id: Int!) {
+        query ($${primaryKey}: ${fieldsData?.[primaryKey].type}) {
           ${action} (id: $id) {
             ${responseQuery}
           }

@@ -10,6 +10,7 @@ import ModelFormCrud from "../ModelForm/ModelFormCrud";
 interface ModelDetailCrudProps extends BaseProps {
   modelName: string;
   data: Record<string, any>;
+  fields: string[];
   fieldsData?: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
@@ -20,6 +21,7 @@ const ModelDetailCrud = ({
   className,
   modelName,
   data,
+  fields,
   fieldsData,
   editable = true,
   deletable = true,
@@ -27,25 +29,30 @@ const ModelDetailCrud = ({
   const { setLoading } = useContext(LoadingContext);
   const { navigate, primaryKey } = useContext(ConveyorContext);
 
-  const updateAction = getGQLAction(GQLMutationAction.MODEL_UPDATE, modelName);
-  const deleteAction = getGQLAction(GQLMutationAction.MODEL_DELETE, modelName);
+  const updateActionType = GQLMutationAction.MODEL_UPDATE;
+  const updateAction = getGQLAction(updateActionType, modelName);
   const updateDocument = getGQLDocument(
-    GQLMutationAction.MODEL_UPDATE,
+    updateActionType,
     modelName,
     primaryKey,
-    ["id"]
-  );
-  const deleteDocument = getGQLDocument(
-    GQLMutationAction.MODEL_DELETE,
-    modelName,
-    primaryKey,
-    ["id"]
+    fields,
+    fieldsData
   );
   const updateTrigger = useGQLMutation({
     modelName,
     action: updateAction,
     document: updateDocument,
   });
+
+  const deleteActionType = GQLMutationAction.MODEL_DELETE;
+  const deleteAction = getGQLAction(deleteActionType, modelName);
+  const deleteDocument = getGQLDocument(
+    deleteActionType,
+    modelName,
+    primaryKey,
+    [primaryKey],
+    fieldsData
+  );
   const deleteTrigger = useGQLMutation({
     modelName,
     action: deleteAction,
@@ -60,19 +67,23 @@ const ModelDetailCrud = ({
       if (related) {
         if (related?.many) {
           input[fieldName] = input[fieldName]
-            ? input[fieldName].map((model: Record<string, any>) => model.id)
+            ? input[fieldName].map(
+                (model: Record<string, any>) => model[primaryKey]
+              )
             : [];
         } else {
-          input[fieldName] = input[fieldName] ? input[fieldName].id : "";
+          input[fieldName] = input[fieldName]
+            ? input[fieldName][primaryKey]
+            : "";
         }
       }
     });
-    const variables = { id: data.id, input };
+    const variables = { [primaryKey]: data[primaryKey], ...input };
     setLoading(true);
     updateTrigger({ variables }).finally(() => setLoading(false));
   };
   const onDelete = () => {
-    const variables = { id: data.id };
+    const variables = { [primaryKey]: data[primaryKey] };
     setLoading(true);
     deleteTrigger({ variables })
       .then(() => navigate({ modelName }))

@@ -33,7 +33,7 @@ const ModelIndex = ({
   // Will save onto some storage and retrieve the tableView in the future
   useTableView({
     modelName,
-    tableView: DEFAULT_TABLE_VIEW,
+    tableView: JSON.parse(JSON.stringify(DEFAULT_TABLE_VIEW)),
   });
   return (
     <div id={id} className={className}>

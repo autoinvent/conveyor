@@ -2,11 +2,15 @@ import { FC, memo, useMemo, ReactNode, useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import { ConveyorContext } from "../../contexts/ConveyorContext";
-import { Defaults, ErrorMessage } from "../../enums";
+import { Defaults } from "../../enums";
 import useGQLQuery, { GQLQueryAction } from "../../hooks/useGQLQuery";
 import { PACKAGE_ABBR } from "../../package";
 import { BaseProps, FieldData } from "../../types";
-import { getGQLAction, getGQLDocument } from "../../utils/gqlRequest";
+import {
+  getGQLAction,
+  getGQLDocument,
+  getAvailableKeys,
+} from "../../utils/gqlRequest";
 import { humanizeText } from "../../utils/common";
 import ModelForm from "../ModelForm/ModelForm";
 
@@ -19,7 +23,7 @@ interface ModelDetailProps extends BaseProps {
   modelName: string;
   modelId: string;
   fields: string[];
-  title?: string;
+  title?: JSX.Element | string;
   fieldsData?: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
@@ -32,16 +36,19 @@ const ModelDetail = ({
   modelName,
   modelId,
   fields,
-  title = humanizeText(modelName),
+  title,
   fieldsData,
   editable = true,
   deletable = true,
   children,
 }: ModelDetailProps) => {
-  const { primaryKey } = useContext(ConveyorContext);
-  const action = getGQLAction(GQLQueryAction.MODEL_ITEM, modelName);
+  const { primaryKey, secondaryKeys } = useContext(ConveyorContext);
+  const keyFallbacks = [primaryKey].concat(secondaryKeys ?? []);
+  const availableKeys = getAvailableKeys(fields, keyFallbacks);
+  const actionType = GQLQueryAction.MODEL_ITEM;
+  const action = getGQLAction(actionType, modelName);
   const document = getGQLDocument(
-    GQLQueryAction.MODEL_ITEM,
+    actionType,
     modelName,
     primaryKey,
     fields,
@@ -54,8 +61,8 @@ const ModelDetail = ({
   });
 
   const modelData = useMemo(
-    () => data?.[action]?.result,
-    [JSON.stringify(data?.[action]?.result)]
+    () => data?.[action],
+    [JSON.stringify(data?.[action])]
   );
 
   const values = useMemo(
@@ -70,10 +77,6 @@ const ModelDetail = ({
   );
 
   const formMethods = useForm({ values, mode: Defaults.RHK_MODE });
-
-  const modelIdentifier =
-    modelData?.name ?? modelData?.id ?? ErrorMessage.INV_MODEL_ID;
-
   const loading = Object.values({ ...data, ...error }).length === 0;
   return (
     <div id={id} className={className}>
@@ -85,12 +88,13 @@ const ModelDetail = ({
             <div className="mb-3">
               <ModelDetailTitle
                 modelName={modelName}
+                modelLabel={modelData[availableKeys.at(1) ?? primaryKey]}
                 title={title}
-                modelIdentifier={modelIdentifier}
               />
               <ModelDetailCrud
                 modelName={modelName}
                 data={modelData}
+                fields={fields}
                 fieldsData={fieldsData}
                 editable={editable}
                 deletable={deletable}
@@ -113,15 +117,14 @@ const ModelDetail = ({
                 <summary>
                   <h4>{displayLabelFn(field)}</h4>
                 </summary>
-                {dataList?.length > 0 ? (
+                {dataList?.length > 0 && fieldsData ? (
                   <ModelDetailTable
-                    parentId={modelData.id}
+                    parentId={modelData[primaryKey]}
                     parentModelName={modelName}
                     parentField={field}
-                    modelName={related.modelName}
-                    fields={related.fields ?? []}
-                    dataList={dataList}
-                    fieldsData={related.fieldsData}
+                    parentFields={fields}
+                    parentFieldsData={fieldsData}
+                    parentData={modelData}
                     editable={editable}
                     deletable={deletable}
                   />

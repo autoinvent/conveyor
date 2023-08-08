@@ -1,17 +1,18 @@
-import { useMemo } from 'react'
+import { useMemo, useContext } from "react";
 
-import { PACKAGE_ABBR } from '../../package'
-import { BaseProps, FieldData } from '../../types'
+import { ConveyorContext } from "../../contexts/ConveyorContext";
+import { PACKAGE_ABBR } from "../../package";
+import { BaseProps, FieldData } from "../../types";
 
-import ModelTableRow from './ModelTableRow'
+import ModelTableRow from "./ModelTableRow";
 
 interface ModelTableBodyProps extends BaseProps {
-  modelName: string
-  fields: string[]
-  dataList?: Record<string, any>[]
-  fieldsData?: Record<string, FieldData>
-  editable?: boolean
-  deletable?: boolean
+  modelName: string;
+  fields: string[];
+  dataList?: Record<string, any>[];
+  fieldsData?: Record<string, FieldData>;
+  editable?: boolean;
+  deletable?: boolean;
 }
 
 const ModelTableBody = ({
@@ -24,14 +25,15 @@ const ModelTableBody = ({
   editable = true,
   deletable = true,
 }: ModelTableBodyProps) => {
-  const memoDataList = useMemo(() => dataList, [JSON.stringify(dataList)])
+  const memoDataList = useMemo(() => dataList, [JSON.stringify(dataList)]);
+  const { primaryKey } = useContext(ConveyorContext);
 
   return (
     <tbody id={id} className={className}>
       {memoDataList.map((rowData) => {
         return (
           <ModelTableRow
-            key={`${PACKAGE_ABBR}-table-row-${rowData.id}`}
+            key={`${PACKAGE_ABBR}-table-row-${rowData[primaryKey]}`}
             modelName={modelName}
             fields={fields}
             data={rowData}
@@ -39,10 +41,10 @@ const ModelTableBody = ({
             editable={editable}
             deletable={deletable}
           />
-        )
+        );
       })}
     </tbody>
-  )
-}
+  );
+};
 
-export default ModelTableBody
+export default ModelTableBody;

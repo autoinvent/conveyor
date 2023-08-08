@@ -13,10 +13,9 @@ interface UseTableViewProps {
 const useTableView = ({ modelName, tableView }: UseTableViewProps) => {
   const tableViews = useContext(TableViewsContext);
   const dispatch = useContext(TableViewsDispatchContext);
-
   // Set up initial tableView for the current modelName
   useEffect(() => {
-    if (tableView) {
+    if (!tableViews[modelName]) {
       dispatch({
         type: TableViewsAction.INIT,
         payload: { modelName, tableView },

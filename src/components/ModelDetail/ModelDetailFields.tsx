@@ -31,6 +31,7 @@ const ModelDetailFields = ({
             <dd>
               <ModelFormField
                 modelName={modelName}
+                fields={fields}
                 field={field}
                 data={data}
                 fieldData={fieldsData?.[field]}

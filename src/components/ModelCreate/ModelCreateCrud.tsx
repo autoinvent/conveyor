@@ -47,10 +47,14 @@ const ModelCreateCrud = ({
       if (related) {
         if (related?.many) {
           input[fieldName] = input[fieldName]
-            ? input[fieldName].map((model: Record<string, any>) => model.id)
+            ? input[fieldName].map(
+                (model: Record<string, any>) => model[primaryKey]
+              )
             : [];
         } else {
-          input[fieldName] = input[fieldName] ? input[fieldName].id : "";
+          input[fieldName] = input[fieldName]
+            ? input[fieldName][primaryKey]
+            : "";
         }
       }
     });

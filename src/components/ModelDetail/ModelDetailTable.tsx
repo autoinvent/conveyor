@@ -1,7 +1,10 @@
+import { useContext } from "react";
+import { Table } from "react-bootstrap";
+
+import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { PACKAGE_ABBR } from "../../package";
 import { BaseProps, FieldData } from "../../types";
 import ModelFormField from "../ModelForm/ModelFormField";
-import ModelTable from "../ModelTable/ModelTable";
 import ModelTableHead from "../ModelTable/ModelTableHead";
 import ModelTableRow from "../ModelTable/ModelTableRow";
 
@@ -11,10 +14,9 @@ interface ModelDetailTableProps extends BaseProps {
   parentId: string;
   parentModelName: string;
   parentField: string;
-  modelName: string;
-  fields: string[];
-  dataList: Record<string, any>[];
-  fieldsData?: Record<string, FieldData>;
+  parentFields: string[];
+  parentFieldsData: Record<string, FieldData>;
+  parentData: Record<string, any>;
   editable?: boolean;
   deletable?: boolean;
 }
@@ -25,25 +27,21 @@ const ModelDetailTable = ({
   parentId,
   parentModelName,
   parentField,
-  modelName,
-  fields,
-  dataList = [],
-  fieldsData,
+  parentFields,
+  parentFieldsData,
+  parentData,
   editable = true,
   deletable = true,
 }: ModelDetailTableProps) => {
-  const showCrud = editable || deletable;
+  const related = parentFieldsData[parentField].related;
+  if (!related) return null;
 
+  const { primaryKey } = useContext(ConveyorContext);
+  const showCrud = editable || deletable;
+  const { modelName, fields = [], fieldsData } = related;
+  const dataList = parentData[parentField];
   return (
-    <ModelTable
-      id={id}
-      className={className}
-      modelName={modelName}
-      fields={fields}
-      dataList={dataList}
-      editable={editable}
-      deletable={deletable}
-    >
+    <Table id={id} className={className}>
       <ModelTableHead
         modelName={`${parentModelName}/${modelName}`}
         fields={fields}
@@ -55,7 +53,7 @@ const ModelDetailTable = ({
         {dataList.map((rowData: Record<string, any>) => {
           return (
             <ModelTableRow
-              key={`${PACKAGE_ABBR}-table-row-${rowData.id}`}
+              key={`${PACKAGE_ABBR}-table-row-${rowData[primaryKey]}`}
               modelName={modelName}
               fields={fields}
               data={rowData}
@@ -68,6 +66,7 @@ const ModelDetailTable = ({
                   <td key={`${PACKAGE_ABBR}-table-cell-${field}`}>
                     <ModelFormField
                       modelName={modelName}
+                      fields={fields}
                       field={field}
                       data={rowData}
                       fieldData={fieldsData?.[field]}
@@ -81,10 +80,10 @@ const ModelDetailTable = ({
                     parentId={parentId}
                     parentModelName={parentModelName}
                     parentField={parentField}
-                    modelName={modelName}
+                    parentFields={parentFields}
+                    parentFieldsData={parentFieldsData}
+                    parentData={parentData}
                     data={rowData}
-                    dataList={dataList}
-                    fieldsData={fieldsData}
                     editable={editable}
                     deletable={deletable}
                   />
@@ -94,7 +93,7 @@ const ModelDetailTable = ({
           );
         })}
       </tbody>
-    </ModelTable>
+    </Table>
   );
 };
 

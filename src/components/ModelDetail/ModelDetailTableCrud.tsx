@@ -17,10 +17,10 @@ interface ModelDetailTableCrudProps extends BaseProps {
   parentId: string;
   parentModelName: string;
   parentField: string;
-  modelName: string;
+  parentFields: string[];
+  parentFieldsData: Record<string, FieldData>;
+  parentData: Record<string, any>;
   data: Record<string, any>;
-  dataList: Record<string, any>[];
-  fieldsData?: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
 }
@@ -31,40 +31,45 @@ const ModelDetailTableCrud = ({
   parentId,
   parentModelName,
   parentField,
-  modelName,
+  parentFields,
+  parentFieldsData,
+  parentData,
   data,
-  dataList,
-  fieldsData,
   editable = true,
   deletable = true,
 }: ModelDetailTableCrudProps) => {
+  const related = parentFieldsData[parentField].related;
+  if (!related) return null;
+
+  const { modelName, fields = [], fieldsData } = related;
+  const dataList: Record<string, any>[] = parentData[parentField];
   const { primaryKey } = useContext(ConveyorContext);
   const { setLoading } = useContext(LoadingContext);
   const dispatch = useContext(AlertsDispatchContext);
 
-  const updateParentAction = getGQLAction(
-    GQLMutationAction.MODEL_UPDATE,
-    parentModelName
-  );
+  const updateActionType = GQLMutationAction.MODEL_UPDATE;
+  const updateParentAction = getGQLAction(updateActionType, parentModelName);
   const updateParentDocument = getGQLDocument(
-    GQLMutationAction.MODEL_UPDATE,
+    updateActionType,
     parentModelName,
     primaryKey,
-    ["id"]
+    [primaryKey, parentField],
+    parentFieldsData
   );
   const updateParentTrigger = useGQLMutation({
-    modelName: parentModelName,
+    modelName,
     action: updateParentAction,
     document: updateParentDocument,
     onSuccess: () => {},
   });
 
-  const updateAction = getGQLAction(GQLMutationAction.MODEL_UPDATE, modelName);
+  const updateAction = getGQLAction(updateActionType, modelName);
   const updateDocument = getGQLDocument(
-    GQLMutationAction.MODEL_UPDATE,
+    updateActionType,
     modelName,
     primaryKey,
-    ["id"]
+    fields,
+    fieldsData
   );
   const updateTrigger = useGQLMutation({
     modelName,
@@ -80,15 +85,19 @@ const ModelDetailTableCrud = ({
       if (related) {
         if (related?.many) {
           input[fieldName] = input[fieldName]
-            ? input[fieldName].map((model: Record<string, any>) => model.id)
+            ? input[fieldName].map(
+                (model: Record<string, any>) => model[primaryKey]
+              )
             : [];
         } else {
-          input[fieldName] = input[fieldName] ? input[fieldName].id : "";
+          input[fieldName] = input[fieldName]
+            ? input[fieldName][primaryKey]
+            : "";
         }
       }
     });
-    const variables = { id: data.id, input };
-    const parentVariables = { id: parentId, input: {} };
+    const variables = { [primaryKey]: data[primaryKey], ...input };
+    const parentVariables = { id: parentId };
     setLoading(true);
     updateTrigger({ variables })
       .then(() => updateParentTrigger({ variables: parentVariables }))
@@ -97,10 +106,10 @@ const ModelDetailTableCrud = ({
 
   const onDelete = () => {
     const newDataList = dataList
-      .map((data) => data.id)
-      .filter((dataId) => dataId !== data.id);
+      .map((data) => data[primaryKey])
+      .filter((primaryVal) => primaryVal !== data[primaryKey]);
     const input = { [parentField]: newDataList };
-    const variables = { id: parentId, input };
+    const variables = { id: parentId, ...input };
     setLoading(true);
     updateParentTrigger({ variables })
       .then(() => {
