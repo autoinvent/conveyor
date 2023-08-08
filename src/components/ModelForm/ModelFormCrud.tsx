@@ -84,6 +84,7 @@ const ModelFormCrud = ({
       ) : (
         <Fragment key={`${PACKAGE_ABBR}-form-crud-edit`}>
           <Button
+            type="submit"
             onClick={handleSubmit(onSaveDirtyFieldsHandler)}
             variant="outline-success"
             disabled={Object.keys(formState.errors).length > 0}

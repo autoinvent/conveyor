@@ -101,8 +101,6 @@ const ConveyorAdminContent = ({
           updateFieldsData[field].required = true;
         }
       });
-      console.log("index");
-      console.log(filteredFields, updateFieldsData);
       page = (
         <ModelIndex
           modelName={currentModelName}
@@ -112,17 +110,28 @@ const ConveyorAdminContent = ({
       );
       break;
     }
-    // case Page.DETAIL: {
-    //   page = (
-    //     <ModelDetail
-    //       modelId={id}
-    //       modelName={modelName}
-    //       fields={fields}
-    //       fieldsData={fieldsData}
-    //     />
-    //   );
-    //   break;
-    // }
+    case Page.DETAIL: {
+      const fields = Object.keys(models?.[currentModelName]?.updateArgs ?? {});
+      const updateFieldsData = { ...fieldsData };
+      fields.forEach((field) => {
+        updateFieldsData[field].type =
+          models?.[currentModelName]?.updateArgs?.[field];
+        if (updateFieldsData[field].type?.endsWith("!")) {
+          updateFieldsData[field].required = true;
+        }
+      });
+      console.log("detail");
+      console.log(fields, updateFieldsData);
+      page = (
+        <ModelDetail
+          modelId={currentId}
+          modelName={currentModelName}
+          fields={fields}
+          fieldsData={updateFieldsData}
+        />
+      );
+      break;
+    }
     case Page.CREATE: {
       const fields = Object.keys(models?.[currentModelName]?.createArgs ?? {});
       const createFieldsData = { ...fieldsData };

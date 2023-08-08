@@ -2,6 +2,7 @@ import Select from "react-select";
 
 import { BaseProps } from "../../types";
 
+import Checkbox from "./Checkbox";
 import ErrorList from "./ErrorList";
 
 export enum InputTypes {
@@ -28,7 +29,7 @@ const FlexibleInput = ({
 }: FlexibleInputProps) => {
   let inputTag;
   switch (type) {
-    case InputTypes.SELECT:
+    case InputTypes.SELECT: {
       inputTag = (
         <Select
           id={id}
@@ -39,7 +40,20 @@ const FlexibleInput = ({
         />
       );
       break;
-    default:
+    }
+    case InputTypes.BOOLEAN: {
+      delete inputProps.ref;
+      inputTag = (
+        <Checkbox
+          id={id}
+          className={className}
+          {...inputProps}
+          disabled={disabled}
+        />
+      );
+      break;
+    }
+    default: {
       inputTag = (
         <input
           id={id}
@@ -49,6 +63,7 @@ const FlexibleInput = ({
           disabled={disabled}
         />
       );
+    }
   }
 
   return (
