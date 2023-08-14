@@ -54,7 +54,10 @@ const ConveyorAdminContent = ({
 }: ConveyorAdminContentProps) => {
   const [models, setModels] = useState<Record<string, Model> | null>(null);
   const [loading, setLoading] = useState(false);
-  const { data, error } = useGQLQuery({ document: IntrospectionDocument });
+  const { data, error } = useGQLQuery({
+    action: "introspection",
+    document: IntrospectionDocument,
+  });
   useEffect(() => {
     if (Object.values({ ...data, ...error }).length === 0) {
       setLoading(true);

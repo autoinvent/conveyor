@@ -60,25 +60,26 @@ Then you can use it in your project:
     <div id="conveyorAdmin">Loading...</div>
     <script src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.0/dist/conveyor.umd.js"></script>
     <script defer>
-      const ConveyorAdmin = window.conveyorAdmin.ConveyorAdmin;
-      const request = window.conveyorAdmin.request;
+      const ConveyorAdmin = window.conveyor.ConveyorAdmin;
 
-      const graphQLUrl = "/graphql";
+      const gqlUrl = "/graphql";
       // Fetcher to retrieve GraphQL query/mutation from endpoint
       const useGQLQueryResponse: UseGQLQueryResponse = (graphQLParams) => {
-        return request(
-          graphQLUrl,
-          graphQLParams.document,
-          graphQLParams.variables
-        );
+        return fetch(gqlUrl, {
+          body: JSON.stringify({
+            document: graphQLParams.document,
+            variables: graphQLParams.variables,
+          }),
+        });
       };
       const useGQLMutationRequest: UseGQLMutationRequest = (graphQLParams) => {
         return (options) =>
-          request(
-            graphQLUrl,
-            graphQLParams.document,
-            options?.variables ?? graphQLParams.variables
-          );
+          fetch(gqlUrl, {
+            body: JSON.stringify({
+              document: graphQLParams.document,
+              variables: options?.variables ?? graphQLParams.variables,
+            }),
+          });
       };
 
       ReactDOM.render(
