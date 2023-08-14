@@ -17,7 +17,6 @@ interface ModelDetailTableCrudProps extends BaseProps {
   parentId: string;
   parentModelName: string;
   parentField: string;
-  parentFields: string[];
   parentFieldsData: Record<string, FieldData>;
   parentData: Record<string, any>;
   data: Record<string, any>;
@@ -31,7 +30,6 @@ const ModelDetailTableCrud = ({
   parentId,
   parentModelName,
   parentField,
-  parentFields,
   parentFieldsData,
   parentData,
   data,

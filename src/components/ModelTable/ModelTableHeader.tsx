@@ -1,7 +1,7 @@
 import { memo, FC } from "react";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 
-import useTableView from "../../hooks/useTableView";
+import { useTableView } from "../../hooks/useTableView";
 import { PACKAGE_ABBR } from "../../package";
 import {
   TableViewsAction,
@@ -24,7 +24,7 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
   modelName,
   field,
   displayLabelFn = humanizeText,
-  sortable,
+  sortable = true,
 }) => {
   const { tableView, dispatch } = useTableView({ modelName });
   const sortDir = getSortDir(tableView?.sort ?? [], field);

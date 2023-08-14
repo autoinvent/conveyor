@@ -16,7 +16,7 @@ export interface UseGQLQueryProps extends GQLRequestParams {
 }
 
 const NO_RESPONSE = "{}";
-const useGQLQuery = ({
+export const useGQLQuery = ({
   action,
   document,
   variables,
@@ -26,7 +26,12 @@ const useGQLQuery = ({
 }: UseGQLQueryProps) => {
   const dispatch = useContext(AlertsDispatchContext);
   const { useGQLQueryResponse } = useContext(ConveyorContext);
-  const gqlResponse = useGQLQueryResponse({ action, document, variables, skip });
+  const gqlResponse = useGQLQueryResponse({
+    action,
+    document,
+    variables,
+    skip,
+  });
   const [validResponseJson, setValidResponseJson] = useState(NO_RESPONSE);
   const [errorResponseJson, setErrorResponseJson] = useState(NO_RESPONSE);
 
@@ -76,5 +81,3 @@ const useGQLQuery = ({
     error: JSON.parse(errorResponseJson),
   };
 };
-
-export default useGQLQuery;

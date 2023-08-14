@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import useGQLQuery from "../../hooks/useGQLQuery";
+import { useGQLQuery } from "../../hooks/useGQLQuery";
 import Alerts from "../Alerts";
 import { ErrorMessage, Page } from "../../enums";
 import { Model } from "../../types";

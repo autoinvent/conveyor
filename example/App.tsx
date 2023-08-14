@@ -25,7 +25,6 @@ function App() {
     <ConveyorAdmin
       useGQLQueryResponse={useGQLQueryResponse}
       useGQLMutationRequest={useGQLMutationRequest}
-      primaryKey="id"
       secondaryKeys={["name", "username"]}
     />
   );

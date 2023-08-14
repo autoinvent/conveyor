@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useReducer, Dispatch } from "react";
 
-import tableViewsReducer, { TableViews } from "../reducers/tableViewsReducer";
+import { tableViewsReducer, TableViews } from "../reducers/tableViewsReducer";
 import { ReducerAction } from "../types";
 
 export const TableViewsContext = createContext({} as TableViews);

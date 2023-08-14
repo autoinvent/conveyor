@@ -1,15 +1,13 @@
-import { useContext } from "react";
 import { Container, Row, ListGroup } from "react-bootstrap";
 
-import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { PACKAGE_ABBR } from "../../package";
+import ModelNav from "../ModelNav";
 
 interface ConveyorAdminHomeProps {
   modelNames: string[];
 }
 
 const ConveyorAdminHome = ({ modelNames }: ConveyorAdminHomeProps) => {
-  const { navigate } = useContext(ConveyorContext);
   const sortedModelNames = modelNames.sort();
   return (
     <Container>
@@ -19,17 +17,11 @@ const ConveyorAdminHome = ({ modelNames }: ConveyorAdminHomeProps) => {
       <Row>
         {sortedModelNames.map((modelName) => (
           <ListGroup key={`${PACKAGE_ABBR}-Home-${modelName}`}>
-            <ListGroup.Item>
-              <a
-                type="button"
-                onClick={(event) => {
-                  event.preventDefault();
-                  navigate({ modelName });
-                }}
-              >
-                {modelName}
-              </a>
-            </ListGroup.Item>
+            <ModelNav modelName={modelName}>
+              <ListGroup.Item>
+                <a type="button">{modelName}</a>
+              </ListGroup.Item>
+            </ModelNav>
           </ListGroup>
         ))}
       </Row>

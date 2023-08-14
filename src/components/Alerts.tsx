@@ -1,10 +1,13 @@
-import { memo, FC, useContext } from 'react'
-import { Toast } from 'react-bootstrap'
+import { memo, FC, useContext } from "react";
+import { Toast } from "react-bootstrap";
 
-import { AlertsContext, AlertsDispatchContext } from '../contexts/AlertsContext'
-import { PACKAGE_ABBR } from '../package'
-import { AlertsAction } from '../reducers/alertsReducer'
-import { BaseProps } from '../types'
+import {
+  AlertsContext,
+  AlertsDispatchContext,
+} from "../contexts/AlertsContext";
+import { PACKAGE_ABBR } from "../package";
+import { AlertsAction } from "../reducers/alertsReducer";
+import { BaseProps } from "../types";
 
 /**
  * Renders on changes made to the alerts context state.
@@ -24,7 +27,7 @@ import { BaseProps } from '../types'
  *            within the state context as Date.now() since reducers
  *            are required to be `pure functions`.)
  *
- *  Example:
+ *  Example with string message:
  *  const {dispatch} = useContext(AlertsContext)
  *  dispatch({
  *       type: AlertsAction.ADD_ALERT,
@@ -36,27 +39,27 @@ import { BaseProps } from '../types'
  *     })
  *   )
  *
- * Example with link:
+ * Example with jsx message:
  * dispatch({
  *     type: AlertsAction.ADD_ALERT,
  *     payload: {
  *       type: 'warning',
- *       message:(<>Alert with link to COA page:  <Link to='/COA'>COA</Link> </>),
+ *       message:(<>Alert with link to Items page:  <a href='/Items'>Items</a> </>),
  *     }
  *   })
  *
  */
 const Alerts: FC<BaseProps> = ({ id, className }) => {
-  const alerts = useContext(AlertsContext)
-  const dispatch = useContext(AlertsDispatchContext)
+  const alerts = useContext(AlertsContext);
+  const dispatch = useContext(AlertsDispatchContext);
   const onClose = (index: number) => {
-    dispatch({ type: AlertsAction.REMOVE_ALERT, payload: index })
-  }
+    dispatch({ type: AlertsAction.REMOVE_ALERT, payload: index });
+  };
   return (
-    <div id={id} className={`${'alerts'} ${className || ''}`}>
+    <div id={id} className={`${"alerts"} ${className || ""}`}>
       {alerts.map((alert, index) => {
-        const { id, type, message, expires } = alert
-        const delay = expires && expires - Date.now()
+        const { id, type, message, expires } = alert;
+        const delay = expires && expires - Date.now();
         return (
           <Toast
             key={`${PACKAGE_ABBR}-alert-${id}`}
@@ -72,10 +75,10 @@ const Alerts: FC<BaseProps> = ({ id, className }) => {
               x
             </button>
           </Toast>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
-export default memo(Alerts) as FC<BaseProps>
+export default memo(Alerts) as FC<BaseProps>;

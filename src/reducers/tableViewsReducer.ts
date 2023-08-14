@@ -41,7 +41,10 @@ export const getSortDir = (sort: TableViewSort, field: string) => {
   else return SortDirection.ASC;
 };
 
-const tableViewsReducer = (tableViews: TableViews, action: ReducerAction) => {
+export const tableViewsReducer = (
+  tableViews: TableViews,
+  action: ReducerAction
+) => {
   const { type, payload } = action;
   switch (type) {
     case TableViewsAction.INIT: {
@@ -91,5 +94,3 @@ const tableViewsReducer = (tableViews: TableViews, action: ReducerAction) => {
     }
   }
 };
-
-export default tableViewsReducer;

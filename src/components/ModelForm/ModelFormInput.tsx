@@ -4,7 +4,7 @@ import { Controller } from "react-hook-form";
 import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { LoadingContext } from "../../contexts/commons/LoadingContext";
 import { ErrorMessage } from "../../enums";
-import useGQLQuery, { GQLQueryAction } from "../../hooks/useGQLQuery";
+import { useGQLQuery, GQLQueryAction } from "../../hooks/useGQLQuery";
 import { PACKAGE_ABBR } from "../../package";
 import { BaseProps, FieldData } from "../../types";
 import { humanizeText } from "../../utils/common";

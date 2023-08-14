@@ -1,9 +1,9 @@
-import { FC, memo, useMemo, ReactNode, useContext } from "react";
+import { FC, memo, useMemo, useContext, Fragment } from "react";
 import { useForm } from "react-hook-form";
 
 import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { Defaults } from "../../enums";
-import useGQLQuery, { GQLQueryAction } from "../../hooks/useGQLQuery";
+import { useGQLQuery, GQLQueryAction } from "../../hooks/useGQLQuery";
 import { PACKAGE_ABBR } from "../../package";
 import { BaseProps, FieldData } from "../../types";
 import {
@@ -13,9 +13,9 @@ import {
 } from "../../utils/gqlRequest";
 import { humanizeText } from "../../utils/common";
 import ModelForm from "../ModelForm/ModelForm";
+import ModelFormField from "../ModelForm/ModelFormField";
+import ModelNav from "../ModelNav";
 
-import ModelDetailTitle from "./ModelDetailTitle";
-import ModelDetailFields from "./ModelDetailFields";
 import ModelDetailCrud from "./ModelDetailCrud";
 import ModelDetailTable from "./ModelDetailTable";
 
@@ -27,7 +27,6 @@ interface ModelDetailProps extends BaseProps {
   fieldsData?: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
-  children?: ReactNode;
 }
 
 const ModelDetail = ({
@@ -40,7 +39,6 @@ const ModelDetail = ({
   fieldsData,
   editable = true,
   deletable = true,
-  children,
 }: ModelDetailProps) => {
   const { primaryKey, secondaryKeys } = useContext(ConveyorContext);
   const keyFallbacks = [primaryKey].concat(secondaryKeys ?? []);
@@ -82,15 +80,20 @@ const ModelDetail = ({
     <div id={id} className={className}>
       {loading ? (
         "Loading..."
-      ) : children ?? modelData ? (
+      ) : modelData ? (
         <>
           <ModelForm formMethods={formMethods}>
             <div className="mb-3">
-              <ModelDetailTitle
-                modelName={modelName}
-                modelLabel={modelData[availableKeys.at(1) ?? primaryKey]}
-                title={title}
-              />
+              <h2>
+                {title ?? (
+                  <>
+                    <ModelNav>
+                      <a>{humanizeText(modelName)}</a>
+                    </ModelNav>
+                    :{modelData[availableKeys.at(1) ?? primaryKey]}
+                  </>
+                )}
+              </h2>
               <ModelDetailCrud
                 modelName={modelName}
                 data={modelData}
@@ -100,12 +103,26 @@ const ModelDetail = ({
                 deletable={deletable}
               />
             </div>
-            <ModelDetailFields
-              modelName={modelName}
-              fields={fields}
-              data={modelData}
-              fieldsData={fieldsData}
-            />
+            <dl>
+              {fields.map((field) => {
+                const displayLabelFn =
+                  fieldsData?.[field]?.displayLabelFn || humanizeText;
+                return !fieldsData?.[field]?.related?.many ? (
+                  <Fragment key={`${PACKAGE_ABBR}-detail-field-${field}`}>
+                    <dt>{displayLabelFn(field)}</dt>
+                    <dd>
+                      <ModelFormField
+                        modelName={modelName}
+                        fields={fields}
+                        field={field}
+                        data={modelData}
+                        fieldData={fieldsData?.[field]}
+                      />
+                    </dd>
+                  </Fragment>
+                ) : null;
+              })}
+            </dl>
           </ModelForm>
           {fields.map((field) => {
             const fieldData = fieldsData?.[field];
@@ -122,7 +139,6 @@ const ModelDetail = ({
                     parentId={modelData[primaryKey]}
                     parentModelName={modelName}
                     parentField={field}
-                    parentFields={fields}
                     parentFieldsData={fieldsData}
                     parentData={modelData}
                     editable={editable}

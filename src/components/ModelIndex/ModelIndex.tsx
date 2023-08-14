@@ -1,18 +1,20 @@
 import { memo, FC, ReactNode } from "react";
+import { Button } from "react-bootstrap";
 
-import useTableView from "../../hooks/useTableView";
+import { Page } from "../../enums";
+import { useTableView } from "../../hooks/useTableView";
 import { PACKAGE_ABBR } from "../../package";
 import { DEFAULT_TABLE_VIEW } from "../../reducers/tableViewsReducer";
 import { BaseProps, FieldData } from "../../types";
 import { humanizeText } from "../../utils/common";
-import ModelCreateButton from "../ModelCreate/ModelCreateButton";
+import ModelNav from "../ModelNav";
 
 import ModelIndexTable from "./ModelIndexTable";
 
 interface ModelIndexProps extends BaseProps {
   modelName: string;
   fields: string[];
-  title?: string;
+  title?: string | JSX.Element;
   fieldsData?: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
@@ -42,7 +44,9 @@ const ModelIndex = ({
           <div id={id} className={className}>
             <h2 className="d-inline">{title}</h2>
             {/* TODO: Filter under construction */}
-            <ModelCreateButton modelName={modelName} editable={editable} />
+            <ModelNav modelName={modelName} modelId={Page.CREATE}>
+              <Button>Create</Button>
+            </ModelNav>
           </div>
           <ModelIndexTable
             modelName={modelName}

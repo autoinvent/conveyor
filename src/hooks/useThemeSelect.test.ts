@@ -1,12 +1,13 @@
-import { act, renderHook } from '@testing-library/react-hooks';
-import useThemeSelect from './useThemeSelect';
+import { act, renderHook } from "@testing-library/react-hooks";
 
-describe('useThemeSelect', () => {
-  it('should change theme', () => {
+import { useThemeSelect } from "./useThemeSelect";
+
+describe("useThemeSelect", () => {
+  it("should change theme", () => {
     const { result } = renderHook(() => useThemeSelect());
     act(() => {
-      result.current.changeTheme('flatly');
+      result.current.changeTheme("flatly");
     });
-    expect(result.current.currentTheme).toBe('flatly');
+    expect(result.current.currentTheme).toBe("flatly");
   });
 });

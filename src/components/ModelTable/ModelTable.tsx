@@ -1,10 +1,12 @@
-import { memo, FC, ReactNode } from "react";
+import { memo, FC, useContext, useMemo } from "react";
 import { Table } from "react-bootstrap";
 
+import { ConveyorContext } from "../../contexts/ConveyorContext";
+import { PACKAGE_ABBR } from "../../package";
 import { BaseProps, FieldData } from "../../types";
 
-import ModelTableHead from "./ModelTableHead";
-import ModelTableBody from "./ModelTableBody";
+import ModelTableHeader from "./ModelTableHeader";
+import ModelTableRow from "./ModelTableRow";
 
 interface ModelTableProps extends BaseProps {
   modelName: string;
@@ -13,7 +15,6 @@ interface ModelTableProps extends BaseProps {
   fieldsData?: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
-  children?: ReactNode;
 }
 
 const ModelTable = ({
@@ -25,30 +26,43 @@ const ModelTable = ({
   fieldsData,
   editable = true,
   deletable = true,
-  children,
 }: ModelTableProps) => {
   const showCrud = editable || deletable;
-
+  const memoDataList = useMemo(() => dataList, [JSON.stringify(dataList)]);
+  const { primaryKey } = useContext(ConveyorContext);
   return (
     <Table id={id} className={className}>
-      {children ?? (
-        <>
-          <ModelTableHead
-            modelName={modelName}
-            fields={fields}
-            fieldsData={fieldsData}
-            showCrud={showCrud}
-          />
-          <ModelTableBody
-            modelName={modelName}
-            fields={fields}
-            dataList={dataList}
-            fieldsData={fieldsData}
-            editable={editable}
-            deletable={deletable}
-          />
-        </>
-      )}
+      <thead id={id} className={className}>
+        <tr>
+          {fields.map((field) => {
+            const displayLabelFn = fieldsData?.[field]?.displayLabelFn;
+            return (
+              <ModelTableHeader
+                key={`${PACKAGE_ABBR}-table-header-${field}}`}
+                modelName={modelName}
+                field={field}
+                displayLabelFn={displayLabelFn}
+              />
+            );
+          })}
+          {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`}></th>}
+        </tr>
+      </thead>
+      <tbody id={id} className={className}>
+        {memoDataList.map((rowData) => {
+          return (
+            <ModelTableRow
+              key={`${PACKAGE_ABBR}-table-row-${rowData[primaryKey]}`}
+              modelName={modelName}
+              fields={fields}
+              data={rowData}
+              fieldsData={fieldsData}
+              editable={editable}
+              deletable={deletable}
+            />
+          );
+        })}
+      </tbody>
     </Table>
   );
 };

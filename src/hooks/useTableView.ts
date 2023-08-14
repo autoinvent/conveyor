@@ -10,7 +10,7 @@ interface UseTableViewProps {
   modelName: string;
   tableView?: TableView;
 }
-const useTableView = ({ modelName, tableView }: UseTableViewProps) => {
+export const useTableView = ({ modelName, tableView }: UseTableViewProps) => {
   const tableViews = useContext(TableViewsContext);
   const dispatch = useContext(TableViewsDispatchContext);
   // Set up initial tableView for the current modelName
@@ -24,5 +24,3 @@ const useTableView = ({ modelName, tableView }: UseTableViewProps) => {
   }, [modelName, tableView]);
   return { tableView: tableViews[modelName], dispatch };
 };
-
-export default useTableView;

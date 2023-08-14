@@ -19,137 +19,77 @@ pnpm install @autoinvent/conveyor
 ```
 
 Then you can use it in your project:
-**TODO**
+
+- Check out [outline](outline.md) for component description and usages.
 
 ## Usage from CDN
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/src/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conveyor</title>
+    <style>
+      body {
+        height: 100%;
+        margin: 0;
+        width: 100%;
+        overflow: hidden;
+      }
+    </style>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/src/logo.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Conveyor</title>
-  <style>
-    body {
-      height: 100%;
-      margin: 0;
-      width: 100%;
-      overflow: hidden;
-    }
-  </style>
-
-  <!--
-      This AutoInvent example depends on Promise and fetch, which are available in
-      modern browsers, but can be "polyfilled" for older browsers.
+    <!--
+      This example depends on Promise and fetch, which are available in modern browsers, but can be "polyfilled" for older browsers.
       Conveyor itself depends on React DOM.
-      If you do not want to rely on a CDN, you can host these files locally or
-      include them directly in your favored resource bundler.
+      If you do not want to rely on a CDN, you can host these files locally or nclude them directly in your favored resource bundler.
     -->
-  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-</head>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    ></script>
+  </head>
 
-<body>
-  <div id="conveyor">Loading...</div>
-  <script src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.0/dist/conveyor.umd.js"></script>
-  <script defer>
-    function autoInventAdapter(aiSchema) {
-      const modelTitles = Object.keys(aiSchema);
-      modelTitles.pop();
-      const modelNames = modelTitles.map((modelTitle) => String(modelTitle).toLowerCase());
-      const modelPluralNames = modelNames.map((modelName) => `${modelName}s`);
-      const relationalFieldTypes = modelNames.concat(modelPluralNames);
-      const conveyorSchema = modelTitles.map((modelTitle) => {
-        const fieldNames = Object.keys(aiSchema[modelTitle].fields);
-        // Extracts conveyor schema fields
-        const compatibleFields = [];
-        fieldNames.forEach((fieldName) => {
-          // Gets rid of incompatible fields
-          switch (fieldName) {
-            case 'noEditField':
-            case 'noViewField':
-            case 'noViewField2':
-              return;
-            default:
-              break;
-          }
-          // Sets compatible field meta data
-          const currentField = aiSchema[modelTitle].fields[fieldName];
-          let type = null;
-          switch (currentField.type) {
-            case 'string':
-            case 'currency':
-            case 'enum':
-            case 'date':
-            case 'boolean':
-            case 'file':
-            case 'creatable_string_select':
-            case 'email':
-            case 'phone':
-            case 'text':
-            case 'ID': {
-              type = currentField.type;
-              break;
-            }
-            default: {
-              if (relationalFieldTypes.includes(currentField.fieldName)) {
-                type = {
-                  // FieldName is the closest representation to what type should be
-                  name: currentField.fieldName.toLowerCase(),
-                };
-              }
-            }
-          }
-          if (type) {
-            const field = {
-              name: String(fieldName),
-              type,
-              required: aiSchema[modelTitle].fields[fieldName].required,
-            };
-            compatibleFields.push(field);
-          }
-        });
-        return {
-          name: aiSchema[modelTitle].queryName,
-          fields: compatibleFields,
-        };
-      });
-      return { models: conveyorSchema };
-    }
+  <body>
+    <div id="conveyorAdmin">Loading...</div>
+    <script src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.0/dist/conveyor.umd.js"></script>
+    <script defer>
+      const ConveyorAdmin = window.conveyorAdmin.ConveyorAdmin;
+      const request = window.conveyorAdmin.request;
 
-    const Conveyor = window.conveyor.Conveyor
-    const request = window.conveyor.request
+      const graphQLUrl = "/graphql";
+      // Fetcher to retrieve GraphQL query/mutation from endpoint
+      const useGQLQueryResponse: UseGQLQueryResponse = (graphQLParams) => {
+        return request(
+          graphQLUrl,
+          graphQLParams.document,
+          graphQLParams.variables
+        );
+      };
+      const useGQLMutationRequest: UseGQLMutationRequest = (graphQLParams) => {
+        return (options) =>
+          request(
+            graphQLUrl,
+            graphQLParams.document,
+            options?.variables ?? graphQLParams.variables
+          );
+      };
 
-    // Fetcher to retrieve schema from endpoint
-    const schemaUrl = '/api/schema';
-    const schemaFetcher = async () => {
-      const response = await fetch(schemaUrl);
-      const remoteSchemaResponse = await response.json();
-      return autoInventAdapter(remoteSchemaResponse.definitions);
-    };
-    // Fetcher to retrieve GraphQL query/mutation from endpoint
-    const graphQLUrl = '/api/graphql';
-    const graphqlFetcher = async (graphQLParams) => {
-      const result = await request(
-        graphQLUrl,
-        graphQLParams.request,
-        graphQLParams.variables,
+      ReactDOM.render(
+        React.createElement(ConveyorAdmin, {
+          useGQLQueryResponse: useGQLQueryResponse,
+          useGQLMutationRequest: useGQLMutationRequest,
+        }),
+        document.getElementById("conveyor")
       );
-      return result;
-    };
-
-    ReactDOM.render(
-      React.createElement(Conveyor, {
-        schemaFetcher: schemaFetcher,
-        gqlFetcher: graphqlFetcher,
-      }),
-      document.getElementById('conveyor'),
-    );
-  </script>
-</body>
+    </script>
+  </body>
 </html>
 ```
 

@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { ConveyorContext } from "../../contexts/ConveyorContext";
 import { BaseProps, FieldData } from "../../types";
 import { getAvailableKeys, gqlTypeToFlexType } from "../../utils/gqlRequest";
-import Link from "../commons/Link";
+import ModelNav from "../ModelNav";
 import Checkbox from "../commons/Checkbox";
 import { InputTypes } from "../commons/FlexibleInput";
 
@@ -37,21 +37,23 @@ const ModelFormValue = ({
     }
     displayData = displayData?.map(
       (val: Record<string, any>, index: number) => (
-        <Link
+        <ModelNav
           key={index}
           modelName={related?.modelName}
           modelId={val[primaryKey]}
         >
-          {val?.[availableKeys.at(1) ?? primaryKey]}
-          {index !== displayData?.length - 1 && ","}
-        </Link>
+          <a>
+            {val?.[availableKeys.at(1) ?? primaryKey]}
+            {index !== displayData?.length - 1 && ","}
+          </a>
+        </ModelNav>
       )
     );
   } else if (getAvailableKeys(fields, keyFallbacks).includes(field)) {
     displayData = (
-      <Link modelName={modelName} modelId={data[primaryKey]}>
-        {currData}
-      </Link>
+      <ModelNav modelName={modelName} modelId={data[primaryKey]}>
+        <a>{currData}</a>
+      </ModelNav>
     );
   } else if (type === InputTypes.BOOLEAN) {
     displayData = <Checkbox value={currData} disabled={true} />;

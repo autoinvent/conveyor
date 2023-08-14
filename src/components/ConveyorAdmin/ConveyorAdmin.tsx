@@ -11,7 +11,7 @@ import ConveyorAdminContent from "./ConveyorAdminContent";
 interface ConveyorAdminProps {
   useGQLQueryResponse: UseGQLQueryResponse;
   useGQLMutationRequest: UseGQLMutationRequest;
-  primaryKey: string;
+  primaryKey?: string;
   secondaryKeys?: string[];
 }
 
@@ -23,7 +23,7 @@ interface NavigateParams {
 const ConveyorAdmin = ({
   useGQLQueryResponse,
   useGQLMutationRequest,
-  primaryKey,
+  primaryKey = "id",
   secondaryKeys,
 }: ConveyorAdminProps) => {
   const [currentPage, setCurrentPage] = useState(Page.HOME);

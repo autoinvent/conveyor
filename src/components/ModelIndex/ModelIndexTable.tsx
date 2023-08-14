@@ -1,13 +1,13 @@
 import { useMemo, useContext } from "react";
 
 import { ConveyorContext } from "../../contexts/ConveyorContext";
-import useGQLQuery, { GQLQueryAction } from "../../hooks/useGQLQuery";
-import useTableView from "../../hooks/useTableView";
+import { useGQLQuery, GQLQueryAction } from "../../hooks/useGQLQuery";
+import { useTableView } from "../../hooks/useTableView";
 import { BaseProps, FieldData } from "../../types";
 import { getGQLAction, getGQLDocument } from "../../utils/gqlRequest";
-import Loading from "../commons/Loading";
 import ModelTable from "../ModelTable/ModelTable";
 import ModelTablePagination from "../ModelTable/ModelTablePagination";
+import Loading from "../commons/Loading";
 
 interface ModelIndexTableProps extends BaseProps {
   modelName: string;

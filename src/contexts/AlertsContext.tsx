@@ -6,7 +6,7 @@ import {
   useEffect,
 } from "react";
 
-import alertsReducer, { Alert, AlertsAction } from "../reducers/alertsReducer";
+import { alertsReducer, Alert, AlertsAction } from "../reducers/alertsReducer";
 import { ReducerAction } from "../types";
 
 export const AlertsContext = createContext([] as Alert[]);

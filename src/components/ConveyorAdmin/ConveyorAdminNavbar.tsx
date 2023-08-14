@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import {
   Container,
   Nav,
@@ -7,13 +6,12 @@ import {
 } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 
-import { ConveyorContext } from "../../contexts/ConveyorContext";
-import useThemeSelect, { ThemeName } from "../../hooks/useThemeSelect";
+import { useThemeSelect, ThemeName } from "../../hooks/useThemeSelect";
 import { PACKAGE_ABBR } from "../../package";
+import ModelNav from "../ModelNav";
 
 function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
   const { currentTheme, themeCSS, changeTheme } = useThemeSelect();
-  const { navigate } = useContext(ConveyorContext);
   const sortedModelNames = modelNames?.sort();
 
   return (
@@ -23,15 +21,17 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
       </Helmet>
       <ReactNavBar className="mb-3" variant="dark" bg="primary" expand="sm">
         <Container>
-          <ReactNavBar.Brand onClick={() => navigate({})}>
-            <img
-              alt="Conveyor Logo"
-              src="/src/logo.svg"
-              height="30"
-              className="d-inline-block align-top"
-            />{" "}
-            Conveyor
-          </ReactNavBar.Brand>
+          <ModelNav>
+            <ReactNavBar.Brand>
+              <img
+                alt="Conveyor Logo"
+                src="/src/logo.svg"
+                height="30"
+                className="d-inline-block align-top"
+              />{" "}
+              Conveyor
+            </ReactNavBar.Brand>
+          </ModelNav>
           <ReactNavBar.Toggle aria-controls="moebius-example-navbar" />
           <ReactNavBar.Collapse
             id="moebius-example-navbar"
@@ -46,12 +46,12 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
               >
                 {sortedModelNames ? (
                   sortedModelNames.map((modelName: string) => (
-                    <NavDropdown.Item
+                    <ModelNav
                       key={`${PACKAGE_ABBR}-navbar-models-${modelName}`}
-                      onClick={() => navigate({ modelName })}
+                      modelName={modelName}
                     >
-                      {modelName}
-                    </NavDropdown.Item>
+                      <NavDropdown.Item>{modelName}</NavDropdown.Item>
+                    </ModelNav>
                   ))
                 ) : (
                   <NavDropdown.Item>No Models Found</NavDropdown.Item>
