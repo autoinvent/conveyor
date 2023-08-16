@@ -88,7 +88,7 @@ const ModelDetail = ({
               <h2>
                 {title ?? (
                   <>
-                    <ModelNav>
+                    <ModelNav modelName={modelName}>
                       <a href="#">{humanizeText(modelName)}</a>
                     </ModelNav>
                     :{modelData[availableKeys.at(1) ?? primaryKey]}
