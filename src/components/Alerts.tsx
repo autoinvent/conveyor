@@ -49,14 +49,14 @@ import { BaseProps } from "../types";
  *   })
  *
  */
-const Alerts: FC<BaseProps> = ({ id, className }) => {
+const Alerts: FC<BaseProps> = ({ id, className = "" }) => {
   const alerts = useContext(AlertsContext);
   const dispatch = useContext(AlertsDispatchContext);
   const onClose = (index: number) => {
     dispatch({ type: AlertsAction.REMOVE_ALERT, payload: index });
   };
   return (
-    <div id={id} className={`${"alerts"} ${className || ""}`}>
+    <div id={id} className={`${"alerts"} ${className}`}>
       {alerts.map((alert, index) => {
         const { id, type, message, expires } = alert;
         const delay = expires && expires - Date.now();

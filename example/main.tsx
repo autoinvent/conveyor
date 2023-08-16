@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { createRoot } from 'react-dom/client';
+import { createRoot } from "react-dom/client";
 
-import './index.css';
-import App from './App';
+import "./index.css";
+import "../src/styles/conveyor.css";
+import "../src/styles/general.css";
+
+import App from "./App";
 
 const initSPA = async () => {
-  const container = document.getElementById('root');
+  const container = document.getElementById("root");
   const root = createRoot(container as HTMLElement);
 
   root.render(<App />);

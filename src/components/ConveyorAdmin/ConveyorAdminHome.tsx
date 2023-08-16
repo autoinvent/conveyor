@@ -19,7 +19,9 @@ const ConveyorAdminHome = ({ modelNames }: ConveyorAdminHomeProps) => {
           <ListGroup key={`${PACKAGE_ABBR}-Home-${modelName}`}>
             <ModelNav modelName={modelName}>
               <ListGroup.Item>
-                <a type="button">{modelName}</a>
+                <a href="#" type="button">
+                  {modelName}
+                </a>
               </ListGroup.Item>
             </ModelNav>
           </ListGroup>

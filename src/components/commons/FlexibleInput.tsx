@@ -33,7 +33,7 @@ const FlexibleInput = ({
       inputTag = (
         <Select
           id={id}
-          className={className ?? "basic-single"}
+          className={`select ${className ?? ""}`}
           classNamePrefix="select"
           isDisabled={disabled}
           {...inputProps}
@@ -57,7 +57,7 @@ const FlexibleInput = ({
       inputTag = (
         <input
           id={id}
-          className={className ?? "form-control"}
+          className={className}
           type={type}
           {...inputProps}
           disabled={disabled}

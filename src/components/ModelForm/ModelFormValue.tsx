@@ -52,7 +52,7 @@ const ModelFormValue = ({
   } else if (getAvailableKeys(fields, keyFallbacks).includes(field)) {
     displayData = (
       <ModelNav modelName={modelName} modelId={data[primaryKey]}>
-        <a>{currData}</a>
+        <a href="#">{currData}</a>
       </ModelNav>
     );
   } else if (type === InputTypes.BOOLEAN) {

@@ -1,4 +1,5 @@
 import { FC, memo } from "react";
+import { Container } from "react-bootstrap";
 
 import { PACKAGE_ABBR } from "../../package";
 import { BaseProps, FieldData } from "../../types";
@@ -24,9 +25,9 @@ const ModelCreate = ({
   fieldsData,
 }: ModelCreateProps) => {
   return (
-    <div id={id} className={className}>
+    <Container id={id} className={className}>
       <div className="mb-4">
-        <h1>{title}</h1>
+        <h2>{title}</h2>
         <div>* Indicates a required field</div>
       </div>
       <ModelCreateForm fields={fields}>
@@ -46,7 +47,7 @@ const ModelCreate = ({
           fieldsData={fieldsData}
         />
       </ModelCreateForm>
-    </div>
+    </Container>
   );
 };
 

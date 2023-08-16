@@ -1,7 +1,6 @@
-import { Ref } from "react";
-import { Button } from "react-bootstrap";
 import { FaRegSquare, FaRegCheckSquare } from "react-icons/fa";
 
+import { PACKAGE_ABBR } from "../../package";
 import { BaseProps } from "../../types";
 
 interface CheckboxProps extends BaseProps {
@@ -12,20 +11,20 @@ interface CheckboxProps extends BaseProps {
 
 const Checkbox = ({
   id,
-  className,
+  className = "",
   value,
   disabled,
   onChange = () => {},
 }: CheckboxProps) => {
   return (
-    <Button
+    <button
       id={id}
-      className={className}
+      className={`${PACKAGE_ABBR}-checkbox ${className}`}
       onClick={() => onChange(!value)}
       disabled={disabled}
     >
       {value ? <FaRegCheckSquare /> : <FaRegSquare />}
-    </Button>
+    </button>
   );
 };
 

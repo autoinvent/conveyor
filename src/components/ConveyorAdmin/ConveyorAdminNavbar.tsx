@@ -13,7 +13,6 @@ import ModelNav from "../ModelNav";
 function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
   const { currentTheme, themeCSS, changeTheme } = useThemeSelect();
   const sortedModelNames = modelNames?.sort();
-
   return (
     <>
       <Helmet defer>

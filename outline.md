@@ -185,9 +185,9 @@ The word wrapper in the description indicates that the component must have a chi
             { props.fields.map((field) => (
                 <!-- Part of Model Components -->
                 <td><ModelFormField {...props} /></td>
-                <td><ModelTableCrud /></td>
             ))}
-            <td></td>
+            <!-- Part of Model Components -->
+            <td><ModelTableCrud /></td>
         </tr>
     </ModelForm>
 ```

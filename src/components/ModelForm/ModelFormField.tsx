@@ -5,12 +5,12 @@ import {
   DisplayModeContext,
   DisplayMode,
 } from "../../contexts/commons/DisplayModeContext";
-import { BaseProps, FieldData } from "../../types";
+import { FieldData } from "../../types";
 
 import ModelFormInput from "./ModelFormInput";
 import ModelFormValue from "./ModelFormValue";
 
-interface ModelFormFieldProps extends BaseProps {
+interface ModelFormFieldProps {
   modelName: string;
   fields: string[];
   field: string;
@@ -19,8 +19,6 @@ interface ModelFormFieldProps extends BaseProps {
 }
 
 const ModelFormField = ({
-  id,
-  className,
   modelName,
   fields,
   field,
@@ -31,7 +29,7 @@ const ModelFormField = ({
   const { primaryKey } = useContext(ConveyorContext);
 
   return (
-    <div id={id} className={className}>
+    <>
       {fieldData?.displayValueFn?.(data?.[field]) ??
       (mode === DisplayMode.DISPLAY || field === primaryKey) ? (
         <ModelFormValue
@@ -44,7 +42,7 @@ const ModelFormField = ({
       ) : (
         <ModelFormInput field={field} fieldData={fieldData} />
       )}
-    </div>
+    </>
   );
 };
 

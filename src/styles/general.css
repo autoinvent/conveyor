@@ -1,0 +1,59 @@
+dd {
+    width: 80%
+}
+
+dl {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+dt {
+    width: 20%;
+    text-align: right;
+    padding-right: 10px;
+}
+
+form label {
+    display: block;
+}
+
+input {
+    width: 100%;
+}
+
+summary h4 {
+    display: inline;
+}
+
+.alerts {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+}
+
+.select .select__value-container, .select .select__menu-list, .select .select__indicators {
+    background-color: var(--bs-gray-dark);
+}
+
+.select .select__single-value {
+    color: var(--bs-primary-bg-subtle);
+}
+
+
+.select .select__option:hover {
+    background-color: var(--bs-dark-text-emphasis);
+}
+
+.close {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    background-color: transparent;
+    border: 0px;
+    font-size: 1.25rem;
+}
+
+.text-danger {
+    font-size: 0.85rem;
+}

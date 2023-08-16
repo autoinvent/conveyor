@@ -1,1 +1,1 @@
-export const PACKAGE_ABBR = 'cc'
+export const PACKAGE_ABBR = "conv";

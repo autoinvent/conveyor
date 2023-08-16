@@ -1,5 +1,5 @@
 import { memo, FC, ReactNode } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 
 import { Page } from "../../enums";
 import { useTableView } from "../../hooks/useTableView";
@@ -23,7 +23,7 @@ interface ModelIndexProps extends BaseProps {
 
 const ModelIndex = ({
   id,
-  className = `${PACKAGE_ABBR}-index`,
+  className,
   modelName,
   fields,
   title = humanizeText(modelName),
@@ -38,11 +38,11 @@ const ModelIndex = ({
     tableView: JSON.parse(JSON.stringify(DEFAULT_TABLE_VIEW)),
   });
   return (
-    <div id={id} className={className}>
+    <Container id={id} className={className}>
       {children ?? (
         <>
-          <div id={id} className={className}>
-            <h2 className="d-inline">{title}</h2>
+          <div id={id} className={`${PACKAGE_ABBR}-model-title`}>
+            <h2>{title}</h2>
             {/* TODO: Filter under construction */}
             <ModelNav modelName={modelName} modelId={Page.CREATE}>
               <Button>Create</Button>
@@ -57,7 +57,7 @@ const ModelIndex = ({
           />
         </>
       )}
-    </div>
+    </Container>
   );
 };
 

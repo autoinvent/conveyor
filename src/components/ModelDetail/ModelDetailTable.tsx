@@ -39,7 +39,7 @@ const ModelDetailTable = ({
   const { modelName, fields = [], fieldsData } = related;
   const dataList = parentData[parentField];
   return (
-    <Table id={id} className={className}>
+    <Table id={id} className={className} striped bordered hover size="sm">
       <thead id={id} className={className}>
         <tr>
           {fields.map((field) => {
@@ -83,7 +83,7 @@ const ModelDetailTable = ({
                 );
               })}
               {showCrud ? (
-                <td className={`${PACKAGE_ABBR}-model-table-crud `}>
+                <td className={`${PACKAGE_ABBR}-model-table-crud-cell`}>
                   <ModelDetailTableCrud
                     parentId={parentId}
                     parentModelName={parentModelName}

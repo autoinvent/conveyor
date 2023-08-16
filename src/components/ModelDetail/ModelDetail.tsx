@@ -1,4 +1,5 @@
 import { FC, memo, useMemo, useContext, Fragment } from "react";
+import { Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
 import { ConveyorContext } from "../../contexts/ConveyorContext";
@@ -77,18 +78,18 @@ const ModelDetail = ({
   const formMethods = useForm({ values, mode: Defaults.RHK_MODE });
   const loading = Object.values({ ...data, ...error }).length === 0;
   return (
-    <div id={id} className={className}>
+    <Container id={id} className={className}>
       {loading ? (
         "Loading..."
       ) : modelData ? (
         <>
           <ModelForm formMethods={formMethods}>
-            <div className="mb-3">
+            <div className={`${PACKAGE_ABBR}-model-title`}>
               <h2>
                 {title ?? (
                   <>
                     <ModelNav>
-                      <a>{humanizeText(modelName)}</a>
+                      <a href="#">{humanizeText(modelName)}</a>
                     </ModelNav>
                     :{modelData[availableKeys.at(1) ?? primaryKey]}
                   </>
@@ -154,7 +155,7 @@ const ModelDetail = ({
       ) : (
         <h4>{modelName} does not exist.</h4>
       )}
-    </div>
+    </Container>
   );
 };
 
