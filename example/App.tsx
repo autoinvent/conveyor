@@ -5,7 +5,6 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-
 import {
   ConveyorAdmin,
   UseGQLQueryResponse,
@@ -14,57 +13,64 @@ import {
 
 function App() {
   const queryClient = new QueryClient();
-  const graphQLUrl = "/graphql";
+  const gqlUrl = "/graphql";
+  const errorHandler = (error: any) => {
+    let errorMessages = null;
+    if (typeof error?.message === "string") {
+      const matches = error.message.match(/\{".*\}/g);
+      if (matches) {
+        const parsedError = JSON.parse(matches[0]);
+        error = parsedError;
+      }
+    }
+    if (error?.response) {
+      if (Array.isArray(error?.response?.errors)) {
+        errorMessages = error.response.errors.map((err: any) => err.message);
+      }
+    }
+    if (!errorMessages) {
+      throw Error(error);
+    }
+    return errorMessages;
+  };
+  const handleResponse = (response: any) => {
+    return new Promise((resolve, reject) => {
+      if (!response.isLoading) {
+        if (response.isError) {
+          reject(errorHandler(response.error));
+        } else {
+          resolve(response.data);
+        }
+      }
+    });
+  };
   // Fetcher to retrieve GraphQL query/mutation from endpoint
   const useGQLQueryResponse: UseGQLQueryResponse = (graphQLParams) => {
     const actionModel = graphQLParams.action
       ? graphQLParams.action.split("_")[0]
       : "unknown";
-    const fetcher = () =>
-      request(graphQLUrl, graphQLParams.document, graphQLParams.variables);
-    const { isLoading, isError, error, data } = useQuery({
+    const response = useQuery({
       queryKey: [actionModel, graphQLParams],
       queryFn: () =>
-        request(graphQLUrl, graphQLParams.document, graphQLParams.variables),
+        request(gqlUrl, graphQLParams.document, graphQLParams.variables),
     });
-    return new Promise((resolve, reject) => {
-      if (!isLoading) {
-        if (isError) {
-          reject(error);
-        } else {
-          resolve(data);
-        }
-      }
-    });
+    return handleResponse(response);
   };
   const useGQLMutationRequest: UseGQLMutationRequest = (graphQLParams) => {
     const actionModel = graphQLParams.action
       ? graphQLParams.action.split("_")[0]
       : "unknown";
-    const fetcher = (options: any) =>
-      request(
-        graphQLUrl,
-        graphQLParams.document,
-        options?.variables ?? graphQLParams.variables
-      );
-    const { isLoading, isError, error, data, mutate } = useMutation({
+    const response = useMutation({
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [actionModel] });
       },
-      mutationFn: fetcher,
+      mutationFn: (options: any) =>
+        request(gqlUrl, graphQLParams.document, options?.variables),
     });
 
     return (options) => {
-      mutate(options);
-      return new Promise((resolve, reject) => {
-        if (!isLoading) {
-          if (isError) {
-            reject(error);
-          } else {
-            resolve(data);
-          }
-        }
-      });
+      response.mutate(options);
+      return handleResponse(response);
     };
   };
 

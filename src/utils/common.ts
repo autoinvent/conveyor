@@ -16,24 +16,16 @@ export const lowerCaseFirst = (str: string) => {
   return str.charAt(0).toLowerCase() + str.slice(1);
 };
 
-export const parseResponseError = (error: any) => {
-  let errorMessages = null;
-  if (typeof error?.message === "string") {
-    const matches = error.message.match(/\{".*\}/g);
-    if (matches) {
-      const parsedError = JSON.parse(matches[0]);
-      error = parsedError;
-    }
+export const parseResponseError = (
+  errorMessages: string | string[] | Error
+) => {
+  if (Array.isArray(errorMessages)) {
+    return errorMessages;
+  } else if (typeof errorMessages === "string") {
+    return [errorMessages];
+  } else if (errorMessages?.message) {
+    return [errorMessages.message];
+  } else {
+    throw Error(ErrorMessage.UNKNOWN_ERROR, errorMessages);
   }
-  if (error?.response) {
-    if (error.response?.status === 404) {
-      errorMessages = [ErrorMessage.GQL_ENDPT_DNE];
-    } else if (Array.isArray(error?.response?.errors)) {
-      errorMessages = error.response.errors.map((err: any) => err.message);
-    }
-  }
-  if (!errorMessages) {
-    throw Error(ErrorMessage.UNKNOWN_ERROR + error.message);
-  }
-  return errorMessages;
 };

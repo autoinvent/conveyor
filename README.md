@@ -63,23 +63,40 @@ Then you can use it in your project:
       const ConveyorAdmin = window.conveyor.ConveyorAdmin;
 
       const gqlUrl = "/graphql";
-      // Fetcher to retrieve GraphQL query/mutation from endpoint
+      const responseHandler = async (response: any) => {
+        const parsedResponse = await response.json();
+        if (parsedResponse?.data) {
+          return parsedResponse.data;
+        } else if (parsedResponse?.errors) {
+          throw parsedResponse.errors;
+        } else {
+          throw parsedResponse;
+        }
+      };
       const useGQLQueryResponse: UseGQLQueryResponse = (graphQLParams) => {
         return fetch(gqlUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
-            document: graphQLParams.document,
+            query: graphQLParams.document,
             variables: graphQLParams.variables,
           }),
-        });
+        }).then(responseHandler);
       };
       const useGQLMutationRequest: UseGQLMutationRequest = (graphQLParams) => {
         return (options) =>
           fetch(gqlUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
             body: JSON.stringify({
-              document: graphQLParams.document,
-              variables: options?.variables ?? graphQLParams.variables,
+              query: graphQLParams.document,
+              variables: options?.variables,
             }),
-          });
+          }).then(responseHandler);
       };
 
       ReactDOM.render(
@@ -87,7 +104,7 @@ Then you can use it in your project:
           useGQLQueryResponse: useGQLQueryResponse,
           useGQLMutationRequest: useGQLMutationRequest,
         }),
-        document.getElementById("conveyor")
+        document.getElementById("conveyorAdmin")
       );
     </script>
   </body>

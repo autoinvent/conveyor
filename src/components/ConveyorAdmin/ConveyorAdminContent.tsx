@@ -31,7 +31,7 @@ const IntrospectionDocument = `
     mutation:__type(name:"Mutation") {
     fields {
       name
-      type { ofType { name } }
+      type { ofType { name } } 
       args { 
         name
         type { name kind ofType { name kind ofType { name kind ofType { name kind ofType { name kind } } } } }
