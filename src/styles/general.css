@@ -19,7 +19,7 @@ form label {
 
 input {
     width: 100%;
-    background-color: var(--bs-secondary-text-emphasis);
+    background-color: var(--bs-body-bg);
     border-radius: 4px;
     border-style: solid;
     border-width: thin;
@@ -65,7 +65,13 @@ summary h4 {
 }
 
 .select .select__value-container, .select .select__menu-list, .select .select__indicators, .select .select__option  {
-    background-color: var(--bs-secondary-text-emphasis);
+    background-color: var(--bs-body-bg);
+}
+
+.select .select__menu-list {
+    border: solid;
+    border-width: thin;
+    border-color: var(--bs-primary-bg-subtle)
 }
 
 .select .select__single-value, .select .select__multi-value {
@@ -76,9 +82,13 @@ summary h4 {
     background-color: var(--bs-dark-border-subtle);
 }
 
+.select .select__option {
+    color: var(--bs-body-color);
+}
 
 .select .select__option:hover {
-    background-color: var(--bs-primary-text-emphasis);
+    background-color: var(--bs-primary-bg-subtle);
+    color: var(--bs-body-bg);
 }
 
 
