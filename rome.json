@@ -7,10 +7,10 @@
         "noExplicitAny": "off"
       }
     },
-    "ignore": ["/dist", "*.scss", "*.css"]
+    "ignore": ["/dist", "*.scss", "*.css", "*.md"]
   },
   "formatter": {
-    "ignore": ["/dist"],
+    "ignore": ["/dist", "*.md"],
     "indentStyle": "space"
   },
   "javascript": {
