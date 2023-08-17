@@ -2,9 +2,9 @@
 
 The following request api's will be implemented below:
 
-- [fetch](using-fetch)
-- [graphql-request](using-graphql-request)
-- [@tanstack/react-query](using-@tanstack/react-query)
+- [fetch](#using-fetch)
+- [graphql-request](#using-graphql-request)
+- [@tanstack/react-query](#using-tanstackreact-query)
 
   Note: useGQLQueryResponse must return a promise and useGQLMutationRequest must return a function that returns a promise. The promise's in both cases must reject errors (string, string[], or Error) and resolve data (in the form of the graphql language).
 
