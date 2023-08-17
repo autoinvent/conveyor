@@ -63,7 +63,7 @@ Then you can use it in your project:
       const ConveyorAdmin = window.conveyor.ConveyorAdmin;
 
       const gqlUrl = "/graphql";
-      const responseHandler = async (response: any) => {
+      const responseHandler = async (response) => {
         const parsedResponse = await response.json();
         if (parsedResponse?.data) {
           return parsedResponse.data;
@@ -73,7 +73,7 @@ Then you can use it in your project:
           throw parsedResponse;
         }
       };
-      const useGQLQueryResponse: UseGQLQueryResponse = (graphQLParams) => {
+      const useGQLQueryResponse = (graphQLParams) => {
         return fetch(gqlUrl, {
           method: "POST",
           headers: {
@@ -85,7 +85,7 @@ Then you can use it in your project:
           }),
         }).then(responseHandler);
       };
-      const useGQLMutationRequest: UseGQLMutationRequest = (graphQLParams) => {
+      const useGQLMutationRequest = (graphQLParams) => {
         return (options) =>
           fetch(gqlUrl, {
             method: "POST",
