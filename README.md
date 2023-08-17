@@ -58,7 +58,7 @@ Then you can use it in your project:
 
   <body>
     <div id="conveyorAdmin">Loading...</div>
-    <script src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.0/dist/conveyor.umd.js"></script>
+    <script src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.2/dist/conveyor.umd.js"></script>
     <script defer>
       const ConveyorAdmin = window.conveyor.ConveyorAdmin;
 
