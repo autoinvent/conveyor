@@ -20,94 +20,92 @@ pnpm install @autoinvent/conveyor
 
 Then you can use it in your project:
 
-- Check out [outline](outline.md) for component description and usages.
+- Check out [outline](docs/outline.md) for component description and usages.
+- Check out [request examples](docs/request_examples.md.md) for examples on how to use different request APIs.
 
 ## Usage from CDN
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/src/logo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Conveyor</title>
-    <style>
-      body {
-        height: 100%;
-        margin: 0;
-        width: 100%;
-        overflow: hidden;
-      }
-    </style>
 
-    <!--
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/src/logo.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conveyor</title>
+  <style>
+    body {
+      height: 100%;
+      margin: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+  </style>
+
+  <!--
       This example depends on Promise and fetch, which are available in modern browsers, but can be "polyfilled" for older browsers.
       Conveyor itself depends on React DOM.
       If you do not want to rely on a CDN, you can host these files locally or nclude them directly in your favored resource bundler.
     -->
-    <script
-      crossorigin
-      src="https://unpkg.com/react@17/umd/react.development.js"
-    ></script>
-    <script
-      crossorigin
-      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
-    ></script>
-  </head>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <link crossorigin href="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.2/dist/styles/index.css" rel="stylesheet" />
+  <script crossorigin src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.2/dist/conveyor.umd.js"></script>
+</head>
 
-  <body>
-    <div id="conveyorAdmin">Loading...</div>
-    <script src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.2/dist/conveyor.umd.js"></script>
-    <script defer>
-      const ConveyorAdmin = window.conveyor.ConveyorAdmin;
+<body>
+  <div id="conveyorAdmin">Loading...</div>
+  <script defer>
+    const ConveyorAdmin = window.conveyor.ConveyorAdmin;
 
-      const gqlUrl = "/graphql";
-      const responseHandler = async (response) => {
-        const parsedResponse = await response.json();
-        if (parsedResponse?.data) {
-          return parsedResponse.data;
-        } else if (parsedResponse?.errors) {
-          throw parsedResponse.errors;
-        } else {
-          throw parsedResponse;
-        }
-      };
-      const useGQLQueryResponse = (graphQLParams) => {
-        return fetch(gqlUrl, {
+    const gqlUrl = "/graphql";
+    const responseHandler = async (response) => {
+      const parsedResponse = await response.json();
+      if (parsedResponse?.data) {
+        return parsedResponse.data;
+      } else if (parsedResponse?.errors) {
+        throw parsedResponse.errors;
+      } else {
+        throw parsedResponse;
+      }
+    };
+    const useGQLQueryResponse = (graphQLParams) => {
+      return fetch(gqlUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: graphQLParams.document,
+          variables: graphQLParams.variables,
+        }),
+      }).then(responseHandler);
+    };
+    const useGQLMutationRequest = (graphQLParams) => {
+      return (options) =>
+        fetch(gqlUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             query: graphQLParams.document,
-            variables: graphQLParams.variables,
+            variables: options?.variables,
           }),
         }).then(responseHandler);
-      };
-      const useGQLMutationRequest = (graphQLParams) => {
-        return (options) =>
-          fetch(gqlUrl, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              query: graphQLParams.document,
-              variables: options?.variables,
-            }),
-          }).then(responseHandler);
-      };
+    };
 
-      ReactDOM.render(
-        React.createElement(ConveyorAdmin, {
-          useGQLQueryResponse: useGQLQueryResponse,
-          useGQLMutationRequest: useGQLMutationRequest,
-        }),
-        document.getElementById("conveyorAdmin")
-      );
-    </script>
-  </body>
+    ReactDOM.render(
+      React.createElement(ConveyorAdmin, {
+        useGQLQueryResponse: useGQLQueryResponse,
+        useGQLMutationRequest: useGQLMutationRequest,
+      }),
+      document.getElementById("conveyorAdmin")
+    );
+  </script>
+</body>
+
 </html>
 ```
 
