@@ -1,11 +1,12 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 
-import { ConveyorContext } from "../../contexts/ConveyorContext";
-import { BaseProps, FieldData } from "../../types";
-import { getAvailableKeys, gqlTypeToFlexType } from "../../utils/gqlRequest";
-import ModelNav from "../ModelNav";
-import Checkbox from "../commons/Checkbox";
-import { InputTypes } from "../commons/FlexibleInput";
+import { ConveyorContext } from '../../contexts/ConveyorContext';
+import { BaseProps, FieldData } from '../../types';
+import { getAvailableKeys, gqlTypeToFlexType } from '../../utils/gqlRequest';
+import ModelNav from '../ModelNav';
+import Checkbox from '../commons/Checkbox';
+import { InputTypes } from '../commons/FlexibleInput';
+import { Card } from 'react-bootstrap';
 
 interface ModelFormValueProps extends BaseProps {
   modelName: string;
@@ -25,7 +26,7 @@ const ModelFormValue = ({
   fieldData,
 }: ModelFormValueProps) => {
   const { primaryKey, secondaryKeys } = useContext(ConveyorContext);
-  const type = gqlTypeToFlexType(fieldData?.type ?? "String");
+  const type = gqlTypeToFlexType(fieldData?.type ?? 'String');
   const currData = data?.[field];
   const related = fieldData?.related;
   let displayData = currData;
@@ -38,21 +39,22 @@ const ModelFormValue = ({
     displayData = displayData?.map(
       (val: Record<string, any>, index: number) => (
         <ModelNav
+          // rome-ignore lint/suspicious/noArrayIndexKey: order shouldn't change
           key={index}
           modelName={related?.modelName}
           modelId={val[primaryKey]}
         >
-          <a>
+          <Card.Link>
             {val?.[availableKeys.at(1) ?? primaryKey]}
-            {index !== displayData?.length - 1 && ","}
-          </a>
+            {index !== displayData?.length - 1 && ','}
+          </Card.Link>
         </ModelNav>
-      )
+      ),
     );
   } else if (getAvailableKeys(fields, keyFallbacks).includes(field)) {
     displayData = (
       <ModelNav modelName={modelName} modelId={data[primaryKey]}>
-        <a href="#">{currData}</a>
+        <Card.Link>{currData}</Card.Link>
       </ModelNav>
     );
   } else if (type === InputTypes.BOOLEAN) {

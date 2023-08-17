@@ -1,13 +1,13 @@
-import { ReactNode, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { ReactNode, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { Defaults } from "../../enums";
-import { PACKAGE_ABBR } from "../../package";
-import { BaseProps, FieldData } from "../../types";
-import ModelForm from "../ModelForm/ModelForm";
-import ModelFormField from "../ModelForm/ModelFormField";
+import { Defaults } from '../../enums';
+import { PACKAGE_ABBR } from '../../package';
+import { BaseProps, FieldData } from '../../types';
+import ModelForm from '../ModelForm/ModelForm';
+import ModelFormField from '../ModelForm/ModelFormField';
 
-import ModelTableCrud from "./ModelTableCrud";
+import ModelTableCrud from './ModelTableCrud';
 
 interface ModelTableRowProps extends BaseProps {
   modelName: string;
@@ -35,10 +35,10 @@ const ModelTableRow = ({
   const values = useMemo(
     () =>
       fields.reduce((currValues, fieldName) => {
-        currValues[fieldName] = data[fieldName] ?? "";
+        currValues[fieldName] = data[fieldName] ?? '';
         return currValues;
       }, {} as Record<string, any>),
-    [fields, data]
+    [fields, data],
   );
   const formMethods = useForm({ values, mode: Defaults.RHK_MODE });
 

@@ -1,12 +1,12 @@
-import { memo, FC, useContext, useMemo } from "react";
-import { Table } from "react-bootstrap";
+import { memo, FC, useContext, useMemo } from 'react';
+import { Table } from 'react-bootstrap';
 
-import { ConveyorContext } from "../../contexts/ConveyorContext";
-import { PACKAGE_ABBR } from "../../package";
-import { BaseProps, FieldData } from "../../types";
+import { ConveyorContext } from '../../contexts/ConveyorContext';
+import { PACKAGE_ABBR } from '../../package';
+import { BaseProps, FieldData } from '../../types';
 
-import ModelTableHeader from "./ModelTableHeader";
-import ModelTableRow from "./ModelTableRow";
+import ModelTableHeader from './ModelTableHeader';
+import ModelTableRow from './ModelTableRow';
 
 interface ModelTableProps extends BaseProps {
   modelName: string;
@@ -31,7 +31,7 @@ const ModelTable = ({
   const memoDataList = useMemo(() => dataList, [JSON.stringify(dataList)]);
   const { primaryKey } = useContext(ConveyorContext);
   return (
-    <Table id={id} className={className} striped bordered hover size="sm">
+    <Table id={id} className={className} striped bordered hover size='sm'>
       <thead id={id} className={className}>
         <tr>
           {fields.map((field) => {
@@ -45,7 +45,7 @@ const ModelTable = ({
               />
             );
           })}
-          {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`}></th>}
+          {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`} />}
         </tr>
       </thead>
       <tbody id={id} className={className}>

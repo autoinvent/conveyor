@@ -1,16 +1,16 @@
-import Select from "react-select";
+import Select from 'react-select';
 
-import { BaseProps } from "../../types";
+import { BaseProps } from '../../types';
 
-import Checkbox from "./Checkbox";
-import ErrorList from "./ErrorList";
+import Checkbox from './Checkbox';
+import ErrorList from './ErrorList';
 
 export enum InputTypes {
-  TEXT = "text",
-  NUMBER = "number",
-  BOOLEAN = "checkbox",
-  SELECT = "select",
-  DATETIME = "date_time",
+  TEXT = 'text',
+  NUMBER = 'number',
+  BOOLEAN = 'checkbox',
+  SELECT = 'select',
+  DATETIME = 'date_time',
 }
 export interface FlexibleInputProps extends BaseProps {
   type: InputTypes;
@@ -33,8 +33,8 @@ const FlexibleInput = ({
       inputTag = (
         <Select
           id={id}
-          className={`select ${className ?? ""}`}
-          classNamePrefix="select"
+          className={`select ${className ?? ''}`}
+          classNamePrefix='select'
           isDisabled={disabled}
           {...inputProps}
         />
@@ -42,7 +42,7 @@ const FlexibleInput = ({
       break;
     }
     case InputTypes.BOOLEAN: {
-      delete inputProps.ref;
+      inputProps.ref = undefined;
       inputTag = (
         <Checkbox
           id={id}

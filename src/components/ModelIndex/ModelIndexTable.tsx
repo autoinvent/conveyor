@@ -1,13 +1,13 @@
-import { useMemo, useContext } from "react";
+import { useMemo, useContext } from 'react';
 
-import { ConveyorContext } from "../../contexts/ConveyorContext";
-import { useGQLQuery, GQLQueryAction } from "../../hooks/useGQLQuery";
-import { useTableView } from "../../hooks/useTableView";
-import { BaseProps, FieldData } from "../../types";
-import { getGQLAction, getGQLDocument } from "../../utils/gqlRequest";
-import ModelTable from "../ModelTable/ModelTable";
-import ModelTablePagination from "../ModelTable/ModelTablePagination";
-import Loading from "../commons/Loading";
+import { ConveyorContext } from '../../contexts/ConveyorContext';
+import { useGQLQuery, GQLQueryAction } from '../../hooks/useGQLQuery';
+import { useTableView } from '../../hooks/useTableView';
+import { BaseProps, FieldData } from '../../types';
+import { getGQLAction, getGQLDocument } from '../../utils/gqlRequest';
+import ModelTable from '../ModelTable/ModelTable';
+import ModelTablePagination from '../ModelTable/ModelTablePagination';
+import Loading from '../commons/Loading';
 
 interface ModelIndexTableProps extends BaseProps {
   modelName: string;
@@ -35,7 +35,7 @@ const ModelIndexTable = ({
     modelName,
     primaryKey,
     fields,
-    fieldsData
+    fieldsData,
   );
   const { data, error } = useGQLQuery({
     action,
@@ -47,7 +47,7 @@ const ModelIndexTable = ({
       modelListData: data?.[action]?.items,
       modelListTotal: data?.[action]?.total,
     }),
-    [JSON.stringify(data?.[action]?.items)]
+    [JSON.stringify(data?.[action]?.items)],
   );
   const loading = Object.values({ ...data, ...error }).length === 0;
   return loading ? (

@@ -1,5 +1,5 @@
-import { Model, Field } from "../types";
-import { getBaseGQLType } from "../utils/gqlRequest";
+import { Model, Field } from '../types';
+import { getBaseGQLType } from '../utils/gqlRequest';
 
 interface IntrospectionType {
   name: string;
@@ -22,9 +22,9 @@ interface Introspection {
 }
 
 const getFieldType: any = (type?: IntrospectionType) => {
-  if (type?.kind === "NON_NULL") {
-    return getFieldType(type.ofType) + "!";
-  } else if (type?.kind === "LIST") {
+  if (type?.kind === 'NON_NULL') {
+    return `${getFieldType(type.ofType)}!`;
+  } else if (type?.kind === 'LIST') {
     return `[${getFieldType(type?.ofType)}]`;
   } else {
     return type?.name;
@@ -32,12 +32,12 @@ const getFieldType: any = (type?: IntrospectionType) => {
 };
 
 export const extractModelsFromIntrospection = (
-  introspection: Introspection
+  introspection: Introspection,
 ) => {
   const models: Record<string, Model> = {};
   // Extract models
   introspection.query.fields.forEach((query) => {
-    if (query.name.endsWith("_item")) {
+    if (query.name.endsWith('_item')) {
       const model = query.type?.name;
       if (model) {
         const fields: Record<string, Field> = {};
@@ -52,12 +52,12 @@ export const extractModelsFromIntrospection = (
 
   // Extract model update and create arguments
   introspection.mutation.fields.forEach((mutation) => {
-    const mutationArgs = mutation.name.split("_")[1] + "Args";
-    if (mutationArgs === "updateArgs" || mutationArgs === "createArgs") {
+    const mutationArgs = `${mutation.name.split('_')[1]}Args`;
+    if (mutationArgs === 'updateArgs' || mutationArgs === 'createArgs') {
       const model = mutation.type?.ofType?.name;
       if (model) {
         models[model][mutationArgs] = Object.fromEntries(
-          mutation.args?.map((arg) => [arg.name, getFieldType(arg.type)]) ?? []
+          mutation.args?.map((arg) => [arg.name, getFieldType(arg.type)]) ?? [],
         );
       }
     }
@@ -67,13 +67,13 @@ export const extractModelsFromIntrospection = (
   const modelNames = Object.keys(models);
   modelNames.forEach((model) => {
     Object.keys(models[model].fields).forEach((field) => {
-      const type = models[model].fields[field].type;
-      if (typeof type === "string") {
+      const { type } = models[model].fields[field];
+      if (typeof type === 'string') {
         const baseType = getBaseGQLType(type);
         if (modelNames.includes(baseType)) {
           models[model].fields[field].related = {
             modelName: baseType,
-            many: type.startsWith("["),
+            many: type.startsWith('['),
             fields: Object.keys(models[baseType].fields),
             fieldsData: models[baseType].fields,
           };
@@ -85,7 +85,7 @@ export const extractModelsFromIntrospection = (
   // Set related field's fieldsData
   modelNames.forEach((model) => {
     Object.keys(models[model].fields).forEach((field) => {
-      const related = models[model].fields[field].related;
+      const { related } = models[model].fields[field];
       if (related) {
         related.fields = related.fields?.filter((field) => {
           const subRelated = related.fieldsData?.[field]?.related;

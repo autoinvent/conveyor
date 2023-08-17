@@ -1,12 +1,12 @@
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
-import { useTableView } from "../../hooks/useTableView";
-import { PACKAGE_ABBR } from "../../package";
+import { useTableView } from '../../hooks/useTableView';
+import { PACKAGE_ABBR } from '../../package';
 import {
   DEFAULT_TABLE_VIEW,
   TableViewsAction,
-} from "../../reducers/tableViewsReducer";
-import { BaseProps } from "../../types";
+} from '../../reducers/tableViewsReducer';
+import { BaseProps } from '../../types';
 
 interface ModelTablePaginationProps extends BaseProps {
   modelName: string;
@@ -36,6 +36,7 @@ const ModelTablePagination = ({
     btns.push(
       <button
         key={`${PACKAGE_ABBR}-table-pagination-left-arrow`}
+        type='button'
         onClick={() => {
           dispatch({
             type: TableViewsAction.SET_PAGE,
@@ -44,7 +45,7 @@ const ModelTablePagination = ({
         }}
       >
         <FaChevronLeft />
-      </button>
+      </button>,
     );
   }
   for (let i = 0; i < numPageBtnShown; i++) {
@@ -52,8 +53,9 @@ const ModelTablePagination = ({
     btns.push(
       <button
         key={`${PACKAGE_ABBR}-table-pagination-${pageNum}`}
+        type='button'
         className={
-          page === pageNum ? `${PACKAGE_ABBR}-table-pagination-active-page` : ""
+          page === pageNum ? `${PACKAGE_ABBR}-table-pagination-active-page` : ''
         }
         onClick={() => {
           dispatch({
@@ -63,20 +65,25 @@ const ModelTablePagination = ({
         }}
       >
         {pageNum}
-      </button>
+      </button>,
     );
   }
   if (currentPageSet * pageLimit < totalPages) {
     btns.push(
-      <button key={`${PACKAGE_ABBR}-table-pagination-goto`} disabled>
+      <button
+        key={`${PACKAGE_ABBR}-table-pagination-goto`}
+        type='button'
+        disabled
+      >
         ...
-      </button>
+      </button>,
     );
   }
   if (currentPageSet * pageLimit < totalPages) {
     btns.push(
       <button
         key={`${PACKAGE_ABBR}-table-pagination-right-arrow`}
+        type='button'
         onClick={() => {
           dispatch({
             type: TableViewsAction.SET_PAGE,
@@ -85,7 +92,7 @@ const ModelTablePagination = ({
         }}
       >
         <FaChevronRight />
-      </button>
+      </button>,
     );
   }
   btns.push();

@@ -1,10 +1,10 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect } from 'react';
 
 import {
   TableViewsContext,
   TableViewsDispatchContext,
-} from "../contexts/TableViewsContext";
-import { TableViewsAction, TableView } from "../reducers/tableViewsReducer";
+} from '../contexts/TableViewsContext';
+import { TableViewsAction, TableView } from '../reducers/tableViewsReducer';
 
 interface UseTableViewProps {
   modelName: string;

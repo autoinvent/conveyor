@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { useGQLQuery } from "../../hooks/useGQLQuery";
-import Alerts from "../Alerts";
-import { ErrorMessage, Page } from "../../enums";
-import { Model } from "../../types";
-import { extractModelsFromIntrospection } from "../../utils/admin";
-import ModelCreate from "../ModelCreate/ModelCreate";
-import ModelDetail from "../ModelDetail/ModelDetail";
-import ModelIndex from "../ModelIndex/ModelIndex";
+import { useGQLQuery } from '../../hooks/useGQLQuery';
+import Alerts from '../Alerts';
+import { ErrorMessage, Page } from '../../enums';
+import { Model } from '../../types';
+import { extractModelsFromIntrospection } from '../../utils/admin';
+import ModelCreate from '../ModelCreate/ModelCreate';
+import ModelDetail from '../ModelDetail/ModelDetail';
+import ModelIndex from '../ModelIndex/ModelIndex';
 
-import ConveyorAdminHome from "./ConveyorAdminHome";
-import ConveyorAdminNavbar from "./ConveyorAdminNavbar";
-import Loading from "../commons/Loading";
+import ConveyorAdminHome from './ConveyorAdminHome';
+import ConveyorAdminNavbar from './ConveyorAdminNavbar';
+import Loading from '../commons/Loading';
 
 const IntrospectionDocument = `
 {
@@ -20,19 +20,19 @@ const IntrospectionDocument = `
       name
       type {
         name
-        fields { 
-          name 
-          type { name kind ofType { name kind ofType { name kind ofType { name kind ofType { name kind } } } } } 
+        fields {
+          name
+          type { name kind ofType { name kind ofType { name kind ofType { name kind ofType { name kind } } } } }
         }
       }
     }
   }
-  
+
     mutation:__type(name:"Mutation") {
     fields {
       name
-      type { ofType { name } } 
-      args { 
+      type { ofType { name } }
+      args {
         name
         type { name kind ofType { name kind ofType { name kind ofType { name kind ofType { name kind } } } } }
       }
@@ -55,7 +55,7 @@ const ConveyorAdminContent = ({
   const [models, setModels] = useState<Record<string, Model> | null>(null);
   const [loading, setLoading] = useState(false);
   const { data, error } = useGQLQuery({
-    action: "introspection",
+    action: 'introspection',
     document: IntrospectionDocument,
   });
   useEffect(() => {
@@ -83,14 +83,14 @@ const ConveyorAdminContent = ({
     case Page.INDEX: {
       const fields = Object.keys(models?.[currentModelName]?.updateArgs ?? {});
       const filteredFields = fields.filter(
-        (field) => !models?.[currentModelName]?.fields?.[field]?.related
+        (field) => !models?.[currentModelName]?.fields?.[field]?.related,
       );
       const updateFieldsData = { ...fieldsData };
       filteredFields.forEach((field) => {
         updateFieldsData[field] = { ...updateFieldsData[field] };
         updateFieldsData[field].type =
           models?.[currentModelName]?.updateArgs?.[field];
-        if (updateFieldsData[field].type?.endsWith("!")) {
+        if (updateFieldsData[field].type?.endsWith('!')) {
           updateFieldsData[field].required = true;
         }
       });
@@ -110,7 +110,7 @@ const ConveyorAdminContent = ({
         updateFieldsData[field] = { ...updateFieldsData[field] };
         updateFieldsData[field].type =
           models?.[currentModelName]?.updateArgs?.[field];
-        if (updateFieldsData[field].type?.endsWith("!")) {
+        if (updateFieldsData[field].type?.endsWith('!')) {
           updateFieldsData[field].required = true;
         }
         let related = updateFieldsData?.[field]?.related;
@@ -146,7 +146,7 @@ const ConveyorAdminContent = ({
         createFieldsData[field] = { ...createFieldsData[field] };
         createFieldsData[field].type =
           models?.[currentModelName]?.createArgs?.[field];
-        if (createFieldsData[field].type?.endsWith("!")) {
+        if (createFieldsData[field].type?.endsWith('!')) {
           createFieldsData[field].required = true;
         }
       });

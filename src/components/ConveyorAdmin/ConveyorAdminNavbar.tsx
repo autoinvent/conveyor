@@ -3,12 +3,12 @@ import {
   Nav,
   Navbar as ReactNavBar,
   NavDropdown,
-} from "react-bootstrap";
-import { Helmet } from "react-helmet";
+} from 'react-bootstrap';
+import { Helmet } from 'react-helmet';
 
-import { useThemeSelect, ThemeName } from "../../hooks/useThemeSelect";
-import { PACKAGE_ABBR } from "../../package";
-import ModelNav from "../ModelNav";
+import { useThemeSelect, ThemeName } from '../../hooks/useThemeSelect';
+import { PACKAGE_ABBR } from '../../package';
+import ModelNav from '../ModelNav';
 
 function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
   const { currentTheme, themeCSS, changeTheme } = useThemeSelect();
@@ -18,30 +18,30 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
       <Helmet defer>
         <style>{themeCSS}</style>
       </Helmet>
-      <ReactNavBar className="mb-3" variant="dark" bg="primary" expand="sm">
+      <ReactNavBar className='mb-3' variant='dark' bg='primary' expand='sm'>
         <Container>
           <ModelNav>
             <ReactNavBar.Brand>
               <img
-                alt="Conveyor Logo"
-                src="/src/logo.svg"
-                height="30"
-                className="d-inline-block align-top"
-              />{" "}
+                alt='Conveyor Logo'
+                src='/src/logo.svg'
+                height='30'
+                className='d-inline-block align-top'
+              />{' '}
               Conveyor
             </ReactNavBar.Brand>
           </ModelNav>
-          <ReactNavBar.Toggle aria-controls="moebius-example-navbar" />
+          <ReactNavBar.Toggle aria-controls='moebius-example-navbar' />
           <ReactNavBar.Collapse
-            id="moebius-example-navbar"
-            className="justify-content-end"
+            id='moebius-example-navbar'
+            className='justify-content-end'
           >
             <Nav>
               {/* Models Dropdown */}
               <NavDropdown
-                id="conveyor-navbar-models-dropdown"
-                title="Models"
-                align="end"
+                id='conveyor-navbar-models-dropdown'
+                title='Models'
+                align='end'
               >
                 {sortedModelNames ? (
                   sortedModelNames.map((modelName: string) => (
@@ -58,9 +58,9 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
               </NavDropdown>
               {/* Theme Dropdown */}
               <NavDropdown
-                id="conveyor-navbar-theme-dropdown"
-                title="Theme"
-                align="end"
+                id='conveyor-navbar-theme-dropdown'
+                title='Theme'
+                align='end'
                 onSelect={(eventKey) => {
                   if (eventKey) {
                     changeTheme(eventKey as ThemeName);
@@ -68,20 +68,20 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
                 }}
               >
                 <NavDropdown.Item
-                  active={currentTheme === "darkly"}
-                  eventKey="darkly"
+                  active={currentTheme === 'darkly'}
+                  eventKey='darkly'
                 >
                   Dark
                 </NavDropdown.Item>
                 <NavDropdown.Item
-                  active={currentTheme === "flatly"}
-                  eventKey="flatly"
+                  active={currentTheme === 'flatly'}
+                  eventKey='flatly'
                 >
                   Light
                 </NavDropdown.Item>
                 <NavDropdown.Item
-                  active={currentTheme === "system"}
-                  eventKey="system"
+                  active={currentTheme === 'system'}
+                  eventKey='system'
                 >
                   System
                 </NavDropdown.Item>

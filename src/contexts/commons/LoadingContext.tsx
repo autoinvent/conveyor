@@ -5,7 +5,7 @@ import {
   SetStateAction,
   ReactNode,
   useEffect,
-} from "react";
+} from 'react';
 
 export const LoadingContext = createContext({
   loading: false,

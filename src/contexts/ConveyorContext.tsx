@@ -1,9 +1,9 @@
-import { memo, FC, createContext, ReactNode } from "react";
+import { memo, FC, createContext, ReactNode } from 'react';
 
-import { ErrorMessage } from "../enums";
+import { ErrorMessage } from '../enums';
 
-import AlertsProvider from "./AlertsContext";
-import TableViewsProvider from "./TableViewsContext";
+import AlertsProvider from './AlertsContext';
+import TableViewsProvider from './TableViewsContext';
 
 export interface GQLRequestParams {
   document: string;
@@ -16,7 +16,7 @@ export interface GQLRequestParams {
 export type UseGQLQueryResponse = (params: GQLRequestParams) => Promise<any>;
 
 export type UseGQLMutationRequest = (
-  params: GQLRequestParams
+  params: GQLRequestParams,
 ) => (options?: { variables?: Record<string, any> }) => Promise<any>;
 
 export type Navigate = (params: { modelName?: string; id?: string }) => void;
@@ -40,7 +40,7 @@ const DEFAULT_CONTEXT = {
   navigate: () => {
     throw new Error(ErrorMessage.NAVIGATE_DNE);
   },
-  primaryKey: "id",
+  primaryKey: 'id',
 };
 
 export const ConveyorContext =

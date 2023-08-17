@@ -1,5 +1,5 @@
-import { ErrorMessage } from "../enums";
-import { ReducerAction } from "../types";
+import { ErrorMessage } from '../enums';
+import { ReducerAction } from '../types';
 
 export interface Alert {
   id: string;
@@ -8,8 +8,8 @@ export interface Alert {
   expires?: number;
 }
 export enum AlertsAction {
-  ADD_ALERT = "ADD_ALERT",
-  REMOVE_ALERT = "REMOVE_ALERT",
+  ADD_ALERT = 'ADD_ALERT',
+  REMOVE_ALERT = 'REMOVE_ALERT',
 }
 
 export const DEFAULT_SUCCESS_EXPIRE = 3000;

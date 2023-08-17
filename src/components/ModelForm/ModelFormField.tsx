@@ -1,14 +1,14 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 
-import { ConveyorContext } from "../../contexts/ConveyorContext";
+import { ConveyorContext } from '../../contexts/ConveyorContext';
 import {
   DisplayModeContext,
   DisplayMode,
-} from "../../contexts/commons/DisplayModeContext";
-import { FieldData } from "../../types";
+} from '../../contexts/commons/DisplayModeContext';
+import { FieldData } from '../../types';
 
-import ModelFormInput from "./ModelFormInput";
-import ModelFormValue from "./ModelFormValue";
+import ModelFormInput from './ModelFormInput';
+import ModelFormValue from './ModelFormValue';
 
 interface ModelFormFieldProps {
   modelName: string;

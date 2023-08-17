@@ -7,11 +7,11 @@ import {
   useEffect,
   memo,
   FC,
-} from "react";
+} from 'react';
 
 export enum DisplayMode {
-  EDIT = "edit",
-  DISPLAY = "display",
+  EDIT = 'edit',
+  DISPLAY = 'display',
 }
 
 export const DisplayModeContext = createContext({

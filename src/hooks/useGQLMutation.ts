@@ -1,18 +1,18 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 
-import { AlertsDispatchContext } from "../contexts/AlertsContext";
-import { ConveyorContext, GQLRequestParams } from "../contexts/ConveyorContext";
-import { SuccessMessage } from "../enums";
+import { AlertsDispatchContext } from '../contexts/AlertsContext';
+import { ConveyorContext, GQLRequestParams } from '../contexts/ConveyorContext';
+import { SuccessMessage } from '../enums';
 import {
   AlertsAction,
   DEFAULT_SUCCESS_EXPIRE,
-} from "../reducers/alertsReducer";
-import { parseResponseError } from "../utils/common";
+} from '../reducers/alertsReducer';
+import { parseResponseError } from '../utils/common';
 
 export enum GQLMutationAction {
-  MODEL_UPDATE = "update",
-  MODEL_CREATE = "create",
-  MODEL_DELETE = "delete",
+  MODEL_UPDATE = 'update',
+  MODEL_CREATE = 'create',
+  MODEL_DELETE = 'delete',
 }
 
 interface UseGQLMutationProps extends GQLRequestParams {
@@ -26,7 +26,7 @@ export const useGQLMutation = ({
   document,
   variables,
   skip,
-  modelName = "Model",
+  modelName = 'Model',
   onSuccess,
   onError,
 }: UseGQLMutationProps) => {
@@ -49,7 +49,7 @@ export const useGQLMutation = ({
             dispatch({
               type: AlertsAction.ADD_ALERT,
               payload: {
-                type: "success",
+                type: 'success',
                 message: `${modelName} ${SuccessMessage.MODEL_UPDATE}`,
                 expires: Date.now() + DEFAULT_SUCCESS_EXPIRE,
               },
@@ -58,7 +58,7 @@ export const useGQLMutation = ({
             dispatch({
               type: AlertsAction.ADD_ALERT,
               payload: {
-                type: "success",
+                type: 'success',
                 message: `${modelName} ${SuccessMessage.MODEL_CREATE}`,
                 expires: Date.now() + DEFAULT_SUCCESS_EXPIRE,
               },
@@ -67,7 +67,7 @@ export const useGQLMutation = ({
             dispatch({
               type: AlertsAction.ADD_ALERT,
               payload: {
-                type: "success",
+                type: 'success',
                 message: `${modelName} ${SuccessMessage.MODEL_DELETE}`,
                 expires: Date.now() + DEFAULT_SUCCESS_EXPIRE,
               },
@@ -86,7 +86,7 @@ export const useGQLMutation = ({
             dispatch({
               type: AlertsAction.ADD_ALERT,
               payload: {
-                type: "danger",
+                type: 'danger',
                 message: errorMessage,
               },
             });

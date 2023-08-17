@@ -1,24 +1,24 @@
-import { FC, memo, useMemo, useContext, Fragment } from "react";
-import { Container } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { FC, memo, useMemo, useContext, Fragment } from 'react';
+import { Container, Card } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 
-import { ConveyorContext } from "../../contexts/ConveyorContext";
-import { Defaults } from "../../enums";
-import { useGQLQuery, GQLQueryAction } from "../../hooks/useGQLQuery";
-import { PACKAGE_ABBR } from "../../package";
-import { BaseProps, FieldData } from "../../types";
+import { ConveyorContext } from '../../contexts/ConveyorContext';
+import { Defaults } from '../../enums';
+import { useGQLQuery, GQLQueryAction } from '../../hooks/useGQLQuery';
+import { PACKAGE_ABBR } from '../../package';
+import { BaseProps, FieldData } from '../../types';
 import {
   getGQLAction,
   getGQLDocument,
   getAvailableKeys,
-} from "../../utils/gqlRequest";
-import { humanizeText } from "../../utils/common";
-import ModelForm from "../ModelForm/ModelForm";
-import ModelFormField from "../ModelForm/ModelFormField";
-import ModelNav from "../ModelNav";
+} from '../../utils/gqlRequest';
+import { humanizeText } from '../../utils/common';
+import ModelForm from '../ModelForm/ModelForm';
+import ModelFormField from '../ModelForm/ModelFormField';
+import ModelNav from '../ModelNav';
 
-import ModelDetailCrud from "./ModelDetailCrud";
-import ModelDetailTable from "./ModelDetailTable";
+import ModelDetailCrud from './ModelDetailCrud';
+import ModelDetailTable from './ModelDetailTable';
 
 interface ModelDetailProps extends BaseProps {
   modelName: string;
@@ -51,7 +51,7 @@ const ModelDetail = ({
     modelName,
     primaryKey,
     fields,
-    fieldsData
+    fieldsData,
   );
   const { data, error } = useGQLQuery({
     action,
@@ -61,18 +61,18 @@ const ModelDetail = ({
 
   const modelData = useMemo(
     () => data?.[action],
-    [JSON.stringify(data?.[action])]
+    [JSON.stringify(data?.[action])],
   );
 
   const values = useMemo(
     () =>
       fields.reduce((currValues, fieldName) => {
         if (!fieldsData?.[fieldName]?.related?.many) {
-          currValues[fieldName] = modelData?.[fieldName] ?? "";
+          currValues[fieldName] = modelData?.[fieldName] ?? '';
         }
         return currValues;
       }, {} as Record<string, any>),
-    [fields, JSON.stringify(modelData)]
+    [fields, JSON.stringify(modelData)],
   );
 
   const formMethods = useForm({ values, mode: Defaults.RHK_MODE });
@@ -80,7 +80,7 @@ const ModelDetail = ({
   return (
     <Container id={id} className={className}>
       {loading ? (
-        "Loading..."
+        'Loading...'
       ) : modelData ? (
         <>
           <ModelForm formMethods={formMethods}>
@@ -89,7 +89,7 @@ const ModelDetail = ({
                 {title ?? (
                   <>
                     <ModelNav modelName={modelName}>
-                      <a href="#">{humanizeText(modelName)}</a>
+                      <Card.Link>{humanizeText(modelName)}</Card.Link>
                     </ModelNav>
                     :{modelData[availableKeys.at(1) ?? primaryKey]}
                   </>
@@ -146,7 +146,7 @@ const ModelDetail = ({
                     deletable={deletable}
                   />
                 ) : (
-                  "N/A"
+                  'N/A'
                 )}
               </details>
             ) : null;

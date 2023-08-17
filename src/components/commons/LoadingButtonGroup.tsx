@@ -1,17 +1,17 @@
-import { FC, memo } from "react";
+import { FC, memo } from 'react';
 import {
   ButtonGroup,
   ButtonGroupProps,
   Button,
   Spinner,
-} from "react-bootstrap";
+} from 'react-bootstrap';
 
-import { BaseProps } from "../../types";
+import { BaseProps } from '../../types';
 
 interface LoadingButtonGroupProps extends ButtonGroupProps, BaseProps {
   loading: boolean;
   variant?: string;
-  spinnerSize?: "sm" | undefined;
+  spinnerSize?: 'sm' | undefined;
 }
 
 const LoadingButtonGroup = (props: LoadingButtonGroupProps) => {
@@ -20,9 +20,9 @@ const LoadingButtonGroup = (props: LoadingButtonGroupProps) => {
       {props.loading ? (
         <Button variant={props.variant} disabled>
           <Spinner
-            as="span"
-            animation="border"
-            size={props.spinnerSize ?? "sm"}
+            as='span'
+            animation='border'
+            size={props.spinnerSize ?? 'sm'}
           />
         </Button>
       ) : (

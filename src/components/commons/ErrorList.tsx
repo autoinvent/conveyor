@@ -1,10 +1,10 @@
-import { PACKAGE_ABBR } from "../../package";
-import { BaseProps } from "../../types";
+import { PACKAGE_ABBR } from '../../package';
+import { BaseProps } from '../../types';
 
 interface ErrorListProps extends BaseProps {
   errors?: string | string[];
 }
-const ErrorList = ({ id, className = "", errors }: ErrorListProps) => {
+const ErrorList = ({ id, className = '', errors }: ErrorListProps) => {
   const errorList = Array.isArray(errors) ? errors : [errors];
 
   return errors ? (

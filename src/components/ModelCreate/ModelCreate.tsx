@@ -1,13 +1,13 @@
-import { FC, memo } from "react";
-import { Container } from "react-bootstrap";
+import { FC, memo } from 'react';
+import { Container } from 'react-bootstrap';
 
-import { PACKAGE_ABBR } from "../../package";
-import { BaseProps, FieldData } from "../../types";
-import { humanizeText } from "../../utils/common";
-import ModelFormInput from "../ModelForm/ModelFormInput";
+import { PACKAGE_ABBR } from '../../package';
+import { BaseProps, FieldData } from '../../types';
+import { humanizeText } from '../../utils/common';
+import ModelFormInput from '../ModelForm/ModelFormInput';
 
-import ModelCreateForm from "./ModelCreateForm";
-import ModelCreateCrud from "./ModelCreateCrud";
+import ModelCreateForm from './ModelCreateForm';
+import ModelCreateCrud from './ModelCreateCrud';
 
 interface ModelCreateProps extends BaseProps {
   modelName: string;
@@ -26,7 +26,7 @@ const ModelCreate = ({
 }: ModelCreateProps) => {
   return (
     <Container id={id} className={className}>
-      <div className="mb-4">
+      <div className='mb-4'>
         <h2>{title}</h2>
         <div>* Indicates a required field</div>
       </div>
@@ -36,7 +36,7 @@ const ModelCreate = ({
           const displayLabelFn = fieldData?.displayLabelFn || humanizeText;
           return (
             <label key={`${PACKAGE_ABBR}-create-form-group-${field}`}>
-              {`${displayLabelFn(field)}${fieldData?.required ? "*" : ""}`}
+              {`${displayLabelFn(field)}${fieldData?.required ? '*' : ''}`}
               <ModelFormInput field={field} fieldData={fieldData} />
             </label>
           );

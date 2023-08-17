@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 dd {
     width: 80%
 }
@@ -97,7 +98,7 @@ summary h4 {
     right: 5px;
     top: 0;
     background-color: transparent;
-    border: 0px;
+    border: 0;
     font-size: 1.25rem;
 }
 

@@ -1,15 +1,15 @@
-import { memo, FC, ReactNode } from "react";
-import { Button, Container } from "react-bootstrap";
+import { memo, FC, ReactNode } from 'react';
+import { Button, Container } from 'react-bootstrap';
 
-import { Page } from "../../enums";
-import { useTableView } from "../../hooks/useTableView";
-import { PACKAGE_ABBR } from "../../package";
-import { DEFAULT_TABLE_VIEW } from "../../reducers/tableViewsReducer";
-import { BaseProps, FieldData } from "../../types";
-import { humanizeText } from "../../utils/common";
-import ModelNav from "../ModelNav";
+import { Page } from '../../enums';
+import { useTableView } from '../../hooks/useTableView';
+import { PACKAGE_ABBR } from '../../package';
+import { DEFAULT_TABLE_VIEW } from '../../reducers/tableViewsReducer';
+import { BaseProps, FieldData } from '../../types';
+import { humanizeText } from '../../utils/common';
+import ModelNav from '../ModelNav';
 
-import ModelIndexTable from "./ModelIndexTable";
+import ModelIndexTable from './ModelIndexTable';
 
 interface ModelIndexProps extends BaseProps {
   modelName: string;

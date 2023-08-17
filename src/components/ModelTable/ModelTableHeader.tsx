@@ -1,15 +1,15 @@
-import { memo, FC } from "react";
-import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
+import { memo, FC } from 'react';
+import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 
-import { useTableView } from "../../hooks/useTableView";
-import { PACKAGE_ABBR } from "../../package";
+import { useTableView } from '../../hooks/useTableView';
+import { PACKAGE_ABBR } from '../../package';
 import {
   TableViewsAction,
   getSortDir,
   SortDirection,
-} from "../../reducers/tableViewsReducer";
-import { BaseProps } from "../../types";
-import { humanizeText } from "../../utils/common";
+} from '../../reducers/tableViewsReducer';
+import { BaseProps } from '../../types';
+import { humanizeText } from '../../utils/common';
 
 interface ModelTableHeaderProps extends BaseProps {
   modelName: string;
@@ -52,6 +52,7 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
     }
   };
   return (
+    // rome-ignore lint/a11y/useKeyWithClickEvents: TODO?
     <th id={id} className={className} onClick={handleSort}>
       {displayLabelFn(field)}
       {sortable && (

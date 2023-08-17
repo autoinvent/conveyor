@@ -1,11 +1,11 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 
-import { ConveyorContext } from "../../contexts/ConveyorContext";
-import { LoadingContext } from "../../contexts/commons/LoadingContext";
-import { useGQLMutation, GQLMutationAction } from "../../hooks/useGQLMutation";
-import { BaseProps, FieldData } from "../../types";
-import { getGQLAction, getGQLDocument } from "../../utils/gqlRequest";
-import ModelFormCrud from "../ModelForm/ModelFormCrud";
+import { ConveyorContext } from '../../contexts/ConveyorContext';
+import { LoadingContext } from '../../contexts/commons/LoadingContext';
+import { useGQLMutation, GQLMutationAction } from '../../hooks/useGQLMutation';
+import { BaseProps, FieldData } from '../../types';
+import { getGQLAction, getGQLDocument } from '../../utils/gqlRequest';
+import ModelFormCrud from '../ModelForm/ModelFormCrud';
 
 interface ModelTableCrudProps extends BaseProps {
   modelName: string;
@@ -36,7 +36,7 @@ const ModelTableCrud = ({
     modelName,
     primaryKey,
     fields,
-    fieldsData
+    fieldsData,
   );
   const updateTrigger = useGQLMutation({
     modelName,
@@ -51,7 +51,7 @@ const ModelTableCrud = ({
     modelName,
     primaryKey,
     [primaryKey],
-    fieldsData
+    fieldsData,
   );
   const deleteTrigger = useGQLMutation({
     modelName,
@@ -68,13 +68,13 @@ const ModelTableCrud = ({
         if (related?.many) {
           input[fieldName] = input[fieldName]
             ? input[fieldName].map(
-                (model: Record<string, any>) => model[primaryKey]
+                (model: Record<string, any>) => model[primaryKey],
               )
             : [];
         } else {
           input[fieldName] = input[fieldName]
             ? input[fieldName][primaryKey]
-            : "";
+            : '';
         }
       }
     });

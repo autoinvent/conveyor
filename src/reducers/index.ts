@@ -1,2 +1,2 @@
-export * from "./alertsReducer";
-export * from "./tableViewsReducer";
+export * from './alertsReducer';
+export * from './tableViewsReducer';

@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from 'react';
 
-import { AlertsDispatchContext } from "../contexts/AlertsContext";
-import { ConveyorContext, GQLRequestParams } from "../contexts/ConveyorContext";
-import { AlertsAction } from "../reducers/alertsReducer";
-import { parseResponseError } from "../utils/common";
+import { AlertsDispatchContext } from '../contexts/AlertsContext';
+import { ConveyorContext, GQLRequestParams } from '../contexts/ConveyorContext';
+import { AlertsAction } from '../reducers/alertsReducer';
+import { parseResponseError } from '../utils/common';
 
 export enum GQLQueryAction {
-  MODEL_ITEM = "item",
-  MODEL_LIST = "list",
+  MODEL_ITEM = 'item',
+  MODEL_LIST = 'list',
 }
 
 export interface UseGQLQueryProps extends GQLRequestParams {
@@ -15,7 +15,7 @@ export interface UseGQLQueryProps extends GQLRequestParams {
   onError?: (error?: Error) => void;
 }
 
-const NO_RESPONSE = "{}";
+const NO_RESPONSE = '{}';
 export const useGQLQuery = ({
   action,
   document,
@@ -59,7 +59,7 @@ export const useGQLQuery = ({
       onSuccess?.(validResponse);
     }
     // Handle Error Response
-    else if (errorResponseJson != NO_RESPONSE) {
+    else if (errorResponseJson !== NO_RESPONSE) {
       const errorResponse = JSON.parse(errorResponseJson);
       if (onError) {
         onError(errorResponse);
@@ -68,7 +68,7 @@ export const useGQLQuery = ({
           dispatch({
             type: AlertsAction.ADD_ALERT,
             payload: {
-              type: "danger",
+              type: 'danger',
               message: errorMessage,
             },
           });

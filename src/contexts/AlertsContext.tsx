@@ -4,15 +4,15 @@ import {
   useReducer,
   Dispatch,
   useEffect,
-} from "react";
+} from 'react';
 
-import { alertsReducer, Alert, AlertsAction } from "../reducers/alertsReducer";
-import { ReducerAction } from "../types";
+import { alertsReducer, Alert, AlertsAction } from '../reducers/alertsReducer';
+import { ReducerAction } from '../types';
 
 export const AlertsContext = createContext([] as Alert[]);
 
 export const AlertsDispatchContext = createContext(
-  (() => null) as Dispatch<ReducerAction>
+  (() => null) as Dispatch<ReducerAction>,
 );
 
 interface AlertsProviderProps {
@@ -26,7 +26,7 @@ const AlertsProvider = ({ children, alerts = [] }: AlertsProviderProps) => {
   useEffect(() => {
     if (alerts !== alertsProvider) {
       alerts.forEach((alert) =>
-        dispatch({ type: AlertsAction.ADD_ALERT, payload: alert })
+        dispatch({ type: AlertsAction.ADD_ALERT, payload: alert }),
       );
     }
   }, [alerts]);

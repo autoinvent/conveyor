@@ -4,24 +4,18 @@
   "description": "GraphiQL for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "main": "./dist/conveyor.umd.js",
   "module": "./dist/conveyor.mjs",
   "types": "./dist/index.d.ts",
-"exports": {
+  "exports": {
     ".": {
       "import": "./dist/conveyor.mjs",
       "require": "./dist/conveyor.umd.js"
     },
-    "./dist/styles/conveyor.css": {
-      "import": "./dist/styles/conveyor.css",
-      "require": "./dist/styles/conveyor.css"
-    },
-    "./dist/styles/general.css": {
-      "import": "./dist/styles/general.css",
-      "require": "./dist/styles/general.css"
+    "./dist/styles/index.css": {
+      "import": "./dist/styles/index.css",
+      "require": "./dist/styles/index.css"
     }
   },
   "scripts": {

@@ -26,10 +26,10 @@
     position: absolute;
     bottom: 0;
     right: 0;
-} 
+}
 
 /* Common Components */
 .conv-checkbox {
     border: none;
-    padding: 0px;
+    padding: 0;
 }

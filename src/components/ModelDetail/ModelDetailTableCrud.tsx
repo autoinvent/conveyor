@@ -1,17 +1,17 @@
-import { useContext, FC, memo } from "react";
+import { useContext, FC, memo } from 'react';
 
-import { ConveyorContext } from "../../contexts/ConveyorContext";
-import { AlertsDispatchContext } from "../../contexts/AlertsContext";
-import { LoadingContext } from "../../contexts/commons/LoadingContext";
-import { SuccessMessage } from "../../enums";
-import { useGQLMutation, GQLMutationAction } from "../../hooks/useGQLMutation";
+import { ConveyorContext } from '../../contexts/ConveyorContext';
+import { AlertsDispatchContext } from '../../contexts/AlertsContext';
+import { LoadingContext } from '../../contexts/commons/LoadingContext';
+import { SuccessMessage } from '../../enums';
+import { useGQLMutation, GQLMutationAction } from '../../hooks/useGQLMutation';
 import {
   AlertsAction,
   DEFAULT_SUCCESS_EXPIRE,
-} from "../../reducers/alertsReducer";
-import { BaseProps, FieldData } from "../../types";
-import { getGQLAction, getGQLDocument } from "../../utils/gqlRequest";
-import ModelFormCrud from "../ModelForm/ModelFormCrud";
+} from '../../reducers/alertsReducer';
+import { BaseProps, FieldData } from '../../types';
+import { getGQLAction, getGQLDocument } from '../../utils/gqlRequest';
+import ModelFormCrud from '../ModelForm/ModelFormCrud';
 
 interface ModelDetailTableCrudProps extends BaseProps {
   parentId: string;
@@ -52,7 +52,7 @@ const ModelDetailTableCrud = ({
     parentModelName,
     primaryKey,
     [primaryKey, parentField],
-    parentFieldsData
+    parentFieldsData,
   );
   const updateParentTrigger = useGQLMutation({
     modelName,
@@ -67,7 +67,7 @@ const ModelDetailTableCrud = ({
     modelName,
     primaryKey,
     fields,
-    fieldsData
+    fieldsData,
   );
   const updateTrigger = useGQLMutation({
     modelName,
@@ -84,13 +84,13 @@ const ModelDetailTableCrud = ({
         if (related?.many) {
           input[fieldName] = input[fieldName]
             ? input[fieldName].map(
-                (model: Record<string, any>) => model[primaryKey]
+                (model: Record<string, any>) => model[primaryKey],
               )
             : [];
         } else {
           input[fieldName] = input[fieldName]
             ? input[fieldName][primaryKey]
-            : "";
+            : '';
         }
       }
     });
@@ -114,7 +114,7 @@ const ModelDetailTableCrud = ({
         dispatch({
           type: AlertsAction.ADD_ALERT,
           payload: {
-            type: "success",
+            type: 'success',
             message: `${modelName} ${SuccessMessage.MODEL_DELETE}`,
             expires: Date.now() + DEFAULT_SUCCESS_EXPIRE,
           },

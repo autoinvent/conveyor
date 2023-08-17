@@ -1,32 +1,31 @@
-import { request } from "graphql-request";
+import { request } from 'graphql-request';
 import {
   useQuery,
   useMutation,
   QueryClient,
   QueryClientProvider,
-} from "@tanstack/react-query";
+} from '@tanstack/react-query';
 import {
   ConveyorAdmin,
   UseGQLQueryResponse,
   UseGQLMutationRequest,
-} from "../src";
+} from '../src';
 
 function App() {
   const queryClient = new QueryClient();
-  const gqlUrl = "/graphql";
+  const gqlUrl = '/graphql';
   const errorHandler = (error: any) => {
     let errorMessages = null;
-    if (typeof error?.message === "string") {
+    if (typeof error?.message === 'string') {
       const matches = error.message.match(/\{".*\}/g);
       if (matches) {
         const parsedError = JSON.parse(matches[0]);
+        // rome-ignore lint: not confusing
         error = parsedError;
       }
     }
-    if (error?.response) {
-      if (Array.isArray(error?.response?.errors)) {
-        errorMessages = error.response.errors.map((err: any) => err.message);
-      }
+    if (error?.response && Array.isArray(error?.response?.errors)) {
+      errorMessages = error.response.errors.map((err: any) => err.message);
     }
     if (!errorMessages) {
       throw Error(error);
@@ -47,8 +46,8 @@ function App() {
   // Fetcher to retrieve GraphQL query/mutation from endpoint
   const useGQLQueryResponse: UseGQLQueryResponse = (graphQLParams) => {
     const actionModel = graphQLParams.action
-      ? graphQLParams.action.split("_")[0]
-      : "unknown";
+      ? graphQLParams.action.split('_')[0]
+      : 'unknown';
     const response = useQuery({
       queryKey: [actionModel, graphQLParams],
       queryFn: () =>
@@ -58,8 +57,8 @@ function App() {
   };
   const useGQLMutationRequest: UseGQLMutationRequest = (graphQLParams) => {
     const actionModel = graphQLParams.action
-      ? graphQLParams.action.split("_")[0]
-      : "unknown";
+      ? graphQLParams.action.split('_')[0]
+      : 'unknown';
     const response = useMutation({
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [actionModel] });
@@ -79,7 +78,7 @@ function App() {
       <ConveyorAdmin
         useGQLQueryResponse={useGQLQueryResponse}
         useGQLMutationRequest={useGQLMutationRequest}
-        secondaryKeys={["name", "username"]}
+        secondaryKeys={['name', 'username']}
       />
     </QueryClientProvider>
   );

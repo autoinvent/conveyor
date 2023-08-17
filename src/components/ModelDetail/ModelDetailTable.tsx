@@ -1,14 +1,14 @@
-import { useContext } from "react";
-import { Table } from "react-bootstrap";
+import { useContext } from 'react';
+import { Table } from 'react-bootstrap';
 
-import { ConveyorContext } from "../../contexts/ConveyorContext";
-import { PACKAGE_ABBR } from "../../package";
-import { BaseProps, FieldData } from "../../types";
-import ModelFormField from "../ModelForm/ModelFormField";
-import ModelTableHeader from "../ModelTable/ModelTableHeader";
-import ModelTableRow from "../ModelTable/ModelTableRow";
+import { ConveyorContext } from '../../contexts/ConveyorContext';
+import { PACKAGE_ABBR } from '../../package';
+import { BaseProps, FieldData } from '../../types';
+import ModelFormField from '../ModelForm/ModelFormField';
+import ModelTableHeader from '../ModelTable/ModelTableHeader';
+import ModelTableRow from '../ModelTable/ModelTableRow';
 
-import ModelDetailTableCrud from "./ModelDetailTableCrud";
+import ModelDetailTableCrud from './ModelDetailTableCrud';
 
 interface ModelDetailTableProps extends BaseProps {
   parentId: string;
@@ -39,7 +39,7 @@ const ModelDetailTable = ({
   const { modelName, fields = [], fieldsData } = related;
   const dataList = parentData[parentField];
   return (
-    <Table id={id} className={className} striped bordered hover size="sm">
+    <Table id={id} className={className} striped bordered hover size='sm'>
       <thead id={id} className={className}>
         <tr>
           {fields.map((field) => {
@@ -54,7 +54,7 @@ const ModelDetailTable = ({
               />
             );
           })}
-          {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`}></th>}
+          {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`} />}
         </tr>
       </thead>
       <tbody>

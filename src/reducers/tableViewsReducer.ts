@@ -1,5 +1,5 @@
-import { ErrorMessage } from "../enums";
-import { ReducerAction } from "../types";
+import { ErrorMessage } from '../enums';
+import { ReducerAction } from '../types';
 
 export type TableViewSort = string[];
 export interface TableViewFilter {
@@ -16,9 +16,9 @@ export interface TableView {
 }
 export type TableViews = Record<string, TableView>;
 export enum TableViewsAction {
-  INIT = "INIT",
-  NEXT_SORT = "NEXT_SORT",
-  SET_PAGE = "SET_PAGE",
+  INIT = 'INIT',
+  NEXT_SORT = 'NEXT_SORT',
+  SET_PAGE = 'SET_PAGE',
 }
 
 export const DEFAULT_TABLE_VIEW = {
@@ -29,21 +29,21 @@ export const DEFAULT_TABLE_VIEW = {
 };
 
 export enum SortDirection {
-  ASC = "asc",
-  DESC = "desc",
-  NONE = "none",
+  ASC = 'asc',
+  DESC = 'desc',
+  NONE = 'none',
 }
 
 export const getSortDir = (sort: TableViewSort, field: string) => {
   const fieldSort = sort.find((sort) => sort.endsWith(field));
   if (!fieldSort) return SortDirection.NONE;
-  else if (fieldSort.startsWith("-")) return SortDirection.DESC;
+  else if (fieldSort.startsWith('-')) return SortDirection.DESC;
   else return SortDirection.ASC;
 };
 
 export const tableViewsReducer = (
   tableViews: TableViews,
-  action: ReducerAction
+  action: ReducerAction,
 ) => {
   const { type, payload } = action;
   switch (type) {
@@ -62,7 +62,7 @@ export const tableViewsReducer = (
       const newSort = newTableViews[modelName].sort ?? [];
       const dir = getSortDir(newSort, fieldName);
       const sortFieldIdx = newSort.findIndex((field) =>
-        field.endsWith(fieldName)
+        field.endsWith(fieldName),
       );
       switch (dir) {
         case SortDirection.ASC: {

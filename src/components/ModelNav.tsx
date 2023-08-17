@@ -1,8 +1,8 @@
-import { useContext, ReactNode } from "react";
+import { useContext, ReactNode } from 'react';
 
-import { ConveyorContext } from "../contexts/ConveyorContext";
-import { PACKAGE_ABBR } from "../package";
-import { BaseProps } from "../types";
+import { ConveyorContext } from '../contexts/ConveyorContext';
+import { PACKAGE_ABBR } from '../package';
+import { BaseProps } from '../types';
 
 interface ModelNavProps extends BaseProps {
   modelName?: string;
@@ -12,13 +12,14 @@ interface ModelNavProps extends BaseProps {
 
 const ModelNav = ({
   id,
-  className = "",
+  className = '',
   modelName,
   modelId,
   children,
 }: ModelNavProps) => {
   const { navigate } = useContext(ConveyorContext);
   return (
+    // rome-ignore lint/a11y/useKeyWithClickEvents: TODO
     <span
       id={id}
       className={`${PACKAGE_ABBR}-model-nav ${className}`}

@@ -1,13 +1,13 @@
-import { memo, FC, useContext } from "react";
-import { Toast } from "react-bootstrap";
+import { memo, FC, useContext } from 'react';
+import { Toast } from 'react-bootstrap';
 
 import {
   AlertsContext,
   AlertsDispatchContext,
-} from "../contexts/AlertsContext";
-import { PACKAGE_ABBR } from "../package";
-import { AlertsAction } from "../reducers/alertsReducer";
-import { BaseProps } from "../types";
+} from '../contexts/AlertsContext';
+import { PACKAGE_ABBR } from '../package';
+import { AlertsAction } from '../reducers/alertsReducer';
+import { BaseProps } from '../types';
 
 /**
  * Renders on changes made to the alerts context state.
@@ -49,14 +49,14 @@ import { BaseProps } from "../types";
  *   })
  *
  */
-const Alerts: FC<BaseProps> = ({ id, className = "" }) => {
+const Alerts: FC<BaseProps> = ({ id, className = '' }) => {
   const alerts = useContext(AlertsContext);
   const dispatch = useContext(AlertsDispatchContext);
   const onClose = (index: number) => {
     dispatch({ type: AlertsAction.REMOVE_ALERT, payload: index });
   };
   return (
-    <div id={id} className={`${"alerts"} ${className}`}>
+    <div id={id} className={`${'alerts'} ${className}`}>
       {alerts.map((alert, index) => {
         const { id, type, message, expires } = alert;
         const delay = expires && expires - Date.now();
@@ -67,11 +67,15 @@ const Alerts: FC<BaseProps> = ({ id, className = "" }) => {
             onClose={() => onClose(index)}
             autohide={Boolean(expires)}
             delay={delay}
-            bsPrefix="alert"
+            bsPrefix='alert'
             className={`alert-${type}`}
           >
             {message}
-            <button className="close" onClick={() => onClose(index)}>
+            <button
+              type='button'
+              className='close'
+              onClick={() => onClose(index)}
+            >
               x
             </button>
           </Toast>

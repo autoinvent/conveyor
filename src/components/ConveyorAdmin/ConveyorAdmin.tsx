@@ -1,12 +1,12 @@
-import { useState, useCallback, memo, FC } from "react";
+import { useState, useCallback, memo, FC } from 'react';
 
 import ConveyorProvider, {
   UseGQLQueryResponse,
   UseGQLMutationRequest,
-} from "../../contexts/ConveyorContext";
-import { Page } from "../../enums";
+} from '../../contexts/ConveyorContext';
+import { Page } from '../../enums';
 
-import ConveyorAdminContent from "./ConveyorAdminContent";
+import ConveyorAdminContent from './ConveyorAdminContent';
 
 interface ConveyorAdminProps {
   useGQLQueryResponse: UseGQLQueryResponse;
@@ -23,17 +23,17 @@ interface NavigateParams {
 const ConveyorAdmin = ({
   useGQLQueryResponse,
   useGQLMutationRequest,
-  primaryKey = "id",
+  primaryKey = 'id',
   secondaryKeys,
 }: ConveyorAdminProps) => {
   const [currentPage, setCurrentPage] = useState(Page.HOME);
-  const [currentModelName, setCurrentModelName] = useState("");
-  const [currentId, setCurrentId] = useState("");
+  const [currentModelName, setCurrentModelName] = useState('');
+  const [currentId, setCurrentId] = useState('');
 
   const navigate = useCallback(
     (params: NavigateParams) => {
-      setCurrentModelName(params?.modelName ?? "");
-      setCurrentId(params.id ?? "");
+      setCurrentModelName(params?.modelName ?? '');
+      setCurrentId(params.id ?? '');
       if (params.id === Page.CREATE) {
         setCurrentPage(Page.CREATE);
       } else if (!params.id && params.modelName) {
@@ -44,7 +44,7 @@ const ConveyorAdmin = ({
         setCurrentPage(Page.HOME);
       }
     },
-    [setCurrentPage, setCurrentModelName, setCurrentId]
+    [setCurrentPage, setCurrentModelName, setCurrentId],
   );
 
   return (

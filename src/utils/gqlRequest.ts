@@ -1,15 +1,15 @@
-import { InputTypes } from "../components/commons/FlexibleInput";
-import { GQLQueryAction } from "../hooks/useGQLQuery";
-import { GQLMutationAction } from "../hooks/useGQLMutation";
-import { ErrorMessage } from "../enums";
-import { FieldData } from "../types";
+import { InputTypes } from '../components/commons/FlexibleInput';
+import { GQLQueryAction } from '../hooks/useGQLQuery';
+import { GQLMutationAction } from '../hooks/useGQLMutation';
+import { ErrorMessage } from '../enums';
+import { FieldData } from '../types';
 
-import { lowerCaseFirst, upperCaseFirst } from "./common";
+import { lowerCaseFirst, upperCaseFirst } from './common';
 
 const gqlDocumentRecursion: any = (
   primaryKey: string,
   fields: string[],
-  fieldsData?: Record<string, FieldData>
+  fieldsData?: Record<string, FieldData>,
 ) => {
   return fields
     .map((field) => {
@@ -18,13 +18,13 @@ const gqlDocumentRecursion: any = (
         return `${field} { ${gqlDocumentRecursion(
           primaryKey,
           related.fields,
-          related?.fieldsData
+          related?.fieldsData,
         )} }`;
       }
       return field;
     })
     .concat([primaryKey])
-    .join(" ");
+    .join(' ');
 };
 
 export const getGQLDocument = (
@@ -32,12 +32,12 @@ export const getGQLDocument = (
   modelName: string,
   primaryKey: string,
   fields: string[],
-  fieldsData?: Record<string, FieldData>
+  fieldsData?: Record<string, FieldData>,
 ) => {
   const action = getGQLAction(actionType, modelName);
   const typeArgs =
     fields.map((field) => {
-      let type = fieldsData?.[field]?.type;
+      const type = fieldsData?.[field]?.type;
       return `$${field}: ${type}`;
     }) ?? [];
   const fieldArgs = fields.map((field) => `${field}: $${field}`) ?? [];
@@ -48,14 +48,14 @@ export const getGQLDocument = (
         const recursedFields = gqlDocumentRecursion(
           primaryKey,
           related.fields,
-          related?.fieldsData
+          related?.fieldsData,
         );
         return `${field} { ${recursedFields} }`;
       }
       return field;
     })
     .concat([primaryKey])
-    .join(" ");
+    .join(' ');
 
   switch (actionType) {
     case GQLQueryAction.MODEL_ITEM: {
@@ -82,15 +82,15 @@ export const getGQLDocument = (
     case GQLMutationAction.MODEL_UPDATE:
     case GQLMutationAction.MODEL_CREATE: {
       return `
-        mutation (${typeArgs.join(", ")}) {
-          ${action} (${fieldArgs.join(", ")}) { ${responseQuery} }
+        mutation (${typeArgs.join(', ')}) {
+          ${action} (${fieldArgs.join(', ')}) { ${responseQuery} }
         }
       `;
     }
     case GQLMutationAction.MODEL_DELETE: {
       return `
-        mutation (${typeArgs.join(", ")}) {
-          ${action} (${fieldArgs.join(", ")})
+        mutation (${typeArgs.join(', ')}) {
+          ${action} (${fieldArgs.join(', ')})
         }
       `;
     }
@@ -102,7 +102,7 @@ export const getGQLDocument = (
 
 export const getGQLAction = (
   actionType: GQLQueryAction | GQLMutationAction,
-  modelName: string
+  modelName: string,
 ) => {
   const queryName = modelToQueryName(modelName);
   return `${queryName}_${actionType}`;
@@ -117,38 +117,42 @@ export const modelToQueryName = (modelName: string) => {
 };
 
 export const modelToModelListName = (modelName: string) => {
-  if (!modelName) return "";
+  if (!modelName) {
+    return '';
+  }
   return `${modelName}_list`;
 };
 
 export const modelListToModelName = (modelListName: string) => {
-  if (!modelListName) return "";
+  if (!modelListName) {
+    return '';
+  }
   return modelListName.slice(0, -5);
 };
 
 export const getAvailableKeys = (
   fields: string[],
   keyFallbacks: string[],
-  maxKeys: number = 2
+  maxKeys = 2,
 ) => {
   const keys: string[] = keyFallbacks.filter((key) => fields.includes(key));
   return keys.slice(0, maxKeys);
 };
 
 export const getBaseGQLType = (type: string) => {
-  return type.replaceAll(/[!\[\]]/g, "");
+  return type.replaceAll(/[!\[\]]/g, '');
 };
 
 export const gqlTypeToFlexType = (type: string) => {
   const baseGQLType = getBaseGQLType(type);
   switch (baseGQLType) {
-    case "Int":
+    case 'Int':
       return InputTypes.NUMBER;
-    case "Boolean":
+    case 'Boolean':
       return InputTypes.BOOLEAN;
-    case "DateTime":
+    case 'DateTime':
       return InputTypes.DATETIME;
-    case "String":
+    case 'String':
       return InputTypes.TEXT;
     default:
       return InputTypes.SELECT;

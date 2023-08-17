@@ -1,10 +1,10 @@
-import { useState, ReactNode } from "react";
-import { useForm } from "react-hook-form";
+import { useState, ReactNode } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { DisplayMode } from "../../contexts/commons/DisplayModeContext";
-import { Defaults } from "../../enums";
-import { BaseProps } from "../../types";
-import ModelForm from "../ModelForm/ModelForm";
+import { DisplayMode } from '../../contexts/commons/DisplayModeContext';
+import { Defaults } from '../../enums';
+import { BaseProps } from '../../types';
+import ModelForm from '../ModelForm/ModelForm';
 
 interface ModelCreateFormProps extends BaseProps {
   fields: string[];
@@ -19,7 +19,7 @@ const ModelCreateForm = ({
 }: ModelCreateFormProps) => {
   const [loading] = useState(false);
   const values = fields.reduce((currValues, fieldName) => {
-    currValues[fieldName] = "";
+    currValues[fieldName] = '';
     return currValues;
   }, {} as Record<string, any>);
 

@@ -1,7 +1,7 @@
-import { FaRegSquare, FaRegCheckSquare } from "react-icons/fa";
+import { FaRegSquare, FaRegCheckSquare } from 'react-icons/fa';
 
-import { PACKAGE_ABBR } from "../../package";
-import { BaseProps } from "../../types";
+import { PACKAGE_ABBR } from '../../package';
+import { BaseProps } from '../../types';
 
 interface CheckboxProps extends BaseProps {
   value?: boolean;
@@ -11,7 +11,7 @@ interface CheckboxProps extends BaseProps {
 
 const Checkbox = ({
   id,
-  className = "",
+  className = '',
   value,
   disabled,
   onChange = () => {},
@@ -19,6 +19,7 @@ const Checkbox = ({
   return (
     <button
       id={id}
+      type='button'
       className={`${PACKAGE_ABBR}-checkbox ${className}`}
       onClick={() => onChange(!value)}
       disabled={disabled}

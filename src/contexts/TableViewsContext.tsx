@@ -1,12 +1,12 @@
-import { createContext, ReactNode, useReducer, Dispatch } from "react";
+import { createContext, ReactNode, useReducer, Dispatch } from 'react';
 
-import { tableViewsReducer, TableViews } from "../reducers/tableViewsReducer";
-import { ReducerAction } from "../types";
+import { tableViewsReducer, TableViews } from '../reducers/tableViewsReducer';
+import { ReducerAction } from '../types';
 
 export const TableViewsContext = createContext({} as TableViews);
 
 export const TableViewsDispatchContext = createContext(
-  (() => null) as Dispatch<ReducerAction>
+  (() => null) as Dispatch<ReducerAction>,
 );
 
 interface TableViewsProviderProps {
@@ -20,7 +20,7 @@ const TableViewsProvider = ({
 }: TableViewsProviderProps) => {
   const [tableViewsProvider, dispatch] = useReducer(
     tableViewsReducer,
-    tableViews
+    tableViews,
   );
   return (
     <TableViewsContext.Provider value={tableViewsProvider}>
