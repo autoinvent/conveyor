@@ -21,7 +21,7 @@ pnpm install @autoinvent/conveyor
 Then you can use it in your project:
 
 - Check out [outline](docs/outline.md) for component description and usages.
-- Check out [request examples](docs/request_examples.md.md) for examples on how to use different request APIs.
+- Check out [request examples](docs/request_examples.md) for examples on how to use different request APIs.
 
 ## Usage from CDN
 
