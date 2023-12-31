@@ -11,6 +11,8 @@ import ModelNav from '../ModelNav';
 
 import ModelIndexTable from './ModelIndexTable';
 
+import ModelTable from '../../__components__/ModelTable';
+
 interface ModelIndexProps extends BaseProps {
   modelName: string;
   fields: string[];
@@ -37,28 +39,47 @@ const ModelIndex = ({
     modelName,
     tableView: JSON.parse(JSON.stringify(DEFAULT_TABLE_VIEW)),
   });
+
+  const x = [{
+    stringField: 'world',
+    intField: 13,
+    floatField: 11.11,
+    booleanField: true,
+    datetimeField: new Date().toISOString(),
+  }, {
+    stringField: 'monkey',
+    intField: 7,
+    floatField: 7.7,
+    booleanField: false,
+    datetimeField: new Date().toISOString(),
+  }];
   return (
     <Container id={id} className={className}>
-      {children ?? (
-        <>
-          <div id={id} className={`${PACKAGE_ABBR}-model-title`}>
-            <h2>{title}</h2>
-            {/* TODO: Filter under construction */}
-            <ModelNav modelName={modelName} modelId={Page.CREATE}>
-              <Button>Create</Button>
-            </ModelNav>
-          </div>
-          <ModelIndexTable
-            modelName={modelName}
-            fields={fields}
-            fieldsData={fieldsData}
-            editable={editable}
-            deletable={deletable}
-          />
-        </>
-      )}
+      <ModelTable data={x} fields={['stringField', 'intField', 'floatField', 'booleanField', 'datetimeField']} />
     </Container>
-  );
+  )
+  // return (
+  //   <Container id={id} className={className}>
+  //     {children ?? (
+  //       <>
+  //         <div id={id} className={`${PACKAGE_ABBR}-model-title`}>
+  //           <h2>{title}</h2>
+  //           {/* TODO: Filter under construction */}
+  //           <ModelNav modelName={modelName} modelId={Page.CREATE}>
+  //             <Button>Create</Button>
+  //           </ModelNav>
+  //         </div>
+  //         <ModelIndexTable
+  //           modelName={modelName}
+  //           fields={fields}
+  //           fieldsData={fieldsData}
+  //           editable={editable}
+  //           deletable={deletable}
+  //         />
+  //       </>
+  //     )}
+  //   </Container>
+  // );
 };
 
 export default memo(ModelIndex) as FC<ModelIndexProps>;
