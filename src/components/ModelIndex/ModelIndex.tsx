@@ -1,4 +1,4 @@
-import { memo, FC, ReactNode } from 'react';
+import { memo, FC, ReactNode, useContext } from 'react';
 import { Button, Container } from 'react-bootstrap';
 
 import { Page } from '../../enums';
@@ -12,6 +12,10 @@ import ModelNav from '../ModelNav';
 import ModelIndexTable from './ModelIndexTable';
 
 import ModelTable from '../../__components__/ModelTable';
+import ModelTableBody from '../../__components__/ModelTableBody';
+import ModelTableRow from '../../__components__/ModelTableRow';
+import ModelTableCell from '../../__components__/ModelTableCell';
+import { SetModelFieldDisplaysContext } from '../../__contexts__/ModelFieldDisplaysContext';
 
 interface ModelIndexProps extends BaseProps {
   modelName: string;
@@ -40,24 +44,47 @@ const ModelIndex = ({
     tableView: JSON.parse(JSON.stringify(DEFAULT_TABLE_VIEW)),
   });
 
-  const x = [{
-    stringField: 'world',
-    intField: 13,
-    floatField: 11.11,
-    booleanField: true,
-    datetimeField: new Date().toISOString(),
-  }, {
-    stringField: 'monkey',
-    intField: 7,
-    floatField: 7.7,
-    booleanField: false,
-    datetimeField: new Date().toISOString(),
-  }];
+  const x = [
+    {
+      id: 1,
+      stringField: 'world',
+      intField: 13,
+      floatField: 11.11,
+      booleanField: true,
+      datetimeField: new Date().toISOString(),
+    },
+    {
+      id: 2,
+      stringField: 'monkey',
+      intField: 7,
+      floatField: 7.7,
+      booleanField: false,
+      datetimeField: new Date().toISOString(),
+    },
+  ];
   return (
     <Container id={id} className={className}>
-      <ModelTable data={x} fields={['stringField', 'intField', 'floatField', 'booleanField', 'datetimeField']} />
+      <ModelTable
+        data={x}
+        fields={[
+          'stringField',
+          'intField',
+          'floatField',
+          'booleanField',
+          'datetimeField',
+        ]}
+      >
+        <ModelTableBody>
+          <ModelTableRow>
+            <ModelTableCell field={'intField'}>Nooo way</ModelTableCell>
+            <ModelTableCell field={'booleanField'}>
+              <Hello />
+            </ModelTableCell>
+          </ModelTableRow>
+        </ModelTableBody>
+      </ModelTable>
     </Container>
-  )
+  );
   // return (
   //   <Container id={id} className={className}>
   //     {children ?? (
@@ -83,3 +110,17 @@ const ModelIndex = ({
 };
 
 export default memo(ModelIndex) as FC<ModelIndexProps>;
+
+const Hello = () => {
+  const stc = useContext(SetModelFieldDisplaysContext);
+
+  return (
+    <Button
+      onClick={() => {
+        stc((prev) => {
+          return { ...prev, intField: 'Yessir' };
+        });
+      }}
+    ></Button>
+  );
+};

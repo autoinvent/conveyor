@@ -1,20 +1,24 @@
 import { ReactNode, useContext } from 'react';
 
 import { ModelDataProvider } from '../__contexts__/ModelDataContext';
+import { ModelFieldDisplaysProvider } from '../__contexts__/ModelFieldDisplaysContext';
 import { TableDataContext } from '../__contexts__/TableDataContext';
-import { ModelData } from '../__types';
+import { BaseComponentProps } from '../__types';
 
-interface ModelTableBodyProps {
+interface ModelTableBodyProps extends BaseComponentProps {
   children: ReactNode;
 }
 
-const ModelTableBody = ({ children }: ModelTableBodyProps) => {
-  const tableDataStr = useContext(TableDataContext);
-  const tableData: ModelData[] = JSON.parse(tableDataStr);
+// Table Body that repeats the content (children) per row of data and preps the
+// ModelDataProvider for each row to use their correspondant data
+const ModelTableBody = ({ children, id, className }: ModelTableBodyProps) => {
+  const tableData = useContext(TableDataContext);
   return (
-    <tbody>
+    <tbody id={id} className={className}>
       {tableData.map((rowData, index) => (
-        <ModelDataProvider key={index} value={rowData}>{children}</ModelDataProvider>
+        <ModelFieldDisplaysProvider key={index}>
+          <ModelDataProvider value={rowData}>{children}</ModelDataProvider>
+        </ModelFieldDisplaysProvider>
       ))}
     </tbody>
   );

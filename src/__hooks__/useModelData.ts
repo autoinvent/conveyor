@@ -4,7 +4,7 @@ import { ModelDataContext } from '../__contexts__/ModelDataContext';
 
 const useModelData = () => {
   const modelData = useContext(ModelDataContext);
-  return JSON.parse(modelData);
+  return modelData;
 };
 
 export default useModelData;

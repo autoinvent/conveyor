@@ -1,6 +1,7 @@
 import { DisplayKeys } from '../__contexts__/DisplayKeyContext';
 import useModelData from '../__hooks__/useModelData';
 import { ModelField } from '../__types';
+import { getFieldName, getFieldType } from '../__utils__';
 import Display from './Display';
 
 interface DefaultDisplayValueProps {
@@ -9,8 +10,8 @@ interface DefaultDisplayValueProps {
 
 const DefaultDisplayValue = ({ field }: DefaultDisplayValueProps) => {
   const data = useModelData();
-  const fieldName = typeof field === 'string' ? field : field.name;
-  const fieldType = typeof field === 'string' ? 'String' : field.type;
+  const fieldName = getFieldName(field);
+  const fieldType = getFieldType(field);
   let displayValue = null;
   switch (fieldType) {
     case 'Int':

@@ -2,7 +2,7 @@ import { createContext, ReactNode } from 'react';
 
 import { ModelData } from '../__types';
 
-export const ModelDataContext = createContext<string>('');
+export const ModelDataContext = createContext<ModelData>({});
 
 interface ModelDataProviderProps {
   value: ModelData;
@@ -14,7 +14,7 @@ export const ModelDataProvider = ({
   children,
 }: ModelDataProviderProps) => {
   return (
-    <ModelDataContext.Provider value={JSON.stringify(value)}>
+    <ModelDataContext.Provider value={value}>
       {children}
     </ModelDataContext.Provider>
   );

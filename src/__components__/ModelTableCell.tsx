@@ -1,32 +1,23 @@
-import { ReactNode } from 'react';
+import { ReactNode, useContext, useEffect } from 'react';
 
-import { BaseComponentProps, ModelField } from '../__types';
-import DefaultDisplayValue from './DefaultDisplayValue';
-import DefaultDisplayInput from './DefaultDisplayInput';
+import { SetModelFieldDisplaysContext } from '../__contexts__/ModelFieldDisplaysContext';
+import { ModelField } from '../__types';
+import { getFieldName } from '../__utils__';
 
-interface ModelTableCellProps extends BaseComponentProps {
-  field?: ModelField;
+interface ModelTableCellProps {
+  field: ModelField;
   children?: ReactNode;
 }
 
-const ModelTableCell = ({
-  field,
-  children,
-  id,
-  className,
-}: ModelTableCellProps) => {
-  return (
-    <td id={id} className={className}>
-      {field && !children ? (
-        <>
-          <DefaultDisplayValue field={field} />
-          <DefaultDisplayInput field={field} />
-        </>
-      ) : (
-        children
-      )}
-    </td>
-  );
+const ModelTableCell = ({ field, children }: ModelTableCellProps) => {
+  const setModelFieldDisplays = useContext(SetModelFieldDisplaysContext);
+  useEffect(() => {
+    setModelFieldDisplays((tableCells) => ({
+      ...tableCells,
+      [getFieldName(field)]: children,
+    }));
+  }, [field, children]);
+  return null;
 };
 
 export default ModelTableCell;

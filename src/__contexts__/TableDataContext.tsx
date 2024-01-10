@@ -2,7 +2,7 @@ import { createContext, ReactNode } from 'react';
 
 import { ModelData } from '../__types';
 
-export const TableDataContext = createContext<string>('');
+export const TableDataContext = createContext<ModelData[]>([]);
 
 interface TableDataProviderProps {
   value: ModelData[];
@@ -14,7 +14,7 @@ export const TableDataProvider = ({
   children,
 }: TableDataProviderProps) => {
   return (
-    <TableDataContext.Provider value={JSON.stringify(value)}>
+    <TableDataContext.Provider value={value}>
       {children}
     </TableDataContext.Provider>
   );
