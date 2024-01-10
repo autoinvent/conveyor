@@ -14,8 +14,8 @@ import ModelIndexTable from './ModelIndexTable';
 import ModelTable from '../../__components__/ModelTable';
 import ModelTableBody from '../../__components__/ModelTableBody';
 import ModelTableRow from '../../__components__/ModelTableRow';
-import ModelTableCell from '../../__components__/ModelTableCell';
-import { SetModelFieldDisplaysContext } from '../../__contexts__/ModelFieldDisplaysContext';
+import Slots from '../../__components__/Slots';
+import { SetSlotsContext } from '../../__contexts__/SlotsContext';
 
 interface ModelIndexProps extends BaseProps {
   modelName: string;
@@ -76,10 +76,10 @@ const ModelIndex = ({
       >
         <ModelTableBody>
           <ModelTableRow>
-            <ModelTableCell field={'intField'}>Nooo way</ModelTableCell>
-            <ModelTableCell field={'booleanField'}>
+            <Slots field={'intField'}>Nooo way</Slots>
+            <Slots field={'booleanField'}>
               <Hello />
-            </ModelTableCell>
+            </Slots>
           </ModelTableRow>
         </ModelTableBody>
       </ModelTable>
@@ -112,7 +112,7 @@ const ModelIndex = ({
 export default memo(ModelIndex) as FC<ModelIndexProps>;
 
 const Hello = () => {
-  const stc = useContext(SetModelFieldDisplaysContext);
+  const stc = useContext(SetSlotsContext);
 
   return (
     <Button

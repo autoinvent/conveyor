@@ -1,14 +1,7 @@
-import { ReactNode, useContext, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { ReactNode, useContext } from 'react';
 
-import {
-  DisplayKeyProvider,
-  DisplayKeys,
-} from '../__contexts__/DisplayKeyContext';
-import { ModelFieldDisplaysContext } from '../__contexts__/ModelFieldDisplaysContext';
-import { ModelEditableContext } from '../__contexts__/ModelEditableContext';
-import { ModelFieldsContext } from '../__contexts__/ModelFieldsContext';
-import useModelData from '../__hooks__/useModelData';
+import { ModelTableContext } from '../__contexts__/ModelTableContext';
+import { SlotsContext } from '../__contexts__/SlotsContext';
 import { BaseComponentProps } from '../__types';
 import { getFieldName } from '../__utils__';
 import ModelActionButtons from './ModelActionButtons';
@@ -18,29 +11,17 @@ interface ModelTableRowProps extends BaseComponentProps {
   children?: ReactNode;
 }
 
-const ModelTableRow = ({
-  initialDisplayKey = DisplayKeys.VALUE,
-  children,
-  id,
-  className,
-}: ModelTableRowProps) => {
-  const fields = useContext(ModelFieldsContext);
-  const fieldDisplays = useContext(ModelFieldDisplaysContext);
-  const editable = useContext(ModelEditableContext);
-  const values = useModelData();
-  const formMethods = useForm({ values, mode: 'onChange' });
+const ModelTableRow = ({ children, className }: ModelTableRowProps) => {
+  const slots = useContext(SlotsContext);
+  const { fields } = useContext(ModelTableContext);
 
   return (
-    <tr id={id} className={className}>
-      <DisplayKeyProvider initialValue={initialDisplayKey}>
-        <FormProvider {...formMethods}>
-          {fields.map((field, index) => (
-            <td key={index}>{fieldDisplays[getFieldName(field)]}</td>
-          ))}
-          <td>fieldDisplays</td>
-          {children}
-        </FormProvider>
-      </DisplayKeyProvider>
+    <tr className={className}>
+      {fields.map((field, index) => (
+        <td key={index}>{slots[getFieldName(field)]}</td>
+      ))}
+      <td>fieldDisplays</td>
+      {children}
     </tr>
   );
 };

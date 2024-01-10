@@ -1,9 +1,7 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 import { Table } from 'react-bootstrap';
 
-import { TableDataProvider } from '../__contexts__/TableDataContext';
-import { ModelEditableProvider } from '../__contexts__/ModelEditableContext';
-import { ModelFieldsProvider } from '../__contexts__/ModelFieldsContext';
+import { ModelTableProvider } from '../__contexts__/ModelTableContext';
 import { BaseComponentProps, ModelField, ModelData } from '../__types';
 import ModelTableBody from './ModelTableBody';
 import ModelTableRow from './ModelTableRow';
@@ -23,21 +21,15 @@ const ModelTable = ({
   id,
   className,
 }: ModelTableProps) => {
-  const tableData = useMemo(() => data, [JSON.stringify(data)]);
-  const tableFields = useMemo(() => fields, [JSON.stringify(fields)]);
   return (
     <Table id={id} className={className} striped bordered hover>
-      <ModelEditableProvider value={editable}>
-        <ModelFieldsProvider value={tableFields}>
-          <TableDataProvider value={tableData}>
-            {children || (
-              <ModelTableBody>
-                <ModelTableRow />
-              </ModelTableBody>
-            )}
-          </TableDataProvider>
-        </ModelFieldsProvider>
-      </ModelEditableProvider>
+      <ModelTableProvider value={{ fields, tableData: data, editable }}>
+        {children || (
+          <ModelTableBody>
+            <ModelTableRow />
+          </ModelTableBody>
+        )}
+      </ModelTableProvider>
     </Table>
   );
 };

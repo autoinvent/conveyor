@@ -1,4 +1,4 @@
-import { createContext, ReactNode } from 'react';
+import { createContext, ReactNode, useMemo } from 'react';
 
 import { ModelData } from '../__types';
 
@@ -13,8 +13,9 @@ export const ModelDataProvider = ({
   value,
   children,
 }: ModelDataProviderProps) => {
+  const modelData = useMemo(() => value, [JSON.stringify(value)]);
   return (
-    <ModelDataContext.Provider value={value}>
+    <ModelDataContext.Provider value={modelData}>
       {children}
     </ModelDataContext.Provider>
   );

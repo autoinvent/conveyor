@@ -4,6 +4,7 @@ import {
   ReactNode,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from 'react';
 
 export enum DisplayKeys {
@@ -21,16 +22,16 @@ export const SetDisplayKeyContext = createContext<
 });
 
 interface DisplayKeyProviderProps {
-  initialValue: string;
+  value: string;
   children: ReactNode;
 }
 
 export const DisplayKeyProvider = ({
-  initialValue,
+  value,
   children,
 }: DisplayKeyProviderProps) => {
-  const [displayKey, setDisplayKey] = useState(initialValue);
-
+  const [displayKey, setDisplayKey] = useState(value);
+  useEffect(() => setDisplayKey(value), [value]);
   return (
     <SetDisplayKeyContext.Provider value={setDisplayKey}>
       <DisplayKeyContext.Provider value={displayKey}>
