@@ -7,7 +7,7 @@ import { BaseComponentProps } from '../types';
 import { getFieldName } from '../utils';
 
 interface ModelTableHeadProps extends BaseComponentProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const ModelTableHead = ({ children, id, className }: ModelTableHeadProps) => {

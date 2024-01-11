@@ -12,6 +12,11 @@ interface ModelTableProps extends BaseComponentProps {
   fields: ModelField[];
   editable?: boolean;
   initialDisplayKey?: string;
+  onSave?: Function;
+  onDelete?: Function;
+  onCreate?: Function;
+  onSort?: Function;
+  onPaginate?: Function;
   children?: ReactNode;
 }
 
