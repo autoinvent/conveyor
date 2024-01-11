@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { ModelDataContext } from '../__contexts__/ModelDataContext';
+import { ModelDataContext } from '../contexts/ModelDataContext';
 
 const useModelData = () => {
   const modelData = useContext(ModelDataContext);

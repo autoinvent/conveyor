@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { Table } from 'react-bootstrap';
 
-import { ModelTableProvider } from '../__contexts__/ModelTableContext';
-import { BaseComponentProps, ModelField, ModelData } from '../__types';
+import { ModelTableProvider } from '../contexts/ModelTableContext';
+import { BaseComponentProps, ModelField, ModelData } from '../types';
 import ModelTableBody from './ModelTableBody';
 import ModelTableRow from './ModelTableRow';
 

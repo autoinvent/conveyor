@@ -1,4 +1,4 @@
-import { BaseComponentProps } from '../__types';
+import { BaseComponentProps } from '../types';
 
 interface ModelTableHeadProps extends BaseComponentProps {}
 

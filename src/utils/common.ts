@@ -2,7 +2,7 @@ import { ErrorMessage } from '../enums';
 
 export const humanizeText = (str: string) => {
   if (!str) return '';
-  const separatedWords = str.replace(/(?=[A-Z][a-z])/g, ' ');
+  const separatedWords = str.replace(/([a-z])([A-Z])/g, '$1 $2');
   return upperCaseFirst(separatedWords);
 };
 

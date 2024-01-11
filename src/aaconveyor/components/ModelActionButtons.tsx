@@ -6,9 +6,9 @@ import {
   FaRegTimesCircle,
 } from 'react-icons/fa';
 
+import { DisplayKeys } from '../contexts/DisplayKeyContext';
+import { BaseComponentProps } from '../types';
 import Display from './Display';
-import { DisplayKeys } from '../__contexts__/DisplayKeyContext';
-import { BaseComponentProps } from '../__types';
 
 interface ModelActionButtonsProps extends BaseComponentProps {}
 

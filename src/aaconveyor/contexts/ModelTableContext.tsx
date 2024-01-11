@@ -1,10 +1,6 @@
-import {
-  createContext,
-  ReactNode,
-  useMemo,
-} from 'react';
+import { createContext, ReactNode, useMemo } from 'react';
 
-import { ModelData, ModelField } from '../__types';
+import { ModelData, ModelField } from '../types';
 
 interface ModelTableContext {
   fields: ModelField[];

@@ -94,6 +94,5 @@ export const extractModelsFromIntrospection = (
       }
     });
   });
-
   return models;
 };

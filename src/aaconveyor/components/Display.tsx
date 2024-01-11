@@ -1,5 +1,5 @@
 import { ReactNode, useContext } from 'react';
-import { DisplayKeyContext } from '../__contexts__/DisplayKeyContext';
+import { DisplayKeyContext } from '../contexts/DisplayKeyContext';
 
 interface DisplayProps {
   activeKey: string;

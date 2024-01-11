@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useMemo } from 'react';
 
-import { ModelData } from '../__types';
+import { ModelData } from '../types';
 
 export const ModelDataContext = createContext<ModelData>({});
 

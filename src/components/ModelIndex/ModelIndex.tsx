@@ -11,11 +11,11 @@ import ModelNav from '../ModelNav';
 
 import ModelIndexTable from './ModelIndexTable';
 
-import ModelTable from '../../__components__/ModelTable';
-import ModelTableBody from '../../__components__/ModelTableBody';
-import ModelTableRow from '../../__components__/ModelTableRow';
-import Slots from '../../__components__/Slots';
-import { SetSlotsContext } from '../../__contexts__/SlotsContext';
+import ModelTable from '../../aaconveyor/components/ModelTable';
+import ModelTableBody from '../../aaconveyor/components/ModelTableBody';
+import ModelTableRow from '../../aaconveyor/components/ModelTableRow';
+import ModelTableCell from '../../aaconveyor/components/ModelTableCell';
+import { SetSlotsContext } from '../../aaconveyor/contexts/SlotsContext';
 
 interface ModelIndexProps extends BaseProps {
   modelName: string;
@@ -76,10 +76,12 @@ const ModelIndex = ({
       >
         <ModelTableBody>
           <ModelTableRow>
-            <Slots field={'intField'}>Nooo way</Slots>
-            <Slots field={'booleanField'}>
+            <ModelTableCell field={'intField'}>Nooo way</ModelTableCell>
+            <ModelTableCell field={'intField'}>Hmmm</ModelTableCell>
+            <ModelTableCell field={'goodbye'}>Byeee</ModelTableCell>
+            <ModelTableCell field={'hello'}>
               <Hello />
-            </Slots>
+            </ModelTableCell>
           </ModelTableRow>
         </ModelTableBody>
       </ModelTable>
@@ -118,9 +120,11 @@ const Hello = () => {
     <Button
       onClick={() => {
         stc((prev) => {
-          return { ...prev, intField: 'Yessir' };
+          return { ...prev, intField: <td>'Yessir'</td> };
         });
       }}
-    ></Button>
+    >
+      YEP
+    </Button>
   );
 };

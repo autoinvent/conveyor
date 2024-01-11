@@ -1,7 +1,7 @@
-import { DisplayKeys } from '../__contexts__/DisplayKeyContext';
-import useModelData from '../__hooks__/useModelData';
-import { ModelField } from '../__types';
-import { getFieldName, getFieldType } from '../__utils__';
+import { DisplayKeys } from '../contexts/DisplayKeyContext';
+import useModelData from '../hooks/useModelData';
+import { ModelField } from '../types';
+import { getFieldName, getFieldType } from '../utils';
 import Display from './Display';
 
 interface DefaultDisplayValueProps {
