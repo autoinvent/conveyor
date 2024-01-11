@@ -1,6 +1,7 @@
-import { ReactNode, useContext, Fragment } from 'react';
+import { ReactNode, useContext } from 'react';
 
 import { ACTION_SLOT } from '../constants';
+import { DisplayKeyProvider } from '../contexts/DisplayKeyContext';
 import { ModelTableContext } from '../contexts/ModelTableContext';
 import { SlotsProvider } from '../contexts/SlotsContext';
 import { BaseComponentProps } from '../types';
@@ -11,28 +12,29 @@ import ModelActionButtons from './ModelActionButtons';
 import ModelTableCell from './ModelTableCell';
 
 interface ModelTableRowProps extends BaseComponentProps {
-  initialDisplayKey?: string;
   children?: ReactNode;
 }
 
 const ModelTableRow = ({ children, id, className }: ModelTableRowProps) => {
-  const { fields, editable } = useContext(ModelTableContext);
+  const { fields, editable, initialDisplayKey } = useContext(ModelTableContext);
   const slotKeys = fields.map((field) => getFieldName(field));
   if (editable) slotKeys.push(ACTION_SLOT);
   return (
     <tr id={id} className={className}>
-      <SlotsProvider slotKeys={slotKeys}>
-        {fields.map((field, index) => (
-          <ModelTableCell key={index} field={field}>
-            <DefaultDisplayValue field={field} />
-            <DefaultDisplayInput field={field} />
+      <DisplayKeyProvider value={initialDisplayKey}>
+        <SlotsProvider slotKeys={slotKeys}>
+          {fields.map((field, index) => (
+            <ModelTableCell key={index} field={field}>
+              <DefaultDisplayValue field={field} />
+              <DefaultDisplayInput field={field} />
+            </ModelTableCell>
+          ))}
+          <ModelTableCell field={ACTION_SLOT}>
+            <ModelActionButtons />
           </ModelTableCell>
-        ))}
-        <ModelTableCell field={ACTION_SLOT}>
-          <ModelActionButtons />
-        </ModelTableCell>
-        {children}
-      </SlotsProvider>
+          {children}
+        </SlotsProvider>
+      </DisplayKeyProvider>
     </tr>
   );
 };

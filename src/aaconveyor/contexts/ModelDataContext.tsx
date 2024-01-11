@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useMemo } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { ModelData } from '../types';
 
@@ -14,9 +15,10 @@ export const ModelDataProvider = ({
   children,
 }: ModelDataProviderProps) => {
   const modelData = useMemo(() => value, [JSON.stringify(value)]);
+  const formMethods = useForm({ values: modelData, mode: 'onChange' });
   return (
     <ModelDataContext.Provider value={modelData}>
-      {children}
+      <FormProvider {...formMethods}>{children}</FormProvider>
     </ModelDataContext.Provider>
   );
 };

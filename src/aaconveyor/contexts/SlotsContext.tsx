@@ -16,11 +16,10 @@ export const SetSlotsContext = createContext<
 
 interface SlotsProviderProps {
   slotKeys: string[];
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const SlotsProvider = ({ slotKeys, children }: SlotsProviderProps) => {
-  console.log('render');
   const initialSlots = Object.fromEntries(
     slotKeys.map((slotKey) => [slotKey, null]),
   );

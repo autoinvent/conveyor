@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Table } from 'react-bootstrap';
 
+import { DisplayKeys } from '../contexts/DisplayKeyContext';
 import { ModelTableProvider } from '../contexts/ModelTableContext';
 import { BaseComponentProps, ModelField, ModelData } from '../types';
 import ModelTableBody from './ModelTableBody';
@@ -10,6 +11,7 @@ interface ModelTableProps extends BaseComponentProps {
   data: ModelData[];
   fields: ModelField[];
   editable?: boolean;
+  initialDisplayKey?: string;
   children?: ReactNode;
 }
 
@@ -18,12 +20,15 @@ const ModelTable = ({
   fields,
   children,
   editable = true,
+  initialDisplayKey = DisplayKeys.VALUE,
   id,
   className,
 }: ModelTableProps) => {
   return (
     <Table id={id} className={className} striped bordered hover>
-      <ModelTableProvider value={{ fields, tableData: data, editable }}>
+      <ModelTableProvider
+        value={{ fields, tableData: data, editable, initialDisplayKey }}
+      >
         {children || (
           <ModelTableBody>
             <ModelTableRow />

@@ -1,1 +1,3 @@
 - scalar type for id is set to int, set it to ID
+- bug in react-hook-form causing it to disrupt slots if used within same component:
+  useForm(values) and SlotsProvider

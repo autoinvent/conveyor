@@ -31,7 +31,7 @@ export const DisplayKeyProvider = ({
   children,
 }: DisplayKeyProviderProps) => {
   const [displayKey, setDisplayKey] = useState(value);
-  useEffect(() => setDisplayKey(value), [value]);
+  // useEffect(() => setDisplayKey(value), [value]);
   return (
     <SetDisplayKeyContext.Provider value={setDisplayKey}>
       <DisplayKeyContext.Provider value={displayKey}>

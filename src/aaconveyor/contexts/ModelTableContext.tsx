@@ -6,11 +6,13 @@ interface ModelTableContext {
   fields: ModelField[];
   tableData: ModelData[];
   editable: boolean;
+  initialDisplayKey: string;
 }
 export const ModelTableContext = createContext<ModelTableContext>({
   fields: [],
   tableData: [],
   editable: false,
+  initialDisplayKey: '',
 });
 
 interface ModelTableProviderProps {

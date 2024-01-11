@@ -72,6 +72,7 @@ const ModelIndex = ({
           'floatField',
           'booleanField',
           'datetimeField',
+          'hello',
         ]}
       >
         <ModelTableBody>
