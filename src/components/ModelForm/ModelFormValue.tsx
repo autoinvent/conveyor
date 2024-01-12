@@ -7,7 +7,7 @@ import ModelNav from '../ModelNav';
 import Checkbox from '../commons/Checkbox';
 import { InputTypes } from '../commons/FlexibleInput';
 import { Card } from 'react-bootstrap';
-
+import DateTime from '../commons/DateTime';
 interface ModelFormValueProps extends BaseProps {
   modelName: string;
   fields: string[];
@@ -59,6 +59,8 @@ const ModelFormValue = ({
     );
   } else if (type === InputTypes.BOOLEAN) {
     displayData = <Checkbox value={currData} disabled={true} />;
+  } else if (type === InputTypes.DATETIME) {
+    displayData = <DateTime date={currData} />;
   }
 
   return (
