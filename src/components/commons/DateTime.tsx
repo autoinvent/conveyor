@@ -9,7 +9,7 @@ const DateTime = ({
     date,
     }: DateTimeProps) => {
     // Process the date as needed
-    return moment(date).format('YYYY-MM-DD h:mm:ss A');
+    return moment(date).format('MM / DD / YYYY hh:mm:ss A');
 };
 
 export default DateTime
