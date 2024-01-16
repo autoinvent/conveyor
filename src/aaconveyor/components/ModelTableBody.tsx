@@ -11,10 +11,10 @@ interface ModelTableBodyProps extends BaseComponentProps {
 // Table Body that repeats the content (children) per row of data and preps the
 // ModelDataProvider for each row to use their correspondant data
 const ModelTableBody = ({ children, id, className }: ModelTableBodyProps) => {
-  const { tableData } = useContext(ModelTableContext);
+  const { data } = useContext(ModelTableContext);
   return (
     <tbody id={id} className={className}>
-      {tableData.map((rowData, index) => {
+      {data.map((rowData, index) => {
         return (
           <ModelDataProvider key={index} value={rowData}>
             {children}

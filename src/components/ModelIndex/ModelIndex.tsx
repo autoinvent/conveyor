@@ -19,6 +19,7 @@ import { SetSlotsContext } from '../../aaconveyor/contexts/SlotsContext';
 import { useFormContext } from 'react-hook-form';
 import ModelTableHead from '../../aaconveyor/components/ModelTableHead';
 import ModelTableHeader from '../../aaconveyor/components/ModelTableHeader';
+import { ModelTableProvider } from '../../aaconveyor/contexts/ModelTableContext';
 
 interface ModelIndexProps extends BaseProps {
   modelName: string;
@@ -72,32 +73,31 @@ const ModelIndex = ({
     'booleanField',
     'datetimeField',
     'hello',
-  ]
-  const [fieldss, setFields] = useState(fieldsarr)
-  const formContext = useFormContext()
-  console.log(formContext)
+  ];
+  const [fieldss, setFields] = useState(fieldsarr);
+  const formContext = useFormContext();
+  console.log(formContext);
   return (
     <Container id={id} className={className}>
-      <ModelTable
-        data={x}
-        fields={fieldss}
-      >
-        <ModelTableHead>
-          <ModelTableHeader field={'datetimeField'}>
-            tis the time
-          </ModelTableHeader>
-        </ModelTableHead>
-        <ModelTableBody>
-          <ModelTableRow>
-            <ModelTableCell field={'intField'}>Nooo way</ModelTableCell>
-            <ModelTableCell field={'intField'}>Hmmm</ModelTableCell>
-            <ModelTableCell field={'goodbye'}>Byeee</ModelTableCell>
-            <ModelTableCell field={'hello'}>
-              <Hello x={setFields} />
-            </ModelTableCell>
-          </ModelTableRow>
-        </ModelTableBody>
-      </ModelTable>
+      <ModelTableProvider data={x} fields={fieldss}>
+        <ModelTable>
+          <ModelTableHead>
+            <ModelTableHeader field={'datetimeField'}>
+              tis the time
+            </ModelTableHeader>
+          </ModelTableHead>
+          <ModelTableBody>
+            <ModelTableRow>
+              <ModelTableCell field={'intField'}>Nooo way</ModelTableCell>
+              <ModelTableCell field={'intField'}>Hmmm</ModelTableCell>
+              <ModelTableCell field={'goodbye'}>Byeee</ModelTableCell>
+              <ModelTableCell field={'hello'}>
+                <Hello x={setFields} />
+              </ModelTableCell>
+            </ModelTableRow>
+          </ModelTableBody>
+        </ModelTable>
+      </ModelTableProvider>
     </Container>
   );
   // return (

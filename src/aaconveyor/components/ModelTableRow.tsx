@@ -8,10 +8,9 @@ import { BaseComponentProps } from '../types';
 import { getFieldName } from '../utils';
 import ModelActionButtons from './ModelActionButtons';
 import Display from './Display';
-import ModelInput from './ModelInput'
+import ModelInput from './ModelInput';
 import ModelTableCell from './ModelTableCell';
-import ModelValue from './ModelValue'
-
+import ModelValue from './ModelValue';
 
 interface ModelTableRowProps extends BaseComponentProps {
   children?: ReactNode;

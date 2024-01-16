@@ -7,16 +7,19 @@ import {
   FaRegTimesCircle,
 } from 'react-icons/fa';
 
-import { DisplayKeys, SetDisplayKeyContext } from '../contexts/DisplayKeyContext';
+import {
+  DisplayKeys,
+  SetDisplayKeyContext,
+} from '../contexts/DisplayKeyContext';
 import { BaseComponentProps } from '../types';
 import Display from './Display';
 
-interface ModelActionButtonsProps extends BaseComponentProps { }
+interface ModelActionButtonsProps extends BaseComponentProps {}
 
 const ModelActionButtons = ({ id, className }: ModelActionButtonsProps) => {
-  const setDisplayKey = useContext(SetDisplayKeyContext)
-  const onEdit = () => setDisplayKey(DisplayKeys.EDIT)
-  const onCancelEdit = () => setDisplayKey(DisplayKeys.VALUE)
+  const setDisplayKey = useContext(SetDisplayKeyContext);
+  const onEdit = () => setDisplayKey(DisplayKeys.EDIT);
+  const onCancelEdit = () => setDisplayKey(DisplayKeys.VALUE);
 
   return (
     <ButtonGroup id={id} className={className}>

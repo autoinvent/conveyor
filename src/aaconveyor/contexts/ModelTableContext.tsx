@@ -1,32 +1,42 @@
 import { createContext, ReactNode, useMemo } from 'react';
 
 import { ModelData, ModelField } from '../types';
+import { DisplayKeys } from './DisplayKeyContext';
 
 interface ModelTableContext {
   fields: ModelField[];
-  tableData: ModelData[];
+  data: ModelData[];
   editable: boolean;
   initialDisplayKey: string;
 }
 export const ModelTableContext = createContext<ModelTableContext>({
   fields: [],
-  tableData: [],
+  data: [],
   editable: false,
   initialDisplayKey: '',
 });
 
 interface ModelTableProviderProps {
-  value: ModelTableContext;
-  children: ReactNode;
+  data: ModelData[];
+  fields: ModelField[];
+  editable?: boolean;
+  initialDisplayKey?: string;
+  onSave?: Function;
+  onDelete?: Function;
+  children?: ReactNode;
 }
 
 export const ModelTableProvider = ({
-  value,
+  data,
+  fields,
+  editable = true,
+  initialDisplayKey = DisplayKeys.VALUE,
   children,
 }: ModelTableProviderProps) => {
-  const modelTable = useMemo(() => value, [JSON.stringify(value)]);
+  const modelTable = { data, fields, editable, initialDisplayKey }
+  const value = useMemo(() => modelTable, [JSON.stringify(modelTable)]);
   return (
-    <ModelTableContext.Provider value={modelTable}>
+    <ModelTableContext.Provider value={value}>
       {children}
     </ModelTableContext.Provider>
   );
