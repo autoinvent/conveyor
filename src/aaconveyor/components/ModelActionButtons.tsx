@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import {
   FaRegTrashAlt,
@@ -6,17 +7,21 @@ import {
   FaRegTimesCircle,
 } from 'react-icons/fa';
 
-import { DisplayKeys } from '../contexts/DisplayKeyContext';
+import { DisplayKeys, SetDisplayKeyContext } from '../contexts/DisplayKeyContext';
 import { BaseComponentProps } from '../types';
 import Display from './Display';
 
-interface ModelActionButtonsProps extends BaseComponentProps {}
+interface ModelActionButtonsProps extends BaseComponentProps { }
 
 const ModelActionButtons = ({ id, className }: ModelActionButtonsProps) => {
+  const setDisplayKey = useContext(SetDisplayKeyContext)
+  const onEdit = () => setDisplayKey(DisplayKeys.EDIT)
+  const onCancelEdit = () => setDisplayKey(DisplayKeys.VALUE)
+
   return (
     <ButtonGroup id={id} className={className}>
       <Display activeKey={DisplayKeys.VALUE}>
-        <Button variant='outline-primary'>
+        <Button variant='outline-primary' onClick={onEdit}>
           <FaEdit />
         </Button>
         <Button variant='outline-danger'>
@@ -27,7 +32,7 @@ const ModelActionButtons = ({ id, className }: ModelActionButtonsProps) => {
         <Button variant='outline-success'>
           <FaRegSave />
         </Button>
-        <Button variant='outline-primary'>
+        <Button variant='outline-primary' onClick={onCancelEdit}>
           <FaRegTimesCircle />
         </Button>
       </Display>

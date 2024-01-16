@@ -1,4 +1,4 @@
-import { memo, FC, ReactNode, useContext } from 'react';
+import { memo, FC, ReactNode, useContext, useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 
 import { Page } from '../../enums';
@@ -16,6 +16,9 @@ import ModelTableBody from '../../aaconveyor/components/ModelTableBody';
 import ModelTableRow from '../../aaconveyor/components/ModelTableRow';
 import ModelTableCell from '../../aaconveyor/components/ModelTableCell';
 import { SetSlotsContext } from '../../aaconveyor/contexts/SlotsContext';
+import { useFormContext } from 'react-hook-form';
+import ModelTableHead from '../../aaconveyor/components/ModelTableHead';
+import ModelTableHeader from '../../aaconveyor/components/ModelTableHeader';
 
 interface ModelIndexProps extends BaseProps {
   modelName: string;
@@ -62,26 +65,35 @@ const ModelIndex = ({
       datetimeField: new Date().toISOString(),
     },
   ];
+  const fieldsarr = [
+    'stringField',
+    'intField',
+    'floatField',
+    'booleanField',
+    'datetimeField',
+    'hello',
+  ]
+  const [fieldss, setFields] = useState(fieldsarr)
+  const formContext = useFormContext()
+  console.log(formContext)
   return (
     <Container id={id} className={className}>
       <ModelTable
         data={x}
-        fields={[
-          'stringField',
-          'intField',
-          'floatField',
-          'booleanField',
-          'datetimeField',
-          'hello',
-        ]}
+        fields={fieldss}
       >
+        <ModelTableHead>
+          <ModelTableHeader field={'datetimeField'}>
+            tis the time
+          </ModelTableHeader>
+        </ModelTableHead>
         <ModelTableBody>
           <ModelTableRow>
             <ModelTableCell field={'intField'}>Nooo way</ModelTableCell>
             <ModelTableCell field={'intField'}>Hmmm</ModelTableCell>
             <ModelTableCell field={'goodbye'}>Byeee</ModelTableCell>
             <ModelTableCell field={'hello'}>
-              <Hello />
+              <Hello x={setFields} />
             </ModelTableCell>
           </ModelTableRow>
         </ModelTableBody>
@@ -114,12 +126,13 @@ const ModelIndex = ({
 
 export default memo(ModelIndex) as FC<ModelIndexProps>;
 
-const Hello = () => {
+const Hello = (props: any) => {
   const stc = useContext(SetSlotsContext);
 
   return (
     <Button
       onClick={() => {
+        // props.x((original: any) => original.slice(1))
         stc((prev) => {
           return { ...prev, intField: <td>'Yessir'</td> };
         });

@@ -5,6 +5,7 @@ import { DisplayKeys } from '../contexts/DisplayKeyContext';
 import { ModelTableProvider } from '../contexts/ModelTableContext';
 import { BaseComponentProps, ModelField, ModelData } from '../types';
 import ModelTableBody from './ModelTableBody';
+import ModelTableHead from './ModelTableHead'
 import ModelTableRow from './ModelTableRow';
 
 interface ModelTableProps extends BaseComponentProps {
@@ -35,9 +36,12 @@ const ModelTable = ({
         value={{ fields, tableData: data, editable, initialDisplayKey }}
       >
         {children || (
-          <ModelTableBody>
-            <ModelTableRow />
-          </ModelTableBody>
+          <>
+            <ModelTableHead />
+            <ModelTableBody>
+              <ModelTableRow />
+            </ModelTableBody>
+          </>
         )}
       </ModelTableProvider>
     </Table>
