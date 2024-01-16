@@ -39,33 +39,35 @@ export const extractModelsFromIntrospection = (
   introspection.query.fields.forEach((query) => {
     if (query.name.endsWith('_item')) {
       const model = query.type?.name;
-            if (model) {
+      if (model) {
         const fields: Record<string, Field> = {};
         query.type?.fields?.forEach((field) => {
           fields[field.name] = {};
           fields[field.name].type = getFieldType(field.type);
         });
         models[model] = { fields };
-              }
+      }
     }
   });
 
   // Extract model update and create arguments
   introspection.mutation.fields.forEach((mutation) => {
-    const mutationArgs = `${mutation.name.split('_')[mutation.name.split('_').length-1]}Args`;
+    const mutationArgs = `${
+      mutation.name.split('_')[mutation.name.split('_').length - 1]
+    }Args`;
     if (mutationArgs === 'updateArgs' || mutationArgs === 'createArgs') {
       const model = mutation.type?.ofType?.name;
       if (model) {
-                models[model][mutationArgs] = Object.fromEntries(
+        models[model][mutationArgs] = Object.fromEntries(
           mutation.args?.map((arg) => [arg.name, getFieldType(arg.type)]) ?? [],
         );
       }
     }
   });
-  
+
   // Parse model field type for relational types
   const modelNames = Object.keys(models);
-    modelNames.forEach((model) => {
+  modelNames.forEach((model) => {
     Object.keys(models[model].fields).forEach((field) => {
       const { type } = models[model].fields[field];
       if (typeof type === 'string') {
@@ -94,6 +96,6 @@ export const extractModelsFromIntrospection = (
       }
     });
   });
-  
+
   return models;
 };
