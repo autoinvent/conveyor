@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@autoinvent/conveyor':
-    specifier: 1.0.0-beta.2
-    version: 1.0.0-beta.2(@types/react@18.2.15)(react-dom@18.2.0)(react@18.2.0)
   '@babel/core':
     specifier: ^7.22.9
     version: 7.22.9
@@ -140,26 +137,6 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.18
-
-  /@autoinvent/conveyor@1.0.0-beta.2(@types/react@18.2.15)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-GDKgOpFGIYGEp9coA8iQGmk9oT4PuLa4V6iPaomsSaXSaW5hNUrwC40SCJ4JDMOYvzaurMb3cFHUiX8EvUMyhQ==}
-    dependencies:
-      '@babel/core': 7.22.9
-      '@popperjs/core': 2.11.8
-      bootstrap: 5.3.0(@popperjs/core@2.11.8)
-      bootswatch: 5.3.0
-      react-bootstrap: 2.8.0(@types/react@18.2.15)(react-dom@18.2.0)(react@18.2.0)
-      react-helmet: 6.1.0(react@18.2.0)
-      react-hook-form: 7.45.2(react@18.2.0)
-      react-icons: 4.10.1(react@18.2.0)
-      react-select: 5.7.4(@types/react@18.2.15)(react-dom@18.2.0)(react@18.2.0)
-      react-use: 17.4.0(react-dom@18.2.0)(react@18.2.0)
-    transitivePeerDependencies:
-      - '@types/react'
-      - react
-      - react-dom
-      - supports-color
-    dev: false
 
   /@babel/code-frame@7.22.5:
     resolution: {integrity: sha512-Xmwn266vad+6DAqEB2A6V/CcZVp62BbwVmcOJc2RPuwih1kw02TjQvWVWlcKGbBPd+8/0V5DEkOcizRGYsspYQ==}
