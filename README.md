@@ -31,7 +31,7 @@ Then you can use it in your project:
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/src/logo.svg" />
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/autoinvent/conveyor/main/src/logo.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Conveyor</title>
   <style>
@@ -50,8 +50,8 @@ Then you can use it in your project:
     -->
   <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-  <link crossorigin href="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.2/dist/styles/index.css" rel="stylesheet" />
-  <script crossorigin src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.2/dist/conveyor.umd.js"></script>
+  <link crossorigin href="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.3/dist/styles/index.css" rel="stylesheet" />
+  <script crossorigin src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.3/dist/conveyor.umd.js"></script>
 </head>
 
 <body>
