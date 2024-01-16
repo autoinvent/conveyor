@@ -1,3 +1,5 @@
+/// <reference types="vite-plugin-svgr/client" />
+
 import {
   Container,
   Nav,
@@ -9,6 +11,8 @@ import { Helmet } from 'react-helmet';
 import { useThemeSelect, ThemeName } from '../../hooks/useThemeSelect';
 import { PACKAGE_ABBR } from '../../package';
 import ModelNav from '../ModelNav';
+
+import Logo from '../../logo.svg?react';
 
 function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
   const { currentTheme, themeCSS, changeTheme } = useThemeSelect();
@@ -22,10 +26,9 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
         <Container>
           <ModelNav>
             <ReactNavBar.Brand>
-              <img
-                alt='Conveyor Logo'
-                src='/src/logo.svg'
+              <Logo
                 height='30'
+                width='30'
                 className='d-inline-block align-top'
               />{' '}
               Conveyor
