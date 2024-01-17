@@ -5,14 +5,17 @@ import {
   Nav,
   Navbar as ReactNavBar,
   NavDropdown,
+  Form,
 } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
-
+import { FaSearch } from 'react-icons/fa';
 import { useThemeSelect, ThemeName } from '../../hooks/useThemeSelect';
 import { PACKAGE_ABBR } from '../../package';
 import ModelNav from '../ModelNav';
 
 import Logo from '../../logo.svg?react';
+
+function onSearch() {}
 
 function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
   const { currentTheme, themeCSS, changeTheme } = useThemeSelect();
@@ -40,6 +43,18 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
             className='justify-content-end'
           >
             <Nav>
+              <Form>
+                <input
+                  id='input'
+                  type='text'
+                  placeholder='Search...'
+                  onChange={onSearch}
+                />
+                <button type='button' onClick={onSearch}>
+                  {' '}
+                  {<FaSearch />}{' '}
+                </button>
+              </Form>
               {/* Models Dropdown */}
               <NavDropdown
                 id='conveyor-navbar-models-dropdown'
