@@ -33,3 +33,11 @@
     border: none;
     padding: 0;
 }
+
+.search-bar {
+    width: 150px;
+}
+
+.search-button {
+    margin-right: 32px;
+}

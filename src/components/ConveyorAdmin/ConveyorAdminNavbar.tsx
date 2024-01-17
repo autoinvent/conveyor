@@ -26,7 +26,7 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
         <style>{themeCSS}</style>
       </Helmet>
       <ReactNavBar className='mb-3' variant='dark' bg='primary' expand='sm'>
-        <Container>
+        <Container className='me-5'>
           <ModelNav>
             <ReactNavBar.Brand>
               <Logo
@@ -43,18 +43,6 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
             className='justify-content-end'
           >
             <Nav>
-              <Form>
-                <input
-                  id='input'
-                  type='text'
-                  placeholder='Search...'
-                  onChange={onSearch}
-                />
-                <button type='button' onClick={onSearch}>
-                  {' '}
-                  {<FaSearch />}{' '}
-                </button>
-              </Form>
               {/* Models Dropdown */}
               <NavDropdown
                 id='conveyor-navbar-models-dropdown'
@@ -107,6 +95,20 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
             </Nav>
           </ReactNavBar.Collapse>
         </Container>
+        {/* Search Bar and Button */}
+        <Form className='ms-5' action="/search_page" method="post">
+              <input
+                className='search-bar'
+                id='input'
+                type='search'
+                name='search'
+                placeholder='Search...'
+                onChange={onSearch}
+                />
+              <button className='search-button' type='submit' >
+                {<FaSearch />}
+              </button>
+          </Form>
       </ReactNavBar>
     </>
   );
