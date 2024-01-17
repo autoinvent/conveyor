@@ -12,6 +12,8 @@ import ModelIndex from '../ModelIndex/ModelIndex';
 import ConveyorAdminHome from './ConveyorAdminHome';
 import ConveyorAdminNavbar from './ConveyorAdminNavbar';
 import Loading from '../commons/Loading';
+import Results from '../SearchResults';
+import Search from '../ModelSearch';
 
 const IntrospectionDocument = `
 {
@@ -71,7 +73,7 @@ const ConveyorAdminContent = ({
       }
     }
   }, [JSON.stringify(data), JSON.stringify(error)]);
-
+  console.log(data);
   let page = null;
   const modelNames = models ? Object.keys(models) : [];
   const fieldsData = models?.[currentModelName]?.fields ?? {};
@@ -156,6 +158,12 @@ const ConveyorAdminContent = ({
           fields={fields}
           fieldsData={createFieldsData}
         />
+      );
+      break;
+    }
+    case Page.SEARCH: {
+      page= (
+      <Search/>
       );
       break;
     }

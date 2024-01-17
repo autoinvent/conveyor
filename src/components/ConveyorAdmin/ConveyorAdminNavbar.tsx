@@ -14,6 +14,7 @@ import { PACKAGE_ABBR } from '../../package';
 import ModelNav from '../ModelNav';
 
 import Logo from '../../logo.svg?react';
+import Search from '../ModelSearch';
 
 function onSearch() {}
 
@@ -96,19 +97,7 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
           </ReactNavBar.Collapse>
         </Container>
         {/* Search Bar and Button */}
-        <Form className='ms-5' action="/search_page" method="post">
-              <input
-                className='search-bar'
-                id='input'
-                type='search'
-                name='search'
-                placeholder='Search...'
-                onChange={onSearch}
-                />
-              <button className='search-button' type='submit' >
-                {<FaSearch />}
-              </button>
-          </Form>
+        <Search />
       </ReactNavBar>
     </>
   );
