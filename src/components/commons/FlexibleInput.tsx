@@ -10,7 +10,7 @@ export enum InputTypes {
   NUMBER = 'number',
   BOOLEAN = 'checkbox',
   SELECT = 'select',
-  DATETIME = 'date_time',
+  DATETIME = 'datetime-local',
 }
 export interface FlexibleInputProps extends BaseProps {
   type: InputTypes;

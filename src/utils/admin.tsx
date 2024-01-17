@@ -52,7 +52,9 @@ export const extractModelsFromIntrospection = (
 
   // Extract model update and create arguments
   introspection.mutation.fields.forEach((mutation) => {
-    const mutationArgs = `${mutation.name.split('_')[1]}Args`;
+    const mutationArgs = `${
+      mutation.name.split('_')[mutation.name.split('_').length - 1]
+    }Args`;
     if (mutationArgs === 'updateArgs' || mutationArgs === 'createArgs') {
       const model = mutation.type?.ofType?.name;
       if (model) {
