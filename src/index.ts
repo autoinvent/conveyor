@@ -34,6 +34,7 @@ import ConveyorProvider from './contexts/ConveyorContext';
 import TableViewsProvider from './contexts/TableViewsContext';
 import DisplayModeProvider from './contexts/commons/DisplayModeContext';
 import LoadingProvider from './contexts/commons/LoadingContext';
+import ModelSearch from './components/ModelSearch';
 
 export * from './contexts/AlertsContext';
 export * from './contexts/ConveyorContext';
@@ -82,6 +83,7 @@ export {
   ModelTablePagination,
   ModelTableRow,
   ModelNav,
+  ModelSearch,
 };
 
 export { Checkbox, ErrorList, FlexibleInput, Loading, LoadingButtonGroup };

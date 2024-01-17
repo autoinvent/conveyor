@@ -12,7 +12,6 @@ import ModelIndex from '../ModelIndex/ModelIndex';
 import ConveyorAdminHome from './ConveyorAdminHome';
 import ConveyorAdminNavbar from './ConveyorAdminNavbar';
 import Loading from '../commons/Loading';
-import Results from '../SearchResults';
 import Search from '../ModelSearch';
 
 const IntrospectionDocument = `

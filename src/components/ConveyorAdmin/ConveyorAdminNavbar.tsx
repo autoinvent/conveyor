@@ -15,6 +15,7 @@ import ModelNav from '../ModelNav';
 
 import Logo from '../../logo.svg?react';
 import Search from '../ModelSearch';
+import SearchComponent from '../ModelSearch';
 
 function onSearch() {}
 
@@ -97,7 +98,7 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
           </ReactNavBar.Collapse>
         </Container>
         {/* Search Bar and Button */}
-        <Search />
+        <SearchComponent />
       </ReactNavBar>
     </>
   );
