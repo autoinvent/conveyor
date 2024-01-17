@@ -76,7 +76,6 @@ const ModelIndex = ({
   ];
   const [fieldss, setFields] = useState(fieldsarr);
   const formContext = useFormContext();
-  console.log(formContext);
   return (
     <Container id={id} className={className}>
       <ModelTableProvider data={x} fields={fieldss}>

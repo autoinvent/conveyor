@@ -6,7 +6,7 @@ import { ModelTableContext } from '../contexts/ModelTableContext';
 import { SlotsProvider } from '../contexts/SlotsContext';
 import { BaseComponentProps } from '../types';
 import { getFieldName } from '../utils';
-import ModelActionButtons from './ModelActionButtons';
+import ModelTableActionButtons from './ModelTableActionButtons';
 import Display from './Display';
 import ModelInput from './ModelInput';
 import ModelTableCell from './ModelTableCell';
@@ -35,7 +35,7 @@ const ModelTableRow = ({ children, id, className }: ModelTableRowProps) => {
             </ModelTableCell>
           ))}
           <ModelTableCell field={ACTION_SLOT}>
-            <ModelActionButtons />
+            <ModelTableActionButtons />
           </ModelTableCell>
           {children}
         </SlotsProvider>
