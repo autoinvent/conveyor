@@ -1,6 +1,6 @@
 import { ReactNode, useContext } from 'react';
 
-import { ACTION_SLOT } from '../constants';
+import { MODEL_TABLE_ACTION_SLOT } from '../constants';
 import { ModelTableContext } from '../contexts/ModelTableContext';
 import { SlotsProvider } from '../contexts/SlotsContext';
 import { BaseComponentProps } from '../types';
@@ -12,9 +12,9 @@ interface ModelTableHeadProps extends BaseComponentProps {
 }
 
 const ModelTableHead = ({ children, id, className }: ModelTableHeadProps) => {
-  const { fields, editable } = useContext(ModelTableContext);
+  const { fields, showActions } = useContext(ModelTableContext);
   const slotKeys = fields.map((field) => getFieldName(field));
-  if (editable) slotKeys.push(ACTION_SLOT);
+  if (showActions) slotKeys.push(MODEL_TABLE_ACTION_SLOT);
   return (
     <thead id={id} className={className}>
       <tr>
@@ -24,7 +24,7 @@ const ModelTableHead = ({ children, id, className }: ModelTableHeadProps) => {
               {humanizeText(getFieldName(field))}
             </ModelTableHeader>
           ))}
-          <ModelTableHeader field={ACTION_SLOT} />
+          <ModelTableHeader field={MODEL_TABLE_ACTION_SLOT} />
           {children}
         </SlotsProvider>
       </tr>

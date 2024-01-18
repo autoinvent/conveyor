@@ -1,6 +1,6 @@
 import { ReactNode, useContext } from 'react';
 
-import { ACTION_SLOT } from '../constants';
+import { MODEL_TABLE_ACTION_SLOT } from '../constants';
 import { DisplayKeyProvider, DisplayKeys } from '../contexts/DisplayKeyContext';
 import { ModelTableContext } from '../contexts/ModelTableContext';
 import { SlotsProvider } from '../contexts/SlotsContext';
@@ -17,9 +17,10 @@ interface ModelTableRowProps extends BaseComponentProps {
 }
 
 const ModelTableRow = ({ children, id, className }: ModelTableRowProps) => {
-  const { fields, editable, initialDisplayKey } = useContext(ModelTableContext);
+  const { fields, showActions, initialDisplayKey } =
+    useContext(ModelTableContext);
   const slotKeys = fields.map((field) => getFieldName(field));
-  if (editable) slotKeys.push(ACTION_SLOT);
+  if (showActions) slotKeys.push(MODEL_TABLE_ACTION_SLOT);
   return (
     <tr id={id} className={className}>
       <DisplayKeyProvider value={initialDisplayKey}>
@@ -34,7 +35,7 @@ const ModelTableRow = ({ children, id, className }: ModelTableRowProps) => {
               </Display>
             </ModelTableCell>
           ))}
-          <ModelTableCell field={ACTION_SLOT}>
+          <ModelTableCell field={MODEL_TABLE_ACTION_SLOT}>
             <ModelTableActionButtons />
           </ModelTableCell>
           {children}

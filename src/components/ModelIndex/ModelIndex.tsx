@@ -20,6 +20,7 @@ import { useFormContext } from 'react-hook-form';
 import ModelTableHead from '../../aaconveyor/components/ModelTableHead';
 import ModelTableHeader from '../../aaconveyor/components/ModelTableHeader';
 import { ModelTableProvider } from '../../aaconveyor/contexts/ModelTableContext';
+import Conveyor from '../../aaadmin/components/Conveyor';
 
 interface ModelIndexProps extends BaseProps {
   modelName: string;
@@ -48,57 +49,30 @@ const ModelIndex = ({
     tableView: JSON.parse(JSON.stringify(DEFAULT_TABLE_VIEW)),
   });
 
-  const x = [
-    {
-      id: 1,
-      stringField: 'world',
-      intField: 13,
-      floatField: 11.11,
-      booleanField: true,
-      datetimeField: new Date().toISOString(),
-    },
-    {
-      id: 2,
-      stringField: 'monkey',
-      intField: 7,
-      floatField: 7.7,
-      booleanField: false,
-      datetimeField: new Date().toISOString(),
-    },
-  ];
-  const fieldsarr = [
-    'stringField',
-    'intField',
-    'floatField',
-    'booleanField',
-    'datetimeField',
-    'hello',
-  ];
-  const [fieldss, setFields] = useState(fieldsarr);
-  const formContext = useFormContext();
-  return (
-    <Container id={id} className={className}>
-      <ModelTableProvider data={x} fields={fieldss}>
-        <ModelTable>
-          <ModelTableHead>
-            <ModelTableHeader field={'datetimeField'}>
-              tis the time
-            </ModelTableHeader>
-          </ModelTableHead>
-          <ModelTableBody>
-            <ModelTableRow>
-              <ModelTableCell field={'intField'}>Nooo way</ModelTableCell>
-              <ModelTableCell field={'intField'}>Hmmm</ModelTableCell>
-              <ModelTableCell field={'goodbye'}>Byeee</ModelTableCell>
-              <ModelTableCell field={'hello'}>
-                <Hello x={setFields} />
-              </ModelTableCell>
-            </ModelTableRow>
-          </ModelTableBody>
-        </ModelTable>
-      </ModelTableProvider>
-    </Container>
-  );
+  return <Conveyor />;
+  // return (
+  //   <Container id={id} className={className}>
+  //     <ModelTableProvider data={x} fields={fieldss}>
+  // <ModelTable data={x} fields={fieldss}>
+  //   <ModelTableHead>
+  //     <ModelTableHeader field={'datetimeField'}>
+  //       tis the time
+  //     </ModelTableHeader>
+  //   </ModelTableHead>
+  //   <ModelTableBody>
+  //     <ModelTableRow>
+  //       <ModelTableCell field={'intField'}>Nooo way</ModelTableCell>
+  //       <ModelTableCell field={'intField'}>Hmmm</ModelTableCell>
+  //       <ModelTableCell field={'goodbye'}>Byeee</ModelTableCell>
+  //       <ModelTableCell field={'hello'}>
+  //         <Hello x={setFields} />
+  //       </ModelTableCell>
+  //     </ModelTableRow>
+  //   </ModelTableBody>
+  // </ModelTable>
+  //     </ModelTableProvider>
+  //   </Container>
+  // );
   // return (
   //   <Container id={id} className={className}>
   //     {children ?? (

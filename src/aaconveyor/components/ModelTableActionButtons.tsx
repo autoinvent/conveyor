@@ -14,9 +14,12 @@ import {
 import { BaseComponentProps } from '../types';
 import Display from './Display';
 
-interface ModelTableActionButtonsProps extends BaseComponentProps { }
+interface ModelTableActionButtonsProps extends BaseComponentProps {}
 
-const ModelTableActionButtons = ({ id, className }: ModelTableActionButtonsProps) => {
+const ModelTableActionButtons = ({
+  id,
+  className,
+}: ModelTableActionButtonsProps) => {
   const setDisplayKey = useContext(SetDisplayKeyContext);
   const onEdit = () => setDisplayKey(DisplayKeys.EDIT);
   const onCancelEdit = () => setDisplayKey(DisplayKeys.VALUE);

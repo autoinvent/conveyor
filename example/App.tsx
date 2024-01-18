@@ -5,11 +5,17 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+// import {
+//   ConveyorAdmin,
+//   UseGQLQueryResponse,
+//   UseGQLMutationRequest,
+// } from '../src';
+
+import Conveyor from '../src/aaadmin/components/Conveyor';
 import {
-  ConveyorAdmin,
   UseGQLQueryResponse,
   UseGQLMutationRequest,
-} from '../src';
+} from '../src/aaadmin/contexts/ConveyorContext';
 
 function App() {
   const queryClient = new QueryClient();
@@ -44,41 +50,49 @@ function App() {
     });
   };
   // Fetcher to retrieve GraphQL query/mutation from endpoint
-  const useGQLQueryResponse: UseGQLQueryResponse = (graphQLParams) => {
-    const actionModel = graphQLParams.action
-      ? graphQLParams.action.split('_')[0]
-      : 'unknown';
-    const response = useQuery({
-      queryKey: [actionModel, graphQLParams],
-      queryFn: () =>
-        request(gqlUrl, graphQLParams.document, graphQLParams.variables),
-    });
-    return handleResponse(response);
-  };
-  const useGQLMutationRequest: UseGQLMutationRequest = (graphQLParams) => {
-    const actionModel = graphQLParams.action
-      ? graphQLParams.action.split('_')[0]
-      : 'unknown';
-    const response = useMutation({
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [actionModel] });
+  const useGQLQueryResponse: UseGQLQueryResponse = (param) => {
+    // const actionModel = graphQLParams.action
+    //   ? graphQLParams.action.split('_')[0]
+    //   : 'unknown';
+    // const response = useQuery({
+    //   queryKey: [actionModel, graphQLParams],
+    //   queryFn: () =>
+    //     request(gqlUrl, graphQLParams.document, graphQLParams.variables),
+    // });
+    // return handleResponse(response);
+    const response: any = useQuery({
+      queryKey: [param.operation],
+      queryFn: async () => {
+        const response = await request(gqlUrl, param.document, param.variables);
+        return response;
       },
-      mutationFn: (options: any) =>
-        request(gqlUrl, graphQLParams.document, options?.variables),
     });
+    return { data: response.data, errors: response.error };
+  };
+  const useGQLMutationRequest: UseGQLMutationRequest = (param) => {
+    // const actionModel = graphQLParams.action
+    //   ? graphQLParams.action.split('_')[0]
+    //   : 'unknown';
+    // const response = useMutation({
+    //   onSuccess: () => {
+    //     queryClient.invalidateQueries({ queryKey: [actionModel] });
+    //   },
+    //   mutationFn: (options: any) =>
+    //     request(gqlUrl, graphQLParams.document, options?.variables),
+    // });
 
-    return (options) => {
-      response.mutate(options);
-      return handleResponse(response);
-    };
+    // return (options) => {
+    //   response.mutate(options);
+    //   return handleResponse(response);
+    // };
+    return () => Promise.resolve({});
   };
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ConveyorAdmin
+      <Conveyor
         useGQLQueryResponse={useGQLQueryResponse}
         useGQLMutationRequest={useGQLMutationRequest}
-        secondaryKeys={['name', 'username']}
       />
     </QueryClientProvider>
   );

@@ -5,8 +5,12 @@ export const getFieldName = (field: ModelField) => {
 };
 
 export const getFieldType = (field: ModelField) => {
-  return typeof field === 'string' ? field : field.name;
+  return typeof field === 'string' ? 'String' : field.type;
 };
+
+export const getFieldRelationship = (field: ModelField) => {
+  return typeof field === 'string' ? undefined : field.relationship;
+}
 
 export const humanizeText = (str: string) => {
   if (!str) return '';
