@@ -72,7 +72,6 @@ const ConveyorAdminContent = ({
       }
     }
   }, [JSON.stringify(data), JSON.stringify(error)]);
-  console.log(data);
   let page = null;
   const modelNames = models ? Object.keys(models) : [];
   const fieldsData = models?.[currentModelName]?.fields ?? {};

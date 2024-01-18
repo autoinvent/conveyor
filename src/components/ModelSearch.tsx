@@ -1,13 +1,26 @@
 // components/Search.tsx
 import React, { useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { Card, Dropdown } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
+import ModelNav from './ModelNav';
 interface SearchResult {
   type: string;
   id: string;
   value: string;
   extra?: Record<string, any> | null;
 }
+
+const SearchDocument = `
+  query Search($value: String!) {
+    search(value: $value) {
+      type
+      id
+      value
+      extra
+    }
+  }
+
+`;
 
 const SearchComponent: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -26,16 +39,7 @@ const SearchComponent: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          query: `
-            query Search($value: String!) {
-              search(value: $value) {
-                type
-                id
-                value
-                extra
-              }
-            }
-          `,
+          query: SearchDocument,
           variables: { value: searchValue },
         }),
       });
@@ -50,13 +54,14 @@ const SearchComponent: React.FC = () => {
   };
 
   return (
-    <Form className='ms-5'>
+    <Dropdown className='ms-2' id='conveyor-navbar-search'>
       <input
         className='search-bar'
         type='search'
         placeholder='Search...'
-        value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
+        value={searchValue}
+        onClick={handleSearch}
       />
       <button className='search-button' type='submit' onClick={handleSearch}>
         <FaSearch />
@@ -67,11 +72,17 @@ const SearchComponent: React.FC = () => {
       {searchResults && (
         <ul>
           {searchResults.map((result) => (
-            <li key={result.id}>{result.value}</li>
+            <li key={result.value}>
+              <ModelNav modelName={result.type} modelId={result.id}>
+                <Card.Link>
+                  {result.type} {result.id}
+                </Card.Link>
+              </ModelNav>
+            </li>
           ))}
         </ul>
       )}
-    </Form>
+    </Dropdown>
   );
 };
 
