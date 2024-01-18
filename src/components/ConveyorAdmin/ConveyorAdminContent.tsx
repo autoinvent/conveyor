@@ -161,9 +161,7 @@ const ConveyorAdminContent = ({
       break;
     }
     case Page.SEARCH: {
-      page= (
-      <Search/>
-      );
+      page = <Search />;
       break;
     }
     default: {

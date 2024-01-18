@@ -27,5 +27,5 @@ export enum Page {
   DETAIL = 'Detail',
   HOME = 'Home',
   INDEX = 'Index',
-  SEARCH = 'Search'
+  SEARCH = 'Search',
 }

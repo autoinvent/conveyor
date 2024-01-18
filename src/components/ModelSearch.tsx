@@ -1,8 +1,6 @@
 // components/Search.tsx
 import React, { useState } from 'react';
-import { 
-    Form,
-} from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 interface SearchResult {
   type: string;
@@ -14,13 +12,15 @@ interface SearchResult {
 const SearchComponent: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState<SearchResult[] | null>(null);
+  const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
+    null,
+  );
 
   const handleSearch = async () => {
     setLoading(true);
 
     try {
-        const response = await fetch('/graphql', {
+      const response = await fetch('/graphql', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,13 +51,16 @@ const SearchComponent: React.FC = () => {
 
   return (
     <Form className='ms-5'>
-      <input className='search-bar'
-        type="search"
-        placeholder="Search..."
+      <input
+        className='search-bar'
+        type='search'
+        placeholder='Search...'
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
-      <button className='search-button' type='submit' onClick={handleSearch}><FaSearch/></button>
+      <button className='search-button' type='submit' onClick={handleSearch}>
+        <FaSearch />
+      </button>
 
       {loading && <p>Loading...</p>}
 
