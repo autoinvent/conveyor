@@ -1,7 +1,6 @@
 // components/Search.tsx
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavDropdown } from 'react-bootstrap';
-import { FaSearch } from 'react-icons/fa';
 import ModelNav from './ModelNav';
 interface SearchResult {
   type: string;
@@ -29,6 +28,10 @@ const SearchComponent: React.FC = () => {
     null,
   );
 
+  useEffect(() => {
+    handleSearch();
+  }, [searchResults, searchValue]);
+
   const handleSearch = useCallback(() => {
     setLoading(true);
 
@@ -52,33 +55,30 @@ const SearchComponent: React.FC = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [searchResults, searchValue, loading]);
+  }, [loading, searchResults, searchValue]);
 
   return (
-    <NavDropdown id='conveyor-navbar-search' title={<FaSearch />} align='end'>
-      <input
-        className='search-bar'
-        type='search'
-        placeholder='Search...'
-        onChange={(e) => {
-          e.persist();
-          setSearchValue(e.target.value);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleSearch();
-          }
-        }}
-        value={searchValue}
-      />
-      <button type='submit' onClick={handleSearch}>
-        <FaSearch />
-      </button>
-
-      {loading && <p>Loading...</p>}
-
+    <NavDropdown
+      title={
+        <input
+          className='search-bar'
+          type='search'
+          placeholder='Search...'
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              //TODO Search Page Link
+            }
+          }}
+          onInput={handleSearch}
+          value={searchValue}
+        />
+      }
+    >
       {searchResults && (
-        <li>
+        <div className='search-results-box'>
           {searchResults.map((result) => (
             <ModelNav
               key={result.value}
@@ -90,7 +90,7 @@ const SearchComponent: React.FC = () => {
               </NavDropdown.Item>
             </ModelNav>
           ))}
-        </li>
+        </div>
       )}
     </NavDropdown>
   );

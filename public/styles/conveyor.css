@@ -35,5 +35,15 @@
 }
 
 .search-bar {
-    width: 130px;
+    width: 150px;
 }
+
+/* Dropdown content (hidden by default) */
+.search-results-box {
+    overflow-y: scroll;
+    height: 100px;
+    width: 100%;
+}
+
+
+
