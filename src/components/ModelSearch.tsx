@@ -22,6 +22,7 @@ const SearchDocument = `
 `;
 
 const SearchComponent: React.FC = () => {
+  const [showoutput, setShowoutput] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
@@ -29,8 +30,13 @@ const SearchComponent: React.FC = () => {
   );
 
   useEffect(() => {
+    if (searchValue.length > 0) {
+      setShowoutput(true);
+    } else {
+      setShowoutput(false);
+    }
     handleSearch();
-  }, [searchResults, searchValue]);
+  }, [showoutput, searchResults]);
 
   const handleSearch = useCallback(() => {
     setLoading(true);
@@ -61,6 +67,7 @@ const SearchComponent: React.FC = () => {
     <NavDropdown
       id='navbar-search-box'
       align='end'
+      show={showoutput}
       title={
         <input
           className='search-bar'
