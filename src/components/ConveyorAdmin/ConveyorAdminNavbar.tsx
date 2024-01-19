@@ -8,16 +8,12 @@ import {
   Form,
 } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
-import { FaSearch } from 'react-icons/fa';
 import { useThemeSelect, ThemeName } from '../../hooks/useThemeSelect';
 import { PACKAGE_ABBR } from '../../package';
 import ModelNav from '../ModelNav';
 
 import Logo from '../../logo.svg?react';
-import Search from '../ModelSearch';
 import SearchComponent from '../ModelSearch';
-
-function onSearch() {}
 
 function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
   const { currentTheme, themeCSS, changeTheme } = useThemeSelect();
@@ -28,7 +24,7 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
         <style>{themeCSS}</style>
       </Helmet>
       <ReactNavBar className='mb-3' variant='dark' bg='primary' expand='sm'>
-        <Container className='me-5'>
+        <Container>
           <ModelNav>
             <ReactNavBar.Brand>
               <Logo
@@ -94,11 +90,11 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
                   System
                 </NavDropdown.Item>
               </NavDropdown>
+              {/* Search Bar and Button */}
+              <SearchComponent />
             </Nav>
           </ReactNavBar.Collapse>
         </Container>
-        {/* Search Bar and Button */}
-        <SearchComponent />
       </ReactNavBar>
     </>
   );

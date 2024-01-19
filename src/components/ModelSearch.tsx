@@ -1,6 +1,6 @@
 // components/Search.tsx
-import React, { useState } from 'react';
-import { Card, Dropdown } from 'react-bootstrap';
+import React, { useCallback, useEffect, useState } from 'react';
+import { NavDropdown } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 import ModelNav from './ModelNav';
 interface SearchResult {
@@ -29,60 +29,70 @@ const SearchComponent: React.FC = () => {
     null,
   );
 
-  const handleSearch = async () => {
+  const handleSearch = useCallback(() => {
     setLoading(true);
 
-    try {
-      const response = await fetch('/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: SearchDocument,
-          variables: { value: searchValue },
-        }),
+    fetch('/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: SearchDocument,
+        variables: { value: searchValue },
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setSearchResults(data.data.search);
+      })
+      .catch((error) => {
+        console.error('Error fetching search results:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-      const data = await response.json();
-      setSearchResults(data.data.search);
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [searchResults, searchValue, loading]);
 
   return (
-    <Dropdown className='ms-2' id='conveyor-navbar-search'>
+    <NavDropdown id='conveyor-navbar-search' title={<FaSearch />} align='end'>
       <input
         className='search-bar'
         type='search'
         placeholder='Search...'
-        onChange={(e) => setSearchValue(e.target.value)}
+        onChange={(e) => {
+          e.persist();
+          setSearchValue(e.target.value);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSearch();
+          }
+        }}
         value={searchValue}
-        onClick={handleSearch}
       />
-      <button className='search-button' type='submit' onClick={handleSearch}>
+      <button type='submit' onClick={handleSearch}>
         <FaSearch />
       </button>
 
       {loading && <p>Loading...</p>}
 
       {searchResults && (
-        <ul>
+        <li>
           {searchResults.map((result) => (
-            <li key={result.value}>
-              <ModelNav modelName={result.type} modelId={result.id}>
-                <Card.Link>
-                  {result.type} {result.id}
-                </Card.Link>
-              </ModelNav>
-            </li>
+            <ModelNav
+              key={result.value}
+              modelName={result.type}
+              modelId={result.id}
+            >
+              <NavDropdown.Item>
+                {result.type} {result.id}
+              </NavDropdown.Item>
+            </ModelNav>
           ))}
-        </ul>
+        </li>
       )}
-    </Dropdown>
+    </NavDropdown>
   );
 };
 
