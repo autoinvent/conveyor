@@ -59,6 +59,8 @@ const SearchComponent: React.FC = () => {
 
   return (
     <NavDropdown
+      id='navbar-search-box'
+      align='end'
       title={
         <input
           className='search-bar'
