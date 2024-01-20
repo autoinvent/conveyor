@@ -10,12 +10,24 @@ import {
 //   UseGQLQueryResponse,
 //   UseGQLMutationRequest,
 // } from '../src';
-
+import ModelIndex from '../src/aaadmin/components/ModelIndex';
 import Conveyor from '../src/aaadmin/components/Conveyor';
 import {
   UseGQLQueryResponse,
   UseGQLMutationRequest,
 } from '../src/aaadmin/contexts/ConveyorContext';
+import ConveyorRoute from '../src/aaadmin/components/ConveyorRoute';
+import { StrictMode } from 'react';
+import ModelTable from '../src/aaconveyor/components/ModelTable';
+import ModelHeading from '../src/aaconveyor/components/ModelHeading';
+import ModelTableHead from '../src/aaconveyor/components/ModelTableHead';
+import ModelTableHeader from '../src/aaconveyor/components/ModelTableHeader';
+import ModelTableCell from '../src/aaconveyor/components/ModelTableCell';
+import ModelTableBody from '../src/aaconveyor/components/ModelTableBody';
+import ModelTableRow from '../src/aaconveyor/components/ModelTableRow';
+import ModelTablePagination from '../src/aaconveyor/components/ModelTablePagination';
+import ModelTitle from '../src/aaconveyor/components/ModelTitle';
+import FieldValue from '../src/aaconveyor/components/FieldValue';
 
 function App() {
   const queryClient = new QueryClient();
@@ -93,7 +105,27 @@ function App() {
       <Conveyor
         useGQLQueryResponse={useGQLQueryResponse}
         useGQLMutationRequest={useGQLMutationRequest}
-      />
+      >
+        <ConveyorRoute path='Task'>
+          <ModelIndex modelName='Task' fields={['created_at', 'message', 'done']}>
+            <ModelTable>
+              <ModelHeading>
+                <ModelTitle />
+                <div>Filter</div>
+              </ModelHeading>
+              <ModelTableHead />
+              <ModelTableBody>
+                <ModelTableRow>
+                  <ModelTableCell field={'message'}>
+                    <FieldValue field={'message'} />
+                  </ModelTableCell>
+                </ModelTableRow>
+              </ModelTableBody>
+              <ModelTablePagination />
+            </ModelTable>
+          </ModelIndex>
+        </ConveyorRoute>
+      </Conveyor>
     </QueryClientProvider>
   );
 }

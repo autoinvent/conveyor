@@ -31,7 +31,9 @@ const ModelTable = ({ children, id, className }: ModelTableProps) => {
     >
       <Slot slotKey={MODEL_TABLE_SLOT}>
         <Table id={id} className={className} striped bordered hover>
-          {children || (
+          {children !== undefined ? (
+            children
+          ) : (
             <>
               <ModelHeading>
                 <ModelTitle />

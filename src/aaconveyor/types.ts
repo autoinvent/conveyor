@@ -3,10 +3,12 @@ export interface BaseComponentProps {
   className?: string;
 }
 
-export type ModelField = string | {
-  name: string;
-  type: string;
-  relationship?: { many: boolean, modelName: string }
-};
+export type Field =
+  | string
+  | {
+      name: string;
+      type: string;
+      relationship?: { many: boolean; modelName: string };
+    };
 
 export type ModelData = Record<string, any>;

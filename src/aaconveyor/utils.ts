@@ -1,16 +1,16 @@
-import { ModelField } from './types';
+import { Field } from './types';
 
-export const getFieldName = (field: ModelField) => {
+export const getFieldName = (field: Field) => {
   return typeof field === 'string' ? field : field.name;
 };
 
-export const getFieldType = (field: ModelField) => {
+export const getFieldType = (field: Field) => {
   return typeof field === 'string' ? 'String' : field.type;
 };
 
-export const getFieldRelationship = (field: ModelField) => {
+export const getFieldRelationship = (field: Field) => {
   return typeof field === 'string' ? undefined : field.relationship;
-}
+};
 
 export const humanizeText = (str: string) => {
   if (!str) return '';

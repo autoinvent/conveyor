@@ -1,15 +1,15 @@
 import { ElementType } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { ModelField } from '../types';
+import { Field } from '../types';
 import { getFieldName, getFieldType } from '../utils';
 
-interface ModelInputProps {
-  field: ModelField;
+interface FieldInputProps {
+  field: Field;
   Component?: ElementType;
   props?: Record<string, any>;
 }
-const ModelInput = ({ field, Component, props }: ModelInputProps) => {
+const FieldInput = ({ field, Component, props }: FieldInputProps) => {
   const { register } = useFormContext();
   const fieldName = getFieldName(field);
   const fieldType = getFieldType(field);
@@ -28,4 +28,4 @@ const ModelInput = ({ field, Component, props }: ModelInputProps) => {
   return <Input {...props} {...register(fieldName)} />;
 };
 
-export default ModelInput;
+export default FieldInput;

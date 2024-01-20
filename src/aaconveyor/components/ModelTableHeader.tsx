@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 
-import { BaseComponentProps, ModelField } from '../types';
+import { BaseComponentProps, Field } from '../types';
 import { getFieldName } from '../utils';
 import Slot from './Slot';
 
 interface ModelTableHeaderProps extends BaseComponentProps {
-  field: ModelField;
+  field: Field;
   children?: ReactNode;
 }
 

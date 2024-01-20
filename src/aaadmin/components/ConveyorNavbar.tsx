@@ -6,10 +6,10 @@ import {
   Navbar as ReactNavBar,
   NavDropdown,
 } from 'react-bootstrap';
+import { Link, Outlet } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import { useThemeSelect, ThemeName } from '../../hooks/useThemeSelect';
-import { PACKAGE_ABBR } from '../../package';
 
 import Logo from '../../logo.svg?react';
 
@@ -23,10 +23,16 @@ function ConveyorNavbar({ modelNames }: { modelNames: string[] | null }) {
       </Helmet>
       <ReactNavBar className='mb-3' variant='dark' bg='primary' expand='sm'>
         <Container>
-          <ReactNavBar.Brand>
-            <Logo height='30' width='30' className='d-inline-block align-top' />{' '}
-            Conveyor
-          </ReactNavBar.Brand>
+          <Link to={'/'}>
+            <ReactNavBar.Brand>
+              <Logo
+                height='30'
+                width='30'
+                className='d-inline-block align-top'
+              />{' '}
+              Conveyor
+            </ReactNavBar.Brand>
+          </Link>
           <ReactNavBar.Toggle aria-controls='moebius-example-navbar' />
           <ReactNavBar.Collapse
             id='moebius-example-navbar'
@@ -81,6 +87,7 @@ function ConveyorNavbar({ modelNames }: { modelNames: string[] | null }) {
           </ReactNavBar.Collapse>
         </Container>
       </ReactNavBar>
+      <Outlet />
     </>
   );
 }

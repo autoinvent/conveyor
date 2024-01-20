@@ -8,9 +8,9 @@ import { BaseComponentProps } from '../types';
 import { getFieldName } from '../utils';
 import ModelTableActionButtons from './ModelTableActionButtons';
 import Display from './Display';
-import ModelInput from './ModelInput';
+import FieldInput from './FieldInput';
 import ModelTableCell from './ModelTableCell';
-import ModelValue from './ModelValue';
+import FieldValue from './FieldValue';
 
 interface ModelTableRowProps extends BaseComponentProps {
   children?: ReactNode;
@@ -28,10 +28,10 @@ const ModelTableRow = ({ children, id, className }: ModelTableRowProps) => {
           {fields.map((field, index) => (
             <ModelTableCell key={index} field={field}>
               <Display activeKey={DisplayKeys.VALUE}>
-                <ModelValue field={field} />
+                <FieldValue field={field} />
               </Display>
               <Display activeKey={DisplayKeys.EDIT}>
-                <ModelInput field={field} />
+                <FieldInput field={field} />
               </Display>
             </ModelTableCell>
           ))}

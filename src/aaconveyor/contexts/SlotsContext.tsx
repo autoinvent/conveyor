@@ -27,7 +27,7 @@ export const SlotsProvider = ({ slotKeys, children }: SlotsProviderProps) => {
   return (
     <SetSlotsContext.Provider value={setSlots}>
       <SlotsContext.Provider value={slots}>
-        {slotKeys.map((slotKey, index) => (
+        {Object.keys(slots).map((slotKey, index) => (
           <Fragment key={index}>{slots[slotKey]}</Fragment>
         ))}
         {children}
