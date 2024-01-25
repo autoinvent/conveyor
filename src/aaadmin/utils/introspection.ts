@@ -1,4 +1,10 @@
-import { ITEM_QUERY, NON_NULL_TYPE, LIST_TYPE, CREATE_MUTATION, UPDATE_MUTATION } from '../constants/common';
+import {
+  ITEM_QUERY,
+  NON_NULL_TYPE,
+  LIST_TYPE,
+  CREATE_MUTATION,
+  UPDATE_MUTATION,
+} from '../constants/common';
 import { RelationType } from '../../aaconveyor/types';
 import { getFieldName } from '../../aaconveyor/utils';
 
@@ -9,9 +15,9 @@ interface Type {
 }
 
 interface ModelType {
-  name: string
-  kind: string
-  fields: { name: string, type: Type }[]
+  name: string;
+  kind: string;
+  fields: { name: string; type: Type }[];
 }
 
 interface QueryOperation {
@@ -28,16 +34,16 @@ interface MutationOperation {
 interface Field {
   name: string;
   type: string | RelationType;
-  required?: boolean
-  editable?: boolean
+  required?: boolean;
+  editable?: boolean;
 }
 
 interface ConveyorModels {
   [ModelName: string]: {
-    fields: Record<string, Field>
-    index: Field[]
-    detail: Field[]
-    create: Field[]
+    fields: Record<string, Field>;
+    index: Field[];
+    detail: Field[];
+    create: Field[];
   };
 }
 
@@ -75,7 +81,9 @@ export const extractModelsFromIntrospection = (introspection: any) => {
       .map(({ type }: QueryOperation) => [type.name])
       .reduce(
         (conveyorModels: ConveyorModels, modelName: string) =>
-          Object.assign(conveyorModels, { [modelName]: { fields: {}, index: {}, detail: {}, create: {} } }),
+          Object.assign(conveyorModels, {
+            [modelName]: { fields: {}, index: {}, detail: {}, create: {} },
+          }),
         {},
       ) ?? {};
   // Extracts the fields for each Model
@@ -83,18 +91,30 @@ export const extractModelsFromIntrospection = (introspection: any) => {
     const modelName = type.name;
     if (type.kind === 'OBJECT' && conveyorModels[modelName]) {
       type.fields.forEach((field) => {
-        const fieldName = field.name
+        const fieldName = field.name;
         const typeArray = recurseTypeObjectToTypeArray(field.type);
-        const typeArrayLen = typeArray.length
+        const typeArrayLen = typeArray.length;
         const baseType = typeArray[typeArrayLen - 1];
         // TODO: Error handle baseType being trash values
         if (baseType) {
-          const idType = 'Int' // TODO: may be unecessary if ID type is used. 
-          const nonNullType = typeArray[typeArrayLen - 2]
-          const listType = typeArray[typeArrayLen - 3]
-          const fieldType = conveyorModels[baseType] ? { modelName: baseType, many: (nonNullType === NON_NULL_TYPE && listType === LIST_TYPE) || (nonNullType === LIST_TYPE), type: idType } : baseType
-          const fieldRequired = nonNullType === NON_NULL_TYPE
-          conveyorModels[modelName].fields[fieldName] = { name: fieldName, type: fieldType, required: fieldRequired }
+          const idType = 'Int'; // TODO: may be unecessary if ID type is used.
+          const nonNullType = typeArray[typeArrayLen - 2];
+          const listType = typeArray[typeArrayLen - 3];
+          const fieldType = conveyorModels[baseType]
+            ? {
+                modelName: baseType,
+                many:
+                  (nonNullType === NON_NULL_TYPE && listType === LIST_TYPE) ||
+                  nonNullType === LIST_TYPE,
+                type: idType,
+              }
+            : baseType;
+          const fieldRequired = nonNullType === NON_NULL_TYPE;
+          conveyorModels[modelName].fields[fieldName] = {
+            name: fieldName,
+            type: fieldType,
+            required: fieldRequired,
+          };
         }
       });
     }
@@ -104,30 +124,41 @@ export const extractModelsFromIntrospection = (introspection: any) => {
     ({ type, name, args }: MutationOperation) => {
       const modelName = type.ofType.name;
       if (conveyorModels?.[modelName]) {
-        const isUpdate = name.endsWith(UPDATE_MUTATION)
+        const isUpdate = name.endsWith(UPDATE_MUTATION);
         if (isUpdate || name.endsWith(CREATE_MUTATION)) {
-          conveyorModels[modelName][isUpdate ? 'index' : 'create'] = args.map((arg) => {
-            const fieldName = arg.name
-            const typeArray = recurseTypeObjectToTypeArray(arg.type)
-            const typeArrayLen = typeArray.length
-            const baseType = typeArray[typeArrayLen - 1];
+          conveyorModels[modelName][isUpdate ? 'index' : 'create'] = args.map(
+            (arg) => {
+              const fieldName = arg.name;
+              const typeArray = recurseTypeObjectToTypeArray(arg.type);
+              const typeArrayLen = typeArray.length;
+              const baseType = typeArray[typeArrayLen - 1];
 
-            const field = JSON.parse(JSON.stringify(conveyorModels[modelName].fields[fieldName]))
-            if (typeof field.type === 'object') field.type.type = baseType
-            field.editable = true
-            return field
-          })
+              const field = JSON.parse(
+                JSON.stringify(conveyorModels[modelName].fields[fieldName]),
+              );
+              if (typeof field.type === 'object') field.type.type = baseType;
+              field.editable = true;
+              return field;
+            },
+          );
         }
       }
     },
   );
 
   Object.keys(conveyorModels).forEach((modelName) => {
-    const indexFields = Object.fromEntries(conveyorModels[modelName].index.map((field) => [getFieldName(field), field]))
-    conveyorModels[modelName].detail = Object.entries(conveyorModels[modelName].fields).map(([fieldName, field]) => {
-      return Object.assign(field, indexFields[fieldName])
-    })
-  })
+    const indexFields = Object.fromEntries(
+      conveyorModels[modelName].index.map((field) => [
+        getFieldName(field),
+        field,
+      ]),
+    );
+    conveyorModels[modelName].detail = Object.entries(
+      conveyorModels[modelName].fields,
+    ).map(([fieldName, field]) => {
+      return Object.assign(field, indexFields[fieldName]);
+    });
+  });
 
   return conveyorModels;
 };

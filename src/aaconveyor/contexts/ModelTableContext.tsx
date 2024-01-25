@@ -39,7 +39,14 @@ export const ModelTableProvider = ({
   onSave,
   children,
 }: ModelTableProviderProps) => {
-  const modelTable = { title, data, fields, showActions, initialDisplayKey, onSave };
+  const modelTable = {
+    title,
+    data,
+    fields,
+    showActions,
+    initialDisplayKey,
+    onSave,
+  };
   const value = useMemo(() => modelTable, [JSON.stringify(modelTable)]);
   return (
     <ModelTableContext.Provider value={value}>

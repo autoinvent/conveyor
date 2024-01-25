@@ -72,7 +72,7 @@ function App() {
     //     request(gqlUrl, graphQLParams.document, graphQLParams.variables),
     // });
     // return handleResponse(response);
-    const model = (param.operation ?? '').replace(/_list/, '')
+    const model = (param.operation ?? '').replace(/_list/, '');
     const response: any = useQuery({
       queryKey: [model],
       queryFn: async () => {
@@ -98,15 +98,15 @@ function App() {
     //   response.mutate(options);
     //   return handleResponse(response);
     // };
-    const model = (param.operation ?? '').replace(/_update/, '')
+    const model = (param.operation ?? '').replace(/_update/, '');
     const mutate: any = useMutation({
       onSuccess: () => queryClient.invalidateQueries({ queryKey: [model] }),
       mutationFn: async (vars: any) => {
         const response = await request(gqlUrl, param.document, vars);
-        return response
-      }
-    })
-    return (vars) => mutate.mutateAsync(vars)
+        return response;
+      },
+    });
+    return (vars) => mutate.mutateAsync(vars);
     // return () => Promise.resolve({});
   };
 

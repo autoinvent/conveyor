@@ -16,27 +16,31 @@ import { ModelTableContext } from '../contexts/ModelTableContext';
 import { BaseComponentProps } from '../types';
 import Display from './Display';
 
-interface ModelTableActionButtonsProps extends BaseComponentProps { }
+interface ModelTableActionButtonsProps extends BaseComponentProps {}
 
 const ModelTableActionButtons = ({
   id,
   className,
 }: ModelTableActionButtonsProps) => {
-  const { onSave } = useContext(ModelTableContext)
-  const { handleSubmit, formState: { dirtyFields }, reset } = useFormContext()
+  const { onSave } = useContext(ModelTableContext);
+  const {
+    handleSubmit,
+    formState: { dirtyFields },
+    reset,
+  } = useFormContext();
   const setDisplayKey = useContext(SetDisplayKeyContext);
   const onEdit = () => setDisplayKey(DisplayKeys.EDIT);
   const onCancelEdit = () => {
-    setDisplayKey(DisplayKeys.VALUE)
-    reset()
+    setDisplayKey(DisplayKeys.VALUE);
+    reset();
   };
   const onSaveHandler = handleSubmit((formValues) => {
-    // TODO: push unchanged required input to dirty fields for efficiency 
+    // TODO: push unchanged required input to dirty fields for efficiency
     // const dirtyValues = Object.fromEntries(Object.entries(dirtyFields).map(([fieldName,]) => [fieldName, formValues[fieldName]]))
     onSave?.(formValues)?.then((res: any) => {
-      reset()
-    })
-  })
+      reset();
+    });
+  });
   return (
     <ButtonGroup id={id} className={className}>
       <Display activeKey={DisplayKeys.VALUE}>

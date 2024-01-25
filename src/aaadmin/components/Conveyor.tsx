@@ -12,9 +12,8 @@ import ConveyorRoute from './ConveyorRoute';
 import { INTROSPECTION_QUERY } from '../constants/introspection';
 import { extractModelsFromIntrospection } from '../utils/introspection';
 import ConveyorHome from './ConveyorHome';
-import InvalidRoute from './InvalidRoute'
+import InvalidRoute from './InvalidRoute';
 import Dummy from './Dummy';
-
 
 interface ConveyorProps extends ConveyorContextType {
   children?: ReactNode;
@@ -50,17 +49,30 @@ const Conveyor = ({
   // }, [JSON.stringify(conveyorModels)])
 
   // console.log(routes)
-  const modelNames = Object.keys(conveyorModels)
+  const modelNames = Object.keys(conveyorModels);
   return (
     <ConveyorProvider value={{ useGQLQueryResponse, useGQLMutationRequest }}>
-      {modelNames.length > 0 &&
+      {modelNames.length > 0 && (
         <ConveyorRouter modelNames={modelNames}>
-          <ConveyorRoute key="*" path="*" Component={InvalidRoute} />
-          <ConveyorRoute key="/" path="/" element={<ConveyorHome modelNames={modelNames} />} />
-          <ConveyorRoute key=":model" path=':model' element={<ModelIndex modelName="Task" fields={conveyorModels['Task'].index} />} />
+          <ConveyorRoute key='*' path='*' Component={InvalidRoute} />
+          <ConveyorRoute
+            key='/'
+            path='/'
+            element={<ConveyorHome modelNames={modelNames} />}
+          />
+          <ConveyorRoute
+            key=':model'
+            path=':model'
+            element={
+              <ModelIndex
+                modelName='Task'
+                fields={conveyorModels['Task'].index}
+              />
+            }
+          />
           {children}
-
-        </ConveyorRouter>}
+        </ConveyorRouter>
+      )}
     </ConveyorProvider>
   );
 };

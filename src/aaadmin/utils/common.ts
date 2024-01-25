@@ -25,11 +25,11 @@ export const generateGQLQueryDocument = (
     query === ITEM_QUERY
       ? [{ name: 'id', type: 'Int!' }]
       : [
-        { name: 'filter', type: '[[FilterItem!]!]' },
-        { name: 'sort', type: '[String!]' },
-        { name: 'page', type: 'Int' },
-        { name: 'per_page', type: 'Int' },
-      ];
+          { name: 'filter', type: '[[FilterItem!]!]' },
+          { name: 'sort', type: '[String!]' },
+          { name: 'page', type: 'Int' },
+          { name: 'per_page', type: 'Int' },
+        ];
   const variableDefs = args
     .map((arg) => `$${getFieldName(arg)}:${getFieldType(arg)}`)
     .join();
@@ -46,10 +46,11 @@ export const generateGQLQueryDocument = (
   return `
         query(${variableDefs}) {
             ${queryOperation}(${queryArgs}) {
-                ${query === ITEM_QUERY
-      ? `${selectionSet} id`
-      : `items { ${selectionSet} id } total`
-    }
+                ${
+                  query === ITEM_QUERY
+                    ? `${selectionSet} id`
+                    : `items { ${selectionSet} id } total`
+                }
             }
         }
     `;
@@ -61,21 +62,28 @@ export const generateGQLMutationDocument = (
   mutation: string,
 ) => {
   // TODO: Needs to be changed to ID once implemented in magql
-  const idField = { name: 'id', type: 'Int', required: true }
+  const idField = { name: 'id', type: 'Int', required: true };
   if (!args.find((arg) => getFieldName(arg) === 'id')) {
-    args = args.concat(idField)
+    args = args.concat(idField);
   }
 
   const mutationOperation = generateOperationName(modelName, mutation);
   const variableDefs = args
-    .map((arg) => `$${getFieldName(arg)}:${getFieldType(arg)}${getFieldRequired(arg) ? '!' : ''}`)
+    .map(
+      (arg) =>
+        `$${getFieldName(arg)}:${getFieldType(arg)}${
+          getFieldRequired(arg) ? '!' : ''
+        }`,
+    )
     .join();
   const mutationArgs = args
     .map((arg) => `${getFieldName(arg)}: $${getFieldName(arg)}`)
     .join();
-  const selectionSet = args.map((arg) =>
-    isRelationship(arg) ? `${getFieldName(arg)} { id }` :
-      getFieldName(arg)).join(' ');
+  const selectionSet = args
+    .map((arg) =>
+      isRelationship(arg) ? `${getFieldName(arg)} { id }` : getFieldName(arg),
+    )
+    .join(' ');
   return `
         mutation(${variableDefs}) {
             ${mutationOperation}(${mutationArgs}) {
