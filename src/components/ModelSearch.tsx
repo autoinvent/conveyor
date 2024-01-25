@@ -76,9 +76,12 @@ const SearchComponent: React.FC = () => {
           onChange={(e) => {
             setSearchValue(e.target.value);
           }}
-          onKeyDown={(e) => {
+          onKeyDown={(e:any) => {
             if (e.key === 'Enter') {
               //TODO Search Page Link
+            }
+            else if (e.key ===' ') {
+              e.stopPropagation()
             }
           }}
           onInput={handleSearch}
