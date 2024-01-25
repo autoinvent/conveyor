@@ -72,8 +72,9 @@ function App() {
     //     request(gqlUrl, graphQLParams.document, graphQLParams.variables),
     // });
     // return handleResponse(response);
+    const model = (param.operation ?? '').replace(/_list/, '')
     const response: any = useQuery({
-      queryKey: [param.operation],
+      queryKey: [model],
       queryFn: async () => {
         const response = await request(gqlUrl, param.document, param.variables);
         return response;
@@ -97,7 +98,16 @@ function App() {
     //   response.mutate(options);
     //   return handleResponse(response);
     // };
-    return () => Promise.resolve({});
+    const model = (param.operation ?? '').replace(/_update/, '')
+    const mutate: any = useMutation({
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: [model] }),
+      mutationFn: async (vars: any) => {
+        const response = await request(gqlUrl, param.document, vars);
+        return response
+      }
+    })
+    return (vars) => mutate.mutateAsync(vars)
+    // return () => Promise.resolve({});
   };
 
   return (
@@ -106,8 +116,8 @@ function App() {
         useGQLQueryResponse={useGQLQueryResponse}
         useGQLMutationRequest={useGQLMutationRequest}
       >
-        <ConveyorRoute path='Task'>
-          <ModelIndex modelName='Task' fields={['created_at', 'message', 'done']}>
+        {/* <ConveyorRoute path=':model'>
+          <ModelIndex modelName='Task' fields={['message']}>
             <ModelTable>
               <ModelHeading>
                 <ModelTitle />
@@ -124,7 +134,7 @@ function App() {
               <ModelTablePagination />
             </ModelTable>
           </ModelIndex>
-        </ConveyorRoute>
+        </ConveyorRoute> */}
       </Conveyor>
     </QueryClientProvider>
   );

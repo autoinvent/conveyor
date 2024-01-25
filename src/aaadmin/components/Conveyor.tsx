@@ -7,13 +7,13 @@ import {
 import ModelIndex from '../components/ModelIndex';
 import ConveyorNavbar from './ConveyorNavbar';
 import ConveyorRouter from './ConveyorRouter';
-import { Field } from '../../aaconveyor/types';
 import { generateOperationName } from '../utils/common';
 import ConveyorRoute from './ConveyorRoute';
 import { INTROSPECTION_QUERY } from '../constants/introspection';
 import { extractModelsFromIntrospection } from '../utils/introspection';
 import ConveyorHome from './ConveyorHome';
 import InvalidRoute from './InvalidRoute'
+import Dummy from './Dummy';
 
 
 interface ConveyorProps extends ConveyorContextType {
@@ -53,12 +53,14 @@ const Conveyor = ({
   const modelNames = Object.keys(conveyorModels)
   return (
     <ConveyorProvider value={{ useGQLQueryResponse, useGQLMutationRequest }}>
-      <ConveyorRouter modelNames={modelNames}>
-        <ConveyorRoute path="*" Component={InvalidRoute} />
-        <ConveyorRoute path="/" element={<ConveyorHome modelNames={modelNames} />} />
-        {/* <ConveyorRoute path=':model' element={<ModelIndex  />} />  */}
-        {children}
-      </ConveyorRouter>
+      {modelNames.length > 0 &&
+        <ConveyorRouter modelNames={modelNames}>
+          <ConveyorRoute key="*" path="*" Component={InvalidRoute} />
+          <ConveyorRoute key="/" path="/" element={<ConveyorHome modelNames={modelNames} />} />
+          <ConveyorRoute key=":model" path=':model' element={<ModelIndex modelName="Task" fields={conveyorModels['Task'].index} />} />
+          {children}
+
+        </ConveyorRouter>}
     </ConveyorProvider>
   );
 };

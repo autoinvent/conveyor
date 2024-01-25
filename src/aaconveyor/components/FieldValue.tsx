@@ -2,7 +2,7 @@ import { ElementType } from 'react';
 
 import useModelData from '../hooks/useModelData';
 import { Field } from '../types';
-import { getFieldName, getFieldRelationship, getFieldType } from '../utils';
+import { getFieldName, isRelationship, getFieldType } from '../utils';
 
 interface FieldValueProps {
   field: Field;
@@ -13,7 +13,7 @@ const FieldValue = ({ field, Component, props }: FieldValueProps) => {
   const data = useModelData();
   const fieldName = getFieldName(field);
   const fieldType = getFieldType(field);
-  const fieldRelationship = getFieldRelationship(field);
+  const fieldRelationship = isRelationship(field);
   let Value = Component;
   if (!Value) {
     if (fieldRelationship) {

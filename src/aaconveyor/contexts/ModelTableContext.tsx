@@ -9,6 +9,7 @@ interface ModelTableContext {
   data: ModelData[];
   showActions: boolean;
   initialDisplayKey: string;
+  onSave?: Function;
 }
 export const ModelTableContext = createContext<ModelTableContext>({
   title: null,
@@ -35,9 +36,10 @@ export const ModelTableProvider = ({
   fields,
   showActions = true,
   initialDisplayKey = DisplayKeys.VALUE,
+  onSave,
   children,
 }: ModelTableProviderProps) => {
-  const modelTable = { title, data, fields, showActions, initialDisplayKey };
+  const modelTable = { title, data, fields, showActions, initialDisplayKey, onSave };
   const value = useMemo(() => modelTable, [JSON.stringify(modelTable)]);
   return (
     <ModelTableContext.Provider value={value}>

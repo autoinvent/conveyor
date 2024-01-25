@@ -26,8 +26,8 @@ const ConveyorRouter = ({ modelNames, children }: ConveyorRouterProps) => {
                         <Routes>
                             <Route element={<ConveyorNavbar modelNames={modelNames} />}>
                                 {
-                                    paths.map((path, index) => (
-                                        <Fragment key={index}>{routes[path]}</Fragment>
+                                    paths.map((path) => (
+                                        <Fragment key={path}>{routes[path]}</Fragment>
                                     ))}
                             </Route>
                         </Routes>
