@@ -36,7 +36,8 @@ const SearchComponent: React.FC = () => {
       setShowoutput(false);
     }
     handleSearch();
-  }, [showoutput, searchResults]);
+  }, [showoutput, searchValue]);
+
 
   const handleSearch = useCallback(() => {
     setLoading(true);
@@ -84,7 +85,6 @@ const SearchComponent: React.FC = () => {
               e.stopPropagation()
             }
           }}
-          onInput={handleSearch}
           value={searchValue}
         />
       }
