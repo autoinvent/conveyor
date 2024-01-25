@@ -38,7 +38,6 @@ const SearchComponent: React.FC = () => {
     handleSearch();
   }, [showoutput, searchValue]);
 
-
   const handleSearch = useCallback(() => {
     setLoading(true);
 
@@ -77,12 +76,11 @@ const SearchComponent: React.FC = () => {
           onChange={(e) => {
             setSearchValue(e.target.value);
           }}
-          onKeyDown={(e:any) => {
+          onKeyDown={(e: any) => {
             if (e.key === 'Enter') {
               //TODO Search Page Link
-            }
-            else if (e.key ===' ') {
-              e.stopPropagation()
+            } else if (e.key === ' ') {
+              e.stopPropagation();
             }
           }}
           value={searchValue}
