@@ -1,5 +1,6 @@
 import { memo, FC, ReactNode } from 'react';
 import { Button, Container } from 'react-bootstrap';
+import { FaRegPlusSquare } from 'react-icons/fa';
 
 import { Page } from '../../enums';
 import { useTableView } from '../../hooks/useTableView';
@@ -45,7 +46,7 @@ const ModelIndex = ({
             <h2>{title}</h2>
             {/* TODO: Filter under construction */}
             <ModelNav modelName={modelName} modelId={Page.CREATE}>
-              <Button>Create</Button>
+              <Button variant='outline-success'>{<FaRegPlusSquare />}</Button>
             </ModelNav>
           </div>
           <ModelIndexTable

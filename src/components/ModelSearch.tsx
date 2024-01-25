@@ -1,7 +1,15 @@
-// components/Search.tsx
+// components/ModelSearch.tsx
 import React, { useCallback, useEffect, useState } from 'react';
-import { NavDropdown } from 'react-bootstrap';
+import {
+  Button,
+  Card,
+  Dropdown,
+  ListGroup,
+  NavDropdown,
+} from 'react-bootstrap';
+import { FaSearch } from 'react-icons/fa';
 import ModelNav from './ModelNav';
+import { Page } from '../enums';
 interface SearchResult {
   type: string;
   id: string;
@@ -21,7 +29,11 @@ const SearchDocument = `
 
 `;
 
-const SearchComponent: React.FC = () => {
+interface SearchComponentProps {
+  mode: 'navbar' | 'searchPage';
+}
+
+const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
   const [showoutput, setShowoutput] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(false);
@@ -63,47 +75,102 @@ const SearchComponent: React.FC = () => {
       });
   }, [loading, searchResults, searchValue]);
 
-  return (
-    <NavDropdown
-      id='navbar-search-box'
-      align='end'
-      show={showoutput}
-      title={
-        <input
-          className='search-bar'
-          type='search'
-          placeholder='Search...'
-          onChange={(e) => {
-            setSearchValue(e.target.value);
-          }}
-          onKeyDown={(e: any) => {
-            if (e.key === 'Enter') {
-              //TODO Search Page Link
-            } else if (e.key === ' ') {
-              e.stopPropagation();
-            }
-          }}
-          value={searchValue}
-        />
-      }
-    >
-      {searchResults && (
-        <div className='search-results-box'>
-          {searchResults.map((result) => (
-            <ModelNav
-              key={result.value}
-              modelName={result.type}
-              modelId={result.id}
-            >
-              <NavDropdown.Item>
-                {result.type} {result.id}
-              </NavDropdown.Item>
-            </ModelNav>
-          ))}
-        </div>
-      )}
-    </NavDropdown>
-  );
+  if (mode === 'navbar') {
+    return (
+      <>
+        <NavDropdown
+          className='navbar-title'
+          id='navbar-search-box'
+          align='end'
+          show={showoutput}
+          title={
+            <input
+              className='search-bar'
+              type='search'
+              placeholder='Search...'
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+              }}
+              onKeyDown={(e: any) => {
+                if (e.key === ' ') {
+                  e.stopPropagation();
+                }
+              }}
+              value={searchValue}
+            />
+          }
+        >
+          {searchResults && (
+            <div className='search-results-box'>
+              {searchResults.map((result) => (
+                <ModelNav
+                  key={result.value}
+                  modelName={result.type}
+                  modelId={result.id}
+                >
+                  <NavDropdown.Item>
+                    {result.type} {result.id}
+                  </NavDropdown.Item>
+                </ModelNav>
+              ))}
+            </div>
+          )}
+        </NavDropdown>
+        <ModelNav modelId={Page.SEARCH}>
+          <Button variant='primary' onClick={handleSearch}>
+            {<FaSearch />}
+          </Button>
+        </ModelNav>
+      </>
+    );
+  } else if (mode === 'searchPage') {
+    return (
+      <Dropdown id='big-search-box' show={showoutput}>
+        <>
+          <input
+            className='search-bar-long'
+            type='search'
+            placeholder='Search...'
+            onChange={(e) => {
+              setSearchValue(e.target.value);
+            }}
+            onKeyDown={(e: any) => {
+              if (e.key === 'Enter') {
+                setSearchValue(e.target.value);
+              } else if (e.key === ' ') {
+                e.stopPropagation();
+              }
+            }}
+            value={searchValue}
+          />
+          <Button
+            className='button-search'
+            variant='primary'
+            onClick={handleSearch}
+          >
+            {<FaSearch />}
+          </Button>
+        </>
+        {searchResults && (
+          <ListGroup>
+            {searchResults.map((result) => (
+              <ModelNav
+                key={result.value}
+                modelName={result.type}
+                modelId={result.id}
+              >
+                <ListGroup.Item>
+                  <Card.Link>
+                    {result.type} {result.id}
+                  </Card.Link>
+                </ListGroup.Item>
+              </ModelNav>
+            ))}
+          </ListGroup>
+        )}
+      </Dropdown>
+    );
+  }
 };
 
 export default SearchComponent;

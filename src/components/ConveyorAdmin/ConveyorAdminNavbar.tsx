@@ -41,7 +41,7 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
           >
             <Nav>
               {/* Search Bar*/}
-              <SearchComponent />
+              <SearchComponent mode='navbar' />
               {/* Models Dropdown */}
               <NavDropdown
                 id='conveyor-navbar-models-dropdown'

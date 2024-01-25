@@ -12,7 +12,8 @@ import ModelIndex from '../ModelIndex/ModelIndex';
 import ConveyorAdminHome from './ConveyorAdminHome';
 import ConveyorAdminNavbar from './ConveyorAdminNavbar';
 import Loading from '../commons/Loading';
-import Search from '../ModelSearch';
+import SearchComponent from '../ModelSearch';
+import { Container, Row } from 'react-bootstrap';
 
 const IntrospectionDocument = `
 {
@@ -160,7 +161,14 @@ const ConveyorAdminContent = ({
       break;
     }
     case Page.SEARCH: {
-      page = <Search />;
+      page = (
+        <Container>
+          <Row>
+            <h2>{'Search'}</h2>
+          </Row>
+          <SearchComponent mode='searchPage' />
+        </Container>
+      );
       break;
     }
     default: {

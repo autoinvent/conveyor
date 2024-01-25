@@ -45,5 +45,12 @@
     width: 100%;
 }
 
+.search-bar-long {
+    width: 95%;
+    height: 50px;
+}
 
-
+.button-search {
+    width: 5%;
+    height: 55px;
+}
