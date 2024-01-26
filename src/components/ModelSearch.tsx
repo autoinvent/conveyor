@@ -178,8 +178,10 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
                   </ModelNav>
                 ))}
             </ListGroup>
-            <div className="pagination">
-              {Array.from({ length: Math.ceil(searchResults.length / resultsPerPage) }).map((_, index) => (
+            <div className='pagination'>
+              {Array.from({
+                length: Math.ceil(searchResults.length / resultsPerPage),
+              }).map((_, index) => (
                 <button
                   type='button'
                   key={index + 1}
@@ -188,8 +190,10 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
                   {index + 1}
                 </button>
               ))}
-              <span className="pagination-info">
-                {(currentPage - 1) * resultsPerPage + 1}-{Math.min(currentPage * resultsPerPage, searchResults.length)} of {searchResults.length}
+              <span className='pagination-info'>
+                {(currentPage - 1) * resultsPerPage + 1}-
+                {Math.min(currentPage * resultsPerPage, searchResults.length)}{' '}
+                of {searchResults.length}
               </span>
             </div>
           </>
