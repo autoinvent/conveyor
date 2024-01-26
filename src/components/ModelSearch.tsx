@@ -39,6 +39,8 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
     null,
   );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [resultsPerPage] = useState(5);
 
   const handleSearch = useCallback(() => {
     setLoading(true);
@@ -64,6 +66,10 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
         setLoading(false);
       });
   }, [loading, searchResults, searchValue]);
+
+  const handlePagination = (page: number) => {
+    setCurrentPage(page);
+  };
 
   if (mode === 'navbar') {
     const [showoutput, setShowoutput] = useState(false);
@@ -151,21 +157,41 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
           </Button>
         </>
         {searchResults && (
-          <ListGroup>
-            {searchResults.map((result) => (
-              <ModelNav
-                key={result.value}
-                modelName={result.type}
-                modelId={result.id}
-              >
-                <ListGroup.Item>
-                  <Card.Link>
-                    {result.type} {result.id}
-                  </Card.Link>
-                </ListGroup.Item>
-              </ModelNav>
-            ))}
-          </ListGroup>
+          <>
+            <ListGroup>
+              {searchResults
+                .slice(
+                  (currentPage - 1) * resultsPerPage,
+                  currentPage * resultsPerPage,
+                )
+                .map((result) => (
+                  <ModelNav
+                    key={result.value}
+                    modelName={result.type}
+                    modelId={result.id}
+                  >
+                    <ListGroup.Item>
+                      <Card.Link>
+                        {result.type} {result.id}
+                      </Card.Link>
+                    </ListGroup.Item>
+                  </ModelNav>
+                ))}
+            </ListGroup>
+            <div className='pagination'>
+              {Array.from({
+                length: Math.ceil(searchResults.length / resultsPerPage),
+              }).map((_, index) => (
+                <Button
+                  key={index + 1}
+                  variant={currentPage === index + 1 ? 'primary' : 'secondary'}
+                  onClick={() => handlePagination(index + 1)}
+                >
+                  {index + 1}
+                </Button>
+              ))}
+            </div>
+          </>
         )}
       </Dropdown>
     );
