@@ -34,21 +34,11 @@ interface SearchComponentProps {
 }
 
 const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
-  const [showoutput, setShowoutput] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
     null,
   );
-
-  useEffect(() => {
-    if (searchValue.length > 0) {
-      setShowoutput(true);
-    } else {
-      setShowoutput(false);
-    }
-    handleSearch();
-  }, [showoutput, searchValue]);
 
   const handleSearch = useCallback(() => {
     setLoading(true);
@@ -76,6 +66,15 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
   }, [loading, searchResults, searchValue]);
 
   if (mode === 'navbar') {
+    const [showoutput, setShowoutput] = useState(false);
+    useEffect(() => {
+      if (searchValue.length > 0) {
+        setShowoutput(true);
+      } else {
+        setShowoutput(false);
+      }
+      handleSearch();
+    }, [showoutput, searchValue]);
     return (
       <>
         <NavDropdown
@@ -125,7 +124,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
     );
   } else if (mode === 'searchPage') {
     return (
-      <Dropdown id='big-search-box' show={showoutput}>
+      <Dropdown id='big-search-box'>
         <>
           <input
             className='search-bar-long'
@@ -136,7 +135,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
             }}
             onKeyDown={(e: any) => {
               if (e.key === 'Enter') {
-                setSearchValue(e.target.value);
+                handleSearch();
               } else if (e.key === ' ') {
                 e.stopPropagation();
               }
