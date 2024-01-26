@@ -178,18 +178,19 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
                   </ModelNav>
                 ))}
             </ListGroup>
-            <div className='pagination'>
-              {Array.from({
-                length: Math.ceil(searchResults.length / resultsPerPage),
-              }).map((_, index) => (
-                <Button
+            <div className="pagination">
+              {Array.from({ length: Math.ceil(searchResults.length / resultsPerPage) }).map((_, index) => (
+                <button
+                  type='button'
                   key={index + 1}
-                  variant={currentPage === index + 1 ? 'primary' : 'secondary'}
                   onClick={() => handlePagination(index + 1)}
                 >
                   {index + 1}
-                </Button>
+                </button>
               ))}
+              <span className="pagination-info">
+                {(currentPage - 1) * resultsPerPage + 1}-{Math.min(currentPage * resultsPerPage, searchResults.length)} of {searchResults.length}
+              </span>
             </div>
           </>
         )}

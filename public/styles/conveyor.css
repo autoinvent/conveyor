@@ -54,3 +54,12 @@
     width: 5%;
     height: 55px;
 }
+
+.pagination {
+    margin-top:15px;
+}
+
+.pagination-info {
+    margin-top: 3px; 
+    align-items: center/* Adjust the margin as needed */
+  }
