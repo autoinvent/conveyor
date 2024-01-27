@@ -10,6 +10,7 @@ import {
 import { FaSearch } from 'react-icons/fa';
 import ModelNav from './ModelNav';
 import { Page } from '../enums';
+
 interface SearchResult {
   type: string;
   id: string;
@@ -33,14 +34,29 @@ interface SearchComponentProps {
   mode: 'navbar' | 'searchPage';
 }
 
+let searchStoredValue = '';
+
 const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(''); // Use defaultValue if available
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
     null,
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [resultsPerPage] = useState(5);
+  const [resultsPerPage] = useState(20);
+
+  const handleButton = useCallback(() => {
+    // Use setSearchValue to update searchValue when the button is clicked
+    searchStoredValue = searchValue;
+    setSearchValue('');
+  }, [searchValue]);
+
+  useEffect(() => {
+    if (mode === 'searchPage' && searchStoredValue.length > 0) {
+      setSearchValue(searchStoredValue);
+      handleSearch();
+    }
+  }, [searchStoredValue, searchValue]);
 
   const handleSearch = useCallback(() => {
     setLoading(true);
@@ -81,6 +97,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
       }
       handleSearch();
     }, [showoutput, searchValue]);
+
     return (
       <>
         <NavDropdown
@@ -90,14 +107,18 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
           show={showoutput}
           title={
             <input
+              id='navbar-search-input'
               className='search-bar'
-              type='search'
+              type='text'
               placeholder='Search...'
               onChange={(e) => {
                 setSearchValue(e.target.value);
               }}
               onKeyDown={(e: any) => {
-                if (e.key === ' ') {
+                if (e.key === 'Enter') {
+                  const button = document.getElementById('myBtn');
+                  button?.click();
+                } else if (e.key === ' ') {
                   e.stopPropagation();
                 }
               }}
@@ -121,8 +142,13 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
             </div>
           )}
         </NavDropdown>
-        <ModelNav modelId={Page.SEARCH}>
-          <Button variant='primary' onClick={handleSearch}>
+        <ModelNav key={searchValue} modelId={Page.SEARCH}>
+          <Button
+            id='myBtn'
+            type='submit'
+            variant='primary'
+            onClick={handleButton}
+          >
             {<FaSearch />}
           </Button>
         </ModelNav>
@@ -134,10 +160,10 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
         <>
           <input
             className='search-bar-long'
-            type='search'
-            placeholder='Search...'
+            type='text'
             onChange={(e) => {
               setSearchValue(e.target.value);
+              searchStoredValue = '';
             }}
             onKeyDown={(e: any) => {
               if (e.key === 'Enter') {
