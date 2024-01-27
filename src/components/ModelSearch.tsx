@@ -37,7 +37,7 @@ interface SearchComponentProps {
 let searchStoredValue = '';
 
 const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
-  const [searchValue, setSearchValue] = useState(''); // Use defaultValue if available
+  const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
     null,
@@ -161,6 +161,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ mode }) => {
           <input
             className='search-bar-long'
             type='text'
+            placeholder='Search...'
             onChange={(e) => {
               setSearchValue(e.target.value);
               searchStoredValue = '';
