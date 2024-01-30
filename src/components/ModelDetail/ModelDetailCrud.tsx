@@ -44,6 +44,7 @@ const ModelDetailCrud = ({
     document: updateDocument,
   });
 
+  const message: string = `Deleting this ${modelName.toLowerCase()} will also remove any relations with other models. Do you wish to continue?`;
   const deleteActionType = GQLMutationAction.MODEL_DELETE;
   const deleteAction = getGQLAction(deleteActionType, modelName);
   const deleteDocument = getGQLDocument(
@@ -89,6 +90,7 @@ const ModelDetailCrud = ({
       .then(() => navigate({ modelName }))
       .catch(() => setLoading(false));
   };
+
   return (
     <ModelFormCrud
       id={id}
@@ -97,6 +99,7 @@ const ModelDetailCrud = ({
       onDelete={onDelete}
       editable={editable}
       deletable={deletable}
+      message={message}
     />
   );
 };
