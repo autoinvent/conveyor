@@ -19,6 +19,8 @@ export enum TableViewsAction {
   INIT = 'INIT',
   NEXT_SORT = 'NEXT_SORT',
   SET_PAGE = 'SET_PAGE',
+  ADD_FILTER = 'ADD_FILTER',
+  REMOVE_FILTER = 'REMOVE_FILTER',
 }
 
 export const DEFAULT_TABLE_VIEW = {
@@ -61,6 +63,7 @@ export const tableViewsReducer = (
       if (!newTableViews[modelName].sort) newTableViews[modelName].sort = [];
       const newSort = newTableViews[modelName].sort ?? [];
       const dir = getSortDir(newSort, fieldName);
+
       const sortFieldIdx = newSort.findIndex((field) =>
         field.endsWith(fieldName),
       );
@@ -89,6 +92,28 @@ export const tableViewsReducer = (
       newTableViews[modelName].page = page;
       return newTableViews;
     }
+    case TableViewsAction.ADD_FILTER: {
+      const { modelName, fieldName, operator, value } = payload;
+      const newTableViews = { ...tableViews };
+      if (!newTableViews[modelName]) newTableViews[modelName] = {};
+      if (!newTableViews[modelName].filter)
+        newTableViews[modelName].filter = {};
+      const newFilter = newTableViews[modelName].filter ?? {};
+      newFilter[fieldName] = { operator, value };
+      newTableViews[modelName].filter = newFilter;
+      return newTableViews;
+    }
+
+    case TableViewsAction.REMOVE_FILTER: {
+      const { modelName, fieldName } = payload;
+      const newTableViews = { ...tableViews };
+      const deleteFilter = newTableViews[modelName].filter;
+      if (newTableViews[modelName] && deleteFilter) {
+        delete deleteFilter[fieldName];
+      }
+      return newTableViews;
+    }
+
     default: {
       throw Error(`${ErrorMessage.REDUCER_ACTION_DNE} ${type}`);
     }

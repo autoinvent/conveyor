@@ -33,3 +33,19 @@
     border: none;
     padding: 0;
 }
+
+
+.conv-filters-dropdown {
+    position: absolute;
+    text-align: right;
+}
+
+.filter-bar {
+    width: 150px;
+}
+
+.not-checkbox {
+    width: 20px;
+    white-space: none;
+    display: inline;
+}
