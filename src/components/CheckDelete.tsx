@@ -1,45 +1,53 @@
+//CheckDelete.tsx
 import { GQLMutationAction, useGQLQuery } from '../hooks';
 import { BaseProps } from '../types';
 
-interface SearchResult {
-  type: string;
-  id: string;
-  value: string;
-  extra?: Record<string, any> | null;
-}
-
-interface CheckDeleteResult {
-  affected: SearchResult;
-  deleted: SearchResult;
-  prevented: SearchResult;
-}
-
-const document = `
-query check_delete($type: String!, $id: ID!) {
-    check_delete(type: $type, id: $id) {
-      affected
-      deleted
-      prevented
-    }
-  }
-  `;
-
 interface CheckDeleteProps extends BaseProps {
   modelName: string;
+  check_delete_id: string;
 }
 
-const CheckDelete = ({ modelName, id }: CheckDeleteProps) => {
+const CheckDelete = ({ modelName, check_delete_id }: CheckDeleteProps) => {
   const action = GQLMutationAction.MODEL_DELETE;
+  const document = `
+    query check_delete($type: String!, $id: ID!) {
+      check_delete(type: $type, id: $id) {
+          affected {
+            type
+            id
+            value
+            extra
+          }
+          deleted {
+            type
+            id
+            value
+            extra
+          }
+          prevented {
+            type
+            id
+            value
+            extra
+          }
+        }
+      } 
+    `;
 
-  const { data, error } = useGQLQuery({
+  const { data } = useGQLQuery({
     action,
     document,
-    variables: { modelName, id },
+    variables: { type: modelName, id: check_delete_id },
   });
-
-  const modelData: CheckDeleteResult = data.response;
-
-  return modelData;
+  if (data?.check_delete) {
+    if (data.check_delete?.affected.length > 0) {
+      return 'affected';
+    } else if (data.check_delete?.deleted.length > 0) {
+      return 'deleted';
+    } else if (data.check_delete?.prevented.length > 0) {
+      return 'prevented';
+    }
+  }
 };
 
 export default CheckDelete;

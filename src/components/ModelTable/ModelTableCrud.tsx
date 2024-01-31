@@ -6,6 +6,7 @@ import { useGQLMutation, GQLMutationAction } from '../../hooks/useGQLMutation';
 import { BaseProps, FieldData } from '../../types';
 import { getGQLAction, getGQLDocument } from '../../utils/gqlRequest';
 import ModelFormCrud from '../ModelForm/ModelFormCrud';
+import CheckDelete from '../CheckDelete';
 
 interface ModelTableCrudProps extends BaseProps {
   modelName: string;
@@ -44,7 +45,17 @@ const ModelTableCrud = ({
     document: updateDocument,
   });
 
-  const message: string = `Deleting this ${modelName.toLowerCase()} will also remove any relations with other models. Do you wish to continue?`;
+  const check_delete_id = data[primaryKey];
+  const deleteType = CheckDelete({ modelName, check_delete_id });
+  let message = '';
+  if (deleteType === 'affected') {
+    message = `Deleting this ${modelName.toLowerCase()} will also remove any relations with other models. Do you wish to continue?`;
+  } else if (deleteType === 'deleted') {
+    message = `This will perform a cascade delete, deleting all models with a child relation to this ${modelName.toLowerCase()}. Do you wish to continue?`;
+  } else if (deleteType === 'prevented') {
+    message = `Deletion will be prevented for this ${modelName.toLowerCase()}, as the relation field is not nullable. Attempt to delete anyway?`;
+  }
+
   const deleteActionType = GQLMutationAction.MODEL_DELETE;
   const deleteAction = getGQLAction(deleteActionType, modelName);
   const deleteDocument = getGQLDocument(
