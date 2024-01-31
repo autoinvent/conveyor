@@ -3,6 +3,7 @@ import { useContext, FC, memo } from 'react';
 import { ConveyorContext } from '../../contexts/ConveyorContext';
 import { LoadingContext } from '../../contexts/commons/LoadingContext';
 import { useGQLMutation, GQLMutationAction } from '../../hooks/useGQLMutation';
+import CheckDelete from '../CheckDelete';
 import { BaseProps, FieldData } from '../../types';
 import { getGQLAction, getGQLDocument } from '../../utils/gqlRequest';
 import ModelFormCrud from '../ModelForm/ModelFormCrud';
@@ -29,6 +30,8 @@ const ModelDetailCrud = ({
   const { setLoading } = useContext(LoadingContext);
   const { navigate, primaryKey } = useContext(ConveyorContext);
 
+  const deleteType = CheckDelete({ modelName, id });
+  console.log(deleteType);
   const updateActionType = GQLMutationAction.MODEL_UPDATE;
   const updateAction = getGQLAction(updateActionType, modelName);
   const updateDocument = getGQLDocument(
