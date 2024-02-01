@@ -69,14 +69,6 @@ const ModelIndexTableFilter = ({
         variant='primary'
         onClick={() => setShowModal(true)}
       >
-        {filters.map((filter, index) => (
-          // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-          <div key={index}>
-            {filter.field}
-            {filter.operator}
-            {filter.value}
-          </div>
-        ))}
         Filters
       </Button>
       {/* Button to open the modal */}
@@ -129,7 +121,7 @@ const ModelIndexTableFilter = ({
           </select>
 
           <input
-            type='text'
+            type='input'
             className='filter-bar'
             value={currentFilter.value}
             onChange={(e) =>
@@ -138,6 +130,15 @@ const ModelIndexTableFilter = ({
           />
         </Modal.Body>
         <Modal.Footer>
+          {/* List of active filters: */}
+        {filters.map((filter, index) => (
+          // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+          <div key={index}>
+            {filter.field}
+            {filter.operator}
+            {filter.value}
+          </div>
+        ))}
           {/* "Add Filter" and "Reset Filters" buttons here */}
           <Button type='button' onClick={addFilter}>
             Add Filter

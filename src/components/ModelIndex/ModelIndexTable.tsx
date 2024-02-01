@@ -59,6 +59,25 @@ const ModelIndexTable = ({
     [JSON.stringify(data?.[action]?.items)],
   );
   const loading = Object.values({ ...data, ...error }).length === 0;
+
+  // Apply filters to the modelListData
+  const filteredModelListData = modelListData?.filter((item: any) => {
+    // Check each filter condition
+    return filters.every((filter: { fieldName: string; operator: string; value?: any; }) => {
+      const { fieldName, operator, value } = filter;
+
+      // Implement your filtering logic based on the filter condition
+      switch (operator) {
+        case 'equals':
+          return item[fieldName] === value;
+        case 'contains':
+          return item[fieldName].includes(value);
+        // Add more cases for other operators as needed
+        default:
+          return true;
+      }
+    });
+  });
   return loading ? (
     <Loading />
   ) : (
@@ -69,7 +88,7 @@ const ModelIndexTable = ({
         modelName={modelName}
         fields={fields}
         fieldsData={fieldsData}
-        dataList={modelListData}
+        dataList={filteredModelListData}
         editable={editable}
         deletable={deletable}
       />
