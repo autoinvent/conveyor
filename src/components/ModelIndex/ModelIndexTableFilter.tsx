@@ -138,15 +138,15 @@ const ModelIndexTableFilter = ({
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='secondary' onClick={() => setShowModal(false)}>
-            Close
-          </Button>
           {/* "Add Filter" and "Reset Filters" buttons here */}
           <Button type='button' onClick={addFilter}>
             Add Filter
           </Button>
           <Button variant='warning' type='button' onClick={removeFilters}>
             Reset Filters
+          </Button>
+          <Button variant='secondary' onClick={() => setShowModal(false)}>
+            Close
           </Button>
         </Modal.Footer>
       </Modal>
