@@ -115,7 +115,10 @@ const ModelIndexTableFilter = ({
           >
             {/* Add your list of operators here */}
             <option value='=='>Equals</option>
-            <option value='!='>Not Equals</option>
+            <option value='!='>Not Equal</option>
+            <option value='>'>Greater Than</option>
+            <option value='<'>Less Than</option>
+            <option value='contains'>Contains</option>
 
             {/* Add more operators as needed */}
           </select>
@@ -131,14 +134,14 @@ const ModelIndexTableFilter = ({
         </Modal.Body>
         <Modal.Footer>
           {/* List of active filters: */}
-        {filters.map((filter, index) => (
-          // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-          <div key={index}>
-            {filter.field}
-            {filter.operator}
-            {filter.value}
-          </div>
-        ))}
+          {filters.map((filter, index) => (
+            // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+            <div key={index}>
+              {filter.field}
+              {filter.operator}
+              {filter.value}
+            </div>
+          ))}
           {/* "Add Filter" and "Reset Filters" buttons here */}
           <Button type='button' onClick={addFilter}>
             Add Filter

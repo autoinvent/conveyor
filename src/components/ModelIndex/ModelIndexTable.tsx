@@ -63,20 +63,31 @@ const ModelIndexTable = ({
   // Apply filters to the modelListData
   const filteredModelListData = modelListData?.filter((item: any) => {
     // Check each filter condition
-    return filters.every((filter: { fieldName: string; operator: string; value?: any; }) => {
-      const { fieldName, operator, value } = filter;
-
-      // Implement your filtering logic based on the filter condition
-      switch (operator) {
-        case 'equals':
-          return item[fieldName] === value;
-        case 'contains':
-          return item[fieldName].includes(value);
-        // Add more cases for other operators as needed
-        default:
+    return filters.every(
+      (filter: { field: string; operator: string; value?: any }) => {
+        const { field, operator, value } = filter;
+        // Implement your filtering logic based on the filter condition
+        if (value.length > 0) {
+          switch (operator) {
+            case '==':
+              return item[field].toString() === value;
+            case '!=':
+              return item[field].toString() !== value;
+            case '>':
+              return item[field].toString() > value;
+            case '<':
+              return item[field].toString() < value;
+            case 'contains':
+              return item[field].toString().includes(value);
+            // Add more cases for other operators as needed
+            default:
+              return true;
+          }
+        } else {
           return true;
-      }
-    });
+        }
+      },
+    );
   });
   return loading ? (
     <Loading />
