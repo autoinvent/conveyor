@@ -1,4 +1,4 @@
-import { memo, FC, ReactNode } from 'react';
+import { memo, FC, ReactNode, useState, useEffect } from 'react';
 import { Button, Container } from 'react-bootstrap';
 
 import { Page } from '../../enums';
@@ -10,6 +10,7 @@ import { humanizeText } from '../../utils/common';
 import ModelNav from '../ModelNav';
 
 import ModelIndexTable from './ModelIndexTable';
+import ModelIndexTableFilter from './ModelIndexTableFilter';
 
 interface ModelIndexProps extends BaseProps {
   modelName: string;
@@ -37,6 +38,16 @@ const ModelIndex = ({
     modelName,
     tableView: JSON.parse(JSON.stringify(DEFAULT_TABLE_VIEW)),
   });
+  const { dispatch } = useTableView({ modelName });
+  const [filters, setFilters] = useState<
+    { field: string; operator: string; value: string; modelName: string }[]
+  >([]); // State to manage filters
+
+  useEffect(() => {
+    // Save filters and sorts to local storage when they change
+    localStorage.setItem(`${modelName}_filters`, JSON.stringify(filters));
+  }, [filters, modelName]);
+
   return (
     <Container id={id} className={className}>
       {children ?? (
@@ -44,8 +55,15 @@ const ModelIndex = ({
           <div id={id} className={`${PACKAGE_ABBR}-model-title`}>
             <h2>{title}</h2>
             {/* TODO: Filter under construction */}
+            <ModelIndexTableFilter
+              modelName={modelName}
+              fields={fields}
+              filters={filters}
+              setFilters={setFilters}
+              dispatch={dispatch}
+            />
             <ModelNav modelName={modelName} modelId={Page.CREATE}>
-              <Button>Create</Button>
+              <Button variant='success'>Create</Button>
             </ModelNav>
           </div>
           <ModelIndexTable
@@ -54,6 +72,7 @@ const ModelIndex = ({
             fieldsData={fieldsData}
             editable={editable}
             deletable={deletable}
+            filters={filters}
           />
         </>
       )}

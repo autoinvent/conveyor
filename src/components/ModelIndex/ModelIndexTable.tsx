@@ -16,6 +16,7 @@ interface ModelIndexTableProps extends BaseProps {
   fieldsData?: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
+  filters?: any;
 }
 
 const ModelIndexTable = ({
@@ -26,8 +27,9 @@ const ModelIndexTable = ({
   fieldsData,
   editable,
   deletable,
+  filters,
 }: ModelIndexTableProps) => {
-  const { dispatch, tableView } = useTableView({ modelName });
+  const { tableView } = useTableView({ modelName });
   const { primaryKey } = useContext(ConveyorContext);
   const actionType = GQLQueryAction.MODEL_LIST;
   const action = getGQLAction(actionType, modelName);
@@ -38,21 +40,15 @@ const ModelIndexTable = ({
     fields,
     fieldsData,
   );
-  const [filters, setFilters] = useState<
-    { field: string; operator: string; value: string; modelName: string }[]
-  >([]); // State to manage filters
-
-  useEffect(() => {
-    // Save filters and sorts to local storage when they change
-    localStorage.setItem(`${modelName}_filters`, JSON.stringify(filters));
-  }, [filters, modelName]);
 
   const { data, error } = useGQLQuery({
     action,
     document,
     variables: {
       ...tableView,
-      filters: filters.filter((filter) => filter.modelName === modelName),
+      filters: filters.filter(
+        (filter: { modelName: string }) => filter.modelName === modelName,
+      ),
     },
   });
   const { modelListData, modelListTotal } = useMemo(
@@ -67,14 +63,6 @@ const ModelIndexTable = ({
     <Loading />
   ) : (
     <>
-      {/* TODO: Filter under construction */}
-      <ModelIndexTableFilter
-        modelName={modelName}
-        fields={fields}
-        filters={filters}
-        setFilters={setFilters}
-        dispatch={dispatch}
-      />
       <ModelTable
         id={id}
         className={className}

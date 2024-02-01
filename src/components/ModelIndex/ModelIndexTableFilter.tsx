@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BaseProps } from '../../types';
-import { NavDropdown } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { TableViewsAction } from '../../reducers/tableViewsReducer';
 
 interface ModelIndexTableFilterProps extends BaseProps {
@@ -60,33 +60,48 @@ const ModelIndexTableFilter = ({
     setFilters([]);
   };
 
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <NavDropdown title='Filter' className='conv-filters-dropdown' align='end'>
-      {filters.map((filter, index) => (
-        // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-        <div key={index}>
-          {filter.field}
-          {filter.operator}
-          {filter.value}
-        </div>
-      ))}
+    <div className='conv-filters'>
+      <Button
+        title='Filter'
+        variant='primary'
+        onClick={() => setShowModal(true)}
+      >
+        {filters.map((filter, index) => (
+          // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+          <div key={index}>
+            {filter.field}
+            {filter.operator}
+            {filter.value}
+          </div>
+        ))}
+        Filters
+      </Button>
+      {/* Button to open the modal */}
+      {/* Modal component */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create a Filter: </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {/*Filters*/}
+          <select
+            value={currentFilter.field}
+            onChange={(e) =>
+              setCurrentFilter({ ...currentFilter, field: e.target.value })
+            }
+          >
+            {fields.map((field, index) => (
+              // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              <option key={index} value={field}>
+                {field}
+              </option>
+            ))}
+          </select>
 
-      <div>
-        <select
-          value={currentFilter.field}
-          onChange={(e) =>
-            setCurrentFilter({ ...currentFilter, field: e.target.value })
-          }
-        >
-          {fields.map((field, index) => (
-            // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <option key={index} value={field}>
-              {field}
-            </option>
-          ))}
-        </select>
-
-        {/*
+          {/*
         <label>
           Not
           <input
@@ -100,35 +115,42 @@ const ModelIndexTableFilter = ({
           />
         </label>
         */}
-        <select
-          value={currentFilter.operator}
-          onChange={(e) =>
-            setCurrentFilter({ ...currentFilter, operator: e.target.value })
-          }
-        >
-          {/* Add your list of operators here */}
-          <option value='=='>Equals</option>
-          <option value='!='>Not Equals</option>
+          <select
+            value={currentFilter.operator}
+            onChange={(e) =>
+              setCurrentFilter({ ...currentFilter, operator: e.target.value })
+            }
+          >
+            {/* Add your list of operators here */}
+            <option value='=='>Equals</option>
+            <option value='!='>Not Equals</option>
 
-          {/* Add more operators as needed */}
-        </select>
+            {/* Add more operators as needed */}
+          </select>
 
-        <input
-          type='text'
-          className='filter-bar'
-          value={currentFilter.value}
-          onChange={(e) =>
-            setCurrentFilter({ ...currentFilter, value: e.target.value })
-          }
-        />
-        <button type='button' onClick={addFilter}>
-          Add Filter
-        </button>
-        <button type='button' onClick={removeFilters}>
-          Reset Filters
-        </button>
-      </div>
-    </NavDropdown>
+          <input
+            type='text'
+            className='filter-bar'
+            value={currentFilter.value}
+            onChange={(e) =>
+              setCurrentFilter({ ...currentFilter, value: e.target.value })
+            }
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+          {/* "Add Filter" and "Reset Filters" buttons here */}
+          <Button type='button' onClick={addFilter}>
+            Add Filter
+          </Button>
+          <Button variant='warning' type='button' onClick={removeFilters}>
+            Reset Filters
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 };
 

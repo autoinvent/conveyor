@@ -35,9 +35,12 @@
 }
 
 
-.conv-filters-dropdown {
-    position: absolute;
+.conv-filters {
+    position: relative;
     text-align: right;
+    align-self: end;
+    margin-left: auto; 
+    margin-right: 75px;
 }
 
 .filter-bar {
