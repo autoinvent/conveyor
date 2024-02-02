@@ -4,7 +4,10 @@ import { Button, Container } from 'react-bootstrap';
 import { Page } from '../../enums';
 import { useTableView } from '../../hooks/useTableView';
 import { PACKAGE_ABBR } from '../../package';
-import { DEFAULT_TABLE_VIEW } from '../../reducers/tableViewsReducer';
+import {
+  DEFAULT_TABLE_VIEW,
+  TableViewFilter,
+} from '../../reducers/tableViewsReducer';
 import { BaseProps, FieldData } from '../../types';
 import { humanizeText } from '../../utils/common';
 import ModelNav from '../ModelNav';
@@ -40,7 +43,7 @@ const ModelIndex = ({
   });
   const { dispatch } = useTableView({ modelName });
   const [filters, setFilters] = useState<
-    { field: string; operator: string; value: string; modelName: string }[]
+    { filter1: TableViewFilter; filter2: TableViewFilter; modelName: string }[]
   >([]); // State to manage filters
 
   useEffect(() => {

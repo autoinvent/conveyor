@@ -1,4 +1,4 @@
-import { useMemo, useContext, useState, useEffect } from 'react';
+import { useMemo, useContext } from 'react';
 
 import { ConveyorContext } from '../../contexts/ConveyorContext';
 import { useGQLQuery, GQLQueryAction } from '../../hooks/useGQLQuery';
@@ -8,7 +8,6 @@ import { getGQLAction, getGQLDocument } from '../../utils/gqlRequest';
 import ModelTable from '../ModelTable/ModelTable';
 import ModelTablePagination from '../ModelTable/ModelTablePagination';
 import Loading from '../commons/Loading';
-import ModelIndexTableFilter from './ModelIndexTableFilter';
 
 interface ModelIndexTableProps extends BaseProps {
   modelName: string;
@@ -63,39 +62,39 @@ const ModelIndexTable = ({
   // Apply filters to the modelListData
   const filteredModelListData = modelListData?.filter((item: any) => {
     // Check each filter condition
-    return filters.every(
-      (filter: { field: string; operator: string; value?: any }) => {
+    return filters.every((filterGroup: any) => {
+      const { filter1, filter2 } = filterGroup;
+
+      // Implement your filtering logic based on the filter conditions
+      return [filter1, filter2].some((filter: any) => {
         const { field, operator, value } = filter;
-        console.log(field);
-        // Implement your filtering logic based on the filter condition
-        if (value.length > 0) {
-          let itemVal = item[field];
-          if (itemVal === true) {
-            itemVal = 'true';
-          } else if (itemVal === false) {
-            itemVal = 'false';
-          }
-          switch (operator) {
-            case '==':
-              return itemVal.toString() === value;
-            case '!=':
-              return itemVal.toString() !== value;
-            case '>':
-              return itemVal.toString() > value;
-            case '<':
-              return itemVal.toString() < value;
-            case ' contains ':
-              return itemVal.toString().includes(value);
-            // Add more cases for other operators as needed
-            default:
-              return true;
-          }
-        } else {
-          return true;
+        let itemVal = item[field];
+
+        if (itemVal === true) {
+          itemVal = 'true';
+        } else if (itemVal === false) {
+          itemVal = 'false';
         }
-      },
-    );
+
+        switch (operator) {
+          case '==':
+            return itemVal.toString() === value;
+          case '!=':
+            return itemVal.toString() !== value;
+          case '>':
+            return itemVal.toString() > value;
+          case '<':
+            return itemVal.toString() < value;
+          case ' contains ':
+            return itemVal.toString().includes(value);
+          // Add more cases for other operators as needed
+          default:
+            return true;
+        }
+      });
+    });
   });
+
   return loading ? (
     <Loading />
   ) : (

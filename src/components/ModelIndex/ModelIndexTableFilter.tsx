@@ -38,55 +38,40 @@ const ModelIndexTableFilter = ({
   }, []);
 
   const addFilter = () => {
-    // Dispatch ADD_FILTER action when a new filter is added
-    if (!hideOR) {
-      dispatch({
-        type: TableViewsAction.ADD_FILTER,
-        payload: {
-          modelName,
-          fieldName: [currentFilter.field, currentFilterOR.field],
-          operator: [currentFilter.operator, currentFilterOR.operator],
-          value: [currentFilter.value, currentFilterOR.value],
-        },
-      });
-      setFilters([
-        ...filters,
-        { ...currentFilter, ...currentFilterOR, modelName },
-      ]);
-      setCurrentFilter({
-        field: fields[0] || '',
-        operator: '==',
-        value: '',
-      });
-      setCurrentFilterOR({
-        field: fields[0] || '',
-        operator: '==',
-        value: '',
-      });
-    } else {
-      dispatch({
-        type: TableViewsAction.ADD_FILTER,
-        payload: {
-          modelName,
-          fieldName: currentFilter.field,
-          operator: currentFilter.operator,
-          value: currentFilter.value,
-        },
-      });
-      setFilters([...filters, { ...currentFilter, modelName }]);
-      setCurrentFilter({
-        field: fields[0] || '',
-        operator: '==',
-        value: '',
-      });
-    }
+    const newFilter1 = { ...currentFilter };
+    const newFilter2 = { ...currentFilterOR };
+
+    dispatch({
+      type: TableViewsAction.ADD_FILTER,
+      payload: {
+        modelName,
+        filter1: newFilter1,
+        filter2: newFilter2,
+      },
+    });
+
+    setFilters([
+      ...filters,
+      { filter1: newFilter1, filter2: newFilter2, modelName },
+    ]);
+    setCurrentFilter({
+      field: fields[0] || '',
+      operator: '==',
+      value: '',
+    });
+    setCurrentFilterOR({
+      field: fields[0] || '',
+      operator: '==',
+      value: '',
+    });
+    setHideOR(true);
   };
 
-  const removeFilters = (fieldName: any) => {
+  const removeFilters = () => {
     // Dispatch REMOVE_FILTER action when a filter is removed
     dispatch({
       type: TableViewsAction.REMOVE_FILTER,
-      payload: { modelName, fieldName },
+      payload: { modelName },
     });
     setFilters([]);
   };
@@ -230,9 +215,17 @@ const ModelIndexTableFilter = ({
           {filters.map((filter, index) => (
             // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <div key={index}>
-              {filter.field}
-              {filter.operator}
-              {filter.value}
+              {filter.filter1.field}
+              {filter.filter1.operator}
+              {filter.filter1.value}
+              {filter.filter2.value && (
+                <>
+                  OR
+                  {filter.filter2.field}
+                  {filter.filter2.operator}
+                  {filter.filter2.value}
+                </>
+              )}
             </div>
           ))}
         </Modal.Body>
