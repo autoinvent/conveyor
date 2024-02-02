@@ -3,10 +3,9 @@ import { ReducerAction } from '../types';
 
 export type TableViewSort = string[];
 export interface TableViewFilter {
-  [fieldName: string]: {
-    operator: string;
-    value?: any;
-  };
+  fieldName: string[];
+  operator: string[];
+  value?: any[];
 }
 export interface TableView {
   page?: number;
@@ -96,20 +95,21 @@ export const tableViewsReducer = (
       const { modelName, fieldName, operator, value } = payload;
       const newTableViews = { ...tableViews };
       if (!newTableViews[modelName]) newTableViews[modelName] = {};
-      if (!newTableViews[modelName].filter)
-        newTableViews[modelName].filter = {};
-      const newFilter = newTableViews[modelName].filter ?? {};
-      newFilter[fieldName] = { operator, value };
+      const newFilter = newTableViews[modelName].filter ?? {
+        fieldName,
+        operator,
+        value,
+      };
       newTableViews[modelName].filter = newFilter;
       return newTableViews;
     }
 
     case TableViewsAction.REMOVE_FILTER: {
-      const { modelName, fieldName } = payload;
+      const { modelName } = payload;
       const newTableViews = { ...tableViews };
       const deleteFilter = newTableViews[modelName].filter;
       if (newTableViews[modelName] && deleteFilter) {
-        delete deleteFilter[fieldName];
+        delete newTableViews[modelName];
       }
       return newTableViews;
     }

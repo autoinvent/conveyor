@@ -66,19 +66,26 @@ const ModelIndexTable = ({
     return filters.every(
       (filter: { field: string; operator: string; value?: any }) => {
         const { field, operator, value } = filter;
+        console.log(field);
         // Implement your filtering logic based on the filter condition
         if (value.length > 0) {
+          let itemVal = item[field];
+          if (itemVal === true) {
+            itemVal = 'true';
+          } else if (itemVal === false) {
+            itemVal = 'false';
+          }
           switch (operator) {
             case '==':
-              return item[field].toString() === value;
+              return itemVal.toString() === value;
             case '!=':
-              return item[field].toString() !== value;
+              return itemVal.toString() !== value;
             case '>':
-              return item[field].toString() > value;
+              return itemVal.toString() > value;
             case '<':
-              return item[field].toString() < value;
-            case 'contains':
-              return item[field].toString().includes(value);
+              return itemVal.toString() < value;
+            case ' contains ':
+              return itemVal.toString().includes(value);
             // Add more cases for other operators as needed
             default:
               return true;
