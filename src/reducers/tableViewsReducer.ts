@@ -11,6 +11,8 @@ export interface TableViewFilter {
 export interface TableViewFilterOR {
   filter1: TableViewFilter;
   filter2: TableViewFilter;
+  filter3: TableViewFilter;
+  filter4: TableViewFilter;
 }
 export interface TableView {
   page?: number;
@@ -97,13 +99,15 @@ export const tableViewsReducer = (
       return newTableViews;
     }
     case TableViewsAction.ADD_FILTER: {
-      const { modelName, filter1, filter2 } = payload;
+      const { modelName, filter1, filter2, filter3, filter4 } = payload;
       const newTableViews = { ...tableViews };
       if (!newTableViews[modelName]) newTableViews[modelName] = {};
       return (
         newTableViews[modelName].filter ?? {
           filter1,
           filter2,
+          filter3,
+          filter4,
         }
       );
     }

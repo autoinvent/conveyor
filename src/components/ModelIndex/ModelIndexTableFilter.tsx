@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { BaseProps } from '../../types';
 import { Button, Modal } from 'react-bootstrap';
 import { TableViewsAction } from '../../reducers/tableViewsReducer';
-import { FaPlus } from 'react-icons/fa';
 
 interface ModelIndexTableFilterProps extends BaseProps {
   modelName: string;
@@ -19,18 +18,33 @@ const ModelIndexTableFilter = ({
   setFilters,
   dispatch,
 }: ModelIndexTableFilterProps) => {
+  const blankFilter = {
+    field: fields[0] || '',
+    operator: '==', // Default operator, adjust as needed
+    value: '',
+    not: false,
+  };
   const [currentFilter, setCurrentFilter] = useState({
-    field: fields[0] || '',
-    operator: '==', // Default operator, adjust as needed
-    value: '',
-    not: false,
+    ...blankFilter,
   });
-  const [currentFilterOR, setCurrentFilterOR] = useState({
-    field: fields[0] || '',
-    operator: '==', // Default operator, adjust as needed
-    value: '',
-    not: false,
-  });
+  const [orGroupFilters, setOrGroupFilters] = useState([
+    {
+      ...blankFilter,
+    },
+    {
+      ...blankFilter,
+    },
+    {
+      ...blankFilter,
+    },
+  ]);
+  const handleOrFilterChange = (index: number, updatedFilter: any) => {
+    setOrGroupFilters((prevFilters) => {
+      const newFilters = [...prevFilters];
+      newFilters[index] = updatedFilter;
+      return newFilters;
+    });
+  };
 
   useEffect(() => {
     // Dispatch INIT_FILTERS action when the component mounts
@@ -42,7 +56,9 @@ const ModelIndexTableFilter = ({
 
   const addFilter = () => {
     const newFilter1 = { ...currentFilter };
-    const newFilter2 = { ...currentFilterOR };
+    const newFilter2 = { ...orGroupFilters[0] };
+    const newFilter3 = { ...orGroupFilters[1] };
+    const newFilter4 = { ...orGroupFilters[2] };
 
     dispatch({
       type: TableViewsAction.ADD_FILTER,
@@ -50,25 +66,36 @@ const ModelIndexTableFilter = ({
         modelName,
         filter1: newFilter1,
         filter2: newFilter2,
+        filter3: newFilter3,
+        filter4: newFilter4,
       },
     });
 
     setFilters([
       ...filters,
-      { filter1: newFilter1, filter2: newFilter2, modelName },
+      {
+        filter1: newFilter1,
+        filter2: newFilter2,
+        filter3: newFilter3,
+        filter4: newFilter4,
+        modelName,
+      },
     ]);
     setCurrentFilter({
-      field: fields[0] || '',
-      operator: '==',
-      value: '',
-      not: false,
+      ...blankFilter,
     });
-    setCurrentFilterOR({
-      field: fields[0] || '',
-      operator: '==',
-      value: '',
-      not: false,
-    });
+    setOrGroupFilters([
+      {
+        ...blankFilter,
+      },
+      {
+        ...blankFilter,
+      },
+      {
+        ...blankFilter,
+      },
+    ]);
+
     setHideOR(true);
   };
 
@@ -79,6 +106,7 @@ const ModelIndexTableFilter = ({
       payload: { modelName },
     });
     setFilters([]);
+    setHideOR(true);
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -154,62 +182,74 @@ const ModelIndexTableFilter = ({
         </Modal.Body>
         <span hidden={hideOR} className='ms-1'>
           {/*Filters*/}
-          OR
-          <select
-            className='ms-1'
-            value={currentFilterOR.field}
-            onChange={(e) =>
-              setCurrentFilterOR({ ...currentFilterOR, field: e.target.value })
-            }
-          >
-            {fields.map((field, index) => (
-              // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <option key={index} value={field}>
-                {field}
-              </option>
-            ))}
-          </select>
-          <label>
-            Not
-            <input
-              id='Not'
-              type='checkbox'
-              className='not-checkbox'
-              checked={currentFilterOR.not}
-              onChange={(e) =>
-                setCurrentFilterOR({
-                  ...currentFilterOR,
-                  not: e.target.checked,
-                })
-              }
-            />
-          </label>
-          <select
-            value={currentFilterOR.operator}
-            onChange={(e) =>
-              setCurrentFilterOR({
-                ...currentFilterOR,
-                operator: e.target.value,
-              })
-            }
-          >
-            {/* Add your list of operators here */}
-            <option value='=='>Equals</option>
-            <option value='!='>Not Equal</option>
-            <option value='>'>Greater Than</option>
-            <option value='<'>Less Than</option>
-            <option value=' contains '>Contains</option>
+          {orGroupFilters.map((orFilter, index) => (
+            // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+            <div key={index}>
+              OR
+              <select
+                value={orFilter.field}
+                onChange={(e) =>
+                  handleOrFilterChange(index, {
+                    ...orFilter,
+                    field: e.target.value,
+                  })
+                }
+              >
+                {fields.map((field, fieldIndex) => (
+                  // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                  <option key={fieldIndex} value={field}>
+                    {field}
+                  </option>
+                ))}
+              </select>
 
-            {/* Add more operators as needed */}
-          </select>
-          <input
-            type='input'
-            className='filter-bar'
-            value={currentFilterOR.value}
-            onChange={(e) =>
-              setCurrentFilterOR({ ...currentFilterOR, value: e.target.value })
-            }
-          />
+              <label>
+                Not
+                <input
+                  id={`Not_${index}`}
+                  type='checkbox'
+                  className='not-checkbox'
+                  checked={orFilter.not}
+                  onChange={(e) =>
+                    handleOrFilterChange(index, {
+                      ...orFilter,
+                      not: e.target.checked,
+                    })
+                  }
+                />
+              </label>
+
+              <select
+                value={orFilter.operator}
+                onChange={(e) =>
+                  handleOrFilterChange(index, {
+                    ...orFilter,
+                    operator: e.target.value,
+                  })
+                }
+              >
+                {/* Add your list of operators here */}
+                <option value='=='>Equals</option>
+                <option value='!='>Not Equal</option>
+                <option value='>'>Greater Than</option>
+                <option value='<'>Less Than</option>
+                <option value=' contains '>Contains</option>
+                {/* Add more operators as needed */}
+              </select>
+
+              <input
+                type='input'
+                className='filter-bar'
+                value={orFilter.value}
+                onChange={(e) =>
+                  handleOrFilterChange(index, {
+                    ...orFilter,
+                    value: e.target.value,
+                  })
+                }
+              />
+            </div>
+          ))}
         </span>
         <Modal.Body>
           Active Filters:
@@ -217,10 +257,14 @@ const ModelIndexTableFilter = ({
           {filters.map((filter, index) => (
             // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <div key={index}>
-              {filter.filter1.field}
-              {filter.filter1.not && <> {'NOT'} </>}
-              {filter.filter1.operator}
-              {filter.filter1.value}
+              {filter.filter1.value && (
+                <>
+                  {filter.filter1.field}
+                  {filter.filter1.not && <> {'NOT'} </>}
+                  {filter.filter1.operator}
+                  {filter.filter1.value}
+                </>
+              )}
               {filter.filter2.value && (
                 <>
                   OR
@@ -228,6 +272,24 @@ const ModelIndexTableFilter = ({
                   {filter.filter2.not && <> {'NOT'} </>}
                   {filter.filter2.operator}
                   {filter.filter2.value}
+                </>
+              )}
+              {filter.filter3.value && (
+                <>
+                  OR
+                  {filter.filter3.field}
+                  {filter.filter3.not && <> {'NOT'} </>}
+                  {filter.filter3.operator}
+                  {filter.filter3.value}
+                </>
+              )}
+              {filter.filter4.value && (
+                <>
+                  OR
+                  {filter.filter4.field}
+                  {filter.filter4.not && <> {'NOT'} </>}
+                  {filter.filter4.operator}
+                  {filter.filter4.value}
                 </>
               )}
             </div>

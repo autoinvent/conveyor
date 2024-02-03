@@ -63,10 +63,10 @@ const ModelIndexTable = ({
   const filteredModelListData = modelListData?.filter((item: any) => {
     // Check each filter condition
     return filters.every((filterGroup: any) => {
-      const { filter1, filter2 } = filterGroup;
+      const { filter1, filter2, filter3, filter4 } = filterGroup;
 
       // Implement your filtering logic based on the filter conditions
-      return [filter1, filter2].some((filter: any) => {
+      return [filter1, filter2, filter3, filter4].some((filter: any) => {
         let returnVal = true;
         const { field, operator, value, not } = filter;
         let itemVal = item[field];
