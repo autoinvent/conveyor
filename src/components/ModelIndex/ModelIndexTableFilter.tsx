@@ -24,20 +24,10 @@ const ModelIndexTableFilter = ({
     value: '',
     not: false,
   };
-  const [currentFilter, setCurrentFilter] = useState({
-    ...blankFilter,
-  });
-  const [orGroupFilters, setOrGroupFilters] = useState([
-    {
-      ...blankFilter,
-    },
-    {
-      ...blankFilter,
-    },
-    {
-      ...blankFilter,
-    },
-  ]);
+  const [currentFilter, setCurrentFilter] = useState({ ...blankFilter });
+  const [orGroupFilters, setOrGroupFilters] = useState(
+    Array(3).fill({ ...blankFilter }),
+  );
   const handleOrFilterChange = (index: number, updatedFilter: any) => {
     setOrGroupFilters((prevFilters) => {
       const newFilters = [...prevFilters];
@@ -81,20 +71,8 @@ const ModelIndexTableFilter = ({
         modelName,
       },
     ]);
-    setCurrentFilter({
-      ...blankFilter,
-    });
-    setOrGroupFilters([
-      {
-        ...blankFilter,
-      },
-      {
-        ...blankFilter,
-      },
-      {
-        ...blankFilter,
-      },
-    ]);
+    setCurrentFilter({ ...blankFilter });
+    setOrGroupFilters(Array(3).fill({ ...blankFilter }));
 
     setHideOR(true);
   };
@@ -107,6 +85,22 @@ const ModelIndexTableFilter = ({
     });
     setFilters([]);
     setHideOR(true);
+  };
+
+  const renderFilter = (filter: any, index: number) => {
+    return (
+      <>
+        {filter.value && (
+          <>
+            {index > 0 && ' OR '}
+            {filter.field}
+            {filter.not && <> {'NOT'} </>}
+            {filter.operator}
+            {filter.value}
+          </>
+        )}
+      </>
+    );
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -142,7 +136,6 @@ const ModelIndexTableFilter = ({
               </option>
             ))}
           </select>
-
           <label>
             Not
             <input
@@ -170,7 +163,6 @@ const ModelIndexTableFilter = ({
 
             {/* Add more operators as needed */}
           </select>
-
           <input
             type='input'
             className='filter-bar'
@@ -202,7 +194,6 @@ const ModelIndexTableFilter = ({
                   </option>
                 ))}
               </select>
-
               <label>
                 Not
                 <input
@@ -218,7 +209,6 @@ const ModelIndexTableFilter = ({
                   }
                 />
               </label>
-
               <select
                 value={orFilter.operator}
                 onChange={(e) =>
@@ -236,7 +226,6 @@ const ModelIndexTableFilter = ({
                 <option value=' contains '>Contains</option>
                 {/* Add more operators as needed */}
               </select>
-
               <input
                 type='input'
                 className='filter-bar'
@@ -257,41 +246,10 @@ const ModelIndexTableFilter = ({
           {filters.map((filter, index) => (
             // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <div key={index}>
-              {filter.filter1.value && (
-                <>
-                  {filter.filter1.field}
-                  {filter.filter1.not && <> {'NOT'} </>}
-                  {filter.filter1.operator}
-                  {filter.filter1.value}
-                </>
-              )}
-              {filter.filter2.value && (
-                <>
-                  OR
-                  {filter.filter2.field}
-                  {filter.filter2.not && <> {'NOT'} </>}
-                  {filter.filter2.operator}
-                  {filter.filter2.value}
-                </>
-              )}
-              {filter.filter3.value && (
-                <>
-                  OR
-                  {filter.filter3.field}
-                  {filter.filter3.not && <> {'NOT'} </>}
-                  {filter.filter3.operator}
-                  {filter.filter3.value}
-                </>
-              )}
-              {filter.filter4.value && (
-                <>
-                  OR
-                  {filter.filter4.field}
-                  {filter.filter4.not && <> {'NOT'} </>}
-                  {filter.filter4.operator}
-                  {filter.filter4.value}
-                </>
-              )}
+              {renderFilter(filter.filter1, 0)}
+              {renderFilter(filter.filter2, 1)}
+              {renderFilter(filter.filter3, 2)}
+              {renderFilter(filter.filter4, 3)}
             </div>
           ))}
         </Modal.Body>
