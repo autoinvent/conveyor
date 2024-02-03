@@ -6,6 +6,7 @@ export interface TableViewFilter {
   fieldName: string;
   operator: string;
   value: any;
+  not: any;
 }
 export interface TableViewFilterOR {
   filter1: TableViewFilter;

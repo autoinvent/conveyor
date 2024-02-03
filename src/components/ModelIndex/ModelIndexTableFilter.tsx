@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BaseProps } from '../../types';
 import { Button, Modal } from 'react-bootstrap';
 import { TableViewsAction } from '../../reducers/tableViewsReducer';
+import { FaPlus } from 'react-icons/fa';
 
 interface ModelIndexTableFilterProps extends BaseProps {
   modelName: string;
@@ -22,11 +23,13 @@ const ModelIndexTableFilter = ({
     field: fields[0] || '',
     operator: '==', // Default operator, adjust as needed
     value: '',
+    not: false,
   });
   const [currentFilterOR, setCurrentFilterOR] = useState({
     field: fields[0] || '',
     operator: '==', // Default operator, adjust as needed
     value: '',
+    not: false,
   });
 
   useEffect(() => {
@@ -58,11 +61,13 @@ const ModelIndexTableFilter = ({
       field: fields[0] || '',
       operator: '==',
       value: '',
+      not: false,
     });
     setCurrentFilterOR({
       field: fields[0] || '',
       operator: '==',
       value: '',
+      not: false,
     });
     setHideOR(true);
   };
@@ -110,20 +115,18 @@ const ModelIndexTableFilter = ({
             ))}
           </select>
 
-          {/*
-        <label>
-          Not
-          <input
-            id='Not'
-            type='checkbox'
-            className='not-checkbox'
-            checked={currentFilter.not}
-            onChange={() =>
-              setCurrentFilter({ ...currentFilter, not: !currentFilter.not })
-            }
-          />
-        </label>
-        */}
+          <label>
+            Not
+            <input
+              id='Not'
+              type='checkbox'
+              className='not-checkbox'
+              checked={currentFilter.not}
+              onChange={(e) =>
+                setCurrentFilter({ ...currentFilter, not: e.target.checked })
+              }
+            />
+          </label>
           <select
             value={currentFilter.operator}
             onChange={(e) =>
@@ -166,21 +169,21 @@ const ModelIndexTableFilter = ({
               </option>
             ))}
           </select>
-
-          {/*
-        <label>
-          Not
-          <input
-            id='Not'
-            type='checkbox'
-            className='not-checkbox'
-            checked={currentFilterOR.not}
-            onChange={() =>
-              setCurrentFilterOR({ ...currentFilterOR, not: !currentFilterOR.not })
-            }
-          />
-        </label>
-        */}
+          <label>
+            Not
+            <input
+              id='Not'
+              type='checkbox'
+              className='not-checkbox'
+              checked={currentFilterOR.not}
+              onChange={(e) =>
+                setCurrentFilterOR({
+                  ...currentFilterOR,
+                  not: e.target.checked,
+                })
+              }
+            />
+          </label>
           <select
             value={currentFilterOR.operator}
             onChange={(e) =>
@@ -199,7 +202,6 @@ const ModelIndexTableFilter = ({
 
             {/* Add more operators as needed */}
           </select>
-
           <input
             type='input'
             className='filter-bar'
@@ -216,12 +218,14 @@ const ModelIndexTableFilter = ({
             // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <div key={index}>
               {filter.filter1.field}
+              {filter.filter1.not && <> {'NOT'} </>}
               {filter.filter1.operator}
               {filter.filter1.value}
               {filter.filter2.value && (
                 <>
                   OR
                   {filter.filter2.field}
+                  {filter.filter2.not && <> {'NOT'} </>}
                   {filter.filter2.operator}
                   {filter.filter2.value}
                 </>
@@ -236,7 +240,7 @@ const ModelIndexTableFilter = ({
             variant='primary'
             onClick={() => setHideOR(false)}
           >
-            Make OR Group
+            OR Group
           </Button>
           <Button type='button' variant='success' onClick={addFilter}>
             Add Filter

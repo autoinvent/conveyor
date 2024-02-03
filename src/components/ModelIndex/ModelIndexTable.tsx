@@ -67,7 +67,8 @@ const ModelIndexTable = ({
 
       // Implement your filtering logic based on the filter conditions
       return [filter1, filter2].some((filter: any) => {
-        const { field, operator, value } = filter;
+        let returnVal = true;
+        const { field, operator, value, not } = filter;
         let itemVal = item[field];
 
         if (itemVal === true) {
@@ -78,18 +79,30 @@ const ModelIndexTable = ({
 
         switch (operator) {
           case '==':
-            return itemVal.toString() === value;
+            returnVal = itemVal.toString() === value;
+            break;
           case '!=':
-            return itemVal.toString() !== value;
+            returnVal = itemVal.toString() !== value;
+            break;
           case '>':
-            return itemVal.toString() > value;
+            returnVal = itemVal.toString() > value;
+            break;
           case '<':
-            return itemVal.toString() < value;
+            returnVal = itemVal.toString() < value;
+            break;
           case ' contains ':
-            return itemVal.toString().includes(value);
+            returnVal = itemVal.toString().includes(value);
+            break;
           // Add more cases for other operators as needed
           default:
-            return true;
+            returnVal = true;
+        }
+
+        if (not === true) {
+          // Flip the return value for 'not' condition
+          return !returnVal;
+        } else {
+          return returnVal;
         }
       });
     });
