@@ -27,6 +27,7 @@ export enum TableViewsAction {
   SET_PAGE = 'SET_PAGE',
   ADD_FILTER = 'ADD_FILTER',
   REMOVE_FILTER = 'REMOVE_FILTER',
+  CLEAR_SORTS = 'CLEAR_SORTS',
 }
 
 export const DEFAULT_TABLE_VIEW = {
@@ -88,6 +89,13 @@ export const tableViewsReducer = (
         }
       }
       newTableViews[modelName].sort = newSort;
+      return newTableViews;
+    }
+    case TableViewsAction.CLEAR_SORTS: {
+      const { modelName } = payload;
+      const newTableViews = { ...tableViews };
+      if (!newTableViews[modelName]) newTableViews[modelName] = {};
+      newTableViews[modelName].sort = [];
       return newTableViews;
     }
     case TableViewsAction.SET_PAGE: {

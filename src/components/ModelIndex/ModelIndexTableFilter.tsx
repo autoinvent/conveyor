@@ -87,12 +87,11 @@ const ModelIndexTableFilter = ({
     setHideOR(true);
   };
 
-  const renderFilter = (filter: any, index: number) => {
+  const renderFilter = (filter: any) => {
     return (
       <>
         {filter.value && (
           <>
-            {index > 0 && ' OR '}
             {filter.field}
             {filter.not && <> {'NOT'} </>}
             {filter.operator}
@@ -246,10 +245,22 @@ const ModelIndexTableFilter = ({
           {filters.map((filter, index) => (
             // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <div key={index}>
-              {renderFilter(filter.filter1, 0)}
-              {renderFilter(filter.filter2, 1)}
-              {renderFilter(filter.filter3, 2)}
-              {renderFilter(filter.filter4, 3)}
+              {renderFilter(filter.filter1)}
+              {filter.filter1.value.length > 0 &&
+                filter.filter2.value.length > 0 &&
+                ' OR '}
+              {renderFilter(filter.filter2)}
+              {(filter.filter1.value.length > 0 ||
+                filter.filter2.value.length > 0) &&
+                filter.filter3.value.length > 0 &&
+                ' OR '}
+              {renderFilter(filter.filter3)}
+              {(filter.filter1.value.length > 0 ||
+                filter.filter2.value.length > 0 ||
+                filter.filter3.value.length > 0) &&
+                filter.filter4.value.length > 0 &&
+                ' OR '}
+              {renderFilter(filter.filter4)}
             </div>
           ))}
         </Modal.Body>
