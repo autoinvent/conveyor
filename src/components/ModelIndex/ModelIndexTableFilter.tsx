@@ -25,11 +25,11 @@ const ModelIndexTableFilter = ({
     not: false,
   };
   const [currentFilter, setCurrentFilter] = useState({ ...blankFilter });
-  const [orGroupFilters, setOrGroupFilters] = useState(
+  const [andGroupFilters, setAndGroupFilters] = useState(
     Array(3).fill({ ...blankFilter }),
   );
-  const handleOrFilterChange = (index: number, updatedFilter: any) => {
-    setOrGroupFilters((prevFilters) => {
+  const handleAndFilterChange = (index: number, updatedFilter: any) => {
+    setAndGroupFilters((prevFilters) => {
       const newFilters = [...prevFilters];
       newFilters[index] = updatedFilter;
       return newFilters;
@@ -46,9 +46,9 @@ const ModelIndexTableFilter = ({
 
   const addFilter = () => {
     const newFilter1 = { ...currentFilter };
-    const newFilter2 = { ...orGroupFilters[0] };
-    const newFilter3 = { ...orGroupFilters[1] };
-    const newFilter4 = { ...orGroupFilters[2] };
+    const newFilter2 = { ...andGroupFilters[0] };
+    const newFilter3 = { ...andGroupFilters[1] };
+    const newFilter4 = { ...andGroupFilters[2] };
 
     dispatch({
       type: TableViewsAction.ADD_FILTER,
@@ -72,9 +72,9 @@ const ModelIndexTableFilter = ({
       },
     ]);
     setCurrentFilter({ ...blankFilter });
-    setOrGroupFilters(Array(3).fill({ ...blankFilter }));
+    setAndGroupFilters(Array(3).fill({ ...blankFilter }));
 
-    setHideOR(true);
+    setHideAnd(true);
   };
 
   const removeFilters = () => {
@@ -84,7 +84,7 @@ const ModelIndexTableFilter = ({
       payload: { modelName },
     });
     setFilters([]);
-    setHideOR(true);
+    setHideAnd(true);
   };
 
   const renderFilter = (filter: any) => {
@@ -103,7 +103,7 @@ const ModelIndexTableFilter = ({
   };
 
   const [showModal, setShowModal] = useState(false);
-  const [hideOR, setHideOR] = useState(true);
+  const [hideAnd, setHideAnd] = useState(true);
 
   return (
     <div className='conv-filters'>
@@ -160,7 +160,7 @@ const ModelIndexTableFilter = ({
             <option value='<'>Less Than</option>
             <option value=' contains '>Contains</option>
 
-            {/* Add more operators as needed */}
+            {/* Add mande operators as needed */}
           </select>
           <input
             type='input'
@@ -171,17 +171,17 @@ const ModelIndexTableFilter = ({
             }
           />
         </Modal.Body>
-        <span hidden={hideOR} className='ms-1'>
+        <span hidden={hideAnd} className='ms-1'>
           {/*Filters*/}
-          {orGroupFilters.map((orFilter, index) => (
+          {andGroupFilters.map((andFilter, index) => (
             // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <div key={index}>
-              OR
+              and
               <select
-                value={orFilter.field}
+                value={andFilter.field}
                 onChange={(e) =>
-                  handleOrFilterChange(index, {
-                    ...orFilter,
+                  handleAndFilterChange(index, {
+                    ...andFilter,
                     field: e.target.value,
                   })
                 }
@@ -199,20 +199,20 @@ const ModelIndexTableFilter = ({
                   id={`Not_${index}`}
                   type='checkbox'
                   className='not-checkbox'
-                  checked={orFilter.not}
+                  checked={andFilter.not}
                   onChange={(e) =>
-                    handleOrFilterChange(index, {
-                      ...orFilter,
+                    handleAndFilterChange(index, {
+                      ...andFilter,
                       not: e.target.checked,
                     })
                   }
                 />
               </label>
               <select
-                value={orFilter.operator}
+                value={andFilter.operator}
                 onChange={(e) =>
-                  handleOrFilterChange(index, {
-                    ...orFilter,
+                  handleAndFilterChange(index, {
+                    ...andFilter,
                     operator: e.target.value,
                   })
                 }
@@ -223,15 +223,15 @@ const ModelIndexTableFilter = ({
                 <option value='>'>Greater Than</option>
                 <option value='<'>Less Than</option>
                 <option value=' contains '>Contains</option>
-                {/* Add more operators as needed */}
+                {/* Add mande operators as needed */}
               </select>
               <input
                 type='input'
                 className='filter-bar'
-                value={orFilter.value}
+                value={andFilter.value}
                 onChange={(e) =>
-                  handleOrFilterChange(index, {
-                    ...orFilter,
+                  handleAndFilterChange(index, {
+                    ...andFilter,
                     value: e.target.value,
                   })
                 }
@@ -248,18 +248,18 @@ const ModelIndexTableFilter = ({
               {renderFilter(filter.filter1)}
               {filter.filter1.value.length > 0 &&
                 filter.filter2.value.length > 0 &&
-                ' OR '}
+                ' AND '}
               {renderFilter(filter.filter2)}
               {(filter.filter1.value.length > 0 ||
                 filter.filter2.value.length > 0) &&
                 filter.filter3.value.length > 0 &&
-                ' OR '}
+                ' AND '}
               {renderFilter(filter.filter3)}
               {(filter.filter1.value.length > 0 ||
                 filter.filter2.value.length > 0 ||
                 filter.filter3.value.length > 0) &&
                 filter.filter4.value.length > 0 &&
-                ' OR '}
+                ' AND '}
               {renderFilter(filter.filter4)}
             </div>
           ))}
@@ -269,9 +269,9 @@ const ModelIndexTableFilter = ({
           <Button
             type='button'
             variant='primary'
-            onClick={() => setHideOR(false)}
+            onClick={() => setHideAnd(false)}
           >
-            OR Group
+            and Group
           </Button>
           <Button type='button' variant='success' onClick={addFilter}>
             Add Filter

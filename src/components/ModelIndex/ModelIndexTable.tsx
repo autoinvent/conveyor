@@ -61,48 +61,57 @@ const ModelIndexTable = ({
 
   // Apply filters to the modelListData
   const filteredModelListData = modelListData?.filter((item: any) => {
+    // If there are no filters, return true for all items
+    if (filters.length === 0) {
+      return true;
+    }
+
     // Check each filter condition
-    return filters.every((filterGroup: any) => {
+    return filters.some((filterGroup: any) => {
       const { filter1, filter2, filter3, filter4 } = filterGroup;
 
       // Implement your filtering logic based on the filter conditions
-      return [filter1, filter2, filter3, filter4].some((filter: any) => {
+      return [filter1, filter2, filter3, filter4].every((filter: any) => {
         let returnVal = true;
         const { field, operator, value, not } = filter;
-        let itemVal = item[field];
+        if (value.length > 0) {
+          let itemVal = item[field];
 
-        if (itemVal === true) {
-          itemVal = 'true';
-        } else if (itemVal === false) {
-          itemVal = 'false';
-        }
+          if (itemVal === true) {
+            itemVal = 'true';
+          } else if (itemVal === false) {
+            itemVal = 'false';
+          }
 
-        switch (operator) {
-          case '==':
-            returnVal = itemVal.toString() === value;
-            break;
-          case '!=':
-            returnVal = itemVal.toString() !== value;
-            break;
-          case '>':
-            returnVal = itemVal.toString() > value;
-            break;
-          case '<':
-            returnVal = itemVal.toString() < value;
-            break;
-          case ' contains ':
-            returnVal = itemVal.toString().includes(value);
-            break;
-          // Add more cases for other operators as needed
-          default:
-            returnVal = true;
-        }
+          switch (operator) {
+            case '==':
+              returnVal = itemVal.toString() === value;
+              break;
+            case '!=':
+              returnVal = itemVal.toString() !== value;
+              break;
+            case '>':
+              returnVal = itemVal.toString() > value;
+              break;
+            case '<':
+              returnVal = itemVal.toString() < value;
+              break;
+            case ' contains ':
+              returnVal = itemVal.toString().includes(value);
+              break;
+            // Add more cases for other operators as needed
+            default:
+              returnVal = true;
+          }
 
-        if (not === true) {
-          // Flip the return value for 'not' condition
-          return !returnVal;
+          if (not === true) {
+            // Flip the return value for 'not' condition
+            return !returnVal;
+          } else {
+            return returnVal;
+          }
         } else {
-          return returnVal;
+          return true;
         }
       });
     });
