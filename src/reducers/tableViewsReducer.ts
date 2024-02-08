@@ -8,11 +8,8 @@ export interface TableViewFilter {
   value: any;
   not: any;
 }
-export interface TableViewFilterOR {
-  filter1: TableViewFilter;
-  filter2: TableViewFilter;
-  filter3: TableViewFilter;
-  filter4: TableViewFilter;
+export interface TableViewFilterGroup {
+  filters: TableViewFilter[];
 }
 export interface TableView {
   page?: number;
@@ -107,26 +104,19 @@ export const tableViewsReducer = (
       return newTableViews;
     }
     case TableViewsAction.ADD_FILTER: {
-      const { modelName, filter1, filter2, filter3, filter4 } = payload;
+      const { modelName, filters } = payload;
       const newTableViews = { ...tableViews };
-      if (!newTableViews[modelName]) newTableViews[modelName] = {};
-      return (
-        newTableViews[modelName].filter ?? {
-          filter1,
-          filter2,
-          filter3,
-          filter4,
-        }
-      );
+      if (!newTableViews[modelName]) {
+        newTableViews[modelName] = {};
+      }
+      newTableViews[modelName].filter = filters; // Assuming filters is an array of TableViewFilter objects
+      return newTableViews;
     }
-
     case TableViewsAction.REMOVE_FILTER: {
       const { modelName } = payload;
       const newTableViews = { ...tableViews };
-      const deleteFilter = newTableViews[modelName].filter;
-      if (newTableViews[modelName] && deleteFilter) {
-        delete newTableViews[modelName];
-      }
+      // rome-ignore lint/performance/noDelete: <explanation>
+      delete newTableViews[modelName]?.filter;
       return newTableViews;
     }
 

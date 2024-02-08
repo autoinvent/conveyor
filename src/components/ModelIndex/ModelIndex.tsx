@@ -44,10 +44,7 @@ const ModelIndex = ({
   const { dispatch } = useTableView({ modelName });
   const [filters, setFilters] = useState<
     {
-      filter1: TableViewFilter;
-      filter2: TableViewFilter;
-      filter3: TableViewFilter;
-      filter4: TableViewFilter;
+      filters: TableViewFilter[];
       modelName: string;
     }[]
   >([]); // State to manage filters

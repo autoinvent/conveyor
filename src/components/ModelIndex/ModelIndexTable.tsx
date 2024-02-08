@@ -67,14 +67,14 @@ const ModelIndexTable = ({
     }
 
     // Check each filter condition
-    return filters.some((filterGroup: any) => {
-      const { filter1, filter2, filter3, filter4 } = filterGroup;
-
-      // Implement your filtering logic based on the filter conditions
-      return [filter1, filter2, filter3, filter4].every((filter: any) => {
+    return filters.every((filterGroup: any) => {
+      // Extract the andFilterGroup from filterGroup
+      const andFilterGroup = filterGroup.filters;
+      // Implement your filtering logic based on the filter conditions in andFilterGroup
+      return andFilterGroup.every((filter: any) => {
         let returnVal = true;
         const { field, operator, value, not } = filter;
-        if (value.length > 0) {
+        if (value?.length > 0) {
           let itemVal = item[field];
 
           if (itemVal === true) {
