@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 import { BaseProps } from '../../types';
 import { Button, Modal, Tab, Table, Tabs } from 'react-bootstrap';
 import { TableViewsAction } from '../../reducers/tableViewsReducer';
@@ -26,8 +26,9 @@ const ModelIndexTableFilter = ({
   };
   const [currentFilter, setCurrentFilter] = useState({ ...blankFilter });
   const [andGroupFilters, setAndGroupFilters] = useState([{}]);
-  const [showFilterGroupTab, setShowFilterGroupTab] = useState(false); // State variable to control visibility of the filter group tab
-  const [totalFilterGroup, setTotalFilterGroup] = useState([[{}]]);
+  const [filterGroups, setFilterGroups] = useState([{ filters: [{}] }]);
+  const [activeTab, setActiveTab] = useState('filters');
+
   const handleAndFilterChange = (index: number, updatedFilter: any) => {
     setAndGroupFilters((prevFilters) => {
       const newFilters = [...prevFilters];
@@ -45,16 +46,23 @@ const ModelIndexTableFilter = ({
 
   const addFilter = () => {
     const newFilter = { ...currentFilter };
-    const updatedAndGroupFilters = [...andGroupFilters, newFilter]; // Update andGroupFilters
-    setAndGroupFilters(updatedAndGroupFilters); // Update state
-    const totalFilters = [...totalFilterGroup, updatedAndGroupFilters]
-    setTotalFilterGroup(totalFilters);
+    const updatedAndGroupFilters = [...andGroupFilters, newFilter];
+
+    // Copy the existing totalFilterGroups and add the new filters to the last group
+    const updatedTotalFilterGroups = [...filterGroups];
+    updatedTotalFilterGroups[updatedTotalFilterGroups.length - 1] = {
+      filters: updatedAndGroupFilters,
+    };
+    setFilterGroups(updatedTotalFilterGroups);
+
+    // Create a new empty filter group and add it to totalFilterGroups
+    setFilterGroups((prevGroups) => [...prevGroups, { filters: [{}] }]);
 
     dispatch({
       type: TableViewsAction.ADD_FILTER,
       payload: {
         modelName,
-        filters: updatedAndGroupFilters, // Pass updated andGroupFilters to the payload
+        filters: updatedAndGroupFilters,
       },
     });
 
@@ -65,8 +73,6 @@ const ModelIndexTableFilter = ({
         modelName,
       },
     ]);
-    setCurrentFilter({ ...blankFilter });
-    setShowFilterGroupTab(true);
   };
 
   const saveFilterGroup = () => {
@@ -78,12 +84,12 @@ const ModelIndexTableFilter = ({
       type: TableViewsAction.ADD_FILTER,
       payload: {
         modelName,
-        filters: totalFilterGroup,
+        filters: filterGroups[filterGroups.length - 1],
       },
     });
     setFilters([
       {
-        filters: totalFilterGroup,
+        filters: filterGroups[filterGroups.length - 1],
         modelName,
       },
     ]);
@@ -95,10 +101,15 @@ const ModelIndexTableFilter = ({
       payload: { modelName },
     });
     setFilters([]);
-    setCurrentFilter({ ...blankFilter }); // Reset current filter to default
-    setAndGroupFilters([]); // Reset andGroupFilters to default
-    setShowFilterGroupTab(false);
-    setTotalFilterGroup([[{}]]);
+    setCurrentFilter({ ...blankFilter });
+    setAndGroupFilters([]);
+    setFilterGroups([{ filters: [{}] }]);
+  };
+
+  const handleAddFilterToGroup = (groupIndex: number) => {
+    const updatedFilters = [...filters];
+    updatedFilters[groupIndex].filters.push({ ...currentFilter });
+    setFilters(updatedFilters);
   };
 
   const renderFilter = (filter: any, index: number) => {
@@ -114,7 +125,6 @@ const ModelIndexTableFilter = ({
             value={filter.field}
             onChange={(e) => handleChange('field', e.target.value)}
           >
-            {/* Options for filter field */}
             {fields.map((field, idx) => (
               // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               <option key={idx} value={field}>
@@ -171,6 +181,29 @@ const ModelIndexTableFilter = ({
     );
   };
 
+  const renderTabs = () => {
+    return filterGroups.map((group: any, index: number) => (
+      <Tab
+        // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+        key={index}
+        eventKey={`filter${index}`}
+        title={`Filter ${index + 1}`}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Create a Filter: </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {group.filters.map((filter: any, filterIndex: number) =>
+            renderFilter(filter, filterIndex),
+          )}
+          <Button onClick={() => handleAddFilterToGroup(index)}>
+            Add Filter to Group
+          </Button>
+        </Modal.Body>
+      </Tab>
+    ));
+  };
+
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -183,7 +216,7 @@ const ModelIndexTableFilter = ({
         Filters
       </Button>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Tabs defaultActiveKey='filters' id='filter-tabs'>
+        <Tabs activeKey={activeTab} onSelect={(key: any) => setActiveTab(key)}>
           <Tab eventKey='filters' title='Filters'>
             <Modal.Header closeButton>
               <Modal.Title>Create a Filter: </Modal.Title>
@@ -253,15 +286,7 @@ const ModelIndexTableFilter = ({
               </Button>
             </Modal.Footer>
           </Tab>
-          <Tab title='filter1' eventKey='filter1' hidden={!showFilterGroupTab}>
-            <Modal.Header closeButton>
-              <Modal.Title>Create a Filter: </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {renderFiltersTable()}
-              <Button onClick={saveFilterGroup}>Save</Button>
-            </Modal.Body>
-          </Tab>
+          {renderTabs()}
         </Tabs>
       </Modal>
     </div>
