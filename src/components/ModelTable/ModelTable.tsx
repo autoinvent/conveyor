@@ -18,6 +18,8 @@ interface ModelTableProps extends BaseProps {
   fieldsData?: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
+  setSorts?: any;
+  sorts: any[];
 }
 
 const ModelTable = ({
@@ -29,21 +31,13 @@ const ModelTable = ({
   fieldsData,
   editable = true,
   deletable = true,
+  setSorts,
+  sorts,
 }: ModelTableProps) => {
   const showCrud = editable || deletable;
   const memoDataList = useMemo(() => dataList, [JSON.stringify(dataList)]);
   const { primaryKey } = useContext(ConveyorContext);
   const { dispatch } = useTableView({ modelName });
-  const [sorts, setSorts] = useState<
-    {
-      direction: SortDirection;
-      field: string;
-    }[]
-  >([]);
-  useEffect(() => {
-    // Save filters and sorts to local storage when they change
-    localStorage.setItem(`${modelName}_filters`, JSON.stringify(sorts));
-  }, [sorts, modelName]);
   const resetSort = () => {
     dispatch({
       type: TableViewsAction.CLEAR_SORTS,
@@ -63,6 +57,7 @@ const ModelTable = ({
                 modelName={modelName}
                 field={field}
                 displayLabelFn={displayLabelFn}
+                sortable={true}
                 sorts={sorts}
                 setSorts={setSorts}
               />

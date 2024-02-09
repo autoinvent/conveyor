@@ -1,7 +1,8 @@
-import { Key, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BaseProps } from '../../types';
-import { Button, Modal, Tab, Table, Tabs } from 'react-bootstrap';
+import { Button, Modal, Tab, Tabs } from 'react-bootstrap';
 import { TableViewsAction } from '../../reducers/tableViewsReducer';
+import { FaPlus, FaRegTrashAlt } from 'react-icons/fa';
 
 interface ModelIndexTableFilterProps extends BaseProps {
   modelName: string;
@@ -9,6 +10,7 @@ interface ModelIndexTableFilterProps extends BaseProps {
   filters: any[];
   setFilters: any;
   dispatch: any;
+  setSorts: any;
 }
 
 const ModelIndexTableFilter = ({
@@ -17,6 +19,7 @@ const ModelIndexTableFilter = ({
   filters,
   setFilters,
   dispatch,
+  setSorts,
 }: ModelIndexTableFilterProps) => {
   const blankFilter = {
     field: fields[0] || '',
@@ -25,16 +28,27 @@ const ModelIndexTableFilter = ({
     not: false,
   };
   const [currentFilter, setCurrentFilter] = useState({ ...blankFilter });
-  const [andGroupFilters, setAndGroupFilters] = useState([{}]);
-  const [filterGroups, setFilterGroups] = useState([{ filters: [{}] }]);
+  const [andGroupFilters, setAndGroupFilters] = useState([{ ...blankFilter }]);
   const [activeTab, setActiveTab] = useState('filters');
 
-  const handleAndFilterChange = (index: number, updatedFilter: any) => {
-    setAndGroupFilters((prevFilters) => {
-      const newFilters = [...prevFilters];
-      newFilters[index] = updatedFilter;
-      return newFilters;
+  const handleAndFilterChange = (
+    groupIndex: number,
+    filterIndex: number,
+    updatedFilter: any,
+    deleted: boolean,
+  ) => {
+    setFilters((prevGroups: any) => {
+      const newGroups = [...prevGroups];
+      newGroups[groupIndex].filters[filterIndex] = updatedFilter;
+      return newGroups;
     });
+    if (deleted) {
+      setFilters((prevGroups: any) => {
+        const newGroups = [...prevGroups];
+        newGroups[groupIndex].filters.splice(filterIndex, 1);
+        return newGroups;
+      });
+    }
   };
 
   useEffect(() => {
@@ -46,17 +60,7 @@ const ModelIndexTableFilter = ({
 
   const addFilter = () => {
     const newFilter = { ...currentFilter };
-    const updatedAndGroupFilters = [...andGroupFilters, newFilter];
-
-    // Copy the existing totalFilterGroups and add the new filters to the last group
-    const updatedTotalFilterGroups = [...filterGroups];
-    updatedTotalFilterGroups[updatedTotalFilterGroups.length - 1] = {
-      filters: updatedAndGroupFilters,
-    };
-    setFilterGroups(updatedTotalFilterGroups);
-
-    // Create a new empty filter group and add it to totalFilterGroups
-    setFilterGroups((prevGroups) => [...prevGroups, { filters: [{}] }]);
+    const updatedAndGroupFilters = [newFilter];
 
     dispatch({
       type: TableViewsAction.ADD_FILTER,
@@ -73,26 +77,8 @@ const ModelIndexTableFilter = ({
         modelName,
       },
     ]);
-  };
-
-  const saveFilterGroup = () => {
-    dispatch({
-      type: TableViewsAction.REMOVE_FILTER,
-      payload: { modelName },
-    });
-    dispatch({
-      type: TableViewsAction.ADD_FILTER,
-      payload: {
-        modelName,
-        filters: filterGroups[filterGroups.length - 1],
-      },
-    });
-    setFilters([
-      {
-        filters: filterGroups[filterGroups.length - 1],
-        modelName,
-      },
-    ]);
+    setAndGroupFilters([{ ...blankFilter }]);
+    setCurrentFilter({ ...blankFilter });
   };
 
   const removeFilters = () => {
@@ -102,24 +88,40 @@ const ModelIndexTableFilter = ({
     });
     setFilters([]);
     setCurrentFilter({ ...blankFilter });
-    setAndGroupFilters([]);
-    setFilterGroups([{ filters: [{}] }]);
+    setAndGroupFilters([{ ...currentFilter }]);
   };
 
   const handleAddFilterToGroup = (groupIndex: number) => {
     const updatedFilters = [...filters];
-    updatedFilters[groupIndex].filters.push({ ...currentFilter });
+    updatedFilters[groupIndex].filters.push({ ...blankFilter });
     setFilters(updatedFilters);
   };
+  const handleRemoveGroup = (groupIndex: number) => {
+    const updatedFilters = [...filters];
+    updatedFilters.splice(groupIndex, 1);
+    setFilters(updatedFilters);
+  };
+  const resetSort = () => {
+    dispatch({
+      type: TableViewsAction.CLEAR_SORTS,
+      payload: { modelName },
+    });
+    setSorts([]);
+  };
 
-  const renderFilter = (filter: any, index: number) => {
+  const renderFilter = (filter: any, index: number, groupIndex: number) => {
     const handleChange = (key: any, value: any) => {
       const updatedFilter = { ...filter, [key]: value };
-      handleAndFilterChange(index, updatedFilter);
+      handleAndFilterChange(groupIndex, index, updatedFilter, false);
+    };
+
+    const handleDeleteClick = (input: any) => {
+      handleAndFilterChange(groupIndex, index, input, true);
     };
 
     return (
-      <tr key={index}>
+      <tr key={`filter_${index}`}>
+        {/* Assign a unique key */}
         <td>
           <select
             value={filter.field}
@@ -134,10 +136,12 @@ const ModelIndexTableFilter = ({
           </select>
         </td>
         <td>
+          {'Not'}
           <input
             type='checkbox'
             checked={filter.not}
             onChange={(e) => handleChange('not', e.target.checked)}
+            className='not-checkbox'
           />
         </td>
         <td>
@@ -156,52 +160,74 @@ const ModelIndexTableFilter = ({
           <input
             type='text'
             value={filter.value}
+            className='filter-bar'
             onChange={(e) => handleChange('value', e.target.value)}
           />
+        </td>
+        <td>
+          <Button
+            variant='danger'
+            onClick={(e) => {
+              handleDeleteClick(e);
+            }}
+          >
+            {<FaRegTrashAlt />}
+          </Button>
         </td>
       </tr>
     );
   };
 
-  const renderFiltersTable = () => {
+  const renderFiltersTable = (
+    filter: any,
+    filterIndex: number,
+    groupIndex: number,
+  ) => {
     return (
       <table>
         <thead>
           <tr>
-            <th>Field</th>
-            <th>Not</th>
-            <th>Operator</th>
-            <th>Value</th>
+            <th align='center' title='Field' />
+            <th align='center' title='Not' />
+            <th align='center' title='Operator' />
+            <th align='center' title='Value' />
           </tr>
         </thead>
-        <tbody>
-          {andGroupFilters.map((filter, index) => renderFilter(filter, index))}
-        </tbody>
+        <tbody>{renderFilter(filter, filterIndex, groupIndex)}</tbody>
       </table>
     );
   };
 
   const renderTabs = () => {
-    return filterGroups.map((group: any, index: number) => (
-      <Tab
-        // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-        key={index}
-        eventKey={`filter${index}`}
-        title={`Filter ${index + 1}`}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Create a Filter: </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {group.filters.map((filter: any, filterIndex: number) =>
-            renderFilter(filter, filterIndex),
-          )}
-          <Button onClick={() => handleAddFilterToGroup(index)}>
-            Add Filter to Group
-          </Button>
-        </Modal.Body>
-      </Tab>
-    ));
+    return filters
+      .filter((index) => index !== filters.length)
+      .map((group: any, index: number) => (
+        <Tab
+          key={`filterGroup${index}`}
+          eventKey={`filterGroup${index}`}
+          title={`FilterGroup ${index + 1}`}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Filter Group: </Modal.Title>
+          </Modal.Header>
+          <Modal.Body key={`filterGroup${index}`}>
+            {group.filters.map((filter: any, filterIndex: number) =>
+              renderFiltersTable(filter, filterIndex, index),
+            )}
+            <Button
+              variant='info'
+              onClick={() => handleAddFilterToGroup(index)}
+            >
+              <FaPlus />
+            </Button>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant='warning' onClick={() => handleRemoveGroup(index)}>
+              Delete Group
+            </Button>
+          </Modal.Footer>
+        </Tab>
+      ));
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -273,16 +299,21 @@ const ModelIndexTableFilter = ({
                   setCurrentFilter({ ...currentFilter, value: e.target.value })
                 }
               />
+              <Button
+                className='ms-1'
+                type='button'
+                variant='success'
+                onClick={addFilter}
+              >
+                <FaPlus />
+              </Button>
             </Modal.Body>
             <Modal.Footer>
-              <Button type='button' variant='success' onClick={addFilter}>
-                Add Filter
-              </Button>
               <Button variant='warning' type='button' onClick={removeFilters}>
                 Reset Filters
               </Button>
-              <Button variant='secondary' onClick={() => setShowModal(false)}>
-                Close
+              <Button variant='secondary' onClick={resetSort}>
+                Reset Sorts
               </Button>
             </Modal.Footer>
           </Tab>

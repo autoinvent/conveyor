@@ -6,6 +6,7 @@ import { useTableView } from '../../hooks/useTableView';
 import { PACKAGE_ABBR } from '../../package';
 import {
   DEFAULT_TABLE_VIEW,
+  SortDirection,
   TableViewFilter,
 } from '../../reducers/tableViewsReducer';
 import { BaseProps, FieldData } from '../../types';
@@ -54,6 +55,17 @@ const ModelIndex = ({
     localStorage.setItem(`${modelName}_filters`, JSON.stringify(filters));
   }, [filters, modelName]);
 
+  const [sorts, setSorts] = useState<
+    {
+      direction: SortDirection;
+      field: string;
+    }[]
+  >([]);
+  useEffect(() => {
+    // Save filters and sorts to local storage when they change
+    localStorage.setItem(`${modelName}_filters`, JSON.stringify(sorts));
+  }, [sorts, modelName]);
+
   return (
     <Container id={id} className={className}>
       {children ?? (
@@ -66,6 +78,7 @@ const ModelIndex = ({
               fields={fields}
               filters={filters}
               setFilters={setFilters}
+              setSorts={setSorts}
               dispatch={dispatch}
             />
             <ModelNav modelName={modelName} modelId={Page.CREATE}>
@@ -79,6 +92,8 @@ const ModelIndex = ({
             editable={editable}
             deletable={deletable}
             filters={filters}
+            setSorts={setSorts}
+            sorts={sorts}
           />
         </>
       )}

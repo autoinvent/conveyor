@@ -16,6 +16,8 @@ interface ModelIndexTableProps extends BaseProps {
   editable?: boolean;
   deletable?: boolean;
   filters?: any;
+  setSorts?: any;
+  sorts: any[];
 }
 
 const ModelIndexTable = ({
@@ -27,6 +29,8 @@ const ModelIndexTable = ({
   editable,
   deletable,
   filters,
+  setSorts,
+  sorts,
 }: ModelIndexTableProps) => {
   const { tableView } = useTableView({ modelName });
   const { primaryKey } = useContext(ConveyorContext);
@@ -67,7 +71,7 @@ const ModelIndexTable = ({
     }
 
     // Check each filter condition
-    return filters.every((filterGroup: any) => {
+    return filters.some((filterGroup: any) => {
       // Extract the andFilterGroup from filterGroup
       const andFilterGroup = filterGroup.filters;
       // Implement your filtering logic based on the filter conditions in andFilterGroup
@@ -130,6 +134,8 @@ const ModelIndexTable = ({
         dataList={filteredModelListData}
         editable={editable}
         deletable={deletable}
+        setSorts={setSorts}
+        sorts={sorts}
       />
       <ModelTablePagination
         modelName={modelName}

@@ -25,9 +25,10 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
   className,
   modelName,
   field,
-  setSorts,
   displayLabelFn = humanizeText,
-  sortable = true,
+  sortable,
+  sorts,
+  setSorts,
 }) => {
   const { tableView, dispatch } = useTableView({ modelName });
   const sortDir = getSortDir(tableView?.sort ?? [], field);
@@ -53,14 +54,11 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
         type: TableViewsAction.NEXT_SORT,
         payload: { modelName, fieldName: field },
       });
-      setSorts((sorts: any) => [
-        ...sorts,
-        { direction: sortDir, field: field },
-      ]);
+      setSorts(() => [...sorts, { direction: sortDir, field }]);
     }
   };
   return (
-    /* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */
+    // rome-ignore lint/a11y/useKeyWithClickEvents: TODO?
     <th id={id} className={className} onClick={handleSort}>
       {displayLabelFn(field)}
       {sortable && (
