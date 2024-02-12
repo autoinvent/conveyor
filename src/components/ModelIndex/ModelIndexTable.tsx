@@ -86,22 +86,29 @@ const ModelIndexTable = ({
           } else if (itemVal === false) {
             itemVal = 'false';
           }
+          itemVal = itemVal.toString();
 
           switch (operator) {
             case '==':
-              returnVal = itemVal.toString() === value;
+              returnVal = itemVal === value;
               break;
             case '!=':
-              returnVal = itemVal.toString() !== value;
+              returnVal = itemVal !== value;
               break;
             case '>':
-              returnVal = itemVal.toString() > value;
+              returnVal = itemVal > value;
               break;
             case '<':
-              returnVal = itemVal.toString() < value;
+              returnVal = itemVal < value;
               break;
-            case ' contains ':
-              returnVal = itemVal.toString().includes(value);
+            case '>=':
+              returnVal = itemVal === value || itemVal > value;
+              break;
+            case '=<':
+              returnVal = itemVal === value || itemVal < value;
+              break;
+            case 'contains':
+              returnVal = itemVal.includes(value);
               break;
             // Add more cases for other operators as needed
             default:

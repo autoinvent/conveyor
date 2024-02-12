@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { BaseProps } from '../../types';
-import { Button, Modal, Tab, Tabs } from 'react-bootstrap';
+import { BaseProps, FieldData } from '../../types';
+import { Button, Modal, Row, Tab, Tabs } from 'react-bootstrap';
 import { TableViewsAction } from '../../reducers/tableViewsReducer';
 import { FaPlus, FaRegTrashAlt } from 'react-icons/fa';
 
@@ -109,6 +109,34 @@ const ModelIndexTableFilter = ({
     setSorts([]);
   };
 
+  const renderOperatorOptions = () => {
+    return (
+      <>
+        <option key='Equals' value='=='>
+          Equals
+        </option>
+        <option key='Not' value='!='>
+          Not Equal
+        </option>
+        <option key='Greater' value='>'>
+          Greater Than
+        </option>
+        <option key='Less' value='<'>
+          Less Than
+        </option>
+        <option key='GEQ' value='>='>
+          GEQ
+        </option>
+        <option key='LEQ' value='=<'>
+          LEQ
+        </option>
+        <option key='Contains' value='contains'>
+          Contains
+        </option>
+      </>
+    );
+  };
+
   const renderFilter = (filter: any, index: number, groupIndex: number) => {
     const handleChange = (key: any, value: any) => {
       const updatedFilter = { ...filter, [key]: value };
@@ -125,7 +153,9 @@ const ModelIndexTableFilter = ({
         <td>
           <select
             value={filter.field}
-            onChange={(e) => handleChange('field', e.target.value)}
+            onChange={(e) => {
+              handleChange('field', e.target.value);
+            }}
           >
             {fields.map((field, idx) => (
               // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
@@ -149,11 +179,7 @@ const ModelIndexTableFilter = ({
             value={filter.operator}
             onChange={(e) => handleChange('operator', e.target.value)}
           >
-            <option value='=='>Equals</option>
-            <option value='!='>Not Equal</option>
-            <option value='>'>Greater Than</option>
-            <option value='<'>Less Than</option>
-            <option value='contains'>Contains</option>
+            {renderOperatorOptions()}
           </select>
         </td>
         <td>
@@ -210,9 +236,9 @@ const ModelIndexTableFilter = ({
           <Modal.Header closeButton>
             <Modal.Title>Edit Filter Group: </Modal.Title>
           </Modal.Header>
-          <Modal.Body key={`filterGroup${index}`}>
+          <Modal.Body>
             {group.filters.map((filter: any, filterIndex: number) =>
-              renderFiltersTable(filter, filterIndex, index),
+              <Row key={`filterGroup${index}-${filterIndex}`}>{renderFiltersTable(filter, filterIndex, index)}</Row>
             )}
             <Button
               variant='info'
@@ -222,7 +248,10 @@ const ModelIndexTableFilter = ({
             </Button>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant='warning' onClick={() => handleRemoveGroup(index)}>
+            <Button
+              variant='outline-danger'
+              onClick={() => handleRemoveGroup(index)}
+            >
               Delete Group
             </Button>
           </Modal.Footer>
@@ -285,11 +314,8 @@ const ModelIndexTableFilter = ({
                   })
                 }
               >
-                <option value='=='>Equals</option>
-                <option value='!='>Not Equal</option>
-                <option value='>'>Greater Than</option>
-                <option value='<'>Less Than</option>
-                <option value='contains'>Contains</option>
+                {/* Render operator options based on field type */}
+                {renderOperatorOptions()}
               </select>
               <input
                 type='input'
@@ -309,10 +335,14 @@ const ModelIndexTableFilter = ({
               </Button>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant='warning' type='button' onClick={removeFilters}>
+              <Button
+                variant='outline-warning'
+                type='button'
+                onClick={removeFilters}
+              >
                 Reset Filters
               </Button>
-              <Button variant='secondary' onClick={resetSort}>
+              <Button variant='outline-light' onClick={resetSort}>
                 Reset Sorts
               </Button>
             </Modal.Footer>
