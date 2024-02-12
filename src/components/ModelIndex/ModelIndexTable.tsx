@@ -79,42 +79,191 @@ const ModelIndexTable = ({
         let returnVal = true;
         const { field, operator, value, not } = filter;
         if (value?.length > 0) {
-          let itemVal = item[field];
-
-          if (itemVal === true) {
-            itemVal = 'true';
-          } else if (itemVal === false) {
-            itemVal = 'false';
-          }
-          itemVal = itemVal.toString();
+          const itemVal = item[field];
 
           switch (operator) {
             case '==':
-              returnVal = itemVal === value;
+              returnVal = itemVal === Number(value);
               break;
             case '!=':
-              returnVal = itemVal !== value;
+              returnVal = itemVal !== Number(value);
               break;
             case '>':
-              returnVal = itemVal > value;
+              returnVal = itemVal > Number(value);
               break;
             case '<':
-              returnVal = itemVal < value;
+              returnVal = itemVal < Number(value);
               break;
             case '>=':
-              returnVal = itemVal === value || itemVal > value;
+              returnVal = itemVal === Number(value) || itemVal > Number(value);
               break;
             case '=<':
-              returnVal = itemVal === value || itemVal < value;
+              returnVal = itemVal === Number(value) || itemVal < Number(value);
               break;
-            case 'contains':
+            case 'Equals':
+              returnVal = itemVal === value;
+              break;
+            case 'NEQ':
+              returnVal = itemVal !== value;
+              break;
+            case 'Contains':
               returnVal = itemVal.includes(value);
+              break;
+            case 'Exists': {
+              const isWhitespaceString = (str: string) => !/\S/.test(str);
+              if (
+                !isWhitespaceString(itemVal) &&
+                (value.toLowerCase() === 'true' ||
+                  value === '1' ||
+                  value.toLowerCase() === 'on')
+              ) {
+                returnVal = true;
+              } else if (
+                isWhitespaceString(itemVal) &&
+                (value.toLowerCase() === 'false' ||
+                  value === '0' ||
+                  value.toLowerCase() === 'off')
+              ) {
+                returnVal = true;
+              } else {
+                return false;
+              }
+              break;
+            }
+            case 'DNE': {
+              const isWhitespaceString = (str: string) => !/\S/.test(str);
+              if (
+                isWhitespaceString(itemVal) &&
+                (value.toLowerCase() === 'true' ||
+                  value === '1' ||
+                  value.toLowerCase() === 'on')
+              ) {
+                returnVal = true;
+              } else if (
+                !isWhitespaceString(itemVal) &&
+                (value.toLowerCase() === 'false' ||
+                  value === '0' ||
+                  value.toLowerCase() === 'off')
+              ) {
+                returnVal = true;
+              } else {
+                return false;
+              }
+              break;
+            }
+            case 'Before': {
+              const date = new Date(value);
+              const itemDate = new Date(itemVal);
+              if (date.toString() !== 'Invalid Date') {
+                returnVal = itemDate.toISOString() < date.toISOString();
+              } else {
+                returnVal = true;
+              }
+              console.log(date.toString());
+              break;
+            }
+            case 'After': {
+              const date = new Date(value);
+              const itemDate = new Date(itemVal);
+              if (date.toString() !== 'Invalid Date') {
+                returnVal = itemDate.toISOString() > date.toISOString();
+              } else {
+                returnVal = true;
+              }
+              break;
+            }
+            case 'On': {
+              const date = new Date(value);
+              const itemDate = new Date(itemVal);
+              if (date.toString() !== 'Invalid Date') {
+                if (itemDate.toDateString() === date.toDateString()) {
+                  returnVal = true;
+                } else {
+                  returnVal = false;
+                }
+              } else {
+                returnVal = true;
+              }
+              break;
+            }
+            case 'NotOn': {
+              const date = new Date(value);
+              const itemDate = new Date(itemVal);
+              if (date.toString() !== 'Invalid Date') {
+                if (itemDate.toDateString() === date.toDateString()) {
+                  returnVal = false;
+                } else {
+                  returnVal = true;
+                }
+              } else {
+                returnVal = true;
+              }
+              break;
+            }
+            case 'Is':
+              if (
+                itemVal &&
+                (value.toLowerCase() === 'true' ||
+                  value === '1' ||
+                  value.toLowerCase() === 'on')
+              ) {
+                returnVal = true;
+              } else if (
+                !itemVal &&
+                (value.toLowerCase() === 'false' ||
+                  value === '0' ||
+                  value.toLowerCase() === 'off')
+              ) {
+                returnVal = true;
+              } else {
+                returnVal = false;
+              }
+              break;
+            case 'IsNot':
+              if (
+                itemVal &&
+                (value.toLowerCase() === 'true' ||
+                  value === '1' ||
+                  value.toLowerCase() === 'on')
+              ) {
+                returnVal = false;
+              } else if (
+                !itemVal &&
+                (value.toLowerCase() === 'false' ||
+                  value === '0' ||
+                  value.toLowerCase() === 'off')
+              ) {
+                returnVal = false;
+              } else {
+                returnVal = true;
+              }
               break;
             // Add more cases for other operators as needed
             default:
               returnVal = true;
           }
-
+          if (not === true) {
+            // Flip the return value for 'not' condition
+            return !returnVal;
+          } else {
+            return returnVal;
+          }
+        // Support Exists/DNE case even if input length is 0
+        } else if(operator === 'Exists' || operator === 'DNE') {
+          const isWhitespaceString = (str: string) => !/\S/.test(str);
+          if(operator === 'Exists') {     
+            if(!isWhitespaceString(item[field])) {
+              returnVal = true;
+            } else {
+              returnVal = false;
+            }
+          } else if(operator === 'DNE') {
+            if(isWhitespaceString(item[field])) {
+              returnVal = true;
+            } else {
+              returnVal = false;
+            }
+          }
           if (not === true) {
             // Flip the return value for 'not' condition
             return !returnVal;

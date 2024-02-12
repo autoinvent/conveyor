@@ -20,7 +20,7 @@ interface ModelIndexProps extends BaseProps {
   modelName: string;
   fields: string[];
   title?: string | JSX.Element;
-  fieldsData?: Record<string, FieldData>;
+  fieldsData: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
   children?: ReactNode;
@@ -77,6 +77,7 @@ const ModelIndex = ({
               modelName={modelName}
               fields={fields}
               filters={filters}
+              fieldsData={fieldsData}
               setFilters={setFilters}
               setSorts={setSorts}
               dispatch={dispatch}
