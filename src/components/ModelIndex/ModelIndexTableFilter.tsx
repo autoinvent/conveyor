@@ -152,7 +152,7 @@ const ModelIndexTableFilter = ({
         {/* Assign a unique key */}
         <td>
           <select
-            id='changeField'
+            id={`changeField_${groupIndex}_${index}`}
             value={filter.field}
             onChange={(e) => {
               handleChange('field', e.target.value);
@@ -169,7 +169,7 @@ const ModelIndexTableFilter = ({
         <td>
           {'Not'}
           <input
-            id='changeNOT'
+            id={`changeNOT_${groupIndex}_${index}`}
             type='checkbox'
             checked={filter.not}
             onChange={(e) => handleChange('not', e.target.checked)}
@@ -178,7 +178,7 @@ const ModelIndexTableFilter = ({
         </td>
         <td>
           <select
-            id='changeOP'
+            id={`changeOP_${groupIndex}_${index}`}
             value={filter.operator}
             onChange={(e) => handleChange('operator', e.target.value)}
           >
@@ -187,7 +187,7 @@ const ModelIndexTableFilter = ({
         </td>
         <td>
           <input
-            id='changeVAL'
+            id={`changeVAL_${groupIndex}_${index}`}
             type='text'
             value={filter.value}
             className='filter-bar'
