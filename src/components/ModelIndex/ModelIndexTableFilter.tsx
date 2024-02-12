@@ -152,6 +152,7 @@ const ModelIndexTableFilter = ({
         {/* Assign a unique key */}
         <td>
           <select
+            id='changeField'
             value={filter.field}
             onChange={(e) => {
               handleChange('field', e.target.value);
@@ -168,6 +169,7 @@ const ModelIndexTableFilter = ({
         <td>
           {'Not'}
           <input
+            id='changeNOT'
             type='checkbox'
             checked={filter.not}
             onChange={(e) => handleChange('not', e.target.checked)}
@@ -176,6 +178,7 @@ const ModelIndexTableFilter = ({
         </td>
         <td>
           <select
+            id='changeOP'
             value={filter.operator}
             onChange={(e) => handleChange('operator', e.target.value)}
           >
@@ -184,6 +187,7 @@ const ModelIndexTableFilter = ({
         </td>
         <td>
           <input
+            id='changeVAL'
             type='text'
             value={filter.value}
             className='filter-bar'
@@ -278,6 +282,7 @@ const ModelIndexTableFilter = ({
             </Modal.Header>
             <Modal.Body>
               <select
+                id='setField'
                 value={currentFilter.field}
                 onChange={(e) =>
                   setCurrentFilter({ ...currentFilter, field: e.target.value })
@@ -306,6 +311,7 @@ const ModelIndexTableFilter = ({
                 />
               </label>
               <select
+                id='setOP'
                 value={currentFilter.operator}
                 onChange={(e) =>
                   setCurrentFilter({
@@ -318,6 +324,7 @@ const ModelIndexTableFilter = ({
                 {renderOperatorOptions()}
               </select>
               <input
+                id='setVAL'
                 type='input'
                 className='filter-bar'
                 value={currentFilter.value}
