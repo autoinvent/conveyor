@@ -248,17 +248,17 @@ const ModelIndexTable = ({
           } else {
             return returnVal;
           }
-        // Support Exists/DNE case even if input length is 0
-        } else if(operator === 'Exists' || operator === 'DNE') {
+          // Support Exists/DNE case even if input length is 0
+        } else if (operator === 'Exists' || operator === 'DNE') {
           const isWhitespaceString = (str: string) => !/\S/.test(str);
-          if(operator === 'Exists') {     
-            if(!isWhitespaceString(item[field])) {
+          if (operator === 'Exists') {
+            if (!isWhitespaceString(item[field])) {
               returnVal = true;
             } else {
               returnVal = false;
             }
-          } else if(operator === 'DNE') {
-            if(isWhitespaceString(item[field])) {
+          } else if (operator === 'DNE') {
+            if (isWhitespaceString(item[field])) {
               returnVal = true;
             } else {
               returnVal = false;
