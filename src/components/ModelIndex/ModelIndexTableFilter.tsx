@@ -23,14 +23,14 @@ const ModelIndexTableFilter = ({
   dispatch,
   setSorts,
 }: ModelIndexTableFilterProps) => {
+  const defaultValue: any = 0;
   const blankFilter = {
-    field: fields[0] || '',
-    operator: '==', // Default operator, adjust as needed
-    value: '',
+    path: `${modelName}.${fields[0]}`,
+    op: '==', // Default operator, adjust as needed
     not: false,
+    value: defaultValue,
   };
   const [currentFilter, setCurrentFilter] = useState({ ...blankFilter });
-  const [andGroupFilters, setAndGroupFilters] = useState([{ ...blankFilter }]);
   const [activeTab, setActiveTab] = useState('filters');
 
   const handleAndFilterChange = (
@@ -39,18 +39,14 @@ const ModelIndexTableFilter = ({
     updatedFilter: any,
     deleted: boolean,
   ) => {
-    setFilters((prevGroups: any) => {
-      const newGroups = [...prevGroups];
-      newGroups[groupIndex].filters[filterIndex] = updatedFilter;
-      return newGroups;
+    setFilters((prevFilters: any) => {
+      const newFilters = [...prevFilters];
+      newFilters[groupIndex][filterIndex] = updatedFilter;
+      if (deleted) {
+        newFilters[groupIndex].splice(filterIndex, 1);
+      }
+      return newFilters;
     });
-    if (deleted) {
-      setFilters((prevGroups: any) => {
-        const newGroups = [...prevGroups];
-        newGroups[groupIndex].filters.splice(filterIndex, 1);
-        return newGroups;
-      });
-    }
   };
 
   useEffect(() => {
@@ -62,25 +58,12 @@ const ModelIndexTableFilter = ({
 
   const addFilter = () => {
     const newFilter = { ...currentFilter };
-    const updatedAndGroupFilters = [newFilter];
-    console.log(fieldsData[currentFilter.field].type);
-
+    const updatedAndGroupFilters = [{ ...newFilter }];
     dispatch({
       type: TableViewsAction.ADD_FILTER,
-      payload: {
-        modelName,
-        filters: updatedAndGroupFilters,
-      },
+      payload: { updatedAndGroupFilters },
     });
-
-    setFilters([
-      ...filters,
-      {
-        filters: updatedAndGroupFilters,
-        modelName,
-      },
-    ]);
-    setAndGroupFilters([{ ...blankFilter }]);
+    setFilters([...filters, updatedAndGroupFilters]);
     setCurrentFilter({ ...blankFilter });
   };
 
@@ -91,59 +74,68 @@ const ModelIndexTableFilter = ({
     });
     setFilters([]);
     setCurrentFilter({ ...blankFilter });
-    setAndGroupFilters([{ ...currentFilter }]);
   };
 
-  const handleFieldChange = (fieldName: string) => {
-    const selectedField = fields.find((field) => field === fieldName);
-    if (selectedField && fieldsData) {
-      const fieldType = fieldsData[fieldName].type;
-      let defaultOperator = '=='; // Default operator for unknown field types
-      switch (fieldType) {
-        case 'Int!':
-        case 'Int':
-          defaultOperator = '==';
-          break;
-        case 'String':
-        case 'String!':
-          defaultOperator = 'Equals';
-          break;
-        case 'DateTime':
-        case 'DateTime!':
-          defaultOperator = 'Before';
-          break;
-        case 'Boolean':
-        case 'Boolean!':
-          defaultOperator = 'Is';
-          break;
-        // Add more cases for other field types as needed
-        default:
-          break;
-      }
-      setCurrentFilter((prevFilter) => ({
-        ...prevFilter,
-        field: fieldName,
-        operator: defaultOperator,
-      }));
+  const handleFieldChange = (
+    pathName: string,
+    filter: any,
+    isCurrent: boolean,
+  ) => {
+    const [modelName, fieldName] = pathName.split('.');
+    const fieldType = fieldsData[fieldName].type;
+    let defaultOperator = '=='; // Default operator for unknown field
+    let defaultValue: any = 0;
+    switch (fieldType) {
+      case 'Int!':
+      case 'Int':
+        defaultOperator = '==';
+        defaultValue = 0;
+        break;
+      case 'String':
+      case 'String!':
+        defaultOperator = '==';
+        defaultValue = 'message';
+        break;
+      case 'DateTime':
+      case 'DateTime!':
+        defaultOperator = '>';
+        defaultValue = '2024-01-01T00:00:00';
+        break;
+      case 'Boolean':
+      case 'Boolean!':
+        defaultOperator = '==';
+        defaultValue = true;
+        break;
+      // Add more cases for other field types as needed
+      default:
+        break;
+    }
+    if (isCurrent) {
+      setCurrentFilter({
+        ...currentFilter,
+        path: `${modelName}.${fieldName}`,
+        op: defaultOperator,
+        value: defaultValue,
+      });
     } else {
-      setCurrentFilter((prevFilter) => ({
-        ...prevFilter,
-        field: fieldName,
-        operator: '==', // Default operator for unknown fields
-      }));
+      filter.path = `${modelName}.${fieldName}`;
+      filter.op = defaultOperator;
+      filter.value = defaultValue;
     }
   };
 
   const handleAddFilterToGroup = (groupIndex: number) => {
     const updatedFilters = [...filters];
-    updatedFilters[groupIndex].filters.push({ ...blankFilter });
+    updatedFilters[groupIndex] = [...updatedFilters[groupIndex], blankFilter];
     setFilters(updatedFilters);
   };
+
   const handleRemoveGroup = (groupIndex: number) => {
     const updatedFilters = [...filters];
     updatedFilters.splice(groupIndex, 1);
     setFilters(updatedFilters);
   };
+
   const resetSort = () => {
     dispatch({
       type: TableViewsAction.CLEAR_SORTS,
@@ -153,131 +145,147 @@ const ModelIndexTableFilter = ({
   };
 
   const renderOperatorOptions = (filter: any) => {
-    const typeOfField = fieldsData[filter.field].type;
-    if (typeOfField === 'Int!' || typeOfField === 'Int') {
-      return (
-        <>
-          <option key='==' value='=='>
-            Equals
-          </option>
-          <option key='!=' value='!='>
-            Not Equal
-          </option>
-          <option key='>' value='>'>
-            Greater Than
-          </option>
-          <option key='<' value='<'>
-            Less Than
-          </option>
-          <option key='GEQ' value='>='>
-            GEQ
-          </option>
-          <option key='LEQ' value='=<'>
-            LEQ
-          </option>
-        </>
-      );
-    } else if (typeOfField === 'String' || typeOfField === 'String!') {
-      return (
-        <>
-          <option key='Equals' value='Equals'>
-            Is
-          </option>
-          <option key='Not' value='NEQ'>
-            Is Not
-          </option>
-          <option key='Exists' value='Exists'>
-            Exists
-          </option>
-          <option key='DNE' value='DNE'>
-            Does Not Exist
-          </option>
-          <option key='Contains' value='Contains'>
-            Contains
-          </option>
-        </>
-      );
-    } else if (typeOfField === 'DateTime' || typeOfField === 'DateTime!') {
-      return (
-        <>
-          <option key='Before' value='Before'>
-            Before
-          </option>
-          <option key='After' value='After'>
-            After
-          </option>
-          <option key='On' value='On'>
-            On
-          </option>
-          <option key='NotOn' value='NotOn'>
-            Not On
-          </option>
-        </>
-      );
-    } else if (typeOfField === 'Boolean' || typeOfField === 'Boolean!') {
-      return (
-        <>
-          <option key='Is' value='Is'>
-            Is
-          </option>
-          <option key='IsNot' value='IsNot'>
-            Is Not
-          </option>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <option key='Equals' value='Equals'>
-            Equals
-          </option>
-          <option key='Not' value='NEQ'>
-            Not Equal
-          </option>
-          <option key='Greater' value='>'>
-            Greater Than
-          </option>
-          <option key='Less' value='<'>
-            Less Than
-          </option>
-          <option key='GEQ' value='>='>
-            GEQ
-          </option>
-          <option key='LEQ' value='=<'>
-            LEQ
-          </option>
-          <option key='Contains' value='Contains'>
-            Contains
-          </option>
-        </>
-      );
+    const [modelName, fieldName] = filter.path.split('.');
+    const typeOfField = fieldsData[fieldName].type;
+    switch (typeOfField) {
+      case 'Int!':
+      case 'Int':
+        filter.value = Number(filter.value);
+        return (
+          <>
+            <option key='==' value='=='>
+              Equals
+            </option>
+            <option key='!=' value='!='>
+              Not Equal
+            </option>
+            <option key='>' value='>'>
+              Greater Than
+            </option>
+            <option key='<' value='<'>
+              Less Than
+            </option>
+            <option key='GEQ' value='>='>
+              GEQ
+            </option>
+            <option key='LEQ' value='=<'>
+              LEQ
+            </option>
+          </>
+        );
+      case 'String':
+      case 'String!':
+        filter.value = String(filter.value);
+        return (
+          <>
+            <option key='Equals' value='=='>
+              Is
+            </option>
+            <option key='Not' value='neq'>
+              Is Not
+            </option>
+            <option key='Exists' value='Exists'>
+              Exists
+            </option>
+            <option key='DNE' value='DNE'>
+              Does Not Exist
+            </option>
+            <option key='Contains' value='Contains'>
+              Contains
+            </option>
+          </>
+        );
+      case 'DateTime':
+      case 'DateTime!':
+        filter.value = String(filter.value);
+        return (
+          <>
+            <option key='Before' value='>'>
+              Before
+            </option>
+            <option key='After' value='<'>
+              After
+            </option>
+            <option key='On' value='contains'>
+              On
+            </option>
+            <option key='NotOn' value='!contains'>
+              Not On
+            </option>
+          </>
+        );
+      case 'Boolean':
+      case 'Boolean!':
+        filter.value = Boolean(filter.value);
+        return (
+          <>
+            <option key='Is' value='=='>
+              Is
+            </option>
+            <option key='IsNot' value='!='>
+              Is Not
+            </option>
+          </>
+        );
+      default:
+        filter.value = String(filter.value);
+        return (
+          <>
+            <option key='Equals' value='Equals'>
+              Equals
+            </option>
+            <option key='Not' value='NEQ'>
+              Not Equal
+            </option>
+            <option key='Greater' value='>'>
+              Greater Than
+            </option>
+            <option key='Less' value='<'>
+              Less Than
+            </option>
+            <option key='GEQ' value='>='>
+              GEQ
+            </option>
+            <option key='LEQ' value='=<'>
+              LEQ
+            </option>
+            <option key='Contains' value='Contains'>
+              Contains
+            </option>
+          </>
+        );
     }
   };
 
   const renderFilter = (filter: any, index: number, groupIndex: number) => {
-    const handleChange = (key: any, value: any) => {
+    console.log('Filter', filter);
+    if (!filter) {
+      return null;
+    }
+    const handleChange = (key: string, value: any) => {
       const updatedFilter = { ...filter, [key]: value };
       handleAndFilterChange(groupIndex, index, updatedFilter, false);
     };
 
-    const handleDeleteClick = (input: any) => {
-      handleAndFilterChange(groupIndex, index, input, true);
+    const handleDeleteClick = () => {
+      handleAndFilterChange(groupIndex, index, filter, true);
     };
 
     return (
       <tr key={`filter_${index}`}>
-        {/* Assign a unique key */}
         <td>
           <select
-            id={`changeField_${groupIndex}_${index}`}
-            value={filter.field}
+            value={filter.path}
             onChange={(e) => {
-              handleChange('field', e.target.value);
+              handleFieldChange(e.target.value, filter, false);
+              handleChange('path', filter.path);
+              handleChange('op', filter.op);
+              handleChange('value', filter.value);
             }}
           >
             {fields.map((field, idx) => (
               // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <option key={idx} value={field}>
+              <option key={idx} value={`${modelName}.${field}`}>
                 {field}
               </option>
             ))}
@@ -286,7 +294,6 @@ const ModelIndexTableFilter = ({
         <td>
           {'Not'}
           <input
-            id={`changeNOT_${groupIndex}_${index}`}
             type='checkbox'
             checked={filter.not}
             onChange={(e) => handleChange('not', e.target.checked)}
@@ -295,16 +302,14 @@ const ModelIndexTableFilter = ({
         </td>
         <td>
           <select
-            id={`changeOP_${groupIndex}_${index}`}
-            value={filter.operator}
-            onChange={(e) => handleChange('operator', e.target.value)}
+            value={filter.op}
+            onChange={(e) => handleChange('op', e.target.value)}
           >
             {renderOperatorOptions(filter)}
           </select>
         </td>
         <td>
           <input
-            id={`changeVAL_${groupIndex}_${index}`}
             type='text'
             value={filter.value}
             className='filter-bar'
@@ -312,13 +317,8 @@ const ModelIndexTableFilter = ({
           />
         </td>
         <td>
-          <Button
-            variant='danger'
-            onClick={(e) => {
-              handleDeleteClick(e);
-            }}
-          >
-            {<FaRegTrashAlt />}
+          <Button variant='danger' onClick={handleDeleteClick}>
+            <FaRegTrashAlt />
           </Button>
         </td>
       </tr>
@@ -327,59 +327,52 @@ const ModelIndexTableFilter = ({
 
   const renderFiltersTable = (
     filter: any,
-    filterIndex: number,
+    index: number,
     groupIndex: number,
-  ) => {
-    return (
-      <table>
-        <thead>
-          <tr>
-            <th align='center' title='Field' />
-            <th align='center' title='Not' />
-            <th align='center' title='Operator' />
-            <th align='center' title='Value' />
-          </tr>
-        </thead>
-        <tbody>{renderFilter(filter, filterIndex, groupIndex)}</tbody>
-      </table>
-    );
-  };
+  ) => (
+    <table key={`group_${groupIndex}`}>
+      <thead>
+        <tr>
+          <th align='center' title='Field' />
+          <th align='center' title='Not' />
+          <th align='center' title='Operator' />
+          <th align='center' title='Value' />
+        </tr>
+      </thead>
+      <tbody>{renderFilter(filter, index, groupIndex)}</tbody>
+    </table>
+  );
 
   const renderTabs = () => {
-    return filters
-      .filter((index) => index !== filters.length)
-      .map((group: any, index: number) => (
-        <Tab
-          key={`filterGroup${index}`}
-          eventKey={`filterGroup${index}`}
-          title={`FilterGroup ${index + 1}`}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Edit Filter Group: </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {group.filters.map((filter: any, filterIndex: number) => (
-              <Row key={`filterGroup${index}-${filterIndex}`}>
-                {renderFiltersTable(filter, filterIndex, index)}
-              </Row>
-            ))}
-            <Button
-              variant='info'
-              onClick={() => handleAddFilterToGroup(index)}
-            >
-              <FaPlus />
-            </Button>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant='outline-danger'
-              onClick={() => handleRemoveGroup(index)}
-            >
-              Delete Group
-            </Button>
-          </Modal.Footer>
-        </Tab>
-      ));
+    return Object.entries(filters ?? {}).map(([modelName, filters], index) => (
+      <Tab
+        key={`filterGroup${index}`}
+        eventKey={`filterGroup${index}`}
+        title={`FilterGroup ${index + 1}`}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Filter Group: </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {filters?.map((filter: any, filterIndex: number) => (
+            <Row key={`filterGroup${index}-${filterIndex}`}>
+              {renderFiltersTable(filter, filterIndex, index)}
+            </Row>
+          ))}
+          <Button variant='info' onClick={() => handleAddFilterToGroup(index)}>
+            <FaPlus />
+          </Button>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant='outline-danger'
+            onClick={() => handleRemoveGroup(index)}
+          >
+            Delete Group
+          </Button>
+        </Modal.Footer>
+      </Tab>
+    ));
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -397,17 +390,18 @@ const ModelIndexTableFilter = ({
         <Tabs activeKey={activeTab} onSelect={(key: any) => setActiveTab(key)}>
           <Tab eventKey='filters' title='Filters'>
             <Modal.Header closeButton>
-              <Modal.Title>Create a Filter: </Modal.Title>
+              <Modal.Title>Create a Filter:</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <select
-                id='setField'
-                value={currentFilter.field}
-                onChange={(e) => handleFieldChange(e.target.value)}
+                value={currentFilter.path}
+                onChange={(e) =>
+                  handleFieldChange(e.target.value, currentFilter, true)
+                }
               >
                 {fields.map((field, index) => (
                   // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                  <option key={index} value={field}>
+                  <option key={index} value={`${modelName}.${field}`}>
                     {field}
                   </option>
                 ))}
@@ -415,7 +409,6 @@ const ModelIndexTableFilter = ({
               <label>
                 Not
                 <input
-                  id='Not'
                   type='checkbox'
                   className='not-checkbox'
                   checked={currentFilter.not}
@@ -428,20 +421,14 @@ const ModelIndexTableFilter = ({
                 />
               </label>
               <select
-                id='setOP'
-                value={currentFilter.operator}
+                value={currentFilter.op}
                 onChange={(e) =>
-                  setCurrentFilter({
-                    ...currentFilter,
-                    operator: e.target.value,
-                  })
+                  setCurrentFilter({ ...currentFilter, op: e.target.value })
                 }
               >
-                {/* Render operator options based on field type */}
                 {renderOperatorOptions(currentFilter)}
               </select>
               <input
-                id='setVAL'
                 type='input'
                 className='filter-bar'
                 value={currentFilter.value}
@@ -449,21 +436,12 @@ const ModelIndexTableFilter = ({
                   setCurrentFilter({ ...currentFilter, value: e.target.value })
                 }
               />
-              <Button
-                className='ms-1'
-                type='button'
-                variant='success'
-                onClick={addFilter}
-              >
+              <Button type='button' variant='success' onClick={addFilter}>
                 <FaPlus />
               </Button>
             </Modal.Body>
             <Modal.Footer>
-              <Button
-                variant='outline-warning'
-                type='button'
-                onClick={removeFilters}
-              >
+              <Button variant='outline-warning' onClick={removeFilters}>
                 Reset Filters
               </Button>
               <Button variant='outline-light' onClick={resetSort}>

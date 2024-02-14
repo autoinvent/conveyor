@@ -69,14 +69,19 @@ export const getGQLDocument = (
     }
     case GQLQueryAction.MODEL_LIST: {
       return `
-        query ($sort: [String!], $page: Int, $per_page: Int) {
-          ${action} (sort: $sort, page: $page, per_page: $per_page) {
-            total
-            items {
-              ${responseQuery}
-            }
+      query ($filters: [[FilterItem!]!] $sort: [String!], $page: Int, $per_page: Int) {
+        ${action} (
+          filter: $filters,
+          sort: $sort,
+          page: $page,
+          per_page: $per_page,
+        ) {
+          total
+          items {
+            ${responseQuery}
           }
         }
+      }
       `;
     }
     case GQLMutationAction.MODEL_UPDATE:

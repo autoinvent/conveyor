@@ -7,7 +7,6 @@ import { PACKAGE_ABBR } from '../../package';
 import {
   DEFAULT_TABLE_VIEW,
   SortDirection,
-  TableViewFilter,
 } from '../../reducers/tableViewsReducer';
 import { BaseProps, FieldData } from '../../types';
 import { humanizeText } from '../../utils/common';
@@ -43,12 +42,7 @@ const ModelIndex = ({
     tableView: JSON.parse(JSON.stringify(DEFAULT_TABLE_VIEW)),
   });
   const { dispatch } = useTableView({ modelName });
-  const [filters, setFilters] = useState<
-    {
-      filters: TableViewFilter[];
-      modelName: string;
-    }[]
-  >([]); // State to manage filters
+  const [filters, setFilters] = useState([]); // State to manage filters
 
   useEffect(() => {
     // Save filters and sorts to local storage when they change

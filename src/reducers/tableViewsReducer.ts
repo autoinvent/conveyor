@@ -3,19 +3,18 @@ import { ReducerAction } from '../types';
 
 export type TableViewSort = string[];
 export interface TableViewFilter {
-  fieldName: string;
-  operator: string;
-  value: any;
-  not: any;
-}
-export interface TableViewFilterGroup {
-  filters: TableViewFilter[];
+  [fieldName: string]: {
+    path: string;
+    op: string;
+    not?: any;
+    value: any;
+  };
 }
 export interface TableView {
   page?: number;
   per_page?: number;
   sort?: TableViewSort;
-  filter?: TableViewFilter;
+  filter?: TableViewFilter[];
 }
 export type TableViews = Record<string, TableView>;
 export enum TableViewsAction {
@@ -31,7 +30,7 @@ export const DEFAULT_TABLE_VIEW = {
   page: 1,
   per_page: 5,
   sort: [],
-  filter: {},
+  filter: [],
 };
 
 export enum SortDirection {
@@ -106,17 +105,21 @@ export const tableViewsReducer = (
     case TableViewsAction.ADD_FILTER: {
       const { modelName, filters } = payload;
       const newTableViews = { ...tableViews };
-      if (!newTableViews[modelName]) {
-        newTableViews[modelName] = {};
+      if (!newTableViews[modelName]) newTableViews[modelName] = {};
+      const currentFilter = newTableViews[modelName].filter;
+      if (Array.isArray(currentFilter)) {
+        currentFilter.push(...filters);
+      } else {
+        newTableViews[modelName].filter = filters;
       }
-      newTableViews[modelName].filter = filters; // Assuming filters is an array of TableViewFilter objects
       return newTableViews;
     }
     case TableViewsAction.REMOVE_FILTER: {
       const { modelName } = payload;
       const newTableViews = { ...tableViews };
-      // rome-ignore lint/performance/noDelete: <explanation>
-      delete newTableViews[modelName]?.filter;
+      if (newTableViews[modelName]) {
+        newTableViews[modelName].filter = [];
+      }
       return newTableViews;
     }
 
