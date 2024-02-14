@@ -14,6 +14,13 @@ interface ModelIndexTableFilterProps extends BaseProps {
   setSorts: any;
 }
 
+interface FilterItem {
+  path: string;
+  op: string;
+  not?: boolean;
+  value?: any;
+}
+
 const ModelIndexTableFilter = ({
   modelName,
   fields,
@@ -23,20 +30,19 @@ const ModelIndexTableFilter = ({
   dispatch,
   setSorts,
 }: ModelIndexTableFilterProps) => {
-  const defaultValue: any = 0;
-  const blankFilter = {
-    path: `${modelName}.${fields[0]}`,
-    op: '==', // Default operator, adjust as needed
+  const blankFilter: FilterItem = {
+    path: `${modelName.toLowerCase()}.${fields[0]}`,
+    op: 'eq', // Default operator, adjust as needed
     not: false,
-    value: defaultValue,
-  };
-  const [currentFilter, setCurrentFilter] = useState({ ...blankFilter });
+    value: [0],
+  }
+  const [currentFilter, setCurrentFilter] = useState(blankFilter);
   const [activeTab, setActiveTab] = useState('filters');
 
   const handleAndFilterChange = (
     groupIndex: number,
     filterIndex: number,
-    updatedFilter: any,
+    updatedFilter: FilterItem,
     deleted: boolean,
   ) => {
     setFilters((prevFilters: any) => {
@@ -57,14 +63,14 @@ const ModelIndexTableFilter = ({
   }, []);
 
   const addFilter = () => {
-    const newFilter = { ...currentFilter };
-    const updatedAndGroupFilters = [{ ...newFilter }];
+    const newFilter = currentFilter;
+    const updatedAndGroupFilters = [ newFilter ];
     dispatch({
       type: TableViewsAction.ADD_FILTER,
       payload: { updatedAndGroupFilters },
     });
     setFilters([...filters, updatedAndGroupFilters]);
-    setCurrentFilter({ ...blankFilter });
+    setCurrentFilter(blankFilter);
   };
 
   const removeFilters = () => {
@@ -73,37 +79,37 @@ const ModelIndexTableFilter = ({
       payload: { modelName },
     });
     setFilters([]);
-    setCurrentFilter({ ...blankFilter });
+    setCurrentFilter(blankFilter);
   };
 
   const handleFieldChange = (
     pathName: string,
-    filter: any,
+    filter: FilterItem,
     isCurrent: boolean,
   ) => {
-    const [modelName, fieldName] = pathName.split('.');
+    const [model_name, fieldName] = pathName.split('.');
     const fieldType = fieldsData[fieldName].type;
-    let defaultOperator = '=='; // Default operator for unknown field
+    let defaultOperator = 'eq'; // Default operator for unknown field
     let defaultValue: any = 0;
     switch (fieldType) {
       case 'Int!':
       case 'Int':
-        defaultOperator = '==';
+        defaultOperator = 'eq';
         defaultValue = 0;
         break;
       case 'String':
       case 'String!':
-        defaultOperator = '==';
+        defaultOperator = 'eq';
         defaultValue = 'message';
         break;
       case 'DateTime':
       case 'DateTime!':
-        defaultOperator = '>';
+        defaultOperator = 'eq';
         defaultValue = '2024-01-01T00:00:00';
         break;
       case 'Boolean':
       case 'Boolean!':
-        defaultOperator = '==';
+        defaultOperator = 'eq';
         defaultValue = true;
         break;
       // Add more cases for other field types as needed
@@ -113,14 +119,14 @@ const ModelIndexTableFilter = ({
     if (isCurrent) {
       setCurrentFilter({
         ...currentFilter,
-        path: `${modelName}.${fieldName}`,
+        path: pathName,
         op: defaultOperator,
-        value: defaultValue,
+        value: [defaultValue],
       });
     } else {
-      filter.path = `${modelName}.${fieldName}`;
+      filter.path = pathName;
       filter.op = defaultOperator;
-      filter.value = defaultValue;
+      filter.value = [defaultValue];
     }
   };
 
@@ -144,121 +150,93 @@ const ModelIndexTableFilter = ({
     setSorts([]);
   };
 
-  const renderOperatorOptions = (filter: any) => {
-    const [modelName, fieldName] = filter.path.split('.');
+  const renderOperatorOptions = (filter: FilterItem) => {
+    const [model_name, fieldName] = filter.path.split('.');
     const typeOfField = fieldsData[fieldName].type;
     switch (typeOfField) {
       case 'Int!':
       case 'Int':
-        filter.value = Number(filter.value);
+        filter.value = [Number(filter.value)];
         return (
           <>
-            <option key='==' value='=='>
+            <option key='==' value='eq'>
               Equals
             </option>
-            <option key='!=' value='!='>
-              Not Equal
-            </option>
-            <option key='>' value='>'>
+            <option key='>' value='gt'>
               Greater Than
             </option>
-            <option key='<' value='<'>
+            <option key='<' value='lt'>
               Less Than
             </option>
-            <option key='GEQ' value='>='>
+            <option key='GEQ' value='ge'>
               GEQ
             </option>
-            <option key='LEQ' value='=<'>
+            <option key='LEQ' value='le'>
               LEQ
             </option>
           </>
         );
       case 'String':
       case 'String!':
-        filter.value = String(filter.value);
+        filter.value = [String(filter.value)];
         return (
           <>
-            <option key='Equals' value='=='>
-              Is
+            <option key='Equals' value='eq'>
+              Equals
             </option>
-            <option key='Not' value='neq'>
-              Is Not
-            </option>
-            <option key='Exists' value='Exists'>
-              Exists
-            </option>
-            <option key='DNE' value='DNE'>
-              Does Not Exist
-            </option>
-            <option key='Contains' value='Contains'>
-              Contains
+            <option key='Like' value='like'>
+              Similar to
             </option>
           </>
-        );
+        )
       case 'DateTime':
       case 'DateTime!':
-        filter.value = String(filter.value);
+        filter.value = [String(filter.value)];
         return (
           <>
-            <option key='Before' value='>'>
-              Before
+            <option key='==' value='eq'>
+              Equals
             </option>
-            <option key='After' value='<'>
+            <option key='>' value='gt'>
               After
             </option>
-            <option key='On' value='contains'>
-              On
+            <option key='<' value='lt'>
+              Before
             </option>
-            <option key='NotOn' value='!contains'>
-              Not On
+            <option key='GEQ' value='ge'>
+              At or After
+            </option>
+            <option key='LEQ' value='le'>
+              At or Before
             </option>
           </>
         );
       case 'Boolean':
       case 'Boolean!':
-        filter.value = Boolean(filter.value);
+        filter.value = [Boolean(filter.value)];
         return (
           <>
-            <option key='Is' value='=='>
-              Is
-            </option>
-            <option key='IsNot' value='!='>
-              Is Not
+            <option key='Is' value='eq'>
+              Equals
             </option>
           </>
         );
       default:
-        filter.value = String(filter.value);
+        filter.value = [String(filter.value)];
         return (
           <>
-            <option key='Equals' value='Equals'>
+            <option key='Equals' value='eq'>
               Equals
             </option>
-            <option key='Not' value='NEQ'>
-              Not Equal
-            </option>
-            <option key='Greater' value='>'>
-              Greater Than
-            </option>
-            <option key='Less' value='<'>
-              Less Than
-            </option>
-            <option key='GEQ' value='>='>
-              GEQ
-            </option>
-            <option key='LEQ' value='=<'>
-              LEQ
-            </option>
-            <option key='Contains' value='Contains'>
-              Contains
+            <option key='Like' value='like'>
+              Similar to
             </option>
           </>
         );
     }
   };
 
-  const renderFilter = (filter: any, index: number, groupIndex: number) => {
-    console.log('Filter', filter);
+  const renderFilter = (filter: FilterItem, index: number, groupIndex: number) => {
     if (!filter) {
       return null;
     }
@@ -285,7 +263,7 @@ const ModelIndexTableFilter = ({
           >
             {fields.map((field, idx) => (
               // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <option key={idx} value={`${modelName}.${field}`}>
+              <option key={idx} value={`${modelName.toLowerCase()}.${field}`}>
                 {field}
               </option>
             ))}
@@ -313,7 +291,7 @@ const ModelIndexTableFilter = ({
             type='text'
             value={filter.value}
             className='filter-bar'
-            onChange={(e) => handleChange('value', e.target.value)}
+            onChange={(e) => handleChange('value', [e.target.value])}
           />
         </td>
         <td>
@@ -326,7 +304,7 @@ const ModelIndexTableFilter = ({
   };
 
   const renderFiltersTable = (
-    filter: any,
+    filter: FilterItem,
     index: number,
     groupIndex: number,
   ) => (
@@ -354,7 +332,7 @@ const ModelIndexTableFilter = ({
           <Modal.Title>Edit Filter Group: </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {filters?.map((filter: any, filterIndex: number) => (
+          {filters?.map((filter: FilterItem, filterIndex: number) => (
             <Row key={`filterGroup${index}-${filterIndex}`}>
               {renderFiltersTable(filter, filterIndex, index)}
             </Row>
@@ -401,7 +379,7 @@ const ModelIndexTableFilter = ({
               >
                 {fields.map((field, index) => (
                   // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                  <option key={index} value={`${modelName}.${field}`}>
+                  <option key={index} value={`${modelName.toLowerCase()}.${field}`}>
                     {field}
                   </option>
                 ))}
@@ -433,7 +411,7 @@ const ModelIndexTableFilter = ({
                 className='filter-bar'
                 value={currentFilter.value}
                 onChange={(e) =>
-                  setCurrentFilter({ ...currentFilter, value: e.target.value })
+                  setCurrentFilter({ ...currentFilter, value: [e.target.value] })
                 }
               />
               <Button type='button' variant='success' onClick={addFilter}>
