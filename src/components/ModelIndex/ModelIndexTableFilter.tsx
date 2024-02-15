@@ -3,8 +3,6 @@ import { BaseProps, FieldData } from '../../types';
 import { Button, Modal, Row, Tab, Tabs } from 'react-bootstrap';
 import { TableViewsAction } from '../../reducers/tableViewsReducer';
 import { FaPlus, FaRegTrashAlt } from 'react-icons/fa';
-import { InputTypes } from '../commons/FlexibleInput';
-import DateTime from '../commons/DateTime';
 
 interface ModelIndexTableFilterProps extends BaseProps {
   modelName: string;
@@ -91,6 +89,9 @@ const ModelIndexTableFilter = ({
   ) => {
     let defaultOperator = 'eq'; // Default operator for unknown field
     let defaultValue: any = 0;
+    if(!fieldsData[pathName]) {
+      return;
+    }
     switch (fieldsData[pathName].type) {
       case 'Int!':
       case 'Int':
@@ -497,6 +498,40 @@ const ModelIndexTableFilter = ({
       </Tab>
     ));
   };
+  let customField = false;
+  const renderCustomField = () => {
+    if(customField) {
+      let inputField = currentFilter.path;
+      return (
+      <input
+                value={inputField}
+                onChange={(e) => {
+                  inputField = e.target.value;
+                  handleFieldChange(e.target.value, currentFilter, true)
+                }}
+              />
+      );
+    } else {
+      return(
+      <select
+                value={currentFilter.path}
+                onChange={(e) =>
+                  handleFieldChange(e.target.value, currentFilter, true)
+                }
+              >
+                {fields.map((field, index) => (
+                  <option
+                    // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                    key={index}
+                    value={field}
+                  >
+                    {field}
+                  </option>
+                ))}
+              </select>
+      );
+    }
+  }
 
   const [showModal, setShowModal] = useState(false);
 
@@ -516,22 +551,7 @@ const ModelIndexTableFilter = ({
               <Modal.Title>Create a Filter:</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <select
-                value={currentFilter.path}
-                onChange={(e) =>
-                  handleFieldChange(e.target.value, currentFilter, true)
-                }
-              >
-                {fields.map((field, index) => (
-                  <option
-                    // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                    key={index}
-                    value={field}
-                  >
-                    {field}
-                  </option>
-                ))}
-              </select>
+              {renderCustomField()}
               <label>
                 Not
                 <input
@@ -560,6 +580,10 @@ const ModelIndexTableFilter = ({
               </Button>
             </Modal.Body>
             <Modal.Footer>
+            {/* rome-ignore lint/suspicious/noAssignInExpressions: <explanation> */}
+            <Button variant='outline-primary' onClick={() => customField = true}>
+                Use Custom Field
+            </Button>
               <Button variant='outline-warning' onClick={removeFilters}>
                 Reset Filters
               </Button>
