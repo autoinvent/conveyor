@@ -69,9 +69,9 @@ export const getGQLDocument = (
     }
     case GQLQueryAction.MODEL_LIST: {
       return `
-      query ($filters: [[FilterItem!]!] $sort: [String!], $page: Int, $per_page: Int) {
+      query ($filter: [[FilterItem!]!] $sort: [String!], $page: Int, $per_page: Int) {
         ${action} (
-          filter: $filters,
+          filter: $filter,
           sort: $sort,
           page: $page,
           per_page: $per_page,

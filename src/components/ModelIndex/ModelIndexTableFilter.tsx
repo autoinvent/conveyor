@@ -3,6 +3,8 @@ import { BaseProps, FieldData } from '../../types';
 import { Button, Modal, Row, Tab, Tabs } from 'react-bootstrap';
 import { TableViewsAction } from '../../reducers/tableViewsReducer';
 import { FaPlus, FaRegTrashAlt } from 'react-icons/fa';
+import { InputTypes } from '../commons/FlexibleInput';
+import DateTime from '../commons/DateTime';
 
 interface ModelIndexTableFilterProps extends BaseProps {
   modelName: string;
@@ -31,11 +33,11 @@ const ModelIndexTableFilter = ({
   setSorts,
 }: ModelIndexTableFilterProps) => {
   const blankFilter: FilterItem = {
-    path: `${modelName.toLowerCase()}.${fields[0]}`,
+    path: fields[0],
     op: 'eq', // Default operator, adjust as needed
     not: false,
     value: [0],
-  }
+  };
   const [currentFilter, setCurrentFilter] = useState(blankFilter);
   const [activeTab, setActiveTab] = useState('filters');
 
@@ -64,10 +66,10 @@ const ModelIndexTableFilter = ({
 
   const addFilter = () => {
     const newFilter = currentFilter;
-    const updatedAndGroupFilters = [ newFilter ];
+    const updatedAndGroupFilters = [newFilter];
     dispatch({
       type: TableViewsAction.ADD_FILTER,
-      payload: { updatedAndGroupFilters },
+      payload: { modelName, updatedAndGroupFilters },
     });
     setFilters([...filters, updatedAndGroupFilters]);
     setCurrentFilter(blankFilter);
@@ -87,11 +89,9 @@ const ModelIndexTableFilter = ({
     filter: FilterItem,
     isCurrent: boolean,
   ) => {
-    const [model_name, fieldName] = pathName.split('.');
-    const fieldType = fieldsData[fieldName].type;
     let defaultOperator = 'eq'; // Default operator for unknown field
     let defaultValue: any = 0;
-    switch (fieldType) {
+    switch (fieldsData[pathName].type) {
       case 'Int!':
       case 'Int':
         defaultOperator = 'eq';
@@ -100,7 +100,7 @@ const ModelIndexTableFilter = ({
       case 'String':
       case 'String!':
         defaultOperator = 'eq';
-        defaultValue = 'message';
+        defaultValue = '';
         break;
       case 'DateTime':
       case 'DateTime!':
@@ -110,7 +110,7 @@ const ModelIndexTableFilter = ({
       case 'Boolean':
       case 'Boolean!':
         defaultOperator = 'eq';
-        defaultValue = true;
+        defaultValue = false;
         break;
       // Add more cases for other field types as needed
       default:
@@ -150,93 +150,162 @@ const ModelIndexTableFilter = ({
     setSorts([]);
   };
 
-  const renderOperatorOptions = (filter: FilterItem) => {
-    const [model_name, fieldName] = filter.path.split('.');
-    const typeOfField = fieldsData[fieldName].type;
-    switch (typeOfField) {
-      case 'Int!':
-      case 'Int':
-        filter.value = [Number(filter.value)];
-        return (
-          <>
-            <option key='==' value='eq'>
-              Equals
-            </option>
-            <option key='>' value='gt'>
-              Greater Than
-            </option>
-            <option key='<' value='lt'>
-              Less Than
-            </option>
-            <option key='GEQ' value='ge'>
-              GEQ
-            </option>
-            <option key='LEQ' value='le'>
-              LEQ
-            </option>
-          </>
-        );
-      case 'String':
-      case 'String!':
-        filter.value = [String(filter.value)];
-        return (
-          <>
-            <option key='Equals' value='eq'>
-              Equals
-            </option>
-            <option key='Like' value='like'>
-              Similar to
-            </option>
-          </>
-        )
+  const renderInputOptions = () => {
+    switch (fieldsData[currentFilter.path].type) {
       case 'DateTime':
       case 'DateTime!':
-        filter.value = [String(filter.value)];
         return (
-          <>
-            <option key='==' value='eq'>
-              Equals
-            </option>
-            <option key='>' value='gt'>
-              After
-            </option>
-            <option key='<' value='lt'>
-              Before
-            </option>
-            <option key='GEQ' value='ge'>
-              At or After
-            </option>
-            <option key='LEQ' value='le'>
-              At or Before
-            </option>
-          </>
+          <input
+            type='datetime-local'
+            className='filter-bar'
+            value={currentFilter.value}
+            onChange={(e) => {
+              setCurrentFilter({ ...currentFilter, value: e.target.value });
+            }}
+          />
         );
       case 'Boolean':
       case 'Boolean!':
-        filter.value = [Boolean(filter.value)];
         return (
-          <>
-            <option key='Is' value='eq'>
-              Equals
+          <select
+            className='filter-bar'
+            value={String(currentFilter.value)}
+            onChange={(e) => {
+              setCurrentFilter({
+                ...currentFilter,
+                value: [e.target.value === 'true'],
+              });
+            }}
+          >
+            {/* Render option elements */}
+            <option key='true' value={'true'}>
+              True
             </option>
-          </>
+            <option key='false' value={'false'}>
+              False
+            </option>
+          </select>
         );
       default:
-        filter.value = [String(filter.value)];
+        // Render default input field
         return (
-          <>
-            <option key='Equals' value='eq'>
-              Equals
-            </option>
-            <option key='Like' value='like'>
-              Similar to
-            </option>
-          </>
+          <input
+            type='text'
+            className='filter-bar'
+            value={currentFilter.value}
+            onChange={(e) => {
+              setCurrentFilter({ ...currentFilter, value: e.target.value });
+            }}
+          />
         );
     }
   };
 
-  const renderFilter = (filter: FilterItem, index: number, groupIndex: number) => {
+  const renderOperatorOptions = (filter: FilterItem) => {
+    if (fields.includes(filter.path)) {
+      const typeOfField = fieldsData[filter.path].type;
+      switch (typeOfField) {
+        case 'Int!':
+        case 'Int':
+          if (isNaN(Number(filter.value))) {
+            filter.value = 0;
+          }
+          filter.value = [Number(filter.value)];
+          return (
+            <>
+              <option key='==' value='eq'>
+                Equals
+              </option>
+              <option key='>' value='gt'>
+                Greater Than
+              </option>
+              <option key='<' value='lt'>
+                Less Than
+              </option>
+              <option key='GEQ' value='ge'>
+                GEQ
+              </option>
+              <option key='LEQ' value='le'>
+                LEQ
+              </option>
+            </>
+          );
+        case 'String':
+        case 'String!':
+          filter.value = [String(filter.value)];
+          return (
+            <>
+              <option key='Equals' value='eq'>
+                Equals
+              </option>
+              <option key='Like' value='like'>
+                Similar to
+              </option>
+            </>
+          );
+        case 'DateTime':
+        case 'DateTime!':
+          filter.value = [String(filter.value)];
+          return (
+            <>
+              <option key='==' value='eq'>
+                Equals
+              </option>
+              <option key='>' value='gt'>
+                After
+              </option>
+              <option key='<' value='lt'>
+                Before
+              </option>
+              <option key='GEQ' value='ge'>
+                At or After
+              </option>
+              <option key='LEQ' value='le'>
+                At or Before
+              </option>
+            </>
+          );
+        case 'Boolean':
+        case 'Boolean!':
+          return (
+            <>
+              <option key='Is' value='eq'>
+                Equals
+              </option>
+            </>
+          );
+        default:
+          filter.path = fields[0];
+          filter.value = [String(filter.value)];
+          return (
+            <>
+              <option key='Equals' value='eq'>
+                Equals
+              </option>
+              <option key='Like' value='like'>
+                Similar to
+              </option>
+            </>
+          );
+      }
+    } else {
+      filter.path = fields[0];
+      filter.value = 0;
+      return (
+        <>
+          <option key='Equals' value='eq'>
+            Equals
+          </option>
+        </>
+      );
+    }
+  };
+
+  const renderFilter = (
+    filter: FilterItem,
+    index: number,
+    groupIndex: number,
+  ) => {
     if (!filter) {
       return null;
     }
@@ -248,6 +317,93 @@ const ModelIndexTableFilter = ({
     const handleDeleteClick = () => {
       handleAndFilterChange(groupIndex, index, filter, true);
     };
+
+    const renderInputOptionsTabs = () => {
+      switch (fieldsData[filter.path].type) {
+        // Render input field
+        case 'DateTime':
+        case 'DateTime!':
+          return (
+            <input
+              type='datetime-local'
+              className='filter-bar'
+              value={filter.value}
+              onChange={(e) => {
+                handleChange('value', e.target.value);
+              }}
+            />
+          );
+        case 'Boolean':
+        case 'Boolean!':
+          return (
+            <select
+              value={String(filter.value)}
+              onChange={(e) => {
+                handleChange('value', [e.target.value === 'true']);
+              }}
+            >
+              {/* Render option elements */}
+              <option key='true' value={'true'}>
+                True
+              </option>
+              <option key='false' value={'false'}>
+                False
+              </option>
+            </select>
+          );
+        default:
+          // Render default input field
+          return (
+            <input
+              type='text'
+              className='filter-bar'
+              value={filter.value}
+              onChange={(e) => {
+                handleChange('value', e.target.value);
+              }}
+            />
+          );
+      }
+    };
+
+    const renderTrashButton = () => {
+      return (
+        <td>
+          <Button variant='danger' onClick={handleDeleteClick}>
+            <FaRegTrashAlt />
+          </Button>
+        </td>
+      );
+    };
+    if (!fields.includes(filter.path)) {
+      return (
+        <tr>
+          <td>
+            <select value={filter.path} disabled>
+              <option value={filter.path}>{filter.path}</option>
+            </select>
+          </td>
+          <td>
+            {'Not'}
+            <input
+              type='checkbox'
+              checked={filter.not}
+              className='not-checkbox'
+              readOnly
+            />
+          </td>
+          <td>
+            <select value={filter.op} disabled>
+              <option value={filter.op}>{filter.op}</option>
+            </select>
+          </td>
+          <td>
+            <input value={filter.value} className='filter-bar' readOnly />
+          </td>
+          {renderTrashButton()}
+        </tr>
+      );
+    }
 
     return (
       <tr key={`filter_${index}`}>
@@ -263,7 +419,7 @@ const ModelIndexTableFilter = ({
           >
             {fields.map((field, idx) => (
               // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <option key={idx} value={`${modelName.toLowerCase()}.${field}`}>
+              <option key={idx} value={field}>
                 {field}
               </option>
             ))}
@@ -286,19 +442,8 @@ const ModelIndexTableFilter = ({
             {renderOperatorOptions(filter)}
           </select>
         </td>
-        <td>
-          <input
-            type='text'
-            value={filter.value}
-            className='filter-bar'
-            onChange={(e) => handleChange('value', [e.target.value])}
-          />
-        </td>
-        <td>
-          <Button variant='danger' onClick={handleDeleteClick}>
-            <FaRegTrashAlt />
-          </Button>
-        </td>
+        <td>{renderInputOptionsTabs()}</td>
+        {renderTrashButton()}
       </tr>
     );
   };
@@ -378,8 +523,11 @@ const ModelIndexTableFilter = ({
                 }
               >
                 {fields.map((field, index) => (
-                  // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                  <option key={index} value={`${modelName.toLowerCase()}.${field}`}>
+                  <option
+                    // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                    key={index}
+                    value={field}
+                  >
                     {field}
                   </option>
                 ))}
@@ -406,14 +554,7 @@ const ModelIndexTableFilter = ({
               >
                 {renderOperatorOptions(currentFilter)}
               </select>
-              <input
-                type='input'
-                className='filter-bar'
-                value={currentFilter.value}
-                onChange={(e) =>
-                  setCurrentFilter({ ...currentFilter, value: [e.target.value] })
-                }
-              />
+              {renderInputOptions()}
               <Button type='button' variant='success' onClick={addFilter}>
                 <FaPlus />
               </Button>

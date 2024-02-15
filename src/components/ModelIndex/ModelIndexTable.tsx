@@ -49,7 +49,9 @@ const ModelIndexTable = ({
     document,
     variables: {
       ...tableView,
-      filter: filters,
+      filter: filters.map((group: any[]) =>
+        group.filter((filter) => fields.includes(filter.path)),
+      ),
     },
   });
   const { modelListData, modelListTotal } = useMemo(

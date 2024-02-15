@@ -108,7 +108,7 @@ export const tableViewsReducer = (
       if (!newTableViews[modelName]) newTableViews[modelName] = {};
       const currentFilter = newTableViews[modelName].filter;
       if (Array.isArray(currentFilter)) {
-        currentFilter.push(...filters);
+        currentFilter.push(filters);
       } else {
         newTableViews[modelName].filter = filters;
       }
