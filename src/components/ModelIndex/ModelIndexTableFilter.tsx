@@ -418,7 +418,7 @@ const ModelIndexTableFilter = ({
         <tr>
           <td>
             <select value={filter.path} disabled>
-              <option value={filter.path}>{filter.path}</option>
+              <option value={filter.path}>{`${filter.model}.${filter.path}`}</option>
             </select>
           </td>
           <td>
