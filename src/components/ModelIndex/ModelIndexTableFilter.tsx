@@ -3,6 +3,7 @@ import { BaseProps, FieldData } from '../../types';
 import { Button, Modal, Row, Tab, Tabs } from 'react-bootstrap';
 import { TableViewsAction } from '../../reducers/tableViewsReducer';
 import { FaPlus, FaRegTrashAlt } from 'react-icons/fa';
+import { set } from 'react-hook-form';
 
 interface ModelIndexTableFilterProps extends BaseProps {
   modelName: string;
@@ -19,6 +20,7 @@ interface FilterItem {
   op: string;
   not?: boolean;
   value?: any;
+  model: string;
 }
 
 const ModelIndexTableFilter = ({
@@ -35,6 +37,7 @@ const ModelIndexTableFilter = ({
     op: 'eq', // Default operator, adjust as needed
     not: false,
     value: [0],
+    model: modelName,
   };
   const [currentFilter, setCurrentFilter] = useState(blankFilter);
   const [activeTab, setActiveTab] = useState('filters');
@@ -63,13 +66,12 @@ const ModelIndexTableFilter = ({
   }, []);
 
   const addFilter = () => {
-    const newFilter = currentFilter;
-    const updatedAndGroupFilters = [newFilter];
+    const newFilter: FilterItem = { ...currentFilter, model: modelName };
     dispatch({
       type: TableViewsAction.ADD_FILTER,
-      payload: { modelName, updatedAndGroupFilters },
+      payload: { modelName, updatedAndGroupFilters: [newFilter] },
     });
-    setFilters([...filters, updatedAndGroupFilters]);
+    setFilters((prevFilters: any) => [...prevFilters, [newFilter]]);
     setCurrentFilter(blankFilter);
   };
 
@@ -79,7 +81,7 @@ const ModelIndexTableFilter = ({
       payload: { modelName },
     });
     setFilters([]);
-    setCurrentFilter(blankFilter);
+    setCurrentFilter({...blankFilter});
   };
 
   const handleFieldChange = (
@@ -87,12 +89,21 @@ const ModelIndexTableFilter = ({
     filter: FilterItem,
     isCurrent: boolean,
   ) => {
-    let defaultOperator = 'eq'; // Default operator for unknown field
+    let defaultOperator = 'eq';
     let defaultValue: any = 0;
-    if(!fieldsData[pathName]) {
-      return;
+    let defaultType: any;
+
+    const [fieldRelated, fieldName] = pathName.split('.');
+    const relatedFieldData = fieldsData[fieldRelated]?.related?.fieldsData;
+    if (relatedFieldData?.[fieldName]) {
+      defaultType = relatedFieldData[fieldName].type;
+    } else {
+      defaultType = fieldsData[pathName]?.type;
     }
-    switch (fieldsData[pathName].type) {
+
+    const modelNameForField = relatedFieldData ? fieldRelated : modelName;
+
+    switch (defaultType) {
       case 'Int!':
       case 'Int':
         defaultOperator = 'eq';
@@ -123,6 +134,7 @@ const ModelIndexTableFilter = ({
         path: pathName,
         op: defaultOperator,
         value: [defaultValue],
+        model: modelNameForField,
       });
     } else {
       filter.path = pathName;
@@ -133,7 +145,7 @@ const ModelIndexTableFilter = ({
 
   const handleAddFilterToGroup = (groupIndex: number) => {
     const updatedFilters = [...filters];
-    updatedFilters[groupIndex] = [...updatedFilters[groupIndex], blankFilter];
+    updatedFilters[groupIndex] = [...updatedFilters[groupIndex], {...blankFilter, model: modelName}];
     setFilters(updatedFilters);
   };
 
@@ -152,7 +164,17 @@ const ModelIndexTableFilter = ({
   };
 
   const renderInputOptions = () => {
-    switch (fieldsData[currentFilter.path].type) {
+    let defaultType: any;
+
+    const [fieldRelated, fieldName] = currentFilter.path.split('.');
+    const relatedFieldData = fieldsData[fieldRelated]?.related?.fieldsData;
+    if (relatedFieldData?.[fieldName]) {
+      defaultType = relatedFieldData[fieldName].type;
+    } else {
+      defaultType = fieldsData[currentFilter.path].type;
+    }
+
+    switch (defaultType) {
       case 'DateTime':
       case 'DateTime!':
         return (
@@ -203,9 +225,17 @@ const ModelIndexTableFilter = ({
   };
 
   const renderOperatorOptions = (filter: FilterItem) => {
-    if (fields.includes(filter.path)) {
-      const typeOfField = fieldsData[filter.path].type;
-      switch (typeOfField) {
+    let defaultType: any;
+
+    const [fieldRelated, fieldName] = filter.path.split('.');
+    const relatedFieldData = fieldsData[fieldRelated]?.related?.fieldsData;
+    if (relatedFieldData?.[fieldName]) {
+      defaultType = relatedFieldData[fieldName].type;
+    } else {
+      defaultType = fieldsData[filter.path]?.type;
+    }
+    if (defaultType) {
+      switch (defaultType) {
         case 'Int!':
         case 'Int':
           if (isNaN(Number(filter.value))) {
@@ -276,8 +306,6 @@ const ModelIndexTableFilter = ({
             </>
           );
         default:
-          filter.path = fields[0];
-          filter.value = [String(filter.value)];
           return (
             <>
               <option key='Equals' value='eq'>
@@ -289,7 +317,7 @@ const ModelIndexTableFilter = ({
             </>
           );
       }
-    } else {
+} else {
       filter.path = fields[0];
       filter.value = 0;
       return (
@@ -320,7 +348,16 @@ const ModelIndexTableFilter = ({
     };
 
     const renderInputOptionsTabs = () => {
-      switch (fieldsData[filter.path].type) {
+      let defaultType: any;
+
+    const [fieldRelated, fieldName] = filter.path.split('.');
+    const relatedFieldData = fieldsData[fieldRelated]?.related?.fieldsData;
+    if (relatedFieldData?.[fieldName]) {
+      defaultType = relatedFieldData[fieldName].type;
+    } else {
+      defaultType = fieldsData[filter.path]?.type;
+    }
+      switch (defaultType) {
         // Render input field
         case 'DateTime':
         case 'DateTime!':
@@ -376,7 +413,7 @@ const ModelIndexTableFilter = ({
         </td>
       );
     };
-    if (!fields.includes(filter.path)) {
+    if (filter.model && filter.model !== modelName) {
       return (
         <tr>
           <td>
@@ -404,8 +441,7 @@ const ModelIndexTableFilter = ({
           {renderTrashButton()}
         </tr>
       );
-    }
-
+    } else {
     return (
       <tr key={`filter_${index}`}>
         <td>
@@ -418,12 +454,33 @@ const ModelIndexTableFilter = ({
               handleChange('value', filter.value);
             }}
           >
-            {fields.map((field, idx) => (
-              // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <option key={idx} value={field}>
-                {field}
-              </option>
-            ))}
+            {Object.keys(fieldsData).map((fieldName, index) => {
+                  const fieldData = fieldsData[fieldName];
+                  if (fieldData.related) {
+                    // If the field has a related property, render related fields
+                    return fieldData.related.fields?.map(
+                      (relatedFieldName, idx) => (
+                        <option
+                          key={`${fieldName}_${relatedFieldName}`}
+                          value={`${fieldName}.${relatedFieldName}`}
+                        >
+                          {`${fieldName}.${relatedFieldName}`}
+                        </option>
+                      ),
+                    );
+                  } else {
+                    // If not related, render the field normally
+                    return (
+                      <option
+                        // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                        key={index}
+                        value={fieldName}
+                      >
+                        {fieldName}
+                      </option>
+                    );
+                  }
+                })}
           </select>
         </td>
         <td>
@@ -447,6 +504,7 @@ const ModelIndexTableFilter = ({
         {renderTrashButton()}
       </tr>
     );
+              }
   };
 
   const renderFiltersTable = (
@@ -498,40 +556,6 @@ const ModelIndexTableFilter = ({
       </Tab>
     ));
   };
-  let customField = false;
-  const renderCustomField = () => {
-    if(customField) {
-      let inputField = currentFilter.path;
-      return (
-      <input
-                value={inputField}
-                onChange={(e) => {
-                  inputField = e.target.value;
-                  handleFieldChange(e.target.value, currentFilter, true)
-                }}
-              />
-      );
-    } else {
-      return(
-      <select
-                value={currentFilter.path}
-                onChange={(e) =>
-                  handleFieldChange(e.target.value, currentFilter, true)
-                }
-              >
-                {fields.map((field, index) => (
-                  <option
-                    // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                    key={index}
-                    value={field}
-                  >
-                    {field}
-                  </option>
-                ))}
-              </select>
-      );
-    }
-  }
 
   const [showModal, setShowModal] = useState(false);
 
@@ -551,7 +575,40 @@ const ModelIndexTableFilter = ({
               <Modal.Title>Create a Filter:</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {renderCustomField()}
+              <select
+                value={currentFilter.path}
+                onChange={(e) =>
+                  handleFieldChange(e.target.value, currentFilter, true)
+                }
+              >
+                {Object.keys(fieldsData).map((fieldName, index) => {
+                  const fieldData = fieldsData[fieldName];
+                  if (fieldData.related) {
+                    // If the field has a related property, render related fields
+                    return fieldData.related.fields?.map(
+                      (relatedFieldName, idx) => (
+                        <option
+                          key={`${fieldName}_${relatedFieldName}`}
+                          value={`${fieldName}.${relatedFieldName}`}
+                        >
+                          {`${fieldName}.${relatedFieldName}`}
+                        </option>
+                      ),
+                    );
+                  } else {
+                    // If not related, render the field normally
+                    return (
+                      <option
+                        // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                        key={index}
+                        value={fieldName}
+                      >
+                        {fieldName}
+                      </option>
+                    );
+                  }
+                })}
+              </select>
               <label>
                 Not
                 <input
@@ -580,10 +637,6 @@ const ModelIndexTableFilter = ({
               </Button>
             </Modal.Body>
             <Modal.Footer>
-            {/* rome-ignore lint/suspicious/noAssignInExpressions: <explanation> */}
-            <Button variant='outline-primary' onClick={() => customField = true}>
-                Use Custom Field
-            </Button>
               <Button variant='outline-warning' onClick={removeFilters}>
                 Reset Filters
               </Button>

@@ -12,7 +12,7 @@ import Loading from '../commons/Loading';
 interface ModelIndexTableProps extends BaseProps {
   modelName: string;
   fields: string[];
-  fieldsData?: Record<string, FieldData>;
+  fieldsData: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
   filters?: any;
@@ -44,16 +44,33 @@ const ModelIndexTable = ({
     fieldsData,
   );
 
+  const filterFiltersByModel = (filters: any, modelName: string) => {
+    // Filter out the model key from each filter item and only include filters for the specific model value
+    return filters
+      .map((group: any) =>
+        group
+          .map((filter: any) => {
+            const { model, ...rest } = filter;
+            if (model === modelName) {
+              return rest;
+            }
+          })
+          .filter((filter: any) => filter !== undefined) // Filter out undefined filters
+      )
+      .filter((group: any) => group.length > 0); // Filter out groups with no filters
+  };
+
   const { data, error } = useGQLQuery({
     action,
     document,
     variables: {
       ...tableView,
-      filter: filters.map((group: any[]) =>
-        group.filter((filter) => fields.includes(filter.path)),
-      ),
+      filter: filterFiltersByModel(filters, modelName),
     },
   });
+  console.log(fieldsData);
+  console.log(typeof fieldsData.done_at);
+  console.log(fields);
   const { modelListData, modelListTotal } = useMemo(
     () => ({
       modelListData: data?.[action]?.items,
