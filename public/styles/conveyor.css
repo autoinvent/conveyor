@@ -33,3 +33,15 @@
     border: none;
     padding: 0;
 }
+
+.pagination>li>a {
+    background-color: grey;
+    border-color: white;
+}
+
+.pagination-info {
+    margin-left: 3px;
+    margin-top: 6px; 
+    align-items: center/* Adjust the margin as needed */
+}
+

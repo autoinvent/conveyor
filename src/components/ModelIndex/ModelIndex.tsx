@@ -10,6 +10,7 @@ import { humanizeText } from '../../utils/common';
 import ModelNav from '../ModelNav';
 
 import ModelIndexTable from './ModelIndexTable';
+import { FaPlus } from 'react-icons/fa';
 
 interface ModelIndexProps extends BaseProps {
   modelName: string;
@@ -45,7 +46,7 @@ const ModelIndex = ({
             <h2>{title}</h2>
             {/* TODO: Filter under construction */}
             <ModelNav modelName={modelName} modelId={Page.CREATE}>
-              <Button>Create</Button>
+              <Button>{<FaPlus/>}</Button>
             </ModelNav>
           </div>
           <ModelIndexTable
