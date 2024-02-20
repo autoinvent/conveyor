@@ -81,7 +81,7 @@ const ModelIndexTableFilter = ({
       payload: { modelName },
     });
     setFilters([]);
-    setCurrentFilter({...blankFilter});
+    setCurrentFilter({ ...blankFilter });
   };
 
   const handleFieldChange = (
@@ -145,7 +145,10 @@ const ModelIndexTableFilter = ({
 
   const handleAddFilterToGroup = (groupIndex: number) => {
     const updatedFilters = [...filters];
-    updatedFilters[groupIndex] = [...updatedFilters[groupIndex], {...blankFilter, model: modelName}];
+    updatedFilters[groupIndex] = [
+      ...updatedFilters[groupIndex],
+      { ...blankFilter, model: modelName },
+    ];
     setFilters(updatedFilters);
   };
 
@@ -317,7 +320,7 @@ const ModelIndexTableFilter = ({
             </>
           );
       }
-} else {
+    } else {
       filter.path = fields[0];
       filter.value = 0;
       return (
@@ -350,13 +353,13 @@ const ModelIndexTableFilter = ({
     const renderInputOptionsTabs = () => {
       let defaultType: any;
 
-    const [fieldRelated, fieldName] = filter.path.split('.');
-    const relatedFieldData = fieldsData[fieldRelated]?.related?.fieldsData;
-    if (relatedFieldData?.[fieldName]) {
-      defaultType = relatedFieldData[fieldName].type;
-    } else {
-      defaultType = fieldsData[filter.path]?.type;
-    }
+      const [fieldRelated, fieldName] = filter.path.split('.');
+      const relatedFieldData = fieldsData[fieldRelated]?.related?.fieldsData;
+      if (relatedFieldData?.[fieldName]) {
+        defaultType = relatedFieldData[fieldName].type;
+      } else {
+        defaultType = fieldsData[filter.path]?.type;
+      }
       switch (defaultType) {
         // Render input field
         case 'DateTime':
@@ -418,7 +421,9 @@ const ModelIndexTableFilter = ({
         <tr>
           <td>
             <select value={filter.path} disabled>
-              <option value={filter.path}>{`${filter.model}.${filter.path}`}</option>
+              <option
+                value={filter.path}
+              >{`${filter.model}.${filter.path}`}</option>
             </select>
           </td>
           <td>
@@ -442,69 +447,69 @@ const ModelIndexTableFilter = ({
         </tr>
       );
     } else {
-    return (
-      <tr key={`filter_${index}`}>
-        <td>
-          <select
-            value={filter.path}
-            onChange={(e) => {
-              handleFieldChange(e.target.value, filter, false);
-              handleChange('path', filter.path);
-              handleChange('op', filter.op);
-              handleChange('value', filter.value);
-            }}
-          >
-            {Object.keys(fieldsData).map((fieldName, index) => {
-                  const fieldData = fieldsData[fieldName];
-                  if (fieldData.related) {
-                    // If the field has a related property, render related fields
-                    return fieldData.related.fields?.map(
-                      (relatedFieldName, idx) => (
-                        <option
-                          key={`${fieldName}_${relatedFieldName}`}
-                          value={`${fieldName}.${relatedFieldName}`}
-                        >
-                          {`${fieldName}.${relatedFieldName}`}
-                        </option>
-                      ),
-                    );
-                  } else {
-                    // If not related, render the field normally
-                    return (
+      return (
+        <tr key={`filter_${index}`}>
+          <td>
+            <select
+              value={filter.path}
+              onChange={(e) => {
+                handleFieldChange(e.target.value, filter, false);
+                handleChange('path', filter.path);
+                handleChange('op', filter.op);
+                handleChange('value', filter.value);
+              }}
+            >
+              {Object.keys(fieldsData).map((fieldName, index) => {
+                const fieldData = fieldsData[fieldName];
+                if (fieldData.related) {
+                  // If the field has a related property, render related fields
+                  return fieldData.related.fields?.map(
+                    (relatedFieldName, idx) => (
                       <option
-                        // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                        key={index}
-                        value={fieldName}
+                        key={`${fieldName}_${relatedFieldName}`}
+                        value={`${fieldName}.${relatedFieldName}`}
                       >
-                        {fieldName}
+                        {`${fieldName}.${relatedFieldName}`}
                       </option>
-                    );
-                  }
-                })}
-          </select>
-        </td>
-        <td>
-          {'Not'}
-          <input
-            type='checkbox'
-            checked={filter.not}
-            onChange={(e) => handleChange('not', e.target.checked)}
-            className='not-checkbox'
-          />
-        </td>
-        <td>
-          <select
-            value={filter.op}
-            onChange={(e) => handleChange('op', e.target.value)}
-          >
-            {renderOperatorOptions(filter)}
-          </select>
-        </td>
-        <td>{renderInputOptionsTabs()}</td>
-        {renderTrashButton()}
-      </tr>
-    );
-              }
+                    ),
+                  );
+                } else {
+                  // If not related, render the field normally
+                  return (
+                    <option
+                      // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                      key={index}
+                      value={fieldName}
+                    >
+                      {fieldName}
+                    </option>
+                  );
+                }
+              })}
+            </select>
+          </td>
+          <td>
+            {'Not'}
+            <input
+              type='checkbox'
+              checked={filter.not}
+              onChange={(e) => handleChange('not', e.target.checked)}
+              className='not-checkbox'
+            />
+          </td>
+          <td>
+            <select
+              value={filter.op}
+              onChange={(e) => handleChange('op', e.target.value)}
+            >
+              {renderOperatorOptions(filter)}
+            </select>
+          </td>
+          <td>{renderInputOptionsTabs()}</td>
+          {renderTrashButton()}
+        </tr>
+      );
+    }
   };
 
   const renderFiltersTable = (
