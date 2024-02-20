@@ -68,9 +68,7 @@ const ModelIndexTable = ({
       filter: filterFiltersByModel(filters, modelName),
     },
   });
-  console.log(fieldsData);
-  console.log(typeof fieldsData.done_at);
-  console.log(fields);
+
   const { modelListData, modelListTotal } = useMemo(
     () => ({
       modelListData: data?.[action]?.items,
