@@ -46,7 +46,7 @@ const ModelIndex = ({
             <h2>{title}</h2>
             {/* TODO: Filter under construction */}
             <ModelNav modelName={modelName} modelId={Page.CREATE}>
-              <Button>{<FaPlus/>}</Button>
+              <Button>{<FaPlus />}</Button>
             </ModelNav>
           </div>
           <ModelIndexTable

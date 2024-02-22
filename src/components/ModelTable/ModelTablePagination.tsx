@@ -34,7 +34,7 @@ const ModelTablePagination = ({
     setCurrentPage(pageNumber);
     dispatch({
       type: TableViewsAction.SET_PAGE,
-      payload: {modelName, page: pageNumber}
+      payload: { modelName, page: pageNumber },
     });
   };
 
@@ -42,13 +42,13 @@ const ModelTablePagination = ({
     const items = [];
     for (let i = 1; i <= totalPages; i++) {
       items.push(
-        <Pagination.Item 
+        <Pagination.Item
           key={i}
           active={i === currentPage}
           onClick={() => handlePaginationClick(i)}
         >
           {i}
-        </Pagination.Item>
+        </Pagination.Item>,
       );
     }
     return items;
@@ -56,16 +56,17 @@ const ModelTablePagination = ({
 
   return (
     <div id={id} className={className}>
-    <Pagination>{renderPaginationItems()}
-    <span className='pagination-info'>
-    {modelListTotal
-      ? `${per_page * (page - 1) + 1}-${
-          totalPages === page ? modelListTotal : per_page * page
-        } of ${modelListTotal}`
-      : null}
-      </span>
+      <Pagination>
+        {renderPaginationItems()}
+        <span className='pagination-info'>
+          {modelListTotal
+            ? `${per_page * (page - 1) + 1}-${
+                totalPages === page ? modelListTotal : per_page * page
+              } of ${modelListTotal}`
+            : null}
+        </span>
       </Pagination>
-</div>
+    </div>
   );
 };
 

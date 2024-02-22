@@ -48,7 +48,10 @@ const ModelTableRow = ({
         {children ??
           fields.map((field) => {
             return (
-              <td key={`${PACKAGE_ABBR}-table-cell-${field}`}>
+              <td
+                key={`${PACKAGE_ABBR}-table-cell-${field}`}
+                style={{ textAlign: 'center' }}
+              >
                 <ModelFormField
                   modelName={modelName}
                   fields={fields}
