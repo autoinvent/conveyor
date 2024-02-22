@@ -50,7 +50,7 @@ const ModelTableRow = ({
             return (
               <td
                 key={`${PACKAGE_ABBR}-table-cell-${field}`}
-                style={{ textAlign: 'center' }}
+                style={{ textAlign: 'center', minWidth: '100px' }}
               >
                 <ModelFormField
                   modelName={modelName}

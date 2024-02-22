@@ -54,6 +54,7 @@ summary h4 {
     border-style: solid;
     border-width: thin;
     outline: none;
+    white-space: nowrap;
 }
 
 .select .select__control:hover {
@@ -72,7 +73,9 @@ summary h4 {
 .select .select__menu-list {
     border: solid;
     border-width: thin;
-    border-color: var(--bs-primary-bg-subtle)
+    border-color: var(--bs-primary-bg-subtle);
+    white-space: nowrap;
+
 }
 
 .select .select__single-value, .select .select__multi-value {

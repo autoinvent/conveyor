@@ -39,68 +39,73 @@ const ModelDetailTable = ({
   const { modelName, fields = [], fieldsData } = related;
   const dataList = parentData[parentField];
   return (
-    <Table id={id} className={className} striped bordered hover size='sm'>
-      <thead id={id} className={className}>
-        <tr>
-          {fields.map((field) => {
-            const displayLabelFn = fieldsData?.[field]?.displayLabelFn;
+    <div style={{ overflowX: 'auto' }}>
+      <Table id={id} className={className} striped bordered hover size='sm'>
+        <thead id={id} className={className} style={{ whiteSpace: 'nowrap' }}>
+          <tr style={{ minWidth: '400px' }}>
+            {fields.map((field) => {
+              const displayLabelFn = fieldsData?.[field]?.displayLabelFn;
+              return (
+                <ModelTableHeader
+                  key={`${PACKAGE_ABBR}-table-header-${field}}`}
+                  modelName={`${parentModelName}/${modelName}`}
+                  field={field}
+                  displayLabelFn={displayLabelFn}
+                  sortable={false}
+                />
+              );
+            })}
+            {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`} />}
+          </tr>
+        </thead>
+        <tbody>
+          {dataList.map((rowData: Record<string, any>) => {
             return (
-              <ModelTableHeader
-                key={`${PACKAGE_ABBR}-table-header-${field}}`}
-                modelName={`${parentModelName}/${modelName}`}
-                field={field}
-                displayLabelFn={displayLabelFn}
-                sortable={false}
-              />
-            );
-          })}
-          {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`} />}
-        </tr>
-      </thead>
-      <tbody>
-        {dataList.map((rowData: Record<string, any>) => {
-          return (
-            <ModelTableRow
-              key={`${PACKAGE_ABBR}-table-row-${rowData[primaryKey]}`}
-              modelName={modelName}
-              fields={fields}
-              data={rowData}
-              fieldsData={fieldsData}
-              editable={editable}
-              deletable={deletable}
-            >
-              {fields.map((field) => {
-                return (
-                  <td key={`${PACKAGE_ABBR}-table-cell-${field}`}>
-                    <ModelFormField
-                      modelName={modelName}
-                      fields={fields}
-                      field={field}
+              <ModelTableRow
+                key={`${PACKAGE_ABBR}-table-row-${rowData[primaryKey]}`}
+                modelName={modelName}
+                fields={fields}
+                data={rowData}
+                fieldsData={fieldsData}
+                editable={editable}
+                deletable={deletable}
+              >
+                {fields.map((field) => {
+                  return (
+                    <td
+                      key={`${PACKAGE_ABBR}-table-cell-${field}`}
+                      style={{ textAlign: 'center', minWidth: '100px' }}
+                    >
+                      <ModelFormField
+                        modelName={modelName}
+                        fields={fields}
+                        field={field}
+                        data={rowData}
+                        fieldData={fieldsData?.[field]}
+                      />
+                    </td>
+                  );
+                })}
+                {showCrud ? (
+                  <td className={`${PACKAGE_ABBR}-model-table-crud-cell`}>
+                    <ModelDetailTableCrud
+                      parentId={parentId}
+                      parentModelName={parentModelName}
+                      parentField={parentField}
+                      parentFieldsData={parentFieldsData}
+                      parentData={parentData}
                       data={rowData}
-                      fieldData={fieldsData?.[field]}
+                      editable={editable}
+                      deletable={deletable}
                     />
                   </td>
-                );
-              })}
-              {showCrud ? (
-                <td className={`${PACKAGE_ABBR}-model-table-crud-cell`}>
-                  <ModelDetailTableCrud
-                    parentId={parentId}
-                    parentModelName={parentModelName}
-                    parentField={parentField}
-                    parentFieldsData={parentFieldsData}
-                    parentData={parentData}
-                    data={rowData}
-                    editable={editable}
-                    deletable={deletable}
-                  />
-                </td>
-              ) : null}
-            </ModelTableRow>
-          );
-        })}
-      </tbody>
-    </Table>
+                ) : null}
+              </ModelTableRow>
+            );
+          })}
+        </tbody>
+      </Table>
+    </div>
   );
 };
 

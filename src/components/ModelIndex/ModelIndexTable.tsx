@@ -54,16 +54,19 @@ const ModelIndexTable = ({
     <Loading />
   ) : (
     <>
-      <ModelTable
-        id={id}
-        className={className}
-        modelName={modelName}
-        fields={fields}
-        fieldsData={fieldsData}
-        dataList={modelListData}
-        editable={editable}
-        deletable={deletable}
-      />
+      <div style={{ overflowX: 'auto' }}>
+        {/* Add a wrapping div for horizontal scrolling */}
+        <ModelTable
+          id={id}
+          className={className}
+          modelName={modelName}
+          fields={fields}
+          fieldsData={fieldsData}
+          dataList={modelListData}
+          editable={editable}
+          deletable={deletable}
+        />
+      </div>
       <ModelTablePagination
         modelName={modelName}
         modelListTotal={modelListTotal}

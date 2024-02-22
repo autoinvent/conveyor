@@ -64,7 +64,7 @@ const ModelFormValue = ({
   }
 
   return (
-    <span id={id} className={className}>
+    <span id={id} className={className} style={{ maxWidth: '300px' }}>
       {displayData}
     </span>
   );
