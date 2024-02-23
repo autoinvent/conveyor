@@ -37,8 +37,8 @@
 }
 
 .pagination>li>a {
-    background-color: grey;
-    border-color: white;
+    background-color: var(--bs-secondary);
+    border-color: var(--bs-body-color);
 }
 
 .pagination-info {

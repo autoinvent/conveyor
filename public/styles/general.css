@@ -20,11 +20,11 @@ form label {
 
 input {
     width: 100%;
-    background-color: var(--bs-body-bg);
+    background-color: #191919;
     border-radius: 4px;
     border-style: solid;
-    border-width: thin;
-    border-color: var(--bs-body-color);
+    border-color: var(--bs-form-valid-color);
+    min-width: 225px;
 }
 
 input:hover {
@@ -55,6 +55,8 @@ summary h4 {
     border-width: thin;
     outline: none;
     white-space: nowrap;
+    width: 100%;
+    min-width: 225px;
 }
 
 .select .select__control:hover {
