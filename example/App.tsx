@@ -5,29 +5,6 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-// import {
-//   ConveyorAdmin,
-//   UseGQLQueryResponse,
-//   UseGQLMutationRequest,
-// } from '../src';
-import ModelIndex from '../src/aaadmin/components/ModelIndex';
-import Conveyor from '../src/aaadmin/components/Conveyor';
-import {
-  UseGQLQueryResponse,
-  UseGQLMutationRequest,
-} from '../src/aaadmin/contexts/ConveyorContext';
-import ConveyorRoute from '../src/aaadmin/components/ConveyorRoute';
-import { StrictMode } from 'react';
-import ModelTable from '../src/aaconveyor/components/ModelTable';
-import ModelHeading from '../src/aaconveyor/components/ModelHeading';
-import ModelTableHead from '../src/aaconveyor/components/ModelTableHead';
-import ModelTableHeader from '../src/aaconveyor/components/ModelTableHeader';
-import ModelTableCell from '../src/aaconveyor/components/ModelTableCell';
-import ModelTableBody from '../src/aaconveyor/components/ModelTableBody';
-import ModelTableRow from '../src/aaconveyor/components/ModelTableRow';
-import ModelTablePagination from '../src/aaconveyor/components/ModelTablePagination';
-import ModelTitle from '../src/aaconveyor/components/ModelTitle';
-import FieldValue from '../src/aaconveyor/components/FieldValue';
 
 function App() {
   const queryClient = new QueryClient();
@@ -63,15 +40,6 @@ function App() {
   };
   // Fetcher to retrieve GraphQL query/mutation from endpoint
   const useGQLQueryResponse: UseGQLQueryResponse = (param) => {
-    // const actionModel = graphQLParams.action
-    //   ? graphQLParams.action.split('_')[0]
-    //   : 'unknown';
-    // const response = useQuery({
-    //   queryKey: [actionModel, graphQLParams],
-    //   queryFn: () =>
-    //     request(gqlUrl, graphQLParams.document, graphQLParams.variables),
-    // });
-    // return handleResponse(response);
     const model = (param.operation ?? '').replace(/_list/, '');
     const response: any = useQuery({
       queryKey: [model],
@@ -115,27 +83,7 @@ function App() {
       <Conveyor
         useGQLQueryResponse={useGQLQueryResponse}
         useGQLMutationRequest={useGQLMutationRequest}
-      >
-        {/* <ConveyorRoute path=':model'>
-          <ModelIndex modelName='Task' fields={['message']}>
-            <ModelTable>
-              <ModelHeading>
-                <ModelTitle />
-                <div>Filter</div>
-              </ModelHeading>
-              <ModelTableHead />
-              <ModelTableBody>
-                <ModelTableRow>
-                  <ModelTableCell field={'message'}>
-                    <FieldValue field={'message'} />
-                  </ModelTableCell>
-                </ModelTableRow>
-              </ModelTableBody>
-              <ModelTablePagination />
-            </ModelTable>
-          </ModelIndex>
-        </ConveyorRoute> */}
-      </Conveyor>
+      />
     </QueryClientProvider>
   );
 }
