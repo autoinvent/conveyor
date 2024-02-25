@@ -1,13 +1,13 @@
 import { ReactNode, useContext, useEffect } from 'react';
 
-import { SetSlotsContext } from '../contexts/SlotsContext';
+import { SetSlotsContext } from '@/contexts/Slots';
 
-interface SlotProps {
+export interface SlotProps {
     slotKey: string;
     children?: ReactNode;
 }
 
-const Slot = ({ slotKey, children }: SlotProps) => {
+export const Slot = ({ slotKey, children }: SlotProps) => {
     const setSlots = useContext(SetSlotsContext);
     useEffect(() => {
         setSlots((slots) => ({
@@ -17,5 +17,3 @@ const Slot = ({ slotKey, children }: SlotProps) => {
     }, [slotKey, children]);
     return null;
 };
-
-export default Slot;
