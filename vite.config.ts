@@ -45,4 +45,9 @@ export default defineConfig({
       '/graphql': 'http://localhost:5000',
     },
   },
+  resolve: {
+    alias: {
+      '@': '/src',
+    }
+  }
 });

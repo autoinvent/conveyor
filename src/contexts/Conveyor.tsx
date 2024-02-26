@@ -1,65 +1,55 @@
 import { ReactNode, createContext } from 'react';
 
-export interface GQLError {
+import { Alerts } from '@/contexts/Alerts'
+
+export interface MQLError {
     message: string;
     locations?: { line: number; column: number }[];
     path?: (string | number)[];
     extensions?: Record<string, any>;
 }
 
-export interface UseGQLQueryResponseParam {
+export interface MQLResponse {
+    [operationName: string]: Record<string, any>
+    // errors?: MQLError[];
+}
+
+export interface UseMQLParameters {
     document: string;
-    variables?: Record<string, any>;
-    operation?: string;
+    operationName?: string;
 }
 
-export interface UseGQLQueryResponseResponseReturn {
-    data?: { [operation: string]: Record<string, any> };
-    errors?: GQLError[];
-}
-
-export type UseGQLQueryResponse = (
-    param: UseGQLQueryResponseParam,
-) => UseGQLQueryResponseResponseReturn;
-
-export interface UseGQLMutationRequestParam {
-    document: string;
-    operation?: string;
-}
-
-export type UseGQLMutationRequestReturn = (
+export type MQLRequest = (
     variables?: Record<string, any>,
-) => Promise<UseGQLQueryResponseResponseReturn>;
+) => Promise<MQLResponse>;
 
-export type UseGQLMutationRequest = (
-    param: UseGQLMutationRequestParam,
-) => UseGQLMutationRequestReturn;
+
+export type UseMQLOperation = (parameters: UseMQLParameters,) => MQLRequest;
 
 export interface ConveyorContextType {
-    useGQLQueryResponse: UseGQLQueryResponse;
-    useGQLMutationRequest: UseGQLMutationRequest;
+    useMQLQuery: UseMQLOperation,
+    useMQLMutation: UseMQLOperation
 }
 
 export const ConveyorContext = createContext<ConveyorContextType>({
-    useGQLQueryResponse: () => ({
-        errors: [{ message: 'useGQLQueryResponse is not defined.' }],
-    }),
-    useGQLMutationRequest: () => () =>
-        Promise.reject(new Error('useGQLMutationRequest is not defined.')),
+    useMQLQuery: () => () =>
+        Promise.reject(new Error('useMQLQuery is not defined.')),
+    useMQLMutation: () => () =>
+        Promise.reject(new Error('useMQLMutation is not defined.')),
 });
 
 export interface ConveyorProps {
-    value: ConveyorContextType;
+    useMQLQuery: UseMQLOperation
+    useMQLMutation: UseMQLOperation
     children?: ReactNode;
 }
 
-export const Conveyor = ({
-    value,
-    children,
-}: ConveyorProps) => {
+export const Conveyor = ({ useMQLQuery, useMQLMutation, children, }: ConveyorProps) => {
     return (
-        <ConveyorContext.Provider value={value}>
-            {children}
-        </ConveyorContext.Provider>
+        <ConveyorContext.Provider value={{ useMQLQuery, useMQLMutation }}>
+            <Alerts>
+                {children}
+            </Alerts>
+        </ConveyorContext.Provider >
     );
 };

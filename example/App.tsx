@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { request } from 'graphql-request';
 import {
   useQuery,
@@ -6,51 +7,74 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 
+import { Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar } from '@/index'
+
+
+// const errorHandler = (error: any) => {
+//   let errorMessages = null;
+//   if (typeof error?.message === 'string') {
+//     const matches = error.message.match(/\{".*\}/g);
+//     if (matches) {
+//       const parsedError = JSON.parse(matches[0]);
+//       // rome-ignore lint: not confusing
+//       error = parsedError;
+//     }
+//   }
+//   if (error?.response && Array.isArray(error?.response?.errors)) {
+//     errorMessages = error.response.errors.map((err: any) => err.message);
+//   }
+//   if (!errorMessages) {
+//     throw Error(error);
+//   }
+//   return errorMessages;
+// };
+// const handleResponse = (response: any) => {
+//   return new Promise((resolve, reject) => {
+//     if (!response.isLoading) {
+//       if (response.isError) {
+//         reject(errorHandler(response.error));
+//       } else {
+//         resolve(response.data);
+//       }
+//     }
+//   });
+// };
+
 function App() {
   const queryClient = new QueryClient();
   const gqlUrl = '/graphql';
-  const errorHandler = (error: any) => {
-    let errorMessages = null;
-    if (typeof error?.message === 'string') {
-      const matches = error.message.match(/\{".*\}/g);
-      if (matches) {
-        const parsedError = JSON.parse(matches[0]);
-        // rome-ignore lint: not confusing
-        error = parsedError;
-      }
-    }
-    if (error?.response && Array.isArray(error?.response?.errors)) {
-      errorMessages = error.response.errors.map((err: any) => err.message);
-    }
-    if (!errorMessages) {
-      throw Error(error);
-    }
-    return errorMessages;
-  };
-  const handleResponse = (response: any) => {
-    return new Promise((resolve, reject) => {
-      if (!response.isLoading) {
-        if (response.isError) {
-          reject(errorHandler(response.error));
-        } else {
-          resolve(response.data);
-        }
-      }
-    });
-  };
+
   // Fetcher to retrieve GraphQL query/mutation from endpoint
-  const useGQLQueryResponse: UseGQLQueryResponse = (param) => {
-    const model = (param.operation ?? '').replace(/_list/, '');
-    const response: any = useQuery({
+  const useMQLQuery: UseMQLOperation = ({ document, operationName }) => {
+    const [enabled, setEnabled] = useState(false)
+    const [variables, setVariables] = useState({} as Record<string, any> | undefined)
+    const model = (operationName ?? '').replace(/_list/, '');
+    const { data, error, isLoading, isSuccess }: any = useQuery({
       queryKey: [model],
       queryFn: async () => {
-        const response = await request(gqlUrl, param.document, param.variables);
-        return response;
+        return request(gqlUrl, document, variables)
       },
+      enabled
     });
-    return { data: response.data, errors: response.error };
+    const mqlRequest: MQLRequest = (vars) => {
+      if (!enabled) {
+        setEnabled(true)
+        setVariables(vars)
+      }
+      return new Promise((resolve, reject) => {
+        if (!isLoading) {
+          if (isSuccess) {
+            resolve(data)
+          } else {
+            reject(error)
+          }
+        }
+      })
+    }
+    return mqlRequest
+    // return { data: response.data, errors: response.error };
   };
-  const useGQLMutationRequest: UseGQLMutationRequest = (param) => {
+  const useMQLMutation: UseMQLOperation = (param) => {
     // const actionModel = graphQLParams.action
     //   ? graphQLParams.action.split('_')[0]
     //   : 'unknown';
@@ -66,24 +90,25 @@ function App() {
     //   response.mutate(options);
     //   return handleResponse(response);
     // };
-    const model = (param.operation ?? '').replace(/_update/, '');
-    const mutate: any = useMutation({
-      onSuccess: () => queryClient.invalidateQueries({ queryKey: [model] }),
-      mutationFn: async (vars: any) => {
-        const response = await request(gqlUrl, param.document, vars);
-        return response;
-      },
-    });
-    return (vars) => mutate.mutateAsync(vars);
-    // return () => Promise.resolve({});
+
+    // const model = (param.operation ?? '').replace(/_update/, '');
+    // const mutate: any = useMutation({
+    //   onSuccess: () => queryClient.invalidateQueries({ queryKey: [model] }),
+    //   mutationFn: async (vars: any) => {
+    //     const response = await request(gqlUrl, param.document, vars);
+    //     return response;
+    //   },
+    // });
+    // return (vars) => mutate.mutateAsync(vars);
+    return () => Promise.resolve({});
   };
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Conveyor
-        useGQLQueryResponse={useGQLQueryResponse}
-        useGQLMutationRequest={useGQLMutationRequest}
-      />
+      <Conveyor useMQLQuery={useMQLQuery} useMQLMutation={useMQLMutation}>
+        <Navbar modelNames={['Task']}></Navbar>
+        <ModelIndex model="Task" fields={['message']} />
+      </Conveyor>
     </QueryClientProvider>
   );
 }
