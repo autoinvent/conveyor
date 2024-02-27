@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useCallback, useContext } from "react"
 
 import { ConveyorContext } from "@/contexts/Conveyor"
 import { Field } from "@/types"
@@ -13,7 +13,7 @@ export const useModelListQuery = (model: string, fields: Field[]) => {
             ${operationName} (filter: $filter, sort: $sort, page: $page, per_page: $per_page) {
                 total
                 items {
-                    id ${fieldNames.join(' ')} a
+                    id ${fieldNames.join(' ')}
                 }              
             }
         }

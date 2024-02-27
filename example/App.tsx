@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { request } from 'graphql-request';
 import {
   useQuery,
@@ -49,30 +49,29 @@ function App() {
     const [enabled, setEnabled] = useState(false)
     const [variables, setVariables] = useState({} as Record<string, any> | undefined)
     const model = (operationName ?? '').replace(/_list/, '');
-    const { data, error, isLoading, isSuccess }: any = useQuery({
+    const query: any = useQuery({
       queryKey: [model],
       queryFn: async () => {
         return request(gqlUrl, document, variables)
       },
       enabled
     });
-    const mqlRequest: MQLRequest = (vars) => {
+    const mqlRequest: MQLRequest = useCallback((vars) => {
       if (!enabled) {
         setEnabled(true)
         setVariables(vars)
       }
       return new Promise((resolve, reject) => {
-        if (!isLoading) {
-          if (isSuccess) {
-            resolve(data)
+        if (!query.isLoading) {
+          if (query.isSuccess) {
+            resolve(query.data)
           } else {
-            reject(error)
+            reject(query.error)
           }
         }
       })
-    }
+    }, [query.isLoading, enabled])
     return mqlRequest
-    // return { data: response.data, errors: response.error };
   };
   const useMQLMutation: UseMQLOperation = (param) => {
     // const actionModel = graphQLParams.action
@@ -107,7 +106,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Conveyor useMQLQuery={useMQLQuery} useMQLMutation={useMQLMutation}>
         <Navbar modelNames={['Task']}></Navbar>
-        <ModelIndex model="Task" fields={['message']} />
+        <ModelIndex model="Task" fields={['message', 'created_at']} />
       </Conveyor>
     </QueryClientProvider>
   );

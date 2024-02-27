@@ -1,38 +1,44 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Alert as RBAlert } from 'react-bootstrap'
 
+import { useRemoveAlert } from '@/hooks/useAlert'
 import { BaseComponentProps } from '@/types'
 
 
 export interface AlertProps extends BaseComponentProps {
+    alertId: string
     content: ReactNode
-    delay?: number
+    expires?: number
 }
 
-export const Alert = ({ content, delay, id, className, style }: AlertProps) => {
-    const [show, setShow] = useState(!Boolean(delay))
+export const Alert = ({ alertId, content, expires, id, className, style }: AlertProps) => {
+    const removeAlert = useRemoveAlert()
+    const defaultStyles = {
+        margin: '1px',
+        width: '100%'
+    }
+
     useEffect(() => {
         let timer: ReturnType<typeof setTimeout> | undefined = undefined
-        if (delay) {
+        if (expires) {
             timer = setTimeout(() => {
-                setShow(false)
-            }, delay)
+                removeAlert(alertId)
+            }, expires)
         }
 
         return () => {
             clearTimeout(timer)
         }
-    }, [delay])
+    }, [expires])
 
     return (
         <RBAlert
-            show={show}
-            // autohide={Boolean(expires)}
-            // delay={expires}
+            show={true}
             id={id}
             className={className}
-            style={style}
+            style={style ?? defaultStyles}
             dismissible
+            onClose={() => removeAlert(alertId)}
         >
             {content}
         </RBAlert>

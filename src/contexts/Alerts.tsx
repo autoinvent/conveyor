@@ -1,29 +1,42 @@
-import { createContext, Dispatch, Fragment, ReactNode, SetStateAction, useState } from 'react';
+import { createContext, CSSProperties, Dispatch, FC, ReactNode, SetStateAction, useState } from 'react';
 
-export const AlertsContext = createContext<ReactNode[]>([]);
-export const SetAlertsContext = createContext<
-    Dispatch<SetStateAction<ReactNode[]>>
+import { Alert, AlertProps } from '@/components/Alert'
+
+export const AlertPropsContext = createContext<AlertProps[]>([]);
+export const SetAlertPropsContext = createContext<
+    Dispatch<SetStateAction<AlertProps[]>>
 >(() => {
-    throw new Error('SetAlertsContext must be used within Akerts');
+    throw new Error('SetAlertPropsContext must be used within Alerts');
 });
 
 
 export interface AlertsProps {
-    initialAlerts?: ReactNode[]
+    Component?: FC<AlertProps>
     children?: ReactNode
 }
 
-export const Alerts = ({ initialAlerts = [], children }: AlertsProps) => {
-    const [alerts, setAlerts] = useState<ReactNode[]>(initialAlerts)
-
+export const Alerts = ({ Component = Alert, children }: AlertsProps) => {
+    const [alertsProps, setAlertsProps] = useState<AlertProps[]>([])
+    const alertsStyles: CSSProperties = {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        minWidth: '60%',
+        left: '20%',
+        zIndex: 10,
+    }
     return (
-        <SetAlertsContext.Provider value={setAlerts}>
-            <AlertsContext.Provider value={alerts}>
-                {alerts.map((alert, index) =>
-                    <Fragment key={index}>{alert}</Fragment>
-                )}
+        <SetAlertPropsContext.Provider value={setAlertsProps}>
+            <AlertPropsContext.Provider value={alertsProps}>
+                <div style={alertsStyles}>
+                    {alertsProps.map((alertProp) =>
+                        <Component key={alertProp.alertId} {...alertProp} />
+                    )}
+                </div>
                 {children}
-            </AlertsContext.Provider>
-        </SetAlertsContext.Provider>
+            </AlertPropsContext.Provider>
+        </SetAlertPropsContext.Provider>
     );
 };
