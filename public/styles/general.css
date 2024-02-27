@@ -20,7 +20,7 @@ form label {
 
 input {
     width: 100%;
-    background-color: #191919;
+    background-color: var(--input-bg-color);
     border-radius: 4px;
     border-style: solid;
     border-color: var(--bs-form-valid-color);
@@ -28,13 +28,13 @@ input {
 }
 
 input:hover {
-    border-color: var(--bs-info);
+    border-color: var(--bs-form-valid-color);
 }
 
 input:focus{
     outline-style: solid;
-    outline-color: var(--bs-info);
-    border-color: var(--bs-info);
+    outline-color: var(--bs-form-valid-color);
+    border-color: var(--bs-form-valid-color);
 }
 
 summary h4 {
@@ -48,39 +48,44 @@ summary h4 {
     z-index: 2;
 }
 
+.select .select__input {
+    color: var(--bs-body-color) !important;
+}
 
 .select .select__control {
     border-radius: 4px;
     border-style: solid;
-    border-width: thin;
-    outline: none;
+    border-width: 2px;
     white-space: nowrap;
     width: 100%;
     min-width: 225px;
+    border-color: var(--bs-form-valid-color);
 }
 
 .select .select__control:hover {
-    border-color: var(--bs-info);
+    border-color: var(--bs-form-valid-color);
 }
 
-.select .select__control:focus  {
-    outline-color: var(--bs-info);
-    border-color: var(--bs-info);
+.select .select__control:focus-within {
+    outline-style: solid;
+    border-color: var(--bs-form-valid-color);
+    outline-color: var(--bs-form-valid-color);
+    box-shadow: var(--bs-form-valid-color);
 }
 
 .select .select__value-container, .select .select__menu-list, .select .select__indicators, .select .select__option  {
-    background-color: var(--bs-body-bg);
+    background-color: var(--input-bg-color);
+    color: var(--bs-body-color);
 }
 
 .select .select__menu-list {
     border: solid;
     border-width: thin;
-    border-color: var(--bs-primary-bg-subtle);
+    border-color: var(--bs-success-border-subtle);
     white-space: nowrap;
-
 }
 
-.select .select__single-value, .select .select__multi-value {
+.select .select__single-value, .select .select__multi-value, .select .select__multi-value__label {
     color: var(--bs-body-color);
 }
 
@@ -93,10 +98,9 @@ summary h4 {
 }
 
 .select .select__option:hover {
-    background-color: var(--bs-primary-bg-subtle);
-    color: var(--bs-body-bg);
+    background-color: var(--bs-form-valid-color);
+    color: var(--input-bg-color);
 }
-
 
 .close {
     position: absolute;

@@ -26,7 +26,19 @@ export const useThemeSelect = () => {
   useEffect(() => {
     const themeName =
       currentTheme === 'system' ? systemTheme : currentTheme ?? 'darkly';
-    LazyThemeLoader[themeName]().then((result) => setThemeCSS(result.default));
+    LazyThemeLoader[themeName]().then((result) => {
+      setThemeCSS(result.default);
+      const inputBgColor = currentTheme === 'darkly' ? '#191919' : '#FFF';
+      document.documentElement.style.setProperty(
+        '--input-bg-color',
+        inputBgColor,
+      );
+      const backGroundColor = currentTheme === 'darkly' ? '#222' : '#f2f2f2';
+      document.documentElement.style.setProperty(
+        '--bs-body-bg',
+        backGroundColor,
+      );
+    });
   }, [currentTheme, systemTheme]);
 
   return {

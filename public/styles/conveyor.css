@@ -33,7 +33,11 @@
     padding: 0;
     transform: scale(2);
     background-color: transparent;
-    width: 50%;
+    color: var(--bs-form-valid-color);
+}
+
+.conv-checkbox:disabled {
+    color: var(--bs-secondary);
 }
 
 .pagination>li>a {
