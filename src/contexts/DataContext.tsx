@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Data } from '@/types';
+export type Data = Record<string, any>;
 
 export const DataContext = createContext<Data>({});
 

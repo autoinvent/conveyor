@@ -1,9 +1,10 @@
 import { ReactNode } from 'react'
 import { Table as RBTable } from 'react-bootstrap'
 
+import { Data } from '@/contexts/DataContext'
 import { Slots } from '@/contexts/Slots';
 import { TableProvider } from '@/contexts/TableContext';
-import { BaseComponentProps, Field, Data } from "@/types";
+import { BaseComponentProps, Field } from "@/types";
 
 import { TableHead, TABLE_HEAD_SLOT } from './TableHead';
 import { TableHeader } from './TableHeader'

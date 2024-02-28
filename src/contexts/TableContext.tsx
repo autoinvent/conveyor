@@ -1,13 +1,11 @@
 import { createContext, ReactNode, useContext, useMemo } from 'react';
 
-import { Data, Field } from '@/types';
+import { Data } from '@/contexts/DataContext'
+import { Field } from '@/types';
 
 export interface TableContext {
     fields: Field[];
     data: Data[];
-    showActions?: boolean;
-    onSave?: Function;
-    onDelete?: Function;
     skip?: boolean;
 }
 export const TableContext = createContext<TableContext>({
@@ -23,17 +21,11 @@ export interface TableProviderProps extends Omit<TableContext, 'skip'> {
 export const TableProvider = ({
     fields,
     data,
-    showActions = true,
-    onSave,
-    onDelete,
     children,
 }: TableProviderProps) => {
     const table = {
         fields,
         data,
-        showActions,
-        onSave,
-        onDelete,
         skip: true,
     };
     // prevents unecessary renders on data reference change

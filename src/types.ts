@@ -23,4 +23,3 @@ export type Field =
         editable?: boolean;
     };
 
-export type Data = Record<string, any>;

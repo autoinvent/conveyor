@@ -33,9 +33,9 @@ export const Navbar = ({ modelNames }: { modelNames: string[] | null }) => {
                         Conveyor
                     </ReactNavBar.Brand>
                     {/* </Link> */}
-                    <ReactNavBar.Toggle aria-controls='moebius-example-navbar' />
+                    <ReactNavBar.Toggle aria-controls='collapsable-navbar' />
                     <ReactNavBar.Collapse
-                        id='moebius-example-navbar'
+                        id='collapsable-navbar'
                         className='justify-content-end'
                     >
                         <Nav>

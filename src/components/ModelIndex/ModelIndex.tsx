@@ -3,12 +3,13 @@ import { Spinner } from 'react-bootstrap'
 
 import { Lens } from '@/components/Lens';
 import { Table } from '@/components/Table'
+import { Data } from '@/contexts/DataContext'
 import { Lenses } from '@/contexts/Lenses';
 import { Slots } from '@/contexts/Slots';
 import { TableProvider } from '@/contexts/TableContext';
 import { useAddAlert } from '@/hooks/useAlert';
 import { useModelListQuery } from '@/hooks/useModelListQuery'
-import { BaseComponentProps, Field, Data } from "@/types";
+import { BaseComponentProps, Field } from "@/types";
 import { camelToSnakeCase, handleMQLErrors, humanizeText } from '@/utils';
 
 import { ModelIndexTitle, MODEL_INDEX_TITLE_SLOT } from './ModelIndexTitle';

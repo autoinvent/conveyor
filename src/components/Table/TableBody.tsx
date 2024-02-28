@@ -13,7 +13,7 @@ export interface TableBodyProps extends BaseComponentProps {
 }
 
 // Table Body that repeats the content (children) per row of data and preps the
-// ModelDataProvider for each row to use their correspondant data
+// DataProvider for each row to use their correspondant data
 export const TableBody = ({ children, id, className, style }: TableBodyProps) => {
     const { data } = useContext(TableContext);
     return (
