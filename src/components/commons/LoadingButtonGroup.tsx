@@ -20,8 +20,8 @@ const LoadingButtonGroup = (props: LoadingButtonGroupProps) => {
       {props.loading ? (
         <Button variant={props.variant} disabled>
           <Spinner
-            as='span'
-            animation='border'
+            as="span"
+            animation="border"
             size={props.spinnerSize ?? 'sm'}
           />
         </Button>

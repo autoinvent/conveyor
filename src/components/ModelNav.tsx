@@ -19,7 +19,7 @@ const ModelNav = ({
 }: ModelNavProps) => {
   const { navigate } = useContext(ConveyorContext);
   return (
-    // rome-ignore lint/a11y/useKeyWithClickEvents: TODO
+    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <span
       id={id}
       className={`${PACKAGE_ABBR}-model-nav ${className}`}

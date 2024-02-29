@@ -10,7 +10,14 @@ const ErrorList = ({ id, className = '', errors }: ErrorListProps) => {
   return errors ? (
     <ul id={id} className={`text-danger ${className}`}>
       {errorList?.map((error, index) => (
-        <li key={`${PACKAGE_ABBR}-errorlist-${index}`}>{error}</li>
+        <li
+          key={`${PACKAGE_ABBR}-errorlist-${
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+            index
+          }`}
+        >
+          {error}
+        </li>
       ))}
     </ul>
   ) : null;

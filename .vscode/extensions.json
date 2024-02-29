@@ -9,7 +9,7 @@
     "antfu.vite",
     "vitest.explorer",
     "stylelint.vscode-stylelint",
-    "rome.rome",
+    "biomejs.biome",
     "yoavbls.pretty-ts-errors"
   ]
 }

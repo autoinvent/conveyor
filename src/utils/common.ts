@@ -21,11 +21,12 @@ export const parseResponseError = (
 ) => {
   if (Array.isArray(errorMessages)) {
     return errorMessages;
-  } else if (typeof errorMessages === 'string') {
-    return [errorMessages];
-  } else if (errorMessages?.message) {
-    return [errorMessages.message];
-  } else {
-    throw Error(ErrorMessage.UNKNOWN_ERROR, errorMessages);
   }
+  if (typeof errorMessages === 'string') {
+    return [errorMessages];
+  }
+  if (errorMessages?.message) {
+    return [errorMessages.message];
+  }
+  throw Error(ErrorMessage.UNKNOWN_ERROR, errorMessages);
 };

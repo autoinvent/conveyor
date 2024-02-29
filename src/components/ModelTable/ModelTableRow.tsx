@@ -34,10 +34,13 @@ const ModelTableRow = ({
   const [loading] = useState(false);
   const values = useMemo(
     () =>
-      fields.reduce((currValues, fieldName) => {
-        currValues[fieldName] = data[fieldName] ?? '';
-        return currValues;
-      }, {} as Record<string, any>),
+      fields.reduce(
+        (currValues, fieldName) => {
+          currValues[fieldName] = data[fieldName] ?? '';
+          return currValues;
+        },
+        {} as Record<string, any>,
+      ),
     [fields, data],
   );
   const formMethods = useForm({ values, mode: Defaults.RHK_MODE });

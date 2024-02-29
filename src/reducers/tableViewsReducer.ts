@@ -37,8 +37,8 @@ export enum SortDirection {
 export const getSortDir = (sort: TableViewSort, field: string) => {
   const fieldSort = sort.find((sort) => sort.endsWith(field));
   if (!fieldSort) return SortDirection.NONE;
-  else if (fieldSort.startsWith('-')) return SortDirection.DESC;
-  else return SortDirection.ASC;
+  if (fieldSort.startsWith('-')) return SortDirection.DESC;
+  return SortDirection.ASC;
 };
 
 export const tableViewsReducer = (

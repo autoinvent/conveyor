@@ -62,16 +62,16 @@ const ModelFormCrud = ({
 
   return showCrud ? (
     <div id={id} className={`${PACKAGE_ABBR}-model-form-crud ${className}`}>
-      <LoadingButtonGroup loading={loading} variant='outline' size={size}>
+      <LoadingButtonGroup loading={loading} variant="outline" size={size}>
         {mode === DisplayMode.DISPLAY ? (
           <Fragment key={`${PACKAGE_ABBR}-form-crud-display`}>
             {editable && (
-              <Button onClick={onEditHandler} variant='outline-primary'>
+              <Button onClick={onEditHandler} variant="outline-primary">
                 {icons ? <FaEdit /> : 'Edit'}
               </Button>
             )}
             {deletable && (
-              <Button onClick={onDelete} variant='outline-danger'>
+              <Button onClick={onDelete} variant="outline-danger">
                 {icons ? <FaRegTrashAlt /> : 'Delete'}
               </Button>
             )}
@@ -79,14 +79,14 @@ const ModelFormCrud = ({
         ) : (
           <Fragment key={`${PACKAGE_ABBR}-form-crud-edit`}>
             <Button
-              type='submit'
+              type="submit"
               onClick={handleSubmit(onSaveDirtyFieldsHandler)}
-              variant='outline-success'
+              variant="outline-success"
               disabled={Object.keys(formState.errors).length > 0}
             >
               {icons ? <FaRegSave /> : 'Save'}
             </Button>
-            <Button onClick={onCancelHandler} variant='outline-primary'>
+            <Button onClick={onCancelHandler} variant="outline-primary">
               {icons ? <FaRegTimesCircle /> : 'Cancel'}
             </Button>
           </Fragment>

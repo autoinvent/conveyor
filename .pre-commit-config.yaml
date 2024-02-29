@@ -2,7 +2,7 @@ repos:
   - repo: local
     hooks:
       - id: lint-format-compile
-        name: rome and tsc
+        name: biome and tsc
         entry: ./pre-commit.sh
         language: script
         always_run: true

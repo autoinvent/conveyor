@@ -22,29 +22,29 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
       <Helmet defer>
         <style>{themeCSS}</style>
       </Helmet>
-      <ReactNavBar className='mb-3' variant='dark' bg='primary' expand='sm'>
+      <ReactNavBar className="mb-3" variant="dark" bg="primary" expand="sm">
         <Container>
           <ModelNav>
             <ReactNavBar.Brand>
               <Logo
-                height='30'
-                width='30'
-                className='d-inline-block align-top'
+                height="30"
+                width="30"
+                className="d-inline-block align-top"
               />{' '}
               Conveyor
             </ReactNavBar.Brand>
           </ModelNav>
-          <ReactNavBar.Toggle aria-controls='moebius-example-navbar' />
+          <ReactNavBar.Toggle aria-controls="moebius-example-navbar" />
           <ReactNavBar.Collapse
-            id='moebius-example-navbar'
-            className='justify-content-end'
+            id="moebius-example-navbar"
+            className="justify-content-end"
           >
             <Nav>
               {/* Models Dropdown */}
               <NavDropdown
-                id='conveyor-navbar-models-dropdown'
-                title='Models'
-                align='end'
+                id="conveyor-navbar-models-dropdown"
+                title="Models"
+                align="end"
               >
                 {sortedModelNames ? (
                   sortedModelNames.map((modelName: string) => (
@@ -61,9 +61,9 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
               </NavDropdown>
               {/* Theme Dropdown */}
               <NavDropdown
-                id='conveyor-navbar-theme-dropdown'
-                title='Theme'
-                align='end'
+                id="conveyor-navbar-theme-dropdown"
+                title="Theme"
+                align="end"
                 onSelect={(eventKey) => {
                   if (eventKey) {
                     changeTheme(eventKey as ThemeName);
@@ -72,19 +72,19 @@ function ConveyorAdminNavbar({ modelNames }: { modelNames: string[] | null }) {
               >
                 <NavDropdown.Item
                   active={currentTheme === 'darkly'}
-                  eventKey='darkly'
+                  eventKey="darkly"
                 >
                   Dark
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   active={currentTheme === 'flatly'}
-                  eventKey='flatly'
+                  eventKey="flatly"
                 >
                   Light
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   active={currentTheme === 'system'}
-                  eventKey='system'
+                  eventKey="system"
                 >
                   System
                 </NavDropdown.Item>

@@ -39,7 +39,7 @@ const ModelFormValue = ({
     displayData = displayData?.map(
       (val: Record<string, any>, index: number) => (
         <ModelNav
-          // rome-ignore lint/suspicious/noArrayIndexKey: order shouldn't change
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           key={index}
           modelName={related?.modelName}
           modelId={val[primaryKey]}

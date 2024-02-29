@@ -27,14 +27,14 @@ const FlexibleInput = ({
   inputProps = {},
   errors,
 }: FlexibleInputProps) => {
-  let inputTag;
+  let inputTag: any;
   switch (type) {
     case InputTypes.SELECT: {
       inputTag = (
         <Select
           id={id}
           className={`select ${className ?? ''}`}
-          classNamePrefix='select'
+          classNamePrefix="select"
           isDisabled={disabled}
           {...inputProps}
         />

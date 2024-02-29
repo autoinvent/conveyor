@@ -31,7 +31,7 @@ const ModelTable = ({
   const memoDataList = useMemo(() => dataList, [JSON.stringify(dataList)]);
   const { primaryKey } = useContext(ConveyorContext);
   return (
-    <Table id={id} className={className} striped bordered hover size='sm'>
+    <Table id={id} className={className} striped bordered hover size="sm">
       <thead id={id} className={className}>
         <tr>
           {fields.map((field) => {

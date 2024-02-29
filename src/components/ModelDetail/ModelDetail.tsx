@@ -66,12 +66,15 @@ const ModelDetail = ({
 
   const values = useMemo(
     () =>
-      fields.reduce((currValues, fieldName) => {
-        if (!fieldsData?.[fieldName]?.related?.many) {
-          currValues[fieldName] = modelData?.[fieldName] ?? '';
-        }
-        return currValues;
-      }, {} as Record<string, any>),
+      fields.reduce(
+        (currValues, fieldName) => {
+          if (!fieldsData?.[fieldName]?.related?.many) {
+            currValues[fieldName] = modelData?.[fieldName] ?? '';
+          }
+          return currValues;
+        },
+        {} as Record<string, any>,
+      ),
     [fields, JSON.stringify(modelData)],
   );
 

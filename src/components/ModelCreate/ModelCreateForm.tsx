@@ -18,10 +18,13 @@ const ModelCreateForm = ({
   children,
 }: ModelCreateFormProps) => {
   const [loading] = useState(false);
-  const values = fields.reduce((currValues, fieldName) => {
-    currValues[fieldName] = '';
-    return currValues;
-  }, {} as Record<string, any>);
+  const values = fields.reduce(
+    (currValues, fieldName) => {
+      currValues[fieldName] = '';
+      return currValues;
+    },
+    {} as Record<string, any>,
+  );
 
   const formMethods = useForm({ values, mode: Defaults.RHK_MODE });
   return (
