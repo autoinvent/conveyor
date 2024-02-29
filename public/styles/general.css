@@ -18,6 +18,10 @@ td, th {
     box-shadow: inset 0.5px 0.5px 0 0 var(--bs-table-border-color), inset -0.5px 0.5px 0 0 var(--bs-table-border-color), inset 0 0 0 9999px var(--bs-table-bg-state,var(--bs-table-bg-type,var(--bs-table-accent-bg))) !important;
 }
 
+th {
+    background-color: var(--input-bg-color) !important;
+}
+
 form label {
     display: block;
 }

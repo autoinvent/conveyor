@@ -49,7 +49,12 @@ const ModelTable = ({
               />
             );
           })}
-          {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`} />}
+          {showCrud && (
+            <th
+              className={`${PACKAGE_ABBR}-crud-header`}
+              style={{ right: 0, position: 'sticky' }}
+            />
+          )}
         </tr>
       </thead>
       <tbody id={id} className={className}>

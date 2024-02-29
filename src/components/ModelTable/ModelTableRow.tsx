@@ -63,7 +63,10 @@ const ModelTableRow = ({
             );
           })}
         {showCrud && !children ? (
-          <td className={`${PACKAGE_ABBR}-model-table-crud-cell`}>
+          <td
+            className={`${PACKAGE_ABBR}-model-table-crud-cell`}
+            style={{ right: 0, position: 'sticky', zIndex: 1 }}
+          >
             <ModelTableCrud
               key={`${PACKAGE_ABBR}-table-cell-crud`}
               modelName={modelName}
