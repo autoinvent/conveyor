@@ -78,7 +78,6 @@ const FlexibleInput = ({
           disabled={disabled}
         />
       );
-      break;
     }
   }
 
