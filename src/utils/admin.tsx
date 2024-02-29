@@ -24,11 +24,11 @@ interface Introspection {
 const getFieldType: any = (type?: IntrospectionType) => {
   if (type?.kind === 'NON_NULL') {
     return `${getFieldType(type.ofType)}!`;
-  } else if (type?.kind === 'LIST') {
-    return `[${getFieldType(type?.ofType)}]`;
-  } else {
-    return type?.name;
   }
+  if (type?.kind === 'LIST') {
+    return `[${getFieldType(type?.ofType)}]`;
+  }
+  return type?.name;
 };
 
 export const extractModelsFromIntrospection = (

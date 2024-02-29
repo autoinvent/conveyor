@@ -26,7 +26,7 @@ const ModelCreate = ({
 }: ModelCreateProps) => {
   return (
     <Container id={id} className={className}>
-      <div className='mb-4'>
+      <div className="mb-4">
         <h2>{title}</h2>
         <div>* Indicates a required field</div>
       </div>

@@ -19,7 +19,7 @@ const Checkbox = ({
   return (
     <button
       id={id}
-      type='button'
+      type="button"
       className={`${PACKAGE_ABBR}-checkbox ${className}`}
       onClick={() => onChange(!value)}
       disabled={disabled}

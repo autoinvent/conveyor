@@ -67,13 +67,13 @@ const Alerts: FC<BaseProps> = ({ id, className = '' }) => {
             onClose={() => onClose(index)}
             autohide={Boolean(expires)}
             delay={delay}
-            bsPrefix='alert'
+            bsPrefix="alert"
             className={`alert-${type}`}
           >
             {message}
             <button
-              type='button'
-              className='close'
+              type="button"
+              className="close"
               onClick={() => onClose(index)}
             >
               x

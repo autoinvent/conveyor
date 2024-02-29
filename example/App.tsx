@@ -14,13 +14,13 @@ import {
 function App() {
   const queryClient = new QueryClient();
   const gqlUrl = '/graphql';
-  const errorHandler = (error: any) => {
+  const errorHandler = (e: any) => {
     let errorMessages = null;
+    let error = e;
     if (typeof error?.message === 'string') {
       const matches = error.message.match(/\{".*\}/g);
       if (matches) {
         const parsedError = JSON.parse(matches[0]);
-        // rome-ignore lint: not confusing
         error = parsedError;
       }
     }

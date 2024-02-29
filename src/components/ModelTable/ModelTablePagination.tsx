@@ -36,7 +36,7 @@ const ModelTablePagination = ({
     btns.push(
       <button
         key={`${PACKAGE_ABBR}-table-pagination-left-arrow`}
-        type='button'
+        type="button"
         onClick={() => {
           dispatch({
             type: TableViewsAction.SET_PAGE,
@@ -53,7 +53,7 @@ const ModelTablePagination = ({
     btns.push(
       <button
         key={`${PACKAGE_ABBR}-table-pagination-${pageNum}`}
-        type='button'
+        type="button"
         className={
           page === pageNum ? `${PACKAGE_ABBR}-table-pagination-active-page` : ''
         }
@@ -72,7 +72,7 @@ const ModelTablePagination = ({
     btns.push(
       <button
         key={`${PACKAGE_ABBR}-table-pagination-goto`}
-        type='button'
+        type="button"
         disabled
       >
         ...
@@ -83,7 +83,7 @@ const ModelTablePagination = ({
     btns.push(
       <button
         key={`${PACKAGE_ABBR}-table-pagination-right-arrow`}
-        type='button'
+        type="button"
         onClick={() => {
           dispatch({
             type: TableViewsAction.SET_PAGE,

@@ -28,7 +28,7 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
 }) => {
   const { tableView, dispatch } = useTableView({ modelName });
   const sortDir = getSortDir(tableView?.sort ?? [], field);
-  let sortDisplay;
+  let sortDisplay: any;
   switch (sortDir) {
     case SortDirection.ASC: {
       sortDisplay = <FaSortUp className={`${PACKAGE_ABBR}-sort-up`} />;
@@ -52,7 +52,7 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
     }
   };
   return (
-    // rome-ignore lint/a11y/useKeyWithClickEvents: TODO?
+    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <th id={id} className={className} onClick={handleSort}>
       {displayLabelFn(field)}
       {sortable && (

@@ -117,8 +117,8 @@ Then you can use it in your project:
 - `pnpm test` - run tests in watch mode.
 - `pnpm test:ci` - run tests once without watch mode.
 - `pnpm test:ui` - run tests with ui.
-- `pnpm format` - format all files with Rome.
-- `pnpm lint` - runs TypeScript, Rome and Stylelint.
+- `pnpm format` - format all files with Biome.
+- `pnpm lint` - runs TypeScript, Biome and Stylelint.
 - `pnpm validate` - runs `lint`, `test:ci`.
 
 ## Resources
