@@ -4,6 +4,7 @@ import { BaseProps } from '../../types';
 
 import Checkbox from './Checkbox';
 import ErrorList from './ErrorList';
+import { Form } from 'react-bootstrap';
 
 export enum InputTypes {
   TEXT = 'text',
@@ -53,6 +54,20 @@ const FlexibleInput = ({
       );
       break;
     }
+    case InputTypes.TEXT: {
+      inputTag = (
+        <Form.Control
+          id={id}
+          className={className}
+          type={type}
+          as='textarea'
+          rows={1}
+          {...inputProps}
+          disabled={disabled}
+        />
+      );
+      break;
+    }
     default: {
       inputTag = (
         <input
@@ -63,6 +78,7 @@ const FlexibleInput = ({
           disabled={disabled}
         />
       );
+      break;
     }
   }
 

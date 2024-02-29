@@ -55,7 +55,12 @@ const ModelDetailTable = ({
                 />
               );
             })}
-            {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`} />}
+            {showCrud && (
+              <th
+                className={`${PACKAGE_ABBR}-crud-header`}
+                style={{ right: 0, position: 'sticky' }}
+              />
+            )}
           </tr>
         </thead>
         <tbody>
@@ -87,7 +92,10 @@ const ModelDetailTable = ({
                   );
                 })}
                 {showCrud ? (
-                  <td className={`${PACKAGE_ABBR}-model-table-crud-cell`}>
+                  <td
+                    className={`${PACKAGE_ABBR}-model-table-crud-cell`}
+                    style={{ position: 'sticky', right: 0, zIndex: 1 }}
+                  >
                     <ModelDetailTableCrud
                       parentId={parentId}
                       parentModelName={parentModelName}
