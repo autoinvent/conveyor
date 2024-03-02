@@ -47,8 +47,9 @@
 }
 
 .pagination-info {
-    margin-left: 3px;
+    margin-left: 5px;
     margin-top: 6px; 
+    margin-right: 5px;
     align-items: center/* Adjust the margin as needed */
 }
 

@@ -29,6 +29,10 @@ form label {
     display: block;
 }
 
+table {
+    margin-bottom: 0% !important;
+}
+
 input, textarea.form-control {
     width: 100%;
     background-color: var(--input-bg-color);
@@ -119,6 +123,57 @@ summary h4 {
 .select .select__option:hover {
     background-color: var(--bs-form-valid-color);
     color: var(--input-bg-color);
+}
+
+
+.page .page__control {
+    background-color: var(--bs-body-bg);
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    white-space: nowrap;
+    width: 100%;
+    border-color: var(--bs-secondary);
+}
+
+.page .page__control:hover {
+    border-color: var(--bs-secondary);
+}
+
+.page .page__control:focus-within {
+    outline: 1px solid var(--bs-secondary) !important;
+    border-color: var(--bs-secondary);
+    box-shadow: none;
+
+}
+
+.page .page__value-container, .page .page__menu-list, .page .page__indicators, .page .page__option  {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+.page .page__menu-list {
+    border: solid;
+    border-width: thin;
+    border-color: var(--bs-secondary);
+    white-space: nowrap;
+}
+
+.page .page__single-value, .page .page__multi-value, .page .page__multi-value__label {
+    color: var(--bs-body-color);
+}
+
+.page .page__multi-value {
+    background-color: var(--bs-dark-border-subtle);
+}
+
+.page .page__option {
+    color: var(--bs-body-color);
+}
+
+.page .page__option:hover {
+    background-color: var(--bs-secondary);
+    color: white;
 }
 
 .close {
