@@ -25,6 +25,7 @@ export const Slots = ({ slotKeys, children }: SlotsProps) => {
     useLayoutEffect(() => {
         setSlots(Object.fromEntries(slotKeys.map((slotKey) => [slotKey, null])))
     }, [children, slotKeys])
+
     return (
         <SetSlotsContext.Provider value={setSlots}>
             <SlotsContext.Provider value={slots}>

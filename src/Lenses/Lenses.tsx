@@ -15,12 +15,12 @@ export const SetActiveLensContext = createContext<
 });
 
 export interface LensesProps {
-    activeLens?: string | number | boolean;
+    activeLens: string | number | boolean;
     children?: ReactNode;
 }
 
-export const Lenses = ({ activeLens = '', children }: LensesProps) => {
-    const [lens, setLens] = useState('' as string | number | boolean);
+export const Lenses = ({ activeLens, children }: LensesProps) => {
+    const [lens, setLens] = useState(activeLens);
     useEffect(() => {
         setLens(activeLens)
     }, [activeLens])

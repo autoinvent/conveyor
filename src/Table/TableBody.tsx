@@ -19,14 +19,13 @@ export const TableBody = ({ children, id, className, style }: TableBodyProps) =>
     return (
         <Slot slotKey={TABLE_BODY_SLOT}>
             <tbody id={id} className={className} style={style}>
-                {data.length > 0 ? data.map((rowData, index) => {
+                {data.map((rowData, index) => {
                     return (
                         <DataProvider key={index} value={rowData}>
                             {children}
                         </DataProvider>
                     );
-                }) : children
-                }
+                })}
             </tbody>
         </Slot>
     );

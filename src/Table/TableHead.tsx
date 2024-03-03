@@ -6,6 +6,7 @@ import { getFieldName, humanizeText } from '@/utils';
 
 import { TableContext } from './TableContext';
 import { TableHeader } from './TableHeader'
+import { TableActionHeader, TABLE_ACTION_HEADER_SLOT } from './TableActionHeader';
 
 export const TABLE_HEAD_SLOT = 'table-head-slot'
 
@@ -14,8 +15,10 @@ export interface TableHeadProps extends BaseComponentProps {
 }
 
 export const TableHead = ({ children, id, className, style }: TableHeadProps) => {
-    const { fields } = useContext(TableContext);
+    const { fields, actionsConfig } = useContext(TableContext);
     const fieldNames = fields.map((field) => getFieldName(field));
+
+    if (actionsConfig?.showActions) fieldNames.push(TABLE_ACTION_HEADER_SLOT)
     return (
         <Slot slotKey={TABLE_HEAD_SLOT}>
             <thead id={id} className={className} style={style}>
@@ -26,6 +29,7 @@ export const TableHead = ({ children, id, className, style }: TableHeadProps) =>
                                 {humanizeText(getFieldName(field))}
                             </TableHeader>
                         ))}
+                        <TableActionHeader />
                         {children}
                     </Slots>
                 </tr>

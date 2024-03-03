@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { request } from 'graphql-request';
 import {
   useQuery,
@@ -7,7 +7,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 
-import { Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar } from '@/index'
+import { Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar, SlotsContext } from '@/index'
 
 
 // const errorHandler = (error: any) => {
@@ -106,7 +106,17 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Conveyor useMQLQuery={useMQLQuery} useMQLMutation={useMQLMutation}>
         <Navbar modelNames={['Task']}></Navbar>
-        <ModelIndex model="Task" fields={['message', 'created_at']} />
+        <ModelIndex model="Task" fields={['message', 'created_at']} actionsConfig={{ showActions: true }}>
+          <ModelIndex.Table>
+            <ModelIndex.Table.Body>
+              <ModelIndex.Table.Row>
+                <ModelIndex.Table.Cell field='message'>
+                  my name is
+                </ModelIndex.Table.Cell>
+              </ModelIndex.Table.Row>
+            </ModelIndex.Table.Body>
+          </ModelIndex.Table>
+        </ModelIndex>
       </Conveyor>
     </QueryClientProvider>
   );

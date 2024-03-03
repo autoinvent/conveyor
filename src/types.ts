@@ -11,7 +11,7 @@ export type FieldType =
     | {
         modelName: string;
         many: boolean;
-        type: string; // TODO: may be unecessary if ID type is used.
+        type: string;
     }
 
 export type Field =
