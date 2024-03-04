@@ -53,7 +53,12 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
   };
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: TODO?
-    <th id={id} className={className} onClick={handleSort}>
+    <th
+      id={id}
+      className={className}
+      onClick={handleSort}
+      style={{ textAlign: 'center' }}
+    >
       {displayLabelFn(field)}
       {sortable && (
         <span className={`float-right ${PACKAGE_ABBR}-sort `}>

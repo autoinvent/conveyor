@@ -1,5 +1,5 @@
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
-
+import Select from 'react-select';
 import { useTableView } from '../../hooks/useTableView';
 import { PACKAGE_ABBR } from '../../package';
 import {
@@ -7,6 +7,8 @@ import {
   TableViewsAction,
 } from '../../reducers/tableViewsReducer';
 import { BaseProps } from '../../types';
+import { Pagination } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
 
 interface ModelTablePaginationProps extends BaseProps {
   modelName: string;
@@ -23,90 +25,100 @@ const ModelTablePagination = ({
 }: ModelTablePaginationProps) => {
   const { tableView, dispatch } = useTableView({ modelName });
   const page = tableView?.page ?? DEFAULT_TABLE_VIEW.page;
-  const per_page = tableView?.per_page ?? DEFAULT_TABLE_VIEW.per_page;
-  const totalPages = Math.ceil(modelListTotal / per_page);
-  const currentPageSet = Math.ceil(page / pageLimit);
-  const numPageBtnShown =
-    currentPageSet * pageLimit > totalPages
-      ? totalPages % pageLimit
-      : pageLimit;
-  const btns = [];
+  const per_page_default = tableView?.per_page ?? DEFAULT_TABLE_VIEW.per_page;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(per_page_default); // Default per page value
 
-  if (currentPageSet > 1) {
-    btns.push(
-      <button
-        key={`${PACKAGE_ABBR}-table-pagination-left-arrow`}
-        type='button'
-        onClick={() => {
-          dispatch({
-            type: TableViewsAction.SET_PAGE,
-            payload: { modelName, page: (currentPageSet - 1) * pageLimit },
-          });
-        }}
-      >
-        <FaChevronLeft />
-      </button>,
-    );
-  }
-  for (let i = 0; i < numPageBtnShown; i++) {
-    const pageNum = (currentPageSet - 1) * pageLimit + i + 1;
-    btns.push(
-      <button
-        key={`${PACKAGE_ABBR}-table-pagination-${pageNum}`}
-        type='button'
-        className={
-          page === pageNum ? `${PACKAGE_ABBR}-table-pagination-active-page` : ''
-        }
-        onClick={() => {
-          dispatch({
-            type: TableViewsAction.SET_PAGE,
-            payload: { modelName, page: pageNum },
-          });
-        }}
-      >
-        {pageNum}
-      </button>,
-    );
-  }
-  if (currentPageSet * pageLimit < totalPages) {
-    btns.push(
-      <button
-        key={`${PACKAGE_ABBR}-table-pagination-goto`}
-        type='button'
-        disabled
-      >
-        ...
-      </button>,
-    );
-  }
-  if (currentPageSet * pageLimit < totalPages) {
-    btns.push(
-      <button
-        key={`${PACKAGE_ABBR}-table-pagination-right-arrow`}
-        type='button'
-        onClick={() => {
-          dispatch({
-            type: TableViewsAction.SET_PAGE,
-            payload: { modelName, page: currentPageSet * pageLimit + 1 },
-          });
-        }}
-      >
-        <FaChevronRight />
-      </button>,
-    );
-  }
-  btns.push();
+  useEffect(() => {
+    setCurrentPage(1);
+    setPerPage(per_page_default);
+  }, [modelName]);
+
+  let totalPages = Math.ceil(modelListTotal / perPage);
+  const currentPageSet = Math.ceil(currentPage / pageLimit);
+
+  const handlePerPageChange = (perPage: number) => {
+    setPerPage(perPage);
+    setCurrentPage(1);
+    dispatch({
+      type: TableViewsAction.SET_PAGE,
+      payload: { modelName, page: 1 },
+    });
+    dispatch({
+      type: TableViewsAction.SET_PER_PAGE,
+      payload: { modelName, perPage: perPage },
+    });
+  };
+
+  const handlePaginationClick = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    totalPages = Math.ceil(modelListTotal / perPage);
+    dispatch({
+      type: TableViewsAction.SET_PAGE,
+      payload: { modelName, page: pageNumber },
+    });
+  };
+
+  const renderPaginationItems = () => {
+    const items = [];
+    for (let i = 1; i <= totalPages; i++) {
+      items.push(
+        <Pagination.Item
+          key={i}
+          active={i === currentPage}
+          onClick={() => handlePaginationClick(i)}
+          style={{ display: 'inline-block' }}
+        >
+          {i}
+        </Pagination.Item>,
+      );
+    }
+    return items;
+  };
+
+  const options = [
+    { value: '5', label: '5' },
+    { value: '10', label: '10' },
+    { value: '20', label: '20' },
+    { value: '50', label: '50' },
+    { value: '100', label: '100' },
+    /* Add more options as needed */
+  ];
+
   return (
-    <div id={id} className={className}>
-      <span>{btns}</span>
-      <span>
-        {modelListTotal
-          ? `${per_page * (page - 1) + 1}-${
-              totalPages === page ? modelListTotal : per_page * page
-            } of ${modelListTotal}`
-          : null}
-      </span>
-    </div>
+    <>
+      <div
+        id={id}
+        className={className}
+        style={{ display: 'flex', justifyContent: 'space-between' }}
+      >
+        <div>
+          <Pagination style={{ display: 'inline-block' }}>
+            {renderPaginationItems()}
+          </Pagination>
+          <span className='pagination-info'>
+            {modelListTotal
+              ? `${perPage * (page - 1) + 1}-${
+                  totalPages === page ? modelListTotal : perPage * page
+                } of ${modelListTotal}`
+              : null}
+          </span>
+        </div>
+        <div style={{ display: 'flex' }}>
+          <span className='pagination-info'>Per Page:</span>
+          <Select
+            value={{ value: perPage.toString(), label: perPage.toString() }}
+            onChange={(selectedOption: any) =>
+              handlePerPageChange(Number(selectedOption.value))
+            }
+            placeholder={per_page_default.toString()}
+            className={`page ${className ?? ''}`}
+            classNamePrefix='page'
+            options={options}
+          />
+        </div>
+      </div>
+    </>
   );
 };
 

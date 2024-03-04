@@ -1,7 +1,6 @@
 
 /* Model Components */
 .conv-model-form-crud {
-    margin-top: 10px;
     text-align: center;
 }
 
@@ -31,5 +30,26 @@
 /* Common Components */
 .conv-checkbox {
     border: none;
+    transform: scale(2);
+    background-color: transparent;
+    color: var(--bs-form-valid-color);
+    padding: 2px;
+}
+
+.conv-checkbox:disabled {
+    color: var(--bs-secondary);
     padding: 0;
 }
+
+.pagination>li>a {
+    background-color: var(--bs-secondary);
+    border-color: var(--bs-body-color);
+}
+
+.pagination-info {
+    margin-left: 5px;
+    margin-top: 6px; 
+    margin-right: 5px;
+    align-items: center/* Adjust the margin as needed */
+}
+

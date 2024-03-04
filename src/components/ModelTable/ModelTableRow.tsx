@@ -48,7 +48,10 @@ const ModelTableRow = ({
         {children ??
           fields.map((field) => {
             return (
-              <td key={`${PACKAGE_ABBR}-table-cell-${field}`}>
+              <td
+                key={`${PACKAGE_ABBR}-table-cell-${field}`}
+                style={{ textAlign: 'center' }}
+              >
                 <ModelFormField
                   modelName={modelName}
                   fields={fields}
@@ -60,7 +63,10 @@ const ModelTableRow = ({
             );
           })}
         {showCrud && !children ? (
-          <td className={`${PACKAGE_ABBR}-model-table-crud-cell`}>
+          <td
+            className={`${PACKAGE_ABBR}-model-table-crud-cell`}
+            style={{ right: 0, position: 'sticky', zIndex: 1 }}
+          >
             <ModelTableCrud
               key={`${PACKAGE_ABBR}-table-cell-crud`}
               modelName={modelName}

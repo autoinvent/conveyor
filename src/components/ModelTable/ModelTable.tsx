@@ -32,7 +32,11 @@ const ModelTable = ({
   const { primaryKey } = useContext(ConveyorContext);
   return (
     <Table id={id} className={className} striped bordered hover size='sm'>
-      <thead id={id} className={className}>
+      <thead
+        id={id}
+        className={className}
+        style={{ whiteSpace: 'nowrap', minWidth: '150px' }}
+      >
         <tr>
           {fields.map((field) => {
             const displayLabelFn = fieldsData?.[field]?.displayLabelFn;
@@ -45,7 +49,12 @@ const ModelTable = ({
               />
             );
           })}
-          {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`} />}
+          {showCrud && (
+            <th
+              className={`${PACKAGE_ABBR}-crud-header`}
+              style={{ right: 0, position: 'sticky' }}
+            />
+          )}
         </tr>
       </thead>
       <tbody id={id} className={className}>

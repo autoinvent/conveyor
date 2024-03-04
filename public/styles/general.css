@@ -14,27 +14,49 @@ dt {
     padding-right: 10px;
 }
 
+td, th {
+    box-shadow: inset 0.5px 0.5px 0 0 var(--bs-table-border-color), inset -0.5px 0.5px 0 0 var(--bs-table-border-color), inset 0 0 0 9999px var(--bs-table-bg-state,var(--bs-table-bg-type,var(--bs-table-accent-bg))) !important;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+th {
+    background-color: var(--input-bg-color) !important;
+    resize: horizontal;
+}
+
 form label {
     display: block;
 }
 
-input {
+table {
+    margin-bottom: 0% !important;
+}
+
+input, textarea.form-control {
     width: 100%;
-    background-color: var(--bs-body-bg);
+    background-color: var(--input-bg-color);
     border-radius: 4px;
+    border-width: 1px;
     border-style: solid;
-    border-width: thin;
-    border-color: var(--bs-body-color);
+    border-color: var(--bs-form-valid-color);
+    min-width: 225px;
+    color: var(--bs-body-color);
+    padding-left: 3px;
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
 }
 
-input:hover {
-    border-color: var(--bs-info);
+input:hover, textarea.form-control:hover {
+    outline: 1px solid var(--bs-form-valid-color);
 }
 
-input:focus{
-    outline-style: solid;
-    outline-color: var(--bs-info);
-    border-color: var(--bs-info);
+input:focus, textarea.form-control:focus {
+    outline: 2px solid var(--bs-form-valid-color);
+    border-color: var(--bs-form-valid-color);
+    background-color: var(--input-bg-color);
+    color: var(--bs-body-color);
+    box-shadow: none;
 }
 
 summary h4 {
@@ -48,34 +70,45 @@ summary h4 {
     z-index: 2;
 }
 
+.select .select__input {
+    color: var(--bs-body-color) !important;
+}
 
 .select .select__control {
+    background-color: var(--input-bg-color);
     border-radius: 4px;
     border-style: solid;
-    border-width: thin;
-    outline: none;
+    border-width: 1px;
+    white-space: nowrap;
+    width: 100%;
+    min-width: 225px;
+    border-color: var(--bs-form-valid-color);
 }
 
 .select .select__control:hover {
-    border-color: var(--bs-info);
+    border-color: var(--bs-form-valid-color);
+    outline: 1px solid var(--bs-form-valid-color) !important;
 }
 
-.select .select__control:focus  {
-    outline-color: var(--bs-info);
-    border-color: var(--bs-info);
+.select .select__control:focus-within {
+    outline: 2px solid var(--bs-form-valid-color) !important;
+    border-color: var(--bs-form-valid-color);
+    box-shadow: var(--bs-form-valid-color);
 }
 
 .select .select__value-container, .select .select__menu-list, .select .select__indicators, .select .select__option  {
-    background-color: var(--bs-body-bg);
+    background-color: var(--input-bg-color);
+    color: var(--bs-body-color);
 }
 
 .select .select__menu-list {
     border: solid;
     border-width: thin;
-    border-color: var(--bs-primary-bg-subtle)
+    border-color: var(--bs-success-border-subtle);
+    white-space: nowrap;
 }
 
-.select .select__single-value, .select .select__multi-value {
+.select .select__single-value, .select .select__multi-value, .select .select__multi-value__label {
     color: var(--bs-body-color);
 }
 
@@ -88,10 +121,60 @@ summary h4 {
 }
 
 .select .select__option:hover {
-    background-color: var(--bs-primary-bg-subtle);
-    color: var(--bs-body-bg);
+    background-color: var(--bs-form-valid-color);
+    color: var(--input-bg-color);
 }
 
+
+.page .page__control {
+    background-color: var(--bs-body-bg);
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    white-space: nowrap;
+    width: 100%;
+    border-color: var(--bs-secondary);
+}
+
+.page .page__control:hover {
+    border-color: var(--bs-secondary);
+}
+
+.page .page__control:focus-within {
+    outline: 1px solid var(--bs-secondary) !important;
+    border-color: var(--bs-secondary);
+    box-shadow: none;
+
+}
+
+.page .page__value-container, .page .page__menu-list, .page .page__indicators, .page .page__option  {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+.page .page__menu-list {
+    border: solid;
+    border-width: thin;
+    border-color: var(--bs-secondary);
+    white-space: nowrap;
+}
+
+.page .page__single-value, .page .page__multi-value, .page .page__multi-value__label {
+    color: var(--bs-body-color);
+}
+
+.page .page__multi-value {
+    background-color: var(--bs-dark-border-subtle);
+}
+
+.page .page__option {
+    color: var(--bs-body-color);
+}
+
+.page .page__option:hover {
+    background-color: var(--bs-secondary);
+    color: white;
+}
 
 .close {
     position: absolute;

@@ -91,7 +91,7 @@ const ModelDetail = ({
                     <ModelNav modelName={modelName}>
                       <Card.Link>{humanizeText(modelName)}</Card.Link>
                     </ModelNav>
-                    :{modelData[availableKeys.at(1) ?? primaryKey]}
+                    : {modelData[availableKeys.at(1) ?? primaryKey]}
                   </>
                 )}
               </h2>

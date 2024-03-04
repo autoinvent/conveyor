@@ -66,7 +66,11 @@ const ModelFormCrud = ({
         {mode === DisplayMode.DISPLAY ? (
           <Fragment key={`${PACKAGE_ABBR}-form-crud-display`}>
             {editable && (
-              <Button onClick={onEditHandler} variant='outline-primary'>
+              <Button
+                onClick={onEditHandler}
+                variant='outline-primary'
+                style={{ marginBottom: '0%' }}
+              >
                 {icons ? <FaEdit /> : 'Edit'}
               </Button>
             )}

@@ -19,6 +19,7 @@ export enum TableViewsAction {
   INIT = 'INIT',
   NEXT_SORT = 'NEXT_SORT',
   SET_PAGE = 'SET_PAGE',
+  SET_PER_PAGE = 'SET_PER_PAGE',
 }
 
 export const DEFAULT_TABLE_VIEW = {
@@ -87,6 +88,15 @@ export const tableViewsReducer = (
       const newTableViews = { ...tableViews };
       if (!newTableViews[modelName]) newTableViews[modelName] = {};
       newTableViews[modelName].page = page;
+      return newTableViews;
+    }
+    case TableViewsAction.SET_PER_PAGE: {
+      // New case for setting per page
+      const { modelName, perPage } = payload;
+      if (perPage <= 0) return tableViews;
+      const newTableViews = { ...tableViews };
+      if (!newTableViews[modelName]) newTableViews[modelName] = {};
+      newTableViews[modelName].per_page = perPage;
       return newTableViews;
     }
     default: {
