@@ -33,6 +33,20 @@ const ModelFormValue = ({
   const keyFallbacks = [primaryKey].concat(secondaryKeys ?? []);
   if (related) {
     const availableKeys = getAvailableKeys(related.fields ?? [], keyFallbacks);
+    const displayRelatedValue = () => {
+      // Check for 'display_value' related field
+      if (related.fields?.includes('display_value')) {
+        return 'display_value';
+      }
+      // Check for 'name' related field
+      else if (related.fields?.includes('name')) {
+        return 'name';
+      }
+      // Default to the first available secondary key
+      else {
+        return availableKeys.at(1);
+      }
+    };
     if (!related.many) {
       displayData = displayData ? [displayData] : [];
     }
@@ -45,7 +59,7 @@ const ModelFormValue = ({
           modelId={val[primaryKey]}
         >
           <Card.Link>
-            {val?.[availableKeys.at(1) ?? primaryKey]}
+            {val?.[displayRelatedValue() ?? primaryKey]}
             {index !== displayData?.length - 1 && ','}
           </Card.Link>
         </ModelNav>

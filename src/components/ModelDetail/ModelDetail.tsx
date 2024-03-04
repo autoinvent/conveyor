@@ -44,6 +44,20 @@ const ModelDetail = ({
   const { primaryKey, secondaryKeys } = useContext(ConveyorContext);
   const keyFallbacks = [primaryKey].concat(secondaryKeys ?? []);
   const availableKeys = getAvailableKeys(fields, keyFallbacks);
+  const displayValue = () => {
+    // Check for 'display_value' field
+    if (fields.includes('display_value')) {
+      return 'display_value';
+    }
+    // Check for 'name' field
+    else if (fields.includes('name')) {
+      return 'name';
+    }
+    // Default to the first available secondary key
+    else {
+      return availableKeys.at(1);
+    }
+  };
   const actionType = GQLQueryAction.MODEL_ITEM;
   const action = getGQLAction(actionType, modelName);
   const document = getGQLDocument(
@@ -91,7 +105,7 @@ const ModelDetail = ({
                     <ModelNav modelName={modelName}>
                       <Card.Link>{humanizeText(modelName)}</Card.Link>
                     </ModelNav>
-                    :{modelData[availableKeys.at(1) ?? primaryKey]}
+                    : {modelData[displayValue() ?? primaryKey]}
                   </>
                 )}
               </h2>
