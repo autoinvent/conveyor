@@ -1,4 +1,3 @@
-import { MQLRequest } from './contexts/Conveyor';
 import { Field } from '@/types';
 
 export const getFieldName = (field: Field) => {

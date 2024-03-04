@@ -108,13 +108,6 @@ function App() {
         <Navbar modelNames={['Task']}></Navbar>
         <ModelIndex model="Task" fields={['message', 'created_at']} actionsConfig={{ showActions: true }}>
           <ModelIndex.Table>
-            <ModelIndex.Table.Body>
-              <ModelIndex.Table.Row>
-                <ModelIndex.Table.Cell field='message'>
-                  my name is
-                </ModelIndex.Table.Cell>
-              </ModelIndex.Table.Row>
-            </ModelIndex.Table.Body>
           </ModelIndex.Table>
         </ModelIndex>
       </Conveyor>

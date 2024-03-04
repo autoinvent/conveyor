@@ -1,6 +1,6 @@
 import { ReactNode, useContext } from 'react';
 
-import { DataProvider } from '@/ModelData';
+import { DataProvider } from '@/Data';
 import { Slot } from '@/Slots'
 import { BaseComponentProps } from '@/types';
 

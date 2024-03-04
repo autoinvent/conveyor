@@ -3,11 +3,10 @@ export * from './Navbar'
 
 export * from './ModelIndex'
 
-export * from './ModelData'
-export * from './ModelInput'
-export * from './ModelValue'
-
 export * from './Alerts'
+export * from './Data'
+export * from './FlexibleValues'
+export * from './FlexibleInputs'
 export * from './Lenses'
 export * from './Slots'
 export * from './Table'

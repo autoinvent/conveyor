@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Table as RBTable } from 'react-bootstrap'
 
-import { Data } from '@/ModelData'
+import { Data } from '@/Data'
 import { Slots } from '@/Slots';
 import { BaseComponentProps, Field } from "@/types";
 

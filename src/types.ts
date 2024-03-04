@@ -6,6 +6,14 @@ export interface BaseComponentProps {
     style?: CSSProperties
 }
 
+export enum ScalarFieldTypes {
+    BOOLEAN = 'Boolean',
+    DATETIME = 'Datetime',
+    FLOAT = 'Float',
+    INT = 'Int',
+    STRING = 'String',
+}
+
 export type FieldType =
     | string
     | {
