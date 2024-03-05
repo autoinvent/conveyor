@@ -40,6 +40,8 @@ const ConveyorAdmin = ({
         setCurrentPage(Page.INDEX);
       } else if (params.modelName && params.id) {
         setCurrentPage(Page.DETAIL);
+      } else if (params.id === Page.SEARCH) {
+        setCurrentPage(Page.SEARCH);
       } else {
         setCurrentPage(Page.HOME);
       }

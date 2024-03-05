@@ -12,6 +12,8 @@ import ModelIndex from '../ModelIndex/ModelIndex';
 import ConveyorAdminHome from './ConveyorAdminHome';
 import ConveyorAdminNavbar from './ConveyorAdminNavbar';
 import Loading from '../commons/Loading';
+import SearchComponent from '../ModelSearch';
+import { Container, Row } from 'react-bootstrap';
 
 const IntrospectionDocument = `
 {
@@ -71,7 +73,6 @@ const ConveyorAdminContent = ({
       }
     }
   }, [JSON.stringify(data), JSON.stringify(error)]);
-
   let page = null;
   const modelNames = models ? Object.keys(models) : [];
   const fieldsData = models?.[currentModelName]?.fields ?? {};
@@ -156,6 +157,17 @@ const ConveyorAdminContent = ({
           fields={fields}
           fieldsData={createFieldsData}
         />
+      );
+      break;
+    }
+    case Page.SEARCH: {
+      page = (
+        <Container>
+          <Row>
+            <h2>{'Search'}</h2>
+          </Row>
+          <SearchComponent mode='searchPage' />
+        </Container>
       );
       break;
     }
