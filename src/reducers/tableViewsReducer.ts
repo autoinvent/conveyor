@@ -4,28 +4,33 @@ import { ReducerAction } from '../types';
 export type TableViewSort = string[];
 export interface TableViewFilter {
   [fieldName: string]: {
-    operator: string;
-    value?: any;
+    path: string;
+    op: string;
+    not?: any;
+    value: any;
   };
 }
 export interface TableView {
   page?: number;
   per_page?: number;
   sort?: TableViewSort;
-  filter?: TableViewFilter;
+  filter?: TableViewFilter[];
 }
 export type TableViews = Record<string, TableView>;
 export enum TableViewsAction {
   INIT = 'INIT',
   NEXT_SORT = 'NEXT_SORT',
   SET_PAGE = 'SET_PAGE',
+  ADD_FILTER = 'ADD_FILTER',
+  REMOVE_FILTER = 'REMOVE_FILTER',
+  CLEAR_SORTS = 'CLEAR_SORTS',
 }
 
 export const DEFAULT_TABLE_VIEW = {
   page: 1,
   per_page: 5,
   sort: [],
-  filter: {},
+  filter: [],
 };
 
 export enum SortDirection {
@@ -61,6 +66,7 @@ export const tableViewsReducer = (
       if (!newTableViews[modelName].sort) newTableViews[modelName].sort = [];
       const newSort = newTableViews[modelName].sort ?? [];
       const dir = getSortDir(newSort, fieldName);
+
       const sortFieldIdx = newSort.findIndex((field) =>
         field.endsWith(fieldName),
       );
@@ -81,6 +87,13 @@ export const tableViewsReducer = (
       newTableViews[modelName].sort = newSort;
       return newTableViews;
     }
+    case TableViewsAction.CLEAR_SORTS: {
+      const { modelName } = payload;
+      const newTableViews = { ...tableViews };
+      if (!newTableViews[modelName]) newTableViews[modelName] = {};
+      newTableViews[modelName].sort = [];
+      return newTableViews;
+    }
     case TableViewsAction.SET_PAGE: {
       const { modelName, page } = payload;
       if (page <= 0) return tableViews;
@@ -89,6 +102,27 @@ export const tableViewsReducer = (
       newTableViews[modelName].page = page;
       return newTableViews;
     }
+    case TableViewsAction.ADD_FILTER: {
+      const { modelName, filters } = payload;
+      const newTableViews = { ...tableViews };
+      if (!newTableViews[modelName]) newTableViews[modelName] = {};
+      const currentFilter = newTableViews[modelName].filter;
+      if (Array.isArray(currentFilter)) {
+        currentFilter.push(filters);
+      } else {
+        newTableViews[modelName].filter = filters;
+      }
+      return newTableViews;
+    }
+    case TableViewsAction.REMOVE_FILTER: {
+      const { modelName } = payload;
+      const newTableViews = { ...tableViews };
+      if (newTableViews[modelName]) {
+        newTableViews[modelName].filter = [];
+      }
+      return newTableViews;
+    }
+
     default: {
       throw Error(`${ErrorMessage.REDUCER_ACTION_DNE} ${type}`);
     }

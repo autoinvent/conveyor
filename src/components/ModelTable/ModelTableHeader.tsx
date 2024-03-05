@@ -16,6 +16,8 @@ interface ModelTableHeaderProps extends BaseProps {
   field: string;
   displayLabelFn?: () => any;
   sortable?: boolean;
+  sorts: any[];
+  setSorts: any;
 }
 
 const ModelTableHeader: FC<ModelTableHeaderProps> = ({
@@ -24,7 +26,9 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
   modelName,
   field,
   displayLabelFn = humanizeText,
-  sortable = true,
+  sortable,
+  sorts,
+  setSorts,
 }) => {
   const { tableView, dispatch } = useTableView({ modelName });
   const sortDir = getSortDir(tableView?.sort ?? [], field);
@@ -43,12 +47,14 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
       break;
     }
   }
+
   const handleSort = () => {
     if (sortable) {
       dispatch({
         type: TableViewsAction.NEXT_SORT,
         payload: { modelName, fieldName: field },
       });
+      setSorts(() => [...sorts, { direction: sortDir, field }]);
     }
   };
   return (

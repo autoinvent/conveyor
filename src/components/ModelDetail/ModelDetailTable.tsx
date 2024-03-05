@@ -51,6 +51,8 @@ const ModelDetailTable = ({
                 field={field}
                 displayLabelFn={displayLabelFn}
                 sortable={false}
+                sorts={[]}
+                setSorts={undefined}
               />
             );
           })}

@@ -1,5 +1,6 @@
-import { memo, FC, useContext, useMemo } from 'react';
-import { Table } from 'react-bootstrap';
+import { memo, FC, useContext, useMemo, useState, useEffect } from 'react';
+import { Button, Table } from 'react-bootstrap';
+import { FaSync } from 'react-icons/fa';
 
 import { ConveyorContext } from '../../contexts/ConveyorContext';
 import { PACKAGE_ABBR } from '../../package';
@@ -7,6 +8,8 @@ import { BaseProps, FieldData } from '../../types';
 
 import ModelTableHeader from './ModelTableHeader';
 import ModelTableRow from './ModelTableRow';
+import { SortDirection, TableViewsAction } from '../../reducers';
+import { useTableView } from '../../hooks';
 
 interface ModelTableProps extends BaseProps {
   modelName: string;
@@ -15,6 +18,8 @@ interface ModelTableProps extends BaseProps {
   fieldsData?: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
+  setSorts?: any;
+  sorts: any[];
 }
 
 const ModelTable = ({
@@ -26,10 +31,20 @@ const ModelTable = ({
   fieldsData,
   editable = true,
   deletable = true,
+  setSorts,
+  sorts,
 }: ModelTableProps) => {
   const showCrud = editable || deletable;
   const memoDataList = useMemo(() => dataList, [JSON.stringify(dataList)]);
   const { primaryKey } = useContext(ConveyorContext);
+  const { dispatch } = useTableView({ modelName });
+  const resetSort = () => {
+    dispatch({
+      type: TableViewsAction.CLEAR_SORTS,
+      payload: { modelName },
+    });
+    setSorts([]);
+  };
   return (
     <Table id={id} className={className} striped bordered hover size='sm'>
       <thead id={id} className={className}>
@@ -42,10 +57,24 @@ const ModelTable = ({
                 modelName={modelName}
                 field={field}
                 displayLabelFn={displayLabelFn}
+                sortable={true}
+                sorts={sorts}
+                setSorts={setSorts}
               />
             );
           })}
-          {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`} />}
+          {showCrud && (
+            <th className={`${PACKAGE_ABBR}-crud-header`}>
+              <Button
+                variant='secondary-outline'
+                onClick={resetSort}
+                className='sort-reset'
+                style={{ fontSize: 'x-small' }}
+              >
+                {<FaSync />}
+              </Button>
+            </th>
+          )}
         </tr>
       </thead>
       <tbody id={id} className={className}>

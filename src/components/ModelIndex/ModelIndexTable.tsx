@@ -12,9 +12,12 @@ import Loading from '../commons/Loading';
 interface ModelIndexTableProps extends BaseProps {
   modelName: string;
   fields: string[];
-  fieldsData?: Record<string, FieldData>;
+  fieldsData: Record<string, FieldData>;
   editable?: boolean;
   deletable?: boolean;
+  filters?: any;
+  setSorts?: any;
+  sorts: any[];
 }
 
 const ModelIndexTable = ({
@@ -25,6 +28,9 @@ const ModelIndexTable = ({
   fieldsData,
   editable,
   deletable,
+  filters,
+  setSorts,
+  sorts,
 }: ModelIndexTableProps) => {
   const { tableView } = useTableView({ modelName });
   const { primaryKey } = useContext(ConveyorContext);
@@ -37,11 +43,33 @@ const ModelIndexTable = ({
     fields,
     fieldsData,
   );
+
+  const filterFiltersByModel = (filters: any, modelName: string) => {
+    // Filter out the model key from each filter item and only include filters for the specific model value
+    return filters
+      .map(
+        (group: any) =>
+          group
+            .map((filter: any) => {
+              const { model, ...rest } = filter;
+              if (model === modelName) {
+                return rest;
+              }
+            })
+            .filter((filter: any) => filter !== undefined), // Filter out undefined filters
+      )
+      .filter((group: any) => group.length > 0); // Filter out groups with no filters
+  };
+
   const { data, error } = useGQLQuery({
     action,
     document,
-    variables: tableView,
+    variables: {
+      ...tableView,
+      filter: filterFiltersByModel(filters, modelName),
+    },
   });
+
   const { modelListData, modelListTotal } = useMemo(
     () => ({
       modelListData: data?.[action]?.items,
@@ -50,6 +78,7 @@ const ModelIndexTable = ({
     [JSON.stringify(data?.[action]?.items)],
   );
   const loading = Object.values({ ...data, ...error }).length === 0;
+
   return loading ? (
     <Loading />
   ) : (
@@ -63,6 +92,8 @@ const ModelIndexTable = ({
         dataList={modelListData}
         editable={editable}
         deletable={deletable}
+        setSorts={setSorts}
+        sorts={sorts}
       />
       <ModelTablePagination
         modelName={modelName}

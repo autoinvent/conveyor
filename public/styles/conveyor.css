@@ -33,3 +33,32 @@
     border: none;
     padding: 0;
 }
+
+
+.conv-filters {
+    position: relative;
+    text-align: right;
+    align-self: end;
+    margin-left: auto; 
+    margin-right: 75px;
+}
+
+.filter-bar {
+    width: 150px;
+}
+
+.not-checkbox {
+    width: 20px;
+    white-space: none;
+    display: inline;
+}
+
+.sort-reset {
+    width: 100%;
+    height: 25px;
+    white-space: none;
+    font-size: xx-small;
+    align-self: center;
+    display: inline;
+    text-align: center;
+}
