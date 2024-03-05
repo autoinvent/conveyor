@@ -16,6 +16,8 @@ interface ModelTableHeaderProps extends BaseProps {
   field: string;
   displayLabelFn?: () => any;
   sortable?: boolean;
+  index: number; // index of the column
+  handleColumnReorder: (dragIndex: number, hoverIndex: number) => void; // function to handle column reordering
 }
 
 const ModelTableHeader: FC<ModelTableHeaderProps> = ({
@@ -25,6 +27,8 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
   field,
   displayLabelFn = humanizeText,
   sortable = true,
+  index,
+  handleColumnReorder,
 }) => {
   const { tableView, dispatch } = useTableView({ modelName });
   const sortDir = getSortDir(tableView?.sort ?? [], field);
@@ -51,9 +55,34 @@ const ModelTableHeader: FC<ModelTableHeaderProps> = ({
       });
     }
   };
+
+  const handleDragStart = (e: React.DragEvent<HTMLTableCellElement>) => {
+    e.dataTransfer.setData('text/plain', `${index}`);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLTableCellElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLTableCellElement>) => {
+    e.preventDefault();
+    const dragIndex = parseInt(e.dataTransfer.getData('text/plain'));
+    const hoverIndex = index;
+
+    handleColumnReorder(dragIndex, hoverIndex);
+  };
+
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: TODO?
-    <th id={id} className={className} onClick={handleSort}>
+    <th
+      id={id}
+      className={className}
+      onClick={handleSort}
+      draggable
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
       {displayLabelFn(field)}
       {sortable && (
         <span className={`float-right ${PACKAGE_ABBR}-sort `}>

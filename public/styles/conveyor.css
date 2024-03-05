@@ -33,3 +33,13 @@
     border: none;
     padding: 0;
 }
+
+.column-reset {
+    width: 100%;
+    height: 25px;
+    white-space: none;
+    font-size: xx-small;
+    align-self: center;
+    display: inline;
+    text-align: center;
+}
