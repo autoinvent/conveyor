@@ -82,7 +82,7 @@ const ModelTable = ({
                 variant='secondary-outline'
                 onClick={resetColumnOrder}
                 className='column-reset'
-                style={{ fontSize: 'x-small'}}
+                style={{ fontSize: 'x-small' }}
               >
                 {<FaSync />}
               </Button>
