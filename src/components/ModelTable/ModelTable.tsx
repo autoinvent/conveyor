@@ -1,5 +1,5 @@
 import { memo, FC, useContext, useMemo, useState, useEffect } from 'react';
-import { Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 import { ConveyorContext } from '../../contexts/ConveyorContext';
 import { PACKAGE_ABBR } from '../../package';
@@ -7,6 +7,7 @@ import { BaseProps, FieldData } from '../../types';
 
 import ModelTableHeader from './ModelTableHeader';
 import ModelTableRow from './ModelTableRow';
+import { FaSync } from 'react-icons/fa';
 
 interface ModelTableProps extends BaseProps {
   modelName: string;
@@ -31,7 +32,9 @@ const ModelTable = ({
   const showCrud = editable || deletable;
   const memoDataList = useMemo(() => dataList, [JSON.stringify(dataList)]);
   const { primaryKey } = useContext(ConveyorContext);
-
+  const resetColumnOrder = () => {
+    setColumnOrder(fields);
+  };
   useEffect(() => {
     const storedColumnOrder = localStorage.getItem(`${modelName}_column_order`);
     if (storedColumnOrder) {
@@ -73,7 +76,18 @@ const ModelTable = ({
               />
             );
           })}
-          {showCrud && <th className={`${PACKAGE_ABBR}-crud-header`} />}
+          {showCrud && (
+            <th className={`${PACKAGE_ABBR}-crud-header`}>
+              <Button
+                variant='secondary-outline'
+                onClick={resetColumnOrder}
+                className='column-reset'
+                style={{ fontSize: 'x-small'}}
+              >
+                {<FaSync />}
+              </Button>
+            </th>
+          )}
         </tr>
       </thead>
       <tbody id={id} className={className}>
