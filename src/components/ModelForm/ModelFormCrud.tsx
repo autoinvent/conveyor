@@ -1,5 +1,5 @@
-import { useContext, Fragment } from 'react';
-import { Button } from 'react-bootstrap';
+import { useContext, Fragment, useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 import { useFormContext } from 'react-hook-form';
 import {
   FaRegTrashAlt,
@@ -26,6 +26,7 @@ interface ModelFormCrudProps extends BaseProps {
   deletable?: boolean;
   size?: 'sm' | 'lg';
   icons?: boolean;
+  message?: string;
 }
 
 const ModelFormCrud = ({
@@ -39,6 +40,7 @@ const ModelFormCrud = ({
   deletable,
   size,
   icons,
+  message,
 }: ModelFormCrudProps) => {
   const showCrud = editable || deletable;
   const { mode, setMode } = useContext(DisplayModeContext);
@@ -58,6 +60,17 @@ const ModelFormCrud = ({
       dirtyFields[dirtyField] = formValues[dirtyField];
     });
     onSave(dirtyFields);
+    onCancelHandler();
+  };
+
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleDelete = () => {
+    onDelete();
+    handleClose();
   };
 
   return showCrud ? (
@@ -71,9 +84,25 @@ const ModelFormCrud = ({
               </Button>
             )}
             {deletable && (
-              <Button onClick={onDelete} variant='outline-danger'>
-                {icons ? <FaRegTrashAlt /> : 'Delete'}
-              </Button>
+              <>
+                <Button onClick={handleShow} variant='outline-danger'>
+                  {icons ? <FaRegTrashAlt /> : 'Delete'}
+                </Button>
+                <Modal show={show} onHide={handleClose} animation={false}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Warning</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>{message}</Modal.Body>
+                  <Modal.Footer>
+                    <Button variant='secondary' onClick={handleClose}>
+                      Cancel
+                    </Button>
+                    <Button variant='danger' onClick={handleDelete}>
+                      Confirm
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </>
             )}
           </Fragment>
         ) : (

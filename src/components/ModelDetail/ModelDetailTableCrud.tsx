@@ -44,6 +44,7 @@ const ModelDetailTableCrud = ({
   const { primaryKey } = useContext(ConveyorContext);
   const { setLoading } = useContext(LoadingContext);
   const dispatch = useContext(AlertsDispatchContext);
+  const message: string = `The ${modelName.toLowerCase()} will not be deleted, but its relation to this ${parentModelName.toLowerCase()} will be removed. Do you wish to continue?`;
 
   const updateActionType = GQLMutationAction.MODEL_UPDATE;
   const updateParentAction = getGQLAction(updateActionType, parentModelName);
@@ -115,7 +116,7 @@ const ModelDetailTableCrud = ({
           type: AlertsAction.ADD_ALERT,
           payload: {
             type: 'success',
-            message: `${modelName} ${SuccessMessage.MODEL_DELETE}`,
+            message: `${modelName} updated successfully`,
             expires: Date.now() + DEFAULT_SUCCESS_EXPIRE,
           },
         });
@@ -131,6 +132,7 @@ const ModelDetailTableCrud = ({
       editable={editable}
       deletable={deletable}
       icons={true}
+      message={message}
     />
   );
 };
