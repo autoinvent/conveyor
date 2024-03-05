@@ -1,9 +1,11 @@
 import { createContext, ReactNode, useMemo } from 'react';
 
+import { Model } from '@/types'
+
 export enum TableState { LOADING, EMPTY, DEFAULT, ERROR }
 
 export interface ModelIndexContext {
-    model: string
+    model: Model
     tableState: TableState
 }
 export const ModelIndexContext = createContext<ModelIndexContext>({
@@ -12,7 +14,7 @@ export const ModelIndexContext = createContext<ModelIndexContext>({
 });
 
 export interface ModelIndexProviderProps extends ModelIndexContext {
-    model: string
+    model: Model
     tableState: TableState
     children?: ReactNode;
 }

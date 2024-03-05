@@ -7,7 +7,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 
-import { Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar, SlotsContext } from '@/index'
+import { Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar, ActiveLensContext, FlexibleValues, useData, FlexibleValue, TableRowState } from '@/index'
 
 
 // const errorHandler = (error: any) => {
@@ -102,17 +102,23 @@ function App() {
     return () => Promise.resolve({});
   };
 
+
+
   return (
     <QueryClientProvider client={queryClient}>
       <Conveyor useMQLQuery={useMQLQuery} useMQLMutation={useMQLMutation}>
         <Navbar modelNames={['Task']}></Navbar>
-        <ModelIndex model="Task" fields={['message', 'created_at']} actionsConfig={{ showActions: true }}>
+        <ModelIndex model="Task" fields={[{ name: 'message', required: true, type: 'String' }, 'created_at']} actionsConfig={{ showActions: true }}>
           <ModelIndex.Table>
+            <ModelIndex.Table.Body>
+              <ModelIndex.Table.Row />
+            </ModelIndex.Table.Body>
           </ModelIndex.Table>
         </ModelIndex>
       </Conveyor>
     </QueryClientProvider>
   );
 }
+
 
 export default App;

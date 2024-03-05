@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useMemo } from 'react';
 
-import { Data } from '@/ModelData'
+import { Data } from '@/Data'
 import { Field } from '@/types';
 
 export interface TableContext {

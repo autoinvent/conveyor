@@ -1,4 +1,12 @@
-import { Field } from '@/types';
+import { Field, Model } from '@/types';
+
+export const getModelName = (model: Model) => {
+    return typeof model === 'string' ? model : model.name;
+};
+
+export const getModelPrimaryKey = (model: Model) => {
+    return typeof model === 'string' ? { name: 'id', type: 'ID' } : model.primaryKey;
+}
 
 export const getFieldName = (field: Field) => {
     return typeof field === 'string' ? field : field.name;
@@ -23,9 +31,15 @@ export const camelToSnakeCase = (str: string) => {
     return str.replace(/[a-z](?=[A-Z])|[A-Z](?=[A-Z][a-z])/g, '$&_').toLowerCase()
 };
 
+export const snakeToCamelCase = (str: string) => {
+    if (!str) return '';
+    return str.replace(/_([a-z])/g, (match, letter) => `${upperCaseFirst(letter)}`)
+}
+
 export const humanizeText = (str: string) => {
     if (!str) return '';
-    const separatedWords = str.replace(/[a-z](?=[A-Z])|[A-Z](?=[A-Z][a-z])/g, '$& ')
+    const camelCaseStr = snakeToCamelCase(str)
+    const separatedWords = camelCaseStr.replace(/[a-z](?=[A-Z])|[A-Z](?=[A-Z][a-z])/g, '$& ')
     return upperCaseFirst(separatedWords);
 };
 

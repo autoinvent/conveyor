@@ -7,9 +7,10 @@ import { FlexibleInput } from './FlexibleInput';
 export interface FlexibleInputsProps {
     valueType: string;
     data: any;
+    errors?: string | string[]
     inputProps?: Record<string, any>
 }
-export const FlexibleInputs = ({ valueType, data, inputProps }: FlexibleInputsProps) => {
+export const FlexibleInputs = ({ valueType, data, errors, inputProps }: FlexibleInputsProps) => {
     const valueTypes: string[] = Object.values(ScalarFieldTypes)
     if (!valueTypes.includes(valueType)) valueTypes.push(valueType)
     return (
@@ -22,14 +23,15 @@ export const FlexibleInputs = ({ valueType, data, inputProps }: FlexibleInputsPr
                     {data}
                 </FlexibleInput>
                 <FlexibleInput valueType={ScalarFieldTypes.FLOAT}>
-                    {data}
+                    <input type='number' {...inputProps} />
                 </FlexibleInput>
                 <FlexibleInput valueType={ScalarFieldTypes.INT}>
-                    {data}
+                    <input type='number' {...inputProps} />
                 </FlexibleInput>
                 <FlexibleInput valueType={ScalarFieldTypes.STRING}>
-                    <input {...inputProps} />
+                    <input type='text' {...inputProps} />
                 </FlexibleInput>
+                <span>{errors}</span>
             </Slots>
         </Lenses>
     )

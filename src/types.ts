@@ -31,3 +31,16 @@ export type Field =
         editable?: boolean;
     };
 
+export interface ModelKey {
+    name: string;
+    type: string;
+}
+
+export type Model =
+    | string
+    | {
+        name: string;
+        primaryKey: ModelKey
+        secondaryKeys?: ModelKey[]
+    }
+

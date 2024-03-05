@@ -2,15 +2,20 @@ import {
     createContext,
     Dispatch,
     Fragment,
+    isValidElement,
     ReactNode,
     SetStateAction,
     useLayoutEffect,
     useState,
 } from 'react';
 
-export const SlotsContext = createContext<Record<string, ReactNode>>({});
+export type SlotValue = null | {
+    content: ReactNode,
+    refIds: string[],
+}
+export const SlotsContext = createContext<Record<string, SlotValue>>({});
 export const SetSlotsContext = createContext<
-    Dispatch<SetStateAction<Record<string, ReactNode>>>
+    Dispatch<SetStateAction<Record<string, SlotValue>>>
 >(() => {
     throw new Error('SetSlotsContext must be used within Slots');
 });
@@ -21,17 +26,17 @@ export interface SlotsProps {
 }
 
 export const Slots = ({ slotKeys, children }: SlotsProps) => {
-    const [slots, setSlots] = useState({} as Record<string, ReactNode>);
+    const [slots, setSlots] = useState({} as Record<string, SlotValue>);
     useLayoutEffect(() => {
         setSlots(Object.fromEntries(slotKeys.map((slotKey) => [slotKey, null])))
-    }, [children, slotKeys])
+    }, [JSON.stringify(slotKeys)])
 
     return (
         <SetSlotsContext.Provider value={setSlots}>
             <SlotsContext.Provider value={slots}>
                 <Fragment key={JSON.stringify(slotKeys)}>
                     {slotKeys.map((slotKey, index) =>
-                        <Fragment key={index + slotKey}>{slots[slotKey]}</Fragment>
+                        <Fragment key={index + slotKey}>{slots[slotKey]?.content}</Fragment>
                     )}
                     {children}
                 </Fragment>

@@ -24,7 +24,7 @@ export type MQLRequest = (
 ) => Promise<MQLResponse>;
 
 
-export type UseMQLOperation = (parameters: UseMQLParameters,) => MQLRequest;
+export type UseMQLOperation = (parameters: UseMQLParameters) => MQLRequest;
 
 export interface ConveyorContextType {
     useMQLQuery: UseMQLOperation,

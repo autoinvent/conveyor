@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 import { Lenses } from '@/Lenses'
 import { Slots } from '@/Slots'
 import { ScalarFieldTypes } from '@/types';
@@ -7,8 +9,9 @@ import { FlexibleValue } from './FlexibleValue';
 export interface FlexibleValuesProps {
     valueType: string;
     data: any;
+    children?: ReactNode
 }
-export const FlexibleValues = ({ valueType, data }: FlexibleValuesProps) => {
+export const FlexibleValues = ({ valueType, data, children }: FlexibleValuesProps) => {
     const valueTypes: string[] = Object.values(ScalarFieldTypes)
     if (!valueTypes.includes(valueType)) valueTypes.push(valueType)
     return (
@@ -29,6 +32,7 @@ export const FlexibleValues = ({ valueType, data }: FlexibleValuesProps) => {
                 <FlexibleValue valueType={ScalarFieldTypes.STRING}>
                     {data}
                 </FlexibleValue>
+                {children}
             </Slots>
         </Lenses>
     )

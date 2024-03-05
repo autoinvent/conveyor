@@ -11,7 +11,7 @@ import { FlexibleValues } from '@/FlexibleValues'
 import { Lenses, Lens } from '@/Lenses'
 import { Slots } from '@/Slots'
 import { BaseComponentProps } from '@/types';
-import { getFieldName, getFieldType, getFieldRequired } from '@/utils';
+import { getFieldName, getFieldType, getFieldRequired, humanizeText } from '@/utils';
 
 import { TableCell } from './TableCell'
 import { TABLE_ACTION_CELL_SLOT, TableActionCell } from './TableActionCell'
@@ -31,17 +31,16 @@ export interface TableRowProps extends BaseComponentProps {
 }
 
 export const TableRow = ({ children, id, className, style }: TableRowProps) => {
-    const { data, register, reset } = useData();
+    const { data, errors, onSaveHandler, formMethods } = useData();
     const { fields, actionsConfig } = useContext(TableContext);
     const fieldNames = fields.map((field) => getFieldName(field));
     const [editing, setEditing] = useState(TableRowState.VALUE)
-
     const onEdit = () => setEditing(TableRowState.EDIT)
     const onCancelEdit = () => {
         setEditing(TableRowState.VALUE)
-        reset()
+        formMethods.reset()
     }
-    const onSave = () => { actionsConfig?.onSave?.() }
+    const onSave = onSaveHandler(actionsConfig?.onSave)
     const onDelete = () => { actionsConfig?.onDelete?.() }
     if (actionsConfig?.showActions) fieldNames.push(TABLE_ACTION_CELL_SLOT)
     return (
@@ -53,6 +52,7 @@ export const TableRow = ({ children, id, className, style }: TableRowProps) => {
                         const fieldType = getFieldType(field)
                         const fieldRequired = getFieldRequired(field)
                         const fieldData = data?.[fieldName]
+                        const fieldError = errors?.[fieldName]?.message as string
                         return (
                             <TableCell key={index} field={field}>
                                 <Lens lens={TableRowState.VALUE}>
@@ -62,7 +62,8 @@ export const TableRow = ({ children, id, className, style }: TableRowProps) => {
                                     <FlexibleInputs
                                         valueType={fieldType}
                                         data={fieldData}
-                                        inputProps={{ ...register(fieldName, { required: fieldRequired }) }}
+                                        errors={fieldError}
+                                        inputProps={{ ...formMethods.register(fieldName, { required: { value: Boolean(fieldRequired), message: `${humanizeText(fieldName)} is required` } }) }}
                                     />
                                 </Lens>
                             </TableCell>
