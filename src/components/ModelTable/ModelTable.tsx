@@ -1,4 +1,4 @@
-import { memo, FC, useContext, useMemo } from 'react';
+import { memo, FC, useContext, useMemo, useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 
 import { ConveyorContext } from '../../contexts/ConveyorContext';
@@ -27,14 +27,40 @@ const ModelTable = ({
   editable = true,
   deletable = true,
 }: ModelTableProps) => {
+  const [columnOrder, setColumnOrder] = useState(fields);
   const showCrud = editable || deletable;
   const memoDataList = useMemo(() => dataList, [JSON.stringify(dataList)]);
   const { primaryKey } = useContext(ConveyorContext);
+
+  useEffect(() => {
+    const storedColumnOrder = localStorage.getItem(`${modelName}_column_order`);
+    if (storedColumnOrder) {
+      setColumnOrder(JSON.parse(storedColumnOrder));
+    } else {
+      setColumnOrder(fields);
+    }
+  }, [modelName]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      `${modelName}_column_order`,
+      JSON.stringify(columnOrder),
+    );
+  }, [columnOrder]);
+
+  const handleColumnReorder = (dragIndex: number, hoverIndex: number) => {
+    const newColumnOrder = [...columnOrder];
+    const draggedColumn = newColumnOrder[dragIndex];
+    newColumnOrder.splice(dragIndex, 1);
+    newColumnOrder.splice(hoverIndex, 0, draggedColumn);
+    setColumnOrder(newColumnOrder);
+  };
+
   return (
     <Table id={id} className={className} striped bordered hover size='sm'>
       <thead id={id} className={className}>
         <tr>
-          {fields.map((field) => {
+          {columnOrder.map((field, index) => {
             const displayLabelFn = fieldsData?.[field]?.displayLabelFn;
             return (
               <ModelTableHeader
@@ -42,6 +68,8 @@ const ModelTable = ({
                 modelName={modelName}
                 field={field}
                 displayLabelFn={displayLabelFn}
+                index={index}
+                handleColumnReorder={handleColumnReorder}
               />
             );
           })}
@@ -54,7 +82,7 @@ const ModelTable = ({
             <ModelTableRow
               key={`${PACKAGE_ABBR}-table-row-${rowData[primaryKey]}`}
               modelName={modelName}
-              fields={fields}
+              fields={columnOrder} // Pass the reordered column order
               data={rowData}
               fieldsData={fieldsData}
               editable={editable}
