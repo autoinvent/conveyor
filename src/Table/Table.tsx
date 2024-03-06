@@ -29,9 +29,7 @@ export const Table = Object.assign(({ fields, data, actionsConfig, children, id,
             <TableProvider fields={fields} data={data} actionsConfig={actionsConfig}>
                 <Slots slotKeys={[TABLE_HEAD_SLOT, TABLE_BODY_SLOT, TABLE_EMPTY_BODY_SLOT]}>
                     <TableHead />
-                    <TableBody>
-                        <TableRow />
-                    </TableBody>
+                    <TableBody />
                     <TableEmptyBody />
                     {children}
                 </Slots>

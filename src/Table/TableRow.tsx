@@ -9,7 +9,7 @@ import {
 
 import { FlexibleValues } from '@/FlexibleValues'
 import { Lenses, Lens } from '@/Lenses'
-import { Slots } from '@/Slots'
+import { Slots, Slot } from '@/Slots'
 import { BaseComponentProps } from '@/types';
 import { getFieldName, getFieldType, getFieldRequired, humanizeText } from '@/utils';
 
@@ -25,6 +25,8 @@ export enum TableRowState {
     EDIT,
     VALUE,
 }
+
+export const TABLE_ROW_SLOT = 'table-row-slot'
 
 export interface TableRowProps extends BaseComponentProps {
     children?: ReactNode;
@@ -44,55 +46,57 @@ export const TableRow = ({ children, id, className, style }: TableRowProps) => {
     const onDelete = () => { actionsConfig?.onDelete?.() }
     if (actionsConfig?.showActions) fieldNames.push(TABLE_ACTION_CELL_SLOT)
     return (
-        <tr id={id} className={className} style={style}>
-            <Lenses activeLens={editing}>
-                <Slots slotKeys={fieldNames}>
-                    {fields.map((field, index) => {
-                        const fieldName = getFieldName(field)
-                        const fieldType = getFieldType(field)
-                        const fieldRequired = getFieldRequired(field)
-                        const fieldData = data?.[fieldName]
-                        const fieldError = errors?.[fieldName]?.message as string
-                        return (
-                            <TableCell key={index} field={field}>
+        <Slot slotKey={TABLE_ROW_SLOT}>
+            <tr id={id} className={className} style={style}>
+                <Lenses activeLens={editing}>
+                    <Slots slotKeys={fieldNames}>
+                        {fields.map((field, index) => {
+                            const fieldName = getFieldName(field)
+                            const fieldType = getFieldType(field)
+                            const fieldRequired = getFieldRequired(field)
+                            const fieldData = data?.[fieldName]
+                            const fieldError = errors?.[fieldName]?.message as string
+                            return (
+                                <TableCell key={index} field={field}>
+                                    <Lens lens={TableRowState.VALUE}>
+                                        <FlexibleValues valueType={fieldType} value={fieldData} />
+                                    </Lens>
+                                    <Lens lens={TableRowState.EDIT}>
+                                        <FlexibleInputs
+                                            valueType={fieldType}
+                                            value={fieldData}
+                                            errors={fieldError}
+                                            inputProps={{ ...formMethods.register(fieldName, { required: { value: Boolean(fieldRequired), message: `${humanizeText(fieldName)} is required` } }) }}
+                                        />
+                                    </Lens>
+                                </TableCell>
+                            )
+                        })}
+                        <TableActionCell>
+                            <ButtonGroup>
                                 <Lens lens={TableRowState.VALUE}>
-                                    <FlexibleValues valueType={fieldType} value={fieldData} />
+                                    <Button variant='outline-primary' onClick={onEdit}>
+                                        <FaEdit />
+                                    </Button>
+                                    <Button variant='outline-danger' onClick={onDelete}>
+                                        <FaRegTrashAlt />
+                                    </Button>
                                 </Lens>
                                 <Lens lens={TableRowState.EDIT}>
-                                    <FlexibleInputs
-                                        valueType={fieldType}
-                                        value={fieldData}
-                                        errors={fieldError}
-                                        inputProps={{ ...formMethods.register(fieldName, { required: { value: Boolean(fieldRequired), message: `${humanizeText(fieldName)} is required` } }) }}
-                                    />
+                                    <Button variant='outline-success' onClick={onSave}>
+                                        <FaRegSave />
+                                    </Button>
+                                    <Button variant='outline-primary' onClick={onCancelEdit}>
+                                        <FaRegTimesCircle />
+                                    </Button>
                                 </Lens>
-                            </TableCell>
-                        )
-                    })}
-                    <TableActionCell>
-                        <ButtonGroup>
-                            <Lens lens={TableRowState.VALUE}>
-                                <Button variant='outline-primary' onClick={onEdit}>
-                                    <FaEdit />
-                                </Button>
-                                <Button variant='outline-danger' onClick={onDelete}>
-                                    <FaRegTrashAlt />
-                                </Button>
-                            </Lens>
-                            <Lens lens={TableRowState.EDIT}>
-                                <Button variant='outline-success' onClick={onSave}>
-                                    <FaRegSave />
-                                </Button>
-                                <Button variant='outline-primary' onClick={onCancelEdit}>
-                                    <FaRegTimesCircle />
-                                </Button>
-                            </Lens>
-                        </ButtonGroup>
-                    </TableActionCell>
-                    {children}
-                </Slots>
-            </Lenses>
-        </tr>
+                            </ButtonGroup>
+                        </TableActionCell>
+                        {children}
+                    </Slots>
+                </Lenses>
+            </tr>
+        </Slot>
     );
 };
 

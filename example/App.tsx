@@ -7,7 +7,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 
-import { Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar, ActiveLensContext, FlexibleValues, useData, FlexibleValue, TableRowState, useAddAlert } from '@/index'
+import { Slot, Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar, slotify, FlexibleValues, useData, FlexibleValue, TableRowState, useAddAlert, Alerts } from '@/index'
 
 
 // const errorHandler = (error: any) => {
@@ -111,15 +111,30 @@ function App() {
         <ModelIndex model="Task" fields={[{ name: 'message', required: true, type: 'String' }, 'created_at']} actionsConfig={{ showActions: true }}>
           <ModelIndex.Table>
             <ModelIndex.Table.Body>
-              <ModelIndex.Table.Row />
+              <ModelIndex.Table.Row>
+                <NewCell>
+
+                </NewCell>
+              </ModelIndex.Table.Row>
             </ModelIndex.Table.Body>
           </ModelIndex.Table>
-
         </ModelIndex>
       </Conveyor>
     </QueryClientProvider>
   );
 }
+
+const NewRow = slotify(() => {
+  return (
+    <tr><td colSpan={3}>hello</td></tr>
+  )
+})
+
+const NewCell = slotify((props: any) => {
+  return (
+    <td>{props.children}</td>
+  )
+}, 'created_at')
 
 
 export default App;

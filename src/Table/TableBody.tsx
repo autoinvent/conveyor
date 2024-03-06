@@ -1,10 +1,11 @@
 import { ReactNode, useContext } from 'react';
 
 import { DataProvider } from '@/Data';
-import { Slot } from '@/Slots'
+import { Slots, Slot } from '@/Slots'
 import { BaseComponentProps } from '@/types';
 
 import { TableContext } from './TableContext';
+import { TABLE_ROW_SLOT, TableRow } from './TableRow';
 
 export const TABLE_BODY_SLOT = 'table-body-slot'
 
@@ -22,7 +23,10 @@ export const TableBody = ({ children, id, className, style }: TableBodyProps) =>
                 {data.map((rowData, index) => {
                     return (
                         <DataProvider key={index} value={rowData}>
-                            {children}
+                            <Slots slotKeys={[TABLE_ROW_SLOT]}>
+                                <TableRow />
+                                {children}
+                            </Slots>
                         </DataProvider>
                     );
                 })}
