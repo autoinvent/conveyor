@@ -1,7 +1,8 @@
-import { ReactNode, createContext, FC } from 'react';
+import { ReactNode, createContext } from 'react';
 
-import { Alerts, AlertProps } from '@/Alerts'
+import { AlertsProvider, Alerts, Alert } from '@/Alerts'
 
+// TBD: remove?
 export interface MQLError {
     message: string;
     locations?: { line: number; column: number }[];
@@ -11,7 +12,6 @@ export interface MQLError {
 
 export interface MQLResponse {
     [operationName: string]: Record<string, any>
-    // errors?: MQLError[];
 }
 
 export interface UseMQLParameters {
@@ -41,16 +41,18 @@ export const ConveyorContext = createContext<ConveyorContextType>({
 export interface ConveyorProps {
     useMQLQuery: UseMQLOperation
     useMQLMutation: UseMQLOperation
-    AlertComponent?: FC<AlertProps>
     children?: ReactNode;
 }
 
-export const Conveyor = ({ useMQLQuery, useMQLMutation, AlertComponent, children }: ConveyorProps) => {
+export const Conveyor = ({ useMQLQuery, useMQLMutation, children }: ConveyorProps) => {
     return (
         <ConveyorContext.Provider value={{ useMQLQuery, useMQLMutation }}>
-            <Alerts Component={AlertComponent}>
+            <AlertsProvider>
+                <Alerts>
+                    <Alert />
+                </Alerts>
                 {children}
-            </Alerts>
+            </AlertsProvider>
         </ConveyorContext.Provider >
     );
 };

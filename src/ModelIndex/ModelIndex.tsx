@@ -60,6 +60,7 @@ export const ModelIndex = Object.assign(({ model, fields, data, actionsConfig, c
         }
     }, [JSON.stringify(modelListData)])
 
+
     return (
         <div id={id} className={className} style={style}>
             <ModelIndexProvider model={model} tableState={tableState}>

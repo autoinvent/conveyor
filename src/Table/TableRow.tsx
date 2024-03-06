@@ -56,12 +56,12 @@ export const TableRow = ({ children, id, className, style }: TableRowProps) => {
                         return (
                             <TableCell key={index} field={field}>
                                 <Lens lens={TableRowState.VALUE}>
-                                    <FlexibleValues valueType={fieldType} data={fieldData} />
+                                    <FlexibleValues valueType={fieldType} value={fieldData} />
                                 </Lens>
                                 <Lens lens={TableRowState.EDIT}>
                                     <FlexibleInputs
                                         valueType={fieldType}
-                                        data={fieldData}
+                                        value={fieldData}
                                         errors={fieldError}
                                         inputProps={{ ...formMethods.register(fieldName, { required: { value: Boolean(fieldRequired), message: `${humanizeText(fieldName)} is required` } }) }}
                                     />

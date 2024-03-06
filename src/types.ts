@@ -12,6 +12,7 @@ export enum ScalarFieldTypes {
     FLOAT = 'Float',
     INT = 'Int',
     STRING = 'String',
+    DEFAULT = 'Default',
 }
 
 export type FieldType =

@@ -7,7 +7,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 
-import { Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar, ActiveLensContext, FlexibleValues, useData, FlexibleValue, TableRowState } from '@/index'
+import { Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar, ActiveLensContext, FlexibleValues, useData, FlexibleValue, TableRowState, useAddAlert } from '@/index'
 
 
 // const errorHandler = (error: any) => {
@@ -114,6 +114,7 @@ function App() {
               <ModelIndex.Table.Row />
             </ModelIndex.Table.Body>
           </ModelIndex.Table>
+
         </ModelIndex>
       </Conveyor>
     </QueryClientProvider>

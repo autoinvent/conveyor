@@ -8,29 +8,36 @@ import { FlexibleValue } from './FlexibleValue';
 
 export interface FlexibleValuesProps {
     valueType: string;
-    data: any;
+    value: any;
     children?: ReactNode
 }
-export const FlexibleValues = ({ valueType, data, children }: FlexibleValuesProps) => {
+export const FlexibleValues = ({ valueType, value, children }: FlexibleValuesProps) => {
     const valueTypes: string[] = Object.values(ScalarFieldTypes)
-    if (!valueTypes.includes(valueType)) valueTypes.push(valueType)
+    let currValueType = valueType
+    if (!valueTypes.includes(currValueType)) {
+        valueTypes.push(currValueType)
+        currValueType = ScalarFieldTypes.DEFAULT
+    }
     return (
-        <Lenses activeLens={valueType}>
+        <Lenses activeLens={currValueType}>
             <Slots slotKeys={valueTypes}>
                 <FlexibleValue valueType={ScalarFieldTypes.BOOLEAN}>
-                    {data}
+                    {value}
                 </FlexibleValue>
                 <FlexibleValue valueType={ScalarFieldTypes.DATETIME}>
-                    {data}
+                    {value}
                 </FlexibleValue>
                 <FlexibleValue valueType={ScalarFieldTypes.FLOAT}>
-                    {data}
+                    {value}
                 </FlexibleValue>
                 <FlexibleValue valueType={ScalarFieldTypes.INT}>
-                    {data}
+                    {value}
                 </FlexibleValue>
                 <FlexibleValue valueType={ScalarFieldTypes.STRING}>
-                    {data}
+                    {value}
+                </FlexibleValue>
+                <FlexibleValue valueType={ScalarFieldTypes.DEFAULT}>
+                    {JSON.stringify(value)}
                 </FlexibleValue>
                 {children}
             </Slots>
