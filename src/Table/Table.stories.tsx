@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Table } from '@/index';
+import { Table, slotify } from '@/index';
+import { useState } from 'react';
 
 const meta = {
     title: 'Commons/Table',
@@ -33,16 +34,39 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicUsage: Story = {
     render: (props) => {
+        const [actions, setActions] = useState(true)
+        const [content, setContent] = useState<any>(null)
+        const newProps = {
+            ...props,
+            actionsConfig: {
+                showActions: actions
+            }
+        }
+        // const {addSlot} = useSlots()
         return (
-            <Table {...props}>
-                <Table.Body>
-                    <Table.Row>
-                        <Table.Cell field="name">
-                            hello
-                        </Table.Cell>
-                    </Table.Row>
-                </Table.Body>
-            </Table>
+            <>
+                <Table {...newProps} >
+                    <Table.Body>
+                        <Table.Row>
+                            <Table.Cell field="name">
+                                {content}
+                            </Table.Cell>
+                            <CustomCell />
+                        </Table.Row>
+                    </Table.Body>
+                </Table>
+                <button onClick={() => setActions(!actions)}>Click</button>
+                <button onClick={() => setContent(content === 'hello' ? null : 'hello')}>ME</button>
+            </>
         )
     }
 };
+
+const CustomCell = slotify(() => {
+    console.log('rendered')
+    return (
+        <td>
+            maybe
+        </td>
+    )
+}, 'name')

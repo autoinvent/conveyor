@@ -5,7 +5,6 @@ import {
     ReactNode,
     SetStateAction,
     useLayoutEffect,
-    useMemo,
     useState,
 } from 'react';
 
@@ -14,10 +13,12 @@ export type SlotValue = null | {
     refIds: string[],
 }
 
-export const SlotsMetaContext = createContext<{ slotKeys: string[], replaceableSlotKey: string }>({
-    slotKeys: [],
-    replaceableSlotKey: ''
-})
+export const SlotKeysContext = createContext<string[]>([])
+export const SetSlotKeysContext = createContext<
+    Dispatch<SetStateAction<string[]>>
+>(() => {
+    throw new Error('SetSlotsContext must be used within Slots');
+});
 export const SlotsContext = createContext<Record<string, SlotValue>>({});
 export const SetSlotsContext = createContext<
     Dispatch<SetStateAction<Record<string, SlotValue>>>
@@ -31,25 +32,26 @@ export interface SlotsProps {
 }
 
 export const Slots = ({ slotKeys, children }: SlotsProps) => {
+    const [currSlotKeys, setSlotKeys] = useState(slotKeys)
     const [slots, setSlots] = useState({} as Record<string, SlotValue>);
     useLayoutEffect(() => {
-        setSlots(Object.fromEntries(slotKeys.map((slotKey) => [slotKey, null])))
+        setSlotKeys(slotKeys)
     }, [JSON.stringify(slotKeys)])
 
-    const replaceableSlotKey = slotKeys.find((sk) => !slots[sk]?.content) ?? slotKeys[0] ?? ''
-    const slotsMeta = useMemo(() => ({ slotKeys, replaceableSlotKey }), [JSON.stringify(slotKeys), replaceableSlotKey])
     return (
-        <SetSlotsContext.Provider value={setSlots}>
-            <SlotsMetaContext.Provider value={slotsMeta}>
-                <SlotsContext.Provider value={slots}>
-                    <Fragment key={JSON.stringify(slotKeys)}>
-                        {slotKeys.map((slotKey, index) =>
-                            <Fragment key={index + slotKey}>{slots[slotKey]?.content}</Fragment>
-                        )}
-                        {children}
-                    </Fragment>
-                </SlotsContext.Provider>
-            </SlotsMetaContext.Provider>
-        </SetSlotsContext.Provider>
+        <SetSlotKeysContext.Provider value={setSlotKeys} >
+            <SetSlotsContext.Provider value={setSlots}>
+                <SlotKeysContext.Provider value={currSlotKeys}>
+                    <SlotsContext.Provider value={slots}>
+                        <>
+                            {currSlotKeys.map((slotKey, index) =>
+                                <Fragment key={index + slotKey}>{slots[slotKey]?.content}</Fragment>
+                            )}
+                            {children}
+                        </>
+                    </SlotsContext.Provider>
+                </SlotKeysContext.Provider>
+            </SetSlotsContext.Provider>
+        </SetSlotKeysContext.Provider>
     );
 };

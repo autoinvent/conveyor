@@ -112,9 +112,7 @@ function App() {
           <ModelIndex.Table>
             <ModelIndex.Table.Body>
               <ModelIndex.Table.Row>
-                <NewCell>
 
-                </NewCell>
               </ModelIndex.Table.Row>
             </ModelIndex.Table.Body>
           </ModelIndex.Table>
@@ -132,9 +130,9 @@ const NewRow = slotify(() => {
 
 const NewCell = slotify((props: any) => {
   return (
-    <td>{props.children}</td>
+    <td>Hello{props.children}</td>
   )
-}, 'created_at')
+}, 'message')
 
 
 export default App;

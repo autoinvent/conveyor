@@ -1,7 +1,8 @@
-import { ReactNode, useContext } from 'react';
+import { ReactNode } from 'react';
 
-import { Slot, SlotsContext } from '@/Slots';
+import { Slot } from '@/Slots';
 import { BaseComponentProps } from '@/types';
+
 
 export const TABLE_ACTION_CELL_SLOT = 'table-action-cell-slot'
 
