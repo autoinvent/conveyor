@@ -6,6 +6,9 @@ import { BaseComponentProps } from '@/types'
 import { useAlert } from './useAlert'
 import { useRemoveAlert } from './useRemoveAlert'
 
+
+export const ALERT_SLOT = 'alert-slot'
+
 export interface AlertProps extends BaseComponentProps {
     alertId: string
     content: ReactNode

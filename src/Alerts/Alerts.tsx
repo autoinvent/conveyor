@@ -5,6 +5,7 @@ import { BaseComponentProps } from "@/types"
 
 import { AlertsContext } from "./AlertsContext"
 import { AlertProvider } from "./AlertContext"
+import { Alert } from "./Alert"
 
 export const ALERTS_SLOT = 'alerts-slot'
 
@@ -31,7 +32,7 @@ export const Alerts = ({ children, id, className, style }: AlertsProps) => {
                     return (
                         <Fragment key={alert.alertId}>
                             <AlertProvider alert={alert}>
-                                {children}
+                                {children === undefined ? <Alert /> : children}
                             </AlertProvider>
                         </Fragment>
                     )

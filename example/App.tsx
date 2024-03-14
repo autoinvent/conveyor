@@ -7,7 +7,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 
-import { Slot, Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar, slotify, FlexibleValues, useData, FlexibleValue, TableRowState, useAddAlert, Alerts } from '@/index'
+import { useAddAlert, Conveyor, MQLRequest, ModelIndex, UseMQLOperation, Navbar, slotify, FlexibleValues, useData, FlexibleValue, TableRowState, Alerts } from '@/index'
 
 
 // const errorHandler = (error: any) => {
@@ -103,20 +103,20 @@ function App() {
   };
 
 
-
   return (
     <QueryClientProvider client={queryClient}>
       <Conveyor useMQLQuery={useMQLQuery} useMQLMutation={useMQLMutation}>
+        <Alerts />
         <Navbar modelNames={['Task']}></Navbar>
         <ModelIndex model="Task" fields={[{ name: 'message', required: true, type: 'String' }, 'created_at']} actionsConfig={{ showActions: true }}>
           <ModelIndex.Table>
             <ModelIndex.Table.Body>
               <ModelIndex.Table.Row>
-
               </ModelIndex.Table.Row>
             </ModelIndex.Table.Body>
           </ModelIndex.Table>
         </ModelIndex>
+        <TestBtn />
       </Conveyor>
     </QueryClientProvider>
   );
@@ -133,6 +133,14 @@ const NewCell = slotify((props: any) => {
     <td>Hello{props.children}</td>
   )
 }, 'message')
+
+const TestBtn = () => {
+  const addAlert = useAddAlert()
+
+  return (
+    <button onClick={() => addAlert({ className: 'alert-danger', content: 'NOOO', expires: 3000 })}>click me</button>
+  )
+}
 
 
 export default App;

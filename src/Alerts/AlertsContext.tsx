@@ -2,7 +2,7 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useState } from 're
 
 import { Slots } from '@/Slots'
 
-import { ALERTS_SLOT } from './Alerts';
+import { Alerts, ALERTS_SLOT } from './Alerts';
 import { AlertProps } from './Alert'
 
 

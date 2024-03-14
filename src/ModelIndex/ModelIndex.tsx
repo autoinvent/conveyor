@@ -3,15 +3,14 @@ import { ReactNode, useEffect, useState } from 'react'
 import { useAddAlert } from '@/Alerts';
 import { useModelListQuery } from '@/Conveyor'
 import { Data } from '@/Data'
-import { Slots } from '@/Slots';
 import { TableProvider, TableProps } from '@/Table'
 import { BaseComponentProps, Field, Model } from "@/types";
 import { getModelName, handleMQLErrors, humanizeText } from '@/utils';
 
-import { ModelIndexTitle, MODEL_INDEX_TITLE_SLOT } from './ModelIndexTitle';
-import { ModelIndexTools, MODEL_INDEX_TOOLS_SLOT } from './ModelIndexTools';
-import { ModelIndexTable, MODEL_INDEX_TABLE_SLOT } from './ModelIndexTable';
-import { ModelIndexPagination, MODEL_INDEX_PAGINATION_SLOT } from './ModelIndexPagination';
+import { ModelIndexTitle } from './ModelIndexTitle';
+import { ModelIndexTools } from './ModelIndexTools';
+import { ModelIndexTable } from './ModelIndexTable';
+import { ModelIndexPagination } from './ModelIndexPagination';
 import { ModelIndexProvider, TableState } from './ModelIndexContext';
 
 export interface ModelIndexProps extends BaseComponentProps {
@@ -65,11 +64,13 @@ export const ModelIndex = Object.assign(({ model, fields, data, actionsConfig, c
         <div id={id} className={className} style={style}>
             <ModelIndexProvider model={model} tableState={tableState}>
                 <TableProvider fields={fields} data={modelListData ?? []} actionsConfig={actionsConfig}>
-                    <Slots slotKeys={[MODEL_INDEX_TITLE_SLOT, MODEL_INDEX_TOOLS_SLOT, MODEL_INDEX_TABLE_SLOT, MODEL_INDEX_PAGINATION_SLOT]}>
-                        <ModelIndexTitle style={{ fontSize: '40px' }}>{humanizeText(modelName)}</ModelIndexTitle>
-                        <ModelIndexTable />
-                        {children}
-                    </Slots>
+                    {/* <ModelIndexTitle style={{ fontSize: '40px' }}>{humanizeText(modelName)}</ModelIndexTitle> */}
+
+                    {children === undefined ? (
+                        <>
+                            <ModelIndexTable />
+                        </>
+                    ) : children}
                 </TableProvider>
             </ModelIndexProvider>
         </div >
