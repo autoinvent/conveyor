@@ -29,8 +29,7 @@
     }
   },
   "include": [
-    "src",
-    "src/hooks/useThemeSelect.test.ts"
+    "src"
   ],
   "exclude": [
     "**/*.test.ts"

@@ -26,7 +26,6 @@ export default defineConfig({
       fileName: 'conveyor',
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
       output: {
         globals: {
           react: 'React',
@@ -39,11 +38,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/__tests__/setup.ts',
-  },
-  server: {
-    proxy: {
-      '/graphql': 'http://localhost:5000',
-    },
   },
   resolve: {
     alias: {
