@@ -17,6 +17,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/graphql': 'http://localhost:5000',
-    },
+    }
+  },
+  resolve: {
+    alias: {
+      '@': '../src',
+    }
   }
 });
