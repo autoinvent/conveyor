@@ -1,29 +1,31 @@
-import { Lenses } from '@/Lenses'
-import { CommonProps, WrapperProp } from '@/types'
+import { Fragment } from 'react';
+import { useStore } from '@tanstack/react-store';
 
-import { TableRowContext } from './contexts'
-import { useTableStore } from './useTableStore'
+import { CommonProps, WrapperProp } from '@/types';
 
-
-export enum TableBodyLenses { NO_DATA, HAS_DATA }
+import { useTableStore } from './useTableStore';
 
 export interface TableBodyProps extends WrapperProp, CommonProps {
-    repeat?: boolean
+  repeat?: boolean;
 }
 
-export const TableBody = ({ repeat = true, children, id, className, style }: TableBodyProps) => {
-    const { getRowModel } = useTableStore(['getRowModel'])
-    const rowModel = getRowModel()
-    const tableBodyLens = rowModel.rows.length ? TableBodyLenses.HAS_DATA : TableBodyLenses.NO_DATA
-    return (
-        <tbody id={id} className={className} style={style}>
-            <Lenses activeLens={tableBodyLens}>
-                {repeat && tableBodyLens === TableBodyLenses.HAS_DATA ? rowModel.rows.map((row) => {
-                    return <TableRowContext.Provider key={row.id} value={row}>
-                        {children}
-                    </TableRowContext.Provider>
-                }) : children}
-            </Lenses>
-        </tbody>
-    )
-}
+export const TableBody = ({
+  repeat = true,
+  children,
+  id,
+  className,
+  style,
+}: TableBodyProps) => {
+  const tableStore = useTableStore();
+  const data = useStore(tableStore, (state) => state.data);
+  return (
+    <tbody id={id} className={className} style={style}>
+      {repeat
+        ? data.map((rowData, index) => {
+            const rowKey = `table-body-row-${index}-${JSON.stringify(rowData)}`;
+            return <Fragment key={rowKey}>{children}</Fragment>;
+          })
+        : children}
+    </tbody>
+  );
+};

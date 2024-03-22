@@ -1,16 +1,41 @@
-import { Lens } from '@/Lenses'
-import { CommonProps, WrapperProp } from '@/types'
+import { useEffect, useId } from 'react';
+import { useStore } from '@tanstack/react-store';
 
-import { TableBodyLenses } from './TableBody'
+import { CommonProps, WrapperProp } from '@/types';
 
-export interface TableRowProps extends WrapperProp, CommonProps { }
+import { TableRowStoreProvider } from './TableRowStoreContext';
+import { useTableStore } from './useTableStore';
+
+export interface TableRowProps extends WrapperProp, CommonProps {}
 
 export const TableRow = ({ children, id, className, style }: TableRowProps) => {
-    return (
-        <Lens lens={TableBodyLenses.HAS_DATA}>
-            <tr id={id} className={className} style={style}>
-                {children}
-            </tr>
-        </Lens>
-    )
-}
+  const tableRowId = useId();
+  const tableStore = useTableStore();
+  const rowData = useStore(tableStore, (state) => {
+    const rowIndex = state.rows[tableRowId];
+    const rowData = rowIndex ? state.data[rowIndex] : null;
+    return rowData;
+  });
+
+  useEffect(() => {
+    if (rowData === null) {
+      tableStore.setState((state) => {
+        const rowsLength = Object.keys(state.rows).length;
+        return {
+          ...state,
+          rows: {
+            ...state.rows,
+            [tableRowId]: rowsLength,
+          },
+        };
+      });
+    }
+  }, [rowData]);
+  return (
+    <TableRowStoreProvider rowData={rowData ?? {}}>
+      <tr id={id} className={className} style={style}>
+        {children}
+      </tr>
+    </TableRowStoreProvider>
+  );
+};
