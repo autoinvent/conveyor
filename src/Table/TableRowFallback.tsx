@@ -1,16 +1,26 @@
-import { Lens } from '@/Lenses'
-import { CommonProps, WrapperProp } from '@/types'
+import { useStore } from '@tanstack/react-store';
 
-import { TableBodyLenses } from './TableBody'
+import { CommonProps, WrapperProp } from '@/types';
 
-export interface TableRowFallbackProps extends WrapperProp, CommonProps { }
+import { useTableStore } from './useTableStore';
 
-export const TableRowFallback = ({ children, id, className, style }: TableRowFallbackProps) => {
-    return (
-        <Lens lens={TableBodyLenses.NO_DATA}>
-            <tr id={id} className={className} style={style}>
-                {children}
-            </tr>
-        </Lens>
-    )
-}
+export interface TableRowFallbackProps extends WrapperProp, CommonProps {}
+
+export const TableRowFallback = ({
+  children,
+  id,
+  className,
+  style,
+}: TableRowFallbackProps) => {
+  const tableStore = useTableStore();
+  const data = useStore(tableStore, (state) => state.data);
+  console.log('length', data);
+  if (data.length !== 0) {
+    return null;
+  }
+  return (
+    <tr id={id} className={className} style={style}>
+      {children}
+    </tr>
+  );
+};

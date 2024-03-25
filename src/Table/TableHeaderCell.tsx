@@ -1,17 +1,17 @@
 import { Slot } from '@/Slots';
 import { CommonProps, WrapperProp } from '@/types';
 
-export interface TableCellProps extends WrapperProp, CommonProps {
+export interface TableHeaderCellProps extends WrapperProp, CommonProps {
   columnId: string;
 }
 
-export const TableCell = ({
+export const TableHeaderCell = ({
   columnId,
   children,
   id,
   className,
   style,
-}: TableCellProps) => {
+}: TableHeaderCellProps) => {
   return (
     <Slot slotKey={columnId}>
       <td id={id} className={className} style={style}>

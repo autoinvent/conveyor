@@ -6,19 +6,20 @@ import { TableBody } from './TableBody';
 import { TableCell } from './TableCell';
 import { TableCellFallback } from './TableCellFallback';
 import { TableHead } from './TableHead';
-import { TableHeader } from './TableHeader';
+import { TableHeaderCell } from './TableHeaderCell';
 import { TableRow } from './TableRow';
 import { TableRowFallback } from './TableRowFallback';
-import { TableStoreProvider } from './TableStoreContext';
+import { TableStoreProvider, Column } from './TableStoreContext';
 
 export interface TableProps extends WrapperProp, CommonProps {
   data: DataType[];
+  columns: Column[];
 }
 
 export const Table = Object.assign(
-  ({ data, children, id, className, style }: TableProps) => {
+  ({ data, columns, children, id, className, style }: TableProps) => {
     return (
-      <TableStoreProvider data={data}>
+      <TableStoreProvider data={data} columns={columns}>
         <RBTable id={id} className={className} style={style} hover>
           {children}
         </RBTable>
@@ -30,7 +31,7 @@ export const Table = Object.assign(
     Cell: TableCell,
     CellFallback: TableCellFallback,
     Head: TableHead,
-    Header: TableHeader,
+    Header: TableHeaderCell,
     Row: TableRow,
     RowFallback: TableRowFallback,
   },

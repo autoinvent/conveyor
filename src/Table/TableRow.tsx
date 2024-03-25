@@ -1,6 +1,7 @@
 import { useEffect, useId } from 'react';
 import { useStore } from '@tanstack/react-store';
 
+import { Slots } from '@/Slots';
 import { CommonProps, WrapperProp } from '@/types';
 
 import { TableRowStoreProvider } from './TableRowStoreContext';
@@ -11,12 +12,13 @@ export interface TableRowProps extends WrapperProp, CommonProps {}
 export const TableRow = ({ children, id, className, style }: TableRowProps) => {
   const tableRowId = useId();
   const tableStore = useTableStore();
-  const rowData = useStore(tableStore, (state) => {
+  const { rowData, columnIds, x } = useStore(tableStore, (state) => {
     const rowIndex = state.rows[tableRowId];
-    const rowData = rowIndex ? state.data[rowIndex] : null;
-    return rowData;
+    const rowData = state.data?.[rowIndex] ?? null;
+    const columnIds = state.columns.map((column) => column.id);
+    return { rowData, columnIds, x: state.rows };
   });
-
+  console.log(tableRowId, rowData, x);
   useEffect(() => {
     if (rowData === null) {
       tableStore.setState((state) => {
@@ -31,10 +33,12 @@ export const TableRow = ({ children, id, className, style }: TableRowProps) => {
       });
     }
   }, [rowData]);
+
+  if (rowData === null) return null;
   return (
-    <TableRowStoreProvider rowData={rowData ?? {}}>
+    <TableRowStoreProvider rowData={rowData}>
       <tr id={id} className={className} style={style}>
-        {children}
+        <Slots slotKeys={columnIds}>{children}</Slots>
       </tr>
     </TableRowStoreProvider>
   );

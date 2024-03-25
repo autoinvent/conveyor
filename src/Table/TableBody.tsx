@@ -10,7 +10,7 @@ export interface TableBodyProps extends WrapperProp, CommonProps {
 }
 
 export const TableBody = ({
-  repeat = true,
+  repeat = false,
   children,
   id,
   className,
@@ -20,9 +20,9 @@ export const TableBody = ({
   const data = useStore(tableStore, (state) => state.data);
   return (
     <tbody id={id} className={className} style={style}>
-      {repeat
-        ? data.map((rowData, index) => {
-            const rowKey = `table-body-row-${index}-${JSON.stringify(rowData)}`;
+      {repeat && data.length > 0
+        ? data.map((rowData) => {
+            const rowKey = `table-body-row-${JSON.stringify(rowData)}`;
             return <Fragment key={rowKey}>{children}</Fragment>;
           })
         : children}
