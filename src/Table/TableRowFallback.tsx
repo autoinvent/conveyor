@@ -1,10 +1,9 @@
-import { useStore } from '@tanstack/react-store';
-
+import { Lens } from '@/Lenses';
 import { CommonProps, WrapperProp } from '@/types';
 
-import { useTableStore } from './useTableStore';
+import { TableBodyLens } from './TableBody';
 
-export interface TableRowFallbackProps extends WrapperProp, CommonProps {}
+export interface TableRowFallbackProps extends WrapperProp, CommonProps { }
 
 export const TableRowFallback = ({
   children,
@@ -12,15 +11,11 @@ export const TableRowFallback = ({
   className,
   style,
 }: TableRowFallbackProps) => {
-  const tableStore = useTableStore();
-  const data = useStore(tableStore, (state) => state.data);
-  console.log('length', data);
-  if (data.length !== 0) {
-    return null;
-  }
   return (
-    <tr id={id} className={className} style={style}>
-      {children}
-    </tr>
+    <Lens lens={TableBodyLens.HAS_NO_DATA}>
+      <tr id={id} className={className} style={style}>
+        {children}
+      </tr>
+    </Lens>
   );
 };

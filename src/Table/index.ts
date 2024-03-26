@@ -4,14 +4,14 @@ export * from "./TableBody";
 export * from "./TableCell";
 export * from "./TableCellFallback";
 export * from "./TableHead";
-export * from "./TableHeaderCell";
+export * from "./TableHeader";
 export * from "./TableRow";
 export * from "./TableRowFallback";
 
 // contexts
-export * from "./TableStoreContext";
-export * from "./TableRowStoreContext";
+export * from "./TableContext";
+export * from "./TableRowContext"
 
 // hooks
-export * from "./useTableRowData";
-export * from "./useTableStore";
+export * from "./useTable";
+export * from "./useTableRow"

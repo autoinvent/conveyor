@@ -4,31 +4,35 @@ import { CommonProps, WrapperProp } from '@/types';
 
 import { useTable } from './useTable'
 
-export interface TableCellProps extends WrapperProp, CommonProps {
+export interface TableHeaderProps extends WrapperProp, CommonProps {
   columnId: string;
 }
 
-export const TableCell = ({
+export const TableHeader = ({
   columnId,
   children,
   id,
   className,
   style,
-}: TableCellProps) => {
+}: TableHeaderProps) => {
   const { options } = useTable();
   const columnIndex = options.columns.findIndex(columnDef => columnDef.id === columnId)
+
   useEffect(() => {
-    if (columnIndex !== -1 && options.columns[columnIndex].cell === undefined) {
+    if (columnIndex !== -1 && options.columns[columnIndex].header === undefined) {
       options.meta.setColumns((state) => {
         const newColumns = [...state]
         newColumns[columnIndex] = {
+          id: columnId,
           ...state[columnIndex],
-          cell: () => <td id={id} className={className} style={style}>{children}</td>
+          header: () => <th id={id} className={className} style={style}>{children}</th>,
         }
         return newColumns
       })
     }
   }, [columnId, columnIndex, options.columns])
+
+
 
   return null
 };

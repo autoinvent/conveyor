@@ -1,45 +1,27 @@
-import { useEffect, useId } from 'react';
-import { useStore } from '@tanstack/react-store';
+import { Fragment } from 'react';
+import { flexRender } from '@tanstack/react-table';
 
-import { Slots } from '@/Slots';
+import { Lens } from '@/Lenses'
 import { CommonProps, WrapperProp } from '@/types';
 
-import { TableRowStoreProvider } from './TableRowStoreContext';
-import { useTableStore } from './useTableStore';
+import { TableBodyLens } from './TableBody';
+import { useTableRow } from './useTableRow';
 
-export interface TableRowProps extends WrapperProp, CommonProps {}
+export interface TableRowProps extends WrapperProp, CommonProps { }
 
 export const TableRow = ({ children, id, className, style }: TableRowProps) => {
-  const tableRowId = useId();
-  const tableStore = useTableStore();
-  const { rowData, columnIds, x } = useStore(tableStore, (state) => {
-    const rowIndex = state.rows[tableRowId];
-    const rowData = state.data?.[rowIndex] ?? null;
-    const columnIds = state.columns.map((column) => column.id);
-    return { rowData, columnIds, x: state.rows };
-  });
-  console.log(tableRowId, rowData, x);
-  useEffect(() => {
-    if (rowData === null) {
-      tableStore.setState((state) => {
-        const rowsLength = Object.keys(state.rows).length;
-        return {
-          ...state,
-          rows: {
-            ...state.rows,
-            [tableRowId]: rowsLength,
-          },
-        };
-      });
-    }
-  }, [rowData]);
-
-  if (rowData === null) return null;
+  const row = useTableRow();
+  const cells = row?.getVisibleCells().map(cell => {
+    return (<Fragment key={cell.id}>
+      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+    </Fragment>)
+  }) ?? null
   return (
-    <TableRowStoreProvider rowData={rowData}>
+    <Lens lens={TableBodyLens.HAS_DATA}>
       <tr id={id} className={className} style={style}>
-        <Slots slotKeys={columnIds}>{children}</Slots>
+        {cells}
+        {children}
       </tr>
-    </TableRowStoreProvider>
+    </Lens>
   );
 };

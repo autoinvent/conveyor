@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Table, useTableRowData } from '@/Table';
-import { useContext } from 'react';
-import { SetActiveLensContext } from '@/Lenses';
+import { Table, useTableRow } from '@/Table';
+import { useData } from '@/Data';
+import { useEffect, useState } from 'react';
 
 const meta = {
   title: 'Commons/Table',
@@ -16,7 +16,7 @@ const meta = {
       { name: 'mimi', specie: 'dog' },
       { name: 'thai', specie: 'cat' },
     ],
-    columns: [{ id: 'name' }, { id: 'specie' }],
+    columnIds: ['name', 'specie', 'combined', 'non']
   },
   argTypes: {
     data: { control: 'object' },
@@ -28,16 +28,37 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicUsage: Story = {
   render: (props) => {
+    const [co, sco] = useState(props.columnIds)
+    const changeOrder = () => {
+      sco((state) => {
+        const [first, ...rest] = state
+        return [...rest, first]
+      })
+    }
+
+    useEffect(() => {
+      if (JSON.stringify(props.columnIds) !== JSON.stringify(co))
+        sco(props.columnIds)
+    }, [props.columnIds])
+
     return (
       <>
-        <Table {...props}>
+        <Table data={props.data} columnIds={co} >
+          <Table.Head>
+            <Table.Header columnId="name">Name</Table.Header>
+            <Table.Header columnId="specie">TYPE</Table.Header>
+            <Table.Header columnId="combined">Combined</Table.Header>
+          </Table.Head>
           <Table.Body>
             <Table.Row>
               <Table.Cell columnId="name">
-                <CustomCell field={'name'} />
+                <CustomCell field='name' />
               </Table.Cell>
               <Table.Cell columnId="specie">
-                <CustomCell field={'specie'} />
+                <CustomCell field='specie' />
+              </Table.Cell>
+              <Table.Cell columnId="combined">
+                <CustomCombinedCell />
               </Table.Cell>
             </Table.Row>
             <Table.RowFallback>
@@ -45,12 +66,21 @@ export const BasicUsage: Story = {
             </Table.RowFallback>
           </Table.Body>
         </Table>
+        <button onClick={changeOrder}>changeorder</button>
       </>
     );
   },
 };
 
 const CustomCell = ({ field }: { field: string }) => {
-  const fieldData = useTableRowData((state) => state[field]);
+  const row = useTableRow();
+  const fieldData = row?.original?.[field]
   return fieldData;
+};
+
+const CustomCombinedCell = () => {
+  const row = useTableRow();
+  const data = row?.original ?? {}
+  const combined = Object.entries(data).map((entry: any) => entry[1]).join()
+  return combined;
 };

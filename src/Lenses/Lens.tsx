@@ -12,8 +12,8 @@ export interface LensProps extends WrapperProp {
 export const Lens = ({ lens, children }: LensProps) => {
     const activeLens = useContext(ActiveLensContext)
     if (activeLens === undefined) throw new Error('Lens must be used within Lenses')
-    if (lens === activeLens) {
-        return <>{children}</>
+    if (lens !== activeLens) {
+        return null
     }
-    return null
+    return <>{children}</>
 }
