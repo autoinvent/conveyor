@@ -28,7 +28,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicUsage: Story = {
   render: (props) => {
-    const isFirstRender = useIsFirstRender()
+    const isFirstRender = useIsFirstRender();
     const [slotOrder, setSlotOrder] = useState(props.slotOrder);
     const onClick = () => {
       setSlotOrder((state) => [...state, 'secret-slot']);
@@ -36,9 +36,9 @@ export const BasicUsage: Story = {
 
     useEffect(() => {
       if (!isFirstRender.current) {
-        setSlotOrder(props.slotOrder)
+        setSlotOrder(props.slotOrder);
       }
-    }, [props.slotOrder])
+    }, [props.slotOrder]);
     return (
       <ListGroup>
         <Slots slotOrder={slotOrder}>

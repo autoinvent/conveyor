@@ -5,7 +5,8 @@ export * from './TableBodyFallback';
 export * from './TableCell';
 export * from './TableCellFallback';
 export * from './TableHead';
-export * from './TableHeader';
+export * from './TableHeaderCell';
+export * from './TableHeaderRow';
 export * from './TableRow';
 export * from './TableRowFallback';
 

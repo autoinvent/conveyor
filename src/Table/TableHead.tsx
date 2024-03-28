@@ -1,6 +1,8 @@
 import { CommonProps, WrapperProp } from '@/types';
 
-export interface TableHeadProps extends WrapperProp, CommonProps {}
+import { TableHeaderRow } from './TableHeaderRow';
+
+export interface TableHeadProps extends WrapperProp, CommonProps { }
 
 export const TableHead = ({
   children,
@@ -10,7 +12,7 @@ export const TableHead = ({
 }: TableHeadProps) => {
   return (
     <thead id={id} className={className} style={style}>
-      {children}
+      {children === undefined ? <TableHeaderRow /> : children}
     </thead>
   );
 };

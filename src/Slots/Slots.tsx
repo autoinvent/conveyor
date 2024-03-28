@@ -37,7 +37,9 @@ export const Slots = ({ slotOrder, children }: SlotsProps) => {
   return (
     <SlotsStoreContext.Provider value={slotsStore}>
       {slotKeys.map((slotKey, index) => {
-        return <Fragment key={`${slotKey}-${index}`}>{slots[slotKey].node}</Fragment>;
+        return (
+          <Fragment key={`${slotKey}-${index}`}>{slots[slotKey].node}</Fragment>
+        );
       })}
       {children}
     </SlotsStoreContext.Provider>

@@ -10,10 +10,11 @@ import { TableBodyFallback } from './TableBodyFallback';
 import { TableCell } from './TableCell';
 import { TableCellFallback } from './TableCellFallback';
 import { TableHead } from './TableHead';
-import { TableHeader } from './TableHeader';
+import { TableHeaderCell } from './TableHeaderCell';
+import { TableHeaderRow } from './TableHeaderRow';
 import { TableRow } from './TableRow';
 import { TableRowFallback } from './TableRowFallback';
-import { TableStoreContext } from './TableStoreContext';
+import { TableStore, TableStoreContext } from './TableStoreContext';
 
 export interface TableProps extends WrapperProp, CommonProps {
   data: DataType[];
@@ -23,7 +24,7 @@ export interface TableProps extends WrapperProp, CommonProps {
 export const Table = Object.assign(
   ({ data, columnIds, children, id, className, style }: TableProps) => {
     const isFirstRender = useIsFirstRender();
-    const [tableStore] = useState(new Store({ data, columnIds }));
+    const [tableStore] = useState(new Store<TableStore>({ data, columnIds }));
 
     useEffect(() => {
       if (!isFirstRender.current) {
@@ -50,7 +51,12 @@ export const Table = Object.assign(
     return (
       <TableStoreContext.Provider value={tableStore}>
         <RBTable id={id} className={className} style={style} hover>
-          {children}
+          {children === undefined ?
+            <>
+              <TableHead />
+              <TableBody />
+              <TableBodyFallback />
+            </> : children}
         </RBTable>
       </TableStoreContext.Provider>
     );
@@ -61,7 +67,8 @@ export const Table = Object.assign(
     Cell: TableCell,
     CellFallback: TableCellFallback,
     Head: TableHead,
-    Header: TableHeader,
+    HeaderCell: TableHeaderCell,
+    HeaderRow: TableHeaderRow,
     Row: TableRow,
     RowFallback: TableRowFallback,
   },

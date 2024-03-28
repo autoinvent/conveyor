@@ -1,6 +1,7 @@
 import { CommonProps, WrapperProp } from '@/types';
+import { TableCellFallback } from './TableCellFallback';
 
-export interface TableRowFallbackProps extends WrapperProp, CommonProps {}
+export interface TableRowFallbackProps extends WrapperProp, CommonProps { }
 
 export const TableRowFallback = ({
   children,
@@ -10,7 +11,10 @@ export const TableRowFallback = ({
 }: TableRowFallbackProps) => {
   return (
     <tr id={id} className={className} style={style}>
-      {children}
+      {children === undefined ?
+        <TableCellFallback>
+          No Data Found.
+        </TableCellFallback> : children}
     </tr>
   );
 };

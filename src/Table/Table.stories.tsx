@@ -16,15 +16,9 @@ const meta = {
       { firstname: 'Jeffrey', lastname: 'Davis' },
       { firstname: 'Aidan', lastname: 'Glenister' },
     ],
-    columnIds: ['firstname', 'lastname', 'username', 'non'],
+    columnIds: ['firstname', 'lastname', 'username'],
   },
   argTypes: {},
-} satisfies Meta<typeof Table>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const BasicUsage: Story = {
   render: (props) => {
     const [columnIds, setColumnIds] = useState(props.columnIds);
     const changeOrder = () => {
@@ -41,43 +35,26 @@ export const BasicUsage: Story = {
 
     return (
       <>
-        <Table data={props.data} columnIds={columnIds}>
-          <Table.Head>
-            <Table.Row>
-              <Table.Header columnId='firstname'>First Name</Table.Header>
-              <Table.Header columnId='lastname'>Last Name</Table.Header>
-              <Table.Header columnId='username'>User Name</Table.Header>
-            </Table.Row>
-          </Table.Head>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell columnId='firstname'>
-                <CustomCell field='firstname' />
-              </Table.Cell>
-              <Table.Cell columnId='lastname'>
-                <CustomCell field='lastname' />
-              </Table.Cell>
-              <Table.Cell columnId='username'>
-                <CustomCombinedCell />
-              </Table.Cell>
-            </Table.Row>
-          </Table.Body>
-          <Table.BodyFallback>
-            <Table.RowFallback>
-              <Table.CellFallback>No data found</Table.CellFallback>
-            </Table.RowFallback>
-          </Table.BodyFallback>
-        </Table>
+        <Table {...props} columnIds={columnIds} />
         <button onClick={changeOrder}>Reorder</button>
       </>
     );
+  },
+} satisfies Meta<typeof Table>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const BasicUsage: Story = {
+  args: {
+    columnIds: ['firstname', 'lastname']
   },
 };
 
 const CustomCell = ({ field }: { field: string }) => {
   const { current } = useData();
   const fieldData = current?.[field];
-  return fieldData;
+  return <i>{fieldData}</i>;
 };
 
 const CustomCombinedCell = () => {
@@ -87,3 +64,40 @@ const CustomCombinedCell = () => {
     .join('.');
   return combined;
 };
+
+
+export const FullyCustomized: Story = {
+  args: {
+    children: (
+      <>
+        <Table.Head>
+          <Table.HeaderRow>
+            <Table.HeaderCell columnId='firstname'>First Name</Table.HeaderCell>
+            <Table.HeaderCell columnId='lastname'>Last Name</Table.HeaderCell>
+            <Table.HeaderCell columnId='username'>User Name</Table.HeaderCell>
+          </Table.HeaderRow>
+        </Table.Head>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell columnId='firstname'>
+              <CustomCell field='firstname' />
+            </Table.Cell>
+            <Table.Cell columnId='lastname'>
+              <CustomCell field='lastname' />
+            </Table.Cell>
+            <Table.Cell columnId='username'>
+              <CustomCombinedCell />
+            </Table.Cell>
+          </Table.Row>
+        </Table.Body>
+        <Table.BodyFallback>
+          <Table.RowFallback>
+            <Table.CellFallback>Empty Table</Table.CellFallback>
+          </Table.RowFallback>
+        </Table.BodyFallback>
+      </>
+    )
+  }
+
+};
+

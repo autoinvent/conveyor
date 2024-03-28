@@ -1,4 +1,4 @@
-import { ComponentType, createContext } from 'react';
+import { createContext } from 'react';
 import { Store } from '@tanstack/react-store';
 
 import { MQLFetcher } from './Conveyor';

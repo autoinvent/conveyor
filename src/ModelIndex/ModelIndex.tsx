@@ -1,108 +1,50 @@
-import { ReactNode, useEffect, useState } from 'react';
+// import { ReactNode, useEffect, useState } from 'react';
+// import { Store } from '@tanstack/react-store';
 
-import { useAddAlert } from '@/Alerts';
-import { useModelListQuery } from '@/Conveyor';
-import { Data } from '@/Data';
-import { TableProvider, TableProps } from '@/Table';
-import { BaseComponentProps, Field, Model } from '@/types';
-import { getModelName, handleMQLErrors, humanizeText } from '@/utils';
+// import { useIsFirstRender } from '@/hooks';
+// import { CommonProps, WrapperProp, DataType } from '@/types';
 
-import { ModelIndexTitle } from './ModelIndexTitle';
-import { ModelIndexTools } from './ModelIndexTools';
-import { ModelIndexTable } from './ModelIndexTable';
-import { ModelIndexPagination } from './ModelIndexPagination';
-import { ModelIndexProvider, TableState } from './ModelIndexContext';
+// import { ModelIndexTable } from './ModelIndexTable';
+// import { ModelIndexStore, ModelIndexStoreContext } from './ModelIndexStoreContext';
 
-export interface ModelIndexProps extends BaseComponentProps {
-  model: Model;
-  fields: Field[];
-  data?: Data[];
-  actionsConfig?: TableProps['actionsConfig'];
-  children?: ReactNode;
-}
+// export interface ModelIndexProps extends CommonProps, WrapperProp {
+//   data: DataType[]
+// }
 
-export const ModelIndex = Object.assign(
-  ({
-    model,
-    fields,
-    data,
-    actionsConfig,
-    children,
-    id,
-    className,
-    style,
-  }: ModelIndexProps) => {
-    const addAlert = useAddAlert();
-    const mqlQueryRequest = useModelListQuery(model, fields);
-    const [modelListData, setModelListData] = useState<Data[] | undefined>(
-      data,
-    );
-    const [tableState, setTableState] = useState<TableState>(
-      TableState.DEFAULT,
-    );
-    const modelName = getModelName(model);
-    useEffect(() => {
-      if (data === undefined) {
-        setTableState(TableState.LOADING);
-        mqlQueryRequest()
-          .then((response) => {
-            const queryData = response.items;
-            setModelListData(queryData);
-            addAlert({
-              className: 'alert-success',
-              content: `${modelName} list refreshed!`,
-              expires: 2000,
-            });
-            return response;
-          })
-          .catch((err) => {
-            const errorMessages = handleMQLErrors(err);
-            errorMessages.forEach((errorMessage) => {
-              addAlert({ className: 'alert-danger', content: errorMessage });
-            });
-            setTableState(TableState.ERROR);
-          });
-      }
-    }, [JSON.stringify(data), mqlQueryRequest]);
+// export const ModelIndex = Object.assign(
+//   ({
+//     data,
+//     children,
+//     id,
+//     className,
+//     style,
+//   }: ModelIndexProps) => {
+//     const isFirstRender = useIsFirstRender();
+//     const [modelIndexStore] = useState(new Store<ModelIndexStore>({ data }));
 
-    // Not within the request useEffect since the request may not be called if
-    // data is defined.
-    useEffect(() => {
-      if (modelListData) {
-        if (modelListData.length) {
-          setTableState(TableState.DEFAULT);
-        } else {
-          setTableState(TableState.EMPTY);
-        }
-      }
-    }, [JSON.stringify(modelListData)]);
+//     useEffect(() => {
+//       if (!isFirstRender.current) {
+//         modelIndexStore.setState((state) => {
+//           return {
+//             ...state,
+//             data,
+//           };
+//         });
+//       }
+//     }, [data]);
 
-    return (
-      <div id={id} className={className} style={style}>
-        <ModelIndexProvider model={model} tableState={tableState}>
-          <TableProvider
-            fields={fields}
-            data={modelListData ?? []}
-            actionsConfig={actionsConfig}
-          >
-            {/* <ModelIndexTitle style={{ fontSize: '40px' }}>{humanizeText(modelName)}</ModelIndexTitle> */}
-
-            {children === undefined ? (
-              <>
-                <ModelIndexTable />
-              </>
-            ) : (
-              children
-            )}
-          </TableProvider>
-        </ModelIndexProvider>
-      </div>
-    );
-  },
-  {
-    Title: ModelIndexTitle,
-    Tools: ModelIndexTools,
-    Table: ModelIndexTable,
-    Pagination: ModelIndexPagination,
-  },
-);
+//     return (
+//       <div id={id} className={className} style={style}>
+//         <ModelIndexStoreContext.Provider value={modelIndexStore}>
+//           {children}
+//         </ModelIndexStoreContext.Provider>
+//       </div>
+//     );
+//   },
+//   {
+//     // Title: ModelIndexTitle,
+//     // Tools: ModelIndexTools,
+//     Table: ModelIndexTable,
+//     // Pagination: ModelIndexPagination,
+//   },
+// );

@@ -20,7 +20,7 @@ export const Alerts = ({
 }: AlertsProps) => {
   const isFirstRender = useIsFirstRender();
   const [alertsStore] = useState(
-    new Store<AlertsStore, (cb: AlertsStore) => AlertsStore>({
+    new Store<AlertsStore>({
       alerts: [],
       AlertComponent,
     }),

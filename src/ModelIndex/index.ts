@@ -7,6 +7,9 @@
 // export * from './ModelIndexContext';
 
 // components
-export * from './ModelIndex';
+// export * from './ModelIndex';
+
 // contexts
+export * from './ModelIndexStoreContext'
+
 // hooks
