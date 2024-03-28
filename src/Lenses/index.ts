@@ -6,4 +6,4 @@ export * from './Lenses';
 export * from './LensesStoreContext';
 
 // hooks
-export * from './useLensesStore';
+export * from './useLenses';

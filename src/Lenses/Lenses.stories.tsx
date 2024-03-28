@@ -1,7 +1,6 @@
-import { useStore } from '@tanstack/react-store';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Lens, Lenses, useLensesStore } from '@/Lenses';
+import { Lens, Lenses, useLenses } from '@/Lenses';
 
 const meta = {
   title: 'Commons/Lenses',
@@ -34,23 +33,12 @@ export const BasicUsage: Story = {
 };
 
 const BlueLens = () => {
-  const lensesStore = useLensesStore();
-  const AvailableLenses = useStore(
-    lensesStore,
-    (state) => state.AvailableLenses,
-  );
+  const { AvailableLenses, setLens } = useLenses();
   return (
     <Lens lens={AvailableLenses.BLUE}>
       <button
         style={{ backgroundColor: 'blue', color: 'white' }}
-        onClick={() => {
-          lensesStore.setState((state) => {
-            return {
-              ...state,
-              activeLens: AvailableLenses.RED,
-            };
-          });
-        }}
+        onClick={() => setLens(AvailableLenses.RED)}
       >
         BLUE
       </button>
@@ -59,23 +47,12 @@ const BlueLens = () => {
 };
 
 const RedLens = () => {
-  const lensesStore = useLensesStore();
-  const AvailableLenses = useStore(
-    lensesStore,
-    (state) => state.AvailableLenses,
-  );
+  const { AvailableLenses, setLens } = useLenses();
   return (
     <Lens lens={AvailableLenses.RED}>
       <button
         style={{ backgroundColor: 'red' }}
-        onClick={() => {
-          lensesStore.setState((state) => {
-            return {
-              ...state,
-              activeLens: AvailableLenses.BLUE,
-            };
-          });
-        }}
+        onClick={() => setLens(AvailableLenses.BLUE)}
       >
         RED
       </button>

@@ -6,5 +6,4 @@ export * from './Alerts';
 export * from './AlertsStoreContext';
 
 // hooks
-export * from './useAddAlert';
-export * from './useRemoveAlert';
+export * from './useAlert';

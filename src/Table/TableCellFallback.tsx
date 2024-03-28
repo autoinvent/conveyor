@@ -1,6 +1,8 @@
+import { useStore } from '@tanstack/react-store';
+
 import { CommonProps, WrapperProp } from '@/types';
 
-import { useTable } from './useTable';
+import { useTableStore } from './useTableStore';
 
 export interface TableCellFallbackProps extends WrapperProp, CommonProps {
   colSpan?: number;
@@ -13,17 +15,20 @@ export const TableCellFallback = ({
   className,
   style,
 }: TableCellFallbackProps) => {
-  const { getVisibleFlatColumns } = useTable();
-  const visibleColumnsLength = getVisibleFlatColumns().length;
+  const tableStore = useTableStore();
+  const columnIdsLength = useStore(
+    tableStore,
+    (state) => state.columnIds.length,
+  );
 
-  return visibleColumnsLength > 0 ? (
+  return (
     <td
-      colSpan={colSpan ?? visibleColumnsLength}
+      colSpan={colSpan ?? columnIdsLength}
       id={id}
       className={className}
       style={style}
     >
       {children}
     </td>
-  ) : null;
+  );
 };

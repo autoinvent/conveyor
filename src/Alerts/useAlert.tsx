@@ -5,12 +5,12 @@ import { generateUID } from '@/utils';
 import { AlertProps } from './Alert';
 import { AlertsStoreContext } from './AlertsStoreContext';
 
-export const useAddAlert = () => {
+export const useAlert = () => {
   const alertsStore = useContext(AlertsStoreContext);
   if (alertsStore === undefined)
-    throw new Error('useAddAlert must be used within Alerts');
+    throw new Error('useAlert must be used within Alerts');
 
-  return (alertProp: Omit<AlertProps, 'alertId'>) => {
+  const addAlert = (alertProp: Omit<AlertProps, 'alertId'>) => {
     const alertId = generateUID({ prefix: 'alertId' });
     alertsStore.setState((state) => {
       const newAlerts = [{ ...alertProp, alertId }, ...state.alerts];
@@ -20,4 +20,18 @@ export const useAddAlert = () => {
       };
     });
   };
+
+  const removeAlert = (alertId: string) => {
+    alertsStore.setState((state) => {
+      const newAlerts = state.alerts.filter(
+        (alert) => alert.alertId !== alertId,
+      );
+      return {
+        ...state,
+        alerts: newAlerts,
+      };
+    });
+  };
+
+  return { addAlert, removeAlert };
 };

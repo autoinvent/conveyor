@@ -1,54 +1,21 @@
-import { ReactNode, createContext } from 'react';
-
-
-// Todo: remove?
-export interface MQLError {
-  message: string;
-  locations?: { line: number; column: number }[];
-  path?: (string | number)[];
-  extensions?: Record<string, any>;
-}
+import { WrapperProp } from '@/types';
 
 export interface MQLResponse {
   [operationName: string]: Record<string, any>;
 }
 
-export interface UseMQLParameters {
+export interface MQLFetcherParams {
   document: string;
+  variables?: Record<string, any>;
   operationName?: string;
 }
 
-export type MQLRequest = (
-  variables?: Record<string, any>,
-) => Promise<MQLResponse>;
+export type MQLFetcher = (params: MQLFetcherParams) => Promise<MQLResponse>;
 
-export type UseMQLOperation = (parameters: UseMQLParameters) => MQLRequest;
-
-export interface ConveyorContextType {
-  useMQLQuery: UseMQLOperation;
-  useMQLMutation: UseMQLOperation;
+export interface ConveyorProps extends WrapperProp {
+  fetcher: MQLFetcher;
 }
 
-export const ConveyorContext = createContext<ConveyorContextType>({
-  useMQLQuery: () => () =>
-    Promise.reject(new Error('useMQLQuery is not defined.')),
-  useMQLMutation: () => () =>
-    Promise.reject(new Error('useMQLMutation is not defined.')),
-});
-
-export interface ConveyorProps {
-  useMQLQuery: UseMQLOperation;
-  useMQLMutation: UseMQLOperation;
-  children: ReactNode;
-}
-
-export const Conveyor = ({
-  useMQLQuery,
-  useMQLMutation,
-  children,
-}: ConveyorProps) => {
-  return (
-    <ConveyorContext.Provider value={{ useMQLQuery, useMQLMutation }}>
-    </ConveyorContext.Provider>
-  );
+export const Conveyor = ({ fetcher, children }: ConveyorProps) => {
+  return null;
 };

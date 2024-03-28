@@ -22,7 +22,7 @@
 //                 total
 //                 items {
 //                     ${primaryKey.name} ${fieldNames.join(' ')}
-//                 }              
+//                 }
 //             }
 //         }
 //     `;

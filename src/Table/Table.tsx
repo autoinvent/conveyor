@@ -6,6 +6,7 @@ import { useIsFirstRender } from '@/hooks';
 import { CommonProps, DataType, WrapperProp } from '@/types';
 
 import { TableBody } from './TableBody';
+import { TableBodyFallback } from './TableBodyFallback';
 import { TableCell } from './TableCell';
 import { TableCellFallback } from './TableCellFallback';
 import { TableHead } from './TableHead';
@@ -56,6 +57,7 @@ export const Table = Object.assign(
   },
   {
     Body: TableBody,
+    BodyFallback: TableBodyFallback,
     Cell: TableCell,
     CellFallback: TableCellFallback,
     Head: TableHead,

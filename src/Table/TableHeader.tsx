@@ -1,8 +1,5 @@
-import { useEffect } from 'react';
-
+import { Slot } from '@/Slots';
 import { CommonProps, WrapperProp } from '@/types';
-
-import { useTable } from './useTable';
 
 export interface TableHeaderProps extends WrapperProp, CommonProps {
   columnId: string;
@@ -15,31 +12,11 @@ export const TableHeader = ({
   className,
   style,
 }: TableHeaderProps) => {
-  const { options } = useTable();
-  const columnIndex = options.columns.findIndex(
-    (columnDef) => columnDef.id === columnId,
+  return (
+    <Slot slot={columnId}>
+      <th id={id} className={className} style={style}>
+        {children}
+      </th>
+    </Slot>
   );
-
-  useEffect(() => {
-    if (
-      columnIndex !== -1 &&
-      options.columns[columnIndex].header === undefined
-    ) {
-      options.meta.setColumns((state) => {
-        const newColumns = [...state];
-        newColumns[columnIndex] = {
-          id: columnId,
-          ...state[columnIndex],
-          header: () => (
-            <th id={id} className={className} style={style}>
-              {children}
-            </th>
-          ),
-        };
-        return newColumns;
-      });
-    }
-  }, [columnId, columnIndex, options.columns]);
-
-  return null;
 };

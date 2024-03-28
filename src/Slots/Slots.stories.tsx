@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Slots, Slot } from '@/index';
+import { Slots, Slot, useIsFirstRender } from '@/index';
 
 const meta = {
   title: 'Commons/Slots',
@@ -12,8 +13,80 @@ const meta = {
   tags: ['autodocs'],
   args: {
     slotOrder: ['slot1', 'slot2', 'slot3'],
-    children: (
-      <>
+  },
+  argTypes: {
+    children: {
+      table: {
+        disable: true,
+      },
+    },
+  },
+} satisfies Meta<typeof Slots>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const BasicUsage: Story = {
+  render: (props) => {
+    const isFirstRender = useIsFirstRender()
+    const [slotOrder, setSlotOrder] = useState(props.slotOrder);
+    const onClick = () => {
+      setSlotOrder((state) => [...state, 'secret-slot']);
+    };
+
+    useEffect(() => {
+      if (!isFirstRender.current) {
+        setSlotOrder(props.slotOrder)
+      }
+    }, [props.slotOrder])
+    return (
+      <ListGroup>
+        <Slots slotOrder={slotOrder}>
+          <Slot slot='slot1'>
+            <ListGroup.Item>It's </ListGroup.Item>
+          </Slot>
+          <Slot slot='slot2'>
+            <ListGroup.Item>a </ListGroup.Item>
+          </Slot>
+          <Slot slot='slot3'>
+            <ListGroup.Item>
+              <button onClick={onClick}>Beaver!</button>
+            </ListGroup.Item>
+          </Slot>
+          <Slot slot='secret-slot'>
+            <ListGroup.Item>Or is it?!</ListGroup.Item>
+          </Slot>
+        </Slots>
+      </ListGroup>
+    );
+  },
+};
+
+export const DuplicateSlots: Story = {
+  render: (props) => (
+    <ListGroup>
+      <Slots {...props}>
+        <Slot slot='slot3'>
+          <ListGroup.Item>It's </ListGroup.Item>
+        </Slot>
+        <Slot slot='slot3'>
+          <ListGroup.Item>a </ListGroup.Item>
+        </Slot>
+        <Slot slot='slot3'>
+          <ListGroup.Item>Beaver!</ListGroup.Item>
+        </Slot>
+      </Slots>
+    </ListGroup>
+  ),
+};
+
+export const DuplicateSlotsInSlotOrder: Story = {
+  args: {
+    slotOrder: ['slot1', 'slot1', 'slot1'],
+  },
+  render: (props) => (
+    <ListGroup>
+      <Slots {...props}>
         <Slot slot='slot1'>
           <ListGroup.Item>It's </ListGroup.Item>
         </Slot>
@@ -26,56 +99,15 @@ const meta = {
         <Slot slot='secret-slot'>
           <ListGroup.Item>Or is it?!</ListGroup.Item>
         </Slot>
-      </>
-    ),
-  },
-  argTypes: {
-    children: {
-      table: {
-        disable: true,
-      },
-    },
-  },
-  render: (props) => (
-    <ListGroup>
-      <Slots {...props} />
+      </Slots>
     </ListGroup>
   ),
-} satisfies Meta<typeof Slots>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const BasicUsage: Story = {};
-
-export const DuplicateSlots: Story = {
-  args: {
-    children: (
-      <>
-        <Slot slot='slot3'>
-          <ListGroup.Item>It's </ListGroup.Item>
-        </Slot>
-        <Slot slot='slot3'>
-          <ListGroup.Item>a </ListGroup.Item>
-        </Slot>
-        <Slot slot='slot3'>
-          <ListGroup.Item>Beaver!</ListGroup.Item>
-        </Slot>
-      </>
-    ),
-  },
-};
-
-export const DuplicateSlotsInSlotOrder: Story = {
-  args: {
-    slotOrder: ['slot1', 'slot1', 'slot1'],
-  },
 };
 
 export const SlotsWithNonSlotChildren: Story = {
-  args: {
-    children: (
-      <>
+  render: (props) => (
+    <ListGroup>
+      <Slots {...props}>
         <ListGroup.Item>Not a Slot (Top)</ListGroup.Item>
         <Slot slot='slot1'>
           <ListGroup.Item>It's </ListGroup.Item>
@@ -87,15 +119,15 @@ export const SlotsWithNonSlotChildren: Story = {
           <ListGroup.Item>Beaver!</ListGroup.Item>
         </Slot>
         <ListGroup.Item>Not a Slot (Bottom)</ListGroup.Item>
-      </>
-    ),
-  },
+      </Slots>
+    </ListGroup>
+  ),
 };
 
 export const SlotsInDepth: Story = {
-  args: {
-    children: (
-      <>
+  render: (props) => (
+    <ListGroup>
+      <Slots {...props}>
         <ListGroup.Item>
           Yes,
           <b>
@@ -110,7 +142,7 @@ export const SlotsInDepth: Story = {
         <Slot slot='slot3'>
           <ListGroup.Item>Beaver!</ListGroup.Item>
         </Slot>
-      </>
-    ),
-  },
+      </Slots>
+    </ListGroup>
+  ),
 };

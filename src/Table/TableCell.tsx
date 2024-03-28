@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
-
-import { useData } from '@/Data';
+import { Slot } from '@/Slots';
 import { CommonProps, WrapperProp } from '@/types';
 
 export interface TableCellProps extends WrapperProp, CommonProps {
@@ -14,5 +12,11 @@ export const TableCell = ({
   className,
   style,
 }: TableCellProps) => {
-  return null;
+  return (
+    <Slot slot={columnId}>
+      <td id={id} className={className} style={style}>
+        {children}
+      </td>
+    </Slot>
+  );
 };

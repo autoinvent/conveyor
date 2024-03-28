@@ -1,16 +1,18 @@
-import { Lens } from '@/Lenses';
+import { useStore } from '@tanstack/react-store';
+
+import { Slots } from '@/Slots';
 import { CommonProps, WrapperProp } from '@/types';
 
-import { TableBodyLens } from './TableBody';
+import { useTableStore } from './useTableStore';
 
 export interface TableRowProps extends WrapperProp, CommonProps {}
 
 export const TableRow = ({ children, id, className, style }: TableRowProps) => {
+  const tableStore = useTableStore();
+  const columnIds = useStore(tableStore, (state) => state.columnIds);
   return (
-    <Lens lens={TableBodyLens.HAS_DATA}>
-      <tr id={id} className={className} style={style}>
-        {children}
-      </tr>
-    </Lens>
+    <tr id={id} className={className} style={style}>
+      <Slots slotOrder={columnIds}>{children}</Slots>
+    </tr>
   );
 };
