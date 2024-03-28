@@ -1,7 +1,5 @@
-// components
-
 // contexts
-export * from "./DataContext";
+export * from './DataContext';
 
 // hooks
-export * from "./useData";
+export * from './useData';

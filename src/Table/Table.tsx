@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { useEffect, useState } from 'react';
 import { Table as RBTable } from 'react-bootstrap';
-import { ColumnDef, RowData, TableOptions, createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { Store } from '@tanstack/react-store';
 
+import { useIsFirstRender } from '@/hooks';
 import { CommonProps, DataType, WrapperProp } from '@/types';
 
 import { TableBody } from './TableBody';
@@ -11,18 +12,7 @@ import { TableHead } from './TableHead';
 import { TableHeader } from './TableHeader';
 import { TableRow } from './TableRow';
 import { TableRowFallback } from './TableRowFallback';
-import { TableContext } from './TableContext';
-
-
-declare module '@tanstack/react-table' {
-  interface TableMeta<TData extends RowData> {
-    setColumns: Dispatch<SetStateAction<ColumnDef<DataType>[]>>
-  }
-
-  interface Table<TData> {
-    options: { meta: TableMeta<TData> } & Omit<TableOptions<TData>, 'meta'>
-  }
-}
+import { TableStoreContext } from './TableStoreContext';
 
 export interface TableProps extends WrapperProp, CommonProps {
   data: DataType[];
@@ -31,49 +21,37 @@ export interface TableProps extends WrapperProp, CommonProps {
 
 export const Table = Object.assign(
   ({ data, columnIds, children, id, className, style }: TableProps) => {
-    const [columnOrder, setColumnOrder] = useState(columnIds)
-    const [columns, setColumns] = useState<ColumnDef<DataType>[]>(
-      columnIds.map((columnId) => {
-        const columnHelper = createColumnHelper<DataType>()
-        return columnHelper.display({
-          id: columnId,
-        })
-      })
-    )
-
-    const table = useReactTable({
-      data,
-      columns,
-      getCoreRowModel: getCoreRowModel(),
-      state: {
-        columnOrder,
-      },
-      onColumnOrderChange: setColumnOrder,
-      meta: {
-        setColumns,
-      }
-    })
+    const isFirstRender = useIsFirstRender();
+    const [tableStore] = useState(new Store({ data, columnIds }));
 
     useEffect(() => {
-      if (JSON.stringify(columnIds) !== JSON.stringify(columnOrder)) {
-        table.setColumnOrder(columnIds)
+      if (!isFirstRender.current) {
+        tableStore.setState((state) => {
+          return {
+            ...state,
+            data,
+          };
+        });
       }
-      if (columnIds.length !== columns.length) {
-        setColumns(columnIds.map((columnId) => {
-          const columnHelper = createColumnHelper<DataType>()
-          return columnHelper.display({
-            id: columnId,
-          })
-        }))
+    }, [data]);
+
+    useEffect(() => {
+      if (!isFirstRender.current) {
+        tableStore.setState((state) => {
+          return {
+            ...state,
+            columnIds,
+          };
+        });
       }
-    }, [columnIds])
+    }, [columnIds]);
 
     return (
-      <TableContext.Provider value={{ ...table }}>
+      <TableStoreContext.Provider value={tableStore}>
         <RBTable id={id} className={className} style={style} hover>
           {children}
         </RBTable>
-      </TableContext.Provider>
+      </TableStoreContext.Provider>
     );
   },
   {

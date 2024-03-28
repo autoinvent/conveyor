@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet';
 
-import logo from '@/assets/logo.svg'
+import logo from '@/assets/logo.svg';
 
 const App = () => {
   const gqlUrl = '/graphql';
@@ -8,11 +8,10 @@ const App = () => {
   return (
     <>
       <Helmet>
-        <link id="favicon" rel="icon" type="image/svg+xml" href={logo} />
+        <link id='favicon' rel='icon' type='image/svg+xml' href={logo} />
       </Helmet>
     </>
-  )
-}
-
+  );
+};
 
 export default App;

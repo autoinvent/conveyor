@@ -1,2 +1,2 @@
-export * from './Lenses'
-export * from './Lens'
+export * from './Lenses';
+export * from './Lens';

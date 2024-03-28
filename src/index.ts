@@ -1,11 +1,12 @@
 // components
-export * from './Alerts'
-export * from './Conveyor'
-export * from './Lenses'
-export * from './Table'
+export * from './Alerts';
+export * from './Conveyor';
+export * from './Lenses';
+// export * from './Table'
+export * from './Slots';
 
 // types
-export * from './types'
+export * from './types';
 
 // util
-export * from './utils'
+export * from './utils';

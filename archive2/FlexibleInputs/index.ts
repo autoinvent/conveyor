@@ -1,2 +1,2 @@
-export * from './FlexibleInputs'
-export * from './FlexibleInput'
+export * from './FlexibleInputs';
+export * from './FlexibleInput';

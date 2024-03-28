@@ -1,19 +1,18 @@
-import { Fragment } from 'react';
+import { useStore } from '@tanstack/react-store';
 
+import { DataContext } from '@/Data';
 import { Lenses } from '@/Lenses';
 import { CommonProps, WrapperProp } from '@/types';
+import { generateUID } from '@/utils';
 
-import { TableRowContext } from './TableRowContext';
-import { useTable } from './useTable';
-
+import { useTableStore } from './useTableStore';
 
 export enum TableBodyLens {
   HAS_DATA = 'has-data',
-  HAS_NO_DATA = 'has-no-data'
+  HAS_NO_DATA = 'has-no-data',
 }
 
-export interface TableBodyProps extends WrapperProp, CommonProps {
-}
+export interface TableBodyProps extends WrapperProp, CommonProps {}
 
 export const TableBody = ({
   children,
@@ -21,17 +20,24 @@ export const TableBody = ({
   className,
   style,
 }: TableBodyProps) => {
-  const { getRowModel } = useTable();
-  const rows = getRowModel().rows
+  const tableStore = useTableStore();
+  const data = useStore(tableStore, (state) => state.data);
   return (
     <tbody id={id} className={className} style={style}>
-      <Lenses activeLens={rows.length > 0 ? TableBodyLens.HAS_DATA : TableBodyLens.HAS_NO_DATA}>
-        {rows.length > 0
-          ? rows.map((row) => {
-            const rowKey = `table-row-${row.id}`;
-            return <TableRowContext.Provider key={rowKey} value={{ ...row }}>
-              {children}</TableRowContext.Provider>
-          })
+      <Lenses
+        activeLens={
+          data.length > 0 ? TableBodyLens.HAS_DATA : TableBodyLens.HAS_NO_DATA
+        }
+      >
+        {data.length > 0
+          ? data.map((rowData) => {
+              const rowKey = `table-row-${generateUID()}`;
+              return (
+                <DataContext.Provider key={rowKey} value={rowData}>
+                  {children}
+                </DataContext.Provider>
+              );
+            })
           : children}
       </Lenses>
     </tbody>

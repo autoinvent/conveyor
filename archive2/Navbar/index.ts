@@ -1,2 +1,2 @@
-export * from './Navbar'
-export * from './useThemeSelect'
+export * from './Navbar';
+export * from './useThemeSelect';

@@ -1,19 +1,21 @@
-import { ReactNode, useContext } from "react"
+import { useStore } from '@tanstack/react-store';
 
-import { WrapperProp } from "@/types"
+import { WrapperProp } from '@/types';
 
-import { ActiveLensContext, LensType } from "./Lenses"
-
+import { LensType } from './LensesStoreContext';
+import { useLensesStore } from './useLensesStore';
 
 export interface LensProps extends WrapperProp {
-    lens: LensType
+  lens: LensType;
 }
 
 export const Lens = ({ lens, children }: LensProps) => {
-    const activeLens = useContext(ActiveLensContext)
-    if (activeLens === undefined) throw new Error('Lens must be used within Lenses')
-    if (lens !== activeLens) {
-        return null
-    }
-    return <>{children}</>
-}
+  const lensesStore = useLensesStore();
+  const activeLens = useStore(lensesStore, (state) => state.activeLens);
+  if (activeLens === undefined)
+    throw new Error('Lens must be used within Lenses');
+  if (lens !== activeLens) {
+    return null;
+  }
+  return <>{children}</>;
+};

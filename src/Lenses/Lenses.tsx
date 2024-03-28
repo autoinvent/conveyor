@@ -1,36 +1,49 @@
 import {
-    createContext,
-    Dispatch,
-    SetStateAction,
-    useEffect,
-    useState,
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
 } from 'react';
+import { Store } from '@tanstack/react-store';
 
+import { useIsFirstRender } from '@/hooks';
 import { WrapperProp } from '@/types';
 
-export type LensType = string | number | boolean
-export const ActiveLensContext = createContext<LensType | undefined>(undefined);
-export const SetActiveLensContext = createContext<
-    Dispatch<SetStateAction<LensType>>
->(() => {
-    throw new Error('SetActiveLensContext must be used within Lenses');
-});
+import {
+  LensType,
+  LensesStore,
+  LensesStoreContext,
+} from './LensesStoreContext';
 
 export interface LensesProps extends WrapperProp {
-    activeLens: LensType;
+  activeLens: LensType;
+  AvailableLenses?: Record<string, LensType>;
 }
 
-export const Lenses = ({ activeLens, children }: LensesProps) => {
-    const [lens, setLens] = useState(activeLens);
-    useEffect(() => {
-        setLens(activeLens)
-    }, [activeLens])
+export const Lenses = ({
+  activeLens,
+  AvailableLenses = {},
+  children,
+}: LensesProps) => {
+  const isFirstRender = useIsFirstRender();
+  const [lensesStore] = useState(
+    new Store<LensesStore>({ activeLens, AvailableLenses }),
+  );
+  useEffect(() => {
+    if (!isFirstRender.current) {
+      lensesStore.setState((state) => {
+        return {
+          ...state,
+          activeLens,
+        };
+      });
+    }
+  }, [activeLens]);
 
-    return (
-        <SetActiveLensContext.Provider value={setLens}>
-            <ActiveLensContext.Provider value={lens}>
-                {children}
-            </ActiveLensContext.Provider>
-        </SetActiveLensContext.Provider>
-    );
+  return (
+    <LensesStoreContext.Provider value={lensesStore}>
+      {children}
+    </LensesStoreContext.Provider>
+  );
 };

@@ -1,57 +1,45 @@
-import {
-    createContext,
-    Dispatch,
-    Fragment,
-    ReactNode,
-    SetStateAction,
-    useLayoutEffect,
-    useState,
-} from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { Store, useStore } from '@tanstack/react-store';
 
-export type SlotValue = null | {
-    content: ReactNode,
-    refIds: string[],
+import { useIsFirstRender } from '@/hooks';
+import { WrapperProp } from '@/types';
+
+import { SlotsStore, SlotsStoreContext } from './SlotsStoreContext';
+
+export interface SlotsProps extends WrapperProp {
+  slotOrder: string[];
 }
 
-export const SlotKeysContext = createContext<string[]>([])
-export const SetSlotKeysContext = createContext<
-    Dispatch<SetStateAction<string[]>>
->(() => {
-    throw new Error('SetSlotsContext must be used within Slots');
-});
-export const SlotsContext = createContext<Record<string, SlotValue>>({});
-export const SetSlotsContext = createContext<
-    Dispatch<SetStateAction<Record<string, SlotValue>>>
->(() => {
-    throw new Error('SetSlotsContext must be used within Slots');
-});
+export const Slots = ({ slotOrder, children }: SlotsProps) => {
+  const isFirstRender = useIsFirstRender();
+  const [slotsStore] = useState(() => {
+    const slotEntries = slotOrder.map((slotKey) => [
+      slotKey,
+      { node: null, slotIds: [] },
+    ]);
+    const slots = Object.fromEntries(slotEntries);
+    return new Store<SlotsStore>({ slotOrder, slots });
+  });
 
-export interface SlotsProps {
-    slotKeys: string[];
-    children?: ReactNode;
-}
+  const { slotOrder: slotKeys, slots } = useStore(slotsStore, (state) => state);
 
-export const Slots = ({ slotKeys, children }: SlotsProps) => {
-    const [currSlotKeys, setSlotKeys] = useState(slotKeys)
-    const [slots, setSlots] = useState({} as Record<string, SlotValue>);
-    useLayoutEffect(() => {
-        setSlotKeys(slotKeys)
-    }, [JSON.stringify(slotKeys)])
+  useEffect(() => {
+    if (isFirstRender) {
+      slotsStore.setState((state) => {
+        return {
+          ...state,
+          slotOrder,
+        };
+      });
+    }
+  }, [slotOrder]);
 
-    return (
-        <SetSlotKeysContext.Provider value={setSlotKeys} >
-            <SetSlotsContext.Provider value={setSlots}>
-                <SlotKeysContext.Provider value={currSlotKeys}>
-                    <SlotsContext.Provider value={slots}>
-                        <>
-                            {currSlotKeys.map((slotKey, index) =>
-                                <Fragment key={index + slotKey}>{slots[slotKey]?.content}</Fragment>
-                            )}
-                            {children}
-                        </>
-                    </SlotsContext.Provider>
-                </SlotKeysContext.Provider>
-            </SetSlotsContext.Provider>
-        </SetSlotKeysContext.Provider>
-    );
+  return (
+    <SlotsStoreContext.Provider value={slotsStore}>
+      {slotKeys.map((slotKey) => {
+        return <Fragment key={slotKey}>{slots[slotKey].node}</Fragment>;
+      })}
+      {children}
+    </SlotsStoreContext.Provider>
+  );
 };

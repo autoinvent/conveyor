@@ -1,2 +1,2 @@
-export * from './FlexibleValues'
-export * from './FlexibleValue'
+export * from './FlexibleValues';
+export * from './FlexibleValue';

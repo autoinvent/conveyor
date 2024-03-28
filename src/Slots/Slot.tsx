@@ -1,36 +1,45 @@
-import { ReactNode, useContext, useEffect, useId, useRef } from 'react';
+import { ReactNode, useEffect, useId } from 'react';
 
-import { SetSlotsContext } from './Slots';
+import { WrapperProp } from '@/types';
 
-export interface SlotProps {
-    slotKey: string;
-    children?: ReactNode;
+import { SlotType } from './SlotsStoreContext';
+import { useSlotsStore } from './useSlotsStore';
+
+export interface SlotProps extends WrapperProp {
+  slot: string;
+  children?: ReactNode;
 }
 
-export const Slot = ({ slotKey, children }: SlotProps) => {
-    const setSlots = useContext(SetSlotsContext);
-    const refId = useId()
-    useEffect(() => {
-        setSlots((slots) => {
-            const slotValue = slots[slotKey]
-            let refIds = [refId]
-            let content = children
-            if (slotValue) {
-                const currRefIds = slotValue.refIds
-                if (currRefIds.includes(refId)) {
-                    if (slotValue.refIds[slotValue.refIds.length - 1] !== refId) {
-                        content = slotValue.content
-                    }
-                    refIds = currRefIds
-                } else {
-                    refIds = currRefIds.concat(refIds)
-                }
-            }
-            return {
-                ...slots,
-                [slotKey]: { content, refIds }
-            }
-        });
-    }, [slotKey, children]);
-    return null;
+export const Slot = ({ slot, children }: SlotProps) => {
+  const refId = useId();
+  const slotsStore = useSlotsStore();
+  useEffect(() => {
+    slotsStore.setState((state) => {
+      const currSlot = state.slots[slot];
+      const newSlot: SlotType = { node: children, slotIds: [refId] };
+      if (currSlot) {
+        if (currSlot.slotIds.includes(refId)) {
+          // Return the same state if an old refId is being used
+          if (currSlot.slotIds[0] !== refId) {
+            return state;
+          } else {
+            // No need to update slotIds if using the latest refId
+            newSlot.slotIds = currSlot.slotIds;
+          }
+        } else {
+          // New refId is being used; update slotIds
+          newSlot.slotIds = [refId, ...currSlot.slotIds];
+        }
+      }
+      return {
+        ...state,
+        slots: {
+          ...state.slots,
+          [slot]: newSlot,
+        },
+      };
+    });
+  }, [children]);
+
+  return null;
 };
