@@ -2,7 +2,7 @@ import { useStore } from '@tanstack/react-store';
 
 import { useConveyorStore } from './useConveyorStore';
 
-export const useFetcher = () => {
+export const useModels = () => {
   const conveyorStore = useConveyorStore();
-  return useStore(conveyorStore, (state) => state.fetcher);
+  return useStore(conveyorStore, (state) => state.models);
 };

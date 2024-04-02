@@ -7,7 +7,7 @@ import { generateUID } from '@/utils';
 import { TableRow } from './TableRow';
 import { useTableStore } from './useTableStore';
 
-export interface TableBodyProps extends WrapperProp, CommonProps { }
+export interface TableBodyProps extends WrapperProp, CommonProps {}
 
 export const TableBody = ({
   children,
@@ -23,9 +23,7 @@ export const TableBody = ({
         const rowKey = `table-row-${generateUID()}`;
         return (
           <DataContext.Provider key={rowKey} value={rowData}>
-            {children === undefined ?
-              <TableRow />
-              : children}
+            {children === undefined ? <TableRow /> : children}
           </DataContext.Provider>
         );
       })}

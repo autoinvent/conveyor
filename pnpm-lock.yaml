@@ -100,9 +100,6 @@ devDependencies:
   bootstrap:
     specifier: ^5.3.3
     version: 5.3.3(@popperjs/core@2.11.8)
-  graphql:
-    specifier: ^16.7.1
-    version: 16.7.1
   graphql-request:
     specifier: ^6.1.0
     version: 6.1.0(graphql@16.7.1)

@@ -4,3 +4,5 @@
 
 - Assumptions:
 -- every model has index, detail, creat pages for admin
+
+components with useQuery will render 3x most likely: initial, dataFetched, processData

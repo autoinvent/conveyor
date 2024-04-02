@@ -2,7 +2,7 @@ import { CommonProps, WrapperProp } from '@/types';
 
 import { TableHeaderRow } from './TableHeaderRow';
 
-export interface TableHeadProps extends WrapperProp, CommonProps { }
+export interface TableHeadProps extends WrapperProp, CommonProps {}
 
 export const TableHead = ({
   children,

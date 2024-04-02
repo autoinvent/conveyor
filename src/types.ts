@@ -10,4 +10,9 @@ export interface WrapperProp {
   children?: ReactNode;
 }
 
+export interface FetchHandler {
+  onSuccess?: (data: any) => void;
+  onError?: (err: Error) => void;
+}
+
 export type DataType = Record<string, any>;

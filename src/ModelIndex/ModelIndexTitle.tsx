@@ -1,25 +1,16 @@
-// import { ReactNode } from 'react';
+import { CommonProps, WrapperProp } from '@/types';
 
-// import { Slot } from '@/Slots';
-// import { BaseComponentProps } from '@/types';
+export interface ModelIndexTitleProps extends CommonProps, WrapperProp {}
 
-// export const MODEL_INDEX_TITLE_SLOT = 'model-index-title-slot';
-
-// export interface ModelIndexTitleProps extends BaseComponentProps {
-//   children?: ReactNode;
-// }
-
-// export const ModelIndexTitle = ({
-//   children,
-//   id,
-//   className,
-//   style,
-// }: ModelIndexTitleProps) => {
-//   return (
-//     <Slot slotKey={MODEL_INDEX_TITLE_SLOT}>
-//       <div id={id} className={className} style={style}>
-//         {children}
-//       </div>
-//     </Slot>
-//   );
-// };
+export const ModelIndexTitle = ({
+  children,
+  id,
+  className,
+  style,
+}: ModelIndexTitleProps) => {
+  return (
+    <h2 id={id} className={className} style={style}>
+      {children}
+    </h2>
+  );
+};

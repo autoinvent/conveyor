@@ -4,8 +4,8 @@ import { Store } from '@tanstack/react-store';
 import { DataType } from '@/types';
 
 export interface TableStore {
-  data: DataType[];
   columnIds: string[];
+  data: DataType[];
 }
 
 export const TableStoreContext = createContext<Store<TableStore> | undefined>(

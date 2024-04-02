@@ -1,57 +1,48 @@
-// import { ReactNode, useContext } from 'react';
+import { useStore } from '@tanstack/react-store';
 
-// import {
-//   Table,
-//   TableHead,
-//   TableHeader,
-//   TableActionHeader,
-//   TableBody,
-//   TableRow,
-//   TableCell,
-//   TableActionCell,
-//   TableEmptyBody,
-//   TableContext,
-// } from '@/Table';
-// import { BaseComponentProps } from '@/types';
+import {
+  Table,
+  TableBody,
+  TableBodyFallback,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableHeaderRow,
+  TableRow,
+} from '@/Table';
+import { CommonProps, WrapperProp } from '@/types';
 
-// import { ModelIndexTableEmptyBody } from './ModelIndexTableEmptyBody';
+import { useModelIndexStore } from './useModelIndexStore';
 
-// export interface ModelIndexTableProps extends BaseComponentProps {
-//   children?: ReactNode;
-// }
+export interface ModelIndexTableProps extends CommonProps, WrapperProp {}
 
-// export const ModelIndexTable = Object.assign(
-//   ({ children, id, className, style }: ModelIndexTableProps) => {
-//     const { fields, data, actionsConfig } = useContext(TableContext);
-//     return (
-//       <Table
-//         fields={fields}
-//         data={data}
-//         actionsConfig={actionsConfig}
-//         id={id}
-//         className={className}
-//         style={style}
-//       >
-//         {children === undefined ? (
-//           <>
-//             <Table.Head />
-//             <Table.Body />
-//             <ModelIndexTableEmptyBody />
-//           </>
-//         ) : (
-//           children
-//         )}
-//       </Table>
-//     );
-//   },
-//   {
-//     Head: TableHead,
-//     Header: TableHeader,
-//     ActionHeader: TableActionHeader,
-//     Body: TableBody,
-//     Row: TableRow,
-//     Cell: TableCell,
-//     ActionCell: TableActionCell,
-//     EmptyBody: ModelIndexTableEmptyBody,
-//   },
-// );
+export const ModelIndexTable = Object.assign(
+  ({ children, id, className, style }: ModelIndexTableProps) => {
+    const modelIndexStore = useModelIndexStore();
+    const { fields, data } = useStore(modelIndexStore, (state) => ({
+      data: state.data,
+      fields: state.fields,
+    }));
+
+    return (
+      <Table
+        columnIds={fields}
+        data={data}
+        id={id}
+        className={className}
+        style={style}
+      >
+        {children}
+      </Table>
+    );
+  },
+  {
+    Body: TableBody,
+    BodyFallback: TableBodyFallback,
+    Cell: TableCell,
+    Head: TableHead,
+    HeaderCell: TableHeaderCell,
+    HeaderRow: TableHeaderRow,
+    Row: TableRow,
+  },
+);

@@ -1,23 +1,24 @@
 import { useStore } from '@tanstack/react-store';
 
-import { CommonProps, WrapperProp } from '@/types';
+import { WrapperProp } from '@/types';
 
-import { TableRowFallback } from './TableRowFallback';
 import { useTableStore } from './useTableStore';
 
-export interface TableBodyFallbackProps extends WrapperProp, CommonProps { }
+export interface TableBodyFallbackProps extends WrapperProp {}
 
-export const TableBodyFallback = ({
-  children,
-  id,
-  className,
-  style,
-}: TableBodyFallbackProps) => {
+export const TableBodyFallback = ({ children }: TableBodyFallbackProps) => {
   const tableStore = useTableStore();
-  const dataLength = useStore(tableStore, (state) => state.data.length);
-  return dataLength === 0 ? (
-    <tbody id={id} className={className} style={style}>
-      {children === undefined ? <TableRowFallback /> : children}
+  const columnIdsLength = useStore(
+    tableStore,
+    (state) => state.columnIds.length,
+  );
+  return (
+    <tbody>
+      <tr>
+        <td colSpan={columnIdsLength}>
+          {children === undefined ? 'No Records Found.' : children}
+        </td>
+      </tr>
     </tbody>
-  ) : null;
+  );
 };

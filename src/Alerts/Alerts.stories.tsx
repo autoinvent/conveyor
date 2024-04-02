@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Alert, AlertProps, Alerts, useAlert } from '@/Alerts';
+import { Alert, AlertProps, Alerts, useAlerts } from '@/Alerts';
 
 const meta = {
   title: 'Commons/Alerts',
@@ -51,7 +51,7 @@ export const CustomizingAlert: Story = {
 };
 
 const AddAlertButton = (props: AlertProps) => {
-  const { addAlert } = useAlert();
+  const { addAlert } = useAlerts();
   const [counter, setCounter] = useState(0);
   return (
     <button

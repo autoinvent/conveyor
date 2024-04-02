@@ -1,7 +1,6 @@
-import { ComponentType, Fragment, useEffect, useState } from 'react';
+import { ComponentType, Fragment, useState } from 'react';
 import { Store, useStore } from '@tanstack/react-store';
 
-import { useIsFirstRender } from '@/hooks';
 import { CommonProps, WrapperProp } from '@/types';
 
 import { Alert, AlertProps } from './Alert';
@@ -18,35 +17,20 @@ export const Alerts = ({
   className,
   style,
 }: AlertsProps) => {
-  const isFirstRender = useIsFirstRender();
   const [alertsStore] = useState(
     new Store<AlertsStore>({
       alerts: [],
-      AlertComponent,
     }),
   );
-  const { alerts, AlertComponent: AC } = useStore(
-    alertsStore,
-    (state) => state,
-  );
+  const alerts = useStore(alertsStore, (state) => state.alerts);
 
-  useEffect(() => {
-    if (!isFirstRender.current) {
-      alertsStore.setState((state) => {
-        return {
-          ...state,
-          AlertComponent,
-        };
-      });
-    }
-  }, [AlertComponent]);
   return (
     <AlertsStoreContext.Provider value={alertsStore}>
       <div id={id} className={className} style={style}>
         {alerts.map((alert) => {
           return (
             <Fragment key={alert.alertId}>
-              <AC {...alert} />
+              <AlertComponent {...alert} />
             </Fragment>
           );
         })}

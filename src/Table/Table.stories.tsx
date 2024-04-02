@@ -47,7 +47,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicUsage: Story = {
   args: {
-    columnIds: ['firstname', 'lastname']
+    columnIds: ['firstname', 'lastname'],
   },
 };
 
@@ -65,9 +65,13 @@ const CustomCombinedCell = () => {
   return combined;
 };
 
+const CustomTableBodyFallback = () => {
+  return <Table.BodyFallback>Empty Body</Table.BodyFallback>;
+};
 
 export const FullyCustomized: Story = {
   args: {
+    TableBodyFallbackComponent: CustomTableBodyFallback,
     children: (
       <>
         <Table.Head>
@@ -90,14 +94,7 @@ export const FullyCustomized: Story = {
             </Table.Cell>
           </Table.Row>
         </Table.Body>
-        <Table.BodyFallback>
-          <Table.RowFallback>
-            <Table.CellFallback>Empty Table</Table.CellFallback>
-          </Table.RowFallback>
-        </Table.BodyFallback>
       </>
-    )
-  }
-
+    ),
+  },
 };
-

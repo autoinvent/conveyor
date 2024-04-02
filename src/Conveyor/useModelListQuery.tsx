@@ -1,38 +1,38 @@
-// import { useContext, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useStore } from '@tanstack/react-store';
 
-// import { Field, Model } from '@/types';
-// import {
-//   camelToSnakeCase,
-//   getFieldName,
-//   getModelPrimaryKey,
-//   getModelName,
-// } from '@/utils';
+import { camelToSnakeCase } from '@/utils';
 
-// import { ConveyorContext } from './Conveyor';
+import { useConveyorStore } from './useConveyorStore';
+import { getPrimaryKeys, getQueryFields } from './utils';
 
-// export const useModelListQuery = (model: Model, fields: Field[]) => {
-//   const { useMQLQuery } = useContext(ConveyorContext);
-//   const modelName = getModelName(model);
-//   const primaryKey = getModelPrimaryKey(model);
-//   const fieldNames = fields.map((field) => getFieldName(field));
-//   const operationName = `${camelToSnakeCase(modelName)}_list`;
-//   const document = `
-//         query ($filter: [[FilterItem!]!], $sort: [String!], $page: Int, $per_page: Int) {
-//             ${operationName} (filter: $filter, sort: $sort, page: $page, per_page: $per_page) {
-//                 total
-//                 items {
-//                     ${primaryKey.name} ${fieldNames.join(' ')}
-//                 }
-//             }
-//         }
-//     `;
-//   const mqlRequest = useMQLQuery({ document, operationName });
-//   // return mqlRequest
-//   return useCallback(
-//     () =>
-//       mqlRequest().then((response) => {
-//         return response[operationName];
-//       }),
-//     [mqlRequest],
-//   );
-// };
+export const useModelListQuery = ({
+  model,
+  fields,
+  enabled,
+}: { model: string; fields: string[]; enabled?: boolean }) => {
+  const queryName = camelToSnakeCase(model);
+  const operationName = `${queryName}_list`;
+  const conveyorStore = useConveyorStore();
+  const { fetcher, models } = useStore(conveyorStore, (state) => state);
+  const primaryKeys = getPrimaryKeys(models[model]);
+  const requestedFields = getQueryFields(model, fields, models).join(' ');
+  const document = `
+        query ($filter: [[FilterItem!]!], $sort: [String!], $page: Int, $per_page: Int) {
+            ${operationName} (filter: $filter, sort: $sort, page: $page, per_page: $per_page) {
+                total
+                items {
+                    ${primaryKeys.join(' ')} ${requestedFields}
+                }
+            }
+        }
+    `;
+  const query = useQuery({
+    enabled,
+    queryKey: [model, operationName, document],
+    queryFn: () => {
+      return fetcher({ operationName, document });
+    },
+  });
+  return { ...query, operationName };
+};

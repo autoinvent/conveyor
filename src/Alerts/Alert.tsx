@@ -3,9 +3,7 @@ import { Alert as RBAlert } from 'react-bootstrap';
 
 import { CommonProps } from '@/types';
 
-import { useAlert } from './useAlert';
-
-export const ALERT_SLOT = 'alert-slot';
+import { useAlerts } from './useAlerts';
 
 export interface AlertProps extends CommonProps {
   alertId: string;
@@ -21,7 +19,7 @@ export const Alert = ({
   className,
   style,
 }: AlertProps) => {
-  const { removeAlert } = useAlert();
+  const { removeAlert } = useAlerts();
 
   const defaultStyles = {
     margin: '1px',
