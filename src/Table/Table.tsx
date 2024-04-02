@@ -1,6 +1,6 @@
 import { ComponentType, useEffect, useState } from 'react';
 import { Table as RBTable } from 'react-bootstrap';
-import { Store, useStore } from '@tanstack/react-store';
+import { Store } from '@tanstack/react-store';
 
 import { useIsFirstRender } from '@/hooks';
 import { CommonProps, DataType, WrapperProp } from '@/types';

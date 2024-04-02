@@ -3,10 +3,13 @@ import { Store } from '@tanstack/react-store';
 
 import { DataType } from '@/types';
 
+import { ActionsConfig } from './types';
+
 export interface ModelIndexStore {
   model: string;
   fields: string[];
   data: DataType[];
+  actionsConfig?: ActionsConfig;
 }
 
 export const ModelIndexStoreContext = createContext<

@@ -6,7 +6,6 @@ import logo from '../src/assets/logo.svg';
 import {
   Alerts,
   Conveyor,
-  LoadingFallback,
   IntrospectionProvider,
   ModelIndex,
 } from '../src/index';
@@ -34,7 +33,7 @@ const App = () => {
                 <ModelIndex.Table.Head />
                 <ModelIndex.Table.Body>
                   <ModelIndex.Table.Row prefilled={true}>
-                    <ModelIndex.Table.Cell columnId={'name'}>
+                    <ModelIndex.Table.Cell field={'name'}>
                       ???
                     </ModelIndex.Table.Cell>
                   </ModelIndex.Table.Row>

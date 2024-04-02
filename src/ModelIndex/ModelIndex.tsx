@@ -13,6 +13,7 @@ import {
   ModelIndexStore,
   ModelIndexStoreContext,
 } from './ModelIndexStoreContext';
+import { ActionsConfig } from './types';
 
 export interface ModelIndexProps extends CommonProps, WrapperProp {
   model: string;
@@ -20,6 +21,7 @@ export interface ModelIndexProps extends CommonProps, WrapperProp {
   data?: DataType[] | undefined;
   onModelListQuerySuccess?: FetchHandler['onSuccess'];
   onModelListQueryError?: FetchHandler['onError'];
+  actionsConfig?: ActionsConfig;
 }
 
 export const ModelIndex = Object.assign(
@@ -30,6 +32,7 @@ export const ModelIndex = Object.assign(
     children,
     onModelListQuerySuccess,
     onModelListQueryError,
+    actionsConfig,
     id,
     className,
     style,
@@ -41,6 +44,7 @@ export const ModelIndex = Object.assign(
         model,
         fields,
         data: data ?? [],
+        actionsConfig,
       }),
     );
     const {
@@ -87,6 +91,17 @@ export const ModelIndex = Object.assign(
     }, [data]);
 
     useEffect(() => {
+      if (!isFirstRender.current) {
+        modelIndexStore.setState((state) => {
+          return {
+            ...state,
+            actionsConfig,
+          };
+        });
+      }
+    }, [actionsConfig]);
+
+    useEffect(() => {
       if (data === undefined && isLoading === false) {
         if (isSuccess) {
           onModelListQuerySuccess
@@ -118,12 +133,7 @@ export const ModelIndex = Object.assign(
           {children === undefined ? (
             <>
               <ModelIndex.Title>{modelDisplayName}</ModelIndex.Title>
-              <ModelIndex.Table>
-                <ModelIndex.Table.Head />
-                <ModelIndex.Table.Body>
-                  <ModelIndex.Table.Row />
-                </ModelIndex.Table.Body>
-              </ModelIndex.Table>
+              <ModelIndex.Table />
             </>
           ) : (
             children

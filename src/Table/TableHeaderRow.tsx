@@ -2,7 +2,6 @@ import { useStore } from '@tanstack/react-store';
 
 import { Slots } from '@/Slots';
 import { CommonProps, WrapperProp } from '@/types';
-import { humanizeText } from '@/utils';
 
 import { TableHeaderCell } from './TableHeaderCell';
 import { useTableStore } from './useTableStore';
@@ -27,9 +26,7 @@ export const TableHeaderRow = ({
           <>
             {columnIds.map((columnId) => {
               return (
-                <TableHeaderCell key={columnId} columnId={columnId}>
-                  {humanizeText(columnId)}
-                </TableHeaderCell>
+                <TableHeaderCell key={columnId} columnId={columnId} />
               );
             })}
             {children}

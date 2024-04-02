@@ -1,48 +1,59 @@
 import { useStore } from '@tanstack/react-store';
 
 import {
-  Table,
-  TableBody,
-  TableBodyFallback,
-  TableCell,
-  TableHead,
-  TableHeaderCell,
-  TableHeaderRow,
-  TableRow,
+    Table,
+    TableBodyFallback,
+    TableHeaderCell,
 } from '@/Table';
 import { CommonProps, WrapperProp } from '@/types';
 
+import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
+import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
+import { ModelIndexTableBody } from './ModelIndexTableBody';
+import { ModelIndexTableCell } from './ModelIndexTableCell';
+import { ModelIndexTableHead } from './ModelIndexTableHead'
+import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow'
+import { ModelIndexTableRow } from './ModelIndexTableRow';
 import { useModelIndexStore } from './useModelIndexStore';
 
-export interface ModelIndexTableProps extends CommonProps, WrapperProp {}
+export interface ModelIndexTableProps extends CommonProps, WrapperProp { }
 
 export const ModelIndexTable = Object.assign(
-  ({ children, id, className, style }: ModelIndexTableProps) => {
-    const modelIndexStore = useModelIndexStore();
-    const { fields, data } = useStore(modelIndexStore, (state) => ({
-      data: state.data,
-      fields: state.fields,
-    }));
+    ({ children, id, className, style }: ModelIndexTableProps) => {
+        const modelIndexStore = useModelIndexStore();
+        const { fields, data } = useStore(modelIndexStore, (state) => ({
+            data: state.data,
+            fields: state.fields,
+        }));
 
-    return (
-      <Table
-        columnIds={fields}
-        data={data}
-        id={id}
-        className={className}
-        style={style}
-      >
-        {children}
-      </Table>
-    );
-  },
-  {
-    Body: TableBody,
-    BodyFallback: TableBodyFallback,
-    Cell: TableCell,
-    Head: TableHead,
-    HeaderCell: TableHeaderCell,
-    HeaderRow: TableHeaderRow,
-    Row: TableRow,
-  },
+        return (
+            <Table
+                columnIds={fields}
+                data={data}
+                id={id}
+                className={className}
+                style={style}
+            >
+                {children === undefined ? (
+                    <>
+                        <ModelIndexTable.Head />
+                        <ModelIndexTable.Body />
+                    </>
+                ) : (
+                    children
+                )}
+            </Table>
+        );
+    },
+    {
+        ActionCell: ModelIndexTableActionCell,
+        ActionHeaderCell: ModelIndexTableActionHeaderCell,
+        Body: ModelIndexTableBody,
+        BodyFallback: TableBodyFallback,
+        Cell: ModelIndexTableCell,
+        Head: ModelIndexTableHead,
+        HeaderCell: TableHeaderCell,
+        HeaderRow: ModelIndexTableHeaderRow,
+        Row: ModelIndexTableRow,
+    },
 );

@@ -1,3 +1,4 @@
+import { useData } from '@/Data';
 import { Slot } from '@/Slots';
 import { CommonProps, WrapperProp } from '@/types';
 
@@ -12,10 +13,14 @@ export const TableCell = ({
   className,
   style,
 }: TableCellProps) => {
+  const { current } = useData();
+  const columnData = current[columnId];
+  const displayData =
+    typeof columnData === 'object' ? JSON.stringify(columnData) : columnData;
   return (
     <Slot slot={columnId}>
       <td id={id} className={className} style={style}>
-        {children}
+        {children === undefined ? displayData : children}
       </td>
     </Slot>
   );
