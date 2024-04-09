@@ -6,7 +6,7 @@ import { TableRow, TableRowProps, useTableStore } from '@/Table';
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
 
-export interface ModelIndexTableRowProps extends TableRowProps {}
+export interface ModelIndexTableRowProps extends TableRowProps { }
 
 export const ModelIndexTableRow = ({
   prefilled,

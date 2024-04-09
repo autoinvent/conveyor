@@ -6,6 +6,9 @@ export * from './Conveyor';
 // contexts
 export * from './ConveyorStoreContext';
 
+// enums
+export * from './enums';
+
 // hooks
 export * from './useConveyorStore';
 export * from './useFetcher';

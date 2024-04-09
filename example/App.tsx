@@ -27,8 +27,8 @@ const App = () => {
       >
         <Alerts>
           <IntrospectionProvider>
-            <ModelIndex model='Task' fields={['id', 'message', 'potato']} />
-            <ModelIndex model='Animal' fields={['name', 'type']} data={data}>
+            <ModelIndex model='Task' fields={['id', 'message', 'potato', 'user']} />
+            {/* <ModelIndex model='Animal' fields={['name', 'type']} data={data}>
               <ModelIndex.Table>
                 <ModelIndex.Table.Head />
                 <ModelIndex.Table.Body>
@@ -39,7 +39,7 @@ const App = () => {
                   </ModelIndex.Table.Row>
                 </ModelIndex.Table.Body>
               </ModelIndex.Table>
-            </ModelIndex>
+            </ModelIndex> */}
           </IntrospectionProvider>
         </Alerts>
       </Conveyor>

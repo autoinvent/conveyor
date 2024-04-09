@@ -7,7 +7,7 @@ import { CommonProps, WrapperProp } from '@/types';
 import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell'
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell'
 
-export interface TableHeaderRowProps extends WrapperProp, CommonProps {
+export interface ModelIndexTableHeaderRowProps extends WrapperProp, CommonProps {
     prefilled?: boolean;
 }
 
@@ -17,7 +17,7 @@ export const ModelIndexTableHeaderRow = ({
     id,
     className,
     style,
-}: TableHeaderRowProps) => {
+}: ModelIndexTableHeaderRowProps) => {
     const tableStore = useTableStore();
     const columnIds = useStore(tableStore, (state) => state.columnIds);
     return (
@@ -27,7 +27,7 @@ export const ModelIndexTableHeaderRow = ({
                     <>
                         {columnIds.map((columnId) => {
                             return (
-                                <ModelIndexTableHeaderCell field={columnId} />
+                                <ModelIndexTableHeaderCell key={columnId} field={columnId} />
                             );
                         })}
                         <ModelIndexTableActionHeaderCell />

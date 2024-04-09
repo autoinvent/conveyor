@@ -8,13 +8,15 @@ import {
 import { useStore } from '@tanstack/react-store';
 
 import { Lens, useLenses, DataLens } from '@/Lenses';
+import { TableCell } from '@/Table';
 import { CommonProps, WrapperProp } from '@/types';
 
+import { MODEL_INDEX_TABLE_ACTION_SLOT } from './ModelIndexTable'
 import { useModelIndexStore } from './useModelIndexStore';
 
 export interface ModelIndexTableActionCellProps
   extends CommonProps,
-    WrapperProp {}
+  WrapperProp { }
 
 export const ModelIndexTableActionCell = ({
   children,
@@ -24,18 +26,17 @@ export const ModelIndexTableActionCell = ({
 }: ModelIndexTableActionCellProps) => {
   const { setLens } = useLenses();
   const modelIndexStore = useModelIndexStore();
-  const { actionsConfig } = useStore(modelIndexStore, (state) => ({
+  const { } = useStore(modelIndexStore, (state) => ({
     data: state.data,
     fields: state.fields,
     actionsConfig: state.actionsConfig,
   }));
-  const showActions = actionsConfig?.showActions !== false;
 
   const onEdit = () => setLens(DataLens.EDITING);
   const onCancelEdit = () => setLens(DataLens.DISPLAY);
 
-  return showActions ? (
-    <td id={id} className={className} style={style}>
+  return (
+    <TableCell columnId={MODEL_INDEX_TABLE_ACTION_SLOT} id={id} className={className} style={style}>
       {children === undefined ? (
         <ButtonGroup>
           <Lens lens={DataLens.DISPLAY}>
@@ -58,6 +59,6 @@ export const ModelIndexTableActionCell = ({
       ) : (
         children
       )}
-    </td>
-  ) : null;
+    </TableCell>
+  );
 };

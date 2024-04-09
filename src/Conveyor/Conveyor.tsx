@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { Store, useStore } from '@tanstack/react-store';
+import { Store } from '@tanstack/react-store';
 
 import { useIsFirstRender } from '@/hooks';
 import { WrapperProp } from '@/types';

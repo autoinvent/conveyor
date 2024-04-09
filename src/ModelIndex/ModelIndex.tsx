@@ -102,14 +102,14 @@ export const ModelIndex = Object.assign(
     }, [actionsConfig]);
 
     useEffect(() => {
-      if (data === undefined && isLoading === false) {
+      if (isLoading === false) {
         if (isSuccess) {
           onModelListQuerySuccess
             ? onModelListQuerySuccess(data)
             : addAlert({
-                content: `Successfully fetched ${modelDisplayName} list!`,
-                expires: 3000,
-              });
+              content: `Successfully fetched ${modelDisplayName} list!`,
+              expires: 3000,
+            });
           queryData[operationName].items;
           modelIndexStore.setState((state) => {
             return {
@@ -121,11 +121,11 @@ export const ModelIndex = Object.assign(
           onModelListQueryError
             ? onModelListQueryError(error)
             : addAlert({
-                content: `Failed to fetch ${modelDisplayName} list: ${error}`,
-              });
+              content: `Failed to fetch ${modelDisplayName} list: ${error}`,
+            });
         }
       }
-    }, [data, isLoading, isSuccess]);
+    }, [data, isLoading, isSuccess, isError]);
 
     return (
       <div id={id} className={className} style={style}>

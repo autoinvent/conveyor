@@ -16,19 +16,23 @@ import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow'
 import { ModelIndexTableRow } from './ModelIndexTableRow';
 import { useModelIndexStore } from './useModelIndexStore';
 
+export const MODEL_INDEX_TABLE_ACTION_SLOT = '__model-index-table-action-slot__'
+
 export interface ModelIndexTableProps extends CommonProps, WrapperProp { }
 
 export const ModelIndexTable = Object.assign(
     ({ children, id, className, style }: ModelIndexTableProps) => {
         const modelIndexStore = useModelIndexStore();
-        const { fields, data } = useStore(modelIndexStore, (state) => ({
+        const { fields, data, actionsConfig } = useStore(modelIndexStore, (state) => ({
             data: state.data,
             fields: state.fields,
+            actionsConfig: state.actionsConfig
         }));
+        const columnIds = actionsConfig?.showActions !== false ? fields.concat([MODEL_INDEX_TABLE_ACTION_SLOT]) : fields
 
         return (
             <Table
-                columnIds={fields}
+                columnIds={columnIds}
                 data={data}
                 id={id}
                 className={className}

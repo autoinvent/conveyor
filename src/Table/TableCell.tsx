@@ -1,4 +1,4 @@
-import { useData } from '@/Data';
+import { useFormStore } from '@/Form';
 import { Slot } from '@/Slots';
 import { CommonProps, WrapperProp } from '@/types';
 
@@ -13,8 +13,8 @@ export const TableCell = ({
   className,
   style,
 }: TableCellProps) => {
-  const { current } = useData();
-  const columnData = current[columnId];
+  const original = useFormStore((state) => state.data.original);
+  const columnData = original[columnId];
   const displayData =
     typeof columnData === 'object' ? JSON.stringify(columnData) : columnData;
   return (

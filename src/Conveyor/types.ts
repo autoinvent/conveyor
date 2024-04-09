@@ -12,5 +12,3 @@ export interface FieldType {
   update?: string;
   item?: string;
 }
-
-export type ScalarTypes = 'String' | 'Int' | 'Float' | 'DateTime' | 'Boolean';

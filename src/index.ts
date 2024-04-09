@@ -1,6 +1,8 @@
 // common components
 export * from './Alerts';
 export * from './Data';
+export * from './FlexibleInput'
+export * from './Form'
 export * from './Lenses';
 export * from './Loading';
 export * from './Table';
