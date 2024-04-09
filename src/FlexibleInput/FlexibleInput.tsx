@@ -30,8 +30,10 @@ export const FlexibleInput = ({ type, inputProps, InputComponent = DefaultInput 
     currInputProps = Object.assign(currInputProps, inputProps)
 
     // TODO: remove and replace
+    if (currInputProps.value === undefined)
+        currInputProps.value = 2
     if (currInputProps.value === null)
-        currInputProps.value = 'null'
+        currInputProps.value = 1
 
     return (
         <InputComponent  {...currInputProps} />

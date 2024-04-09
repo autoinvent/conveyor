@@ -1,9 +1,7 @@
-import { ChangeEvent, useMemo } from 'react'
 import { useStore } from '@tanstack/react-store';
 
 import { useConveyorStore } from '@/Conveyor';
-import { FlexibleInput } from '@/FlexibleInput';
-import { useFormStore } from '@/Form';
+import { FormControl, useForm } from '@/Form';
 import { Lens, DataLens } from '@/Lenses';
 import { TableCell } from '@/Table';
 import { CommonProps, WrapperProp } from '@/types';
@@ -25,41 +23,24 @@ export const ModelIndexTableCell = ({
   const modelIndexStore = useModelIndexStore();
   const models = useStore(conveyorStore, (state) => state.models);
   const model = useStore(modelIndexStore, (state) => state.model);
-  const { original, FormController } = useFormStore((state) => ({
-    original: state.data.original,
-    FormController: state.FormController
-  }));
-  const originalFieldData = original?.[field];
-  const displayData =
-    typeof originalFieldData === 'object' ? JSON.stringify(originalFieldData) : originalFieldData;
-  // console.log(data.current)
+  const inputType = models[model]?.fields?.[field]?.update
+  const { data: { original } } = useForm();
+  const fieldData = original[field];
+  const displayData = typeof fieldData === 'object' ? JSON.stringify(fieldData) : fieldData;
   return (
     <TableCell columnId={field} id={id} className={className} style={style}>
       {children === undefined ? (
         <>
           <Lens lens={DataLens.DISPLAY}>{displayData}</Lens>
-          <Lens lens={DataLens.EDITING}>
-            <FormController
-              name={field}
-              children={(formField: any) => {
-                const inputProps = useMemo(() => ({
-                  name: formField.name,
-                  value: formField.state.value,
-                  onChange: (e: ChangeEvent<HTMLInputElement>) => formField.handleChange(e.target.value),
-                  onBlur: formField.handleBlur,
-                }), [formField.state.value])
-                console.log('rendered', field, formField.state.value)
-                return (
-                  // <input type="text" value={formField.state.value ?? ''}
-                  //   onChange={(e: any) => formField.handleChange(e.target.value)} />
-                  <FlexibleInput
-                    type={models[model]?.fields?.[field]?.update ?? ''}
-                    inputProps={inputProps}
-                  />
-                )
-              }}
-            />
-          </Lens>
+          {inputType !== undefined ?
+            <Lens lens={DataLens.EDITING}>
+              <FormControl name={field}>
+                <FormControl.Input
+                  type={inputType}
+                />
+              </FormControl>
+            </Lens>
+            : null}
         </>
       ) : (
         children

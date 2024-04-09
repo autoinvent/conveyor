@@ -1,9 +1,12 @@
-import { useStore } from "@tanstack/react-store"
-
 import { useFormStore } from "./useFormStore"
 
 export const useForm = () => {
-    // const formStore = useFormStore()
-    // const form = useStore(formStore, (state) => state)
-    // return form
+    const form = useFormStore(state => ({ original: state.options?.defaultValues, useStore: state.useStore }))
+    const current = form.useStore((state: any) => state.values)
+    return {
+        data: {
+            original: form.original,
+            current
+        },
+    }
 }

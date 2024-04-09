@@ -19,44 +19,12 @@ export const FormProvider = ({ defaultValues, children }: FormProps) => {
             console.log(e)
         }
     })
-
-    const values = form.useStore((state) => state.values)
-
-
-    const [formStore] = useState(new Store<FormStore>({
-        data: {
-            original: defaultValues,
-            current: form.state.values,
-        },
-        FormController: form.Field,
-        handleSubmit: form.handleSubmit,
-        reset: form.reset,
-    }));
+    const [formStore] = useState(new Store<FormStore>(form));
 
     useEffect(() => {
         if (!isFirstRender.current) {
-            formStore.setState(state => {
-                return {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        current: values
-                    },
-                }
-            })
-        }
-    }, [values])
-
-    useEffect(() => {
-        if (!isFirstRender.current) {
-            formStore.setState(state => {
-                return {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        original: defaultValues
-                    },
-                }
+            formStore.setState(() => {
+                return { ...form }
             })
         }
     }, [defaultValues])
