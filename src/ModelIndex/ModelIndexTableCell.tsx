@@ -29,18 +29,16 @@ export const ModelIndexTableCell = ({
   const displayData = typeof fieldData === 'object' ? JSON.stringify(fieldData) : fieldData;
   return (
     <TableCell columnId={field} id={id} className={className} style={style}>
-      {children === undefined ? (
+      {children === undefined ? inputType === undefined ? displayData : (
         <>
           <Lens lens={DataLens.DISPLAY}>{displayData}</Lens>
-          {inputType !== undefined ?
-            <Lens lens={DataLens.EDITING}>
-              <FormControl name={field}>
-                <FormControl.Input
-                  type={inputType}
-                />
-              </FormControl>
-            </Lens>
-            : null}
+          <Lens lens={DataLens.EDITING}>
+            <FormControl name={field}>
+              <FormControl.Input
+                type={inputType}
+              />
+            </FormControl>
+          </Lens>
         </>
       ) : (
         children
