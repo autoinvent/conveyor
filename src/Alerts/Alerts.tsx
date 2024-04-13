@@ -1,21 +1,18 @@
-import { ComponentType, Fragment, useState } from 'react';
+import { ComponentType, Fragment, HTMLAttributes, useState } from 'react';
 import { Store, useStore } from '@tanstack/react-store';
-
-import { CommonProps, WrapperProp } from '@/types';
 
 import { Alert, AlertProps } from './Alert';
 import { AlertsStore, AlertsStoreContext } from './AlertsStoreContext';
 
-export interface AlertsProps extends CommonProps, WrapperProp {
+export interface AlertsProps extends HTMLAttributes<HTMLDivElement> {
   AlertComponent?: ComponentType<AlertProps>;
 }
 
 export const Alerts = ({
   AlertComponent = Alert,
   children,
-  id,
-  className,
-  style,
+  className = 'alerts',
+  ...props
 }: AlertsProps) => {
   const [alertsStore] = useState(
     new Store<AlertsStore>({
@@ -26,7 +23,7 @@ export const Alerts = ({
 
   return (
     <AlertsStoreContext.Provider value={alertsStore}>
-      <div id={id} className={className} style={style}>
+      <div className={className} {...props}>
         {alerts.map((alert) => {
           return (
             <Fragment key={alert.alertId}>

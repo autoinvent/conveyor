@@ -1,25 +1,25 @@
-import { useForm } from '@/Form';
-import { Slot } from '@/Slots';
-import { CommonProps, WrapperProp } from '@/types';
+import { HTMLAttributes } from 'react'
 
-export interface TableCellProps extends WrapperProp, CommonProps {
+import { useData } from '@/Data';
+import { Slot } from '@/Slots';
+
+export interface TableCellProps extends HTMLAttributes<HTMLTableCellElement> {
   columnId: string;
 }
 
 export const TableCell = ({
   columnId,
   children,
-  id,
-  className,
-  style,
+  ...props
 }: TableCellProps) => {
-  const { data: { original } } = useForm();
-  const columnData = original[columnId];
-  const displayData =
-    typeof columnData === 'object' ? JSON.stringify(columnData) : columnData;
+  const { data } = useData((state) => state.original);
+  const columnData = data[columnId];
+  const displayData = typeof columnData === 'object'
+    ? JSON.stringify(columnData)
+    : columnData;
   return (
     <Slot slot={columnId}>
-      <td id={id} className={className} style={style}>
+      <td {...props}>
         {children === undefined ? displayData : children}
       </td>
     </Slot>

@@ -1,11 +1,11 @@
-import { ComponentType, useEffect } from 'react';
+import { ComponentType, ReactNode, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useStore } from '@tanstack/react-store';
 
 import { useAlerts } from '@/Alerts';
-import { FieldType, useConveyorStore } from '@/Conveyor';
+import { FieldType, useConveyor } from '@/Conveyor';
 import { LoadingScreen } from '@/Loading';
-import { FetchHandler, WrapperProp } from '@/types';
+import { FetchHandler } from '@/types';
 import { camelToSnakeCase } from '@/utils';
 
 import { MQLType } from './types';
@@ -26,8 +26,9 @@ export interface MQLQueryField {
   };
 }
 
-export interface IntrospectionProviderProps extends FetchHandler, WrapperProp {
+export interface IntrospectionProviderProps extends FetchHandler {
   LoadingFallback?: ComponentType;
+  children?: ReactNode
 }
 
 export const IntrospectionProvider = ({
@@ -37,8 +38,7 @@ export const IntrospectionProvider = ({
   children,
 }: IntrospectionProviderProps) => {
   const { addAlert } = useAlerts();
-  const conveyorStore = useConveyorStore();
-  const { fetcher } = useStore(conveyorStore, (state) => state);
+  const { conveyor: fetcher, setConveyor } = useConveyor((state) => state.fetcher);
   const operationName = 'introspection';
   const { data, error, isLoading, isSuccess, isError } = useQuery({
     queryKey: [operationName],
@@ -53,10 +53,10 @@ export const IntrospectionProvider = ({
         onSuccess
           ? onSuccess(data)
           : addAlert({
-              content: 'Succesfully fetched introspection!',
-              expires: 3000,
-            });
-        conveyorStore.setState((state) => {
+            content: 'Succesfully fetched introspection!',
+            expires: 3000,
+          });
+        setConveyor((state) => {
           const models = Object.assign({}, state.models);
           const FIELDS = 'fields';
           // Extract models from query types
@@ -119,8 +119,8 @@ export const IntrospectionProvider = ({
         onError
           ? onError(error)
           : addAlert({
-              content: `Failed to fetch introspection data: ${error}`,
-            });
+            content: `Failed to fetch introspection data: ${error}`,
+          });
       }
     }
   }, [isLoading]);

@@ -1,9 +1,9 @@
-import { ComponentType, useEffect, useState } from 'react';
-import { Table as RBTable } from 'react-bootstrap';
+import { ComponentType, HTMLAttributes, useState } from 'react';
+import { Table as RBTable } from 'react-bootstrap'; // TODO: Replace
 import { Store } from '@tanstack/react-store';
 
-import { useIsFirstRender } from '@/hooks';
-import { CommonProps, DataType, WrapperProp } from '@/types';
+import { DataType } from '@/Data';
+import { useStoreSetStateEffect } from '@/hooks';
 
 import { TableBody } from './TableBody';
 import { TableBodyFallback } from './TableBodyFallback';
@@ -14,7 +14,7 @@ import { TableHeaderRow } from './TableHeaderRow';
 import { TableRow } from './TableRow';
 import { TableStore, TableStoreContext } from './TableStoreContext';
 
-export interface TableProps extends WrapperProp, CommonProps {
+export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   columnIds: string[];
   data: DataType[];
   TableBodyFallbackComponent?: ComponentType;
@@ -26,38 +26,23 @@ export const Table = Object.assign(
     columnIds,
     TableBodyFallbackComponent = TableBodyFallback,
     children,
-    id,
-    className,
-    style,
+    ...props
   }: TableProps) => {
-    const isFirstRender = useIsFirstRender();
     const [tableStore] = useState(new Store<TableStore>({ data, columnIds }));
-
-    useEffect(() => {
-      if (!isFirstRender.current) {
-        tableStore.setState((state) => {
-          return {
-            ...state,
-            columnIds,
-          };
-        });
-      }
-    }, [columnIds]);
-
-    useEffect(() => {
-      if (!isFirstRender.current) {
-        tableStore.setState((state) => {
-          return {
-            ...state,
-            data,
-          };
-        });
-      }
-    }, [data]);
+    useStoreSetStateEffect({
+      store: tableStore,
+      setState: (state) => ({ ...state, columnIds }),
+      deps: [columnIds]
+    });
+    useStoreSetStateEffect({
+      store: tableStore,
+      setState: (state) => ({ ...state, data }),
+      deps: [data]
+    });
 
     return (
       <TableStoreContext.Provider value={tableStore}>
-        <RBTable id={id} className={className} style={style} hover>
+        <RBTable {...props} hover>
           {children === undefined ? (
             <>
               <TableHead />

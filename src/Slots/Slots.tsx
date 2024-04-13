@@ -1,17 +1,16 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, ReactNode, useState } from 'react';
 import { Store, useStore } from '@tanstack/react-store';
 
-import { useIsFirstRender } from '@/hooks';
-import { WrapperProp } from '@/types';
+import { useStoreSetStateEffect } from '@/hooks';
 
 import { SlotsStore, SlotsStoreContext } from './SlotsStoreContext';
 
-export interface SlotsProps extends WrapperProp {
+export interface SlotsProps {
   slotOrder: string[];
+  children?: ReactNode
 }
 
 export const Slots = ({ slotOrder, children }: SlotsProps) => {
-  const isFirstRender = useIsFirstRender();
   const [slotsStore] = useState(() => {
     const slotEntries = slotOrder.map((slotKey) => [
       slotKey,
@@ -23,16 +22,11 @@ export const Slots = ({ slotOrder, children }: SlotsProps) => {
 
   const { slotOrder: slotKeys, slots } = useStore(slotsStore, (state) => state);
 
-  useEffect(() => {
-    if (isFirstRender) {
-      slotsStore.setState((state) => {
-        return {
-          ...state,
-          slotOrder,
-        };
-      });
-    }
-  }, [slotOrder]);
+  useStoreSetStateEffect({
+    store: slotsStore,
+    setState: (state) => ({ ...state, slotOrder }),
+    deps: [slotOrder]
+  });
 
   return (
     <SlotsStoreContext.Provider value={slotsStore}>

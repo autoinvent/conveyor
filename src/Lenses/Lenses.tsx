@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
-import { useIsFirstRender } from '@/hooks';
-import { WrapperProp } from '@/types';
+import { useStoreSetStateEffect } from '@/hooks';
 
 import {
   LensType,
@@ -10,9 +9,10 @@ import {
   LensesStoreContext,
 } from './LensesStoreContext';
 
-export interface LensesProps extends WrapperProp {
+export interface LensesProps {
   activeLens: LensType;
   AvailableLenses?: Record<string, LensType>;
+  children?: ReactNode
 }
 
 export const Lenses = ({
@@ -20,20 +20,14 @@ export const Lenses = ({
   AvailableLenses = {},
   children,
 }: LensesProps) => {
-  const isFirstRender = useIsFirstRender();
   const [lensesStore] = useState(
     new Store<LensesStore>({ activeLens, AvailableLenses }),
   );
-  useEffect(() => {
-    if (!isFirstRender.current) {
-      lensesStore.setState((state) => {
-        return {
-          ...state,
-          activeLens,
-        };
-      });
-    }
-  }, [activeLens]);
+  useStoreSetStateEffect({
+    store: lensesStore,
+    setState: (state) => ({ ...state, activeLens }),
+    deps: [activeLens]
+  });
 
   return (
     <LensesStoreContext.Provider value={lensesStore}>

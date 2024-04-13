@@ -52,14 +52,14 @@ export const BasicUsage: Story = {
 };
 
 const CustomCell = ({ field }: { field: string }) => {
-  const { current } = useData();
-  const fieldData = current?.[field];
+  const { data } = useData((state) => state.current);
+  const fieldData = data?.[field];
   return <i>{fieldData}</i>;
 };
 
 const CustomCombinedCell = () => {
-  const { current } = useData();
-  const combined = Object.entries(current)
+  const { data } = useData((state) => state.current);
+  const combined = Object.entries(data)
     .map((entry: any) => entry[1])
     .join('.');
   return combined;

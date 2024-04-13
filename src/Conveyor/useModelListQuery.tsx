@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { useStore } from '@tanstack/react-store';
 
 import { camelToSnakeCase } from '@/utils';
 
-import { useConveyorStore } from './useConveyorStore';
+import { useConveyor } from './useConveyor';
 import { getPrimaryKeys, getQueryFields } from './utils';
 
 export const useModelListQuery = ({
@@ -13,8 +12,7 @@ export const useModelListQuery = ({
 }: { model: string; fields: string[]; enabled?: boolean }) => {
   const queryName = camelToSnakeCase(model);
   const operationName = `${queryName}_list`;
-  const conveyorStore = useConveyorStore();
-  const { fetcher, models } = useStore(conveyorStore, (state) => state);
+  const { conveyor: { fetcher, models } } = useConveyor((state) => state);
   const primaryKeys = getPrimaryKeys(models[model]);
   const requestedFields = getQueryFields(model, fields, models).join(' ');
   const document = `

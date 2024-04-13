@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { Store } from '@tanstack/react-store';
 
-import { useIsFirstRender } from '@/hooks';
-import { WrapperProp } from '@/types';
+import { useStoreSetStateEffect } from '@/hooks';
 
 import { ConveyorStore, ConveyorStoreContext } from './ConveyorStoreContext';
 import { ModelType } from './types';
@@ -20,39 +19,27 @@ export interface MQLFetcherParams {
 
 export type MQLFetcher = (params: MQLFetcherParams) => Promise<MQLResponse>;
 
-export interface ConveyorProps extends WrapperProp {
+export interface ConveyorProps {
   fetcher: MQLFetcher;
   models?: Record<string, ModelType>;
+  children?: ReactNode
 }
 
 export const Conveyor = ({ fetcher, models = {}, children }: ConveyorProps) => {
-  const isFirstRender = useIsFirstRender();
   const queryClient = new QueryClient();
   const [conveyorStore] = useState(
     new Store<ConveyorStore>({ fetcher, models }),
   );
-
-  useEffect(() => {
-    if (!isFirstRender.current) {
-      conveyorStore.setState((state) => {
-        return {
-          ...state,
-          fetcher,
-        };
-      });
-    }
-  }, [fetcher]);
-
-  useEffect(() => {
-    if (!isFirstRender.current) {
-      conveyorStore.setState((state) => {
-        return {
-          ...state,
-          models,
-        };
-      });
-    }
-  }, [models]);
+  useStoreSetStateEffect({
+    store: conveyorStore,
+    setState: (state) => ({ ...state, fetcher }),
+    deps: [fetcher]
+  });
+  useStoreSetStateEffect({
+    store: conveyorStore,
+    setState: (state) => ({ ...state, models }),
+    deps: [models]
+  });
 
   return (
     <QueryClientProvider client={queryClient}>

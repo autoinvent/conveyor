@@ -6,4 +6,4 @@ export * from './Slots';
 export * from './SlotsStoreContext';
 
 // hooks
-export * from './useSlotsStore';
+export * from './useSlots';

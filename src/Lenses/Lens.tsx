@@ -1,10 +1,11 @@
-import { WrapperProp } from '@/types';
+import { ReactNode } from 'react';
 
 import { LensType } from './LensesStoreContext';
 import { useLenses } from './useLenses';
 
-export interface LensProps extends WrapperProp {
+export interface LensProps {
   lens: LensType;
+  children?: ReactNode
 }
 
 export const Lens = ({ lens, children }: LensProps) => {

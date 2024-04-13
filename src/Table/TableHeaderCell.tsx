@@ -1,21 +1,20 @@
+import { HTMLAttributes } from 'react'
+
 import { Slot } from '@/Slots';
-import { CommonProps, WrapperProp } from '@/types';
 import { humanizeText } from '@/utils';
 
-export interface TableHeaderCellProps extends WrapperProp, CommonProps {
+export interface TableHeaderCellProps extends HTMLAttributes<HTMLTableCellElement> {
   columnId: string;
 }
 
 export const TableHeaderCell = ({
   columnId,
   children,
-  id,
-  className,
-  style,
+  ...props
 }: TableHeaderCellProps) => {
   return (
     <Slot slot={columnId}>
-      <th id={id} className={className} style={style}>
+      <th {...props}>
         {children === undefined ? humanizeText(columnId) : children}
       </th>
     </Slot>

@@ -1,4 +1,4 @@
-import { DataType } from '@/types';
+import { DataType } from '@/Data';
 
 export interface ModelType {
   fields?: Record<string, FieldType>;

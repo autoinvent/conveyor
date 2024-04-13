@@ -1,28 +1,24 @@
-import { useStore } from '@tanstack/react-store';
+import { HTMLAttributes } from 'react';
 
 import { DataLens, Lenses } from '@/Lenses';
-import { TableHeaderRow, useTableStore } from '@/Table'
-import { CommonProps, WrapperProp } from '@/types';
+import { TableHeaderRow, useTable } from '@/Table'
 
 import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell'
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell'
 
-export interface ModelIndexTableHeaderRowProps extends WrapperProp, CommonProps {
+export interface ModelIndexTableHeaderRowProps extends HTMLAttributes<HTMLTableRowElement> {
     prefilled?: boolean;
 }
 
 export const ModelIndexTableHeaderRow = ({
     prefilled,
     children,
-    id,
-    className,
-    style,
+    ...props
 }: ModelIndexTableHeaderRowProps) => {
-    const tableStore = useTableStore();
-    const columnIds = useStore(tableStore, (state) => state.columnIds);
+    const { table: columnIds }: { table: string[] } = useTable((state) => state.columnIds);
     return (
         <Lenses activeLens={DataLens.DISPLAY}>
-            <TableHeaderRow prefilled={false} id={id} className={className} style={style}>
+            <TableHeaderRow prefilled={false} {...props}>
                 {children === undefined || prefilled ? (
                     <>
                         {columnIds.map((columnId) => {

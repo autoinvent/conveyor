@@ -1,21 +1,15 @@
-import { useStore } from '@tanstack/react-store';
+import { HTMLAttributes } from 'react'
 
-import { WrapperProp } from '@/types';
+import { useTable } from './useTable';
 
-import { useTableStore } from './useTableStore';
+export interface TableBodyFallbackProps extends HTMLAttributes<HTMLTableSectionElement> { }
 
-export interface TableBodyFallbackProps extends WrapperProp {}
-
-export const TableBodyFallback = ({ children }: TableBodyFallbackProps) => {
-  const tableStore = useTableStore();
-  const columnIdsLength = useStore(
-    tableStore,
-    (state) => state.columnIds.length,
-  );
+export const TableBodyFallback = ({ children, ...props }: TableBodyFallbackProps) => {
+  const { table: colSpan } = useTable((state) => state.columnIds.length,);
   return (
-    <tbody>
+    <tbody {...props}>
       <tr>
-        <td colSpan={columnIdsLength}>
+        <td colSpan={colSpan}>
           {children === undefined ? 'No Records Found.' : children}
         </td>
       </tr>

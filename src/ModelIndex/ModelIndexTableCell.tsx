@@ -34,9 +34,7 @@ export const ModelIndexTableCell = ({
           <Lens lens={DataLens.DISPLAY}>{displayData}</Lens>
           <Lens lens={DataLens.EDITING}>
             <FormControl name={field}>
-              <FormControl.Input
-                type={inputType}
-              />
+              <FormControl.Input type={inputType} />
             </FormControl>
           </Lens>
         </>

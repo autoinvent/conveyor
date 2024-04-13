@@ -1,17 +1,15 @@
-import { CommonProps, WrapperProp } from '@/types';
+import { HTMLAttributes } from 'react'
 
 import { TableHeaderRow } from './TableHeaderRow';
 
-export interface TableHeadProps extends WrapperProp, CommonProps {}
+export interface TableHeadProps extends HTMLAttributes<HTMLTableSectionElement> { }
 
 export const TableHead = ({
   children,
-  id,
-  className,
-  style,
+  ...props
 }: TableHeadProps) => {
   return (
-    <thead id={id} className={className} style={style}>
+    <thead {...props}>
       {children === undefined ? <TableHeaderRow /> : children}
     </thead>
   );

@@ -1,26 +1,22 @@
-import { useStore } from '@tanstack/react-store';
+import { HTMLAttributes } from 'react'
 
 import { Slots } from '@/Slots';
-import { CommonProps, WrapperProp } from '@/types';
 
 import { TableCell } from './TableCell';
-import { useTableStore } from './useTableStore';
+import { useTable } from './useTable';
 
-export interface TableRowProps extends WrapperProp, CommonProps {
+export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
   prefilled?: boolean;
 }
 
 export const TableRow = ({
   prefilled,
   children,
-  id,
-  className,
-  style,
+  ...props
 }: TableRowProps) => {
-  const tableStore = useTableStore();
-  const columnIds = useStore(tableStore, (state) => state.columnIds);
+  const { table: columnIds }: { table: string[] } = useTable((state) => state.columnIds);
   return (
-    <tr id={id} className={className} style={style}>
+    <tr {...props}>
       <Slots slotOrder={columnIds}>
         {children === undefined || prefilled ? (
           <>

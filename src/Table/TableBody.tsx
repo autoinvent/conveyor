@@ -1,30 +1,26 @@
-import { useStore } from '@tanstack/react-store';
+import { HTMLAttributes } from 'react'
 
-import { FormProvider } from '@/Form';
-import { CommonProps, WrapperProp } from '@/types';
+import { DataProvider, DataType } from '@/Data';
 import { generateUID } from '@/utils';
 
 import { TableRow } from './TableRow';
-import { useTableStore } from './useTableStore';
+import { useTable } from './useTable';
 
-export interface TableBodyProps extends WrapperProp, CommonProps { }
+export interface TableBodyProps extends HTMLAttributes<HTMLTableSectionElement> { }
 
 export const TableBody = ({
   children,
-  id,
-  className,
-  style,
+  ...props
 }: TableBodyProps) => {
-  const tableStore = useTableStore();
-  const data = useStore(tableStore, (state) => state.data);
+  const { table: data } = useTable((state) => state.data);
   return (
-    <tbody id={id} className={className} style={style}>
-      {data.map((rowData) => {
+    <tbody {...props}>
+      {data.map((rowData: DataType) => {
         const rowKey = `table-row-${generateUID()}`;
         return (
-          <FormProvider key={rowKey} defaultValues={rowData}>
+          <DataProvider key={rowKey} original={rowData}>
             {children === undefined ? <TableRow /> : children}
-          </FormProvider>
+          </DataProvider>
         );
       })}
     </tbody>

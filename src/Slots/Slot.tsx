@@ -1,20 +1,18 @@
 import { ReactNode, useEffect, useId } from 'react';
 
-import { WrapperProp } from '@/types';
-
 import { SlotType } from './SlotsStoreContext';
-import { useSlotsStore } from './useSlotsStore';
+import { useSlots } from './useSlots';
 
-export interface SlotProps extends WrapperProp {
+export interface SlotProps {
   slot: string;
   children?: ReactNode;
 }
 
 export const Slot = ({ slot, children }: SlotProps) => {
   const refId = useId();
-  const slotsStore = useSlotsStore();
+  const { setSlots } = useSlots();
   useEffect(() => {
-    slotsStore.setState((state) => {
+    setSlots((state) => {
       const currSlot = state.slots[slot];
       const newSlot: SlotType = { node: children, slotIds: [refId] };
       if (currSlot) {

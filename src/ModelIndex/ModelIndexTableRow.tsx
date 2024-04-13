@@ -1,7 +1,6 @@
-import { useStore } from '@tanstack/react-store';
 
 import { Lenses, DataLens } from '@/Lenses';
-import { TableRow, TableRowProps, useTableStore } from '@/Table';
+import { TableRow, TableRowProps, useTable } from '@/Table';
 
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
@@ -15,8 +14,7 @@ export const ModelIndexTableRow = ({
   className,
   style,
 }: ModelIndexTableRowProps) => {
-  const tableStore = useTableStore();
-  const columnIds = useStore(tableStore, (state) => state.columnIds);
+  const { table: columnIds }: { table: string[] } = useTable((state) => state.columnIds);
   return (
     <Lenses activeLens={DataLens.DISPLAY}>
       <TableRow prefilled={false} id={id} className={className} style={style}>
