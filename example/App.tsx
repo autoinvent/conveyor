@@ -24,25 +24,7 @@ const App = () => {
       </Helmet>
       <Conveyor
         fetcher={(params) => request(gqlUrl, params.document, params.variables)}
-      >
-        <Alerts>
-          <IntrospectionProvider>
-            <ModelIndex model='Task' fields={['id', 'message', 'potato', 'user']} />
-            <ModelIndex model='Animal' fields={['name', 'type']} data={data}>
-              <ModelIndex.Table>
-                <ModelIndex.Table.Head />
-                <ModelIndex.Table.Body>
-                  <ModelIndex.Table.Row prefilled={true}>
-                    <ModelIndex.Table.Cell field={'name'}>
-                      ???
-                    </ModelIndex.Table.Cell>
-                  </ModelIndex.Table.Row>
-                </ModelIndex.Table.Body>
-              </ModelIndex.Table>
-            </ModelIndex>
-          </IntrospectionProvider>
-        </Alerts>
-      </Conveyor>
+      />
     </>
   );
 };

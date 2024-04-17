@@ -1,5 +1,7 @@
 // components
 export * from './Conveyor';
+export * from './IntrospectionProvider'
+export * from './Routes'
 
 // contexts
 export * from './ConveyorStoreContext';

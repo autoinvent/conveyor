@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { Store } from '@tanstack/react-store';
 
-import { DataType } from '@/types';
+import { DataType } from '@/Data';
 
 import { ActionsConfig } from './types';
 

@@ -2,9 +2,13 @@ import { ReactNode, useState } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { Store } from '@tanstack/react-store';
 
+import { Alerts } from '@/Alerts'
 import { useStoreSetStateEffect } from '@/hooks';
 
 import { ConveyorStore, ConveyorStoreContext } from './ConveyorStoreContext';
+import { Home } from './Home';
+import { IntrospectionProvider } from './IntrospectionProvider';
+import { Routes, Route } from './Routes'
 import { ModelType } from './types';
 
 export interface MQLResponse {
@@ -44,7 +48,20 @@ export const Conveyor = ({ fetcher, models = {}, children }: ConveyorProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ConveyorStoreContext.Provider value={conveyorStore}>
-        {children}
+        {children === undefined ? (
+          <>
+            <Alerts>
+              <IntrospectionProvider>
+                <Routes>
+                  <Route path="/">
+                    <Home />
+                  </Route>
+                </Routes>
+
+              </IntrospectionProvider>
+            </Alerts>
+          </>
+        ) : children}
       </ConveyorStoreContext.Provider>
     </QueryClientProvider>
   );
