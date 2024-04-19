@@ -6,9 +6,8 @@ import { Alerts } from '@/Alerts'
 import { useStoreSetStateEffect } from '@/hooks';
 
 import { ConveyorStore, ConveyorStoreContext } from './ConveyorStoreContext';
-import { Home } from './Home';
 import { IntrospectionProvider } from './IntrospectionProvider';
-import { Routes, Route } from './Routes'
+import { Routes } from './Routes'
 import { ModelType } from './types';
 
 export interface MQLResponse {
@@ -52,12 +51,7 @@ export const Conveyor = ({ fetcher, models = {}, children }: ConveyorProps) => {
           <>
             <Alerts>
               <IntrospectionProvider>
-                <Routes>
-                  <Route path="/">
-                    <Home />
-                  </Route>
-                </Routes>
-
+                <Routes />
               </IntrospectionProvider>
             </Alerts>
           </>

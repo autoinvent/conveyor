@@ -1,16 +1,20 @@
-// import { CommonProps, WrapperProp } from '@/types';
+import { HTMLAttributes } from 'react'
 
-// export interface ModelIndexTitleProps extends CommonProps, WrapperProp {}
+import { humanizeText } from '@/utils';
 
-// export const ModelIndexTitle = ({
-//   children,
-//   id,
-//   className,
-//   style,
-// }: ModelIndexTitleProps) => {
-//   return (
-//     <h2 id={id} className={className} style={style}>
-//       {children}
-//     </h2>
-//   );
-// };
+import { useModelIndexState } from './useModelIndexState';
+
+export interface ModelIndexTitleProps extends HTMLAttributes<HTMLHeadingElement> { }
+
+export const ModelIndexTitle = ({
+    children,
+    ...props
+}: ModelIndexTitleProps) => {
+    const [model] = useModelIndexState((state) => state.model)
+    const modelDisplayName = humanizeText(model)
+    return (
+        <h2 {...props}>
+            {children === undefined ? modelDisplayName : children}
+        </h2>
+    );
+};

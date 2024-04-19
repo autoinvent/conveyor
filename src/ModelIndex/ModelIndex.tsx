@@ -1,124 +1,91 @@
-// import { HTMLAttributes, useEffect, useState } from 'react';
-// import { Store } from '@tanstack/react-store';
+import { HTMLAttributes, useState } from 'react';
+import { Store } from '@tanstack/react-store';
 
-// import { useAlerts } from '@/Alerts';
-// import { useModelListQuery } from '@/Conveyor';
-// import { DataType } from '@/Data';
-// import { useStoreSetStateEffect } from '@/hooks';
-// import { FetchHandler } from '@/types';
-// import { humanizeText } from '@/utils';
+import { useStoreSetStateEffect } from '@/hooks';
 
+
+import {
+    ModelIndexStore,
+    ModelIndexStoreContext,
+} from './ModelIndexStoreContext';
 // import { ModelIndexTable } from './ModelIndexTable';
-// import { ModelIndexTitle } from './ModelIndexTitle';
-// import {
-//   ModelIndexStore,
-//   ModelIndexStoreContext,
-// } from './ModelIndexStoreContext';
-// import { ActionsConfig } from './types';
+import { ModelIndexTitle } from './ModelIndexTitle';
 
-// export interface ModelIndexProps extends HTMLAttributes<HTMLDivElement> {
-//   model: string;
-//   fields: string[];
-//   data?: DataType[] | undefined;
-//   onModelListQuerySuccess?: FetchHandler['onSuccess'];
-//   onModelListQueryError?: FetchHandler['onError'];
-//   actionsConfig?: ActionsConfig;
-// }
 
-// export const ModelIndex = Object.assign(
-//   ({
-//     model,
-//     fields,
-//     data,
-//     children,
-//     onModelListQuerySuccess,
-//     onModelListQueryError,
-//     actionsConfig,
-//     ...props
-//   }: ModelIndexProps) => {
-//     const { addAlert } = useAlerts();
-//     const [modelIndexStore] = useState(
-//       new Store<ModelIndexStore>({
-//         model,
-//         fields,
-//         data: data ?? [],
-//         actionsConfig,
-//       }),
-//     );
-//     const {
-//       data: queryData,
-//       error,
-//       isLoading,
-//       isError,
-//       isSuccess,
-//       operationName,
-//     } = useModelListQuery({ model, fields, enabled: data === undefined });
-//     const modelDisplayName = humanizeText(model);
+export interface ModelIndexProps extends ModelIndexStore, HTMLAttributes<HTMLElement> { }
 
-//     useStoreSetStateEffect({
-//       store: modelIndexStore,
-//       setState: (state) => ({ ...state, model }),
-//       deps: [model]
-//     });
-//     useStoreSetStateEffect({
-//       store: modelIndexStore,
-//       setState: (state) => ({ ...state, fields }),
-//       deps: [fields]
-//     });
-//     useStoreSetStateEffect({
-//       store: modelIndexStore,
-//       setState: (state) => ({ ...state, data: data ?? [] }),
-//       deps: [model]
-//     });
-//     useStoreSetStateEffect({
-//       store: modelIndexStore,
-//       setState: (state) => ({ ...state, actionsConfig }),
-//       deps: [actionsConfig]
-//     });
+export const ModelIndex = Object.assign(
+    ({
+        model,
+        fields,
+        data,
+        onSave,
+        onDelete,
+        showActions = true,
+        tableView,
+        children,
+        ...props
+    }: ModelIndexProps) => {
+        const [modelIndexStore] = useState(
+            new Store<ModelIndexStore>({
+                model,
+                fields,
+                data,
+                onSave,
+                onDelete,
+                showActions,
+            }),
+        );
 
-//     useEffect(() => {
-//       if (isLoading === false) {
-//         if (isSuccess) {
-//           onModelListQuerySuccess
-//             ? onModelListQuerySuccess(data)
-//             : addAlert({
-//               content: `Successfully fetched ${modelDisplayName} list!`,
-//               expires: 3000,
-//             });
-//           queryData[operationName].items;
-//           modelIndexStore.setState((state) => {
-//             return {
-//               ...state,
-//               data: queryData[operationName].items,
-//             };
-//           });
-//         } else if (isError) {
-//           onModelListQueryError
-//             ? onModelListQueryError(error)
-//             : addAlert({
-//               content: `Failed to fetch ${modelDisplayName} list: ${error}`,
-//             });
-//         }
-//       }
-//     }, [data, isLoading, isSuccess, isError]);
+        useStoreSetStateEffect({
+            store: modelIndexStore,
+            setState: (state) => ({ ...state, model }),
+            deps: [model]
+        });
+        useStoreSetStateEffect({
+            store: modelIndexStore,
+            setState: (state) => ({ ...state, fields }),
+            deps: [fields]
+        });
+        useStoreSetStateEffect({
+            store: modelIndexStore,
+            setState: (state) => ({ ...state, data }),
+            deps: [model]
+        });
+        useStoreSetStateEffect({
+            store: modelIndexStore,
+            setState: (state) => ({ ...state, onSave }),
+            deps: [onSave]
+        });
+        useStoreSetStateEffect({
+            store: modelIndexStore,
+            setState: (state) => ({ ...state, onDelete }),
+            deps: [onDelete]
+        });
+        useStoreSetStateEffect({
+            store: modelIndexStore,
+            setState: (state) => ({ ...state, showActions }),
+            deps: [showActions]
+        });
 
-//     return (
-//       <div {...props}>
-//         <ModelIndexStoreContext.Provider value={modelIndexStore}>
-//           {children === undefined ? (
-//             <>
-//               <ModelIndex.Title>{modelDisplayName}</ModelIndex.Title>
-//               <ModelIndex.Table />
-//             </>
-//           ) : (
-//             children
-//           )}
-//         </ModelIndexStoreContext.Provider>
-//       </div>
-//     );
-//   },
-//   {
-//     Title: ModelIndexTitle,
-//     Table: ModelIndexTable,
-//   },
-// );
+
+        return (
+            <section {...props}>
+                <ModelIndexStoreContext.Provider value={modelIndexStore}>
+                    {children === undefined ? (
+                        <>
+                            <ModelIndex.Title />
+                            <ModelIndex.Table />
+                        </>
+                    ) : (
+                        children
+                    )}
+                </ModelIndexStoreContext.Provider>
+            </section>
+        );
+    },
+    {
+        Title: ModelIndexTitle,
+        Table: ModelIndexTable,
+    },
+);

@@ -1,36 +1,58 @@
 import { ReactNode, useMemo, useState } from "react"
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import { Outlet, RouterProvider, createRootRoute, createRoute, createRouter } from "@tanstack/react-router"
 import { Store } from "@tanstack/react-store"
+
+import { Home } from '../Home';
 
 import { Route } from "./Route"
 import { RoutesStore, RoutesStoreContext } from "./RoutesStoreContext"
 import { useRoutes } from "./useRoutes"
+import { ModelIndexPage } from "../ModelIndexPage";
 
 export interface RoutesProps {
+    prefilled?: boolean
     children?: ReactNode
 }
 
-export const Routes = ({ children }: RoutesProps) => {
+export const Routes = ({ prefilled = true, children }: RoutesProps) => {
     const [routesStore] = useState(new Store<RoutesStore>({ routes: {} }))
     const { routes } = useRoutes(routesStore)
     const routerProvider = useMemo(() => {
-        let routerProvider = null
+        let currRouterProvier = null
         if (routes.length > 0) {
-            const router = createBrowserRouter(routes)
-            console.log(routes)
-            routerProvider = <RouterProvider router={router} />
+            const rootRoute = createRootRoute({
+                component: () => <Outlet />
+            })
+            const routeTree = rootRoute.addChildren(routes.map((route) => {
+                return createRoute({
+                    getParentRoute: () => rootRoute,
+                    path: route.path,
+                    component: () => route.element
+                })
+            }))
+            const router = createRouter({
+                routeTree,
+                defaultPreload: 'intent',
+                defaultStaleTime: 0,
+            })
+            currRouterProvier = <RouterProvider router={router} />
         }
-        return routerProvider
+        return currRouterProvier
     }, [routes])
-
 
     return (
         <RoutesStoreContext.Provider value={routesStore}>
             {routerProvider}
-            <Route path="*">
-                This page doesn't exist.
-            </Route>
-            {children}
+            {children === undefined || prefilled ? (
+                <>
+                    <Route path="/">
+                        <Home />
+                    </Route>
+                    <Route path="$model">
+                        <ModelIndexPage />
+                    </Route>
+                </>
+            ) : children}
         </RoutesStoreContext.Provider>
     )
 }

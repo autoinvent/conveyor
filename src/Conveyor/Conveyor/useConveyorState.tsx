@@ -5,7 +5,7 @@ import { StoreSelector } from '@/types'
 
 import { ConveyorStore, ConveyorStoreContext } from './ConveyorStoreContext';
 
-export const useConveyor = (selector?: StoreSelector<ConveyorStore>) => {
+export const useConveyorState = (selector?: StoreSelector<ConveyorStore>) => {
   const conveyorStore = useContext(ConveyorStoreContext);
   if (!conveyorStore) {
     throw new Error(
@@ -18,5 +18,5 @@ export const useConveyor = (selector?: StoreSelector<ConveyorStore>) => {
     conveyorStore.setState(setState)
   }
 
-  return { conveyor, setConveyor };
+  return [conveyor, setConveyor];
 };
