@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
 import { DataProvider, DataType } from '@/Data';
 import { generateUID } from '@/utils';
@@ -6,13 +6,11 @@ import { generateUID } from '@/utils';
 import { TableRow } from './TableRow';
 import { useTable } from './useTable';
 
-export interface TableBodyProps extends HTMLAttributes<HTMLTableSectionElement> { }
+export interface TableBodyProps
+  extends HTMLAttributes<HTMLTableSectionElement> {}
 
-export const TableBody = ({
-  children,
-  ...props
-}: TableBodyProps) => {
-  const { table: data } = useTable((state) => state.data);
+export const TableBody = ({ children, ...props }: TableBodyProps) => {
+  const { selected: data } = useTable((state) => state.data);
   return (
     <tbody {...props}>
       {data.map((rowData: DataType) => {

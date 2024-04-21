@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useStore } from '@tanstack/react-store';
 
-import { StoreSelector } from '@/types'
+import { StoreSelector } from '@/types';
 
 import { TableStore, TableStoreContext } from './TableStoreContext';
 
@@ -11,11 +11,11 @@ export const useTable = (selector?: StoreSelector<TableStore>) => {
     throw new Error('useTable must be used within TableStoreContext.Provider');
   }
 
-  const table = selector ? useStore(tableStore, selector) : undefined
+  const selected = selector ? useStore(tableStore, selector) : undefined;
 
   const setTable = (setState: (state: TableStore) => TableStore) => {
-    tableStore.setState(setState)
-  }
+    tableStore.setState(setState);
+  };
 
-  return { table, setTable };
+  return { selected, setTable };
 };

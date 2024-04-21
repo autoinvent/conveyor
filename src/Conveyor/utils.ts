@@ -31,20 +31,21 @@ export const getQueryFields = (
 export const parseMQLBaseType = (type: string): string => {
   if (type.charAt(0) === '[') {
     if (type.charAt(type.length - 1) !== ']') {
-      throw new Error('Invalid MQL type!')
+      throw new Error('Invalid MQL type!');
     }
-    return parseMQLBaseType(type.substring(1, type.length - 1))
+    return parseMQLBaseType(type.substring(1, type.length - 1));
   } else if (type.charAt(type.length - 1) === '!') {
-    return parseMQLBaseType(type.substring(0, type.length - 1))
+    return parseMQLBaseType(type.substring(0, type.length - 1));
   } else {
-    return type
+    return type;
   }
-}
+};
 
 export const parseMQLType = (type: string) => {
-  const baseType = parseMQLBaseType(type)
-  const required = type.includes(`${baseType}!`)
-  const isArray = type.charAt(0) === '[' && type.charAt(type.length - 1) === ']'
+  const baseType = parseMQLBaseType(type);
+  const required = type.includes(`${baseType}!`);
+  const isArray =
+    type.charAt(0) === '[' && type.charAt(type.length - 1) === ']';
 
-  return { baseType, required, isArray }
-}
+  return { baseType, required, isArray };
+};

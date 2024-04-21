@@ -5,7 +5,7 @@ import { useLenses } from './useLenses';
 
 export interface LensProps {
   lens: LensType;
-  children?: ReactNode
+  children?: ReactNode;
 }
 
 export const Lens = ({ lens, children }: LensProps) => {

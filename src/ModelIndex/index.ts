@@ -1,6 +1,7 @@
 // // components
 export * from './ModelIndex';
-// export * from './ModelIndexTable';
+export * from './ModelIndexPagination';
+export * from './ModelIndexTable';
 // export * from './ModelIndexTableActionCell';
 // export * from './ModelIndexTableActionHeaderCell';
 // export * from './ModelIndexTableBody';
@@ -9,13 +10,13 @@ export * from './ModelIndex';
 // export * from './ModelIndexTableHeaderRow'
 // export * from './ModelIndexTableHeaderCell'
 // export * from './ModelIndexTableRow';
-// export * from './ModelIndexTitle';
+export * from './ModelIndexTitle';
 
 // // contexts
 export * from './ModelIndexStoreContext';
 
 // // hooks
-export * from './useModelIndexState';
+export * from './useModelIndex';
 
-// // types
-// export * from './types';
+// types
+export * from './types';

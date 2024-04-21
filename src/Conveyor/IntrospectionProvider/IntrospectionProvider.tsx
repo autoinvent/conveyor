@@ -5,11 +5,15 @@ import { useStore } from '@tanstack/react-store';
 import { useAlerts } from '@/Alerts';
 import { FieldType, useConveyor } from '@/Conveyor';
 import { LoadingScreen } from '@/Loading';
-import { FetchHandler } from '@/types';
 import { camelToSnakeCase } from '@/utils';
 
 import { MQLType } from './types';
 import { extractMQLBaseType, extractMQLType } from './utils';
+
+export interface FetchHandler {
+  onSuccess?: (data: any) => void;
+  onError?: (err: Error) => void;
+}
 
 export interface MQLQueryField {
   name: string;
@@ -28,7 +32,7 @@ export interface MQLQueryField {
 
 export interface IntrospectionProviderProps extends FetchHandler {
   LoadingFallback?: ComponentType;
-  children?: ReactNode
+  children?: ReactNode;
 }
 
 export const IntrospectionProvider = ({
@@ -38,7 +42,9 @@ export const IntrospectionProvider = ({
   children,
 }: IntrospectionProviderProps) => {
   const { addAlert } = useAlerts();
-  const { conveyor: fetcher, setConveyor } = useConveyor((state) => state.fetcher);
+  const { selected: fetcher, setConveyor } = useConveyor(
+    (state) => state.fetcher,
+  );
   const operationName = 'introspection';
   const { data, error, isLoading, isSuccess, isError } = useQuery({
     queryKey: [operationName],
@@ -53,9 +59,9 @@ export const IntrospectionProvider = ({
         onSuccess
           ? onSuccess(data)
           : addAlert({
-            content: 'Succesfully fetched introspection!',
-            expires: 3000,
-          });
+              content: 'Succesfully fetched introspection!',
+              expires: 3000,
+            });
         setConveyor((state) => {
           const models = Object.assign({}, state.models);
           const FIELDS = 'fields';
@@ -119,8 +125,8 @@ export const IntrospectionProvider = ({
         onError
           ? onError(error)
           : addAlert({
-            content: `Failed to fetch introspection data: ${error}`,
-          });
+              content: `Failed to fetch introspection data: ${error}`,
+            });
       }
     }
   }, [isLoading]);

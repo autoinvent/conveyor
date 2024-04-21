@@ -1,2 +1,2 @@
 // components
-export * from './ModelIndexPage'
+export * from './ModelIndexPage';

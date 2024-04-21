@@ -9,10 +9,9 @@ import {
   LensesStoreContext,
 } from './LensesStoreContext';
 
-export interface LensesProps {
+export interface LensesProps extends Partial<LensesStore> {
   activeLens: LensType;
-  AvailableLenses?: Record<string, LensType>;
-  children?: ReactNode
+  children?: ReactNode;
 }
 
 export const Lenses = ({
@@ -26,7 +25,12 @@ export const Lenses = ({
   useStoreSetStateEffect({
     store: lensesStore,
     setState: (state) => ({ ...state, activeLens }),
-    deps: [activeLens]
+    deps: [activeLens],
+  });
+  useStoreSetStateEffect({
+    store: lensesStore,
+    setState: (state) => ({ ...state, AvailableLenses }),
+    deps: [AvailableLenses],
   });
 
   return (

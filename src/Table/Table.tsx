@@ -1,5 +1,4 @@
 import { ComponentType, HTMLAttributes, useState } from 'react';
-import { Table as RBTable } from 'react-bootstrap'; // TODO: Replace
 import { Store } from '@tanstack/react-store';
 
 import { DataType } from '@/Data';
@@ -32,17 +31,17 @@ export const Table = Object.assign(
     useStoreSetStateEffect({
       store: tableStore,
       setState: (state) => ({ ...state, columnIds }),
-      deps: [columnIds]
+      deps: [columnIds],
     });
     useStoreSetStateEffect({
       store: tableStore,
       setState: (state) => ({ ...state, data }),
-      deps: [data]
+      deps: [data],
     });
 
     return (
       <TableStoreContext.Provider value={tableStore}>
-        <RBTable {...props} hover>
+        <table {...props}>
           {children === undefined ? (
             <>
               <TableHead />
@@ -51,7 +50,7 @@ export const Table = Object.assign(
           ) : (
             children
           )}
-        </RBTable>
+        </table>
       </TableStoreContext.Provider>
     );
   },

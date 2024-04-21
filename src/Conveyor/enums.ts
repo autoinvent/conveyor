@@ -1,7 +1,7 @@
 export enum ScalarTypes {
-    STRING = 'String',
-    INT = 'Int',
-    FLOAT = 'Float',
-    DATETIME = 'DateTime',
-    BOOLEAN = 'Boolean',
+  STRING = 'String',
+  INT = 'Int',
+  FLOAT = 'Float',
+  DATETIME = 'DateTime',
+  BOOLEAN = 'Boolean',
 }

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
 import { Slots } from '@/Slots';
 
@@ -9,18 +9,14 @@ export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
   prefilled?: boolean;
 }
 
-export const TableRow = ({
-  prefilled,
-  children,
-  ...props
-}: TableRowProps) => {
-  const { table: columnIds }: { table: string[] } = useTable((state) => state.columnIds);
+export const TableRow = ({ prefilled, children, ...props }: TableRowProps) => {
+  const { selected: columnIds } = useTable((state) => state.columnIds);
   return (
     <tr {...props}>
       <Slots slotOrder={columnIds}>
         {children === undefined || prefilled ? (
           <>
-            {columnIds.map((columnId) => {
+            {columnIds.map((columnId: string) => {
               return <TableCell key={columnId} columnId={columnId} />;
             })}
             {children}

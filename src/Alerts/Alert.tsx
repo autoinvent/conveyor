@@ -1,9 +1,9 @@
-import { HTMLAttributes, ReactNode, useEffect } from 'react';
-import { Alert as RBAlert } from 'react-bootstrap'; // TODO: Replace
+import { HTMLAttributes, ReactNode, useEffect, useState } from 'react';
 
 import { useAlerts } from './useAlerts';
 
-export interface AlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'content'> {
+export interface AlertProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'content'> {
   alertId: string;
   content: ReactNode;
   expires?: number;
@@ -13,10 +13,16 @@ export const Alert = ({
   alertId,
   content,
   expires,
-  className = 'alert',
+  className,
   ...props
 }: AlertProps) => {
   const { removeAlert } = useAlerts();
+  const [show, setShow] = useState(false);
+
+  const onClose = () => {
+    setShow(false);
+    removeAlert(alertId);
+  };
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
@@ -31,15 +37,10 @@ export const Alert = ({
     };
   }, [expires]);
 
-  return (
-    <RBAlert
-      show={true}
-      className={className}
-      {...props}
-      dismissible
-      onClose={() => removeAlert(alertId)}
-    >
+  return show ? (
+    <div className={className} {...props} role='alert'>
       {content}
-    </RBAlert>
-  );
+      <span onClick={onClose}>&times;</span>
+    </div>
+  ) : null;
 };

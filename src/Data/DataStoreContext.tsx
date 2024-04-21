@@ -4,8 +4,10 @@ import { Store } from '@tanstack/react-store';
 import { DataType } from './types';
 
 export interface DataStore {
-    original: DataType
-    current: DataType
+  original: DataType;
+  current: DataType;
 }
 
-export const DataStoreContext = createContext<Store<DataStore> | undefined>(undefined);
+export const DataStoreContext = createContext<Store<DataStore> | undefined>(
+  undefined,
+);

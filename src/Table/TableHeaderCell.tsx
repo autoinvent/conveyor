@@ -1,9 +1,10 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
 import { Slot } from '@/Slots';
 import { humanizeText } from '@/utils';
 
-export interface TableHeaderCellProps extends HTMLAttributes<HTMLTableCellElement> {
+export interface TableHeaderCellProps
+  extends HTMLAttributes<HTMLTableCellElement> {
   columnId: string;
 }
 

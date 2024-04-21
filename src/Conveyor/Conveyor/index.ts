@@ -5,5 +5,5 @@ export * from './Conveyor';
 export * from './ConveyorStoreContext';
 
 // hooks
-export * from './useConveyorState';
+export * from './useConveyor';
 export * from './useModelListQuery';

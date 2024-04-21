@@ -1,9 +1,9 @@
 // components
-export * from './Route'
-export * from './Routes'
+export * from './Route';
+export * from './Routes';
 
 // contexts
-export * from './RoutesStoreContext'
+export * from './RoutesStoreContext';
 
 // hooks
-export * from './useRoutes'
+export * from './useRoutes';

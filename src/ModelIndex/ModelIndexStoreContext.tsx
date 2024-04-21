@@ -9,10 +9,11 @@ export interface ModelIndexStore {
   model: string;
   fields: string[];
   data: DataType[];
+  tableView?: TableView;
+  onTableViewChange?: (tableView: TableView) => void;
   onSave?: (rowData: DataType) => Promise<any>;
   onDelete?: (rowData: DataType) => Promise<any>;
   showActions?: boolean;
-  tableView?: TableView
 }
 
 export const ModelIndexStoreContext = createContext<

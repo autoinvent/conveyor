@@ -1,1 +1,1 @@
-export * from './FlexibleInput'
+export * from './FlexibleInput';

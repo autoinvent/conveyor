@@ -1,7 +1,7 @@
 // components
 export * from './Conveyor';
-export * from './IntrospectionProvider'
-export * from './Routes'
+export * from './IntrospectionProvider';
+export * from './Routes';
 
 // enums
 export * from './enums';

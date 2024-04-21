@@ -7,7 +7,7 @@ import { SlotsStore, SlotsStoreContext } from './SlotsStoreContext';
 
 export interface SlotsProps {
   slotOrder: string[];
-  children?: ReactNode
+  children?: ReactNode;
 }
 
 export const Slots = ({ slotOrder, children }: SlotsProps) => {
@@ -25,7 +25,7 @@ export const Slots = ({ slotOrder, children }: SlotsProps) => {
   useStoreSetStateEffect({
     store: slotsStore,
     setState: (state) => ({ ...state, slotOrder }),
-    deps: [slotOrder]
+    deps: [slotOrder],
   });
 
   return (

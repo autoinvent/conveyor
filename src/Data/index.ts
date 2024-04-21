@@ -6,4 +6,4 @@ export * from './DataStoreContext';
 export * from './useData';
 
 // types
-export * from './types'
+export * from './types';
