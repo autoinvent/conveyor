@@ -575,8 +575,36 @@ video {
   z-index: 10;
 }
 
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.ms-2 {
+  margin-inline-start: 0.5rem;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.inline {
+  display: inline;
+}
+
 .flex {
   display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
 }
 
 .table {
@@ -609,6 +637,18 @@ video {
 
 .w-full {
   width: 100%;
+}
+
+.w-auto {
+  width: auto;
+}
+
+.w-\[asideWidth\] {
+  width: asideWidth;
+}
+
+.min-w-full {
+  min-width: 100%;
 }
 
 .flex-1 {
@@ -690,8 +730,6 @@ video {
   --fg-color: #444444;
   --fg-accent: #000000;
   --text-color: white;
-  /* Structure variables */
-  --aside-width: 3.5rem;
 }
 
 @media (min-width: 640px) {
