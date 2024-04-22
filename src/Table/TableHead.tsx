@@ -6,27 +6,27 @@ import { TableHeaderRow } from './TableHeaderRow';
 import { useTable } from './useTable';
 
 export interface TableHeadProps
-  extends HTMLAttributes<HTMLTableSectionElement> { }
+  extends HTMLAttributes<HTMLTableSectionElement> {}
 
 export const TableHead = ({ children, ...props }: TableHeadProps) => {
   const { selected: data } = useTable((state) => state.data);
-  const refId = useId()
-  const slotKey = `table-head-slot-${refId}`
-  const { setSlots } = useSlots()
+  const refId = useId();
+  const slotKey = `table-head-slot-${refId}`;
+  const { setSlots } = useSlots();
 
   // Slot order needs to be reconstructed to preserve ordering on dom structure
   useEffect(() => {
     setSlots((state) => {
-      const slotOrder = state.slotOrder.filter((slot) => slot !== slotKey)
+      const slotOrder = state.slotOrder.filter((slot) => slot !== slotKey);
       if (data.length > 0) {
-        slotOrder.push(slotKey)
+        slotOrder.push(slotKey);
       }
       return {
         ...state,
-        slotOrder
-      }
-    })
-  }, [data])
+        slotOrder,
+      };
+    });
+  }, [data]);
 
   return (
     <Slot slot={slotKey}>

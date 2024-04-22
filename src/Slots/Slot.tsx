@@ -43,18 +43,20 @@ export const Slot = ({ slot, children }: SlotProps) => {
     return () => {
       // Cleanup for when slot no longer exist in dom structure
       setSlots((state) => {
-        const currSlot = state.slots[slot]
-        currSlot.refIds = currSlot.refIds.filter((currRefId) => currRefId != refId)
+        const currSlot = state.slots[slot];
+        currSlot.refIds = currSlot.refIds.filter(
+          (currRefId) => currRefId != refId,
+        );
         if (currSlot.refIds[0] === refId) {
-          currSlot.node = null
+          currSlot.node = null;
         }
         return {
           ...state,
-          [slot]: currSlot
-        }
-      })
-    }
-  }, [])
+          [slot]: currSlot,
+        };
+      });
+    };
+  }, []);
 
   return null;
 };

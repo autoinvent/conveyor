@@ -14,8 +14,8 @@ export interface ModelIndexPage {
 }
 
 export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
-  const params = useParams({ from: '/$model' })
-  const currModel: string = model ?? params.model ?? ''
+  const params = useParams({ from: '/$model' });
+  const currModel: string = model ?? params.model ?? '';
   const { addAlert } = useAlerts();
   const tableViewId = `table-view-${model}-index-page`;
   const {
@@ -32,7 +32,7 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
   );
   const { data, error, isLoading, isError, isSuccess, operationName } =
     useModelListQuery({ model: currModel, fields: updatableFields });
-  const tableData = data?.[operationName]?.items
+  const tableData = data?.[operationName]?.items;
 
   useEffect(() => {
     const modelDisplayName = humanizeText(currModel);

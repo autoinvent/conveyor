@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet';
 import { request } from 'graphql-request';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
+import '../src/output.css';
 
 import logo from '../src/assets/logo.svg';
 import {

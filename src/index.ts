@@ -9,7 +9,7 @@ export * from './Slots';
 
 // model components
 export * from './Conveyor';
-export * from './ModelIndex'
+export * from './ModelIndex';
 
 // hooks
 export * from './hooks';

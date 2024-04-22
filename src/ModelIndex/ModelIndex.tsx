@@ -13,7 +13,7 @@ import { ModelIndexTitle } from './ModelIndexTitle';
 
 export interface ModelIndexProps
   extends ModelIndexStore,
-  HTMLAttributes<HTMLElement> { }
+    HTMLAttributes<HTMLElement> {}
 
 export const ModelIndex = Object.assign(
   ({

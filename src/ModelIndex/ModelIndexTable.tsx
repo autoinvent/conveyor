@@ -13,27 +13,27 @@ import { Table, TableBodyFallback, TableHeaderCell } from '@/Table';
 import { useModelIndex } from './useModelIndex';
 
 export const MODEL_INDEX_TABLE_ACTION_SLOT =
-    '__model-index-table-action-slot__';
+  '__model-index-table-action-slot__';
 
 export interface ModelIndexTableProps
-    extends HTMLAttributes<HTMLTableElement> { }
+  extends HTMLAttributes<HTMLTableElement> {}
 
 export const ModelIndexTable = Object.assign(
-    ({ children, ...props }: ModelIndexTableProps) => {
-        const {
-            selected: { fields, data, showActions },
-        } = useModelIndex((state) => {
-            const { fields, data, showActions } = state;
-            return { fields, data, showActions };
-        });
-        // const columnIds =
-        //     showActions.showActions !== false
-        //         ? fields.concat([MODEL_INDEX_TABLE_ACTION_SLOT])
-        //         : fields;
+  ({ children, ...props }: ModelIndexTableProps) => {
+    const {
+      selected: { fields, data, showActions },
+    } = useModelIndex((state) => {
+      const { fields, data, showActions } = state;
+      return { fields, data, showActions };
+    });
+    // const columnIds =
+    //     showActions.showActions !== false
+    //         ? fields.concat([MODEL_INDEX_TABLE_ACTION_SLOT])
+    //         : fields;
 
-        return (
-            <Table columnIds={fields} data={data} {...props} >
-                {/* {children === undefined ? (
+    return (
+      <Table columnIds={fields} data={data} {...props}>
+        {/* {children === undefined ? (
                     <>
                         <ModelIndexTable.Head />
                         <ModelIndexTable.Body />
@@ -41,18 +41,18 @@ export const ModelIndexTable = Object.assign(
                 ) : (
                     children
                 )} */}
-            </Table>
-        );
-    },
-    {
-        // ActionCell: ModelIndexTableActionCell,
-        // ActionHeaderCell: ModelIndexTableActionHeaderCell,
-        // Body: ModelIndexTableBody,
-        // BodyFallback: TableBodyFallback,
-        // Cell: ModelIndexTableCell,
-        // Head: ModelIndexTableHead,
-        // HeaderCell: TableHeaderCell,
-        // HeaderRow: ModelIndexTableHeaderRow,
-        // Row: ModelIndexTableRow,
-    },
+      </Table>
+    );
+  },
+  {
+    // ActionCell: ModelIndexTableActionCell,
+    // ActionHeaderCell: ModelIndexTableActionHeaderCell,
+    // Body: ModelIndexTableBody,
+    // BodyFallback: TableBodyFallback,
+    // Cell: ModelIndexTableCell,
+    // Head: ModelIndexTableHead,
+    // HeaderCell: TableHeaderCell,
+    // HeaderRow: ModelIndexTableHeaderRow,
+    // Row: ModelIndexTableRow,
+  },
 );

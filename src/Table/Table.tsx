@@ -21,13 +21,8 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
 }
 
 export const Table = Object.assign(
-  ({
-    data,
-    columnIds,
-    children,
-    ...props
-  }: TableProps) => {
-    const [slotOrder] = useState([])
+  ({ data, columnIds, children, ...props }: TableProps) => {
+    const [slotOrder] = useState([]);
     const [tableStore] = useState(new Store<TableStore>({ data, columnIds }));
     useStoreSetStateEffect({
       store: tableStore,
