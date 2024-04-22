@@ -2,6 +2,7 @@ import { ComponentType, HTMLAttributes, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
 import { DataType } from '@/Data';
+import { Slots } from '@/Slots';
 import { useStoreSetStateEffect } from '@/hooks';
 
 import { TableBody } from './TableBody';
@@ -23,10 +24,10 @@ export const Table = Object.assign(
   ({
     data,
     columnIds,
-    TableBodyFallbackComponent = TableBodyFallback,
     children,
     ...props
   }: TableProps) => {
+    const [slotOrder] = useState([])
     const [tableStore] = useState(new Store<TableStore>({ data, columnIds }));
     useStoreSetStateEffect({
       store: tableStore,
@@ -42,14 +43,17 @@ export const Table = Object.assign(
     return (
       <TableStoreContext.Provider value={tableStore}>
         <table {...props}>
-          {children === undefined ? (
-            <>
-              <TableHead />
-              {data.length > 0 ? <TableBody /> : <TableBodyFallbackComponent />}
-            </>
-          ) : (
-            children
-          )}
+          <Slots slotOrder={slotOrder}>
+            {children === undefined ? (
+              <>
+                <TableHead />
+                <TableBody />
+                <TableBodyFallback />
+              </>
+            ) : (
+              children
+            )}
+          </Slots>
         </table>
       </TableStoreContext.Provider>
     );

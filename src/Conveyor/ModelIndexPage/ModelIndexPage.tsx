@@ -1,4 +1,5 @@
 import { ReactNode, useEffect } from 'react';
+import { useParams } from '@tanstack/react-router';
 
 import { useAlerts } from '@/Alerts';
 import { ModelIndex } from '@/ModelIndex';
@@ -8,11 +9,13 @@ import { useConveyor } from '../Conveyor/useConveyor';
 import { useModelListQuery } from '../Conveyor/useModelListQuery';
 
 export interface ModelIndexPage {
-  model: string;
+  model?: string;
   children?: ReactNode;
 }
 
 export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
+  const params = useParams({ from: '/$model' })
+  const currModel: string = model ?? params.model ?? ''
   const { addAlert } = useAlerts();
   const tableViewId = `table-view-${model}-index-page`;
   const {
@@ -23,15 +26,16 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
     return { models, persistence, tableView: tableViews[tableViewId] ?? {} };
   });
 
-  const fields = models[model]?.fields ?? {};
+  const fields = models[currModel]?.fields ?? {};
   const updatableFields = Object.keys(fields).filter(
     (field) => fields[field].update,
   );
   const { data, error, isLoading, isError, isSuccess, operationName } =
-    useModelListQuery({ model, fields: updatableFields });
+    useModelListQuery({ model: currModel, fields: updatableFields });
+  const tableData = data?.[operationName]?.items
 
   useEffect(() => {
-    const modelDisplayName = humanizeText(model);
+    const modelDisplayName = humanizeText(currModel);
     if (isLoading === false) {
       if (isSuccess) {
         addAlert({
@@ -73,9 +77,9 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
 
   return (
     <ModelIndex
-      model={model}
+      model={currModel}
       fields={updatableFields}
-      data={data?.[operationName]?.items ?? []}
+      data={tableData ?? []}
       tableView={tableView}
       onTableViewChange={(newTableView) => {
         setConveyor((state) => {
@@ -89,15 +93,7 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
         });
       }}
     >
-      {children === undefined ? (
-        <>
-          <ModelIndex.Title />
-          <ModelIndex.Table>
-
-          </ModelIndex.Table>
-          <ModelIndex.Pagination />
-        </>
-      ) : children}
+      {children}
     </ModelIndex>
   );
 };

@@ -14,19 +14,19 @@ export const Slot = ({ slot, children }: SlotProps) => {
   useEffect(() => {
     setSlots((state) => {
       const currSlot = state.slots[slot];
-      const newSlot: SlotType = { node: children, slotIds: [refId] };
+      const newSlot: SlotType = { node: children, refIds: [refId] };
       if (currSlot) {
-        if (currSlot.slotIds.includes(refId)) {
+        if (currSlot.refIds.includes(refId)) {
           // Return the same state if an old refId is being used
-          if (currSlot.slotIds[0] !== refId) {
+          if (currSlot.refIds[0] !== refId) {
             return state;
           } else {
-            // No need to update slotIds if using the latest refId
-            newSlot.slotIds = currSlot.slotIds;
+            // No need to update refIds if using the latest refId
+            newSlot.refIds = currSlot.refIds;
           }
         } else {
-          // New refId is being used; update slotIds
-          newSlot.slotIds = [refId, ...currSlot.slotIds];
+          // New refId is being used; update refIds
+          newSlot.refIds = [refId, ...currSlot.refIds];
         }
       }
       return {
@@ -38,6 +38,23 @@ export const Slot = ({ slot, children }: SlotProps) => {
       };
     });
   }, [children]);
+
+  useEffect(() => {
+    return () => {
+      // Cleanup for when slot no longer exist in dom structure
+      setSlots((state) => {
+        const currSlot = state.slots[slot]
+        currSlot.refIds = currSlot.refIds.filter((currRefId) => currRefId != refId)
+        if (currSlot.refIds[0] === refId) {
+          currSlot.node = null
+        }
+        return {
+          ...state,
+          [slot]: currSlot
+        }
+      })
+    }
+  }, [])
 
   return null;
 };

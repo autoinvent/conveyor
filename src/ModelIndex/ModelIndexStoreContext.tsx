@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { ComponentType, createContext } from 'react';
 import { Store } from '@tanstack/react-store';
 
 import { DataType } from '@/Data';

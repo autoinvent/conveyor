@@ -14,7 +14,7 @@ export const Slots = ({ slotOrder, children }: SlotsProps) => {
   const [slotsStore] = useState(() => {
     const slotEntries = slotOrder.map((slotKey) => [
       slotKey,
-      { node: null, slotIds: [] },
+      { node: null, refIds: [] },
     ]);
     const slots = Object.fromEntries(slotEntries);
     return new Store<SlotsStore>({ slotOrder, slots });

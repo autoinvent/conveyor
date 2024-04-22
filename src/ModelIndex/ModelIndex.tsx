@@ -89,6 +89,7 @@ export const ModelIndex = Object.assign(
             <>
               <ModelIndex.Title />
               <ModelIndex.Table />
+              <ModelIndex.Pagination />
             </>
           ) : (
             children

@@ -1,7 +1,7 @@
-import { ReactNode, useContext } from 'react';
+import { useContext } from 'react';
 import { useStore } from '@tanstack/react-store';
 
-import { RouteType, RoutesStoreContext } from './RoutesStoreContext';
+import { RoutesStore, RoutesStoreContext } from './RoutesStoreContext';
 
 export const useRoutes = () => {
   let routesStore = useContext(RoutesStoreContext);
@@ -18,31 +18,8 @@ export const useRoutes = () => {
     }));
   });
 
-  const setRoute = ({
-    path,
-    node,
-    refId,
-  }: { path: string; node: ReactNode; refId: string }) => {
-    routesStore.setState((state) => {
-      const currRoute = state.routes[path];
-      const newRoute: RouteType = { node, refIds: [refId] };
-      if (currRoute) {
-        // Return the same state if the refId has been seen before
-        if (currRoute.refIds.includes(refId)) {
-          return state
-        } else {
-          // New refId is being used; update refIds
-          newRoute.refIds = [refId, ...currRoute.refIds];
-        }
-      }
-      return {
-        ...state,
-        routes: {
-          ...state.routes,
-          [path]: newRoute,
-        },
-      };
-    });
+  const setRoute = (setState: (state: RoutesStore) => RoutesStore) => {
+    routesStore.setState(setState);
   };
   return { routes, setRoute };
 };

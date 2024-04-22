@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { ComponentType, ReactNode, useMemo, useState } from 'react';
 import {
   Outlet,
   RouterProvider,
@@ -8,39 +8,29 @@ import {
 } from '@tanstack/react-router';
 import { Store, useStore } from '@tanstack/react-store';
 
-import { useConveyor } from '../Conveyor';
-import { Home } from '../Home';
-
-import { Route } from './Route';
 import { RoutesStore, RoutesStoreContext } from './RoutesStoreContext';
-import { ModelIndexPage } from '../ModelIndexPage';
 
 export interface RoutesProps {
-  prefilled?: boolean;
+  RootComponent?: ComponentType;
   children?: ReactNode;
 }
 
-export const Routes = ({ prefilled = true, children }: RoutesProps) => {
-  const { selected: models } = useConveyor((state) =>
-    Object.keys(state.models),
-  );
-
+export const Routes = ({ RootComponent = Outlet, children }: RoutesProps) => {
   const [routesStore] = useState(new Store<RoutesStore>({ routes: {} }));
-  const routes = useStore(routesStore, (state) => {
-    return Object.entries(state.routes).map((routeEntry) => ({
-      path: routeEntry[0],
-      component: () => routeEntry[1].node,
-    }));
-  });
+  const routes = useStore(routesStore, (state) => state.routes);
 
   const routerProvider = useMemo(() => {
     let currRouterProvier = null;
-    if (routes.length > 0) {
+    const routeObjs = Object.entries(routes).map((routeEntry) => ({
+      path: routeEntry[0],
+      component: () => routeEntry[1].node,
+    }));
+    if (routeObjs.length > 0) {
       const rootRoute = createRootRoute({
-        component: () => <Outlet />,
+        component: () => <RootComponent />,
       });
       const routeTree = rootRoute.addChildren(
-        routes.map((route) => {
+        routeObjs.map((route) => {
           return createRoute(
             Object.assign(
               {
@@ -64,20 +54,7 @@ export const Routes = ({ prefilled = true, children }: RoutesProps) => {
   return (
     <RoutesStoreContext.Provider value={routesStore}>
       {routerProvider}
-      {children === undefined || prefilled ? (
-        <>
-          <Route path='/'>
-            <Home />
-          </Route>
-          {models.map((model: string) => (
-            <Route path='$model' key={model}>
-              <ModelIndexPage model={model} />
-            </Route>
-          ))}
-        </>
-      ) : (
-        children
-      )}
+      {children}
     </RoutesStoreContext.Provider>
   );
 };

@@ -9,7 +9,7 @@ export interface SlotType {
       The front (index 0) of the list will contain the latest component used
       and older components as you go down the list. 
     */
-  slotIds: string[];
+  refIds: string[];
 }
 
 export interface SlotsStore {

@@ -1,13 +1,14 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { Store, useStore } from '@tanstack/react-store';
+import { Store } from '@tanstack/react-store';
 
 import { Alerts } from '@/Alerts';
 import { useStoreSetStateEffect } from '@/hooks';
 
 import { ConveyorStore, ConveyorStoreContext } from './ConveyorStoreContext';
+
+import { Admin } from '../Admin';
 import { IntrospectionProvider } from '../IntrospectionProvider';
-import { Routes } from '../Routes';
 
 export interface MQLResponse {
   [operationName: string]: Record<string, any>;
@@ -69,7 +70,7 @@ export const Conveyor = ({
           <>
             <Alerts>
               <IntrospectionProvider>
-                <Routes />
+                <Admin />
               </IntrospectionProvider>
             </Alerts>
           </>
