@@ -5,29 +5,17 @@ import { Link, Outlet } from '@tanstack/react-router';
 
 import Logo from '@/assets/logo.svg?react';
 import { LucideHome, LucideEclipse, LucideBox } from 'lucide-react';
-import React from 'react';
-
 export interface DashboardProps extends HTMLAttributes<HTMLDivElement> {
     className?: string;
 }
 
 export const Dashboard = ({ className, ...props }: DashboardProps) => {
-    const [isHovered, setIsHovered] = React.useState(false); // State to track hover
-    // Function to handle mouse enter event
-    const handleMouseEnter = () => {
-        setIsHovered(true);
-    };
-
-    // Function to handle mouse leave event
-    const handleMouseLeave = () => {
-        setIsHovered(false);
-    };
     return (
         <div
             className={className ?? 'flex min-h-screen w-full flex-col bg-[--bg-color] text-[--text-color] transition-all duration-1000' }
             {...props}
         >
-            <aside className={`fixed flex inset-y-0 left-0 z-10 flex-col border-r bg-[--fg-accent] sm:flex transition-all duration-1000`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <aside className={`fixed flex inset-y-0 left-0 z-10 flex-col border-r bg-[--fg-accent] sm:flex transition-all duration-1000`}>
                 <nav className={`flex flex-col items-start gap-4 px-2 sm:py-5 w-full`}>
                     <Link
                         className={
@@ -37,7 +25,7 @@ export const Dashboard = ({ className, ...props }: DashboardProps) => {
                     >
                         <span className='h-9 inline-flex w-full text-start'>
                             <Logo className='h-9 w-9'/>
-                            {isHovered && <span className="ml-1.5 mt-1.5">{" Conveyor"}</span>}
+                            <span className="ml-1.5 mt-1.5 hidden group-hover:inline">Conveyor</span>
                         </span>
                     </Link>
                     <Link
@@ -49,7 +37,7 @@ export const Dashboard = ({ className, ...props }: DashboardProps) => {
 
                         <span className="h-9 inline-flex w-full text-start">
                             <LucideHome className='w-9'/>
-                            {isHovered && <span className="ml-2 py-px">{" Home"}</span>}
+                            <span className="ml-2 py-px hidden group-hover:inline">Home</span>
                         </span>
                     </Link>
                     <Link
@@ -61,7 +49,7 @@ export const Dashboard = ({ className, ...props }: DashboardProps) => {
                         
                         <span className="h-9 inline-flex w-full text-start">
                             <LucideBox className='w-9'/>
-                            {isHovered && <span className="ml-2 py-px">{" Models"}</span>}
+                            <span className="ml-2 py-px hidden group-hover:inline">Models</span>
                         </span>
                     </Link>
                     <Link
@@ -73,7 +61,7 @@ export const Dashboard = ({ className, ...props }: DashboardProps) => {
                         
                         <span className="h-9 inline-flex w-full text-start">
                             <LucideEclipse className='w-9'/>
-                            {isHovered && <span className="ml-2 py-px">{" Themes"}</span>}
+                            <span className="ml-2 py-px hidden group-hover:inline">Themes</span>
                         </span>
                     </Link>
                 </nav>
