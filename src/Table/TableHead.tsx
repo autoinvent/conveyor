@@ -18,9 +18,7 @@ export const TableHead = ({ children, ...props }: TableHeadProps) => {
   useEffect(() => {
     setSlots((state) => {
       const slotOrder = state.slotOrder.filter((slot) => slot !== slotKey);
-      if (data.length > 0) {
-        slotOrder.push(slotKey);
-      }
+      slotOrder.push(slotKey);
       return {
         ...state,
         slotOrder,

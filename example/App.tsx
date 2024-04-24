@@ -1,8 +1,6 @@
 import { Helmet } from 'react-helmet';
 import { request } from 'graphql-request';
 
-import '../src/output.css';
-
 import logo from '../src/assets/logo.svg';
 import {
   Alerts,
@@ -22,6 +20,7 @@ const App = () => {
     <>
       <Helmet>
         <link id='favicon' rel='icon' type='image/svg+xml' href={logo} />
+        <link href="../src/output.css" rel="stylesheet"></link>
       </Helmet>
       <Conveyor
         fetcher={(params) => request(gqlUrl, params.document, params.variables)}
