@@ -615,6 +615,10 @@ video {
   display: grid;
 }
 
+.hidden {
+  display: none;
+}
+
 .h-9 {
   height: 2.25rem;
 }
@@ -637,6 +641,14 @@ video {
 
 .shrink-0 {
   flex-shrink: 0;
+}
+
+.table-auto {
+  table-layout: auto;
+}
+
+.border-collapse {
+  border-collapse: collapse;
 }
 
 .flex-col {
@@ -663,8 +675,20 @@ video {
   border-radius: 9999px;
 }
 
+.border {
+  border-width: 1px;
+}
+
 .border-r {
   border-right-width: 1px;
+}
+
+.border-\[--border-color\] {
+  border-color: var(--border-color);
+}
+
+.bg-\[--bg-accent\] {
+  background-color: var(--bg-accent);
 }
 
 .bg-\[--bg-color\] {
@@ -673,6 +697,10 @@ video {
 
 .bg-\[--fg-accent\] {
   background-color: var(--fg-accent);
+}
+
+.bg-\[--fg-color\] {
+  background-color: var(--fg-color);
 }
 
 .p-4 {
@@ -706,6 +734,10 @@ video {
   color: var(--text-color);
 }
 
+.text-\[--text-muted\] {
+  color: var(--text-muted);
+}
+
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
@@ -721,10 +753,24 @@ video {
 }
 
 :root {
-  --bg-color: #222222;
-  --fg-color: #444444;
-  --fg-accent: #000000;
-  --text-color: white;
+  /* main background color */
+  --bg-color: hsl(0 0 15%);
+  /* accent to distinguish components on top of --bg-color   */
+  --bg-accent: hsl(from var(--bg-color) h s calc(l - .15));
+  /* second level background color used on components on top of the --bg-color */
+  --fg-color: hsl(from var(--bg-color) h s calc(l + 0.2));
+  /* accent to distinguish components on top of --fg-color  */
+  --fg-accent: hsl(from var(--fg-color) h s calc(l - .1));
+  /* border color */
+  --border-color: hsl(from var(--fg-color) h s calc(l + 0.1));
+  /* base text color */
+  --text-color: hsl(from var(--fg-color) 0 0% calc(100));
+  /* inactive or not interactable color for text*/
+  --text-muted: hsl(from var(--text-color) h s calc(l - .1));
+}
+
+.group:hover .group-hover\:inline {
+  display: inline;
 }
 
 @media (min-width: 640px) {

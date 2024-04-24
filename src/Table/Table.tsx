@@ -1,4 +1,4 @@
-import { ComponentType, HTMLAttributes, useState } from 'react';
+import { HTMLAttributes, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
 import { DataType } from '@/Data';
@@ -17,7 +17,6 @@ import { TableStore, TableStoreContext } from './TableStoreContext';
 export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   columnIds: string[];
   data: DataType[];
-  TableBodyFallbackComponent?: ComponentType;
 }
 
 export const Table = Object.assign(
@@ -37,7 +36,7 @@ export const Table = Object.assign(
 
     return (
       <TableStoreContext.Provider value={tableStore}>
-        <table {...props}>
+        <table className='bg-[--fg-color] table-auto border-collapse border border-[--border-color]' {...props}>
           <Slots slotOrder={slotOrder}>
             {children === undefined ? (
               <>

@@ -14,7 +14,7 @@ export const TableCell = ({ columnId, children, ...props }: TableCellProps) => {
     typeof columnData === 'object' ? JSON.stringify(columnData) : columnData;
   return (
     <Slot slot={columnId}>
-      <td {...props}>{children === undefined ? displayData : children}</td>
+      <td className='border border-[--border-color]' {...props}>{children === undefined ? displayData : children}</td>
     </Slot>
   );
 };

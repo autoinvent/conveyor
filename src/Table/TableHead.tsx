@@ -6,7 +6,7 @@ import { TableHeaderRow } from './TableHeaderRow';
 import { useTable } from './useTable';
 
 export interface TableHeadProps
-  extends HTMLAttributes<HTMLTableSectionElement> {}
+  extends HTMLAttributes<HTMLTableSectionElement> { }
 
 export const TableHead = ({ children, ...props }: TableHeadProps) => {
   const { selected: data } = useTable((state) => state.data);
@@ -30,7 +30,7 @@ export const TableHead = ({ children, ...props }: TableHeadProps) => {
 
   return (
     <Slot slot={slotKey}>
-      <thead {...props}>
+      <thead className='bg-[--fg-accent]' {...props}>
         {children === undefined ? <TableHeaderRow /> : children}
       </thead>
     </Slot>
