@@ -575,8 +575,36 @@ video {
   z-index: 10;
 }
 
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
+.ml-1\.5 {
+  margin-left: 0.375rem;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-1\.5 {
+  margin-top: 0.375rem;
+}
+
 .flex {
   display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
 }
 
 .table {
@@ -587,20 +615,12 @@ video {
   display: grid;
 }
 
-.hidden {
-  display: none;
-}
-
 .h-9 {
   height: 2.25rem;
 }
 
 .min-h-screen {
   min-height: 100vh;
-}
-
-.w-14 {
-  width: 3.5rem;
 }
 
 .w-9 {
@@ -625,10 +645,6 @@ video {
 
 .items-start {
   align-items: flex-start;
-}
-
-.items-center {
-  align-items: center;
 }
 
 .justify-center {
@@ -668,6 +684,15 @@ video {
   padding-right: 0.5rem;
 }
 
+.py-px {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.text-start {
+  text-align: start;
+}
+
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -685,13 +710,21 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.duration-1000 {
+  transition-duration: 1000ms;
+}
+
 :root {
   --bg-color: #222222;
   --fg-color: #444444;
   --fg-accent: #000000;
   --text-color: white;
-  /* Structure variables */
-  --aside-width: 3.5rem;
 }
 
 @media (min-width: 640px) {
@@ -731,10 +764,6 @@ video {
 @media (min-width: 768px) {
   .md\:h-8 {
     height: 2rem;
-  }
-
-  .md\:w-8 {
-    width: 2rem;
   }
 
   .md\:gap-8 {
