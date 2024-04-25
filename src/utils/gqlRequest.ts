@@ -109,15 +109,22 @@ export const getGQLAction = (
 };
 
 export const queryToModelName = (queryName: string) => {
-  return upperCaseFirst(
-    queryName.replace(/(^|_)./g, (s) => s.slice(-1).toUpperCase()),
+  if (!queryName) {
+    return '';
+  }
+  return queryName.replace(
+    /_([a-z])/g,
+    (match, letter) => `${upperCaseFirst(letter)}`,
   );
 };
 
 export const modelToQueryName = (modelName: string) => {
-  return lowerCaseFirst(
-    modelName.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase(),
-  );
+  if (!modelName) {
+    return '';
+  }
+  return modelName
+    .replace(/[a-z](?=[A-Z])|[A-Z](?=[A-Z][a-z])/g, '$&_')
+    .toLowerCase();
 };
 
 export const modelToModelListName = (modelName: string) => {
