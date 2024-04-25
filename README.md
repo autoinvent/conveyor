@@ -50,8 +50,8 @@ Then you can use it in your project:
     -->
   <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-  <link crossorigin href="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.3/dist/styles/index.css" rel="stylesheet" />
-  <script crossorigin src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.3/dist/conveyor.umd.js"></script>
+  <link crossorigin href="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.4/dist/styles/index.css" rel="stylesheet" />
+  <script crossorigin src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.4/dist/conveyor.umd.js"></script>
 </head>
 
 <body>
