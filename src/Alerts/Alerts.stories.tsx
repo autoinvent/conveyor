@@ -13,7 +13,7 @@ const meta = {
   args: {
     alertId: '',
     content: 'This is an Alert!',
-    expires: 3000,
+    expires: 10000,
   },
   argTypes: {
     alertId: { table: { disable: true } },
@@ -26,8 +26,8 @@ type Story = StoryObj<typeof meta>;
 export const BasicUsage: Story = {
   render: (props) => {
     return (
-      <div style={{ width: '200px', height: '250px' }}>
-        <Alerts style={{ position: 'absolute', top: '50px' }}>
+      <div className='w-48 h-60'>
+        <Alerts className='absolute top-12'>
           <AddAlertButton {...props} />
         </Alerts>
       </div>
@@ -38,9 +38,9 @@ export const BasicUsage: Story = {
 export const CustomizingAlert: Story = {
   render: (props) => {
     return (
-      <div style={{ width: '200px', height: '250px' }}>
+      <div className='w-48 h-60'>
         <Alerts
-          style={{ position: 'absolute', top: '50px', left: '70px' }}
+          className='absolute top-12 left-16'
           AlertComponent={CustomAlert}
         >
           <AddAlertButton {...props} />
@@ -67,7 +67,7 @@ const AddAlertButton = (props: AlertProps) => {
 
 const CustomAlert = (props: AlertProps) => {
   return (
-    <div style={{ backgroundColor: 'cyan' }}>
+    <div className='bg-cyan-300 w-full h-full'>
       <p>This is customized</p>
       <Alert {...props} />
     </div>

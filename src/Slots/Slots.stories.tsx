@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { ListGroup } from 'react-bootstrap';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Slots, Slot, useIsFirstRender } from '@/index';
