@@ -3,7 +3,7 @@ import { HTMLAttributes } from 'react';
 import { useTable } from './useTable';
 
 export interface TableBodyFallbackProps
-  extends HTMLAttributes<HTMLTableSectionElement> { }
+  extends HTMLAttributes<HTMLTableSectionElement> {}
 
 export const TableBodyFallback = ({
   children,
@@ -15,7 +15,6 @@ export const TableBodyFallback = ({
     colSpan: state.columnIds.length,
     data: state.data,
   }));
-
 
   return data.length === 0 ? (
     <tbody {...props}>

@@ -22,7 +22,7 @@ export const Alerts = ({
 
   return (
     <AlertsStoreContext.Provider value={alertsStore}>
-      <div className="TODO" {...props}>
+      <div className='flex flex-col gap-y-4' {...props}>
         {alerts.map((alert) => {
           return (
             <Fragment key={alert.alertId}>

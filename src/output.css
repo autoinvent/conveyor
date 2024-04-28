@@ -446,6 +446,24 @@ video {
   display: none;
 }
 
+:root {
+  /* main background color */
+  --bg-color: hsl(0 0 15%);
+  /* accent to distinguish components on top of --bg-color   */
+  --bg-accent: hsl(from var(--bg-color) h s calc(l - .15));
+  /* second level background color used on components on top of the --bg-color */
+  --fg-color: hsl(from var(--bg-color) h s calc(l + 0.2));
+  /* accent to distinguish components on top of --fg-color  */
+  --fg-accent: hsl(from var(--fg-color) h s calc(l - .1));
+  /* border color */
+  --border-color: hsl(from var(--fg-color) h s calc(l + 0.1));
+  /* base text color */
+  --text-color: hsl(from var(--fg-color) 0 0 100%);
+  /* inactive or not interactable color for text*/
+  --text-muted: hsl(from var(--text-color) h s calc(l - .1));
+  --bg-success: hsl(125, 100%, 80%);
+}
+
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -558,10 +576,6 @@ video {
   position: fixed;
 }
 
-.absolute {
-  position: absolute;
-}
-
 .inset-y-0 {
   top: 0px;
   bottom: 0px;
@@ -569,14 +583,6 @@ video {
 
 .left-0 {
   left: 0px;
-}
-
-.left-16 {
-  left: 4rem;
-}
-
-.top-12 {
-  top: 3rem;
 }
 
 .z-10 {
@@ -619,28 +625,12 @@ video {
   display: none;
 }
 
-.h-52 {
-  height: 13rem;
-}
-
-.h-60 {
-  height: 15rem;
-}
-
 .h-9 {
   height: 2.25rem;
 }
 
-.h-full {
-  height: 100%;
-}
-
 .h-screen {
   height: 100vh;
-}
-
-.w-48 {
-  width: 12rem;
 }
 
 .w-9 {
@@ -679,6 +669,14 @@ video {
   gap: 1rem;
 }
 
+.gap-y-4 {
+  row-gap: 1rem;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
 .border {
   border-width: 1px;
 }
@@ -709,16 +707,6 @@ video {
 
 .bg-\[--fg-color\] {
   background-color: var(--fg-color);
-}
-
-.bg-cyan-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(103 232 249 / var(--tw-bg-opacity));
-}
-
-.bg-cyan-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(6 182 212 / var(--tw-bg-opacity));
 }
 
 .p-4 {
@@ -784,21 +772,9 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
-:root {
-  /* main background color */
-  --bg-color: hsl(0 0 15%);
-  /* accent to distinguish components on top of --bg-color   */
-  --bg-accent: hsl(from var(--bg-color) h s calc(l - .15));
-  /* second level background color used on components on top of the --bg-color */
-  --fg-color: hsl(from var(--bg-color) h s calc(l + 0.2));
-  /* accent to distinguish components on top of --fg-color  */
-  --fg-accent: hsl(from var(--fg-color) h s calc(l - .1));
-  /* border color */
-  --border-color: hsl(from var(--fg-color) h s calc(l + 0.1));
-  /* base text color */
-  --text-color: hsl(from var(--fg-color) 0 0 100%);
-  /* inactive or not interactable color for text*/
-  --text-muted: hsl(from var(--text-color) h s calc(l - .1));
+.success {
+  background-color: var(--bg-success);
+  /* color: hsl(from var(--bg-success) TODO); */
 }
 
 .hover\:text-\[--text-color\]:hover {

@@ -36,7 +36,10 @@ export const Table = Object.assign(
 
     return (
       <TableStoreContext.Provider value={tableStore}>
-        <table className='bg-[--fg-color] table-auto border-collapse border border-[--border-color]' {...props}>
+        <table
+          className='bg-[--fg-color] table-auto border-collapse border border-[--border-color]'
+          {...props}
+        >
           <Slots slotOrder={slotOrder}>
             {children === undefined ? (
               <>

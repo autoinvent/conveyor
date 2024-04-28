@@ -9,12 +9,7 @@ export interface AlertProps
   expires?: number;
 }
 
-export const Alert = ({
-  alertId,
-  content,
-  expires,
-  ...props
-}: AlertProps) => {
+export const Alert = ({ alertId, content, expires, ...props }: AlertProps) => {
   const { removeAlert } = useAlerts();
   const [show, setShow] = useState(true);
 
@@ -37,7 +32,7 @@ export const Alert = ({
   }, [expires]);
 
   return show ? (
-    <div className="TODO" {...props} role='alert'>
+    <div className='rounded' {...props} role='alert'>
       {content}
       <span onClick={onClose}>&times;</span>
     </div>

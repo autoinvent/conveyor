@@ -124,7 +124,7 @@ export const SlotsInDepth: Story = {
 
 export const DynamicSlots: Story = {
   render: (props) => {
-    const [isBeaver, setIsBeaver] = useState(true)
+    const [isBeaver, setIsBeaver] = useState(true);
     return (
       <div>
         <Slots {...props}>
@@ -134,14 +134,16 @@ export const DynamicSlots: Story = {
           <Slot slot='slot2'>
             <div>a </div>
           </Slot>
-          {isBeaver ?
+          {isBeaver ? (
             <Slot slot='slot3'>
               <div>Beaver!</div>
-            </Slot> : <div>Racooon!</div>
-          }
+            </Slot>
+          ) : (
+            <div>Racooon!</div>
+          )}
         </Slots>
         <button onClick={() => setIsBeaver(!isBeaver)}>Swap</button>
       </div>
-    )
+    );
   },
 };

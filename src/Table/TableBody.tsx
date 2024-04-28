@@ -7,7 +7,7 @@ import { TableRow } from './TableRow';
 import { useTable } from './useTable';
 
 export interface TableBodyProps
-  extends HTMLAttributes<HTMLTableSectionElement> { }
+  extends HTMLAttributes<HTMLTableSectionElement> {}
 
 export const TableBody = ({ children, ...props }: TableBodyProps) => {
   const { selected: data } = useTable((state) => state.data);

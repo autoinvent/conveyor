@@ -65,7 +65,6 @@ const CustomCombinedCell = () => {
   return combined;
 };
 
-
 export const FullyCustomized: Story = {
   args: {
     children: (
@@ -89,9 +88,7 @@ export const FullyCustomized: Story = {
               <CustomCombinedCell />
             </Table.Cell>
           </Table.Row>
-          <Table.BodyFallback>
-            Empty Body
-          </Table.BodyFallback>
+          <Table.BodyFallback>Empty Body</Table.BodyFallback>
         </Table.Body>
       </>
     ),

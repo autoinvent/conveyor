@@ -3,7 +3,7 @@ import { HTMLAttributes } from 'react';
 import { TableHeaderRow } from './TableHeaderRow';
 
 export interface TableHeadProps
-  extends HTMLAttributes<HTMLTableSectionElement> { }
+  extends HTMLAttributes<HTMLTableSectionElement> {}
 
 export const TableHead = ({ children, ...props }: TableHeadProps) => {
   return (

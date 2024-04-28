@@ -13,7 +13,6 @@ const meta = {
   args: {
     alertId: '',
     content: 'This is an Alert!',
-    expires: 3000,
   },
   argTypes: {
     alertId: { table: { disable: true } },
@@ -53,7 +52,11 @@ const AddAlertButton = (props: AlertProps) => {
   return (
     <button
       onClick={() => {
-        addAlert({ ...props, content: `${props.content} ${counter}` });
+        addAlert({
+          ...props,
+          content: `${props.content} ${counter}`,
+          className: 'success',
+        });
         setCounter(counter + 1);
       }}
     >

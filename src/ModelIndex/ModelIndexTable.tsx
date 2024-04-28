@@ -16,7 +16,7 @@ export const MODEL_INDEX_TABLE_ACTION_SLOT =
   '__model-index-table-action-slot__';
 
 export interface ModelIndexTableProps
-  extends HTMLAttributes<HTMLTableElement> { }
+  extends HTMLAttributes<HTMLTableElement> {}
 
 export const ModelIndexTable = Object.assign(
   ({ children, ...props }: ModelIndexTableProps) => {
