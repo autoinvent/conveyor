@@ -44,12 +44,13 @@ export const Slot = ({ slot, children }: SlotProps) => {
       // Cleanup for when slot no longer exist in dom structure
       setSlots((state) => {
         const currSlot = state.slots[slot];
-        currSlot.refIds = currSlot.refIds.filter(
-          (currRefId) => currRefId != refId,
-        );
         if (currSlot.refIds[0] === refId) {
           currSlot.node = null;
         }
+        currSlot.refIds = currSlot.refIds.filter(
+          (currRefId) => currRefId != refId,
+        );
+
         return {
           ...state,
           [slot]: currSlot,

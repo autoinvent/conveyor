@@ -39,109 +39,109 @@ export const BasicUsage: Story = {
       }
     }, [props.slotOrder]);
     return (
-      <ListGroup>
+      <div>
         <Slots slotOrder={slotOrder}>
           <Slot slot='slot1'>
-            <ListGroup.Item>It's </ListGroup.Item>
+            <div>It's </div>
           </Slot>
           <Slot slot='slot2'>
-            <ListGroup.Item>a </ListGroup.Item>
+            <div>a </div>
           </Slot>
           <Slot slot='slot3'>
-            <ListGroup.Item>
+            <div>
               <button onClick={onClick}>Beaver!</button>
-            </ListGroup.Item>
+            </div>
           </Slot>
           <Slot slot='secret-slot'>
-            <ListGroup.Item>Or is it?!</ListGroup.Item>
+            <div>Or is it?!</div>
           </Slot>
         </Slots>
-      </ListGroup>
+      </div>
     );
   },
 };
 
 export const DuplicateSlots: Story = {
   render: (props) => (
-    <ListGroup>
+    <div>
       <Slots {...props}>
         <Slot slot='slot3'>
-          <ListGroup.Item>It's </ListGroup.Item>
+          <div>It's </div>
         </Slot>
         <Slot slot='slot3'>
-          <ListGroup.Item>a </ListGroup.Item>
+          <div>a </div>
         </Slot>
         <Slot slot='slot3'>
-          <ListGroup.Item>Beaver!</ListGroup.Item>
+          <div>Beaver!</div>
         </Slot>
       </Slots>
-    </ListGroup>
-  ),
-};
-
-export const DuplicateSlotsInSlotOrder: Story = {
-  args: {
-    slotOrder: ['slot1', 'slot1', 'slot1'],
-  },
-  render: (props) => (
-    <ListGroup>
-      <Slots {...props}>
-        <Slot slot='slot1'>
-          <ListGroup.Item>It's </ListGroup.Item>
-        </Slot>
-        <Slot slot='slot2'>
-          <ListGroup.Item>a </ListGroup.Item>
-        </Slot>
-        <Slot slot='slot3'>
-          <ListGroup.Item>Beaver!</ListGroup.Item>
-        </Slot>
-        <Slot slot='secret-slot'>
-          <ListGroup.Item>Or is it?!</ListGroup.Item>
-        </Slot>
-      </Slots>
-    </ListGroup>
+    </div>
   ),
 };
 
 export const SlotsWithNonSlotChildren: Story = {
   render: (props) => (
-    <ListGroup>
+    <div>
       <Slots {...props}>
-        <ListGroup.Item>Not a Slot (Top)</ListGroup.Item>
+        <div>Not a Slot (Top)</div>
         <Slot slot='slot1'>
-          <ListGroup.Item>It's </ListGroup.Item>
+          <div>It's </div>
         </Slot>
         <Slot slot='slot2'>
-          <ListGroup.Item>a </ListGroup.Item>
+          <div>a </div>
         </Slot>
         <Slot slot='slot3'>
-          <ListGroup.Item>Beaver!</ListGroup.Item>
+          <div>Beaver!</div>
         </Slot>
-        <ListGroup.Item>Not a Slot (Bottom)</ListGroup.Item>
+        <div>Not a Slot (Bottom)</div>
       </Slots>
-    </ListGroup>
+    </div>
   ),
 };
 
 export const SlotsInDepth: Story = {
   render: (props) => (
-    <ListGroup>
+    <div>
       <Slots {...props}>
-        <ListGroup.Item>
+        <div>
           Yes,
-          <b>
+          <span>
             <Slot slot='slot1'>
-              <ListGroup.Item>It's</ListGroup.Item>
+              <div>It's</div>
             </Slot>
-          </b>
-        </ListGroup.Item>
+          </span>
+        </div>
         <Slot slot='slot2'>
-          <ListGroup.Item>a </ListGroup.Item>
+          <div>a </div>
         </Slot>
         <Slot slot='slot3'>
-          <ListGroup.Item>Beaver!</ListGroup.Item>
+          <div>Beaver!</div>
         </Slot>
       </Slots>
-    </ListGroup>
+    </div>
   ),
+};
+
+export const DynamicSlots: Story = {
+  render: (props) => {
+    const [isBeaver, setIsBeaver] = useState(true)
+    return (
+      <div>
+        <Slots {...props}>
+          <Slot slot='slot1'>
+            <div>It's</div>
+          </Slot>
+          <Slot slot='slot2'>
+            <div>a </div>
+          </Slot>
+          {isBeaver ?
+            <Slot slot='slot3'>
+              <div>Beaver!</div>
+            </Slot> : <div>Racooon!</div>
+          }
+        </Slots>
+        <button onClick={() => setIsBeaver(!isBeaver)}>Swap</button>
+      </div>
+    )
+  },
 };
