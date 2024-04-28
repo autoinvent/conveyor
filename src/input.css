@@ -14,7 +14,7 @@
     /* border color */
     --border-color: hsl(from var(--fg-color) h s calc(l + 0.1));
     /* base text color */
-    --text-color: hsl(from var(--fg-color) 0 0% calc(100));
+    --text-color: hsl(from var(--fg-color) 0 0 100%);
     /* inactive or not interactable color for text*/
     --text-muted: hsl(from var(--text-color) h s calc(l - .1));
 }
