@@ -65,13 +65,9 @@ const CustomCombinedCell = () => {
   return combined;
 };
 
-const CustomTableBodyFallback = () => {
-  return <Table.BodyFallback>Empty Body</Table.BodyFallback>;
-};
 
 export const FullyCustomized: Story = {
   args: {
-    TableBodyFallbackComponent: CustomTableBodyFallback,
     children: (
       <>
         <Table.Head>
@@ -93,6 +89,9 @@ export const FullyCustomized: Story = {
               <CustomCombinedCell />
             </Table.Cell>
           </Table.Row>
+          <Table.BodyFallback>
+            Empty Body
+          </Table.BodyFallback>
         </Table.Body>
       </>
     ),

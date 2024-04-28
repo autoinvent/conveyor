@@ -30,9 +30,9 @@ export const Slots = ({ slotOrder, children }: SlotsProps) => {
 
   return (
     <SlotsStoreContext.Provider value={slotsStore}>
-      {slotKeys.map((slotKey, index) => {
+      {slotKeys.map((slotKey) => {
         return (
-          <Fragment key={`${slotKey}-${index}`}>{slots[slotKey].node}</Fragment>
+          <Fragment key={slotKey}>{slots[slotKey]?.node}</Fragment>
         );
       })}
       {children}

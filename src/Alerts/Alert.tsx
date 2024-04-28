@@ -13,7 +13,6 @@ export const Alert = ({
   alertId,
   content,
   expires,
-  className,
   ...props
 }: AlertProps) => {
   const { removeAlert } = useAlerts();
@@ -38,7 +37,7 @@ export const Alert = ({
   }, [expires]);
 
   return show ? (
-    <div className={className} {...props} role='alert'>
+    <div className="TODO" {...props} role='alert'>
       {content}
       <span onClick={onClose}>&times;</span>
     </div>

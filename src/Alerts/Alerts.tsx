@@ -11,7 +11,6 @@ export interface AlertsProps extends HTMLAttributes<HTMLDivElement> {
 export const Alerts = ({
   AlertComponent = Alert,
   children,
-  className = 'alerts',
   ...props
 }: AlertsProps) => {
   const [alertsStore] = useState(
@@ -23,7 +22,7 @@ export const Alerts = ({
 
   return (
     <AlertsStoreContext.Provider value={alertsStore}>
-      <div className={className} {...props}>
+      <div className="TODO" {...props}>
         {alerts.map((alert) => {
           return (
             <Fragment key={alert.alertId}>
