@@ -16,7 +16,7 @@ export const Alert = ({
   ...props
 }: AlertProps) => {
   const { removeAlert } = useAlerts();
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const onClose = () => {
     setShow(false);

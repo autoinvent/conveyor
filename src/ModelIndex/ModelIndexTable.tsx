@@ -16,7 +16,7 @@ export const MODEL_INDEX_TABLE_ACTION_SLOT =
   '__model-index-table-action-slot__';
 
 export interface ModelIndexTableProps
-  extends HTMLAttributes<HTMLTableElement> {}
+  extends HTMLAttributes<HTMLTableElement> { }
 
 export const ModelIndexTable = Object.assign(
   ({ children, ...props }: ModelIndexTableProps) => {
@@ -26,10 +26,6 @@ export const ModelIndexTable = Object.assign(
       const { fields, data, showActions } = state;
       return { fields, data, showActions };
     });
-    // const columnIds =
-    //     showActions.showActions !== false
-    //         ? fields.concat([MODEL_INDEX_TABLE_ACTION_SLOT])
-    //         : fields;
 
     return (
       <Table columnIds={fields} data={data} {...props}>
