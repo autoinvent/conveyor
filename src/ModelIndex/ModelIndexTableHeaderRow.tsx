@@ -1,39 +1,35 @@
-// import { HTMLAttributes } from 'react';
+import { TableHeaderRow, TableHeaderRowProps } from '@/Table';
 
-// import { DataLens, Lenses } from '@/Lenses';
-// import { TableHeaderRow, useTable } from '@/Table'
+import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
+import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
+import { useModelIndex } from './useModelIndex';
 
-// import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell'
-// import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell'
+export interface ModelIndexTableHeaderRowProps extends TableHeaderRowProps {}
 
-// export interface ModelIndexTableHeaderRowProps extends HTMLAttributes<HTMLTableRowElement> {
-//     prefilled?: boolean;
-// }
-
-// export const ModelIndexTableHeaderRow = ({
-//     prefilled,
-//     children,
-//     ...props
-// }: ModelIndexTableHeaderRowProps) => {
-//     const { table: columnIds }: { table: string[] } = useTable((state) => state.columnIds);
-//     return (
-//         <Lenses activeLens={DataLens.DISPLAY}>
-//             <TableHeaderRow prefilled={false} {...props}>
-//                 {children === undefined || prefilled ? (
-//                     <>
-//                         {columnIds.map((columnId) => {
-//                             return (
-//                                 <ModelIndexTableHeaderCell key={columnId} field={columnId} />
-//                             );
-//                         })}
-//                         <ModelIndexTableActionHeaderCell />
-//                         {children}
-//                     </>
-//                 ) : (
-//                     children
-//                 )}
-//             </TableHeaderRow>
-//         </Lenses>
-
-//     );
-// };
+export const ModelIndexTableHeaderRow = ({
+  prefilled,
+  children,
+  ...props
+}: ModelIndexTableHeaderRowProps) => {
+  const { selected } = useModelIndex((state) => ({
+    fields: state.fields,
+    showActions: state.showActions,
+  }));
+  const fields: string[] = selected.fields;
+  const showActions: boolean = selected.showActions;
+  return (
+    <TableHeaderRow prefilled={false} {...props}>
+      {children === undefined || prefilled ? (
+        <>
+          {fields.map((field) => {
+            return <ModelIndexTableHeaderCell key={field} field={field} />;
+          })}
+          {children}
+        </>
+      ) : (
+        children
+      )}
+      {showActions ? <ModelIndexTableActionHeaderCell /> : null}
+    </TableHeaderRow>
+  );
+};

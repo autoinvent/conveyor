@@ -1,19 +1,16 @@
 import { HTMLAttributes } from 'react';
-import { useStore } from '@tanstack/react-store';
 
-import { Table, TableBodyFallback, TableHeaderCell } from '@/Table';
+import { Table, TableBodyFallback } from '@/Table';
 
-// import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
-// import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
-// import { ModelIndexTableBody } from './ModelIndexTableBody';
-// import { ModelIndexTableCell } from './ModelIndexTableCell';
-// import { ModelIndexTableHead } from './ModelIndexTableHead';
-// import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
-// import { ModelIndexTableRow } from './ModelIndexTableRow';
+import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
+import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
+import { ModelIndexTableBody } from './ModelIndexTableBody';
+import { ModelIndexTableCell } from './ModelIndexTableCell';
+import { ModelIndexTableHead } from './ModelIndexTableHead';
+import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
+import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
+import { ModelIndexTableRow } from './ModelIndexTableRow';
 import { useModelIndex } from './useModelIndex';
-
-export const MODEL_INDEX_TABLE_ACTION_SLOT =
-  '__model-index-table-action-slot__';
 
 export interface ModelIndexTableProps
   extends HTMLAttributes<HTMLTableElement> {}
@@ -21,34 +18,35 @@ export interface ModelIndexTableProps
 export const ModelIndexTable = Object.assign(
   ({ children, ...props }: ModelIndexTableProps) => {
     const {
-      selected: { fields, data, showActions },
+      selected: { fields, data },
     } = useModelIndex((state) => {
-      const { fields, data, showActions } = state;
-      return { fields, data, showActions };
+      const { fields, data } = state;
+      return { fields, data };
     });
 
     return (
       <Table columnIds={fields} data={data} {...props}>
-        {/* {children === undefined ? (
-                    <>
-                        <ModelIndexTable.Head />
-                        <ModelIndexTable.Body />
-                    </>
-                ) : (
-                    children
-                )} */}
+        {children === undefined ? (
+          <>
+            <ModelIndexTableHead />
+            <ModelIndexTableBody />
+            <TableBodyFallback />
+          </>
+        ) : (
+          children
+        )}
       </Table>
     );
   },
   {
-    // ActionCell: ModelIndexTableActionCell,
-    // ActionHeaderCell: ModelIndexTableActionHeaderCell,
-    // Body: ModelIndexTableBody,
-    // BodyFallback: TableBodyFallback,
-    // Cell: ModelIndexTableCell,
-    // Head: ModelIndexTableHead,
-    // HeaderCell: TableHeaderCell,
-    // HeaderRow: ModelIndexTableHeaderRow,
-    // Row: ModelIndexTableRow,
+    ActionCell: ModelIndexTableActionCell,
+    ActionHeaderCell: ModelIndexTableActionHeaderCell,
+    Body: ModelIndexTableBody,
+    BodyFallback: TableBodyFallback,
+    Cell: ModelIndexTableCell,
+    Head: ModelIndexTableHead,
+    HeaderCell: ModelIndexTableHeaderCell,
+    HeaderRow: ModelIndexTableHeaderRow,
+    Row: ModelIndexTableRow,
   },
 );

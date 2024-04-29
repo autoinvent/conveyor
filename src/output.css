@@ -464,6 +464,11 @@ video {
   --bg-success: hsl(125, 100%, 80%);
 }
 
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color)
+}
+
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;

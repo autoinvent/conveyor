@@ -21,6 +21,11 @@
 
         --bg-success: hsl(125, 100%, 80%);
     }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color)
+    }
 }
 
 

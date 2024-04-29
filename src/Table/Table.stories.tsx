@@ -45,11 +45,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const BasicUsage: Story = {
-  args: {
-    columnIds: ['firstname', 'lastname'],
-  },
-};
+export const BasicUsage: Story = {};
 
 const CustomCell = ({ field }: { field: string }) => {
   const { data } = useData((state) => state.current);

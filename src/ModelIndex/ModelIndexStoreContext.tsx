@@ -6,9 +6,9 @@ import { DataType } from '@/Data';
 import { TableView } from './types';
 
 export interface ModelIndexStore {
-  model: string;
   fields: string[];
   data: DataType[];
+  title?: string;
   tableView?: TableView;
   onTableViewChange?: (tableView: TableView) => void;
   onSave?: (rowData: DataType) => Promise<any>;

@@ -11,9 +11,9 @@ export const ModelIndexTitle = ({
   children,
   ...props
 }: ModelIndexTitleProps) => {
-  const { selected: model } = useModelIndex((state) => state.model);
-  const modelDisplayName = humanizeText(model);
-  return (
-    <h2 {...props}>{children === undefined ? modelDisplayName : children}</h2>
-  );
+  const { selected } = useModelIndex((state) => state.title);
+  const title = humanizeText(selected);
+  return selected ? (
+    <h2 {...props}>{children === undefined ? title : children}</h2>
+  ) : null;
 };

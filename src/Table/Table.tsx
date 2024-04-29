@@ -1,8 +1,6 @@
 import { HTMLAttributes, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
-import { DataType } from '@/Data';
-import { Slots } from '@/Slots';
 import { useStoreSetStateEffect } from '@/hooks';
 
 import { TableBody } from './TableBody';
@@ -14,14 +12,12 @@ import { TableHeaderRow } from './TableHeaderRow';
 import { TableRow } from './TableRow';
 import { TableStore, TableStoreContext } from './TableStoreContext';
 
-export interface TableProps extends HTMLAttributes<HTMLTableElement> {
-  columnIds: string[];
-  data: DataType[];
-}
+export interface TableProps
+  extends TableStore,
+    HTMLAttributes<HTMLTableElement> {}
 
 export const Table = Object.assign(
   ({ data, columnIds, children, ...props }: TableProps) => {
-    const [slotOrder] = useState([]);
     const [tableStore] = useState(new Store<TableStore>({ data, columnIds }));
     useStoreSetStateEffect({
       store: tableStore,
@@ -40,17 +36,15 @@ export const Table = Object.assign(
           className='bg-[--fg-color] table-auto border-collapse border border-[--border-color]'
           {...props}
         >
-          <Slots slotOrder={slotOrder}>
-            {children === undefined ? (
-              <>
-                <TableHead />
-                <TableBody />
-                <TableBodyFallback />
-              </>
-            ) : (
-              children
-            )}
-          </Slots>
+          {children === undefined ? (
+            <>
+              <TableHead />
+              <TableBody />
+              <TableBodyFallback />
+            </>
+          ) : (
+            children
+          )}
         </table>
       </TableStoreContext.Provider>
     );

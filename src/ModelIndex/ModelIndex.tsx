@@ -17,9 +17,9 @@ export interface ModelIndexProps
 
 export const ModelIndex = Object.assign(
   ({
-    model,
     fields,
     data,
+    title,
     tableView,
     onTableViewChange,
     onSave,
@@ -30,9 +30,9 @@ export const ModelIndex = Object.assign(
   }: ModelIndexProps) => {
     const [modelIndexStore] = useState(
       new Store<ModelIndexStore>({
-        model,
         fields,
         data,
+        title,
         tableView,
         onTableViewChange,
         onSave,
@@ -43,11 +43,6 @@ export const ModelIndex = Object.assign(
 
     useStoreSetStateEffect({
       store: modelIndexStore,
-      setState: (state) => ({ ...state, model }),
-      deps: [model],
-    });
-    useStoreSetStateEffect({
-      store: modelIndexStore,
       setState: (state) => ({ ...state, fields }),
       deps: [fields],
     });
@@ -55,6 +50,12 @@ export const ModelIndex = Object.assign(
       store: modelIndexStore,
       setState: (state) => ({ ...state, data }),
       deps: [data],
+    });
+
+    useStoreSetStateEffect({
+      store: modelIndexStore,
+      setState: (state) => ({ ...state, title }),
+      deps: [title],
     });
     useStoreSetStateEffect({
       store: modelIndexStore,
