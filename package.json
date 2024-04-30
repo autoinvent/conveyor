@@ -44,7 +44,8 @@
     "lucide-react": "^0.372.0",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.10.1",
-    "react-use": "^17.4.0"
+    "react-use": "^17.4.0",
+    "tailwind-merge": "^2.3.0"
   },
   "peerDependencies": {
     "@types/react": "^18.2.66",
