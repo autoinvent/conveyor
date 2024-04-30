@@ -606,6 +606,10 @@ body {
   margin-left: 0.5rem;
 }
 
+.mr-3 {
+  margin-right: 0.75rem;
+}
+
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -630,12 +634,36 @@ body {
   display: none;
 }
 
+.h-5 {
+  height: 1.25rem;
+}
+
 .h-9 {
   height: 2.25rem;
 }
 
 .h-screen {
   height: 100vh;
+}
+
+.h-\[1rem\] {
+  height: 1rem;
+}
+
+.h-\[25px\] {
+  height: 25px;
+}
+
+.h-\[35px\] {
+  height: 35px;
+}
+
+.h-\[30px\] {
+  height: 30px;
+}
+
+.w-5 {
+  width: 1.25rem;
 }
 
 .w-9 {
@@ -650,6 +678,18 @@ body {
   width: 100vw;
 }
 
+.w-\[25px\] {
+  width: 25px;
+}
+
+.w-\[35px\] {
+  width: 35px;
+}
+
+.w-\[30px\] {
+  width: 30px;
+}
+
 .table-auto {
   table-layout: auto;
 }
@@ -658,12 +698,30 @@ body {
   border-collapse: collapse;
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
 .flex-col {
   flex-direction: column;
 }
 
+.place-items-center {
+  place-items: center;
+}
+
 .items-start {
   align-items: flex-start;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .gap-2 {
@@ -682,12 +740,48 @@ body {
   border-radius: 0.25rem;
 }
 
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.rounded-\[50\%\] {
+  border-radius: 50%;
+}
+
 .border {
   border-width: 1px;
 }
 
+.border-x-8 {
+  border-left-width: 8px;
+  border-right-width: 8px;
+}
+
+.border-y-8 {
+  border-top-width: 8px;
+  border-bottom-width: 8px;
+}
+
+.border-x-4 {
+  border-left-width: 4px;
+  border-right-width: 4px;
+}
+
+.border-y-4 {
+  border-top-width: 4px;
+  border-bottom-width: 4px;
+}
+
 .border-r {
   border-right-width: 1px;
+}
+
+.border-t-8 {
+  border-top-width: 8px;
 }
 
 .border-\[--border-color\] {
@@ -696,6 +790,19 @@ body {
 
 .border-\[--fg-accent\] {
   border-color: var(--fg-accent);
+}
+
+.border-t-\[--fg-accent\] {
+  border-top-color: var(--fg-accent);
+}
+
+.border-t-\[--text-color\] {
+  border-top-color: var(--text-color);
+}
+
+.border-t-\[blue\] {
+  --tw-border-opacity: 1;
+  border-top-color: rgb(0 0 255 / var(--tw-border-opacity));
 }
 
 .bg-\[--bg-accent\] {
@@ -771,6 +878,10 @@ body {
 
 .text-\[--text-muted\] {
   color: var(--text-muted);
+}
+
+.text-\[--fg-accent\] {
+  color: var(--fg-accent);
 }
 
 .filter {

@@ -5,7 +5,7 @@ import { DataType } from '@/Data';
 
 export interface TableStore {
   columnIds: string[];
-  data: DataType[];
+  data?: DataType[];
 }
 
 export const TableStoreContext = createContext<Store<TableStore> | undefined>(

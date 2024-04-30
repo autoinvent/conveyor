@@ -12,7 +12,7 @@ export interface TableBodyProps
 export const TableBody = ({ children, ...props }: TableBodyProps) => {
   const { selected: data } = useTable((state) => state.data);
 
-  return (
+  return data && data.length > 0 ? (
     <tbody {...props}>
       {data.map((rowData: DataType) => {
         const rowKey = `table-row-${generateUID()}`;
@@ -23,5 +23,5 @@ export const TableBody = ({ children, ...props }: TableBodyProps) => {
         );
       })}
     </tbody>
-  );
+  ) : null;
 };

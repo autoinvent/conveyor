@@ -16,11 +16,19 @@ export const TableBodyFallback = ({
     data: state.data,
   }));
 
-  return data.length === 0 ? (
+  const cellContent = data ? (
+    'No Records Found.'
+  ) : (
+    <div className='flex justify-center'>
+      <div className='animate-spin rounded-[50%] border-[--fg-accent] border-t-[--text-color] border-y-4 border-x-4 h-[30px] w-[30px]'></div>
+    </div>
+  );
+
+  return !data || data.length === 0 ? (
     <tbody {...props}>
       <tr>
         <td colSpan={colSpan}>
-          {children === undefined ? 'No Records Found.' : children}
+          {children === undefined ? cellContent : children}
         </td>
       </tr>
     </tbody>
