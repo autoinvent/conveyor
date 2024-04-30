@@ -42,7 +42,7 @@ export const Alert = ({
   return show ? (
     <div
       className={twMerge(
-        'bg-slate-300 text-slate-700 relative text-center w-full max-h-20 rounded border border-[--fg-accent] p-4 transition-colors overflow-hidden',
+        'bg-slate-300 text-slate-700 relative text-center w-full max-h-20 rounded border border-[--fg-accent] p-4 pr-8 transition-colors overflow-hidden',
         className
       )}
       {...props}
@@ -50,7 +50,7 @@ export const Alert = ({
     >
       {content}
       <span
-        className='absolute top-1/2 transform -translate-y-1/2 right-3 opacity-50 cursor-pointer hover:opacity-100'
+        className='absolute top-1/2 transform -translate-y-1/2 right-2 opacity-50 cursor-pointer hover:opacity-100'
         onClick={onClose}
       >
         <X />
