@@ -11,7 +11,7 @@
         /* second level background color used on components on top of the --bg-color */
         --fg-color: hsl(from var(--bg-color) h s calc(l * 1.5));
         /* accent to distinguish components on top of --fg-color  */
-        --fg-accent: hsl(from var(--bg-color) h s calc(l * 2.25));
+        --fg-accent: hsl(from var(--bg-color) h s calc(l * 2));
         /* border color */
         --border-color: hsl(from var(--bg-color) h s calc(l * 2.25));
         /* base text color */

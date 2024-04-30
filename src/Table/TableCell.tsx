@@ -1,4 +1,5 @@
 import { HTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import { useData } from '@/Data';
 import { Slot } from '@/Slots';
@@ -7,14 +8,14 @@ export interface TableCellProps extends HTMLAttributes<HTMLTableCellElement> {
   columnId: string;
 }
 
-export const TableCell = ({ columnId, children, ...props }: TableCellProps) => {
+export const TableCell = ({ columnId, children, className, ...props }: TableCellProps) => {
   const { data } = useData((state) => state.original);
   const columnData = data[columnId];
   const displayData =
     typeof columnData === 'object' ? JSON.stringify(columnData) : columnData;
   return (
     <Slot slot={columnId}>
-      <td className='border border-[--border-color]' {...props}>
+      <td className={twMerge('text-center border border-solid border-[--border-color]', className)} {...props}>
         {children === undefined ? displayData : children}
       </td>
     </Slot>

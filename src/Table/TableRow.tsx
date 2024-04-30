@@ -1,4 +1,5 @@
 import { HTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import { Slots } from '@/Slots';
 
@@ -9,10 +10,10 @@ export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
   prefilled?: boolean;
 }
 
-export const TableRow = ({ prefilled, children, ...props }: TableRowProps) => {
+export const TableRow = ({ prefilled, children, className, ...props }: TableRowProps) => {
   const { selected: columnIds } = useTable((state) => state.columnIds);
   return (
-    <tr {...props}>
+    <tr className={twMerge('items-center rounded hover:bg-[--fg-accent] cursor-default', className)} {...props}>
       <Slots slotOrder={columnIds}>
         {children === undefined || prefilled ? (
           <>
