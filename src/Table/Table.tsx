@@ -4,7 +4,7 @@ import { Store } from '@tanstack/react-store';
 import { useStoreSetStateEffect } from '@/hooks';
 
 import { TableBody } from './TableBody';
-import { TableBodyFallback } from './TableBodyFallback';
+import { TableFallback } from './TableFallback';
 import { TableCell } from './TableCell';
 import { TableHead } from './TableHead';
 import { TableHeaderCell } from './TableHeaderCell';
@@ -40,7 +40,7 @@ export const Table = Object.assign(
             <>
               <TableHead />
               <TableBody />
-              <TableBodyFallback />
+              <TableFallback />
             </>
           ) : (
             children
@@ -51,7 +51,7 @@ export const Table = Object.assign(
   },
   {
     Body: TableBody,
-    BodyFallback: TableBodyFallback,
+    Fallback: TableFallback,
     Cell: TableCell,
     Head: TableHead,
     HeaderCell: TableHeaderCell,

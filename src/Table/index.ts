@@ -1,8 +1,8 @@
 // components
 export * from './Table';
 export * from './TableBody';
-export * from './TableBodyFallback';
 export * from './TableCell';
+export * from './TableFallback';
 export * from './TableHead';
 export * from './TableHeaderCell';
 export * from './TableHeaderRow';

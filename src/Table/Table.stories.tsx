@@ -84,7 +84,7 @@ export const FullyCustomized: Story = {
               <CustomCombinedCell />
             </Table.Cell>
           </Table.Row>
-          <Table.BodyFallback>Empty Body</Table.BodyFallback>
+          <Table.Fallback>Empty Body</Table.Fallback>
         </Table.Body>
       </>
     ),

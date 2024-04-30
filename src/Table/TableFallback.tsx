@@ -2,17 +2,20 @@ import { HTMLAttributes } from 'react';
 
 import { useTable } from './useTable';
 
-export interface TableBodyFallbackProps
-  extends HTMLAttributes<HTMLTableSectionElement> {}
+export interface TableFallbackProps
+  extends HTMLAttributes<HTMLTableSectionElement> {
+  colSpan?: number;
+}
 
-export const TableBodyFallback = ({
+export const TableFallback = ({
+  colSpan,
   children,
   ...props
-}: TableBodyFallbackProps) => {
+}: TableFallbackProps) => {
   const {
-    selected: { colSpan, data },
+    selected: { columnIds, data },
   } = useTable((state) => ({
-    colSpan: state.columnIds.length,
+    columnIds: state.columnIds,
     data: state.data,
   }));
 
@@ -24,10 +27,10 @@ export const TableBodyFallback = ({
     </div>
   );
 
-  return !data || data.length === 0 ? (
+  return (!data || data.length === 0) && columnIds.length > 0 ? (
     <tbody {...props}>
       <tr>
-        <td colSpan={colSpan}>
+        <td colSpan={colSpan ?? columnIds.length}>
           {children === undefined ? cellContent : children}
         </td>
       </tr>

@@ -1,11 +1,12 @@
 import { HTMLAttributes } from 'react';
 
-import { Table, TableBodyFallback } from '@/Table';
+import { Table } from '@/Table';
 
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
 import { ModelIndexTableBody } from './ModelIndexTableBody';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
+import { ModelIndexTableFallback } from './ModelIndexTableFallback';
 import { ModelIndexTableHead } from './ModelIndexTableHead';
 import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
@@ -30,7 +31,7 @@ export const ModelIndexTable = Object.assign(
           <>
             <ModelIndexTableHead />
             <ModelIndexTableBody />
-            <TableBodyFallback />
+            <ModelIndexTableFallback />
           </>
         ) : (
           children
@@ -42,7 +43,7 @@ export const ModelIndexTable = Object.assign(
     ActionCell: ModelIndexTableActionCell,
     ActionHeaderCell: ModelIndexTableActionHeaderCell,
     Body: ModelIndexTableBody,
-    BodyFallback: TableBodyFallback,
+    Fallback: ModelIndexTableFallback,
     Cell: ModelIndexTableCell,
     Head: ModelIndexTableHead,
     HeaderCell: ModelIndexTableHeaderCell,
