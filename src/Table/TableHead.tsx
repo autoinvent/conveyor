@@ -1,13 +1,14 @@
 import { HTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import { TableHeaderRow } from './TableHeaderRow';
 
 export interface TableHeadProps
   extends HTMLAttributes<HTMLTableSectionElement> {}
 
-export const TableHead = ({ children, ...props }: TableHeadProps) => {
+export const TableHead = ({ children, className, ...props }: TableHeadProps) => {
   return (
-    <thead className='bg-[--fg-accent]' {...props}>
+    <thead className={twMerge('bg-[--fg-accent]', className)} {...props}>
       {children === undefined ? <TableHeaderRow /> : children}
     </thead>
   );

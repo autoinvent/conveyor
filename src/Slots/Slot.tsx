@@ -13,6 +13,7 @@ export const Slot = ({ slot, children }: SlotProps) => {
   const { setSlots } = useSlots();
   useEffect(() => {
     setSlots((state) => {
+
       const currSlot = state.slots[slot];
       const newSlot: SlotType = { node: children, refIds: [refId] };
       if (currSlot) {

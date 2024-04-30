@@ -15,7 +15,7 @@ export const TableHeaderCell = ({
 }: TableHeaderCellProps) => {
   return (
     <Slot slot={columnId}>
-      <th className='border border-[--border-color]' {...props}>
+      <th {...props}>
         {children === undefined ? humanizeText(columnId) : children}
       </th>
     </Slot>

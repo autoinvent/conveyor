@@ -1,4 +1,5 @@
 import { HTMLAttributes, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 import { Store } from '@tanstack/react-store';
 
 import { useStoreSetStateEffect } from '@/hooks';
@@ -17,7 +18,7 @@ export interface TableProps
     HTMLAttributes<HTMLTableElement> {}
 
 export const Table = Object.assign(
-  ({ data, columnIds, children, ...props }: TableProps) => {
+  ({ data, columnIds, children, className, ...props }: TableProps) => {
     const [tableStore] = useState(new Store<TableStore>({ data, columnIds }));
     useStoreSetStateEffect({
       store: tableStore,
@@ -33,7 +34,7 @@ export const Table = Object.assign(
     return (
       <TableStoreContext.Provider value={tableStore}>
         <table
-          className='bg-[--fg-color] table-auto border-collapse border border-[--border-color]'
+          className={twMerge('bg-[--fg-color] table-auto border-collapse border border-[--border-color]', className)}
           {...props}
         >
           {children === undefined ? (
