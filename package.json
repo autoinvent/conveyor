@@ -21,20 +21,19 @@
     }
   },
   "scripts": {
-    "example": "concurrently  \"cd example && vite\" \"pnpx tailwindcss -i ./src/input.css -o ./src/index.css --watch\"",
     "build": "tsc && vite build",
-    "format": "rome format . --write",
-    "build-tailwind-watch": "",
+    "example": "concurrently --kill-others  \"cd example && vite\" \"pnpm:run-tailwindcss\"",
+    "storybook": "concurrently --kill-others \"storybook dev -p 6006\" \"pnpm:run-tailwindcss\"",
+    "format": "@biomejs/biome format --write *",
+    "run-tailwindcss": "tailwindcss -i ./src/styles.css -o ./build/styles.css --watch",
     "run-tsc": "tsc",
-    "run-rome-lint": "rome check . --apply",
-    "run-stylelint": "stylelint --cache --fix --ignore-path .gitignore '**/*.css'",
-    "lint": "run-p run-tsc run-stylelint run-rome-lint",
+    "run-biome-lint": "@biomejs/biome lint --apply *",
+    "lint": "run-p run-tsc run-biome-lint",
     "preview": "vite preview",
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui",
     "validate": "run-p lint test:ci",
-    "storybook": "concurrently \"storybook dev -p 6006\" \"pnpx tailwindcss -i ./src/input.css -o ./src/index.css --watch\"",
     "build-storybook": "storybook build"
   },
   "dependencies": {
@@ -55,6 +54,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
+    "@biomejs/biome": "1.7.1",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",
@@ -64,28 +64,18 @@
     "@storybook/react-vite": "^7.6.17",
     "@storybook/test": "^7.6.17",
     "@tanstack/react-query-devtools": "^4.32.0",
-    "@testing-library/dom": "9.3.1",
-    "@testing-library/jest-dom": "5.17.0",
-    "@testing-library/react": "14.0.0",
-    "@testing-library/react-hooks": "8.0.1",
-    "@testing-library/user-event": "14.4.3",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/react-helmet": "6.1.6",
-    "@types/testing-library__jest-dom": "5.14.8",
     "@vitejs/plugin-react": "4.0.3",
     "@vitest/ui": "0.33.0",
     "concurrently": "^8.2.2",
     "graphql-request": "^6.1.0",
-    "jsdom": "22.1.0",
-    "lint-staged": "13.2.3",
     "npm-run-all": "4.1.5",
+    "prettier-plugin-tailwindcss": "^0.5.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rome": "12.1.3",
     "storybook": "^7.6.17",
-    "stylelint": "15.10.2",
-    "stylelint-config-standard": "34.0.0",
     "tailwindcss": "^3.4.3",
     "typescript": "5.1.6",
     "vite": "4.4.7",
@@ -93,13 +83,5 @@
     "vite-plugin-node-polyfills": "^0.11.2",
     "vite-plugin-svgr": "^4.2.0",
     "vitest": "0.33.0"
-  },
-  "lint-staged": {
-    "*": "rome format . --write",
-    "*.css": "stylelint --cache --fix",
-    "*.{ts,tsx}": [
-      "rome check --apply",
-      "vitest related --run --coverage=false"
-    ]
   }
 }

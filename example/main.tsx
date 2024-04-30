@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client';
 
 import App from './App';
 
-import './../src/index.css';
+import './../build/styles.css';
 
 const initSPA = async () => {
   const container = document.getElementById('root');

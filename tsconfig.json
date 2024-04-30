@@ -32,7 +32,6 @@
     "src"
   ],
   "exclude": [
-    "**/*.test.ts"
   ],
   "references": [
     {

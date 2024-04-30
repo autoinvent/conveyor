@@ -13,6 +13,7 @@ const meta = {
   args: {
     alertId: '',
     content: 'This is an Alert!',
+    expires: 2000,
   },
   argTypes: {
     alertId: { table: { disable: true } },
@@ -25,7 +26,7 @@ type Story = StoryObj<typeof meta>;
 export const BasicUsage: Story = {
   render: (props) => {
     return (
-      <div>
+      <div className="overflow-hidden relative w-96 h-96 box-border border-[--border-color] border-2">
         <Alerts>
           <AddAlertButton {...props} />
         </Alerts>

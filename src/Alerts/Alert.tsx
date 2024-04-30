@@ -42,8 +42,8 @@ export const Alert = ({
   return show ? (
     <div
       className={twMerge(
-        'relative text-center ml-[12.5%] w-3/4 max-h-20 rounded border border-[--fg-accent] p-4 pr-10 transition-colors overflow-hidden',
-        className || 'bg-slate-300 text-slate-700',
+        'bg-slate-300 text-slate-700 relative text-center w-full max-h-20 rounded border border-[--fg-accent] p-4 transition-colors overflow-hidden',
+        className
       )}
       {...props}
       role='alert'

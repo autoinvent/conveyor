@@ -26,7 +26,7 @@ export const Alerts = ({
     <AlertsStoreContext.Provider value={alertsStore}>
       <div
         className={twMerge(
-          'text-center absolute top-0 inset-x-0 w-full flex flex-col gap-y-1 z-50',
+          'absolute mt-2 ml-[12.5%] w-3/4 flex flex-wrap flex-col gap-y-1 content-center z-10',
           className,
         )}
         {...props}
