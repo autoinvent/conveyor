@@ -21,10 +21,10 @@
     }
   },
   "scripts": {
-    "example": "cd example && vite",
+    "example": "concurrently  \"cd example && vite\" \"pnpx tailwindcss -i ./src/input.css -o ./src/index.css --watch\"",
     "build": "tsc && vite build",
     "format": "rome format . --write",
-    "build-tailwind-watch": "pnpx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+    "build-tailwind-watch": "",
     "run-tsc": "tsc",
     "run-rome-lint": "rome check . --apply",
     "run-stylelint": "stylelint --cache --fix --ignore-path .gitignore '**/*.css'",
@@ -34,7 +34,7 @@
     "test:ci": "vitest run",
     "test:ui": "vitest --ui",
     "validate": "run-p lint test:ci",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "concurrently \"storybook dev -p 6006\" \"pnpx tailwindcss -i ./src/input.css -o ./src/index.css --watch\"",
     "build-storybook": "storybook build"
   },
   "dependencies": {
@@ -75,6 +75,7 @@
     "@types/testing-library__jest-dom": "5.14.8",
     "@vitejs/plugin-react": "4.0.3",
     "@vitest/ui": "0.33.0",
+    "concurrently": "^8.2.2",
     "graphql-request": "^6.1.0",
     "jsdom": "22.1.0",
     "lint-staged": "13.2.3",
