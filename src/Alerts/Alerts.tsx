@@ -1,4 +1,5 @@
 import { ComponentType, Fragment, HTMLAttributes, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 import { Store, useStore } from '@tanstack/react-store';
 
 import { Alert, AlertProps } from './Alert';
@@ -11,6 +12,7 @@ export interface AlertsProps extends HTMLAttributes<HTMLDivElement> {
 export const Alerts = ({
   AlertComponent = Alert,
   children,
+  className,
   ...props
 }: AlertsProps) => {
   const [alertsStore] = useState(
@@ -22,7 +24,7 @@ export const Alerts = ({
 
   return (
     <AlertsStoreContext.Provider value={alertsStore}>
-      <div className='flex flex-col gap-y-4' {...props}>
+      <div className={twMerge('text-center absolute top-0 inset-x-0 w-full flex flex-col gap-y-1 z-50', className)} {...props}>
         {alerts.map((alert) => {
           return (
             <Fragment key={alert.alertId}>
