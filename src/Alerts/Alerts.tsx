@@ -24,7 +24,13 @@ export const Alerts = ({
 
   return (
     <AlertsStoreContext.Provider value={alertsStore}>
-      <div className={twMerge('text-center absolute top-0 inset-x-0 w-full flex flex-col gap-y-1 z-50', className)} {...props}>
+      <div
+        className={twMerge(
+          'text-center absolute top-0 inset-x-0 w-full flex flex-col gap-y-1 z-50',
+          className,
+        )}
+        {...props}
+      >
         {alerts.map((alert) => {
           return (
             <Fragment key={alert.alertId}>

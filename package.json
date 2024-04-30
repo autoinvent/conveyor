@@ -24,7 +24,7 @@
     "example": "cd example && vite",
     "build": "tsc && vite build",
     "format": "rome format . --write",
-    "tailwind-watch": "pnpx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+    "build-tailwind-watch": "pnpx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "run-tsc": "tsc",
     "run-rome-lint": "rome check . --apply",
     "run-stylelint": "stylelint --cache --fix --ignore-path .gitignore '**/*.css'",
