@@ -36,7 +36,7 @@ export const Dashboard = ({ ...props }: DashboardProps) => {
           </Link>
         </nav>
       </aside>
-      <div className=' gap-4 py-4 pl-14'>
+      <div className='conveyor-container'>
         <main className='items-start p-4 px-6'>
           <Outlet />
         </main>

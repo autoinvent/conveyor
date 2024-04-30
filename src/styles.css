@@ -46,4 +46,10 @@
         background-color: var(--bg-warning);
         color: hsl(from var(--bg-warning) h s calc(l - 0.6));
     }
+
+    .conveyor-container {
+        max-width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
 }
