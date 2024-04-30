@@ -8,7 +8,7 @@ export interface TableHeadProps
 
 export const TableHead = ({ children, className, ...props }: TableHeadProps) => {
   return (
-    <thead className={twMerge('bg-[--bg-accent]', className)} {...props}>
+    <thead className={twMerge('rounded bg-[--header-color]', className)} {...props}>
       {children === undefined ? <TableHeaderRow /> : children}
     </thead>
   );

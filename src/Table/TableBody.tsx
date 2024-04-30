@@ -1,4 +1,5 @@
 import { HTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import { DataProvider, DataType } from '@/Data';
 import { generateUID } from '@/utils';
@@ -9,11 +10,11 @@ import { useTable } from './useTable';
 export interface TableBodyProps
   extends HTMLAttributes<HTMLTableSectionElement> {}
 
-export const TableBody = ({ children, ...props }: TableBodyProps) => {
+export const TableBody = ({ children, className, ...props }: TableBodyProps) => {
   const { selected: data } = useTable((state) => state.data);
 
   return data && data.length > 0 ? (
-    <tbody {...props}>
+    <tbody className={twMerge('rounded', className)} {...props}>
       {data.map((rowData: DataType) => {
         const rowKey = `table-row-${generateUID()}`;
         return (
