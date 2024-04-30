@@ -42,7 +42,7 @@ export const Alert = ({
   return show ? (
     <div
       className={twMerge(
-        'bg-slate-300 text-slate-700 relative text-center w-full max-h-20 rounded border border-[--fg-accent] p-4 pr-8 transition-colors overflow-hidden',
+        'bg-slate-300 text-slate-700 relative text-center w-full max-h-20 rounded border border-[--fg-accent] p-4 pr-8 transition-colors overflow-hidden cursor-default',
         className
       )}
       {...props}
