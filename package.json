@@ -22,9 +22,11 @@
   },
   "scripts": {
     "build": "tsc && vite build",
-    "example": "concurrently --kill-others  \"cd example && vite\" \"pnpm:run-tailwindcss\"",
-    "storybook": "concurrently --kill-others \"storybook dev -p 6006\" \"pnpm:run-tailwindcss\"",
+    "example": "concurrently --kill-others  \"pnpm:run-example\" \"pnpm:run-tailwindcss\"",
+    "storybook": "concurrently --kill-others \"pnpm:run-storybook\" \"pnpm:run-tailwindcss\"",
     "format": "@biomejs/biome format --write *",
+    "run-example": "cd example && vite",
+    "run-storybook": "storybook dev -p 6006",
     "run-tailwindcss": "tailwindcss -i ./src/styles.css -o ./build/styles.css --watch",
     "run-tsc": "tsc",
     "run-biome-lint": "@biomejs/biome lint --apply *",

@@ -6,9 +6,9 @@ import {
 } from 'react-icons/fa';
 
 import { Lens, useLenses, DataLens } from '@/Lenses';
-
 import { TableCell, TableCellProps } from '@/Table';
 
+import { ACTION_SLOT } from './constants';
 import { useModelIndex } from './useModelIndex';
 
 export interface ModelIndexTableActionCellProps
@@ -20,7 +20,7 @@ export const ModelIndexTableActionCell = ({
   ...props
 }: ModelIndexTableActionCellProps) => {
   const { setLens } = useLenses();
-  const modelIndexStore = useModelIndex();
+  const {selected} = useModelIndex((state) => ({showActions: state.showActions}) );
   // const { } = useStore(modelIndexStore, (state) => ({
   //   data: state.data,
   //   fields: state.fields,
@@ -30,8 +30,8 @@ export const ModelIndexTableActionCell = ({
   const onEdit = () => setLens(DataLens.EDITING);
   const onCancelEdit = () => setLens(DataLens.DISPLAY);
 
-  return (
-    <TableCell columnId={} {...props}>
+  return selected.showActions ? (
+    <TableCell columnId={ACTION_SLOT} {...props}>
       {children === undefined ? (
         <div>
           <Lens lens={DataLens.DISPLAY}>
@@ -54,6 +54,6 @@ export const ModelIndexTableActionCell = ({
       ) : (
         children
       )}
-    </td>
-  );
+    </TableCell>
+  ) : null;
 };

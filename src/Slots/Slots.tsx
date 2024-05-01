@@ -21,12 +21,13 @@ export const Slots = ({ slotOrder, children }: SlotsProps) => {
   });
 
   const { slotOrder: slotKeys, slots } = useStore(slotsStore, (state) => state);
+
   useStoreSetStateEffect({
     store: slotsStore,
     setState: (state) => ({ ...state, slotOrder }),
     deps: [slotOrder],
   });
-  
+
   return (
     <SlotsStoreContext.Provider value={slotsStore}>
       {slotKeys.map((slotKey) => {
