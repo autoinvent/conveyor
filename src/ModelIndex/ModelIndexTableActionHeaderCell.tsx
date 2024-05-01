@@ -1,11 +1,13 @@
-import { HTMLAttributes } from 'react';
+import { TableHeaderCell, TableHeaderCellProps } from '@/Table';
+
+import { ACTION_SLOT } from './constants';
 
 export interface ModelIndexTableActionHeaderCellProps
-  extends HTMLAttributes<HTMLTableCellElement> {}
+  extends Omit<TableHeaderCellProps, 'columnId'> {}
 
 export const ModelIndexTableActionHeaderCell = ({
   children,
   ...props
 }: ModelIndexTableActionHeaderCellProps) => {
-  return <th {...props}>{children === undefined ? null : children}</th>;
+  return <TableHeaderCell columnId={ACTION_SLOT} {...props}>{children === undefined ? null : children}</TableHeaderCell>;
 };

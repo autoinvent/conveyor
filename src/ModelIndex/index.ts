@@ -1,4 +1,4 @@
-// // components
+// components
 export * from './ModelIndex';
 export * from './ModelIndexPagination';
 export * from './ModelIndexTable';
@@ -12,10 +12,13 @@ export * from './ModelIndexTableHeaderCell';
 export * from './ModelIndexTableRow';
 export * from './ModelIndexTitle';
 
-// // contexts
+// constants 
+export * from './constants'
+
+// contexts
 export * from './ModelIndexStoreContext';
 
-// // hooks
+// hooks
 export * from './useModelIndex';
 
 // types

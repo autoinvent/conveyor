@@ -1,23 +1,26 @@
-import { HTMLAttributes } from 'react';
 import {
   FaRegTrashAlt,
   FaEdit,
   FaRegSave,
   FaRegTimesCircle,
 } from 'react-icons/fa';
-import { useStore } from '@tanstack/react-store';
 
 import { Lens, useLenses, DataLens } from '@/Lenses';
+import { TableCell, TableCellProps } from '@/Table';
+
+import { ACTION_SLOT } from './constants';
+import { useModelIndex } from './useModelIndex';
 
 export interface ModelIndexTableActionCellProps
-  extends HTMLAttributes<HTMLTableCellElement> {}
+extends Omit<TableCellProps, 'columnId'> {
+}
 
 export const ModelIndexTableActionCell = ({
   children,
   ...props
 }: ModelIndexTableActionCellProps) => {
   const { setLens } = useLenses();
-  // const modelIndexStore = useModelIndexStore();
+  const {selected} = useModelIndex((state) => ({showActions: state.showActions}) );
   // const { } = useStore(modelIndexStore, (state) => ({
   //   data: state.data,
   //   fields: state.fields,
@@ -27,8 +30,8 @@ export const ModelIndexTableActionCell = ({
   const onEdit = () => setLens(DataLens.EDITING);
   const onCancelEdit = () => setLens(DataLens.DISPLAY);
 
-  return (
-    <td {...props}>
+  return selected.showActions ? (
+    <TableCell columnId={ACTION_SLOT} {...props}>
       {children === undefined ? (
         <div>
           <Lens lens={DataLens.DISPLAY}>
@@ -51,6 +54,6 @@ export const ModelIndexTableActionCell = ({
       ) : (
         children
       )}
-    </td>
-  );
+    </TableCell>
+  ) : null;
 };
