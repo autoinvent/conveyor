@@ -1,7 +1,7 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 
 export interface ModelIndexTableActionHeaderCellProps
-  extends HTMLAttributes<HTMLTableCellElement> {}
+  extends ComponentProps<"th"> {}
 
 export const ModelIndexTableActionHeaderCell = ({
   children,

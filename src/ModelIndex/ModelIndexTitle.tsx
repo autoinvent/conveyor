@@ -1,11 +1,11 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 
 import { humanizeText } from '@/utils';
 
 import { useModelIndex } from './useModelIndex';
 
 export interface ModelIndexTitleProps
-  extends HTMLAttributes<HTMLHeadingElement> {}
+  extends ComponentProps<"h2"> {}
 
 export const ModelIndexTitle = ({
   children,

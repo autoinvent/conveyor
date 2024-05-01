@@ -1,11 +1,11 @@
-import { HTMLAttributes, ReactNode, useEffect, useState } from 'react';
+import { ComponentProps, ReactNode, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { useAlerts } from './useAlerts';
 import { X } from 'lucide-react';
 
 export interface AlertProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'content'> {
+  extends Omit<ComponentProps<"div">, 'content'> {
   alertId: string;
   content: ReactNode;
   expires?: number;

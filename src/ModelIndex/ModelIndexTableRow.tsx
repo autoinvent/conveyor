@@ -4,6 +4,7 @@ import { TableRow, TableRowProps } from '@/Table';
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
 import { useModelIndex } from './useModelIndex';
+import { ACTION_SLOT } from './constants';
 
 export interface ModelIndexTableRowProps extends TableRowProps {}
 
@@ -14,18 +15,14 @@ export const ModelIndexTableRow = ({
   className,
   style,
 }: ModelIndexTableRowProps) => {
-  const { selected } = useModelIndex((state) => ({
-    fields: state.fields,
-    showActions: state.showActions,
-  }));
-  const fields: string[] = selected.fields;
-  const showActions: boolean = selected.showActions;
+  const { selected: fields } = useModelIndex((state) => state.fields)
   return (
     <Lenses activeLens={DataLens.DISPLAY}>
       <TableRow prefilled={false} id={id} className={className} style={style}>
         {children === undefined || prefilled ? (
           <>
-            {fields.map((field) => {
+            {fields.map((field: string) => {
+              if (field === ACTION_SLOT) return <ModelIndexTableActionCell />
               return <ModelIndexTableCell key={field} field={field} />;
             })}
             {children}
@@ -33,7 +30,6 @@ export const ModelIndexTableRow = ({
         ) : (
           children
         )}
-        {showActions ? <ModelIndexTableActionCell /> : null}
       </TableRow>
     </Lenses>
   );

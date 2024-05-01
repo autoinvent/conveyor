@@ -1,9 +1,9 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 
 import { useData } from '@/Data';
 import { Slot } from '@/Slots';
 
-export interface TableCellProps extends HTMLAttributes<HTMLTableCellElement> {
+export interface TableCellProps extends ComponentProps<"td"> {
   columnId: string;
 }
 

@@ -1,10 +1,10 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { TableHeaderRow } from './TableHeaderRow';
 
 export interface TableHeadProps
-  extends HTMLAttributes<HTMLTableSectionElement> {}
+  extends ComponentProps<"thead"> {}
 
 export const TableHead = ({ children, className, ...props }: TableHeadProps) => {
   return (

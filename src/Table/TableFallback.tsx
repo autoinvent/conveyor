@@ -1,14 +1,12 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 
 import { useTable } from './useTable';
 
 export interface TableFallbackProps
-  extends HTMLAttributes<HTMLTableSectionElement> {
-  colSpan?: number;
+  extends ComponentProps<"tbody"> {
 }
 
 export const TableFallback = ({
-  colSpan,
   children,
   ...props
 }: TableFallbackProps) => {
@@ -30,7 +28,7 @@ export const TableFallback = ({
   return (!data || data.length === 0) && columnIds.length > 0 ? (
     <tbody {...props}>
       <tr>
-        <td colSpan={colSpan ?? columnIds.length}>
+        <td colSpan={columnIds.length}>
           {children === undefined ? cellContent : children}
         </td>
       </tr>

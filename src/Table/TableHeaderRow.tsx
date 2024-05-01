@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 
 import { Slots } from '@/Slots';
 
@@ -6,7 +6,7 @@ import { TableHeaderCell } from './TableHeaderCell';
 import { useTable } from './useTable';
 
 export interface TableHeaderRowProps
-  extends HTMLAttributes<HTMLTableRowElement> {
+  extends ComponentProps<"tr"> {
   prefilled?: boolean;
 }
 

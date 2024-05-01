@@ -1,4 +1,4 @@
-import { HTMLAttributes, useState } from 'react';
+import { ComponentProps, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
 import { useStoreSetStateEffect } from '@/hooks';
@@ -13,7 +13,7 @@ import { ModelIndexTitle } from './ModelIndexTitle';
 
 export interface ModelIndexProps
   extends ModelIndexStore,
-    HTMLAttributes<HTMLElement> {}
+  ComponentProps<"section"> {}
 
 export const ModelIndex = Object.assign(
   ({

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 
 import { DataProvider, DataType } from '@/Data';
 import { generateUID } from '@/utils';
@@ -7,7 +7,7 @@ import { TableRow } from './TableRow';
 import { useTable } from './useTable';
 
 export interface TableBodyProps
-  extends HTMLAttributes<HTMLTableSectionElement> {}
+  extends ComponentProps<"tbody"> {}
 
 export const TableBody = ({ children, ...props }: TableBodyProps) => {
   const { selected: data } = useTable((state) => state.data);

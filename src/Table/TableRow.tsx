@@ -1,11 +1,11 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 
 import { Slots } from '@/Slots';
 
 import { TableCell } from './TableCell';
 import { useTable } from './useTable';
 
-export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
+export interface TableRowProps extends ComponentProps<"tr"> {
   prefilled?: boolean;
 }
 
