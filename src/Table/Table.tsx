@@ -1,4 +1,4 @@
-import { HTMLAttributes, useState } from 'react';
+import { ComponentProps, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { Store } from '@tanstack/react-store';
 
@@ -15,7 +15,7 @@ import { TableStore, TableStoreContext } from './TableStoreContext';
 
 export interface TableProps
   extends TableStore,
-    HTMLAttributes<HTMLTableElement> {}
+  ComponentProps<"table"> {}
 
 export const Table = Object.assign(
   ({ data, columnIds, children, className, ...props }: TableProps) => {

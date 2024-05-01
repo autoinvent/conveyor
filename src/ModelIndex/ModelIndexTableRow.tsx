@@ -1,31 +1,25 @@
 import { Lenses, DataLens } from '@/Lenses';
-import { TableRow, TableRowProps } from '@/Table';
+import { TableRow, TableRowProps, useTable } from '@/Table';
 
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
-import { useModelIndex } from './useModelIndex';
+import { ACTION_SLOT } from './constants';
 
-export interface ModelIndexTableRowProps extends TableRowProps {}
+export interface ModelIndexTableRowProps extends TableRowProps { }
 
 export const ModelIndexTableRow = ({
   prefilled,
   children,
-  id,
-  className,
-  style,
+  ...props
 }: ModelIndexTableRowProps) => {
-  const { selected } = useModelIndex((state) => ({
-    fields: state.fields,
-    showActions: state.showActions,
-  }));
-  const fields: string[] = selected.fields;
-  const showActions: boolean = selected.showActions;
+  const { selected: columnIds } = useTable((state) => state.columnIds)
   return (
     <Lenses activeLens={DataLens.DISPLAY}>
-      <TableRow prefilled={false} id={id} className={className} style={style}>
+      <TableRow prefilled={false} {...props}>
         {children === undefined || prefilled ? (
           <>
-            {fields.map((field) => {
+            {columnIds.map((field: string) => {
+              if (field === ACTION_SLOT) return <ModelIndexTableActionCell key={ACTION_SLOT} />
               return <ModelIndexTableCell key={field} field={field} />;
             })}
             {children}
@@ -33,7 +27,6 @@ export const ModelIndexTableRow = ({
         ) : (
           children
         )}
-        {showActions ? <ModelIndexTableActionCell /> : null}
       </TableRow>
     </Lenses>
   );

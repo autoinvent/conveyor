@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { DataProvider, DataType } from '@/Data';
@@ -8,7 +8,7 @@ import { TableRow } from './TableRow';
 import { useTable } from './useTable';
 
 export interface TableBodyProps
-  extends HTMLAttributes<HTMLTableSectionElement> {}
+  extends ComponentProps<"tbody"> {}
 
 export const TableBody = ({ children, className, ...props }: TableBodyProps) => {
   const { selected: data } = useTable((state) => state.data);

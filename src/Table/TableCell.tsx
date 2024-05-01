@@ -1,10 +1,10 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { useData } from '@/Data';
 import { Slot } from '@/Slots';
 
-export interface TableCellProps extends HTMLAttributes<HTMLTableCellElement> {
+export interface TableCellProps extends ComponentProps<"td"> {
   columnId: string;
 }
 

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 
 import { Table } from '@/Table';
 
@@ -11,22 +11,21 @@ import { ModelIndexTableHead } from './ModelIndexTableHead';
 import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
 import { ModelIndexTableRow } from './ModelIndexTableRow';
+import { ACTION_SLOT } from './constants';
 import { useModelIndex } from './useModelIndex';
 
 export interface ModelIndexTableProps
-  extends HTMLAttributes<HTMLTableElement> {}
+  extends ComponentProps<"table"> { }
 
 export const ModelIndexTable = Object.assign(
   ({ children, ...props }: ModelIndexTableProps) => {
-    const {
-      selected: { fields, data },
-    } = useModelIndex((state) => {
-      const { fields, data } = state;
-      return { fields, data };
+    const { selected } = useModelIndex((state) => {
+      return { fields: state.fields, data: state.data };
     });
 
+    const fields = selected.fields.includes(ACTION_SLOT) ? selected.fields : selected.fields.concat(ACTION_SLOT)
     return (
-      <Table columnIds={fields} data={data} {...props}>
+      <Table columnIds={fields} data={selected.data} {...props}>
         {children === undefined ? (
           <>
             <ModelIndexTableHead />

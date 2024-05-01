@@ -14,9 +14,12 @@ const meta = {
     alertId: '',
     content: 'This is an Alert!',
     expires: 2000,
+    className: undefined,
   },
+  // TODO: make className of type options: undefined, success, warning, danger
   argTypes: {
     alertId: { table: { disable: true } },
+    className: { table: { disable: false }, control: 'text' }
   },
 } satisfies Meta<typeof Alert>;
 
@@ -56,7 +59,7 @@ const AddAlertButton = (props: AlertProps) => {
         addAlert({
           ...props,
           content: `${props.content} ${counter}`,
-          className: 'success',
+          className: props.className,
         });
         setCounter(counter + 1);
       }}

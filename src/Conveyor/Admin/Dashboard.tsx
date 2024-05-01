@@ -1,12 +1,12 @@
 /// <reference types="vite-plugin-svgr/client" />
 
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 import { Link, Outlet } from '@tanstack/react-router';
 
 import Logo from '@/assets/logo.svg?react';
 import { LucideHome, LucideEclipse, LucideBox } from 'lucide-react';
 
-export interface DashboardProps extends HTMLAttributes<HTMLDivElement> { }
+export interface DashboardProps extends ComponentProps<"div"> { }
 
 export const Dashboard = ({ ...props }: DashboardProps) => {
   return (

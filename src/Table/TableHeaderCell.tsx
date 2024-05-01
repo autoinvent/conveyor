@@ -1,11 +1,11 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { Slot } from '@/Slots';
 import { humanizeText } from '@/utils';
 
 export interface TableHeaderCellProps
-  extends HTMLAttributes<HTMLTableCellElement> {
+  extends ComponentProps<"th"> {
   columnId: string;
 }
 
