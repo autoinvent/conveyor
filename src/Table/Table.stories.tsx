@@ -69,7 +69,7 @@ export const FullyCustomized: Story = {
           <Table.HeaderRow>
             <Table.HeaderCell columnId='firstname'>First Name</Table.HeaderCell>
             <Table.HeaderCell columnId='lastname'>Last Name</Table.HeaderCell>
-            <Table.HeaderCell columnId='username'>User Name</Table.HeaderCell>
+            <Table.HeaderCell className='isolate-right' columnId='username'>User Name</Table.HeaderCell>
           </Table.HeaderRow>
         </Table.Head>
         <Table.Body>
@@ -80,7 +80,7 @@ export const FullyCustomized: Story = {
             <Table.Cell columnId='lastname'>
               <CustomCell field='lastname' />
             </Table.Cell>
-            <Table.Cell columnId='username'>
+            <Table.Cell className='isolate-right' columnId='username'>
               <CustomCombinedCell />
             </Table.Cell>
           </Table.Row>

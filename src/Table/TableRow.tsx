@@ -13,7 +13,7 @@ export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
 export const TableRow = ({ prefilled, children, className, ...props }: TableRowProps) => {
   const { selected: columnIds } = useTable((state) => state.columnIds);
   return (
-    <tr className={twMerge('items-center rounded hover:bg-[--fg-accent] cursor-default', className)} {...props}>
+    <tr className={twMerge('items-center group rounded cursor-default', className)} {...props}>
       <Slots slotOrder={columnIds}>
         {children === undefined || prefilled ? (
           <>

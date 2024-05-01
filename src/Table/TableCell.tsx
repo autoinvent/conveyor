@@ -15,7 +15,7 @@ export const TableCell = ({ columnId, children, className, ...props }: TableCell
     typeof columnData === 'object' ? JSON.stringify(columnData) : columnData;
   return (
     <Slot slot={columnId}>
-      <td className={twMerge('text-center border border-solid border-[--border-color]', className)} {...props}>
+      <td className={twMerge('text-center bg-[--fg-color] border border-solid group-hover:bg-[--fg-accent] border-[--border-color]', className)} {...props}>
         {children === undefined ? displayData : children}
       </td>
     </Slot>

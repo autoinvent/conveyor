@@ -811,6 +811,10 @@ body {
   border-width: 1px;
 }
 
+.border-0 {
+  border-width: 0px;
+}
+
 .border-2 {
   border-width: 2px;
 }
@@ -969,6 +973,12 @@ body {
   color: hsl(from var(--bg-success) h s calc(l - 0.6));
 }
 
+.isolate-right {
+  margin-left: 50px;
+  display: block;
+  /* Treat table cell as a block-level element */
+}
+
 .hover\:bg-\[--fg-accent\]:hover {
   background-color: var(--fg-accent);
 }
@@ -983,4 +993,8 @@ body {
 
 .group:hover .group-hover\:inline {
   display: inline;
+}
+
+.group:hover .group-hover\:bg-\[--fg-accent\] {
+  background-color: var(--fg-accent);
 }
