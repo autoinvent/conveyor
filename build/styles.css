@@ -620,6 +620,11 @@ button {
   z-index: 10;
 }
 
+.mx-12 {
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -654,6 +659,10 @@ button {
 
 .box-border {
   box-sizing: border-box;
+}
+
+.block {
+  display: block;
 }
 
 .flex {
@@ -914,10 +923,6 @@ button {
   padding-left: 3.5rem;
 }
 
-.pr-8 {
-  padding-right: 2rem;
-}
-
 .text-center {
   text-align: center;
 }
@@ -952,18 +957,6 @@ button {
   opacity: 0.5;
 }
 
-.outline {
-  outline-style: solid;
-}
-
-.outline-2 {
-  outline-width: 2px;
-}
-
-.outline-\[--border-color\] {
-  outline-color: var(--border-color);
-}
-
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
@@ -992,16 +985,6 @@ button {
   color: hsl(from var(--bg-warning) h s calc(l - 0.6));
 }
 
-.isolate-right {
-  margin-left: 50px;
-  display: block;
-  /* Treat table cell as a block-level element */
-}
-
-.hover\:bg-\[--fg-accent\]:hover {
-  background-color: var(--fg-accent);
-}
-
 .hover\:text-\[--text-color\]:hover {
   color: var(--text-color);
 }
@@ -1017,3 +1000,4 @@ button {
 .group:hover .group-hover\:bg-\[--fg-accent\] {
   background-color: var(--fg-accent);
 }
+
