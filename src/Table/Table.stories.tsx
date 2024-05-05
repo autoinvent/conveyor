@@ -34,10 +34,10 @@ const meta = {
     }, [props.columnIds]);
 
     return (
-      <>
+      <div className='w-[1000px]'>
         <Table {...props} columnIds={columnIds} />
         <button onClick={changeOrder}>Reorder</button>
-      </>
+      </div>
     );
   },
 } satisfies Meta<typeof Table>;

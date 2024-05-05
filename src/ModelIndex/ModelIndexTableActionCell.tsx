@@ -10,6 +10,7 @@ import { TableCell, TableCellProps } from '@/Table';
 
 import { ACTION_SLOT } from './constants';
 import { useModelIndex } from './useModelIndex';
+import { twMerge } from 'tailwind-merge';
 
 export interface ModelIndexTableActionCellProps
 extends Omit<TableCellProps, 'columnId'> {
@@ -17,6 +18,7 @@ extends Omit<TableCellProps, 'columnId'> {
 
 export const ModelIndexTableActionCell = ({
   children,
+  className,
   ...props
 }: ModelIndexTableActionCellProps) => {
   const { setLens } = useLenses();
@@ -31,7 +33,7 @@ export const ModelIndexTableActionCell = ({
   const onCancelEdit = () => setLens(DataLens.DISPLAY);
 
   return selected.showActions ? (
-    <TableCell columnId={ACTION_SLOT} {...props}>
+    <TableCell className={twMerge('block mx-12', className)} columnId={ACTION_SLOT} {...props}>
       {children === undefined ? (
         <div>
           <Lens lens={DataLens.DISPLAY}>

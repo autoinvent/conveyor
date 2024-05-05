@@ -450,17 +450,19 @@ video {
   /* main background color */
   --bg-color: hsl(0 0% 9.8%);
   /* accent to distinguish components on top of --bg-color   */
-  --bg-accent: hsl(from var(--bg-color) h s calc(l * 0.5));
+  --bg-accent: hsl(from var(--bg-color) h s 0%);
   /* second level background color used on components on top of the --bg-color */
   --fg-color: hsl(from var(--bg-color) h s calc(l * 1.5));
   /* accent to distinguish components on top of --fg-color  */
-  --fg-accent: hsl(from var(--bg-color) h s calc(l * 2.25));
+  --fg-accent: hsl(from var(--bg-color) h s calc(l * 2));
   /* border color */
-  --border-color: hsl(from var(--bg-color) h s calc(l * 2.25));
+  --border-color: hsl(from var(--bg-color) h s calc(l * 2.5));
   /* base text color */
   --text-color: hsl(from var(--bg-color) h s calc(l * 9));
   /* inactive or not interactable color for text*/
   --text-muted: hsl(from var(--text-color) h s calc(l - .2));
+  /* Header color */
+  --header-color: hsl(from var(--bg-color) h s calc(l * 0.75));
   --bg-success: hsl(160, 100%, 95%);
   --bg-danger: hsl(0, 100%, 95%);
   --bg-warning: hsl(51, 100%, 85%);
@@ -606,8 +608,8 @@ button {
   left: 0px;
 }
 
-.right-3 {
-  right: 0.75rem;
+.right-2 {
+  right: 0.5rem;
 }
 
 .top-1\/2 {
@@ -616,6 +618,15 @@ button {
 
 .z-10 {
   z-index: 10;
+}
+
+.mx-12 {
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 
 .ml-1 {
@@ -648,6 +659,10 @@ button {
 
 .box-border {
   box-sizing: border-box;
+}
+
+.block {
+  display: block;
 }
 
 .flex {
@@ -698,6 +713,10 @@ button {
   width: 24rem;
 }
 
+.w-\[1000px\] {
+  width: 1000px;
+}
+
 .w-\[30px\] {
   width: 30px;
 }
@@ -714,8 +733,14 @@ button {
   table-layout: auto;
 }
 
-.border-collapse {
-  border-collapse: collapse;
+.border-separate {
+  border-collapse: separate;
+}
+
+.border-spacing-0 {
+  --tw-border-spacing-x: 0px;
+  --tw-border-spacing-y: 0px;
+  border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
 }
 
 .-translate-y-1\/2 {
@@ -735,6 +760,10 @@ button {
 
 .animate-spin {
   animation: spin 1s linear infinite;
+}
+
+.cursor-default {
+  cursor: default;
 }
 
 .cursor-pointer {
@@ -757,6 +786,10 @@ button {
   align-items: flex-start;
 }
 
+.items-center {
+  align-items: center;
+}
+
 .justify-center {
   justify-content: center;
 }
@@ -777,6 +810,10 @@ button {
   overflow: hidden;
 }
 
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
 .rounded {
   border-radius: 0.25rem;
 }
@@ -787,6 +824,10 @@ button {
 
 .border {
   border-width: 1px;
+}
+
+.border-0 {
+  border-width: 0px;
 }
 
 .border-2 {
@@ -805,6 +846,10 @@ button {
 
 .border-r {
   border-right-width: 1px;
+}
+
+.border-solid {
+  border-style: solid;
 }
 
 .border-\[--border-color\] {
@@ -827,12 +872,12 @@ button {
   background-color: var(--bg-color);
 }
 
-.bg-\[--fg-accent\] {
-  background-color: var(--fg-accent);
-}
-
 .bg-\[--fg-color\] {
   background-color: var(--fg-color);
+}
+
+.bg-\[--header-color\] {
+  background-color: var(--header-color);
 }
 
 .bg-slate-300 {
@@ -951,3 +996,8 @@ button {
 .group:hover .group-hover\:inline {
   display: inline;
 }
+
+.group:hover .group-hover\:bg-\[--fg-accent\] {
+  background-color: var(--fg-accent);
+}
+

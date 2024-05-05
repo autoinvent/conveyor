@@ -7,17 +7,19 @@
         /* main background color */
         --bg-color: hsl(0 0% 9.8%);
         /* accent to distinguish components on top of --bg-color   */
-        --bg-accent: hsl(from var(--bg-color) h s calc(l * 0.5));
+        --bg-accent: hsl(from var(--bg-color) h s 0%);
         /* second level background color used on components on top of the --bg-color */
         --fg-color: hsl(from var(--bg-color) h s calc(l * 1.5));
         /* accent to distinguish components on top of --fg-color  */
-        --fg-accent: hsl(from var(--bg-color) h s calc(l * 2.25));
+        --fg-accent: hsl(from var(--bg-color) h s calc(l * 2));
         /* border color */
-        --border-color: hsl(from var(--bg-color) h s calc(l * 2.25));
+        --border-color: hsl(from var(--bg-color) h s calc(l * 2.5));
         /* base text color */
         --text-color: hsl(from var(--bg-color) h s calc(l * 9));
         /* inactive or not interactable color for text*/
         --text-muted: hsl(from var(--text-color) h s calc(l - .2));
+        /* Header color */
+        --header-color: hsl(from var(--bg-color) h s calc(l * 0.75));
 
         --bg-success: hsl(160, 100%, 95%);
         --bg-danger: hsl(0, 100%, 95%);
@@ -49,6 +51,6 @@
 
 .warning {
     background-color: var(--bg-warning);
-    border-color:  hsl(from var(--bg-warning) h s calc(l - 0.6));
     color: hsl(from var(--bg-warning) h s calc(l - 0.6));
 }
+
