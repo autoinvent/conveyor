@@ -16,7 +16,7 @@ export const Dashboard = ({ ...props }: DashboardProps) => {
         {...props}
       >
         <nav className='flex flex-col gap-4 px-2 py-5'>
-          <div className='items-start inline-flex text-start gap-2 text-lg font-semibold'>
+          <div className='items-start inline-flex text-start gap-2 text-lg font-semibold text-[--text-color] cursor-default'>
             <Logo className='h-9 w-9' />
             <span className='ml-1.5 mt-1.5 hidden group-hover:inline'>
               Conveyor

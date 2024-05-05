@@ -34,7 +34,7 @@ export const Table = Object.assign(
     return (
       <TableStoreContext.Provider value={tableStore}>
         <table
-          className={twMerge('bg-[--fg-color] table-auto border-collapse border border-[--border-color]', className)}
+          className={twMerge('table-auto rounded w-full border-separate border-spacing-0 relative overflow-x-auto mb-2 overflow-hidden border-0', className)}
           {...props}
         >
           {children === undefined ? (
