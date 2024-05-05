@@ -909,18 +909,9 @@ button {
   padding-bottom: 0.375rem;
 }
 
-.py-4 {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
 .py-5 {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
-}
-
-.pl-14 {
-  padding-left: 3.5rem;
 }
 
 .text-center {
@@ -983,6 +974,12 @@ button {
   background-color: var(--bg-warning);
   border-color:  hsl(from var(--bg-warning) h s calc(l - 0.6));
   color: hsl(from var(--bg-warning) h s calc(l - 0.6));
+}
+
+.conveyor-container {
+  max-width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .hover\:text-\[--text-color\]:hover {
