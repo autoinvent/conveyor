@@ -49,7 +49,7 @@ export const Dashboard = ({ ...props }: DashboardProps) => {
           </Link>
         </nav>
       </aside>
-      <div className="conveyor-container">
+      <div className="mx-[10%] max-w-[80%]">
         <main className="items-start p-4 px-6">
           <Outlet />
         </main>

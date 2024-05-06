@@ -1,6 +1,9 @@
 // components
 export * from './ModelIndex';
+export * from './ModelIndexFilter';
 export * from './ModelIndexPagination';
+export * from './ModelIndexSettings';
+export * from './ModelIndexSettingsButton';
 export * from './ModelIndexTable';
 export * from './ModelIndexTableActionCell';
 export * from './ModelIndexTableActionHeaderCell';

@@ -3,11 +3,14 @@ import { Store } from '@tanstack/react-store';
 
 import { useIsFirstRender } from '@/hooks';
 
+import { ModelIndexFilter } from './ModelIndexFilter';
 import { ModelIndexPagination } from './ModelIndexPagination';
 import {
   ModelIndexStore,
   ModelIndexStoreContext,
 } from './ModelIndexStoreContext';
+import { ModelIndexSettings } from './ModelIndexSettings';
+import { ModelIndexSettingsButton } from './ModelIndexSettingsButton';
 import { ModelIndexTable } from './ModelIndexTable';
 import { ModelIndexTitle } from './ModelIndexTitle';
 
@@ -106,6 +109,7 @@ export const ModelIndex = Object.assign(
           {children === undefined ? (
             <>
               <ModelIndex.Title />
+              <ModelIndex.SettingsButton />
               <ModelIndex.Table />
               <ModelIndex.Pagination />
             </>
@@ -117,6 +121,9 @@ export const ModelIndex = Object.assign(
     );
   },
   {
+    Filter: ModelIndexFilter,
+    Settings: ModelIndexSettings,
+    SettingsButton: ModelIndexSettingsButton,
     Title: ModelIndexTitle,
     Table: ModelIndexTable,
     Pagination: ModelIndexPagination,

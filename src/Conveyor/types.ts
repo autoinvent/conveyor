@@ -2,7 +2,6 @@ import { DataType } from '@/Data';
 
 export interface ModelType {
   fields?: Record<string, FieldType>;
-  display?: (modelData: DataType) => string;
 }
 
 export interface FieldType {
