@@ -1,1 +1,1 @@
-export const ACTION_SLOT = '__ACTION_SLOT__'
+export const ACTION_SLOT = '__ACTION_SLOT__';

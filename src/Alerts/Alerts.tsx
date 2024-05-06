@@ -5,7 +5,7 @@ import { Store, useStore } from '@tanstack/react-store';
 import { Alert, AlertProps } from './Alert';
 import { AlertsStore, AlertsStoreContext } from './AlertsStoreContext';
 
-export interface AlertsProps extends ComponentProps<"div"> {
+export interface AlertsProps extends ComponentProps<'div'> {
   AlertComponent?: ComponentType<AlertProps>;
 }
 

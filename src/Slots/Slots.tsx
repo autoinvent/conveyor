@@ -1,7 +1,7 @@
-import { Fragment, ReactNode, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { Store, useStore } from '@tanstack/react-store';
 
-import { useStoreSetStateEffect } from '@/hooks';
+import { useIsFirstRender } from '@/hooks';
 
 import { SlotsStore, SlotsStoreContext } from './SlotsStoreContext';
 
@@ -22,11 +22,12 @@ export const Slots = ({ slotOrder, children }: SlotsProps) => {
 
   const { slotOrder: slotKeys, slots } = useStore(slotsStore, (state) => state);
 
-  useStoreSetStateEffect({
-    store: slotsStore,
-    setState: (state) => ({ ...state, slotOrder }),
-    deps: [slotOrder],
-  });
+  const isFirstRender = useIsFirstRender();
+  useEffect(() => {
+    if (!isFirstRender.current) {
+      slotsStore.setState((state) => ({ ...state, slotOrder }));
+    }
+  }, [slotOrder]);
 
   return (
     <SlotsStoreContext.Provider value={slotsStore}>

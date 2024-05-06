@@ -1,2 +1,2 @@
-export * from './common'
-export * from './useTableView'
+export * from './common';
+export * from './useTableView';

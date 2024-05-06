@@ -1,2 +1,2 @@
-export * from './common'
-export * from './magql'
+export * from './common';
+export * from './magql';

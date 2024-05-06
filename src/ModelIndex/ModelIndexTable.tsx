@@ -14,8 +14,7 @@ import { ModelIndexTableRow } from './ModelIndexTableRow';
 import { ACTION_SLOT } from './constants';
 import { useModelIndex } from './useModelIndex';
 
-export interface ModelIndexTableProps
-  extends ComponentProps<"table"> { }
+export interface ModelIndexTableProps extends ComponentProps<'table'> {}
 
 export const ModelIndexTable = Object.assign(
   ({ children, ...props }: ModelIndexTableProps) => {
@@ -23,7 +22,9 @@ export const ModelIndexTable = Object.assign(
       return { fields: state.fields, data: state.data };
     });
 
-    const fields = selected.fields.includes(ACTION_SLOT) ? selected.fields : selected.fields.concat(ACTION_SLOT)
+    const fields = selected.fields.includes(ACTION_SLOT)
+      ? selected.fields
+      : selected.fields.concat(ACTION_SLOT);
     return (
       <Table columnIds={fields} data={selected.data} {...props}>
         {children === undefined ? (

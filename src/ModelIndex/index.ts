@@ -12,14 +12,11 @@ export * from './ModelIndexTableHeaderCell';
 export * from './ModelIndexTableRow';
 export * from './ModelIndexTitle';
 
-// constants 
-export * from './constants'
+// constants
+export * from './constants';
 
 // contexts
 export * from './ModelIndexStoreContext';
 
 // hooks
 export * from './useModelIndex';
-
-// types
-export * from './types';

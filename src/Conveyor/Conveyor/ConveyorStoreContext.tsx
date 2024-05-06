@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { Store } from '@tanstack/react-store';
 
-import { TableView } from '@/ModelIndex';
+import { TableView } from '@/types';
 
 import { ModelType } from '../types';
 

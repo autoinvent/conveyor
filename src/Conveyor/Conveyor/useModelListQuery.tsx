@@ -1,16 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { TableView } from '@/types';
 import { camelToSnakeCase } from '@/utils';
 
 import { getPrimaryKeys, getQueryFields } from '../utils';
 
 import { useConveyor } from './useConveyor';
 
+export interface UseModelListQueryProps {
+  model: string;
+  fields: string[];
+  enabled?: boolean;
+  tableView?: TableView;
+}
+
 export const useModelListQuery = ({
   model,
   fields,
+  tableView = {},
   enabled,
-}: { model: string; fields: string[]; enabled?: boolean }) => {
+}: UseModelListQueryProps) => {
   const queryName = camelToSnakeCase(model);
   const operationName = `${queryName}_list`;
   const {
@@ -30,9 +39,9 @@ export const useModelListQuery = ({
     `;
   const query = useQuery({
     enabled,
-    queryKey: [model, operationName, document],
+    queryKey: [model, operationName, document, tableView],
     queryFn: () => {
-      return fetcher({ operationName, document });
+      return fetcher({ operationName, document, variables: tableView });
     },
   });
   return { ...query, operationName };

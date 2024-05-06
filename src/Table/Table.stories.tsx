@@ -34,7 +34,7 @@ const meta = {
     }, [props.columnIds]);
 
     return (
-      <div className='w-[1000px]'>
+      <div className="w-[1000px]">
         <Table {...props} columnIds={columnIds} />
         <button onClick={changeOrder}>Reorder</button>
       </div>
@@ -67,20 +67,20 @@ export const FullyCustomized: Story = {
       <>
         <Table.Head>
           <Table.HeaderRow>
-            <Table.HeaderCell columnId='firstname'>First Name</Table.HeaderCell>
-            <Table.HeaderCell columnId='lastname'>Last Name</Table.HeaderCell>
-            <Table.HeaderCell columnId='username'>User Name</Table.HeaderCell>
+            <Table.HeaderCell columnId="firstname">First Name</Table.HeaderCell>
+            <Table.HeaderCell columnId="lastname">Last Name</Table.HeaderCell>
+            <Table.HeaderCell columnId="username">User Name</Table.HeaderCell>
           </Table.HeaderRow>
         </Table.Head>
         <Table.Body>
           <Table.Row>
-            <Table.Cell columnId='firstname'>
-              <CustomCell field='firstname' />
+            <Table.Cell columnId="firstname">
+              <CustomCell field="firstname" />
             </Table.Cell>
-            <Table.Cell columnId='lastname'>
-              <CustomCell field='lastname' />
+            <Table.Cell columnId="lastname">
+              <CustomCell field="lastname" />
             </Table.Cell>
-            <Table.Cell columnId='username'>
+            <Table.Cell columnId="username">
               <CustomCombinedCell />
             </Table.Cell>
           </Table.Row>

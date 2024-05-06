@@ -41,18 +41,18 @@ export const BasicUsage: Story = {
     return (
       <div>
         <Slots slotOrder={slotOrder}>
-          <Slot slot='slot1'>
+          <Slot slot="slot1">
             <div>It's </div>
           </Slot>
-          <Slot slot='slot2'>
+          <Slot slot="slot2">
             <div>a </div>
           </Slot>
-          <Slot slot='slot3'>
+          <Slot slot="slot3">
             <div>
               <button onClick={onClick}>Beaver!</button>
             </div>
           </Slot>
-          <Slot slot='secret-slot'>
+          <Slot slot="secret-slot">
             <div>Or is it?!</div>
           </Slot>
         </Slots>
@@ -65,13 +65,13 @@ export const DuplicateSlots: Story = {
   render: (props) => (
     <div>
       <Slots {...props}>
-        <Slot slot='slot3'>
+        <Slot slot="slot3">
           <div>It's </div>
         </Slot>
-        <Slot slot='slot3'>
+        <Slot slot="slot3">
           <div>a </div>
         </Slot>
-        <Slot slot='slot3'>
+        <Slot slot="slot3">
           <div>Beaver!</div>
         </Slot>
       </Slots>
@@ -84,13 +84,13 @@ export const SlotsWithNonSlotChildren: Story = {
     <div>
       <Slots {...props}>
         <div>Not a Slot (Top)</div>
-        <Slot slot='slot1'>
+        <Slot slot="slot1">
           <div>It's </div>
         </Slot>
-        <Slot slot='slot2'>
+        <Slot slot="slot2">
           <div>a </div>
         </Slot>
-        <Slot slot='slot3'>
+        <Slot slot="slot3">
           <div>Beaver!</div>
         </Slot>
         <div>Not a Slot (Bottom)</div>
@@ -106,15 +106,15 @@ export const SlotsInDepth: Story = {
         <div>
           Yes,
           <span>
-            <Slot slot='slot1'>
+            <Slot slot="slot1">
               <div>It's</div>
             </Slot>
           </span>
         </div>
-        <Slot slot='slot2'>
+        <Slot slot="slot2">
           <div>a </div>
         </Slot>
-        <Slot slot='slot3'>
+        <Slot slot="slot3">
           <div>Beaver!</div>
         </Slot>
       </Slots>
@@ -128,14 +128,14 @@ export const DynamicSlots: Story = {
     return (
       <div>
         <Slots {...props}>
-          <Slot slot='slot1'>
+          <Slot slot="slot1">
             <div>It's</div>
           </Slot>
-          <Slot slot='slot2'>
+          <Slot slot="slot2">
             <div>a </div>
           </Slot>
           {isBeaver ? (
-            <Slot slot='slot3'>
+            <Slot slot="slot3">
               <div>Beaver!</div>
             </Slot>
           ) : (

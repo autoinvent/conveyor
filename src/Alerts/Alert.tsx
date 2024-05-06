@@ -4,8 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { useAlerts } from './useAlerts';
 import { X } from 'lucide-react';
 
-export interface AlertProps
-  extends Omit<ComponentProps<"div">, 'content'> {
+export interface AlertProps extends Omit<ComponentProps<'div'>, 'content'> {
   alertId: string;
   content: ReactNode;
   expires?: number;
@@ -15,7 +14,7 @@ export const Alert = ({
   alertId,
   content,
   expires,
-  className = "bg-slate-300 text-slate-700",
+  className = 'bg-slate-300 text-slate-700',
   ...props
 }: AlertProps) => {
   const { removeAlert } = useAlerts();
@@ -43,14 +42,14 @@ export const Alert = ({
     <div
       className={twMerge(
         'relative text-center w-full max-h-20 rounded border-2 p-4 transition-colors overflow-hidden',
-        className
+        className,
       )}
       {...props}
-      role='alert'
+      role="alert"
     >
       {content}
       <span
-        className='absolute top-1/2 transform -translate-y-1/2 right-2 opacity-50 cursor-pointer hover:opacity-100'
+        className="absolute top-1/2 transform -translate-y-1/2 right-2 opacity-50 cursor-pointer hover:opacity-100"
         onClick={onClose}
       >
         <X />

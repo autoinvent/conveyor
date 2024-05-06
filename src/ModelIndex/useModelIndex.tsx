@@ -16,7 +16,7 @@ export const useModelIndex = (selector?: StoreSelector<ModelIndexStore>) => {
     );
   }
 
-  const x = useStore(modelIndexStore, selector)
+  const x = useStore(modelIndexStore, selector);
   const selected = selector ? x : undefined;
 
   const setModelIndex = (

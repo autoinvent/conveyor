@@ -4,7 +4,6 @@ import { useStore } from '@tanstack/react-store';
 import { StoreSelector } from '@/types';
 
 import { DataStore, DataStoreContext } from './DataStoreContext';
-import { DataType } from './types';
 
 export const useData = (selector?: StoreSelector<DataStore>) => {
   const dataStore = useContext(DataStoreContext);
@@ -14,9 +13,24 @@ export const useData = (selector?: StoreSelector<DataStore>) => {
 
   const data = selector ? useStore(dataStore, selector) : undefined;
 
-  const setCurrentData = (current: DataType) => {
-    dataStore.setState((state) => ({ ...state, current }));
+  const setCurrentData = (field: string, current: any) => {
+    dataStore.setState((state) => ({
+      ...state,
+      current: {
+        ...state.current,
+        [field]: current,
+      },
+    }));
   };
 
-  return { data, setCurrentData };
+  const reset = () => {
+    dataStore.setState((state) => {
+      return {
+        ...state,
+        current: { ...state.original },
+      };
+    });
+  };
+
+  return { data, setCurrentData, reset };
 };

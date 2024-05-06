@@ -1,7 +1,7 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
-import { useStoreSetStateEffect } from '@/hooks';
+import { useIsFirstRender } from '@/hooks';
 
 import {
   LensType,
@@ -22,16 +22,13 @@ export const Lenses = ({
   const [lensesStore] = useState(
     new Store<LensesStore>({ activeLens, AvailableLenses }),
   );
-  useStoreSetStateEffect({
-    store: lensesStore,
-    setState: (state) => ({ ...state, activeLens }),
-    deps: [activeLens],
-  });
-  useStoreSetStateEffect({
-    store: lensesStore,
-    setState: (state) => ({ ...state, AvailableLenses }),
-    deps: [AvailableLenses],
-  });
+
+  const isFirstRender = useIsFirstRender();
+  useEffect(() => {
+    if (!isFirstRender.current) {
+      lensesStore.setState(() => ({ activeLens, AvailableLenses }));
+    }
+  }, [activeLens, AvailableLenses]);
 
   return (
     <LensesStoreContext.Provider value={lensesStore}>

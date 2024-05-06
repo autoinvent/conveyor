@@ -1,7 +1,7 @@
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, useEffect, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
-import { useStoreSetStateEffect } from '@/hooks';
+import { useIsFirstRender } from '@/hooks';
 
 import { ModelIndexPagination } from './ModelIndexPagination';
 import {
@@ -13,18 +13,26 @@ import { ModelIndexTitle } from './ModelIndexTitle';
 
 export interface ModelIndexProps
   extends ModelIndexStore,
-  ComponentProps<"section"> {}
+    ComponentProps<'section'> {}
 
 export const ModelIndex = Object.assign(
   ({
     fields,
     data,
     title,
-    tableView,
-    onTableViewChange,
     onSave,
     onDelete,
+    onCreate,
     showActions = true,
+    tableView,
+    getCurrentSort,
+    nextSort,
+    swapSort,
+    addFilter,
+    removeFilter,
+    swapFilter,
+    setPage,
+    setItemsPerPage,
     children,
     ...props
   }: ModelIndexProps) => {
@@ -33,55 +41,64 @@ export const ModelIndex = Object.assign(
         fields,
         data,
         title,
-        tableView,
-        onTableViewChange,
         onSave,
         onDelete,
+        onCreate,
         showActions,
+        tableView,
+        getCurrentSort,
+        nextSort,
+        swapSort,
+        addFilter,
+        removeFilter,
+        swapFilter,
+        setPage,
+        setItemsPerPage,
       }),
     );
 
-    useStoreSetStateEffect({
-      store: modelIndexStore,
-      setState: (state) => ({ ...state, fields }),
-      deps: [fields],
-    });
-    useStoreSetStateEffect({
-      store: modelIndexStore,
-      setState: (state) => ({ ...state, data }),
-      deps: [data],
-    });
-
-    useStoreSetStateEffect({
-      store: modelIndexStore,
-      setState: (state) => ({ ...state, title }),
-      deps: [title],
-    });
-    useStoreSetStateEffect({
-      store: modelIndexStore,
-      setState: (state) => ({ ...state, tableView }),
-      deps: [tableView],
-    });
-    useStoreSetStateEffect({
-      store: modelIndexStore,
-      setState: (state) => ({ ...state, onTableViewChange }),
-      deps: [onTableViewChange],
-    });
-    useStoreSetStateEffect({
-      store: modelIndexStore,
-      setState: (state) => ({ ...state, onSave }),
-      deps: [onSave],
-    });
-    useStoreSetStateEffect({
-      store: modelIndexStore,
-      setState: (state) => ({ ...state, onDelete }),
-      deps: [onDelete],
-    });
-    useStoreSetStateEffect({
-      store: modelIndexStore,
-      setState: (state) => ({ ...state, showActions }),
-      deps: [showActions],
-    });
+    const isFirstRender = useIsFirstRender();
+    useEffect(() => {
+      if (!isFirstRender.current) {
+        modelIndexStore.setState(() => {
+          return {
+            fields,
+            data,
+            title,
+            onSave,
+            onDelete,
+            onCreate,
+            showActions,
+            tableView,
+            getCurrentSort,
+            nextSort,
+            swapSort,
+            addFilter,
+            removeFilter,
+            swapFilter,
+            setPage,
+            setItemsPerPage,
+          };
+        });
+      }
+    }, [
+      fields,
+      data,
+      title,
+      tableView,
+      getCurrentSort,
+      onSave,
+      onDelete,
+      onCreate,
+      showActions,
+      nextSort,
+      swapSort,
+      addFilter,
+      removeFilter,
+      swapFilter,
+      setPage,
+      setItemsPerPage,
+    ]);
 
     return (
       <section {...props}>

@@ -1,9 +1,9 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { Store } from '@tanstack/react-store';
 
 import { Alerts } from '@/Alerts';
-import { useStoreSetStateEffect } from '@/hooks';
+import { useIsFirstRender } from '@/hooks';
 
 import { ConveyorStore, ConveyorStoreContext } from './ConveyorStoreContext';
 
@@ -42,26 +42,19 @@ export const Conveyor = ({
     new Store<ConveyorStore>({ fetcher, models, persistence, tableViews }),
   );
 
-  useStoreSetStateEffect({
-    store: conveyorStore,
-    setState: (state) => ({ ...state, fetcher }),
-    deps: [fetcher],
-  });
-  useStoreSetStateEffect({
-    store: conveyorStore,
-    setState: (state) => ({ ...state, models }),
-    deps: [models],
-  });
-  useStoreSetStateEffect({
-    store: conveyorStore,
-    setState: (state) => ({ ...state, persistence }),
-    deps: [persistence],
-  });
-  useStoreSetStateEffect({
-    store: conveyorStore,
-    setState: (state) => ({ ...state, tableViews }),
-    deps: [tableViews],
-  });
+  const isFirstRender = useIsFirstRender();
+  useEffect(() => {
+    if (!isFirstRender.current) {
+      conveyorStore.setState(() => {
+        return {
+          fetcher,
+          models,
+          persistence,
+          tableViews,
+        };
+      });
+    }
+  }, [fetcher, models, persistence, tableViews]);
 
   return (
     <QueryClientProvider client={queryClient}>

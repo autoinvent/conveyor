@@ -60,7 +60,8 @@ export const IntrospectionProvider = ({
           ? onSuccess(data)
           : addAlert({
               content: 'Succesfully fetched introspection!',
-              expires: 3000,
+              expires: 2000,
+              className: 'success',
             });
         setConveyor((state) => {
           const models = Object.assign({}, state.models);

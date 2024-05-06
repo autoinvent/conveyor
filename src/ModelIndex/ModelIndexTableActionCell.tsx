@@ -5,6 +5,7 @@ import {
   FaRegTimesCircle,
 } from 'react-icons/fa';
 
+import { useData } from '@/Data';
 import { Lens, useLenses, DataLens } from '@/Lenses';
 import { TableCell, TableCellProps } from '@/Table';
 
@@ -13,16 +14,18 @@ import { useModelIndex } from './useModelIndex';
 import { twMerge } from 'tailwind-merge';
 
 export interface ModelIndexTableActionCellProps
-extends Omit<TableCellProps, 'columnId'> {
-}
+  extends Omit<TableCellProps, 'columnId'> {}
 
 export const ModelIndexTableActionCell = ({
   children,
   className,
   ...props
 }: ModelIndexTableActionCellProps) => {
+  const { data, reset } = useData((state) => state);
   const { setLens } = useLenses();
-  const {selected} = useModelIndex((state) => ({showActions: state.showActions}) );
+  const { selected } = useModelIndex((state) => ({
+    showActions: state.showActions,
+  }));
   // const { } = useStore(modelIndexStore, (state) => ({
   //   data: state.data,
   //   fields: state.fields,
@@ -30,10 +33,13 @@ export const ModelIndexTableActionCell = ({
   // }));
 
   const onEdit = () => setLens(DataLens.EDITING);
-  const onCancelEdit = () => setLens(DataLens.DISPLAY);
+  const onCancelEdit = () => {
+    setLens(DataLens.DISPLAY);
+    reset();
+  };
 
   return selected.showActions ? (
-    <TableCell className={twMerge('block mx-12', className)} columnId={ACTION_SLOT} {...props}>
+    <TableCell columnId={ACTION_SLOT} {...props}>
       {children === undefined ? (
         <div>
           <Lens lens={DataLens.DISPLAY}>

@@ -19,7 +19,7 @@ const meta = {
   // TODO: make className of type options: undefined, success, warning, danger
   argTypes: {
     alertId: { table: { disable: true } },
-    className: { table: { disable: false }, control: 'text' }
+    className: { table: { disable: false }, control: 'text' },
   },
 } satisfies Meta<typeof Alert>;
 

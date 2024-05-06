@@ -620,6 +620,10 @@ button {
   z-index: 10;
 }
 
+.float-right {
+  float: right;
+}
+
 .mx-12 {
   margin-left: 3rem;
   margin-right: 3rem;
@@ -885,6 +889,11 @@ button {
   background-color: rgb(203 213 225 / var(--tw-bg-opacity));
 }
 
+.bg-\[red\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 0 0 / var(--tw-bg-opacity));
+}
+
 .p-4 {
   padding: 1rem;
 }
@@ -939,6 +948,11 @@ button {
   color: var(--text-muted);
 }
 
+.text-\[red\] {
+  --tw-text-opacity: 1;
+  color: rgb(255 0 0 / var(--tw-text-opacity));
+}
+
 .text-slate-700 {
   --tw-text-opacity: 1;
   color: rgb(51 65 85 / var(--tw-text-opacity));
@@ -972,7 +986,6 @@ button {
 
 .warning {
   background-color: var(--bg-warning);
-  border-color:  hsl(from var(--bg-warning) h s calc(l - 0.6));
   color: hsl(from var(--bg-warning) h s calc(l - 0.6));
 }
 

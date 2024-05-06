@@ -1,16 +1,16 @@
-export type ID = string
+export type ID = string;
 
 export interface SearchResult {
-  type: string
-  id: ID
-  value: string
-  extra: JSON
+  type: string;
+  id: ID;
+  value: string;
+  extra: JSON;
 }
 
 export interface CheckDeleteResult {
-  affected: SearchResult[]
-  prevented: SearchResult[]
-  deleted: SearchResult[]
+  affected: SearchResult[];
+  prevented: SearchResult[];
+  deleted: SearchResult[];
 }
 
 export interface TableViewFilter {

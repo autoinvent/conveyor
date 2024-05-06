@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode } from 'react';
 
 import { Home } from '../Home';
+import { ModelCreatePage } from '../ModelCreatePage';
 import { ModelIndexPage } from '../ModelIndexPage';
 import { Route, Routes } from '../Routes';
 
@@ -14,11 +15,14 @@ export interface AdminProps {
 export const Admin = ({ RootComponent = Dashboard, children }: AdminProps) => {
   return (
     <Routes RootComponent={RootComponent}>
-      <Route path='/'>
+      <Route path="/">
         <Home />
       </Route>
-      <Route path='/$model'>
+      <Route path="/$model">
         <ModelIndexPage />
+      </Route>
+      <Route path="/$model/create">
+        <ModelCreatePage />
       </Route>
       {children}
     </Routes>

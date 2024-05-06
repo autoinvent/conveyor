@@ -19,7 +19,7 @@ const App = () => {
   return (
     <>
       <Helmet>
-        <link id='favicon' rel='icon' type='image/svg+xml' href={logo} />
+        <link id="favicon" rel="icon" type="image/svg+xml" href={logo} />
       </Helmet>
       <Conveyor
         fetcher={(params) => request(gqlUrl, params.document, params.variables)}

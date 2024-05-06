@@ -4,9 +4,7 @@
   "description": "GraphiQL for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "main": "./dist/conveyor.umd.js",
   "module": "./dist/conveyor.mjs",
   "types": "./dist/index.d.ts",
@@ -24,7 +22,7 @@
     "build": "tsc && vite build",
     "example": "concurrently --kill-others  \"pnpm:run-example\" \"pnpm:run-tailwindcss\"",
     "storybook": "concurrently --kill-others \"pnpm:run-storybook\" \"pnpm:run-tailwindcss\"",
-    "format": "@biomejs/biome format --write *",
+    "format": "pnpx @biomejs/biome format --write *",
     "run-example": "cd example && vite",
     "run-storybook": "storybook dev -p 6006",
     "run-tailwindcss": "tailwindcss -i ./src/styles.css -o ./build/styles.css --watch",
@@ -39,6 +37,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.0.5",
     "@tanstack/react-query": "^5.28.4",
     "@tanstack/react-router": "^1.28.4",
     "@tanstack/react-store": "^0.3.1",

@@ -1,15 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "types": [
-      "vite/client",
-      "vitest/globals"
-    ],
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "types": ["vite/client", "vitest/globals"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
@@ -23,16 +16,11 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     }
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-  ],
+  "include": ["src"],
+  "exclude": [],
   "references": [
     {
       "path": "./tsconfig.node.json"

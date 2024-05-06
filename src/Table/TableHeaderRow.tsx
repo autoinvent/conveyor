@@ -6,8 +6,7 @@ import { Slots } from '@/Slots';
 import { TableHeaderCell } from './TableHeaderCell';
 import { useTable } from './useTable';
 
-export interface TableHeaderRowProps
-  extends ComponentProps<"tr"> {
+export interface TableHeaderRowProps extends ComponentProps<'tr'> {
   prefilled?: boolean;
 }
 

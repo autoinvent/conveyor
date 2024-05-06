@@ -1,6 +1,5 @@
-import { useStore } from '@tanstack/react-store';
-
-import { Lens, DataLens } from '@/Lenses';
+import { useData } from '@/Data';
+import { Lens, DataLens, useLenses } from '@/Lenses';
 import { TableCell, TableCellProps } from '@/Table';
 
 export interface ModelIndexTableCellProps
@@ -13,28 +12,31 @@ export const ModelIndexTableCell = ({
   children,
   ...props
 }: ModelIndexTableCellProps) => {
-  // const conveyorStore = useConveyorStore();
-  // const modelIndexStore = useModelIndexStore();
-  // const models = useStore(conveyorStore, (state) => state.models);
-  // const model = useStore(modelIndexStore, (state) => state.model);
-  // const inputType = models[model]?.fields?.[field]?.update
-  // const { data: { original } } = useForm();
-  // const fieldData = original[field];
-  // const displayData = typeof fieldData === 'object' ? JSON.stringify(fieldData) : fieldData;
+  const { setLens } = useLenses();
+  const { data, setCurrentData } = useData((state) => state.current);
+  const fieldData = data[field];
+  const displayData =
+    typeof fieldData === 'object' ? JSON.stringify(fieldData) : fieldData;
   return (
-    <TableCell columnId={field} {...props}>
-      {/* {children === undefined ? inputType === undefined ? displayData : (
+    <TableCell
+      columnId={field}
+      {...props}
+      onDoubleClick={() => setLens(DataLens.EDITING)}
+    >
+      {children === undefined ? (
         <>
           <Lens lens={DataLens.DISPLAY}>{displayData}</Lens>
           <Lens lens={DataLens.EDITING}>
-            <FormControl name={field}>
-              <FormControl.Input type={inputType} />
-            </FormControl>
+            <input
+              className="w-full bg-[--bg-accent]"
+              value={displayData}
+              onChange={(e) => setCurrentData(field, e.target.value)}
+            />
           </Lens>
         </>
       ) : (
         children
-      )} */}
+      )}
     </TableCell>
   );
 };

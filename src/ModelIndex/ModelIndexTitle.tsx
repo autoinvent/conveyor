@@ -4,8 +4,7 @@ import { humanizeText } from '@/utils';
 
 import { useModelIndex } from './useModelIndex';
 
-export interface ModelIndexTitleProps
-  extends ComponentProps<"h2"> {}
+export interface ModelIndexTitleProps extends ComponentProps<'h2'> {}
 
 export const ModelIndexTitle = ({
   children,

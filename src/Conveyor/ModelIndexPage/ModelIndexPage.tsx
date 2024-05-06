@@ -1,8 +1,9 @@
 import { ReactNode, useEffect } from 'react';
-import { useParams } from '@tanstack/react-router';
+import { useNavigate, useParams } from '@tanstack/react-router';
 
 import { useAlerts } from '@/Alerts';
 import { ModelIndex } from '@/ModelIndex';
+import { useStore, useTableView } from '@/hooks';
 import { humanizeText } from '@/utils';
 
 import { useConveyor } from '../Conveyor/useConveyor';
@@ -16,35 +17,48 @@ export interface ModelIndexPage {
 export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
   const params = useParams({ from: '/$model' });
   const currModel: string = model ?? params.model ?? '';
+  const navigate = useNavigate();
   const { addAlert } = useAlerts();
   const tableViewId = `table-view-${model}-index-page`;
   const {
-    selected: { models, persistence, tableView },
+    selected: { models, persistence, storedTableView },
     setConveyor,
   } = useConveyor((state) => {
     const { models, persistence, tableViews } = state;
-    return { models, persistence, tableView: tableViews[tableViewId] ?? {} };
+    return {
+      models,
+      persistence,
+      storedTableView: tableViews[tableViewId] ?? {},
+    };
   });
 
   const fields = models[currModel]?.fields ?? {};
   const updatableFields = Object.keys(fields).filter(
     (field) => fields[field].update,
   );
+
+  const { tableViewStore, ...tableViewFns } = useTableView({
+    initialTableView: storedTableView,
+  });
+  const tableView = useStore(tableViewStore, (state) => state);
+
   const { data, error, isLoading, isError, isSuccess, operationName } =
-    useModelListQuery({ model: currModel, fields: updatableFields });
+    useModelListQuery({ model: currModel, fields: updatableFields, tableView });
   const tableData = data?.[operationName]?.items;
 
   useEffect(() => {
     const modelDisplayName = humanizeText(currModel);
     if (isLoading === false) {
       if (isSuccess) {
-        addAlert({
-          content: `Successfully fetched ${modelDisplayName} list!`,
-          expires: 3000,
-        });
+        // addAlert({
+        //   content: `Successfully fetched ${modelDisplayName} list!`,
+        //   expires: 3000,
+        //   className: 'success',
+        // });
       } else if (isError) {
         addAlert({
           content: `Failed to fetch ${modelDisplayName} list: ${error}`,
+          className: 'danger',
         });
       }
     }
@@ -77,21 +91,12 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
 
   return (
     <ModelIndex
-      model={currModel}
+      title={currModel}
       fields={updatableFields}
-      data={tableData ?? []}
+      data={tableData}
       tableView={tableView}
-      onTableViewChange={(newTableView) => {
-        setConveyor((state) => {
-          return {
-            ...state,
-            tableViews: {
-              ...state.tableViews,
-              [tableViewId]: newTableView,
-            },
-          };
-        });
-      }}
+      onCreate={() => navigate({ to: `/${currModel}/create` })}
+      {...tableViewFns}
     >
       {children}
     </ModelIndex>

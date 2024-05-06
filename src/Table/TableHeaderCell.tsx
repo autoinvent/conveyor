@@ -4,8 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { Slot } from '@/Slots';
 import { humanizeText } from '@/utils';
 
-export interface TableHeaderCellProps
-  extends ComponentProps<"th"> {
+export interface TableHeaderCellProps extends ComponentProps<'th'> {
   columnId: string;
 }
 
@@ -17,7 +16,13 @@ export const TableHeaderCell = ({
 }: TableHeaderCellProps) => {
   return (
     <Slot slot={columnId}>
-      <th className={twMerge('text-center bg-[--header-color] border border-solid border-[--border-color]', className)} {...props}>
+      <th
+        className={twMerge(
+          'text-center bg-[--header-color] border border-solid border-[--border-color]',
+          className,
+        )}
+        {...props}
+      >
         {children === undefined ? humanizeText(columnId) : children}
       </th>
     </Slot>
