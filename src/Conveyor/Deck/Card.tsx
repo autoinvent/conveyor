@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { twMerge } from 'tailwind-merge';
 
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ children, ...props }, ref) => {
+>(({ children, className, ...props }, ref) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
   // Event handlers for mouse enter and leave
@@ -18,7 +19,7 @@ const Card = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={`relative group border rounded-lg bg-[--bg-color] text-[--text-color] border-solid border-[--border-color] shadow-sm inline-block m-2 p-4 w-[300px] h-[300px] overflow-hidden justify-center transition-all duration-300 ease-in-out hover:h-[300px]}`}
+      className={twMerge('relative group border rounded-lg bg-[--bg-color] text-[--text-color] border-solid border-[--border-color] shadow-sm inline-block m-2 p-4 w-[300px] h-[300px] overflow-hidden justify-center transition-all duration-300 ease-in-out hover:h-[300px]}', className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       {...props}

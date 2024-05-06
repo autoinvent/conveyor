@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { twMerge } from 'tailwind-merge';
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => (
+>(({ className, ...props }, ref) => (
   <div
-    className="flex flex-col gap-6 items-center justify-center p-0 bg-transparent border-0 transform -translate-y-200"
+    className={twMerge("flex flex-col gap-1.5 items-center justify-center p-0 bg-transparent border-0 transform -translate-y-200", className)}
     ref={ref}
     {...props}
   />
