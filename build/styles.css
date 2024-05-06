@@ -587,40 +587,6 @@ button {
   --tw-contain-style:  ;
 }
 
-.container {
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  .container {
-    max-width: 640px;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 768px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    max-width: 1024px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .container {
-    max-width: 1280px;
-  }
-}
-
-@media (min-width: 1536px) {
-  .container {
-    max-width: 1536px;
-  }
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -694,6 +660,10 @@ button {
   float: right;
 }
 
+.m-2 {
+  margin: 0.5rem;
+}
+
 .mx-\[10\%\] {
   margin-left: 10%;
   margin-right: 10%;
@@ -735,6 +705,10 @@ button {
   box-sizing: border-box;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
 .flex {
   display: flex;
 }
@@ -771,6 +745,10 @@ button {
   height: 24rem;
 }
 
+.h-\[300px\] {
+  height: 300px;
+}
+
 .h-\[30px\] {
   height: 30px;
 }
@@ -803,6 +781,10 @@ button {
   width: 1000px;
 }
 
+.w-\[300px\] {
+  width: 300px;
+}
+
 .w-\[30px\] {
   width: 30px;
 }
@@ -819,12 +801,12 @@ button {
   width: 100vw;
 }
 
-.max-w-lg {
-  max-width: 32rem;
-}
-
 .max-w-\[80\%\] {
   max-width: 80%;
+}
+
+.max-w-lg {
+  max-width: 32rem;
 }
 
 .table-auto {
@@ -910,6 +892,10 @@ button {
   gap: 1rem;
 }
 
+.gap-6 {
+  gap: 1.5rem;
+}
+
 .gap-y-1 {
   row-gap: 0.25rem;
 }
@@ -932,6 +918,10 @@ button {
 
 .rounded-\[50\%\] {
   border-radius: 50%;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 
 .rounded-md {
@@ -1007,6 +997,14 @@ button {
 .bg-slate-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(203 213 225 / var(--tw-bg-opacity));
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+.p-0 {
+  padding: 0px;
 }
 
 .p-1 {
@@ -1104,6 +1102,12 @@ button {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow-sm {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
@@ -1130,6 +1134,14 @@ button {
   transition-duration: 200ms;
 }
 
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .success {
   background-color: var(--bg-success);
   border-color:  hsl(from var(--bg-success) h s calc(l - 0.6));
@@ -1151,6 +1163,10 @@ button {
   max-width: 80%;
   margin-left: 10%;
   margin-right: 10%;
+}
+
+.hover\:h-\[300px\]:hover {
+  height: 300px;
 }
 
 .hover\:text-\[--text-color\]:hover {
