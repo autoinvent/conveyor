@@ -5,7 +5,7 @@ import { camelToSnakeCase } from '@/utils';
 
 import { getPrimaryKeys, getQueryFields } from '../utils';
 
-import { useConveyor } from './useConveyor';
+import { useConveyor } from '../Conveyor/useConveyor';
 
 export interface UseModelListQueryProps {
   model: string;
@@ -39,7 +39,7 @@ export const useModelListQuery = ({
     `;
   const query = useQuery({
     enabled,
-    queryKey: [model, operationName, document, tableView],
+    queryKey: [model, operationName, tableView],
     queryFn: () => {
       return fetcher({ operationName, document, variables: tableView });
     },

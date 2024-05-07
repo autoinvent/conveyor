@@ -3,11 +3,10 @@ import { useNavigate, useParams } from '@tanstack/react-router';
 
 import { useAlerts } from '@/Alerts';
 import { ModelIndex } from '@/ModelIndex';
-import { useStore, useTableView } from '@/hooks';
 import { humanizeText } from '@/utils';
 
 import { useConveyor } from '../Conveyor/useConveyor';
-import { useModelListQuery } from '../Conveyor/useModelListQuery';
+import { useModelListQuery } from '../hooks/useModelListQuery';
 
 export interface ModelIndexPage {
   model?: string;
@@ -70,7 +69,7 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
             ...state,
             tableViews: {
               ...state.tableViews,
-              // tableView that is stored in the persistence object will
+              // tableView that is stored in the persistence object will be
               // prioritized and merged into the defined tableView from Conveyor
               [tableViewId]: Object.assign(tableView, tv ? JSON.parse(tv) : {}),
             },
