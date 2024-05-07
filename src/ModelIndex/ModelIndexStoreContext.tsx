@@ -1,20 +1,22 @@
-import { createContext } from 'react';
+import { Dispatch, ReactNode, SetStateAction, createContext } from 'react';
 import { Store } from '@tanstack/react-store';
 
 import { DataType } from '@/Data';
 import { UseTableViewReturnType } from '@/hooks';
-import { TableView } from '@/types';
+import { Field, TableView } from '@/types';
 
 export interface ModelIndexStore
   extends Partial<Omit<UseTableViewReturnType, 'tableViewStore'>> {
-  fields: string[];
+  fields: Field[];
   data: DataType[];
-  title?: string;
+  tableView: TableView;
+  setTableView: Dispatch<SetStateAction<TableView>>;
+  title?: ReactNode;
   onSave?: (rowData: DataType) => Promise<any>;
   onDelete?: (rowData: DataType) => Promise<any>;
   onCreate?: () => void;
   showActions?: boolean;
-  tableView?: TableView;
+
 }
 
 export const ModelIndexStoreContext = createContext<

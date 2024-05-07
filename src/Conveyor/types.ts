@@ -1,5 +1,3 @@
-import { DataType } from '@/Data';
-
 export interface ModelType {
   fields?: Record<string, FieldType>;
 }

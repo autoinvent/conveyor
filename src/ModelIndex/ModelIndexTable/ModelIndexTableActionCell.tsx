@@ -7,14 +7,13 @@ import {
 
 import { useData } from '@/Data';
 import { Lens, useLenses, DataLens } from '@/Lenses';
+import { useModelIndex } from '@/ModelIndex';
 import { TableCell, TableCellProps } from '@/Table';
 
 import { ACTION_SLOT } from './constants';
-import { useModelIndex } from './useModelIndex';
-import { twMerge } from 'tailwind-merge';
 
 export interface ModelIndexTableActionCellProps
-  extends Omit<TableCellProps, 'columnId'> {}
+  extends Omit<TableCellProps, 'columnId'> { }
 
 export const ModelIndexTableActionCell = ({
   children,

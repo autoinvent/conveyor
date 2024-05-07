@@ -15,9 +15,7 @@ export const useModelIndex = (selector?: StoreSelector<ModelIndexStore>) => {
       'useModelIndexStore must be used within ModelIndexStoreContext.Provider',
     );
   }
-
-  const x = useStore(modelIndexStore, selector);
-  const selected = selector ? x : undefined;
+  const selected = selector ? useStore(modelIndexStore, selector) : undefined;
 
   const setModelIndex = (
     setState: (state: ModelIndexStore) => ModelIndexStore,

@@ -18,10 +18,12 @@ export const ModelIndexTableRow = ({
       <TableRow prefilled={false} {...props}>
         {children === undefined || prefilled ? (
           <>
-            {columnIds.map((field: string) => {
-              if (field === ACTION_SLOT)
+            {columnIds.map((columnId: string) => {
+              if (columnId === ACTION_SLOT)
                 return <ModelIndexTableActionCell key={ACTION_SLOT} />;
-              return <ModelIndexTableCell key={field} field={field} />;
+              return (
+                <ModelIndexTableCell key={columnId} fieldName={columnId} />
+              );
             })}
             {children}
           </>

@@ -4,22 +4,22 @@ import { TableCell, TableCellProps } from '@/Table';
 
 export interface ModelIndexTableCellProps
   extends Omit<TableCellProps, 'columnId'> {
-  field: string;
+  fieldName: string;
 }
 
 export const ModelIndexTableCell = ({
-  field,
+  fieldName,
   children,
   ...props
 }: ModelIndexTableCellProps) => {
   const { setLens } = useLenses();
   const { data, setCurrentData } = useData((state) => state.current);
-  const fieldData = data[field];
+  const fieldData = data[fieldName];
   const displayData =
     typeof fieldData === 'object' ? JSON.stringify(fieldData) : fieldData;
   return (
     <TableCell
-      columnId={field}
+      columnId={fieldName}
       {...props}
       onDoubleClick={() => setLens(DataLens.EDITING)}
     >
@@ -30,7 +30,7 @@ export const ModelIndexTableCell = ({
             <input
               className="w-full bg-[--bg-accent]"
               value={displayData}
-              onChange={(e) => setCurrentData(field, e.target.value)}
+              onChange={(e) => setCurrentData(fieldName, e.target.value)}
             />
           </Lens>
         </>

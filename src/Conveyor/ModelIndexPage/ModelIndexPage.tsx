@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useNavigate, useParams } from '@tanstack/react-router';
 
 import { useAlerts } from '@/Alerts';
@@ -37,10 +37,7 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
     (field) => fields[field].update,
   );
 
-  const { tableViewStore, ...tableViewFns } = useTableView({
-    initialTableView: storedTableView,
-  });
-  const tableView = useStore(tableViewStore, (state) => state);
+  const [tableView, setTableView] = useState(storedTableView)
 
   const { data, error, isLoading, isError, isSuccess, operationName } =
     useModelListQuery({ model: currModel, fields: updatableFields, tableView });
@@ -91,12 +88,12 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
 
   return (
     <ModelIndex
-      title={currModel}
       fields={updatableFields}
       data={tableData}
       tableView={tableView}
+      setTableView={setTableView}
+      title={currModel}
       onCreate={() => navigate({ to: `/${currModel}/create` })}
-      {...tableViewFns}
     >
       {children}
     </ModelIndex>

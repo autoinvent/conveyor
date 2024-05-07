@@ -1,3 +1,6 @@
+import { ScalarTypes } from '@/enums';
+import { Field } from '@/types';
+
 export const camelToSnakeCase = (str: string) => {
   if (!str) return '';
   return str
@@ -32,4 +35,9 @@ export const generateUID = ({ seed = 32, prefix = 'UID' } = {}) => {
   return `${prefix}-${Date.now().toString(seed)}-${Math.random()
     .toString(seed)
     .slice(2)}`;
+};
+
+export const toField = (str: string | Field): Field => {
+  if (typeof str === 'object') return str;
+  return { name: str, type: ScalarTypes.STRING };
 };

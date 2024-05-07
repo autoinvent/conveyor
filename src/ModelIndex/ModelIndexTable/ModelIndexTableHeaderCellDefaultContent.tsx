@@ -1,25 +1,31 @@
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 
 import { Lenses, Lens } from '@/Lenses';
+import { useModelIndex, nextSort, getCurrentSortDirection } from '@/ModelIndex';
 import { SortDirection } from '@/hooks';
 import { humanizeText } from '@/utils';
-
-import { useModelIndex } from './useModelIndex';
+import { TableView } from '@/types';
 
 export const ModelIndexTableHeaderCellDefaultContent = ({
-  field,
-}: { field: string }) => {
+  fieldName,
+}: { fieldName: string }) => {
   const { selected } = useModelIndex((state) => ({
-    nextSort: state.nextSort,
-    getCurrentSort: state.getCurrentSort,
+    sort: state.tableView?.sort ?? [],
+    setTableView: state.setTableView,
   }));
-  const currSort = selected.getCurrentSort?.(field) ?? SortDirection.NONE;
-  const onNextSort = () => selected.nextSort?.(field);
+  const currSortDirection = getCurrentSortDirection(selected.sort, fieldName);
+  const onNextSort = () =>
+    selected.setTableView((state: TableView) => {
+      return {
+        ...state,
+        sort: nextSort(selected.sort, fieldName),
+      };
+    });
   return (
     <>
-      {humanizeText(field)}
+      {humanizeText(fieldName)}
       <span className="float-right">
-        <Lenses activeLens={currSort}>
+        <Lenses activeLens={currSortDirection}>
           <Lens lens={SortDirection.ASC}>
             <FaSortUp onClick={onNextSort} />
           </Lens>

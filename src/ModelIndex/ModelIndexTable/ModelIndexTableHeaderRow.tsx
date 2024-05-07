@@ -1,8 +1,8 @@
+import { useModelIndex } from '@/ModelIndex';
 import { TableHeaderRow, TableHeaderRowProps, useTable } from '@/Table';
 
 import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
-import { useModelIndex } from './useModelIndex';
 import { ACTION_SLOT } from './constants';
 
 export interface ModelIndexTableHeaderRowProps extends TableHeaderRowProps {}
@@ -22,7 +22,7 @@ export const ModelIndexTableHeaderRow = ({
             if (columnId === ACTION_SLOT)
               return <ModelIndexTableActionHeaderCell key={ACTION_SLOT} />;
             return (
-              <ModelIndexTableHeaderCell key={columnId} field={columnId} />
+              <ModelIndexTableHeaderCell key={columnId} fieldName={columnId} />
             );
           })}
           {children}

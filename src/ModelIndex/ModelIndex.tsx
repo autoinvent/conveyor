@@ -1,115 +1,58 @@
-import { ComponentProps, useEffect, useState } from 'react';
-import { Store } from '@tanstack/react-store';
+import { ComponentProps } from 'react';
 
-import { useIsFirstRender } from '@/hooks';
+import { useDependencyStore } from '@/hooks';
+import { Field } from '@/types';
+import { toField } from '@/utils';
 
-import { ModelIndexFilter } from './ModelIndexFilter';
+import { ModelIndexCreateButton } from './ModelIndexCreateButton';
 import { ModelIndexPagination } from './ModelIndexPagination';
 import {
   ModelIndexStore,
   ModelIndexStoreContext,
 } from './ModelIndexStoreContext';
 import { ModelIndexSettings } from './ModelIndexSettings';
-import { ModelIndexSettingsButton } from './ModelIndexSettingsButton';
 import { ModelIndexTable } from './ModelIndexTable';
 import { ModelIndexTitle } from './ModelIndexTitle';
 
 export interface ModelIndexProps
-  extends ModelIndexStore,
-    ComponentProps<'section'> {}
+  extends Omit<ModelIndexStore, 'fields'>,
+  Omit<ComponentProps<'section'>, 'title'> {
+  fields: (string | Field)[];
+}
 
 export const ModelIndex = Object.assign(
   ({
     fields,
     data,
+    tableView,
+    setTableView,
     title,
     onSave,
     onDelete,
     onCreate,
     showActions = true,
-    tableView,
-    getCurrentSort,
-    nextSort,
-    swapSort,
-    addFilter,
-    removeFilter,
-    swapFilter,
-    setPage,
-    setItemsPerPage,
     children,
-    ...props
+    ...htmlProps
   }: ModelIndexProps) => {
-    const [modelIndexStore] = useState(
-      new Store<ModelIndexStore>({
-        fields,
-        data,
-        title,
-        onSave,
-        onDelete,
-        onCreate,
-        showActions,
-        tableView,
-        getCurrentSort,
-        nextSort,
-        swapSort,
-        addFilter,
-        removeFilter,
-        swapFilter,
-        setPage,
-        setItemsPerPage,
-      }),
-    );
-
-    const isFirstRender = useIsFirstRender();
-    useEffect(() => {
-      if (!isFirstRender.current) {
-        modelIndexStore.setState(() => {
-          return {
-            fields,
-            data,
-            title,
-            onSave,
-            onDelete,
-            onCreate,
-            showActions,
-            tableView,
-            getCurrentSort,
-            nextSort,
-            swapSort,
-            addFilter,
-            removeFilter,
-            swapFilter,
-            setPage,
-            setItemsPerPage,
-          };
-        });
-      }
-    }, [
-      fields,
+    const store = useDependencyStore<ModelIndexStore>({
+      fields: fields.map((field) => toField(field)),
       data,
-      title,
       tableView,
-      getCurrentSort,
+      setTableView,
+      title,
       onSave,
       onDelete,
       onCreate,
       showActions,
-      nextSort,
-      swapSort,
-      addFilter,
-      removeFilter,
-      swapFilter,
-      setPage,
-      setItemsPerPage,
-    ]);
+    });
 
     return (
-      <section {...props}>
-        <ModelIndexStoreContext.Provider value={modelIndexStore}>
+      <section {...htmlProps}>
+        <ModelIndexStoreContext.Provider value={store}>
           {children === undefined ? (
             <>
               <ModelIndex.Title />
-              <ModelIndex.SettingsButton />
+              <ModelIndex.CreateButton />
               <ModelIndex.Table />
               <ModelIndex.Pagination />
             </>
@@ -121,9 +64,8 @@ export const ModelIndex = Object.assign(
     );
   },
   {
-    Filter: ModelIndexFilter,
+    CreateButton: ModelIndexCreateButton,
     Settings: ModelIndexSettings,
-    SettingsButton: ModelIndexSettingsButton,
     Title: ModelIndexTitle,
     Table: ModelIndexTable,
     Pagination: ModelIndexPagination,

@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 
+import { useModelIndex } from '@/ModelIndex';
 import { Table } from '@/Table';
 
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
@@ -12,19 +13,22 @@ import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
 import { ModelIndexTableRow } from './ModelIndexTableRow';
 import { ACTION_SLOT } from './constants';
-import { useModelIndex } from './useModelIndex';
 
 export interface ModelIndexTableProps extends ComponentProps<'table'> {}
 
 export const ModelIndexTable = Object.assign(
   ({ children, ...props }: ModelIndexTableProps) => {
     const { selected } = useModelIndex((state) => {
-      return { fields: state.fields, data: state.data };
+      return {
+        fields: state.fields.map((field) => field.name),
+        data: state.data,
+      };
     });
 
     const fields = selected.fields.includes(ACTION_SLOT)
       ? selected.fields
       : selected.fields.concat(ACTION_SLOT);
+
     return (
       <Table columnIds={fields} data={selected.data} {...props}>
         {children === undefined ? (

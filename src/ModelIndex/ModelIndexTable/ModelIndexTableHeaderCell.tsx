@@ -4,15 +4,15 @@ import { ModelIndexTableHeaderCellDefaultContent } from './ModelIndexTableHeader
 
 export interface ModelIndexTableHeaderCellProps
   extends Omit<TableHeaderCellProps, 'columnId'> {
-  field: string;
+  fieldName: string;
 }
 
 export const ModelIndexTableHeaderCell = Object.assign(
-  ({ field, children, ...props }: ModelIndexTableHeaderCellProps) => {
+  ({ fieldName, children, ...props }: ModelIndexTableHeaderCellProps) => {
     return (
-      <TableHeaderCell columnId={field} {...props}>
+      <TableHeaderCell columnId={fieldName} {...props}>
         {children === undefined ? (
-          <ModelIndexTableHeaderCellDefaultContent field={field} />
+          <ModelIndexTableHeaderCellDefaultContent fieldName={fieldName} />
         ) : (
           children
         )}
