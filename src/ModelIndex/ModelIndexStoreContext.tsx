@@ -16,7 +16,6 @@ export interface ModelIndexStore
   onDelete?: (rowData: DataType) => Promise<any>;
   onCreate?: () => void;
   showActions?: boolean;
-
 }
 
 export const ModelIndexStoreContext = createContext<

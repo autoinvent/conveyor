@@ -1,7 +1,7 @@
 import { ComponentType } from 'react';
 
 import { parseMQLType } from '@/Conveyor';
-import { ScalarTypes } from '@/enums'
+import { ScalarTypes } from '@/enums';
 export interface FlexibleInputProps {
   type: string;
   inputProps?: Record<string, any>;

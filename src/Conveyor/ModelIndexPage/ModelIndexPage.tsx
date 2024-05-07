@@ -36,7 +36,7 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
     (field) => fields[field].update,
   );
 
-  const [tableView, setTableView] = useState(storedTableView)
+  const [tableView, setTableView] = useState(storedTableView);
 
   const { data, error, isLoading, isError, isSuccess, operationName } =
     useModelListQuery({ model: currModel, fields: updatableFields, tableView });

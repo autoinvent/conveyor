@@ -1,2 +1,2 @@
-export * from './useModelListQuery'
-export * from './useSearchQuery'
+export * from './useModelListQuery';
+export * from './useSearchQuery';

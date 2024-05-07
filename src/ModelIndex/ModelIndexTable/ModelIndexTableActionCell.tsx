@@ -13,7 +13,7 @@ import { TableCell, TableCellProps } from '@/Table';
 import { ACTION_SLOT } from './constants';
 
 export interface ModelIndexTableActionCellProps
-  extends Omit<TableCellProps, 'columnId'> { }
+  extends Omit<TableCellProps, 'columnId'> {}
 
 export const ModelIndexTableActionCell = ({
   children,

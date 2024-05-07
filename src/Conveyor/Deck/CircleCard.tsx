@@ -27,7 +27,7 @@ export const CircleCard = React.forwardRef<
       onMouseLeave={handleMouseLeave}
       {...props}
     >
-      <div className="absolute overflow-hidden top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[70%] w-[150px] h-[150px] bg-[--border-color] rounded-[100px] transition-all duration-300 flex items-center justify-center group-hover:w-full group-hover:h-full group-hover:rounded-lg group-hover:-translate-x-1/2 group-hover:-translate-y-1/2">
+      <div className="absolute overflow-hidden top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[70%] w-[175px] h-[175px] bg-[--border-color] rounded-[100px] transition-all duration-300 flex items-center justify-center group-hover:w-full group-hover:h-full group-hover:rounded-lg group-hover:-translate-x-1/2 group-hover:-translate-y-1/2">
         {/* Render the content always */}
         <div className="opacity-100 scale-[60%] transition-all duration-300 ease-in-out p-[10px] box-border group-hover:scale-100">
           {React.Children.map(children, (child) => {
