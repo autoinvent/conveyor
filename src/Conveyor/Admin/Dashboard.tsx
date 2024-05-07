@@ -15,24 +15,24 @@ export const Dashboard = ({ ...props }: DashboardProps) => {
   return (
     <div className="w-screen h-screen text-[--text-color] bg-[--bg-color]">
       <aside
-        className="fixed min-w-14 group text-[--text-muted] inset-y-0 left-0 z-10 border-[--fg-accent] border-r bg-[--bg-accent]"
+        className="fixed w-[56px] group text-[--text-muted] inset-y-0 left-0 z-10 border-[--fg-accent] border-r bg-[--bg-accent] hover:w-[150px] transition-[width]"
         {...props}
       >
         <nav className="flex flex-col gap-4 px-2 py-5">
-          <div className="items-start inline-flex text-start gap-2 text-lg font-semibold text-[--text-color] cursor-default">
+          <div className="items-start inline-flex text-start gap-2 text-lg font-semibold text-[--text-color] cursor-default overflow-hidden">
             <Logo className="h-9 w-9" />
             <span className="ml-1.5 mt-1.5 hidden group-hover:inline">
               Conveyor
             </span>
           </div>
           <Link
-            className="py-1.5 items-start h-9 inline-flex w-full text-start gap-2 text-lg font-semibold hover:text-[--text-color]"
+            className="py-1.5 items-start h-9 inline-flex w-full text-start gap-2 text-lg font-semibold hover:text-[--text-color] overflow-hidden"
             to="/"
           >
             <LucideHome className="w-9 " />
             <span className="ml-2 hidden group-hover:inline">Home</span>
           </Link>
-          <Link className="py-1.5 items-start h-9 inline-flex w-full text-start gap-2 text-lg font-semibold hover:text-[--text-color]">
+          <Link className="py-1.5 items-start h-9 inline-flex w-full text-start gap-2 text-lg font-semibold hover:text-[--text-color] overflow-hidden">
             <LucideBox className="w-9" />
             <span className="ml-2 hidden group-hover:inline">Models</span>
           </Link>
@@ -43,7 +43,7 @@ export const Dashboard = ({ ...props }: DashboardProps) => {
               </Link>
             );
           })}
-          <Link className="py-1.5 items-start h-9 inline-flex w-full text-start gap-2 text-lg font-semibold hover:text-[--text-color]">
+          <Link className="py-1.5 items-start h-9 inline-flex w-full text-start gap-2 text-lg font-semibold hover:text-[--text-color] overflow-hidden">
             <LucideEclipse className="w-9" />
             <span className="ml-2 hidden group-hover:inline">Themes</span>
           </Link>
