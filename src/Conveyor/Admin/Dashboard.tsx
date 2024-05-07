@@ -15,7 +15,7 @@ export const Dashboard = ({ ...props }: DashboardProps) => {
   return (
     <div className="w-screen h-screen text-[--text-color] bg-[--bg-color]">
       <aside
-        className="fixed w-[56px] group text-[--text-muted] inset-y-0 left-0 z-10 border-[--fg-accent] border-r bg-[--bg-accent] hover:w-[150px] transition-[width]"
+        className="fixed w-14 group text-[--text-muted] inset-y-0 left-0 z-10 border-[--fg-accent] border-r bg-[--bg-accent] hover:w-[150px] transition-[width]"
         {...props}
       >
         <nav className="flex flex-col gap-4 px-2 py-5">
