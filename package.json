@@ -4,9 +4,7 @@
   "description": "GraphiQL for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "main": "./dist/conveyor.umd.js",
   "module": "./dist/conveyor.mjs",
   "types": "./dist/index.d.ts",
