@@ -35,10 +35,10 @@ const meta = {
     }, [props.fields]);
 
     return (
-      <>
+      <div className="w-[800px]">
         <ModelIndex {...props} fields={fields} />
         <button onClick={changeOrder}>Reorder</button>
-      </>
+      </div>
     );
   },
 } satisfies Meta<typeof ModelIndex>;
