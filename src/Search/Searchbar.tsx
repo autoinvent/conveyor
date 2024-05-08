@@ -9,7 +9,7 @@ export const SearchBar = ({ onSearch, ...props }: SearchBarProps) => {
   const [value, setValue] = useState('');
   return (
     <form
-      className='flex border border-[--border-color] rounded-2xl items-center text-center my-2'
+      className="flex border border-[--border-color] rounded-2xl items-center text-center my-2"
       onSubmit={(e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -22,7 +22,10 @@ export const SearchBar = ({ onSearch, ...props }: SearchBarProps) => {
         onChange={(e) => setValue(e.target.value)}
         type="search"
       />
-      <button className="bg-transparent py-1.5 px-3 border border-transparent text-center rounded-r-2xl cursor-pointer" type="submit">
+      <button
+        className="bg-transparent py-1.5 px-3 border border-transparent text-center rounded-r-2xl cursor-pointer"
+        type="submit"
+      >
         <FaSearch />
       </button>
     </form>
