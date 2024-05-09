@@ -82,8 +82,8 @@ export const ModelCreate = ({
               ))}
           </div>
         </div>
-        <button className='rounded-l-md' type="submit">Create</button>
-        <button className='rounded-r-md' type="button" onClick={() => onCancel?.()}>
+        <button className='bg-[--success] rounded-l-md border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]' type="submit">Create</button>
+        <button className='bg-[--primary] rounded-r-md border-[--primary] hover:bg-[--primary-dark] hover:border-[--primary-dark]' type="button" onClick={() => onCancel?.()}>
           Cancel
         </button>
       </form>
