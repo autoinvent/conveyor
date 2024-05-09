@@ -11,7 +11,11 @@ export const ModelIndexTableActionHeaderCell = ({
   ...props
 }: ModelIndexTableActionHeaderCellProps) => {
   return (
-    <TableHeaderCell columnId={ACTION_SLOT} {...props}>
+    <TableHeaderCell
+      className="w-[1%] max-w-24 whitespace-nowrap"
+      columnId={ACTION_SLOT}
+      {...props}
+    >
       {children === undefined ? null : children}
     </TableHeaderCell>
   );

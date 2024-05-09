@@ -10,6 +10,11 @@ export const ModelIndexTitle = ({
 }: ModelIndexTitleProps) => {
   const { selected: title } = useModelIndex((state) => state.title);
   return title ? (
-    <h2 {...props}>{children === undefined ? title : children}</h2>
+    <h2
+      className="w-full text-left font-semibold text-4xl whitespace-nowrap"
+      {...props}
+    >
+      {children === undefined ? title : children}
+    </h2>
   ) : null;
 };

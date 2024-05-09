@@ -32,8 +32,13 @@ export const ModelCreate = ({
 
   return (
     <>
-      <h2 className="w-full text-left font-semibold text-4xl whitespace-nowrap">{title}</h2>
-      <form className='whitespace-nowrap'onSubmit={handleSubmit(onCreateHandler)}>
+      <h2 className="w-full text-left font-semibold text-4xl whitespace-nowrap">
+        {title}
+      </h2>
+      <form
+        className="whitespace-nowrap"
+        onSubmit={handleSubmit(onCreateHandler)}
+      >
         <div className="flex">
           <div className="block w-full md:w-1/2 min-w-[400px] pr-4 inset-y-0">
             {fieldNames
@@ -82,8 +87,17 @@ export const ModelCreate = ({
               ))}
           </div>
         </div>
-        <button className='bg-[--success] rounded-l-md border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]' type="submit">Create</button>
-        <button className='bg-[--primary] rounded-r-md border-[--primary] hover:bg-[--primary-dark] hover:border-[--primary-dark]' type="button" onClick={() => onCancel?.()}>
+        <button
+          className="bg-[--success] rounded-l-md border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]"
+          type="submit"
+        >
+          Create
+        </button>
+        <button
+          className="bg-[--primary] rounded-r-md border-[--primary] hover:bg-[--primary-dark] hover:border-[--primary-dark]"
+          type="button"
+          onClick={() => onCancel?.()}
+        >
           Cancel
         </button>
       </form>

@@ -28,7 +28,7 @@ export const ModelIndexTableHeaderCellDefaultContent = ({
   return (
     <>
       {humanizeText(fieldName)}
-      <span className="float-right">
+      <span className="float-right py-1">
         <Lenses activeLens={currSortDirection}>
           <Lens lens={SortDirection.ASC}>
             <FaSortUp onClick={onNextSort} />
