@@ -1,8 +1,11 @@
-import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { twMerge } from "tailwind-merge";
+import * as React from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { twMerge } from 'tailwind-merge';
 
-export const ModelIndexPagination = ({ modelListTotal=487, pageLimit = 20}) => {
+export const ModelIndexPagination = ({
+  modelListTotal = 487,
+  pageLimit = 20,
+}) => {
   const totalPages = Math.ceil(modelListTotal / pageLimit);
   const [currentPage, setCurrentPage] = React.useState(1);
 
@@ -31,37 +34,48 @@ export const ModelIndexPagination = ({ modelListTotal=487, pageLimit = 20}) => {
         <button
           key={i}
           onClick={() => setCurrentPage(i)}
-          className={twMerge('min-w-8 w-8 px-1.5 whitespace-nowrap hover:bg-[--border-color] rounded-md m-[2px]', currentPage === i ? 'bg-[--success] border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]' : '')}
+          className={twMerge(
+            'min-w-8 w-8 px-1.5 whitespace-nowrap hover:bg-[--border-color] rounded-md m-[2px]',
+            currentPage === i
+              ? 'bg-[--success] border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]'
+              : '',
+          )}
         >
           {i}
-        </button>
+        </button>,
       );
     }
     return pages;
   };
 
-  const PaginationInfo = modelListTotal ? `${pageLimit * (currentPage - 1) + 1}-${
-    totalPages === currentPage ? modelListTotal : pageLimit * currentPage
-  } of ${modelListTotal}` : null;
+  const PaginationInfo = modelListTotal
+    ? `${pageLimit * (currentPage - 1) + 1}-${
+        totalPages === currentPage ? modelListTotal : pageLimit * currentPage
+      } of ${modelListTotal}`
+    : null;
 
   return (
     <div className="justify-center w-full">
-    {/*Pagination*/}
-    <nav role="navigation" aria-label="pagination" className={'justify-center w-full flex whitespace-nowrap'}>
-      {/* PaginationPrevious */}
-      <div className={"flex my-1 cursor-pointer"} onClick={handlePrevious}>
-        <ChevronLeft className="h-8 w-4" />
-        <ChevronLeft className="h-8 w-4" />
-      </div>
-      {/* Pages */}
-      {PageGenerator()}
-      {/* PaginationNext */}
-      <div className={"flex my-1 cursor-pointer"} onClick={handleNext}>
-        <ChevronRight className="h-8 w-4" />
-        <ChevronRight className="h-8 w-4" />
-      </div>
-    </nav>
-    Showing Items {PaginationInfo}
+      {/*Pagination*/}
+      <nav
+        role="navigation"
+        aria-label="pagination"
+        className={'justify-center w-full flex whitespace-nowrap'}
+      >
+        {/* PaginationPrevious */}
+        <div className={'flex my-1 cursor-pointer'} onClick={handlePrevious}>
+          <ChevronLeft className="h-8 w-4" />
+          <ChevronLeft className="h-8 w-4" />
+        </div>
+        {/* Pages */}
+        {PageGenerator()}
+        {/* PaginationNext */}
+        <div className={'flex my-1 cursor-pointer'} onClick={handleNext}>
+          <ChevronRight className="h-8 w-4" />
+          <ChevronRight className="h-8 w-4" />
+        </div>
+      </nav>
+      Showing Items {PaginationInfo}
     </div>
   );
 };
