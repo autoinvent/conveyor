@@ -1,9 +1,8 @@
 import { ComponentType, ReactNode, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useStore } from '@tanstack/react-store';
 
 import { useAlerts } from '@/Alerts';
-import { FieldType, useConveyor } from '@/Conveyor';
+import { MQLFieldType, useConveyor } from '@/Conveyor';
 import { LoadingScreen } from '@/Loading';
 import { camelToSnakeCase } from '@/utils';
 
@@ -108,7 +107,7 @@ export const IntrospectionProvider = ({
               .forEach(({ name, args }) => {
                 const operation = name.substring(
                   queryName.length + 1,
-                ) as keyof FieldType;
+                ) as keyof MQLFieldType;
                 args.forEach(({ type: argType, name: fieldName }) => {
                   if (!models[modelName][FIELDS]![fieldName][operation]) {
                     models[modelName][FIELDS]![fieldName][operation] =

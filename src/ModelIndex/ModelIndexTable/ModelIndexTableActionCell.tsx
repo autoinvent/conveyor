@@ -1,3 +1,4 @@
+import { useFormContext } from 'react-hook-form';
 import {
   FaRegTrashAlt,
   FaEdit,
@@ -5,7 +6,7 @@ import {
   FaRegTimesCircle,
 } from 'react-icons/fa';
 
-import { useData } from '@/Data';
+import { DataType, useData } from '@/Data';
 import { Lens, useLenses, DataLens } from '@/Lenses';
 import { useModelIndex } from '@/ModelIndex';
 import { TableCell, TableCellProps } from '@/Table';
@@ -20,27 +21,31 @@ export const ModelIndexTableActionCell = ({
   className,
   ...props
 }: ModelIndexTableActionCellProps) => {
-  const { data, reset } = useData((state) => state);
+  const id = useData((state) => state.id);
+  const {
+    formState: { dirtyFields },
+    handleSubmit,
+    reset,
+  } = useFormContext();
   const { setLens } = useLenses();
   const { selected } = useModelIndex((state) => ({
     showActions: state.showActions,
+    onSave: state.onSave,
   }));
-  // const { } = useStore(modelIndexStore, (state) => ({
-  //   data: state.data,
-  //   fields: state.fields,
-  //   actionsConfig: state.actionsConfig,
-  // }));
 
   const onEdit = () => setLens(DataLens.EDITING);
   const onCancelEdit = () => {
     setLens(DataLens.DISPLAY);
     reset();
   };
+  const onSave = (formData: DataType) => {
+    selected.onSave?.({ data: formData, dirtyFields });
+  };
 
   return selected.showActions ? (
     <TableCell columnId={ACTION_SLOT} {...props}>
       {children === undefined ? (
-        <div>
+        <form id={id} onSubmit={handleSubmit(onSave)}>
           <Lens lens={DataLens.DISPLAY}>
             <button onClick={onEdit}>
               <FaEdit />
@@ -50,14 +55,14 @@ export const ModelIndexTableActionCell = ({
             </button>
           </Lens>
           <Lens lens={DataLens.EDITING}>
-            <button>
+            <button type="submit">
               <FaRegSave />
             </button>
             <button onClick={onCancelEdit}>
               <FaRegTimesCircle />
             </button>
           </Lens>
-        </div>
+        </form>
       ) : (
         children
       )}

@@ -11,7 +11,7 @@ export interface LensProps {
 export const Lens = ({ lens, children }: LensProps) => {
   const { activeLens } = useLenses();
   if (activeLens === undefined)
-    throw new Error('Lens must be used within Lenses');
+    throw new Error('Either activeLens or initialLens must be set in Lenses!');
   if (lens !== activeLens) {
     return null;
   }

@@ -1,6 +1,9 @@
 import { useData } from '@/Data';
+import { FormInput } from '@/Form';
 import { Lens, DataLens, useLenses } from '@/Lenses';
+import { useModelIndex } from '@/ModelIndex';
 import { TableCell, TableCellProps } from '@/Table';
+import { Field } from '@/types';
 
 export interface ModelIndexTableCellProps
   extends Omit<TableCellProps, 'columnId'> {
@@ -13,10 +16,12 @@ export const ModelIndexTableCell = ({
   ...props
 }: ModelIndexTableCellProps) => {
   const { setLens } = useLenses();
-  const { data, setCurrentData } = useData((state) => state.current);
-  const fieldData = data[fieldName];
-  const displayData =
-    typeof fieldData === 'object' ? JSON.stringify(fieldData) : fieldData;
+  const fieldData = useData((state) => state?.[fieldName]);
+  const { selected } = useModelIndex((state) => ({
+    fields: state.fields,
+    onOpenFieldSelect: state.onOpenFieldSelect,
+  }));
+  const displayData = typeof fieldData === 'object' ? fieldData?.id : fieldData;
   return (
     <TableCell
       columnId={fieldName}
@@ -27,10 +32,12 @@ export const ModelIndexTableCell = ({
         <>
           <Lens lens={DataLens.DISPLAY}>{displayData}</Lens>
           <Lens lens={DataLens.EDITING}>
-            <input
+            <FormInput
+              field={selected.fields.find(
+                (field: Field) => field.name === fieldName,
+              )}
+              onOpenFieldSelect={selected.onOpenFieldSelect}
               className="w-full bg-[--bg-accent]"
-              value={displayData}
-              onChange={(e) => setCurrentData(fieldName, e.target.value)}
             />
           </Lens>
         </>

@@ -14,7 +14,7 @@ export const TableCell = ({
   className,
   ...props
 }: TableCellProps) => {
-  const { data } = useData((state) => state.original);
+  const data = useData();
   const columnData = data[columnId];
   const displayData =
     typeof columnData === 'object' ? JSON.stringify(columnData) : columnData;

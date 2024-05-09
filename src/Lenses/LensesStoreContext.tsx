@@ -4,7 +4,7 @@ import { Store } from '@tanstack/react-store';
 export type LensType = string | number | boolean;
 
 export interface LensesStore {
-  activeLens: LensType;
+  activeLens?: LensType;
   AvailableLenses: Record<string, LensType>;
 }
 

@@ -10,25 +10,29 @@ import {
 } from './LensesStoreContext';
 
 export interface LensesProps extends Partial<LensesStore> {
-  activeLens: LensType;
+  initialLens?: LensType;
   children?: ReactNode;
 }
 
 export const Lenses = ({
+  initialLens,
   activeLens,
   AvailableLenses = {},
   children,
 }: LensesProps) => {
   const [lensesStore] = useState(
-    new Store<LensesStore>({ activeLens, AvailableLenses }),
+    new Store<LensesStore>({
+      activeLens: activeLens ?? initialLens,
+      AvailableLenses,
+    }),
   );
 
   const isFirstRender = useIsFirstRender();
   useEffect(() => {
-    if (!isFirstRender.current) {
-      lensesStore.setState(() => ({ activeLens, AvailableLenses }));
+    if (!isFirstRender.current && activeLens !== undefined) {
+      lensesStore.setState((state) => ({ ...state, activeLens }));
     }
-  }, [activeLens, AvailableLenses]);
+  }, [activeLens]);
 
   return (
     <LensesStoreContext.Provider value={lensesStore}>

@@ -3,34 +3,18 @@ import { useStore } from '@tanstack/react-store';
 
 import { StoreSelector } from '@/types';
 
-import { DataStore, DataStoreContext } from './DataStoreContext';
+import { DataStoreContext } from './DataStoreContext';
+import { DataType } from './types';
 
-export const useData = (selector?: StoreSelector<DataStore>) => {
+export const useData = (
+  selector: StoreSelector<DataType> = (state) => state,
+) => {
   const dataStore = useContext(DataStoreContext);
   if (!dataStore) {
     throw new Error('useData must be used within DataStoreContext.Provider');
   }
 
-  const data = selector ? useStore(dataStore, selector) : undefined;
+  const data = useStore(dataStore, selector);
 
-  const setCurrentData = (field: string, current: any) => {
-    dataStore.setState((state) => ({
-      ...state,
-      current: {
-        ...state.current,
-        [field]: current,
-      },
-    }));
-  };
-
-  const reset = () => {
-    dataStore.setState((state) => {
-      return {
-        ...state,
-        current: { ...state.original },
-      };
-    });
-  };
-
-  return { data, setCurrentData, reset };
+  return data;
 };

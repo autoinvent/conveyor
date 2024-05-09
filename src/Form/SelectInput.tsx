@@ -1,26 +1,52 @@
-import * as SelectPrimitive from '@radix-ui/react-select';
+import { useState } from 'react';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
+import * as SelectPrimitive from '@radix-ui/react-select';
+
+import { SelectOption } from './types';
 
 export interface SelectInputProps {
+  fieldName: string;
   value: string;
   onValueChange: (value: string) => string;
-  options: { value: string; label: string }[];
+  onOpenFieldSelect?: (fieldName: string) => Promise<SelectOption[]>;
+  required?: boolean;
   placeholder?: string;
+  className?: string;
 }
 
 export const SelectInput = ({
+  fieldName,
   value,
   onValueChange,
-  options,
+  onOpenFieldSelect,
+  required,
   placeholder,
+  className,
 }: SelectInputProps) => {
+  const notRequiredOption = [{ label: 'none', value: 'null' }];
+  const [options, setOptions] = useState<SelectOption[]>(
+    value !== 'null' ? [{ label: value, value }] : notRequiredOption,
+  );
   return (
-    <SelectPrimitive.Root value={value} onValueChange={onValueChange}>
-      <SelectPrimitive.Trigger className="w-[180px] flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
-        <SelectPrimitive.Value placeholder="Theme" />
-        {/* <SelectPrimitive.Icon asChild>
+    <SelectPrimitive.Root
+      value={value}
+      onValueChange={onValueChange}
+      onOpenChange={(open) => {
+        if (open) {
+          onOpenFieldSelect?.(fieldName).then((res) =>
+            setOptions(res.concat(required ? [] : notRequiredOption)),
+          );
+        }
+      }}
+    >
+      <SelectPrimitive.Trigger className="w-full flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
+        <SelectPrimitive.Value
+          className={className}
+          placeholder={placeholder}
+        />
+        <SelectPrimitive.Icon asChild>
           <ChevronDown className="h-4 w-4 opacity-50" />
-        </SelectPrimitive.Icon> */}
+        </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
       <SelectPrimitive.Portal>
         <SelectPrimitive.Content
@@ -34,7 +60,7 @@ export const SelectInput = ({
             {options.map((option) => {
               return (
                 <SelectPrimitive.Item
-                  key={option.value}
+                  key={option.value ?? 'undefined'}
                   value={option.value}
                   className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                 >

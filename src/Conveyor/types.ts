@@ -1,8 +1,8 @@
 export interface ModelType {
-  fields?: Record<string, FieldType>;
+  fields?: Record<string, MQLFieldType>;
 }
 
-export interface FieldType {
+export interface MQLFieldType {
   baseType?: string;
   create?: string;
   delete?: string;

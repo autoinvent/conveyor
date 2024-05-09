@@ -30,6 +30,7 @@ export const ModelIndex = Object.assign(
     onSave,
     onDelete,
     onCreate,
+    onOpenFieldSelect,
     showActions = true,
     children,
     ...htmlProps
@@ -43,6 +44,7 @@ export const ModelIndex = Object.assign(
       onSave,
       onDelete,
       onCreate,
+      onOpenFieldSelect,
       showActions,
     });
 

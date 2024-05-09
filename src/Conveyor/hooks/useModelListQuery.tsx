@@ -9,16 +9,18 @@ import { useConveyor } from '../Conveyor/useConveyor';
 
 export interface UseModelListQueryProps {
   model: string;
-  fields: string[];
+  fieldNames: string[];
   enabled?: boolean;
   tableView?: TableView;
+  queryKeys?: string[];
 }
 
 export const useModelListQuery = ({
   model,
-  fields,
+  fieldNames,
   tableView = {},
   enabled,
+  queryKeys,
 }: UseModelListQueryProps) => {
   const queryName = camelToSnakeCase(model);
   const operationName = `${queryName}_list`;
@@ -26,7 +28,7 @@ export const useModelListQuery = ({
     selected: { fetcher, models },
   } = useConveyor((state) => state);
   const primaryKeys = getPrimaryKeys(models[model]);
-  const requestedFields = getQueryFields(model, fields, models).join(' ');
+  const requestedFields = getQueryFields(model, fieldNames, models).join(' ');
   const document = `
         query ($filter: [[FilterItem!]!], $sort: [String!], $page: Int, $per_page: Int) {
             ${operationName} (filter: $filter, sort: $sort, page: $page, per_page: $per_page) {
@@ -39,7 +41,7 @@ export const useModelListQuery = ({
     `;
   const query = useQuery({
     enabled,
-    queryKey: [model, operationName, tableView],
+    queryKey: queryKeys ?? [model, operationName, tableView],
     queryFn: () => {
       return fetcher({ operationName, document, variables: tableView });
     },

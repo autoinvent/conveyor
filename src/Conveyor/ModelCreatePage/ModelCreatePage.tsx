@@ -1,7 +1,14 @@
 import { useNavigate, useParams } from '@tanstack/react-router';
 
 import { useAlerts } from '@/Alerts';
+import { Form } from '@/Form';
+import { OnSaveProps } from '@/types';
+
 import { useConveyor } from '../Conveyor';
+import { useModelCreateMutation, useModelListMutation } from '../hooks';
+import { parseMQLType } from '../utils';
+import { ModelCreate } from '@/ModelCreate';
+import { ScalarTypes } from '@/enums';
 
 export interface ModelCreatePage {
   model?: string;
@@ -12,49 +19,93 @@ export const ModelCreatePage = ({ model }: ModelCreatePage) => {
   const currModel: string = model ?? params.model ?? '';
   const navigate = useNavigate();
   const { addAlert } = useAlerts();
+  const {
+    selected: { models },
+  } = useConveyor((state) => {
+    const { models } = state;
+    return {
+      models,
+    };
+  });
 
-  const { selected } = useConveyor((state) => ({
-    model: state.models?.[currModel],
-    fetcher: state.fetcher,
+  const fields = models[currModel]?.fields ?? {};
+  const creatableFieldNames = Object.keys(fields).filter((fieldName) => {
+    const fieldObj = parseMQLType(fieldName, fields[fieldName].create);
+    return fieldObj.type && !fieldObj.many;
+  });
+
+  const creatableFields = creatableFieldNames.map((fieldName) => ({
+    ...parseMQLType(fieldName, fields[fieldName].create),
+    type: fields[fieldName].baseType,
   }));
-  const fieldNames = Object.keys(selected.model.fields);
+  const defaultValues = Object.fromEntries(
+    creatableFields.map((field) => {
+      switch (field.type) {
+        case ScalarTypes.STRING:
+          return [field.name, ''];
+        case ScalarTypes.INT:
+          return [field.name, 0];
+        case ScalarTypes.FLOAT:
+          return [field.name, 0];
+        case ScalarTypes.BOOLEAN:
+          return [field.name, false];
+        case ScalarTypes.DATETIME:
+          return [field.name, ''];
+        default:
+          return [field.name, null];
+      }
+    }),
+  );
+
+  const { mutateAsync: selectOptionMutateAsync } = useModelListMutation();
+  const onOpenFieldSelect = (model: string) => {
+    return selectOptionMutateAsync(model).then((data: any) => {
+      return data.items.map((item: any) => ({
+        label: item.id,
+        value: JSON.stringify(item.id),
+      }));
+    });
+  };
+  console.log(creatableFields);
+
+  // Create Mutation
+  const { mutateAsync: createMutateAsync } = useModelCreateMutation({
+    model: currModel,
+    fieldNames: creatableFieldNames,
+  });
+
+  const onCreate = async ({ data, dirtyFields }: OnSaveProps) => {
+    Object.keys(data).forEach((fieldName) => {
+      if (typeof data[fieldName] === 'object') {
+        data[fieldName] = data[fieldName]?.id;
+      }
+    });
+    return createMutateAsync(data)
+      .then(() => {
+        addAlert({
+          content: `${currModel} created!`,
+          className: 'success',
+          expires: 2000,
+        });
+        navigate({ to: `/${currModel}` });
+      })
+      .catch((err) =>
+        addAlert({
+          content: `${currModel} failed to create: ${err}`,
+          className: 'danger',
+        }),
+      );
+  };
+
   return (
-    <div className="w-full">
-      <h3 className="w-full text-center font-semibold text-4xl">
-        Create Model
-      </h3>
-      <div className="flex">
-        <div className="block w-full md:w-1/2 md:px-4 inset-y-0">
-          {fieldNames
-            .slice(0, Math.ceil(fieldNames.length / 2))
-            .map((fieldName) => (
-              <label
-                key={fieldName}
-                className="flex w-full rounded-md border border-[--border-color] my-6"
-              >
-                <span className="bg-[--fg-color] py-1.5 px-3 w-[200px] border border-transparent text-center rounded-l-md">
-                  {fieldName}
-                </span>
-                <input className="flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 border-l-[--border-color] rounded-r-md" />
-              </label>
-            ))}
-        </div>
-        <div className="block w-full md:w-1/2 md:px-4 inset-y-0">
-          {fieldNames
-            .slice(Math.ceil(fieldNames.length / 2))
-            .map((fieldName) => (
-              <label
-                key={fieldName}
-                className="flex w-full rounded-md border border-[--border-color] my-6"
-              >
-                <span className="bg-[--fg-color] py-1.5 px-3 w-[200px] border border-transparent text-center rounded-l-md">
-                  {fieldName}
-                </span>
-                <input className="flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 border-l-[--border-color] rounded-r-md" />
-              </label>
-            ))}
-        </div>
-      </div>
-    </div>
+    <Form defaultValues={defaultValues}>
+      <ModelCreate
+        fields={creatableFields}
+        title={`Create ${currModel}`}
+        onCreate={onCreate}
+        onCancel={() => navigate({ to: '../' })}
+        onOpenFieldSelect={onOpenFieldSelect}
+      />
+    </Form>
   );
 };

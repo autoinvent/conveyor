@@ -48,13 +48,12 @@ type Story = StoryObj<typeof meta>;
 export const BasicUsage: Story = {};
 
 const CustomCell = ({ field }: { field: string }) => {
-  const { data } = useData((state) => state.current);
-  const fieldData = data?.[field];
+  const fieldData = useData((state) => state?.[field]);
   return <i>{fieldData}</i>;
 };
 
 const CustomCombinedCell = () => {
-  const { data } = useData((state) => state.current);
+  const data = useData();
   const combined = Object.entries(data)
     .map((entry: any) => entry[1])
     .join('.');

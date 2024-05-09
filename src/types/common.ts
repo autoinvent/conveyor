@@ -1,3 +1,5 @@
+import { DataType } from '@/Data';
+
 export type StoreSelector<TStore> = (state: TStore) => any;
 
 export interface Field {
@@ -6,4 +8,9 @@ export interface Field {
   many?: boolean;
   required?: boolean;
   sortable?: boolean;
+}
+
+export interface OnSaveProps {
+  data: DataType;
+  dirtyFields: Record<string, boolean>;
 }

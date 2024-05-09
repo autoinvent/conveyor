@@ -1,8 +1,12 @@
 import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 
 import { Lenses, Lens } from '@/Lenses';
-import { useModelIndex, nextSort, getCurrentSortDirection } from '@/ModelIndex';
-import { SortDirection } from '@/hooks';
+import {
+  useModelIndex,
+  nextSort,
+  getCurrentSortDirection,
+  SortDirection,
+} from '@/ModelIndex';
 import { humanizeText } from '@/utils';
 import { TableView } from '@/types';
 

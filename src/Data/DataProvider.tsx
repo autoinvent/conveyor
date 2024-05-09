@@ -3,27 +3,23 @@ import { Store } from '@tanstack/react-store';
 
 import { useIsFirstRender } from '@/hooks';
 
-import { DataStoreContext, DataStore } from './DataStoreContext';
+import { DataStoreContext } from './DataStoreContext';
 import { DataType } from './types';
 
-export interface DataProviderProps extends Partial<DataStore> {
-  original: DataType;
+export interface DataProviderProps {
+  data: DataType;
   children: ReactNode;
 }
 
-export const DataProvider = ({
-  original,
-  current = { ...original },
-  children,
-}: DataProviderProps) => {
-  const [dataStore] = useState(new Store<DataStore>({ original, current }));
+export const DataProvider = ({ data, children }: DataProviderProps) => {
+  const [dataStore] = useState(new Store<DataType>(data));
 
   const isFirstRender = useIsFirstRender();
   useEffect(() => {
     if (!isFirstRender.current) {
-      dataStore.setState(() => ({ original, current }));
+      dataStore.setState(() => ({ ...data }));
     }
-  }, [original, current]);
+  }, [data]);
 
   return (
     <DataStoreContext.Provider value={dataStore}>

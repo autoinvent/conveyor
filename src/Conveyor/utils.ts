@@ -1,3 +1,5 @@
+import { Field } from '@/types';
+
 import { ModelType } from './types';
 
 export const getPrimaryKeys = (model: ModelType | undefined) => {
@@ -14,18 +16,48 @@ export const getPrimaryKeys = (model: ModelType | undefined) => {
 
 export const getQueryFields = (
   model: string,
-  fields: string[],
+  fieldNames: string[],
   models: Record<string, ModelType>,
 ) => {
   const currFields = models[model]?.fields;
   if (!currFields) return [];
-  return fields.map((field) => {
-    const baseType = currFields[field]?.baseType;
+  return fieldNames.map((fieldName) => {
+    const baseType = currFields[fieldName]?.baseType;
     if (!baseType) return '';
-    if (!models[baseType]) return field;
+    if (!models[baseType]) return fieldName;
     const primaryKeys = getPrimaryKeys(models[baseType]);
-    return `${field} { ${primaryKeys.join(' ')} }`;
+    return `${fieldName} { ${primaryKeys.join(' ')} }`;
   });
+};
+
+export const getUpdateFieldParams = (
+  model: string,
+  fieldNames: string[],
+  models: Record<string, ModelType>,
+) => {
+  const currFields = models[model]?.fields;
+  if (!currFields) return { inputVariables: [], queryArgs: [] };
+  return {
+    inputVariables: fieldNames.map(
+      (fieldName) => `$${fieldName}: ${currFields[fieldName].update}`,
+    ),
+    queryArgs: fieldNames.map((fieldName) => `${fieldName}: $${fieldName}`),
+  };
+};
+
+export const getCreateFieldParams = (
+  model: string,
+  fieldNames: string[],
+  models: Record<string, ModelType>,
+) => {
+  const currFields = models[model]?.fields;
+  if (!currFields) return { inputVariables: [], queryArgs: [] };
+  return {
+    inputVariables: fieldNames.map(
+      (fieldName) => `$${fieldName}: ${currFields[fieldName].create}`,
+    ),
+    queryArgs: fieldNames.map((fieldName) => `${fieldName}: $${fieldName}`),
+  };
 };
 
 export const parseMQLBaseType = (type: string): string => {
@@ -41,11 +73,9 @@ export const parseMQLBaseType = (type: string): string => {
   }
 };
 
-export const parseMQLType = (type: string) => {
+export const parseMQLType = (fieldName: string, type: string = ''): Field => {
   const baseType = parseMQLBaseType(type);
   const required = type.includes(`${baseType}!`);
-  const isArray =
-    type.charAt(0) === '[' && type.charAt(type.length - 1) === ']';
-
-  return { baseType, required, isArray };
+  const many = type.charAt(0) === '[' && type.charAt(type.length - 1) === ']';
+  return { name: fieldName, type: baseType, required, many };
 };

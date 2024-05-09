@@ -1,3 +1,5 @@
+import { useData } from '@/Data';
+import { Form } from '@/Form';
 import { Lenses, DataLens } from '@/Lenses';
 import { TableRow, TableRowProps, useTable } from '@/Table';
 
@@ -13,24 +15,28 @@ export const ModelIndexTableRow = ({
   ...props
 }: ModelIndexTableRowProps) => {
   const { selected: columnIds } = useTable((state) => state.columnIds);
+  const data = useData();
+
   return (
-    <Lenses activeLens={DataLens.DISPLAY}>
-      <TableRow prefilled={false} {...props}>
-        {children === undefined || prefilled ? (
-          <>
-            {columnIds.map((columnId: string) => {
-              if (columnId === ACTION_SLOT)
-                return <ModelIndexTableActionCell key={ACTION_SLOT} />;
-              return (
-                <ModelIndexTableCell key={columnId} fieldName={columnId} />
-              );
-            })}
-            {children}
-          </>
-        ) : (
-          children
-        )}
-      </TableRow>
-    </Lenses>
+    <Form defaultValues={data}>
+      <Lenses initialLens={DataLens.DISPLAY}>
+        <TableRow prefilled={false} {...props}>
+          {children === undefined || prefilled ? (
+            <>
+              {columnIds.map((columnId: string) => {
+                if (columnId === ACTION_SLOT)
+                  return <ModelIndexTableActionCell key={ACTION_SLOT} />;
+                return (
+                  <ModelIndexTableCell key={columnId} fieldName={columnId} />
+                );
+              })}
+              {children}
+            </>
+          ) : (
+            children
+          )}
+        </TableRow>
+      </Lenses>
+    </Form>
   );
 };

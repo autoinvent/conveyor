@@ -3,10 +3,14 @@ import { useNavigate, useParams } from '@tanstack/react-router';
 
 import { useAlerts } from '@/Alerts';
 import { ModelIndex } from '@/ModelIndex';
+import { OnSaveProps } from '@/types';
 import { humanizeText } from '@/utils';
 
 import { useConveyor } from '../Conveyor/useConveyor';
 import { useModelListQuery } from '../hooks/useModelListQuery';
+import { parseMQLType } from '../utils';
+import { useModelUpdateMutation } from '../hooks/useModelUpdateMutation';
+import { useModelListMutation } from '../hooks';
 
 export interface ModelIndexPage {
   model?: string;
@@ -32,25 +36,33 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
   });
 
   const fields = models[currModel]?.fields ?? {};
-  const updatableFields = Object.keys(fields).filter(
-    (field) => fields[field].update,
-  );
+  const updatableFieldNames = Object.keys(fields).filter((fieldName) => {
+    const fieldObj = parseMQLType(fieldName, fields[fieldName].update);
+    return fieldObj.type && !fieldObj.many;
+  });
 
+  // List Query
   const [tableView, setTableView] = useState(storedTableView);
-
   const { data, error, isLoading, isError, isSuccess, operationName } =
-    useModelListQuery({ model: currModel, fields: updatableFields, tableView });
+    useModelListQuery({
+      model: currModel,
+      fieldNames: updatableFieldNames,
+      tableView,
+    });
   const tableData = data?.[operationName]?.items;
+
+  // Update Mutation
+  const { mutateAsync: updateMutateAsync } = useModelUpdateMutation({
+    model: currModel,
+    fieldNames: updatableFieldNames,
+  });
+
+  const { mutateAsync: selectOptionMutateAsync } = useModelListMutation();
 
   useEffect(() => {
     const modelDisplayName = humanizeText(currModel);
-    if (isLoading === false) {
+    if (!isLoading) {
       if (isSuccess) {
-        // addAlert({
-        //   content: `Successfully fetched ${modelDisplayName} list!`,
-        //   expires: 3000,
-        //   className: 'success',
-        // });
       } else if (isError) {
         addAlert({
           content: `Failed to fetch ${modelDisplayName} list: ${error}`,
@@ -87,12 +99,44 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
 
   return (
     <ModelIndex
-      fields={updatableFields}
+      fields={updatableFieldNames.map((fieldName) => ({
+        ...parseMQLType(fieldName, fields[fieldName].update),
+        type: fields[fieldName].baseType,
+      }))}
       data={tableData}
       tableView={tableView}
       setTableView={setTableView}
       title={currModel}
       onCreate={() => navigate({ to: `/${currModel}/create` })}
+      onSave={async ({ data, dirtyFields }: OnSaveProps) => {
+        Object.keys(data).forEach((fieldName) => {
+          if (typeof data[fieldName] === 'object') {
+            data[fieldName] = data[fieldName]?.id;
+          }
+        });
+        return updateMutateAsync(data)
+          .then(() =>
+            addAlert({
+              content: `${currModel} updated!`,
+              className: 'success',
+              expires: 2000,
+            }),
+          )
+          .catch((err) =>
+            addAlert({
+              content: `${currModel} failed to update: ${err}`,
+              className: 'danger',
+            }),
+          );
+      }}
+      onOpenFieldSelect={(model: string) => {
+        return selectOptionMutateAsync(model).then((data: any) => {
+          return data.items.map((item: any) => ({
+            label: item.id,
+            value: item.id,
+          }));
+        });
+      }}
     >
       {children}
     </ModelIndex>

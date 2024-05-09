@@ -18,10 +18,10 @@ export const TableBody = ({
 
   return data && data.length > 0 ? (
     <tbody className={twMerge('rounded', className)} {...props}>
-      {data.map((rowData: DataType) => {
-        const rowKey = `table-row-${generateUID()}`;
+      {data.map((rowData: DataType, index: number) => {
+        const rowKey = `table-row-${index}`;
         return (
-          <DataProvider key={rowKey} original={rowData}>
+          <DataProvider key={rowKey} data={rowData}>
             {children === undefined ? <TableRow /> : children}
           </DataProvider>
         );
