@@ -8,7 +8,7 @@ export const ModelIndexCreateButton = (
 ) => {
   const { selected: onCreate } = useModelIndex((state) => state.onCreate);
   return (
-    <button onClick={() => onCreate?.()} {...props}>
+    <button className='rounded-md' onClick={() => onCreate?.()} {...props}>
       <FaPlus />
     </button>
   );
