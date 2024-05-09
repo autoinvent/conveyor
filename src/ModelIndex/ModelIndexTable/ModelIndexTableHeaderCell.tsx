@@ -10,7 +10,7 @@ export interface ModelIndexTableHeaderCellProps
 export const ModelIndexTableHeaderCell = Object.assign(
   ({ fieldName, children, ...props }: ModelIndexTableHeaderCellProps) => {
     return (
-      <TableHeaderCell columnId={fieldName} {...props}>
+      <TableHeaderCell className="min-w-fit" columnId={fieldName} {...props}>
         {children === undefined ? (
           <ModelIndexTableHeaderCellDefaultContent fieldName={fieldName} />
         ) : (

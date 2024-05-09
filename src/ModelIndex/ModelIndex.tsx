@@ -53,8 +53,10 @@ export const ModelIndex = Object.assign(
         <ModelIndexStoreContext.Provider value={store}>
           {children === undefined ? (
             <>
-              <ModelIndex.Title />
-              <ModelIndex.CreateButton />
+              <div className="flex align-baseline justify-between">
+                <ModelIndex.Title />
+                <ModelIndex.CreateButton />
+              </div>
               <ModelIndex.Table />
               <ModelIndex.Pagination />
             </>

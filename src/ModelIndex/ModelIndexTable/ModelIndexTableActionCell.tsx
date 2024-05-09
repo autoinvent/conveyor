@@ -45,20 +45,33 @@ export const ModelIndexTableActionCell = ({
   return selected.showActions ? (
     <TableCell columnId={ACTION_SLOT} {...props}>
       {children === undefined ? (
-        <form className='whitespace-nowrap' id={id} onSubmit={handleSubmit(onSave)}>
+        <form
+          className="whitespace-nowrap"
+          id={id}
+          onSubmit={handleSubmit(onSave)}
+        >
           <Lens lens={DataLens.DISPLAY}>
-            <button className='rounded-l-md border-[--primary] text-[--primary] hover:text-[--text-color] hover:bg-[--primary]' onClick={onEdit}>
+            <button
+              className="rounded-l-md border-[--primary] text-[--primary] hover:text-[--text-color] hover:bg-[--primary]"
+              onClick={onEdit}
+            >
               <FaEdit />
             </button>
-            <button className='rounded-r-md border-[--danger] text-[--danger] hover:text-[--text-color] hover:bg-[--danger]'>
+            <button className="rounded-r-md border-[--danger] text-[--danger] hover:text-[--text-color] hover:bg-[--danger]">
               <FaRegTrashAlt />
             </button>
           </Lens>
           <Lens lens={DataLens.EDITING}>
-            <button className='rounded-l-md border-[--success] text-[--success] hover:text-[--text-color] hover:bg-[--success]' type="submit">
+            <button
+              className="rounded-l-md border-[--success] text-[--success] hover:text-[--text-color] hover:bg-[--success]"
+              type="submit"
+            >
               <FaRegSave />
             </button>
-            <button className='rounded-r-md border-[--primary] text-[--primary] hover:text-[--text-color] hover:bg-[--primary]' onClick={onCancelEdit}>
+            <button
+              className="rounded-r-md border-[--primary] text-[--primary] hover:text-[--text-color] hover:bg-[--primary]"
+              onClick={onCancelEdit}
+            >
               <FaRegTimesCircle />
             </button>
           </Lens>
