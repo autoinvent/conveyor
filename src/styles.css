@@ -28,6 +28,11 @@
         --success: hsl(from var(--bg-success) h s calc(l - 0.6));
         --danger: hsl(from var(--bg-danger) h s calc(l - 0.6));
         --warning: hsl(from var(--bg-warning) h s calc(l - 0.6));
+        --primary: hsl(210, 50%, 35%);
+
+        --success-dark: hsl(from var(--success) h s calc(l - 0.15));
+        --danger-dark: hsl(from var(--danger) h s calc(l - 0.15));
+        --primary-dark: hsl(from var(--primary) h s calc(l - 0.15));
     }
 
     body {
@@ -37,7 +42,7 @@
     }
 
     button {
-        @apply p-1 border border-[--border-color]
+        @apply inline-block justify-center items-center cursor-pointer text-base outline-none text-center no-underline align-middle min-h-[38px] min-w-[42px] px-3 py-1.5 border border-[--border-color] transition-colors
     }
 }
 

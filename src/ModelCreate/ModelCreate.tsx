@@ -32,10 +32,10 @@ export const ModelCreate = ({
 
   return (
     <>
-      <h2 className="w-full text-left font-semibold text-4xl">{title}</h2>
-      <form onSubmit={handleSubmit(onCreateHandler)}>
+      <h2 className="w-full text-left font-semibold text-4xl whitespace-nowrap">{title}</h2>
+      <form className='whitespace-nowrap'onSubmit={handleSubmit(onCreateHandler)}>
         <div className="flex">
-          <div className="block w-full md:w-1/2 md:pr-4 inset-y-0">
+          <div className="block w-full md:w-1/2 min-w-[400px] pr-4 inset-y-0">
             {fieldNames
               .slice(0, Math.ceil(fieldNames.length / 2))
               .map((fieldName) => (
@@ -58,7 +58,7 @@ export const ModelCreate = ({
                 </label>
               ))}
           </div>
-          <div className="block w-full md:w-1/2 md:pl-4 inset-y-0">
+          <div className="block w-full md:w-1/2 min-w-[400px] pl-4 inset-y-0">
             {fieldNames
               .slice(Math.ceil(fieldNames.length / 2))
               .map((fieldName) => (
@@ -82,8 +82,8 @@ export const ModelCreate = ({
               ))}
           </div>
         </div>
-        <button type="submit">Create</button>
-        <button type="button" onClick={() => onCancel?.()}>
+        <button className='bg-[--success] rounded-l-md border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]' type="submit">Create</button>
+        <button className='bg-[--primary] rounded-r-md border-[--primary] hover:bg-[--primary-dark] hover:border-[--primary-dark]' type="button" onClick={() => onCancel?.()}>
           Cancel
         </button>
       </form>

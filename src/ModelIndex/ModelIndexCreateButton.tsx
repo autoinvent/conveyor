@@ -8,7 +8,7 @@ export const ModelIndexCreateButton = (
 ) => {
   const { selected: onCreate } = useModelIndex((state) => state.onCreate);
   return (
-    <button onClick={() => onCreate?.()} {...props}>
+    <button className='bg-[--success] border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark] rounded-md' onClick={() => onCreate?.()} {...props}>
       <FaPlus />
     </button>
   );
