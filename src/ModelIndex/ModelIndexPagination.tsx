@@ -75,7 +75,7 @@ export const ModelIndexPagination = ({
           <ChevronRight className="h-8 w-4" />
         </div>
       </nav>
-      Showing Items {PaginationInfo}
+      Showing items {PaginationInfo}
     </div>
   );
 };
