@@ -1,5 +1,5 @@
 import { useData } from '@/Data';
-import { FormInput } from '@/Form';
+import { ModelFormInput } from '@/ModelForm';
 import { Lens, DataLens, useLenses } from '@/Lenses';
 import { useModelIndex } from '@/ModelIndex';
 import { TableCell, TableCellProps } from '@/Table';
@@ -32,7 +32,7 @@ export const ModelIndexTableCell = ({
         <>
           <Lens lens={DataLens.DISPLAY}>{displayData}</Lens>
           <Lens lens={DataLens.EDITING}>
-            <FormInput
+            <ModelFormInput
               field={selected.fields.find(
                 (field: Field) => field.name === fieldName,
               )}

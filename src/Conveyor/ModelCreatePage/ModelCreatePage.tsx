@@ -1,14 +1,14 @@
 import { useNavigate, useParams } from '@tanstack/react-router';
 
 import { useAlerts } from '@/Alerts';
-import { Form } from '@/Form';
+import { ModelForm } from '@/ModelForm';
+import { ScalarTypes } from '@/enums';
 import { OnSaveProps } from '@/types';
 
 import { useConveyor } from '../Conveyor';
 import { useModelCreateMutation, useModelListMutation } from '../hooks';
 import { parseMQLType } from '../utils';
-import { ModelCreate } from '@/ModelCreate';
-import { ScalarTypes } from '@/enums';
+
 
 export interface ModelCreatePage {
   model?: string;
@@ -66,7 +66,6 @@ export const ModelCreatePage = ({ model }: ModelCreatePage) => {
       }));
     });
   };
-  console.log(creatableFields);
 
   // Create Mutation
   const { mutateAsync: createMutateAsync } = useModelCreateMutation({
@@ -98,14 +97,13 @@ export const ModelCreatePage = ({ model }: ModelCreatePage) => {
   };
 
   return (
-    <Form defaultValues={defaultValues}>
-      <ModelCreate
-        fields={creatableFields}
-        title={`Create ${currModel}`}
-        onCreate={onCreate}
-        onCancel={() => navigate({ to: '../' })}
-        onOpenFieldSelect={onOpenFieldSelect}
-      />
-    </Form>
+    <ModelForm
+      fields={creatableFields}
+      defaultValues={defaultValues}
+      title={`Create ${currModel}`}
+      onSubmit={onCreate}
+      onCancel={() => navigate({ to: '../' })}
+      onOpenFieldSelect={onOpenFieldSelect}
+    />
   );
 };

@@ -3,20 +3,20 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { ScalarTypes } from '@/enums';
 import { Field } from '@/types';
 
-import { SelectInput } from './SelectInput';
+import { ModelSelectInput } from './ModelSelectInput';
 import { SelectOption } from './types';
 
-export interface FormInputProps {
+export interface ModelFormInputProps {
   field: Field;
   onOpenFieldSelect?: (fieldName: string) => Promise<SelectOption[]>;
   className?: string;
 }
 
-export const FormInput = ({
+export const ModelFormInput = ({
   field,
   onOpenFieldSelect,
   className,
-}: FormInputProps) => {
+}: ModelFormInputProps) => {
   const { control, register } = useFormContext();
 
   switch (field.type) {
@@ -76,7 +76,7 @@ export const FormInput = ({
           rules={{ required: field.required }}
           render={({ field: { value, onChange } }) => {
             return (
-              <SelectInput
+              <ModelSelectInput
                 fieldName={field.name}
                 value={JSON.stringify(value ? value.id : null)}
                 onValueChange={(newValue) => {

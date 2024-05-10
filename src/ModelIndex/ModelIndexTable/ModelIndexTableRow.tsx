@@ -1,5 +1,6 @@
+import { FormProvider, useForm } from 'react-hook-form';
+
 import { useData } from '@/Data';
-import { Form } from '@/Form';
 import { Lenses, DataLens } from '@/Lenses';
 import { TableRow, TableRowProps, useTable } from '@/Table';
 
@@ -16,9 +17,10 @@ export const ModelIndexTableRow = ({
 }: ModelIndexTableRowProps) => {
   const { selected: columnIds } = useTable((state) => state.columnIds);
   const data = useData();
+  const methods = useForm({ mode: 'onChange', defaultValues: data });
 
   return (
-    <Form defaultValues={data}>
+    <FormProvider {...methods}>
       <Lenses initialLens={DataLens.DISPLAY}>
         <TableRow prefilled={false} {...props}>
           {children === undefined || prefilled ? (
@@ -37,6 +39,6 @@ export const ModelIndexTableRow = ({
           )}
         </TableRow>
       </Lenses>
-    </Form>
+    </FormProvider>
   );
 };

@@ -58,6 +58,14 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
   });
 
   const { mutateAsync: selectOptionMutateAsync } = useModelListMutation();
+  const onOpenFieldSelect = (model: string) => {
+    return selectOptionMutateAsync(model).then((data: any) => {
+      return data.items.map((item: any) => ({
+        label: item.id,
+        value: JSON.stringify(item.id),
+      }));
+    });
+  };
 
   useEffect(() => {
     const modelDisplayName = humanizeText(currModel);
@@ -129,14 +137,7 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
             }),
           );
       }}
-      onOpenFieldSelect={(model: string) => {
-        return selectOptionMutateAsync(model).then((data: any) => {
-          return data.items.map((item: any) => ({
-            label: item.id,
-            value: item.id,
-          }));
-        });
-      }}
+      onOpenFieldSelect={onOpenFieldSelect}
     >
       {children}
     </ModelIndex>

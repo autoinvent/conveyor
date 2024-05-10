@@ -2,7 +2,7 @@ import { ComponentProps } from 'react';
 
 import { useModelIndex } from './useModelIndex';
 
-export interface ModelIndexTitleProps extends ComponentProps<'h2'> {}
+export interface ModelIndexTitleProps extends ComponentProps<'h2'> { }
 
 export const ModelIndexTitle = ({
   children,
@@ -11,7 +11,7 @@ export const ModelIndexTitle = ({
   const { selected: title } = useModelIndex((state) => state.title);
   return title ? (
     <h2
-      className="w-full text-left font-semibold text-4xl whitespace-nowrap"
+      className="w-full text-left font-semibold text-4xl whitespace-nowrap pb-6"
       {...props}
     >
       {children === undefined ? title : children}

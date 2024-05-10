@@ -4,7 +4,7 @@ import * as SelectPrimitive from '@radix-ui/react-select';
 
 import { SelectOption } from './types';
 
-export interface SelectInputProps {
+export interface ModelSelectInputProps {
   fieldName: string;
   value: string;
   onValueChange: (value: string) => string;
@@ -14,7 +14,7 @@ export interface SelectInputProps {
   className?: string;
 }
 
-export const SelectInput = ({
+export const ModelSelectInput = ({
   fieldName,
   value,
   onValueChange,
@@ -22,7 +22,7 @@ export const SelectInput = ({
   required,
   placeholder,
   className,
-}: SelectInputProps) => {
+}: ModelSelectInputProps) => {
   const notRequiredOption = [{ label: 'none', value: 'null' }];
   const [options, setOptions] = useState<SelectOption[]>(
     value !== 'null' ? [{ label: value, value }] : notRequiredOption,
