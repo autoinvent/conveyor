@@ -114,7 +114,7 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
       data={tableData}
       tableView={tableView}
       setTableView={setTableView}
-      title={currModel}
+      title={humanizeText(currModel)}
       onCreate={() => navigate({ to: `/${currModel}/create` })}
       onSave={async ({ data, dirtyFields }: OnSaveProps) => {
         Object.keys(data).forEach((fieldName) => {

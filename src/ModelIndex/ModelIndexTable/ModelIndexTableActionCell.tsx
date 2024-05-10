@@ -14,7 +14,7 @@ import { TableCell, TableCellProps } from '@/Table';
 import { ACTION_SLOT } from './constants';
 
 export interface ModelIndexTableActionCellProps
-  extends Omit<TableCellProps, 'columnId'> {}
+  extends Omit<TableCellProps, 'columnId'> { }
 
 export const ModelIndexTableActionCell = ({
   children,
@@ -52,12 +52,14 @@ export const ModelIndexTableActionCell = ({
         >
           <Lens lens={DataLens.DISPLAY}>
             <button
+              type="button"
               className="rounded-l-md border-[--primary] text-[--primary] hover:text-[--text-color] hover:bg-[--primary]"
               onClick={onEdit}
             >
               <FaEdit />
             </button>
-            <button className="rounded-r-md border-[--danger] text-[--danger] hover:text-[--text-color] hover:bg-[--danger]">
+            <button type="button"
+              className="rounded-r-md border-[--danger] text-[--danger] hover:text-[--text-color] hover:bg-[--danger]">
               <FaRegTrashAlt />
             </button>
           </Lens>
@@ -69,6 +71,7 @@ export const ModelIndexTableActionCell = ({
               <FaRegSave />
             </button>
             <button
+              type="button"
               className="rounded-r-md border-[--primary] text-[--primary] hover:text-[--text-color] hover:bg-[--primary]"
               onClick={onCancelEdit}
             >

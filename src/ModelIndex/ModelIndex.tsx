@@ -16,7 +16,7 @@ import { ModelIndexTitle } from './ModelIndexTitle';
 
 export interface ModelIndexProps
   extends Omit<ModelIndexStore, 'fields'>,
-    Omit<ComponentProps<'section'>, 'title'> {
+  Omit<ComponentProps<'section'>, 'title'> {
   fields: (string | Field)[];
 }
 
@@ -53,10 +53,7 @@ export const ModelIndex = Object.assign(
         <ModelIndexStoreContext.Provider value={store}>
           {children === undefined ? (
             <>
-              <div className="flex align-baseline justify-between">
-                <ModelIndex.Title />
-                <ModelIndex.CreateButton />
-              </div>
+              <ModelIndex.Title />
               <ModelIndex.Table />
               <ModelIndex.Pagination />
             </>

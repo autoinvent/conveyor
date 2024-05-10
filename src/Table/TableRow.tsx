@@ -20,7 +20,7 @@ export const TableRow = ({
   return (
     <tr
       className={twMerge(
-        'items-center group rounded cursor-default',
+        'items-center group rounded cursor-default h-full',
         className,
       )}
       {...props}

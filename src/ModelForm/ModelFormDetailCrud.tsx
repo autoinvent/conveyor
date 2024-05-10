@@ -2,7 +2,7 @@ import { Lens, DataLens } from "@/Lenses"
 
 import { useModelForm } from './useModelForm'
 
-export const ModelFormCrud = () => {
+export const ModelFormDetailCrud = () => {
   const { selected: { onCancel, showActions } } = useModelForm(state => ({ showActions: state.showActions, onCancel: state.onCancel }))
   return showActions ? (
     <>
@@ -20,9 +20,6 @@ export const ModelFormCrud = () => {
         >
           Cancel
         </button>
-      </Lens>
-      <Lens lens={DataLens.DISPLAY}>
-
       </Lens>
     </>
   ) : null

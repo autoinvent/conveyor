@@ -10,7 +10,8 @@ import { toField } from '@/utils';
 import { ModelFormStore, ModelFormStoreContext } from './ModelFormStoreContext';
 import { ModelFormTitle } from './ModelFormTitle';
 import { ModelFormContent } from './ModelFormContent';
-import { ModelFormCrud } from './ModelFormCrud'
+import { ModelFormCreateCrud } from './ModelFormCreateCrud'
+import { ModelFormDetailCrud } from './ModelFormDetailCrud'
 
 export interface ModelForm
   extends ModelFormStore,
@@ -28,6 +29,7 @@ export const ModelForm = Object.assign(
     onOpenFieldSelect,
     initialLens = DataLens.EDITING,
     showActions = true,
+    type,
     children,
     className,
     ...props
@@ -41,6 +43,7 @@ export const ModelForm = Object.assign(
       onOpenFieldSelect,
       initialLens,
       showActions,
+      type,
     });
 
     const methods = useForm({ mode: 'onChange', defaultValues });
@@ -50,6 +53,11 @@ export const ModelForm = Object.assign(
         dirtyFields: methods.formState.dirtyFields,
       });
     };
+    let CrudComponent = null
+    switch (type) {
+      case 'create': CrudComponent = <ModelFormCreateCrud />
+      case 'detail': CrudComponent = <ModelFormDetailCrud />
+    }
     return (
       <ModelFormStoreContext.Provider value={store}>
         <Lenses initialLens={initialLens}>
@@ -63,7 +71,7 @@ export const ModelForm = Object.assign(
                 <>
                   <ModelFormTitle />
                   <ModelFormContent />
-                  <ModelFormCrud />
+                  {CrudComponent}
                 </>
               ) : (
                 children
@@ -76,7 +84,8 @@ export const ModelForm = Object.assign(
   },
   {
     Content: ModelFormContent,
-    Crud: ModelFormCrud,
+    CreateCrud: ModelFormCreateCrud,
+    DetailCrud: ModelFormDetailCrud,
     Title: ModelFormTitle,
   },
 );

@@ -13,7 +13,7 @@ import { TableHeaderRow } from './TableHeaderRow';
 import { TableRow } from './TableRow';
 import { TableStore, TableStoreContext } from './TableStoreContext';
 
-export interface TableProps extends TableStore, ComponentProps<'table'> {}
+export interface TableProps extends TableStore, ComponentProps<'table'> { }
 
 export const Table = Object.assign(
   ({ data, columnIds, children, className, ...props }: TableProps) => {
@@ -30,7 +30,7 @@ export const Table = Object.assign(
       <TableStoreContext.Provider value={tableStore}>
         <table
           className={twMerge(
-            'table-auto rounded w-full border-separate border-spacing-0 relative overflow-x-auto mb-2 overflow-hidden border-0',
+            'h-fit table-auto rounded w-full border-separate border-spacing-0 relative overflow-x-auto mb-2 overflow-hidden border-0',
             className,
           )}
           {...props}

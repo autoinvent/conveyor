@@ -4,6 +4,7 @@ import { useAlerts } from '@/Alerts';
 import { ModelForm } from '@/ModelForm';
 import { ScalarTypes } from '@/enums';
 import { OnSaveProps } from '@/types';
+import { humanizeText } from '@/utils';
 
 import { useConveyor } from '../Conveyor';
 import { useModelCreateMutation, useModelListMutation } from '../hooks';
@@ -100,10 +101,11 @@ export const ModelCreatePage = ({ model }: ModelCreatePage) => {
     <ModelForm
       fields={creatableFields}
       defaultValues={defaultValues}
-      title={`Create ${currModel}`}
+      title={`Create ${humanizeText(currModel)}`}
       onSubmit={onCreate}
       onCancel={() => navigate({ to: '../' })}
       onOpenFieldSelect={onOpenFieldSelect}
+      type="create"
     />
   );
 };

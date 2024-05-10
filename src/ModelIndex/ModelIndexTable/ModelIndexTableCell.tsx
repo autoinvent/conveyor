@@ -37,7 +37,7 @@ export const ModelIndexTableCell = ({
                 (field: Field) => field.name === fieldName,
               )}
               onOpenFieldSelect={selected.onOpenFieldSelect}
-              className="w-full bg-[--bg-accent]"
+              className="w-full bg-[--bg-accent] h-full"
             />
           </Lens>
         </>

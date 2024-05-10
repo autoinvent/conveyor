@@ -14,7 +14,7 @@ import Logo from '@/assets/logo.svg?react';
 
 import { useConveyor } from '../Conveyor';
 
-export interface DashboardProps extends ComponentProps<'div'> {}
+export interface DashboardProps extends ComponentProps<'div'> { }
 
 export const Dashboard = ({ ...props }: DashboardProps) => {
   const { selected: models } = useConveyor((state) => state.models);
@@ -26,7 +26,7 @@ export const Dashboard = ({ ...props }: DashboardProps) => {
         {...props}
       >
         <nav className="flex flex-col gap-4 px-2 py-5">
-          <div className="hover:bg-[--fg-accent] items-start transition-colors inline-flex text-start gap-2 py-1 rounded-md text-lg font-semibold text-[--text-color] cursor-default overflow-hidden">
+          <div className="items-start transition-colors inline-flex text-start gap-2 py-1 rounded-md text-lg font-semibold text-[--text-color] cursor-default overflow-hidden">
             <Logo className="h-9 w-9" />
             <span className="ml-1.5 mt-1.5 hidden group-hover:inline">
               Conveyor
@@ -63,10 +63,10 @@ export const Dashboard = ({ ...props }: DashboardProps) => {
             </Accordion.Item>
           </Accordion.Root>
           <hr className="border-t border-[--fg-accent]" />
-          <Link className="py-1.5 rounded-md hover:bg-[--fg-accent] items-start transition-colors h-9 inline-flex w-full text-start gap-2 text-lg font-semibold hover:text-[--text-color] overflow-hidden">
+          <span className="py-1.5 rounded-md hover:bg-[--fg-accent] items-start transition-colors h-9 inline-flex w-full text-start gap-2 text-lg font-semibold hover:text-[--text-color] overflow-hidden">
             <LucideEclipse className="w-9" />
             <span className="ml-2 hidden group-hover:inline">Themes</span>
-          </Link>
+          </span>
         </nav>
       </aside>
       <div className="ml-14">
