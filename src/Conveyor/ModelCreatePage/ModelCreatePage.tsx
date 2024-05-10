@@ -10,12 +10,11 @@ import { useConveyor } from '../Conveyor';
 import { useModelCreateMutation, useModelListMutation } from '../hooks';
 import { parseMQLType } from '../utils';
 
-
-export interface ModelCreatePage {
+export interface ModelCreatePageProps {
   model?: string;
 }
 
-export const ModelCreatePage = ({ model }: ModelCreatePage) => {
+export const ModelCreatePage = ({ model }: ModelCreatePageProps) => {
   const params = useParams({ from: '/$model/create' });
   const currModel: string = model ?? params.model ?? '';
   const navigate = useNavigate();

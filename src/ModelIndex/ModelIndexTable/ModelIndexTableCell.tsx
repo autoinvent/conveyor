@@ -1,5 +1,4 @@
-import { useData } from '@/Data';
-import { ModelFormInput } from '@/ModelForm';
+import { ModelFormInput, ModelFormValue } from '@/ModelForm';
 import { Lens, DataLens, useLenses } from '@/Lenses';
 import { useModelIndex } from '@/ModelIndex';
 import { TableCell, TableCellProps } from '@/Table';
@@ -16,12 +15,13 @@ export const ModelIndexTableCell = ({
   ...props
 }: ModelIndexTableCellProps) => {
   const { setLens } = useLenses();
-  const fieldData = useData((state) => state?.[fieldName]);
   const { selected } = useModelIndex((state) => ({
     fields: state.fields,
     onOpenFieldSelect: state.onOpenFieldSelect,
   }));
-  const displayData = typeof fieldData === 'object' ? fieldData?.id : fieldData;
+  const field = selected.fields.find(
+    (field: Field) => field.name === fieldName,
+  );
   return (
     <TableCell
       columnId={fieldName}
@@ -30,15 +30,19 @@ export const ModelIndexTableCell = ({
     >
       {children === undefined ? (
         <>
-          <Lens lens={DataLens.DISPLAY}>{displayData}</Lens>
+          <Lens lens={DataLens.DISPLAY}>
+            <ModelFormValue field={field} />
+          </Lens>
           <Lens lens={DataLens.EDITING}>
-            <ModelFormInput
-              field={selected.fields.find(
-                (field: Field) => field.name === fieldName,
-              )}
-              onOpenFieldSelect={selected.onOpenFieldSelect}
-              className="w-full bg-[--bg-accent] h-full"
-            />
+            {field.editable ? (
+              <ModelFormInput
+                field={field}
+                onOpenFieldSelect={selected.onOpenFieldSelect}
+                className="w-full bg-[--bg-accent] h-full"
+              />
+            ) : (
+              <ModelFormValue field={field} />
+            )}
           </Lens>
         </>
       ) : (

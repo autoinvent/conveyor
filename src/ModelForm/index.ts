@@ -1,11 +1,12 @@
 // components
 export * from './ModelForm';
 export * from './ModelFormContent';
-export * from './ModelFormCreateCrud'
-export * from './ModelFormDetailCrud'
-export * from './ModelFormField'
+export * from './ModelFormCreateCrud';
+export * from './ModelFormDetailCrud';
+export * from './ModelFormField';
 export * from './ModelFormInput';
 export * from './ModelFormTitle';
+export * from './ModelFormValue';
 export * from './ModelSelectInput';
 
 // contexts

@@ -52,7 +52,7 @@ export const ModelFormInput = ({
           rules={{ required: field.required }}
           render={({ field: { value, ...rest } }) => (
             <input
-              value={value.slice(0, -3)}
+              value={value?.slice(0, -3)}
               type="datetime-local"
               className={className}
               {...rest}

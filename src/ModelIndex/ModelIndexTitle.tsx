@@ -3,7 +3,7 @@ import { ComponentProps } from 'react';
 import { ModelIndexCreateButton } from './ModelIndexCreateButton';
 import { useModelIndex } from './useModelIndex';
 
-export interface ModelIndexTitleProps extends ComponentProps<'h2'> { }
+export interface ModelIndexTitleProps extends ComponentProps<'h2'> {}
 
 export const ModelIndexTitle = ({
   children,
@@ -15,7 +15,14 @@ export const ModelIndexTitle = ({
       className="flex items-end justify-between w-full text-left font-semibold text-4xl whitespace-nowrap mb-2"
       {...props}
     >
-      {children === undefined ? <><span>{title}</span><ModelIndexCreateButton /></> : children}
+      {children === undefined ? (
+        <>
+          <span>{title}</span>
+          <ModelIndexCreateButton />
+        </>
+      ) : (
+        children
+      )}
     </h2>
   ) : null;
 };

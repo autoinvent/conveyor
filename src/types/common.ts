@@ -8,6 +8,7 @@ export interface Field {
   many?: boolean;
   required?: boolean;
   sortable?: boolean;
+  editable?: boolean;
 }
 
 export interface OnSaveProps {

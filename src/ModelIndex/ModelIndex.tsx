@@ -16,7 +16,7 @@ import { ModelIndexTitle } from './ModelIndexTitle';
 
 export interface ModelIndexProps
   extends Omit<ModelIndexStore, 'fields'>,
-  Omit<ComponentProps<'section'>, 'title'> {
+    Omit<ComponentProps<'section'>, 'title'> {
   fields: (string | Field)[];
 }
 

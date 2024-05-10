@@ -13,7 +13,7 @@ import { TableHeaderRow } from './TableHeaderRow';
 import { TableRow } from './TableRow';
 import { TableStore, TableStoreContext } from './TableStoreContext';
 
-export interface TableProps extends TableStore, ComponentProps<'table'> { }
+export interface TableProps extends TableStore, ComponentProps<'table'> {}
 
 export const Table = Object.assign(
   ({ data, columnIds, children, className, ...props }: TableProps) => {

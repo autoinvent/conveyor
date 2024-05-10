@@ -10,12 +10,12 @@ import { toField } from '@/utils';
 import { ModelFormStore, ModelFormStoreContext } from './ModelFormStoreContext';
 import { ModelFormTitle } from './ModelFormTitle';
 import { ModelFormContent } from './ModelFormContent';
-import { ModelFormCreateCrud } from './ModelFormCreateCrud'
-import { ModelFormDetailCrud } from './ModelFormDetailCrud'
+import { ModelFormCreateCrud } from './ModelFormCreateCrud';
+import { ModelFormDetailCrud } from './ModelFormDetailCrud';
 
 export interface ModelForm
   extends ModelFormStore,
-  Omit<ComponentProps<'form'>, 'onSubmit' | 'title'> {
+    Omit<ComponentProps<'form'>, 'onSubmit' | 'title'> {
   children?: ReactNode;
 }
 
@@ -53,10 +53,12 @@ export const ModelForm = Object.assign(
         dirtyFields: methods.formState.dirtyFields,
       });
     };
-    let CrudComponent = null
+    let CrudComponent = null;
     switch (type) {
-      case 'create': CrudComponent = <ModelFormCreateCrud />
-      case 'detail': CrudComponent = <ModelFormDetailCrud />
+      case 'create':
+        CrudComponent = <ModelFormCreateCrud />;
+      case 'detail':
+        CrudComponent = <ModelFormDetailCrud />;
     }
     return (
       <ModelFormStoreContext.Provider value={store}>

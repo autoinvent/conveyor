@@ -14,7 +14,7 @@ import { TableCell, TableCellProps } from '@/Table';
 import { ACTION_SLOT } from './constants';
 
 export interface ModelIndexTableActionCellProps
-  extends Omit<TableCellProps, 'columnId'> { }
+  extends Omit<TableCellProps, 'columnId'> {}
 
 export const ModelIndexTableActionCell = ({
   children,
@@ -58,8 +58,10 @@ export const ModelIndexTableActionCell = ({
             >
               <FaEdit />
             </button>
-            <button type="button"
-              className="rounded-r-md border-[--danger] text-[--danger] hover:text-[--text-color] hover:bg-[--danger]">
+            <button
+              type="button"
+              className="rounded-r-md border-[--danger] text-[--danger] hover:text-[--text-color] hover:bg-[--danger]"
+            >
               <FaRegTrashAlt />
             </button>
           </Lens>

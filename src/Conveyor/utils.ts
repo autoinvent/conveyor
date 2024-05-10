@@ -30,6 +30,21 @@ export const getQueryFields = (
   });
 };
 
+export const getItemFieldParams = (
+  model: string,
+  fieldNames: string[],
+  models: Record<string, ModelType>,
+) => {
+  const currFields = models[model]?.fields;
+  if (!currFields) return { inputVariables: [], queryArgs: [] };
+  return {
+    inputVariables: fieldNames.map(
+      (fieldName) => `$${fieldName}: ${currFields[fieldName].item}`,
+    ),
+    queryArgs: fieldNames.map((fieldName) => `${fieldName}: $${fieldName}`),
+  };
+};
+
 export const getUpdateFieldParams = (
   model: string,
   fieldNames: string[],
@@ -77,5 +92,6 @@ export const parseMQLType = (fieldName: string, type: string = ''): Field => {
   const baseType = parseMQLBaseType(type);
   const required = type.includes(`${baseType}!`);
   const many = type.charAt(0) === '[' && type.charAt(type.length - 1) === ']';
-  return { name: fieldName, type: baseType, required, many };
+  const editable = !!type;
+  return { name: fieldName, type: baseType, required, many, editable };
 };

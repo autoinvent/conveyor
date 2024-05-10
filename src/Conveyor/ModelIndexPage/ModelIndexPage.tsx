@@ -56,7 +56,29 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
     model: currModel,
     fieldNames: updatableFieldNames,
   });
+  const onSave = async ({ data, dirtyFields }: OnSaveProps) => {
+    Object.keys(data).forEach((fieldName) => {
+      if (typeof data[fieldName] === 'object') {
+        data[fieldName] = data[fieldName]?.id;
+      }
+    });
+    return updateMutateAsync(data)
+      .then(() =>
+        addAlert({
+          content: `${currModel} updated!`,
+          className: 'success',
+          expires: 2000,
+        }),
+      )
+      .catch((err) =>
+        addAlert({
+          content: `${currModel} failed to update: ${err}`,
+          className: 'danger',
+        }),
+      );
+  };
 
+  // Select Mutation
   const { mutateAsync: selectOptionMutateAsync } = useModelListMutation();
   const onOpenFieldSelect = (model: string) => {
     return selectOptionMutateAsync(model).then((data: any) => {
@@ -116,27 +138,7 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
       setTableView={setTableView}
       title={humanizeText(currModel)}
       onCreate={() => navigate({ to: `/${currModel}/create` })}
-      onSave={async ({ data, dirtyFields }: OnSaveProps) => {
-        Object.keys(data).forEach((fieldName) => {
-          if (typeof data[fieldName] === 'object') {
-            data[fieldName] = data[fieldName]?.id;
-          }
-        });
-        return updateMutateAsync(data)
-          .then(() =>
-            addAlert({
-              content: `${currModel} updated!`,
-              className: 'success',
-              expires: 2000,
-            }),
-          )
-          .catch((err) =>
-            addAlert({
-              content: `${currModel} failed to update: ${err}`,
-              className: 'danger',
-            }),
-          );
-      }}
+      onSave={onSave}
       onOpenFieldSelect={onOpenFieldSelect}
     >
       {children}

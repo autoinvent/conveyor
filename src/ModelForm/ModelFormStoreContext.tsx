@@ -7,7 +7,6 @@ import { Field, OnSaveProps } from '@/types';
 
 import { SelectOption } from './types';
 
-
 export interface ModelFormStore {
   fields: Field[];
   defaultValues: DataType;
@@ -17,7 +16,7 @@ export interface ModelFormStore {
   onOpenFieldSelect?: (fieldName: string) => Promise<SelectOption[]>;
   initialLens?: DataLens;
   showActions?: boolean;
-  type?: 'create' | 'detail'
+  type?: 'create' | 'detail';
 }
 
 export const ModelFormStoreContext = createContext<

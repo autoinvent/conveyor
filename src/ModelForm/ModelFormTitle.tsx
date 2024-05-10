@@ -8,7 +8,7 @@ export const ModelFormTitle = ({ children, ...props }: ModelFormTitleProps) => {
   const { selected: title } = useModelForm((state) => state.title);
   return title ? (
     <h2
-      className="w-full text-left font-semibold text-4xl whitespace-nowrap"
+      className="w-full text-left font-semibold text-4xl whitespace-nowrap m-2"
       {...props}
     >
       {children === undefined ? title : children}
