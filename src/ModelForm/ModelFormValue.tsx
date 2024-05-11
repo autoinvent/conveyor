@@ -55,9 +55,9 @@ export const ModelFormValue = ({ field, className }: ModelFormValueProps) => {
       );
     default:
       return (
-        <span className="h-full w-full p-1.5 text-cyan-600 text-start align-baseline">
+        <Link className="h-full w-full p-1.5 text-cyan-600 text-start align-baseline">
           {value?.id ?? 'none'}
-        </span>
+        </Link>
       );
   }
 };
