@@ -24,14 +24,14 @@ export const ModelFormDetailCrud = () => {
     <>
       <Lens lens={DataLens.DISPLAY}>
         <button
-          className="bg-[--success] rounded-l-md border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark] my-6"
+          className="bg-[--primary] rounded-l-md border-[--primary] hover:bg-[--primary-dark] hover:border-[--primary-dark] my-6"
           type="button"
           onClick={() => setLens(DataLens.EDITING)}
         >
           Edit
         </button>
         <button
-          className="bg-[--primary] rounded-r-md border-[--primary] hover:bg-[--primary-dark] hover:border-[--primary-dark] my-6"
+          className="bg-[--danger] rounded-r-md border-[--danger] hover:bg-[--danger-dark] hover:border-[--danger-dark] my-6"
           type="button"
           onClick={onCancelEdit}
         >

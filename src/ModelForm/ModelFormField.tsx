@@ -25,13 +25,13 @@ export const ModelFormField = ({ fieldName }: ModelFormFieldProps) => {
           key={fieldName}
           className="flex w-full rounded-md border border-[--border-color] overflow-hidden"
         >
-          <span className="bg-[--fg-color] py-1.5 px-3 w-[200px] border border-transparent text-[--text-color] text-center rounded-l-md overflow-hidden">
+          <span className="bg-[--fg-color] py-1.5 px-3 w-[200px] border border-transparent text-[--text-color] text-center rounded-l-md overflow-hidden border-r-[--border-color] border-r">
             {fieldName}
           </span>
           <Lens lens={DataLens.DISPLAY}>
             <ModelFormValue
               field={field}
-              className="flex-1 bg-[--bg-accent] text-[--success] border border-transparent outline-none p-1.5 border-l-[--border-color] rounded-r-md"
+              className="w-full h-full flex-1 bg-[--bg-accent] align-middle text-center text-[--success] border border-transparent outline-none p-1.5 rounded-r-md overflow-hidden"
             />
           </Lens>
           <Lens lens={DataLens.EDITING}>
@@ -39,12 +39,12 @@ export const ModelFormField = ({ fieldName }: ModelFormFieldProps) => {
               <ModelFormInput
                 field={field}
                 onOpenFieldSelect={onOpenFieldSelect}
-                className="flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 border-l-[--border-color] rounded-r-md"
+                className="flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 rounded-r-md overflow-hidden"
               />
             ) : (
               <ModelFormValue
                 field={field}
-                className="text-center flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 border-l-[--border-color] rounded-r-md"
+                className="text-center flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 rounded-r-md overflow-hidden"
               />
             )}
           </Lens>
