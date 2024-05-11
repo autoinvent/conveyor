@@ -64,7 +64,7 @@ export const ModelFormInput = ({
       return (
         <input
           type="checkbox"
-          className="appearance-none justify-baseline align-middle rounded border border-[--fg-accent] bg-[--bg-accent] w-9 h-9 checked:bg-[--text-color] checked:appearance-auto checked:border-transparent"
+          className="text-center appearance-none justify-center align-middle rounded border-4 border-[--fg-accent] p-0.5 bg-[--bg-accent] w-9 h-9 hover:border-[--text-color] checked:appearance-auto"
           {...register(field.name, { required: field.required })}
         />
       );

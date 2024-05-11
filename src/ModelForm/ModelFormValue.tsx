@@ -14,7 +14,7 @@ export const ModelFormValue = ({ field, className }: ModelFormValueProps) => {
   const value = getValues(field.name);
 
   if (field.name === 'id') {
-    return <Link to={`./${value}`}>{value}</Link>;
+    return <Link className='text-cyan-500 underline underline-offset-1'to={`./${value}`}>{value}</Link>;
   }
   switch (field.type) {
     case ScalarTypes.STRING:

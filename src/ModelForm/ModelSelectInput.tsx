@@ -39,7 +39,7 @@ export const ModelSelectInput = ({
         }
       }}
     >
-      <SelectPrimitive.Trigger className="w-full flex h-full min-w-32 items-center justify-between rounded-sm focus:rounded-md border-0 bg-[--bg-accent] px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
+      <SelectPrimitive.Trigger className="w-full flex h-full min-w-32 items-center justify-between rounded-sm focus:rounded-sm border-0 bg-[--bg-accent] px-3 py-2 text-sm placeholder:text-[--muted-foreground] focus:outline-none focus:ring-2 focus:ring-white disabled:opacity-50 [&>span]:line-clamp-1">
         <SelectPrimitive.Value
           className={className}
           placeholder={placeholder}

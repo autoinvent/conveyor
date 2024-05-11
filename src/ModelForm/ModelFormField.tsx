@@ -23,15 +23,15 @@ export const ModelFormField = ({ fieldName }: ModelFormFieldProps) => {
       <div className="flex min-w-[300px] basis-1/2 px-2 my-2">
         <label
           key={fieldName}
-          className="flex w-full rounded-md border border-[--border-color]"
+          className="flex w-full rounded-md border border-[--border-color] overflow-hidden"
         >
-          <span className="bg-[--fg-color] py-1.5 px-3 w-[200px] border border-transparent text-center rounded-l-md">
+          <span className="bg-[--fg-color] py-1.5 px-3 w-[200px] border border-transparent text-[--text-color] text-center rounded-l-md overflow-hidden">
             {fieldName}
           </span>
           <Lens lens={DataLens.DISPLAY}>
             <ModelFormValue
               field={field}
-              className="flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 border-l-[--border-color] rounded-r-md"
+              className="flex-1 bg-[--bg-accent] text-[--success] border border-transparent outline-none p-1.5 border-l-[--border-color] rounded-r-md"
             />
           </Lens>
           <Lens lens={DataLens.EDITING}>
@@ -44,7 +44,7 @@ export const ModelFormField = ({ fieldName }: ModelFormFieldProps) => {
             ) : (
               <ModelFormValue
                 field={field}
-                className="flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 border-l-[--border-color] rounded-r-md"
+                className="text-center flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 border-l-[--border-color] rounded-r-md"
               />
             )}
           </Lens>
