@@ -43,7 +43,7 @@ export const Dashboard = ({ ...props }: DashboardProps) => {
           <Accordion.Root type="single" defaultValue="item-1" collapsible>
             <Accordion.Item className="transition-all" value="Models">
               <Accordion.Header className="flex">
-                <Accordion.AccordionTrigger className="rounded-md hover:bg-[--fg-accent] border-0 px-0 flex flex-1 items-center justify-between py-1.5 font-semibold text-lg transition-all hover:text-[--text-color] hover:underline [&[data-state=open]>svg]:rotate-180">
+                <Accordion.AccordionTrigger className="rounded-md hover:bg-[--fg-accent] border-0 px-0 flex flex-1 items-center justify-between py-1.5 font-semibold text-lg transition-all hover:text-[--text-color] [&[data-state=open]>svg]:rotate-180">
                   <LucideBox className="w-9  transition-transform duration-200" />
                   <span className="ml-3 hidden group-hover:inline">Models</span>
                   <ChevronDown className="hidden group-hover:inline h-4 w-4 shrink-0 transition-transform duration-200" />

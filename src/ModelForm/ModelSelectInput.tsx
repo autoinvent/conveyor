@@ -39,7 +39,7 @@ export const ModelSelectInput = ({
         }
       }}
     >
-      <SelectPrimitive.Trigger className="w-full flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
+      <SelectPrimitive.Trigger className="w-full flex h-full min-w-32 items-center justify-between rounded-sm focus:rounded-sm border-0 bg-[--bg-accent] px-3 py-2 text-sm placeholder:text-[--muted-foreground] focus:outline-none focus:ring-2 focus:ring-white disabled:opacity-50 [&>span]:line-clamp-1">
         <SelectPrimitive.Value
           className={className}
           placeholder={placeholder}
@@ -56,13 +56,13 @@ export const ModelSelectInput = ({
           <SelectPrimitive.ScrollUpButton className="flex cursor-default items-center justify-center py-1">
             <ChevronUp className="h-4 w-4" />
           </SelectPrimitive.ScrollUpButton>
-          <SelectPrimitive.Viewport className="p-1 h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]">
+          <SelectPrimitive.Viewport className="bg-[--bg-accent] p-1 h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]">
             {options.map((option) => {
               return (
                 <SelectPrimitive.Item
                   key={option.value ?? 'undefined'}
                   value={option.value}
-                  className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                  className="relative hover:bg-[--fg-accent] flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                 >
                   <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
                     <SelectPrimitive.ItemIndicator>

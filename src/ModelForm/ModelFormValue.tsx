@@ -14,29 +14,50 @@ export const ModelFormValue = ({ field, className }: ModelFormValueProps) => {
   const value = getValues(field.name);
 
   if (field.name === 'id') {
-    return <Link to={`./${value}`}>{value}</Link>;
+    return (
+      <Link
+        className="text-cyan-600 underline underline-offset-1 h-full w-full p-1.5 text-start align-baseline"
+        to={`./${value}`}
+      >
+        {value}
+      </Link>
+    );
   }
   switch (field.type) {
     case ScalarTypes.STRING:
     case ScalarTypes.INT:
     case ScalarTypes.FLOAT:
-      return value;
+      return (
+        <span className="h-full w-full p-1.5 text-start align-baseline">
+          {value}
+        </span>
+      );
     case ScalarTypes.DATETIME:
       const f = new Intl.DateTimeFormat('en-us', {
         dateStyle: 'short',
         timeStyle: 'short',
       });
-      return f.format(new Date(value));
+      return (
+        <span className="h-full w-full p-1.5 text-start align-baseline">
+          {f.format(new Date(value))}
+        </span>
+      );
     case ScalarTypes.BOOLEAN:
       return (
-        <input
-          disabled={true}
-          type="checkbox"
-          className={className}
-          checked={value}
-        />
+        <span className="h-full w-full text-middle align-baseline">
+          <input
+            disabled={true}
+            type="checkbox"
+            className={className}
+            checked={value}
+          />
+        </span>
       );
     default:
-      return value?.id ?? 'none';
+      return (
+        <Link className="h-full w-full p-1.5 text-cyan-600 text-start align-baseline">
+          {value?.id ?? 'none'}
+        </Link>
+      );
   }
 };
