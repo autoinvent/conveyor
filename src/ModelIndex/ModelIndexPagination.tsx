@@ -1,9 +1,6 @@
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
-import {
-  useModelIndex,
-  setPage,
-} from '@/ModelIndex';
+import { useModelIndex, setPage } from '@/ModelIndex';
 import { useEffect } from 'react';
 import { TableView } from '@/types';
 
@@ -14,7 +11,9 @@ interface ModelIndexPaginationProps {
 export const ModelIndexPagination = ({
   pageLimit = 10,
 }: ModelIndexPaginationProps) => {
-  const { selected: { totalDataLength, page, per_page, setTableView } } = useModelIndex((state) => ({
+  const {
+    selected: { totalDataLength, page, per_page, setTableView },
+  } = useModelIndex((state) => ({
     totalDataLength: state.totalDataLength,
     page: state.tableView?.page,
     per_page: state.tableView?.per_page,
@@ -33,9 +32,9 @@ export const ModelIndexPagination = ({
     btns.push(
       <button
         key={`table-pagination-left-arrow`}
-        type='button'
+        type="button"
         onClick={() => {
-          setPage(setTableView, (currentPageSet - 1) * pageLimit)
+          setPage(setTableView, (currentPageSet - 1) * pageLimit);
         }}
       >
         <FaChevronLeft className="h-8 w-4" />
@@ -47,10 +46,14 @@ export const ModelIndexPagination = ({
     btns.push(
       <button
         key={`table-pagination-${pageNum}`}
-        type='button'
-        className={`min-w-8 w-8 px-1.5 whitespace-nowrap hover:bg-[--border-color] rounded-md m-[2px] ${page === pageNum ? 'bg-[--success] border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]' : ''}`}
+        type="button"
+        className={`min-w-8 w-8 px-1.5 whitespace-nowrap hover:bg-[--border-color] rounded-md m-[2px] ${
+          page === pageNum
+            ? 'bg-[--success] border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]'
+            : ''
+        }`}
         onClick={() => {
-          setPage(setTableView, pageNum)
+          setPage(setTableView, pageNum);
         }}
       >
         {pageNum}
@@ -59,11 +62,7 @@ export const ModelIndexPagination = ({
   }
   if (currentPageSet * pageLimit < totalPages) {
     btns.push(
-      <button
-        key={`table-pagination-goto`}
-        type='button'
-        disabled
-      >
+      <button key={`table-pagination-goto`} type="button" disabled>
         ...
       </button>,
     );
@@ -72,9 +71,9 @@ export const ModelIndexPagination = ({
     btns.push(
       <button
         key={`table-pagination-right-arrow`}
-        type='button'
+        type="button"
         onClick={() => {
-          setPage(setTableView, currentPageSet * pageLimit + 1)
+          setPage(setTableView, currentPageSet * pageLimit + 1);
         }}
       >
         <FaChevronRight className="h-8 w-4" />
@@ -83,25 +82,24 @@ export const ModelIndexPagination = ({
   }
   btns.push();
 
-
   useEffect(() => {
     if (!per_page) {
       setTableView((state: TableView) => {
         return {
           ...state,
           per_page: 5,
-        }
-      })
+        };
+      });
     }
     if (!page) {
       setTableView((state: TableView) => {
         return {
           ...state,
           page: 1,
-        }
-      })
+        };
+      });
     }
-  }, [per_page, page])
+  }, [per_page, page]);
 
   return per_page && page ? (
     <div className="text-left	 w-full">
@@ -110,8 +108,9 @@ export const ModelIndexPagination = ({
       </span>
       <span>
         {totalDataLength
-          ? ` Showing items ${per_page * (page - 1) + 1}-${totalPages === page ? totalDataLength : per_page * page
-          } of ${totalDataLength}`
+          ? ` Showing items ${per_page * (page - 1) + 1}-${
+              totalPages === page ? totalDataLength : per_page * page
+            } of ${totalDataLength}`
           : null}
       </span>
     </div>

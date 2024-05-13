@@ -10,7 +10,7 @@ import { camelToSnakeCase, humanizeText, isModelType } from '@/utils';
 import { useConveyor } from '../Conveyor/useConveyor';
 import { useModelListQuery } from '../hooks/useModelListQuery';
 import { useModelCheckDeleteMutation } from '../hooks/useModelCheckDeleteMutation';
-import { useModelDeleteMutation } from '../hooks/useModelDeleteMutation'
+import { useModelDeleteMutation } from '../hooks/useModelDeleteMutation';
 import { parseMQLType } from '../utils';
 import { useModelUpdateMutation } from '../hooks/useModelUpdateMutation';
 import { useModelListMutation } from '../hooks';
@@ -72,7 +72,7 @@ export const DetailModelIndex = ({
       tableView,
     });
   const tableData = data?.[operationName]?.items;
-  const totalDataLength = data?.[operationName]?.total
+  const totalDataLength = data?.[operationName]?.total;
 
   // Update Mutation
   const { mutateAsync: updateMutateAsync } = useModelUpdateMutation({
@@ -122,9 +122,9 @@ export const DetailModelIndex = ({
   // Handle Delete
   const { mutateAsync: deleteMutateAsync } = useModelDeleteMutation({
     model: fieldModel,
-    fieldNames: ['id']
+    fieldNames: ['id'],
   });
-  const [deleteId, setDeleteId] = useState('')
+  const [deleteId, setDeleteId] = useState('');
 
   useEffect(() => {
     const modelDisplayName = humanizeText(fieldModel);
@@ -154,7 +154,7 @@ export const DetailModelIndex = ({
           return checkDeleteMutateAsync(id)
             .then((res: any) => {
               setOpenDeleteModal(true);
-              setDeleteId(id)
+              setDeleteId(id);
               setCheckDeleteResults(res.check_delete);
             })
             .catch((err) => {
@@ -197,12 +197,13 @@ export const DetailModelIndex = ({
         onOpenChange={setOpenDeleteModal}
         deleteResults={checkDeleteResults}
         onConfirmDelete={(id: ID) => {
-          deleteMutateAsync(id).then(() => {
-            addAlert({
-              content: `Successfully deleted ${fieldModel}!`,
-              className: 'success',
-            });
-          })
+          deleteMutateAsync(id)
+            .then(() => {
+              addAlert({
+                content: `Successfully deleted ${fieldModel}!`,
+                className: 'success',
+              });
+            })
             .catch((err) => {
               addAlert({
                 content: `Failed to delete: ${err}`,

@@ -15,7 +15,7 @@ import { ModelFormDetailCrud } from './ModelFormDetailCrud';
 
 export interface ModelForm
   extends ModelFormStore,
-  Omit<ComponentProps<'form'>, 'onSubmit' | 'title'> {
+    Omit<ComponentProps<'form'>, 'onSubmit' | 'title'> {
   children?: ReactNode;
 }
 

@@ -13,7 +13,7 @@ import {
   useModelListMutation,
   useModelItemQuery,
   useModelCheckDeleteMutation,
-  useModelDeleteMutation
+  useModelDeleteMutation,
 } from '../hooks';
 import { parseMQLType } from '../utils';
 import { DetailModelIndex } from './DetailModelIndex';
@@ -82,9 +82,8 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
   // Handle Delete
   const { mutateAsync: deleteMutateAsync } = useModelDeleteMutation({
     model: currModel,
-    fieldNames: ['id']
+    fieldNames: ['id'],
   });
-
 
   // Update Mutation
   const { mutateAsync: updateMutateAsync } = useModelUpdateMutation({
@@ -147,7 +146,8 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
                 className: 'danger',
               });
             });
-        }} onOpenFieldSelect={onOpenFieldSelect}
+        }}
+        onOpenFieldSelect={onOpenFieldSelect}
         initialLens={DataLens.DISPLAY}
       >
         <ModelForm.Title>
@@ -182,13 +182,14 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
         onOpenChange={setOpenDeleteModal}
         deleteResults={checkDeleteResults}
         onConfirmDelete={(id: ID) => {
-          deleteMutateAsync(id).then(() => {
-            addAlert({
-              content: `Successfully deleted ${currModel}!`,
-              className: 'success',
-            });
-            navigate({ to: '../' })
-          })
+          deleteMutateAsync(id)
+            .then(() => {
+              addAlert({
+                content: `Successfully deleted ${currModel}!`,
+                className: 'success',
+              });
+              navigate({ to: '../' });
+            })
             .catch((err) => {
               addAlert({
                 content: `Failed to delete: ${err}`,

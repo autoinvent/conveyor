@@ -39,23 +39,25 @@ export const ModelCreatePage = ({ model }: ModelCreatePageProps) => {
     ...parseMQLType(fieldName, fields[fieldName].create),
     type: fields[fieldName].baseType,
   }));
-  const [defaultValues] = useState(Object.fromEntries(
-    creatableFields.map((field) => {
-      switch (field.type) {
-        case ScalarTypes.STRING:
-          return [field.name, ''];
-        case ScalarTypes.INT:
-          return [field.name, 0];
-        case ScalarTypes.FLOAT:
-          return [field.name, 0];
-        case ScalarTypes.BOOLEAN:
-          return [field.name, false];
-        case ScalarTypes.DATETIME:
-          return [field.name, ''];
-        default:
-          return [field.name, null];
-      }
-    })),
+  const [defaultValues] = useState(
+    Object.fromEntries(
+      creatableFields.map((field) => {
+        switch (field.type) {
+          case ScalarTypes.STRING:
+            return [field.name, ''];
+          case ScalarTypes.INT:
+            return [field.name, 0];
+          case ScalarTypes.FLOAT:
+            return [field.name, 0];
+          case ScalarTypes.BOOLEAN:
+            return [field.name, false];
+          case ScalarTypes.DATETIME:
+            return [field.name, ''];
+          default:
+            return [field.name, null];
+        }
+      }),
+    ),
   );
 
   const { mutateAsync: selectOptionMutateAsync } = useModelListMutation();

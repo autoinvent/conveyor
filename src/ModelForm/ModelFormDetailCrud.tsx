@@ -10,7 +10,7 @@ export const ModelFormDetailCrud = () => {
   } = useModelForm((state) => ({
     showActions: state.showActions,
     onCancel: state.onCancel,
-    onDelete: state.onDelete
+    onDelete: state.onDelete,
   }));
   const { reset } = useFormContext();
   const { setLens } = useLenses();
@@ -35,7 +35,7 @@ export const ModelFormDetailCrud = () => {
           className="bg-[--danger] rounded-r-md border-[--danger] hover:bg-[--danger-dark] hover:border-[--danger-dark]"
           type="button"
           onClick={() => {
-            onDelete?.()
+            onDelete?.();
           }}
         >
           Delete
