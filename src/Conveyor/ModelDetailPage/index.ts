@@ -1,2 +1,2 @@
 export * from './ModelDetailPage';
-export * from './DetailModelIndex'
+export * from './DetailModelIndex';

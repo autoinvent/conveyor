@@ -21,7 +21,7 @@ export const setItemsPerPage = (
   setTableView((state) => {
     return {
       ...state,
-      perPage: newPerPage,
+      per_page: newPerPage,
     };
   });
 };

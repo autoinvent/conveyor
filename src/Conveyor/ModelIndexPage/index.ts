@@ -1,4 +1,4 @@
 // components
 export * from './ModelIndexPage';
-export * from './IdCell'
-export * from './RelationshipCell'
+export * from './IdCell';
+export * from './RelationshipCell';

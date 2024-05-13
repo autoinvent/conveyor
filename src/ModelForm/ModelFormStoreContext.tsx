@@ -13,6 +13,7 @@ export interface ModelFormStore {
   title?: ReactNode;
   onSubmit?: ({ data, dirtyFields }: OnSaveProps) => Promise<any>;
   onCancel?: () => void;
+  onDelete?: () => Promise<any>;
   onOpenFieldSelect?: (fieldName: string) => Promise<SelectOption[]>;
   initialLens?: DataLens;
   showActions?: boolean;

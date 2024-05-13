@@ -31,6 +31,7 @@ export const ModelIndexTableActionCell = ({
   const { selected } = useModelIndex((state) => ({
     showActions: state.showActions,
     onSave: state.onSave,
+    onDelete: state.onDelete,
   }));
 
   const onEdit = () => setLens(DataLens.EDITING);
@@ -59,6 +60,7 @@ export const ModelIndexTableActionCell = ({
               <FaEdit />
             </button>
             <button
+              onClick={() => selected.onDelete?.(id)}
               type="button"
               className="rounded-r-md border-[--danger] text-[--danger] hover:text-[--text-color] hover:bg-[--danger]"
             >

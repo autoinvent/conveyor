@@ -8,6 +8,7 @@ export * from './ModelFormInput';
 export * from './ModelFormTitle';
 export * from './ModelFormValue';
 export * from './ModelSelectInput';
+export * from './ModelFormDeleteModal';
 
 // contexts
 export * from './ModelFormStoreContext';

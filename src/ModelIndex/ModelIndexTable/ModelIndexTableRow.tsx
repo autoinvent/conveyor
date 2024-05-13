@@ -10,7 +10,7 @@ import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
 import { ACTION_SLOT } from './constants';
 
-export interface ModelIndexTableRowProps extends TableRowProps { }
+export interface ModelIndexTableRowProps extends TableRowProps {}
 
 export const ModelIndexTableRow = ({
   prefilled,
@@ -24,9 +24,9 @@ export const ModelIndexTableRow = ({
   const isFirstRender = useIsFirstRender();
   useEffect(() => {
     if (!isFirstRender.current) {
-      methods.reset(data)
+      methods.reset(data);
     }
-  }, [data])
+  }, [data]);
 
   return (
     <FormProvider {...methods}>
@@ -38,7 +38,9 @@ export const ModelIndexTableRow = ({
                 if (columnId === ACTION_SLOT) {
                   return <ModelIndexTableActionCell key={ACTION_SLOT} />;
                 }
-                return <ModelIndexTableCell key={columnId} fieldName={columnId} />;
+                return (
+                  <ModelIndexTableCell key={columnId} fieldName={columnId} />
+                );
               })}
               {children}
             </>

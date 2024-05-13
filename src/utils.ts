@@ -43,5 +43,5 @@ export const toField = (str: string | Field): Field => {
 };
 
 export const isModelType = (field: Field) => {
-  return !(Object.values(ScalarTypes) as string[]).includes(field.type)
-}
+  return !(Object.values(ScalarTypes) as string[]).includes(field.type);
+};

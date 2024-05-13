@@ -1,81 +1,119 @@
-import * as React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { twMerge } from 'tailwind-merge';
+import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
+
+import {
+  useModelIndex,
+  setPage,
+} from '@/ModelIndex';
+import { useEffect } from 'react';
+import { TableView } from '@/types';
+
+interface ModelIndexPaginationProps {
+  pageLimit?: number; // The max number of page btns to show at a time
+}
 
 export const ModelIndexPagination = ({
-  modelListTotal = 487,
-  pageLimit = 20,
-}) => {
-  const totalPages = Math.ceil(modelListTotal / pageLimit);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  pageLimit = 10,
+}: ModelIndexPaginationProps) => {
+  const { selected: { totalDataLength, page, per_page, setTableView } } = useModelIndex((state) => ({
+    totalDataLength: state.totalDataLength,
+    page: state.tableView?.page,
+    per_page: state.tableView?.per_page,
+    setTableView: state.setTableView,
+  }));
 
-  function handlePrevious() {
-    setCurrentPage((prevPage) => Math.max(prevPage - 10, 1));
-  }
+  const totalPages = Math.ceil(totalDataLength / per_page);
+  const currentPageSet = Math.ceil(page / pageLimit);
+  const numPageBtnShown =
+    currentPageSet * pageLimit > totalPages
+      ? totalPages % pageLimit
+      : pageLimit;
+  const btns = [];
 
-  function handleNext() {
-    setCurrentPage((prevPage) => Math.min(prevPage + 10, totalPages));
-  }
-
-  const PageGenerator = () => {
-    const pages = [];
-
-    // Calculate the range of pages to display
-    let startPage = Math.max(currentPage - 4, 1); // Start page is the current page minus 4, but at least 1
-    let endPage = Math.min(startPage + 9, totalPages); // End page is the start page plus 9, but at most totalPages
-
-    // Adjust startPage if there are fewer than 10 pages after current page
-    if (endPage - startPage < 9) {
-      startPage = Math.max(endPage - 9, 1);
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => setCurrentPage(i)}
-          className={twMerge(
-            'min-w-8 w-8 px-1.5 whitespace-nowrap hover:bg-[--border-color] rounded-md m-[2px]',
-            currentPage === i
-              ? 'bg-[--success] border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]'
-              : '',
-          )}
-        >
-          {i}
-        </button>,
-      );
-    }
-    return pages;
-  };
-
-  const PaginationInfo = modelListTotal
-    ? `${pageLimit * (currentPage - 1) + 1}-${
-        totalPages === currentPage ? modelListTotal : pageLimit * currentPage
-      } of ${modelListTotal}`
-    : null;
-
-  return (
-    <div className="justify-center w-full">
-      {/*Pagination*/}
-      <nav
-        role="navigation"
-        aria-label="pagination"
-        className={'justify-center w-full flex whitespace-nowrap'}
+  if (currentPageSet > 1) {
+    btns.push(
+      <button
+        key={`table-pagination-left-arrow`}
+        type='button'
+        onClick={() => {
+          setPage(setTableView, (currentPageSet - 1) * pageLimit)
+        }}
       >
-        {/* PaginationPrevious */}
-        <div className={'flex my-1 cursor-pointer'} onClick={handlePrevious}>
-          <ChevronLeft className="h-8 w-4" />
-          <ChevronLeft className="h-8 w-4" />
-        </div>
-        {/* Pages */}
-        {PageGenerator()}
-        {/* PaginationNext */}
-        <div className={'flex my-1 cursor-pointer'} onClick={handleNext}>
-          <ChevronRight className="h-8 w-4" />
-          <ChevronRight className="h-8 w-4" />
-        </div>
-      </nav>
-      Showing items {PaginationInfo}
+        <FaChevronLeft className="h-8 w-4" />
+      </button>,
+    );
+  }
+  for (let i = 0; i < numPageBtnShown; i++) {
+    const pageNum = (currentPageSet - 1) * pageLimit + i + 1;
+    btns.push(
+      <button
+        key={`table-pagination-${pageNum}`}
+        type='button'
+        className={`min-w-8 w-8 px-1.5 whitespace-nowrap hover:bg-[--border-color] rounded-md m-[2px] ${page === pageNum ? 'bg-[--success] border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]' : ''}`}
+        onClick={() => {
+          setPage(setTableView, pageNum)
+        }}
+      >
+        {pageNum}
+      </button>,
+    );
+  }
+  if (currentPageSet * pageLimit < totalPages) {
+    btns.push(
+      <button
+        key={`table-pagination-goto`}
+        type='button'
+        disabled
+      >
+        ...
+      </button>,
+    );
+  }
+  if (currentPageSet * pageLimit < totalPages) {
+    btns.push(
+      <button
+        key={`table-pagination-right-arrow`}
+        type='button'
+        onClick={() => {
+          setPage(setTableView, currentPageSet * pageLimit + 1)
+        }}
+      >
+        <FaChevronRight className="h-8 w-4" />
+      </button>,
+    );
+  }
+  btns.push();
+
+
+  useEffect(() => {
+    if (!per_page) {
+      setTableView((state: TableView) => {
+        return {
+          ...state,
+          per_page: 5,
+        }
+      })
+    }
+    if (!page) {
+      setTableView((state: TableView) => {
+        return {
+          ...state,
+          page: 1,
+        }
+      })
+    }
+  }, [per_page, page])
+
+  return per_page && page ? (
+    <div className="text-left	 w-full">
+      <span aria-label="pagination" className={'justify-center'}>
+        {btns}
+      </span>
+      <span>
+        {totalDataLength
+          ? ` Showing items ${per_page * (page - 1) + 1}-${totalPages === page ? totalDataLength : per_page * page
+          } of ${totalDataLength}`
+          : null}
+      </span>
     </div>
-  );
+  ) : null;
 };

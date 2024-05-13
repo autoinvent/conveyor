@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
-import { Link, useParams } from '@tanstack/react-router';
+import { Fragment, useEffect, useState } from 'react';
+import { Link, useParams, useNavigate } from '@tanstack/react-router';
 
 import { useAlerts } from '@/Alerts';
 import { DataLens } from '@/Lenses';
-import { ModelForm } from '@/ModelForm';
-import { OnSaveProps } from '@/types';
+import { ModelForm, ModelFormDeleteModal } from '@/ModelForm';
+import { ID, OnSaveProps } from '@/types';
 import { humanizeText } from '@/utils';
 
 import { useConveyor } from '../Conveyor';
@@ -12,9 +12,11 @@ import {
   useModelUpdateMutation,
   useModelListMutation,
   useModelItemQuery,
+  useModelCheckDeleteMutation,
+  useModelDeleteMutation
 } from '../hooks';
 import { parseMQLType } from '../utils';
-import { DetailModelIndex } from './DetailModelIndex'
+import { DetailModelIndex } from './DetailModelIndex';
 export interface ModelDetailPageProps {
   model?: string;
   id?: string;
@@ -22,6 +24,7 @@ export interface ModelDetailPageProps {
 
 export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
   const params = useParams({ from: '/$model/$id' });
+  const navigate = useNavigate();
   const currModel: string = model ?? params.model ?? '';
   const currId: string = id ?? params.id ?? '';
   const { addAlert } = useAlerts();
@@ -49,7 +52,6 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
     return fieldObj.many;
   });
 
-
   // Item query
   const { data, error, isLoading, isError, isSuccess, operationName } =
     useModelItemQuery({
@@ -70,10 +72,26 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
     });
   };
 
+  // Check Delete
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const { mutateAsync: checkDeleteMutateAsync } = useModelCheckDeleteMutation({
+    model: currModel,
+  });
+  const [checkDeleteResults, setCheckDeleteResults] = useState({});
+
+  // Handle Delete
+  const { mutateAsync: deleteMutateAsync } = useModelDeleteMutation({
+    model: currModel,
+    fieldNames: ['id']
+  });
+
+
   // Update Mutation
   const { mutateAsync: updateMutateAsync } = useModelUpdateMutation({
     model: currModel,
-    fieldNames: detailFields.filter(field => field.editable || field.name === 'id').map((field) => field.name),
+    fieldNames: detailFields
+      .filter((field) => field.editable || field.name === 'id')
+      .map((field) => field.name),
   });
   const onUpdate = async ({ data, dirtyFields }: OnSaveProps) => {
     Object.keys(data).forEach((fieldName) => {
@@ -112,17 +130,35 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
   }, [data, isLoading, isSuccess, isError]);
 
   return detailData ? (
-    <>
+    <Fragment key={`${currModel}/${currId}`}>
       <ModelForm
         fields={detailFields}
         defaultValues={detailData}
         onSubmit={onUpdate}
-        onOpenFieldSelect={onOpenFieldSelect}
+        onDelete={async () => {
+          return checkDeleteMutateAsync(currId)
+            .then((res: any) => {
+              setOpenDeleteModal(true);
+              setCheckDeleteResults(res.check_delete);
+            })
+            .catch((err) => {
+              addAlert({
+                content: `Failed to check delete: ${err}`,
+                className: 'danger',
+              });
+            });
+        }} onOpenFieldSelect={onOpenFieldSelect}
         initialLens={DataLens.DISPLAY}
       >
         <ModelForm.Title>
           <span>
-            <Link to={`/${currModel}`} className="underline underline-offset-1 text-cyan-600">{humanizeText(currModel)}</Link>:{currId}
+            <Link
+              to={`/${currModel}`}
+              className="underline underline-offset-1 text-cyan-600"
+            >
+              {humanizeText(currModel)}
+            </Link>
+            :{currId}
           </span>
           <span>
             <ModelForm.DetailCrud />
@@ -131,9 +167,37 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
         <ModelForm.Content />
       </ModelForm>
       {tableFieldNames.map((fieldName) => {
-        return <DetailModelIndex key={fieldName} relationshipModel={currModel} relationshipId={currId} fieldModel={fields[fieldName].baseType} />
+        return (
+          <DetailModelIndex
+            key={fieldName}
+            relationshipModel={currModel}
+            relationshipId={currId}
+            fieldModel={fields[fieldName].baseType}
+          />
+        );
       })}
-    </>
+      <ModelFormDeleteModal
+        id={currId}
+        open={openDeleteModal}
+        onOpenChange={setOpenDeleteModal}
+        deleteResults={checkDeleteResults}
+        onConfirmDelete={(id: ID) => {
+          deleteMutateAsync(id).then(() => {
+            addAlert({
+              content: `Successfully deleted ${currModel}!`,
+              className: 'success',
+            });
+            navigate({ to: '../' })
+          })
+            .catch((err) => {
+              addAlert({
+                content: `Failed to delete: ${err}`,
+                className: 'danger',
+              });
+            });
+        }}
+      />
+    </Fragment>
   ) : (
     '...loading'
   );

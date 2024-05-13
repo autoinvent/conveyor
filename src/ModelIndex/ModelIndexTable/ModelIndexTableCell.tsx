@@ -34,7 +34,7 @@ export const ModelIndexTableCell = ({
             <ModelFormValue field={field} />
           </Lens>
           <Lens lens={DataLens.EDITING}>
-            {field.editable ? (
+            {field?.editable ? (
               <ModelFormInput
                 field={field}
                 onOpenFieldSelect={selected.onOpenFieldSelect}

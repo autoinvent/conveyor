@@ -7,7 +7,7 @@ import { generateUID } from '@/utils';
 import { TableRow } from './TableRow';
 import { useTable } from './useTable';
 
-export interface TableBodyProps extends ComponentProps<'tbody'> { }
+export interface TableBodyProps extends ComponentProps<'tbody'> {}
 
 export const TableBody = ({
   children,

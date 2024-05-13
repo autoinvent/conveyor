@@ -18,7 +18,12 @@ export const ModelFormValue = ({ field, className }: ModelFormValueProps) => {
     case ScalarTypes.INT:
     case ScalarTypes.FLOAT:
       return (
-        <span className={twMerge("h-full w-full p-1.5 text-start align-baseline", className)}>
+        <span
+          className={twMerge(
+            'h-full w-full p-1.5 text-start align-baseline',
+            className,
+          )}
+        >
           {value}
         </span>
       );
@@ -28,13 +33,23 @@ export const ModelFormValue = ({ field, className }: ModelFormValueProps) => {
         timeStyle: 'short',
       });
       return (
-        <span className={twMerge("h-full w-full p-1.5 text-start align-baseline", className)}>
+        <span
+          className={twMerge(
+            'h-full w-full p-1.5 text-start align-baseline',
+            className,
+          )}
+        >
           {value ? f.format(new Date(value)) : 'none'}
         </span>
       );
     case ScalarTypes.BOOLEAN:
       return (
-        <span className={twMerge("h-full w-full text-middle align-baseline", className)}>
+        <span
+          className={twMerge(
+            'h-full w-full text-middle align-baseline',
+            className,
+          )}
+        >
           <input
             disabled={true}
             type="checkbox"
@@ -48,6 +63,10 @@ export const ModelFormValue = ({ field, className }: ModelFormValueProps) => {
         <span className="h-full w-full p-1.5 text-start align-baseline">
           {value.id}
         </span>
-      ) : <span className="h-full w-full p-1.5 text-start align-baseline">none</span>;
+      ) : (
+        <span className="h-full w-full p-1.5 text-start align-baseline">
+          none
+        </span>
+      );
   }
 };

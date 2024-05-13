@@ -60,6 +60,21 @@ export const getUpdateFieldParams = (
   };
 };
 
+export const getDeleteFieldParams = (
+  model: string,
+  fieldNames: string[],
+  models: Record<string, ModelType>,
+) => {
+  const currFields = models[model]?.fields;
+  if (!currFields) return { inputVariables: [], queryArgs: [] };
+  return {
+    inputVariables: fieldNames.map(
+      (fieldName) => `$${fieldName}: ${currFields[fieldName].delete}`,
+    ),
+    queryArgs: fieldNames.map((fieldName) => `${fieldName}: $${fieldName}`),
+  };
+};
+
 export const getCreateFieldParams = (
   model: string,
   fieldNames: string[],

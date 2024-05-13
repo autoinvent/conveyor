@@ -16,7 +16,7 @@ import { ModelIndexTitle } from './ModelIndexTitle';
 
 export interface ModelIndexProps
   extends Omit<ModelIndexStore, 'fields'>,
-    Omit<ComponentProps<'section'>, 'title'> {
+  Omit<ComponentProps<'section'>, 'title'> {
   fields: (string | Field)[];
 }
 
@@ -24,6 +24,7 @@ export const ModelIndex = Object.assign(
   ({
     fields,
     data,
+    totalDataLength,
     tableView,
     setTableView,
     title,
@@ -38,6 +39,7 @@ export const ModelIndex = Object.assign(
     const store = useDependencyStore<ModelIndexStore>({
       fields: fields.map((field) => toField(field)),
       data,
+      totalDataLength,
       tableView,
       setTableView,
       title,

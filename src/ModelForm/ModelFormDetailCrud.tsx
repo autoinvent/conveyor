@@ -6,10 +6,11 @@ import { useModelForm } from './useModelForm';
 
 export const ModelFormDetailCrud = () => {
   const {
-    selected: { onCancel, showActions },
+    selected: { onCancel, onDelete, showActions },
   } = useModelForm((state) => ({
     showActions: state.showActions,
     onCancel: state.onCancel,
+    onDelete: state.onDelete
   }));
   const { reset } = useFormContext();
   const { setLens } = useLenses();
@@ -33,7 +34,9 @@ export const ModelFormDetailCrud = () => {
         <button
           className="bg-[--danger] rounded-r-md border-[--danger] hover:bg-[--danger-dark] hover:border-[--danger-dark]"
           type="button"
-          onClick={onCancelEdit}
+          onClick={() => {
+            onDelete?.()
+          }}
         >
           Delete
         </button>

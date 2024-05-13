@@ -25,6 +25,7 @@ export const ModelForm = Object.assign(
     defaultValues,
     title,
     onSubmit,
+    onDelete,
     onCancel,
     onOpenFieldSelect,
     initialLens = DataLens.EDITING,
@@ -40,6 +41,7 @@ export const ModelForm = Object.assign(
       title,
       onSubmit,
       onCancel,
+      onDelete,
       onOpenFieldSelect,
       initialLens,
       showActions,
@@ -65,9 +67,9 @@ export const ModelForm = Object.assign(
     const isFirstRender = useIsFirstRender();
     useEffect(() => {
       if (!isFirstRender.current) {
-        methods.reset(defaultValues)
+        methods.reset(defaultValues);
       }
-    }, [defaultValues])
+    }, [defaultValues]);
 
     return (
       <ModelFormStoreContext.Provider value={store}>

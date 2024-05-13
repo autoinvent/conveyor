@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { DataType } from '@/Data';
 import { camelToSnakeCase } from '@/utils';
 
 import { getCreateFieldParams } from '../utils';
-
 import { useConveyor } from '../Conveyor/useConveyor';
-import { DataType } from '@/Data';
 
 export interface UseModelCreateMutationProps {
   model: string;

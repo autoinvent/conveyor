@@ -1,6 +1,6 @@
 export type ID = string;
 
-export type JSONType = string | number | boolean | null | Object
+export type JSONType = string | number | boolean | null | Object;
 
 export interface SearchResult {
   type: string;
@@ -10,9 +10,9 @@ export interface SearchResult {
 }
 
 export interface CheckDeleteResult {
-  affected: SearchResult[];
-  prevented: SearchResult[];
-  deleted: SearchResult[];
+  affected?: SearchResult[];
+  prevented?: SearchResult[];
+  deleted?: SearchResult[];
 }
 
 export interface TableViewFilter {
@@ -26,5 +26,5 @@ export interface TableView {
   filter?: TableViewFilter[][];
   sort?: string[];
   page?: number;
-  perPage?: number;
+  per_page?: number;
 }

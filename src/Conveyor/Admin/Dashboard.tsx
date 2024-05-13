@@ -14,7 +14,7 @@ import Logo from '@/assets/logo.svg?react';
 
 import { useConveyor } from '../Conveyor';
 
-export interface DashboardProps extends ComponentProps<'div'> {}
+export interface DashboardProps extends ComponentProps<'div'> { }
 
 export const Dashboard = ({ ...props }: DashboardProps) => {
   const { selected: models } = useConveyor((state) => state.models);
@@ -62,11 +62,11 @@ export const Dashboard = ({ ...props }: DashboardProps) => {
               </Accordion.AccordionContent>
             </Accordion.Item>
           </Accordion.Root>
-          <hr className="border-t border-[--fg-accent]" />
+          {/* <hr className="border-t border-[--fg-accent]" />
           <span className="py-1.5 rounded-md hover:bg-[--fg-accent] items-start transition-colors h-9 inline-flex w-full text-start gap-2 text-lg font-semibold hover:text-[--text-color] overflow-hidden">
             <LucideEclipse className="w-9" />
             <span className="ml-2 hidden group-hover:inline">Themes</span>
-          </span>
+          </span> */}
         </nav>
       </aside>
       <div className="ml-14">

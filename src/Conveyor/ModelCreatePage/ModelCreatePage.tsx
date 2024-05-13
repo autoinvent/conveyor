@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from '@tanstack/react-router';
 
 import { useAlerts } from '@/Alerts';
@@ -38,7 +39,7 @@ export const ModelCreatePage = ({ model }: ModelCreatePageProps) => {
     ...parseMQLType(fieldName, fields[fieldName].create),
     type: fields[fieldName].baseType,
   }));
-  const defaultValues = Object.fromEntries(
+  const [defaultValues] = useState(Object.fromEntries(
     creatableFields.map((field) => {
       switch (field.type) {
         case ScalarTypes.STRING:
@@ -54,7 +55,7 @@ export const ModelCreatePage = ({ model }: ModelCreatePageProps) => {
         default:
           return [field.name, null];
       }
-    }),
+    })),
   );
 
   const { mutateAsync: selectOptionMutateAsync } = useModelListMutation();
@@ -98,6 +99,7 @@ export const ModelCreatePage = ({ model }: ModelCreatePageProps) => {
 
   return (
     <ModelForm
+      key={currModel}
       fields={creatableFields}
       defaultValues={defaultValues}
       title={`Create ${humanizeText(currModel)}`}
