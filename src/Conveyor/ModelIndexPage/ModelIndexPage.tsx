@@ -52,7 +52,6 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
 
   // List Query
   const [tableView, setTableView] = useState(storedTableView);
-  console.log(tableView);
   const { data, error, isLoading, isError, isSuccess, operationName } =
     useModelListQuery({
       model: currModel,
