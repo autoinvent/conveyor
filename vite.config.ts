@@ -26,6 +26,7 @@ export default defineConfig({
       fileName: 'conveyor',
     },
     rollupOptions: {
+      external: ['react', 'react-dom'],
       output: {
         globals: {
           react: 'React',
