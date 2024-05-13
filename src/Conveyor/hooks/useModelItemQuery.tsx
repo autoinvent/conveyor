@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { camelToSnakeCase } from '@/utils';
 
@@ -20,7 +20,7 @@ export const useModelItemQuery = ({
   fieldNames,
   enabled,
   queryKeys,
-}: UseModelItemQueryProps) => {
+}: UseModelItemQueryProps): UseQueryResult<any, Error> & { operationName: string } => {
   const queryName = camelToSnakeCase(model);
   const operationName = `${queryName}_item`;
   const {

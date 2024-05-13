@@ -1,10 +1,12 @@
 {
   "name": "@autoinvent/conveyor",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "GraphiQL for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/conveyor.umd.js",
   "module": "./dist/conveyor.mjs",
   "types": "./dist/index.d.ts",
@@ -25,7 +27,7 @@
     "format": "pnpx @biomejs/biome format --write *",
     "run-example": "cd example && vite",
     "run-storybook": "storybook dev -p 6006",
-    "run-tailwindcss": "tailwindcss -i ./src/styles.css -o ./build/styles.css --watch",
+    "run-tailwindcss": "tailwindcss -i ./src/styles.css -o ./public/styles/index.css --watch",
     "run-tsc": "tsc",
     "run-biome-lint": "@biomejs/biome lint --apply *",
     "lint": "run-p run-tsc run-biome-lint",

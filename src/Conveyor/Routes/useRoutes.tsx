@@ -19,7 +19,7 @@ export const useRoutes = () => {
   });
 
   const setRoute = (setState: (state: RoutesStore) => RoutesStore) => {
-    routesStore.setState(setState);
+    routesStore?.setState(setState);
   };
   return { routes, setRoute };
 };

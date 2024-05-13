@@ -4,7 +4,7 @@ import { useModelIndex, setPage } from '@/ModelIndex';
 import { useEffect } from 'react';
 import { TableView } from '@/types';
 
-interface ModelIndexPaginationProps {
+export interface ModelIndexPaginationProps {
   pageLimit?: number; // The max number of page btns to show at a time
 }
 
@@ -47,11 +47,10 @@ export const ModelIndexPagination = ({
       <button
         key={`table-pagination-${pageNum}`}
         type="button"
-        className={`min-w-8 w-8 px-1.5 whitespace-nowrap hover:bg-[--border-color] rounded-md m-[2px] ${
-          page === pageNum
+        className={`min-w-8 w-8 px-1.5 whitespace-nowrap hover:bg-[--border-color] rounded-md m-[2px] ${page === pageNum
             ? 'bg-[--success] border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]'
             : ''
-        }`}
+          }`}
         onClick={() => {
           setPage(setTableView, pageNum);
         }}
@@ -108,9 +107,8 @@ export const ModelIndexPagination = ({
       </span>
       <span>
         {totalDataLength
-          ? ` Showing items ${per_page * (page - 1) + 1}-${
-              totalPages === page ? totalDataLength : per_page * page
-            } of ${totalDataLength}`
+          ? ` Showing items ${per_page * (page - 1) + 1}-${totalPages === page ? totalDataLength : per_page * page
+          } of ${totalDataLength}`
           : null}
       </span>
     </div>

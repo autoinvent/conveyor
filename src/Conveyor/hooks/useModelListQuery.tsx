@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { TableView } from '@/types';
 import { camelToSnakeCase } from '@/utils';
@@ -21,7 +21,7 @@ export const useModelListQuery = ({
   tableView = {},
   enabled,
   queryKeys,
-}: UseModelListQueryProps) => {
+}: UseModelListQueryProps): UseQueryResult<any, Error> & { operationName: string } => {
   const queryName = camelToSnakeCase(model);
   const operationName = `${queryName}_list`;
   const {

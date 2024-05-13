@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { useConveyor } from '../Conveyor/useConveyor';
 
@@ -10,7 +10,7 @@ export interface UseSearchQueryProps {
 export const useSearchQuery = ({
   searchValue,
   enabled,
-}: UseSearchQueryProps) => {
+}: UseSearchQueryProps): UseQueryResult<any, Error> & { operationName: string } => {
   const operationName = 'search';
   const { selected: fetcher } = useConveyor((state) => state.fetcher);
   const document = `

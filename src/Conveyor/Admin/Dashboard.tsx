@@ -10,11 +10,11 @@ import {
 import * as Accordion from '@radix-ui/react-accordion';
 import { Link, Outlet } from '@tanstack/react-router';
 
-import Logo from '@/assets/logo.svg?react';
+import Logo from '@/logo.svg?react';
 
 import { useConveyor } from '../Conveyor';
 
-export interface DashboardProps extends ComponentProps<'div'> {}
+export interface DashboardProps extends ComponentProps<'div'> { }
 
 export const Dashboard = ({ ...props }: DashboardProps) => {
   const { selected: models } = useConveyor((state) => state.models);

@@ -57,49 +57,13 @@ Then you can use it in your project:
 <body>
   <div id="conveyorAdmin">Loading...</div>
   <script defer>
-    const ConveyorAdmin = window.conveyor.ConveyorAdmin;
+    const ConveyorAdmin = window.conveyor.Conveyor;
 
     const gqlUrl = "/graphql";
-    const responseHandler = async (response) => {
-      const parsedResponse = await response.json();
-      if (parsedResponse?.data) {
-        return parsedResponse.data;
-      } else if (parsedResponse?.errors) {
-        throw parsedResponse.errors;
-      } else {
-        throw parsedResponse;
-      }
-    };
-    const useGQLQueryResponse = (graphQLParams) => {
-      return fetch(gqlUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query: graphQLParams.document,
-          variables: graphQLParams.variables,
-        }),
-      }).then(responseHandler);
-    };
-    const useGQLMutationRequest = (graphQLParams) => {
-      return (options) =>
-        fetch(gqlUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: graphQLParams.document,
-            variables: options?.variables,
-          }),
-        }).then(responseHandler);
-    };
 
     ReactDOM.render(
-      React.createElement(ConveyorAdmin, {
-        useGQLQueryResponse: useGQLQueryResponse,
-        useGQLMutationRequest: useGQLMutationRequest,
+      React.createElement(Conveyor, {
+        fetcher: (params) => request(gqlUrl, params.document, params.variables)
       }),
       document.getElementById("conveyorAdmin")
     );
@@ -111,7 +75,7 @@ Then you can use it in your project:
 
 ## Scripts
 
-- `pnpm dev` - start a development server for testing the conveyor library with hot reload.
+- `pnpm run example` - start a development server for testing the conveyor library with hot reload.
 - `pnpm build` - build library for production. The generated files will be on the `dist` folder. `pnpm pack` will package these files into a tarball for install.
 - `pnpm preview` - locally preview the production build.
 - `pnpm test` - run tests in watch mode.

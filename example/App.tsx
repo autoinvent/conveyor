@@ -1,20 +1,13 @@
 import { Helmet } from 'react-helmet';
 import { request } from 'graphql-request';
 
-import logo from '../src/assets/logo.svg';
+import logo from '../src/logo.svg';
 import {
-  Alerts,
   Conveyor,
-  IntrospectionProvider,
-  ModelIndex,
 } from '../src/index';
 
 const App = () => {
   const gqlUrl = '/graphql';
-  const data = [
-    { name: 'Robert', type: 'Human' },
-    { name: 'Mimi', type: 'Dog' },
-  ];
 
   return (
     <>
