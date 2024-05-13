@@ -1,10 +1,10 @@
-import { ComponentProps, ReactNode } from 'react';
+import { ComponentProps, ReactNode, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
 import { DataType } from '@/Data';
 import { Lenses, DataLens } from '@/Lenses';
-import { useDependencyStore } from '@/hooks';
+import { useDependencyStore, useIsFirstRender } from '@/hooks';
 import { toField } from '@/utils';
 
 import { ModelFormStore, ModelFormStoreContext } from './ModelFormStoreContext';
@@ -15,7 +15,7 @@ import { ModelFormDetailCrud } from './ModelFormDetailCrud';
 
 export interface ModelForm
   extends ModelFormStore,
-    Omit<ComponentProps<'form'>, 'onSubmit' | 'title'> {
+  Omit<ComponentProps<'form'>, 'onSubmit' | 'title'> {
   children?: ReactNode;
 }
 
@@ -47,6 +47,7 @@ export const ModelForm = Object.assign(
     });
 
     const methods = useForm({ mode: 'onChange', defaultValues });
+
     const onSubmitHandler = (formData: DataType) => {
       onSubmit?.({
         data: formData,
@@ -60,6 +61,14 @@ export const ModelForm = Object.assign(
       case 'detail':
         CrudComponent = <ModelFormDetailCrud />;
     }
+
+    const isFirstRender = useIsFirstRender();
+    useEffect(() => {
+      if (!isFirstRender.current) {
+        methods.reset(defaultValues)
+      }
+    }, [defaultValues])
+
     return (
       <ModelFormStoreContext.Provider value={store}>
         <Lenses initialLens={initialLens}>

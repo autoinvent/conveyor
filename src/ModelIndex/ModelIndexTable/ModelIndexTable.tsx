@@ -14,7 +14,7 @@ import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
 import { ModelIndexTableRow } from './ModelIndexTableRow';
 import { ACTION_SLOT } from './constants';
 
-export interface ModelIndexTableProps extends ComponentProps<'table'> {}
+export interface ModelIndexTableProps extends ComponentProps<'table'> { }
 
 export const ModelIndexTable = Object.assign(
   ({ children, ...props }: ModelIndexTableProps) => {

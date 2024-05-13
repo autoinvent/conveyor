@@ -38,7 +38,6 @@ export const ModelIndexTableCell = ({
               <ModelFormInput
                 field={field}
                 onOpenFieldSelect={selected.onOpenFieldSelect}
-                className="w-full px-1.5 bg-[--bg-accent] h-full"
               />
             ) : (
               <ModelFormValue field={field} />

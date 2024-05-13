@@ -91,7 +91,7 @@ export const parseMQLBaseType = (type: string): string => {
 export const parseMQLType = (fieldName: string, type: string = ''): Field => {
   const baseType = parseMQLBaseType(type);
   const required = type.includes(`${baseType}!`);
-  const many = type.charAt(0) === '[' && type.charAt(type.length - 1) === ']';
-  const editable = !!type;
+  const many = type.charAt(0) === '[';
+  const editable = !!type && fieldName !== 'id';
   return { name: fieldName, type: baseType, required, many, editable };
 };

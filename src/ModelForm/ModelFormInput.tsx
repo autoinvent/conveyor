@@ -1,4 +1,5 @@
 import { Controller, useFormContext } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 
 import { ScalarTypes } from '@/enums';
 import { Field } from '@/types';
@@ -24,7 +25,7 @@ export const ModelFormInput = ({
       return (
         <input
           type="text"
-          className={className}
+          className={twMerge("w-full px-1.5 bg-[--bg-accent] h-full", className)}
           {...register(field.name, { required: field.required })}
         />
       );
@@ -32,7 +33,7 @@ export const ModelFormInput = ({
       return (
         <input
           type="number"
-          className={className}
+          className={twMerge("w-full px-1.5 bg-[--bg-accent] h-full", className)}
           {...register(field.name, { required: field.required })}
         />
       );
@@ -40,7 +41,7 @@ export const ModelFormInput = ({
       return (
         <input
           type="number"
-          className={className}
+          className={twMerge("w-full px-1.5 bg-[--bg-accent] h-full", className)}
           {...register(field.name, { required: field.required })}
         />
       );
@@ -54,7 +55,7 @@ export const ModelFormInput = ({
             <input
               value={value?.slice(0, -3)}
               type="datetime-local"
-              className={className}
+              className={twMerge("w-full px-1.5 bg-[--bg-accent] h-full", className)}
               {...rest}
             />
           )}
@@ -65,7 +66,7 @@ export const ModelFormInput = ({
         <span className="h-full w-full flex justify-center min-w-[42px] min-h-[38px] p-[1px] bg-[--bg-accent] align-baseline">
           <input
             type="checkbox"
-            className="text-center appearance-none justify-center align-middle rounded border-4 border-[--fg-accent] p-0.5 bg-[--bg-accent] w-9 h-9 hover:border-[--text-color] checked:appearance-auto"
+            className={twMerge("text-center justify-center align-middle p-0.5 bg-[--bg-accent]", className)}
             {...register(field.name, { required: field.required })}
           />
         </span>
@@ -87,7 +88,7 @@ export const ModelFormInput = ({
                 }}
                 required={field.required}
                 onOpenFieldSelect={onOpenFieldSelect}
-                className={className}
+                className={twMerge("w-full px-1.5 bg-[--bg-accent] h-full", className)}
               />
             );
           }}

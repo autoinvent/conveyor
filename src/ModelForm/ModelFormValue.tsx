@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form';
-import { Link } from '@tanstack/react-router';
+import { twMerge } from 'tailwind-merge';
 
 import { ScalarTypes } from '@/enums';
 import { Field } from '@/types';
@@ -13,22 +13,12 @@ export const ModelFormValue = ({ field, className }: ModelFormValueProps) => {
   const { getValues } = useFormContext();
   const value = getValues(field.name);
 
-  if (field.name === 'id') {
-    return (
-      <Link
-        className="text-cyan-600 underline underline-offset-1 h-full w-full p-1.5 text-start align-baseline"
-        to={`./${value}`}
-      >
-        {value}
-      </Link>
-    );
-  }
   switch (field.type) {
     case ScalarTypes.STRING:
     case ScalarTypes.INT:
     case ScalarTypes.FLOAT:
       return (
-        <span className="h-full w-full p-1.5 text-start align-baseline">
+        <span className={twMerge("h-full w-full p-1.5 text-start align-baseline", className)}>
           {value}
         </span>
       );
@@ -38,26 +28,26 @@ export const ModelFormValue = ({ field, className }: ModelFormValueProps) => {
         timeStyle: 'short',
       });
       return (
-        <span className="h-full w-full p-1.5 text-start align-baseline">
-          {f.format(new Date(value))}
+        <span className={twMerge("h-full w-full p-1.5 text-start align-baseline", className)}>
+          {value ? f.format(new Date(value)) : 'none'}
         </span>
       );
     case ScalarTypes.BOOLEAN:
       return (
-        <span className="h-full w-full text-middle align-baseline">
+        <span className={twMerge("h-full w-full text-middle align-baseline", className)}>
           <input
             disabled={true}
             type="checkbox"
             className={className}
-            checked={value}
+            checked={!!value}
           />
         </span>
       );
     default:
-      return (
-        <Link className="h-full w-full p-1.5 text-cyan-600 text-start align-baseline">
-          {value?.id ?? 'none'}
-        </Link>
-      );
+      return value?.id ? (
+        <span className="h-full w-full p-1.5 text-start align-baseline">
+          {value.id}
+        </span>
+      ) : <span className="h-full w-full p-1.5 text-start align-baseline">none</span>;
   }
 };

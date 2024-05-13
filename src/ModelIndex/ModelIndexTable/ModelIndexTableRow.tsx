@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useData } from '@/Data';
+import { useIsFirstRender } from '@/hooks';
 import { Lenses, DataLens } from '@/Lenses';
 import { TableRow, TableRowProps, useTable } from '@/Table';
 
@@ -8,7 +10,7 @@ import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
 import { ACTION_SLOT } from './constants';
 
-export interface ModelIndexTableRowProps extends TableRowProps {}
+export interface ModelIndexTableRowProps extends TableRowProps { }
 
 export const ModelIndexTableRow = ({
   prefilled,
@@ -19,6 +21,13 @@ export const ModelIndexTableRow = ({
   const data = useData();
   const methods = useForm({ mode: 'onChange', defaultValues: data });
 
+  const isFirstRender = useIsFirstRender();
+  useEffect(() => {
+    if (!isFirstRender.current) {
+      methods.reset(data)
+    }
+  }, [data])
+
   return (
     <FormProvider {...methods}>
       <Lenses initialLens={DataLens.DISPLAY}>
@@ -26,11 +35,10 @@ export const ModelIndexTableRow = ({
           {children === undefined || prefilled ? (
             <>
               {columnIds.map((columnId: string) => {
-                if (columnId === ACTION_SLOT)
+                if (columnId === ACTION_SLOT) {
                   return <ModelIndexTableActionCell key={ACTION_SLOT} />;
-                return (
-                  <ModelIndexTableCell key={columnId} fieldName={columnId} />
-                );
+                }
+                return <ModelIndexTableCell key={columnId} fieldName={columnId} />;
               })}
               {children}
             </>

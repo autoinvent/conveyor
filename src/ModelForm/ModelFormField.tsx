@@ -18,6 +18,7 @@ export const ModelFormField = ({ fieldName }: ModelFormFieldProps) => {
     onOpenFieldSelect: state.onOpenFieldSelect,
   }));
   const field: Field = fields.find((field: Field) => field.name === fieldName);
+
   return (
     <Slot slot={fieldName}>
       <div className="flex min-w-[300px] basis-1/2 px-2 my-2">
@@ -31,7 +32,7 @@ export const ModelFormField = ({ fieldName }: ModelFormFieldProps) => {
           <Lens lens={DataLens.DISPLAY}>
             <ModelFormValue
               field={field}
-              className="w-full h-full flex-1 bg-[--bg-accent] align-middle text-center text-[--success] border border-transparent outline-none p-1.5 rounded-r-md overflow-hidden"
+              className="flex-1 align-middle text-center border border-transparent outline-none rounded-r-md overflow-hidden"
             />
           </Lens>
           <Lens lens={DataLens.EDITING}>
@@ -39,12 +40,12 @@ export const ModelFormField = ({ fieldName }: ModelFormFieldProps) => {
               <ModelFormInput
                 field={field}
                 onOpenFieldSelect={onOpenFieldSelect}
-                className="flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 rounded-r-md overflow-hidden"
+                className="bg-[--bg-accent] text-[--text-color] border border-transparent outline-none rounded-r-md overflow-hidden"
               />
             ) : (
               <ModelFormValue
                 field={field}
-                className="text-center flex-1 bg-[--bg-accent] text-[--text-color] border border-transparent outline-none p-1.5 rounded-r-md overflow-hidden"
+                className="text-center flex-1 text-[--text-color] border border-transparent outline-none p-1.5 rounded-r-md overflow-hidden"
               />
             )}
           </Lens>

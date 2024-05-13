@@ -1,10 +1,12 @@
 export type ID = string;
 
+export type JSONType = string | number | boolean | null | Object
+
 export interface SearchResult {
   type: string;
   id: ID;
   value: string;
-  extra: JSON;
+  extra: JSONType;
 }
 
 export interface CheckDeleteResult {
@@ -17,7 +19,7 @@ export interface TableViewFilter {
   path: string;
   op: string;
   not?: boolean;
-  value: JSON;
+  value: JSONType;
 }
 
 export interface TableView {

@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { Link, useNavigate, useParams } from '@tanstack/react-router';
+import { Link, useParams } from '@tanstack/react-router';
 
 import { useAlerts } from '@/Alerts';
+import { DataLens } from '@/Lenses';
 import { ModelForm } from '@/ModelForm';
 import { OnSaveProps } from '@/types';
 import { humanizeText } from '@/utils';
@@ -13,7 +14,7 @@ import {
   useModelItemQuery,
 } from '../hooks';
 import { parseMQLType } from '../utils';
-
+import { DetailModelIndex } from './DetailModelIndex'
 export interface ModelDetailPageProps {
   model?: string;
   id?: string;
@@ -23,7 +24,6 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
   const params = useParams({ from: '/$model/$id' });
   const currModel: string = model ?? params.model ?? '';
   const currId: string = id ?? params.id ?? '';
-  const navigate = useNavigate();
   const { addAlert } = useAlerts();
   const {
     selected: { models },
@@ -39,11 +39,16 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
     const fieldObj = parseMQLType(fieldName, fields[fieldName].update);
     return !fieldObj.many;
   });
-
   const detailFields = detailFieldNames.map((fieldName) => ({
     ...parseMQLType(fieldName, fields[fieldName].update),
     type: fields[fieldName].baseType,
   }));
+
+  const tableFieldNames = Object.keys(fields).filter((fieldName) => {
+    const fieldObj = parseMQLType(fieldName, fields[fieldName].update);
+    return fieldObj.many;
+  });
+
 
   // Item query
   const { data, error, isLoading, isError, isSuccess, operationName } =
@@ -68,7 +73,7 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
   // Update Mutation
   const { mutateAsync: updateMutateAsync } = useModelUpdateMutation({
     model: currModel,
-    fieldNames: detailFieldNames,
+    fieldNames: detailFields.filter(field => field.editable || field.name === 'id').map((field) => field.name),
   });
   const onUpdate = async ({ data, dirtyFields }: OnSaveProps) => {
     Object.keys(data).forEach((fieldName) => {
@@ -76,6 +81,7 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
         data[fieldName] = data[fieldName]?.id;
       }
     });
+
     return updateMutateAsync(data)
       .then(() => {
         addAlert({
@@ -83,7 +89,6 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
           className: 'success',
           expires: 2000,
         });
-        navigate({ to: `/${currModel}` });
       })
       .catch((err) =>
         addAlert({
@@ -107,18 +112,28 @@ export const ModelDetailPage = ({ model, id }: ModelDetailPageProps) => {
   }, [data, isLoading, isSuccess, isError]);
 
   return detailData ? (
-    <ModelForm
-      fields={detailFields}
-      defaultValues={detailData}
-      title={
-        <>
-          <Link to={`/${currModel}`}>{humanizeText(currModel)}</Link>:{currId}
-        </>
-      }
-      onSubmit={onUpdate}
-      onOpenFieldSelect={onOpenFieldSelect}
-      type="detail"
-    />
+    <>
+      <ModelForm
+        fields={detailFields}
+        defaultValues={detailData}
+        onSubmit={onUpdate}
+        onOpenFieldSelect={onOpenFieldSelect}
+        initialLens={DataLens.DISPLAY}
+      >
+        <ModelForm.Title>
+          <span>
+            <Link to={`/${currModel}`} className="underline underline-offset-1 text-cyan-600">{humanizeText(currModel)}</Link>:{currId}
+          </span>
+          <span>
+            <ModelForm.DetailCrud />
+          </span>
+        </ModelForm.Title>
+        <ModelForm.Content />
+      </ModelForm>
+      {tableFieldNames.map((fieldName) => {
+        return <DetailModelIndex key={fieldName} relationshipModel={currModel} relationshipId={currId} fieldModel={fields[fieldName].baseType} />
+      })}
+    </>
   ) : (
     '...loading'
   );

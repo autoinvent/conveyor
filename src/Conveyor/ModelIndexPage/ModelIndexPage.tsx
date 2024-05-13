@@ -4,13 +4,15 @@ import { useNavigate, useParams } from '@tanstack/react-router';
 import { useAlerts } from '@/Alerts';
 import { ModelIndex } from '@/ModelIndex';
 import { OnSaveProps } from '@/types';
-import { humanizeText } from '@/utils';
+import { humanizeText, isModelType } from '@/utils';
 
 import { useConveyor } from '../Conveyor/useConveyor';
 import { useModelListQuery } from '../hooks/useModelListQuery';
 import { parseMQLType } from '../utils';
 import { useModelUpdateMutation } from '../hooks/useModelUpdateMutation';
 import { useModelListMutation } from '../hooks';
+import { IdCell } from "./IdCell"
+import { RelationshipCell } from "./RelationshipCell"
 
 export interface ModelIndexPage {
   model?: string;
@@ -40,6 +42,10 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
     const fieldObj = parseMQLType(fieldName, fields[fieldName].update);
     return fieldObj.type && !fieldObj.many;
   });
+  const modelIndexFields = updatableFieldNames.map((fieldName) => ({
+    ...parseMQLType(fieldName, fields[fieldName].update),
+    type: fields[fieldName].baseType,
+  }))
 
   // List Query
   const [tableView, setTableView] = useState(storedTableView);
@@ -129,10 +135,7 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
 
   return (
     <ModelIndex
-      fields={updatableFieldNames.map((fieldName) => ({
-        ...parseMQLType(fieldName, fields[fieldName].update),
-        type: fields[fieldName].baseType,
-      }))}
+      fields={modelIndexFields}
       data={tableData}
       tableView={tableView}
       setTableView={setTableView}
@@ -141,7 +144,35 @@ export const ModelIndexPage = ({ model, children }: ModelIndexPage) => {
       onSave={onSave}
       onOpenFieldSelect={onOpenFieldSelect}
     >
-      {children}
+      {children === undefined ? (
+        <>
+          <ModelIndex.Title />
+          <ModelIndex.Table>
+            <ModelIndex.Table.Head />
+            <ModelIndex.Table.Body>
+              <ModelIndex.Table.Row>
+                {
+                  modelIndexFields.map((field) => {
+                    if (field.name === 'id') {
+                      return (
+                        <IdCell key={field.name} model={currModel} />
+                      )
+                    } else if (isModelType(field)) {
+                      return <RelationshipCell key={field.name} field={field} />
+                    }
+                    return (
+                      <ModelIndex.Table.Cell key={field.name} fieldName={field.name} />
+                    )
+                  })
+                }
+                <ModelIndex.Table.ActionCell />
+              </ModelIndex.Table.Row>
+            </ModelIndex.Table.Body>
+            <ModelIndex.Table.Fallback />
+          </ModelIndex.Table>
+          <ModelIndex.Pagination />
+        </>
+      ) : children}
     </ModelIndex>
   );
 };

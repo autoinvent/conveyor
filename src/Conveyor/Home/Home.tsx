@@ -57,7 +57,7 @@ export const Home = () => {
       <Lenses activeLens={Object.keys(searchedModels).length > 0}>
         <Lens lens={true}>
           <Deck>
-            {Object.keys(searchedModels).map((modelName) => {
+            {Object.keys(models).map((modelName) => {
               return (
                 <CircleCard
                   key={modelName}
@@ -66,7 +66,7 @@ export const Home = () => {
                   <CardHeader>
                     <CardTitle>{modelName}</CardTitle>
                     <CardDescription>
-                      {`items: ${searchedModels[modelName].length}`}
+                      {`items: ${searchedModels?.[modelName]?.length ?? 0}`}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -79,7 +79,7 @@ export const Home = () => {
                     </CardField>
                     <CardField>
                       <ul>
-                        {searchedModels[modelName].map((searchItem) => {
+                        {searchedModels?.[modelName]?.map((searchItem) => {
                           return (
                             <li key={searchItem.value}>
                               <Link to={`/${modelName}/${searchItem.id}`}>

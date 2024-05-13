@@ -41,3 +41,7 @@ export const toField = (str: string | Field): Field => {
   if (typeof str === 'object') return str;
   return { name: str, type: ScalarTypes.STRING };
 };
+
+export const isModelType = (field: Field) => {
+  return !(Object.values(ScalarTypes) as string[]).includes(field.type)
+}
