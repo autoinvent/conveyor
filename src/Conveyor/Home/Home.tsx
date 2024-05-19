@@ -49,15 +49,17 @@ export const Home = () => {
       }
     }
   }, [data, isLoading, isSuccess, isError]);
+
+  const displayedModelNames = Object.keys(searchValue ? searchedModels : models)
   return (
     <>
-      <h2 className="mx-auto w-[500px]">
+      <h2 className="mx-auto w-[700px]">
         <SearchBar onSearch={(value) => setSearchValue(value)} />
       </h2>
-      <Lenses activeLens={Object.keys(searchedModels).length > 0}>
+      <Lenses activeLens={displayedModelNames.length > 0}>
         <Lens lens={true}>
           <Deck>
-            {Object.keys(models).map((modelName) => {
+            {displayedModelNames.map((modelName) => {
               return (
                 <CircleCard
                   key={modelName}

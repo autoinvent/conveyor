@@ -3,7 +3,6 @@
 import { ComponentProps } from 'react';
 import {
   LucideHome,
-  LucideEclipse,
   LucideBox,
   ChevronDown,
 } from 'lucide-react';
