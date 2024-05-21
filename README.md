@@ -12,7 +12,6 @@ pnpm install @autoinvent/conveyor
 
 Then you can use it in your project.
 
-
 ## Scripts
 
 - `pnpm build` - build library for production. The generated files will be on the `dist` folder. `pnpm pack` will package these files into a tarball for install.

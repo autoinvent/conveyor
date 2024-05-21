@@ -7,7 +7,7 @@
     "wix.vscode-import-cost",
     "PKief.material-icon-theme",
     "antfu.vite",
-    "zixuanchen.vitest-explorer",
+    "vitest.explorer",
     "stylelint.vscode-stylelint",
     "rome.rome",
     "yoavbls.pretty-ts-errors"
