@@ -22,5 +22,3 @@ Then you can use it in your project.
 - `pnpm format` - format all files with Rome.
 - `pnpm lint` - runs TypeScript, Rome and Stylelint.
 - `pnpm validate` - runs `lint`, `test:ci`.
-
-## Resources
