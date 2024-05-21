@@ -20,7 +20,9 @@ export const useModelItemQuery = ({
   fieldNames,
   enabled,
   queryKeys,
-}: UseModelItemQueryProps): UseQueryResult<any, Error> & { operationName: string } => {
+}: UseModelItemQueryProps): UseQueryResult<any, Error> & {
+  operationName: string;
+} => {
   const queryName = camelToSnakeCase(model);
   const operationName = `${queryName}_item`;
   const {

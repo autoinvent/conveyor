@@ -956,8 +956,8 @@ button {
   width: 400px;
 }
 
-.w-\[500px\] {
-  width: 500px;
+.w-\[700px\] {
+  width: 700px;
 }
 
 .w-full {
@@ -966,6 +966,10 @@ button {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-\[900px\] {
+  width: 900px;
 }
 
 .min-w-32 {
@@ -1161,6 +1165,10 @@ button {
 
 .gap-y-1 {
   row-gap: 0.25rem;
+}
+
+.self-start {
+  align-self: flex-start;
 }
 
 .overflow-hidden {

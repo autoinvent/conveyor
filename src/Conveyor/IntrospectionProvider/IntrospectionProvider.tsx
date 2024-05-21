@@ -102,8 +102,9 @@ export const IntrospectionProvider = ({
             data.__schema.mutationType.fields;
           Object.keys(models).forEach((modelName) => {
             const queryName = camelToSnakeCase(modelName);
+            const regexp = new RegExp(`${queryName}_[^_]*$`, 'g');
             mutationFields
-              .filter(({ name }) => name.startsWith(queryName))
+              .filter(({ name }) => name.match(regexp))
               .forEach(({ name, args }) => {
                 const operation = name.substring(
                   queryName.length + 1,

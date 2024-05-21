@@ -14,7 +14,7 @@ import {
 } from '../Deck';
 import { Lens, Lenses } from '@/Lenses';
 import { SearchBar } from '@/Search';
-import { SearchResult } from '@/types';
+import type { SearchResult } from '@/types';
 
 import { useSearchQuery } from '../hooks/useSearchQuery';
 
@@ -48,9 +48,11 @@ export const Home = () => {
         });
       }
     }
-  }, [data, isLoading, isSuccess, isError]);
+  }, [data, isLoading, isSuccess, isError, error]);
 
-  const displayedModelNames = Object.keys(searchValue ? searchedModels : models)
+  const displayedModelNames = Object.keys(
+    searchValue ? searchedModels : models,
+  );
   return (
     <>
       <h2 className="mx-auto w-[700px]">
@@ -58,7 +60,7 @@ export const Home = () => {
       </h2>
       <Lenses activeLens={displayedModelNames.length > 0}>
         <Lens lens={true}>
-          <Deck>
+          <Deck className="mx-auto w-[900px]">
             {displayedModelNames.map((modelName) => {
               return (
                 <CircleCard
@@ -72,26 +74,34 @@ export const Home = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <CardField>
-                      <ul>
-                        {Object.keys(models[modelName].fields).map((field) => {
-                          return <li key={field}>{field}</li>;
-                        })}
-                      </ul>
-                    </CardField>
-                    <CardField>
-                      <ul>
-                        {searchedModels?.[modelName]?.map((searchItem) => {
-                          return (
-                            <li key={searchItem.value}>
-                              <Link to={`/${modelName}/${searchItem.id}`}>
-                                {searchItem.value}
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </CardField>
+                    <Lenses activeLens={searchValue.length > 0}>
+                      <Lens lens={false}>
+                        <CardField>
+                          <ul>
+                            {Object.keys(models[modelName].fields).map(
+                              (field) => {
+                                return <li key={field}>{field}</li>;
+                              },
+                            )}
+                          </ul>
+                        </CardField>
+                      </Lens>
+                      <Lens lens={true}>
+                        <CardField>
+                          <ul>
+                            {searchedModels?.[modelName]?.map((searchItem) => {
+                              return (
+                                <li key={searchItem.value}>
+                                  <Link to={`/${modelName}/${searchItem.id}`}>
+                                    {searchItem.value}
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </CardField>
+                      </Lens>
+                    </Lenses>
                   </CardContent>
                 </CircleCard>
               );

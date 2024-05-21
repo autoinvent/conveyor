@@ -1,3 +1,6 @@
+import { useFormContext } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
+
 import { Lens, DataLens } from '@/Lenses';
 import { Slot } from '@/Slots';
 import { Field } from '@/types';
@@ -18,10 +21,12 @@ export const ModelFormField = ({ fieldName }: ModelFormFieldProps) => {
     onOpenFieldSelect: state.onOpenFieldSelect,
   }));
   const field: Field = fields.find((field: Field) => field.name === fieldName);
-
+  const {
+    formState: { errors },
+  } = useFormContext();
   return (
     <Slot slot={fieldName}>
-      <div className="flex min-w-[300px] basis-1/2 px-2 my-2">
+      <div className="flex flex-col min-w-[300px] basis-1/2 px-2 my-2">
         <label
           key={fieldName}
           className="flex w-full rounded-md border border-[--border-color] overflow-hidden"
@@ -50,6 +55,9 @@ export const ModelFormField = ({ fieldName }: ModelFormFieldProps) => {
             )}
           </Lens>
         </label>
+        <span className="text-[--danger] self-start">
+          <ErrorMessage errors={errors} name={field.name} />
+        </span>
       </div>
     </Slot>
   );

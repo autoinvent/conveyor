@@ -2,9 +2,7 @@ import { Helmet } from 'react-helmet';
 import { request } from 'graphql-request';
 
 import logo from '../src/logo.svg';
-import {
-  Conveyor,
-} from '../src/index';
+import { Conveyor } from '../src/index';
 
 const App = () => {
   const gqlUrl = '/graphql';

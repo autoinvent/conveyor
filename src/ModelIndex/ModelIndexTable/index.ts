@@ -8,6 +8,7 @@ export * from './ModelIndexTableHead';
 export * from './ModelIndexTableHeaderRow';
 export * from './ModelIndexTableHeaderCell';
 export * from './ModelIndexTableRow';
+export * from './ModelIndexTableErrorRow';
 
 // constants
 export * from './constants';

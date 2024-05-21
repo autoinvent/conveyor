@@ -4,9 +4,7 @@
   "description": "GraphiQL for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "main": "./dist/conveyor.umd.js",
   "module": "./dist/conveyor.mjs",
   "types": "./dist/index.d.ts",
@@ -39,6 +37,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-select": "^2.0.0",

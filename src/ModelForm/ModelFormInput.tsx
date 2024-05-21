@@ -29,7 +29,9 @@ export const ModelFormInput = ({
             'w-full px-1.5 bg-[--bg-accent] h-full',
             className,
           )}
-          {...register(field.name, { required: field.required })}
+          {...register(field.name, {
+            required: field.required ? `${field.name} is required.` : false,
+          })}
         />
       );
     case ScalarTypes.INT:
@@ -40,7 +42,9 @@ export const ModelFormInput = ({
             'w-full px-1.5 bg-[--bg-accent] h-full',
             className,
           )}
-          {...register(field.name, { required: field.required })}
+          {...register(field.name, {
+            required: field.required ? `${field.name} is required.` : false,
+          })}
         />
       );
     case ScalarTypes.FLOAT:
@@ -51,7 +55,9 @@ export const ModelFormInput = ({
             'w-full px-1.5 bg-[--bg-accent] h-full',
             className,
           )}
-          {...register(field.name, { required: field.required })}
+          {...register(field.name, {
+            required: field.required ? `${field.name} is required.` : false,
+          })}
         />
       );
     case ScalarTypes.DATETIME:
@@ -59,7 +65,9 @@ export const ModelFormInput = ({
         <Controller
           name={field.name}
           control={control}
-          rules={{ required: field.required }}
+          rules={{
+            required: field.required ? `${field.name} is required.` : false,
+          }}
           render={({ field: { value, ...rest } }) => (
             <input
               value={value?.slice(0, -3)}
@@ -82,7 +90,9 @@ export const ModelFormInput = ({
               'text-center justify-center align-middle p-0.5 bg-[--bg-accent]',
               className,
             )}
-            {...register(field.name, { required: field.required })}
+            {...register(field.name, {
+              required: field.required ? `${field.name} is required.` : false,
+            })}
           />
         </span>
       );
@@ -91,7 +101,9 @@ export const ModelFormInput = ({
         <Controller
           name={field.name}
           control={control}
-          rules={{ required: field.required }}
+          rules={{
+            required: field.required ? `${field.name} is required.` : false,
+          }}
           render={({ field: { value, onChange } }) => {
             return (
               <ModelSelectInput

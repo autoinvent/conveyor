@@ -60,8 +60,10 @@ export const ModelForm = Object.assign(
     switch (type) {
       case 'create':
         CrudComponent = <ModelFormCreateCrud />;
+        break;
       case 'detail':
         CrudComponent = <ModelFormDetailCrud />;
+        break;
     }
 
     const isFirstRender = useIsFirstRender();

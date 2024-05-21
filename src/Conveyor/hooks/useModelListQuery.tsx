@@ -21,7 +21,9 @@ export const useModelListQuery = ({
   tableView = {},
   enabled,
   queryKeys,
-}: UseModelListQueryProps): UseQueryResult<any, Error> & { operationName: string } => {
+}: UseModelListQueryProps): UseQueryResult<any, Error> & {
+  operationName: string;
+} => {
   const queryName = camelToSnakeCase(model);
   const operationName = `${queryName}_list`;
   const {

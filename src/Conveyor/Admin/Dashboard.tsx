@@ -1,11 +1,7 @@
 /// <reference types="vite-plugin-svgr/client" />
 
 import { ComponentProps } from 'react';
-import {
-  LucideHome,
-  LucideBox,
-  ChevronDown,
-} from 'lucide-react';
+import { LucideHome, LucideBox, ChevronDown } from 'lucide-react';
 import * as Accordion from '@radix-ui/react-accordion';
 import { Link, Outlet } from '@tanstack/react-router';
 
@@ -13,7 +9,7 @@ import Logo from '@/logo.svg?react';
 
 import { useConveyor } from '../Conveyor';
 
-export interface DashboardProps extends ComponentProps<'div'> { }
+export interface DashboardProps extends ComponentProps<'div'> {}
 
 export const Dashboard = ({ ...props }: DashboardProps) => {
   const { selected: models } = useConveyor((state) => state.models);

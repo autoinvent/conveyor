@@ -8,6 +8,7 @@ import { TableRow, TableRowProps, useTable } from '@/Table';
 
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
+import { ModelIndexTableErrorRow } from './ModelIndexTableErrorRow';
 import { ACTION_SLOT } from './constants';
 
 export interface ModelIndexTableRowProps extends TableRowProps {}
@@ -48,6 +49,7 @@ export const ModelIndexTableRow = ({
             children
           )}
         </TableRow>
+        <ModelIndexTableErrorRow />
       </Lenses>
     </FormProvider>
   );

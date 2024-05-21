@@ -10,7 +10,9 @@ export interface UseSearchQueryProps {
 export const useSearchQuery = ({
   searchValue,
   enabled,
-}: UseSearchQueryProps): UseQueryResult<any, Error> & { operationName: string } => {
+}: UseSearchQueryProps): UseQueryResult<any, Error> & {
+  operationName: string;
+} => {
   const operationName = 'search';
   const { selected: fetcher } = useConveyor((state) => state.fetcher);
   const document = `
