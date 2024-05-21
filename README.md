@@ -18,10 +18,7 @@ First, install the library:
 pnpm install @autoinvent/conveyor
 ```
 
-Then you can use it in your project:
-
-- Check out [outline](docs/outline.md) for component description and usages.
-- Check out [request examples](docs/request_examples.md) for examples on how to use different request APIs.
+Then you can use it in your project.
 
 ## Usage from CDN
 
@@ -48,24 +45,23 @@ Then you can use it in your project:
       Conveyor itself depends on React DOM.
       If you do not want to rely on a CDN, you can host these files locally or nclude them directly in your favored resource bundler.
     -->
-  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-  <link crossorigin href="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.3/dist/styles/index.css" rel="stylesheet" />
-  <script crossorigin src="https://unpkg.com/@autoinvent/conveyor@1.0.0-beta.3/dist/conveyor.umd.js"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <link crossorigin href="./dist/styles/index.css" rel="stylesheet" />
+  <script crossorigin src="./dist/conveyor.umd.js"></script>
 </head>
 
 <body>
   <div id="conveyorAdmin">Loading...</div>
   <script defer>
-    const ConveyorAdmin = window.conveyor.Conveyor;
+    const Conveyor = window.conveyor.Conveyor;
 
     const gqlUrl = "/graphql";
-
-    ReactDOM.render(
+    const root = ReactDOM.createRoot(document.getElementById("conveyorAdmin"))
+    root.render(
       React.createElement(Conveyor, {
         fetcher: (params) => request(gqlUrl, params.document, params.variables)
       }),
-      document.getElementById("conveyorAdmin")
     );
   </script>
 </body>

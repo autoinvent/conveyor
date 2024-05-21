@@ -3,13 +3,14 @@ export * from './Alerts';
 export * from './Data';
 export * from './Lenses';
 export * from './Loading'; // TODO: Inspect
-export * from './Table';
 export * from './Slots';
+export * from './Table';
 
 // model components
 export * from './Conveyor';
-export * from './ModelIndex';
 export * from './ModelForm';
+export * from './ModelIndex';
+export * from './Search';
 
 // hooks
 export * from './hooks';

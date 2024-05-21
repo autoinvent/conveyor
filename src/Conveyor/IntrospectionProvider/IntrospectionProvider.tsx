@@ -127,6 +127,7 @@ export const IntrospectionProvider = ({
           ? onError(error)
           : addAlert({
               content: `Failed to fetch introspection data: ${error}`,
+              className: 'danger',
             });
       }
     }
