@@ -60,7 +60,25 @@ Then you can use it in your project.
     const root = ReactDOM.createRoot(document.getElementById("conveyorAdmin"))
     root.render(
       React.createElement(Conveyor, {
-        fetcher: (params) => request(gqlUrl, params.document, params.variables)
+        fetcher: (params) => {
+          return fetch(gqlUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              query: params.document,
+              variables: params.variables,
+            }),
+          }).then(async (res) => {
+            const x = await res.json();
+            if (x?.data) {
+              return x.data
+            } else {
+              throw x.errors
+            }
+          })
+        }
       }),
     );
   </script>
