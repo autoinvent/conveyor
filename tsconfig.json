@@ -13,9 +13,17 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src", "src/hooks/useThemeSelect.test.ts"],
-  "exclude": ["**/*.test.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"],
+  "exclude": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

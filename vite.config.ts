@@ -35,14 +35,9 @@ export default defineConfig({
       },
     },
   },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/__tests__/setup.ts',
-  },
-  server: {
-    proxy: {
-      '/graphql': 'http://localhost:5000',
+  resolve: {
+    alias: {
+      '@': '/src',
     },
   },
 });

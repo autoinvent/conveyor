@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* main background color */
+        --bg-color: hsl(0 0% 9.8%);
+        /* accent to distinguish components on top of --bg-color   */
+        --bg-accent: hsl(from var(--bg-color) h s 0%);
+        /* second level background color used on components on top of the --bg-color */
+        --fg-color: hsl(from var(--bg-color) h s calc(l * 1.5));
+        /* accent to distinguish components on top of --fg-color  */
+        --fg-accent: hsl(from var(--bg-color) h s calc(l * 2));
+        /* border color */
+        --border-color: hsl(from var(--bg-color) h s calc(l * 2.5));
+        /* base text color */
+        --text-color: hsl(from var(--bg-color) h s calc(l * 9));
+        /* inactive or not interactable color for text*/
+        --text-muted: hsl(from var(--text-color) h s calc(l - .2));
+        /* Header color */
+        --header-color: hsl(from var(--bg-color) h s calc(l * 0.75));
+
+        --bg-success: hsl(160, 100%, 95%);
+        --bg-danger: hsl(0, 100%, 95%);
+        --bg-warning: hsl(51, 100%, 85%);
+
+        --success: hsl(from var(--bg-success) h s calc(l - 0.6));
+        --danger: hsl(from var(--bg-danger) h s calc(l - 0.6));
+        --warning: hsl(from var(--bg-warning) h s calc(l - 0.6));
+        --primary: hsl(210, 50%, 35%);
+
+        --success-dark: hsl(from var(--success) h s calc(l - 0.15));
+        --danger-dark: hsl(from var(--danger) h s calc(l - 0.15));
+        --primary-dark: hsl(from var(--primary) h s calc(l - 0.15));
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        color-scheme: dark;
+    }
+
+    button {
+        @apply inline-block justify-center items-center cursor-pointer text-base outline-none text-center no-underline align-middle min-h-[38px] min-w-[42px] px-3 py-1.5 border border-[--border-color] transition-colors
+    }
+}
+
+
+.success {
+    background-color: var(--bg-success);
+    border-color:  var(--success);
+    color: var(--success);
+}
+
+.danger {
+    background-color: var(--bg-danger);
+    border-color:  var(--danger);
+    color: var(--danger);
+}
+
+.warning {
+    background-color: var(--bg-warning);
+    border-color: var(--warning);
+    color: var(--warning);
+}
+
