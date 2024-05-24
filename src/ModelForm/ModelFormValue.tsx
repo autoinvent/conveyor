@@ -2,7 +2,7 @@ import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
 import { ScalarTypes } from '@/enums';
-import { Field } from '@/types';
+import type { Field } from '@/types';
 
 export interface ModelFormValueProps {
   field: Field;

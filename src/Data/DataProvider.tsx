@@ -1,10 +1,10 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
 import { useIsFirstRender } from '@/hooks';
 
 import { DataStoreContext } from './DataStoreContext';
-import { DataType } from './types';
+import type { DataType } from './types';
 
 export interface DataProviderProps {
   data: DataType;

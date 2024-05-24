@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { useStore } from '@tanstack/react-store';
 
-import { StoreSelector } from '@/types';
+import type { StoreSelector } from '@/types';
 
-import { TableStore, TableStoreContext } from './TableStoreContext';
+import { type TableStore, TableStoreContext } from './TableStoreContext';
 
 export const useTable = (selector?: StoreSelector<TableStore>) => {
   const tableStore = useContext(TableStoreContext);

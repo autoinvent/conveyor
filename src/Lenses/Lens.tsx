@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-import { LensType } from './LensesStoreContext';
+import type { LensType } from './LensesStoreContext';
 import { useLenses } from './useLenses';
 
 export interface LensProps {

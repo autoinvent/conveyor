@@ -17,5 +17,9 @@ export * from './hooks';
 // types
 export * from './types';
 
-// util
+// utils
 export * from './utils';
+
+// assests
+import Logo from './logo.svg';
+export const ConveyorLogo = Logo;

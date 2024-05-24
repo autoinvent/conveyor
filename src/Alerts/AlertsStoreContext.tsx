@@ -1,7 +1,7 @@
 import { createContext } from 'react';
-import { Store } from '@tanstack/react-store';
+import type { Store } from '@tanstack/react-store';
 
-import { AlertProps } from './Alert';
+import type { AlertProps } from './Alert';
 
 export interface AlertsStore {
   alerts: AlertProps[];

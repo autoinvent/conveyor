@@ -1,4 +1,4 @@
-import { TableBody, TableBodyProps } from '@/Table';
+import { TableBody, type TableBodyProps } from '@/Table';
 
 import { ModelIndexTableRow } from './ModelIndexTableRow';
 

@@ -1,4 +1,4 @@
-import { DataType } from '@/Data';
+import type { DataType } from '@/Data';
 
 export type StoreSelector<TStore> = (state: TStore) => any;
 

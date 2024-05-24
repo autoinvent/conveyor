@@ -1,0 +1,5 @@
+#  https://biomejs.dev/recipes/git-hooks/
+pre-push:
+  commands:
+    check:
+      run: pnpx biome check --no-errors-on-unmatched --files-ignore-unknown=true {push_files}

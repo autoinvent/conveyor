@@ -8,7 +8,7 @@ import {
   SortDirection,
 } from '@/ModelIndex';
 import { humanizeText } from '@/utils';
-import { TableView } from '@/types';
+import type { TableView } from '@/types';
 
 export const ModelIndexTableHeaderCellDefaultContent = ({
   fieldName,

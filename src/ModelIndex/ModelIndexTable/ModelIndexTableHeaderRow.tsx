@@ -1,5 +1,5 @@
 import { useModelIndex } from '@/ModelIndex';
-import { TableHeaderRow, TableHeaderRowProps, useTable } from '@/Table';
+import { TableHeaderRow, type TableHeaderRowProps, useTable } from '@/Table';
 
 import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';

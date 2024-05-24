@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { generateUID } from '@/utils';
 
-import { AlertProps } from './Alert';
+import type { AlertProps } from './Alert';
 import { AlertsStoreContext } from './AlertsStoreContext';
 
 export const useAlerts = () => {

@@ -1,15 +1,18 @@
 {
   "recommendations": [
+    // git extensions
     "eamodio.gitlens",
-    "kamikillerto.vscode-colorize",
-    "usernamehw.errorlens",
     "mhutchie.git-graph",
-    "wix.vscode-import-cost",
+    // linting
+    "biomejs.biome",
+    "usernamehw.errorlens",
+    "yoavbls.pretty-ts-errors",
+    // intellisense
+    "bradlc.vscode-tailwindcss",
+    // style extensions
+    "kamikillerto.vscode-colorize",
     "PKief.material-icon-theme",
-    "antfu.vite",
-    "vitest.explorer",
-    "stylelint.vscode-stylelint",
-    "rome.rome",
-    "yoavbls.pretty-ts-errors"
+    // meta data
+    "wix.vscode-import-cost",
   ]
 }

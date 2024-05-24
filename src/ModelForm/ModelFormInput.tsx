@@ -2,10 +2,10 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
 import { ScalarTypes } from '@/enums';
-import { Field } from '@/types';
+import type { Field } from '@/types';
 
 import { ModelSelectInput } from './ModelSelectInput';
-import { SelectOption } from './types';
+import type { SelectOption } from './types';
 
 export interface ModelFormInputProps {
   field: Field;

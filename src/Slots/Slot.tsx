@@ -1,6 +1,6 @@
-import { ReactNode, useEffect, useId } from 'react';
+import { type ReactNode, useEffect, useId } from 'react';
 
-import { SlotType } from './SlotsStoreContext';
+import type { SlotType } from './SlotsStoreContext';
 import { useSlots } from './useSlots';
 
 export interface SlotProps {

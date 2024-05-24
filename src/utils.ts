@@ -1,5 +1,5 @@
 import { ScalarTypes } from '@/enums';
-import { Field } from '@/types';
+import type { Field } from '@/types';
 
 export const camelToSnakeCase = (str: string) => {
   if (!str) return '';

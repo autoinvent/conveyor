@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { useStore } from '@tanstack/react-store';
 
-import { StoreSelector } from '@/types';
+import type { StoreSelector } from '@/types';
 
 import { DataStoreContext } from './DataStoreContext';
-import { DataType } from './types';
+import type { DataType } from './types';
 
 export const useData = (
   selector: StoreSelector<DataType> = (state) => state,

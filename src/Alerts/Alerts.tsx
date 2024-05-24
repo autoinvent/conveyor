@@ -1,9 +1,9 @@
-import { ComponentProps, ComponentType, Fragment, useState } from 'react';
+import { type ComponentProps, type ComponentType, Fragment, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { Store, useStore } from '@tanstack/react-store';
 
-import { Alert, AlertProps } from './Alert';
-import { AlertsStore, AlertsStoreContext } from './AlertsStoreContext';
+import { Alert, type AlertProps } from './Alert';
+import { type AlertsStore, AlertsStoreContext } from './AlertsStoreContext';
 
 export interface AlertsProps extends ComponentProps<'div'> {
   AlertComponent?: ComponentType<AlertProps>;

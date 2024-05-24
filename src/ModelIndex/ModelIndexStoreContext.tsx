@@ -1,9 +1,9 @@
-import { Dispatch, ReactNode, SetStateAction, createContext } from 'react';
-import { Store } from '@tanstack/react-store';
+import { type Dispatch, type ReactNode, type SetStateAction, createContext } from 'react';
+import type { Store } from '@tanstack/react-store';
 
-import { DataType } from '@/Data';
-import { SelectOption } from '@/ModelForm';
-import { Field, TableView, OnSaveProps, ID } from '@/types';
+import type { DataType } from '@/Data';
+import type { SelectOption } from '@/ModelForm';
+import type { Field, TableView, OnSaveProps, ID } from '@/types';
 
 export interface ModelIndexStore {
   fields: Field[];

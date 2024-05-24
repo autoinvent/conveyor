@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { Store } from '@tanstack/react-store';
+import type { Store } from '@tanstack/react-store';
 
 export type LensType = string | number | boolean;
 

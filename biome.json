@@ -3,6 +3,16 @@
   "organizeImports": {
     "enabled": true
   },
+  "formatter": {
+    "ignore": ["/dist", "/node_modules"],
+    "indentStyle": "space",
+    "lineWidth": 80
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -11,16 +21,11 @@
         "noExplicitAny": "off"
       }
     },
-    "ignore": ["/dist", "*.scss", "*.css", "*.md", "/node_modules"]
+    "ignore": ["/dist", "/node_modules"]
   },
-  "formatter": {
-    "ignore": ["/dist", "*.md"],
-    "indentStyle": "space",
-    "lineWidth": 80
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "single"
-    }
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
   }
 }

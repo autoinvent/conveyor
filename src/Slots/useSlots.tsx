@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { useStore } from '@tanstack/react-store';
 
-import { StoreSelector } from '@/types';
+import type { StoreSelector } from '@/types';
 
-import { SlotsStore, SlotsStoreContext } from './SlotsStoreContext';
+import { type SlotsStore, SlotsStoreContext } from './SlotsStoreContext';
 
 export const useSlots = (selector?: StoreSelector<SlotsStore>) => {
   const slotsStore = useContext(SlotsStoreContext);

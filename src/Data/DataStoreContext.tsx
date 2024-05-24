@@ -1,7 +1,7 @@
 import { createContext } from 'react';
-import { Store } from '@tanstack/react-store';
+import type { Store } from '@tanstack/react-store';
 
-import { DataType } from './types';
+import type { DataType } from './types';
 
 export const DataStoreContext = createContext<Store<DataType> | undefined>(
   undefined,

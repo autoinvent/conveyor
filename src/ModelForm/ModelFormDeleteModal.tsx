@@ -1,9 +1,9 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { X } from 'lucide-react';
+import { LuX } from 'react-icons/lu';
 import * as Dialog from '@radix-ui/react-dialog';
 
-import { ID, CheckDeleteResult } from '@/types';
+import type { ID, CheckDeleteResult } from '@/types';
 
 export interface ModelFormDeleteModalProps extends ComponentProps<'div'> {
   id: ID;
@@ -74,7 +74,7 @@ export const ModelFormDeleteModal = ({
           </div>
 
           <Dialog.Close className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 border-none disabled:pointer-events-none data-[state=open]:[--bg-accent]">
-            <X className="h-4 w-4" />
+            <LuX className="h-4 w-4" />
             <span className="sr-only">Close</span>
           </Dialog.Close>
         </Dialog.Content>

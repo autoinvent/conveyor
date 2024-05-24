@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useStore } from '@tanstack/react-store';
 
-import { LensType, LensesStoreContext } from './LensesStoreContext';
+import { type LensType, LensesStoreContext } from './LensesStoreContext';
 
 export const useLenses = () => {
   const lensesStore = useContext(LensesStoreContext);

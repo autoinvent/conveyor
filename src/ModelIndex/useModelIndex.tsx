@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { useStore } from '@tanstack/react-store';
 
-import { StoreSelector } from '@/types';
+import type { StoreSelector } from '@/types';
 
 import {
-  ModelIndexStore,
+  type ModelIndexStore,
   ModelIndexStoreContext,
 } from './ModelIndexStoreContext';
 

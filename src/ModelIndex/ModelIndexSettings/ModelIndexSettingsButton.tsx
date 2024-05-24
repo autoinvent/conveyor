@@ -1,5 +1,5 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Settings, X } from 'lucide-react';
+import { LuSettings, LuX } from 'react-icons/lu';
 
 import { ModelIndexSettings } from './ModelIndexSettings';
 
@@ -7,7 +7,7 @@ export const ModelIndexSettingsButton = () => {
   return (
     <DialogPrimitive.Root>
       <DialogPrimitive.Trigger>
-        <Settings />
+        <LuSettings />
       </DialogPrimitive.Trigger>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
@@ -16,7 +16,7 @@ export const ModelIndexSettingsButton = () => {
             <ModelIndexSettings />
           </DialogPrimitive.Description>
           <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-            <X className="h-4 w-4" />
+            <LuX className="h-4 w-4" />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         </DialogPrimitive.Content>

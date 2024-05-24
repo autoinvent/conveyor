@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Alert, AlertProps, Alerts, useAlerts } from '@/Alerts';
+import { Alert, type AlertProps, Alerts, useAlerts } from '@/Alerts';
 
 const meta = {
   title: 'Commons/Alerts',

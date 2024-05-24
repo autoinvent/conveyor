@@ -14,11 +14,10 @@ Then you can use it in your project.
 
 ## Scripts
 
-- `pnpm build` - build library for production. The generated files will be on the `dist` folder. `pnpm pack` will package these files into a tarball for install.
+- `pnpm build` - build library for production. The generated files will be on the `dist` folder. 
+- `pnpm pack` will package the files from `pnpm build` into a tarball for install.
 - `pnpm preview` - locally preview the production build.
-- `pnpm test` - run tests in watch mode.
-- `pnpm test:ci` - run tests once without watch mode.
-- `pnpm test:ui` - run tests with ui.
-- `pnpm format` - format all files with Rome.
-- `pnpm lint` - runs TypeScript, Rome and Stylelint.
-- `pnpm validate` - runs `lint`, `test:ci`.
+- `pnpm storybook` - run storybook
+- `pnpm storybook:tailwindcss` - run storybook with tailwindcss watcher
+- `pnpm format` - format all files with Biome.
+- `pnpm lint` - scan all files for linting errors.
