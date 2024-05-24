@@ -6,13 +6,13 @@
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
   "files": ["dist"],
-  "main": "./dist/conveyor.umd.js",
-  "module": "./dist/conveyor.mjs",
+  "main": "./dist/conveyor.umd.cjs",
+  "module": "./dist/conveyor.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/conveyor.mjs",
-      "require": "./dist/conveyor.umd.js"
+      "import": "./dist/conveyor.js",
+      "require": "./dist/conveyor.umd.cjs"
     },
     "./dist/styles/index.css": {
       "import": "./dist/styles/index.css",

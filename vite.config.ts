@@ -5,6 +5,8 @@ import { resolve } from 'node:path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // https://github.com/vitejs/vite/pull/8090
+  define: {"process.env.NODE_ENV": "'production'"}, 
   plugins: [
     react(),
     dts({
