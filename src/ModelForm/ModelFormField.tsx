@@ -3,7 +3,7 @@ import { ErrorMessage } from '@hookform/error-message';
 
 import { Lens, DataLens } from '@/Lenses';
 import { Slot } from '@/Slots';
-import { Field } from '@/types';
+import type { Field } from '@/types';
 
 import { ModelFormInput } from './ModelFormInput';
 import { ModelFormValue } from './ModelFormValue';

@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { useDependencyStore } from '@/hooks';
@@ -10,7 +10,7 @@ import { TableHead } from './TableHead';
 import { TableHeaderCell } from './TableHeaderCell';
 import { TableHeaderRow } from './TableHeaderRow';
 import { TableRow } from './TableRow';
-import { TableStore, TableStoreContext } from './TableStoreContext';
+import { type TableStore, TableStoreContext } from './TableStoreContext';
 
 export interface TableProps extends TableStore, ComponentProps<'table'> {}
 

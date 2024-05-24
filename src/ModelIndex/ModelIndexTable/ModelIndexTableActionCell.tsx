@@ -6,10 +6,10 @@ import {
   FaRegTimesCircle,
 } from 'react-icons/fa';
 
-import { DataType, useData } from '@/Data';
+import { type DataType, useData } from '@/Data';
 import { Lens, useLenses, DataLens } from '@/Lenses';
 import { useModelIndex } from '@/ModelIndex';
-import { TableCell, TableCellProps } from '@/Table';
+import { TableCell, type TableCellProps } from '@/Table';
 
 import { ACTION_SLOT } from './constants';
 

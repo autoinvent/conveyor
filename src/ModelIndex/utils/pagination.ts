@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
-import { TableView } from '@/types';
+import type { TableView } from '@/types';
 
 export const setPage = (
   setTableView: Dispatch<SetStateAction<TableView>>,

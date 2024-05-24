@@ -1,8 +1,8 @@
 import { ModelFormInput, ModelFormValue } from '@/ModelForm';
 import { Lens, DataLens, useLenses } from '@/Lenses';
 import { useModelIndex } from '@/ModelIndex';
-import { TableCell, TableCellProps } from '@/Table';
-import { Field } from '@/types';
+import { TableCell, type TableCellProps } from '@/Table';
+import type { Field } from '@/types';
 
 export interface ModelIndexTableCellProps
   extends Omit<TableCellProps, 'columnId'> {

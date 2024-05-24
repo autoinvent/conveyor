@@ -4,10 +4,10 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { LuX } from 'react-icons/lu';
 import { twMerge } from 'tailwind-merge';
 
 import { useAlerts } from './useAlerts';
-import { X } from 'lucide-react';
 
 export interface AlertProps extends Omit<ComponentProps<'div'>, 'content'> {
   alertId: string;
@@ -57,7 +57,7 @@ export const Alert = ({
         className="absolute top-1/2 transform -translate-y-1/2 right-2 opacity-50 cursor-pointer hover:opacity-100"
         onClick={onClose}
       >
-        <X />
+        <LuX />
       </span>
     </div>
   ) : null;

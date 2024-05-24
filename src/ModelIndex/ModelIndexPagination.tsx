@@ -2,7 +2,7 @@ import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
 import { useModelIndex, setPage } from '@/ModelIndex';
 import { useEffect } from 'react';
-import { TableView } from '@/types';
+import type { TableView } from '@/types';
 
 export interface ModelIndexPaginationProps {
   pageLimit?: number; // The max number of page btns to show at a time

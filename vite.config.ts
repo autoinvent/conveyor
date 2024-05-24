@@ -1,12 +1,7 @@
-/// <reference types="vitest" />
-/// <reference types="vite/client" />
-
-import { resolve } from 'path';
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import svgr from 'vite-plugin-svgr';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'node:path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,8 +10,6 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
     }),
-    nodePolyfills(),
-    svgr(),
   ],
   build: {
     sourcemap: true,

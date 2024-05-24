@@ -1,5 +1,5 @@
-import { ReactNode, createContext } from 'react';
-import { Store } from '@tanstack/react-store';
+import { type ReactNode, createContext } from 'react';
+import type { Store } from '@tanstack/react-store';
 
 export interface SlotType {
   node: ReactNode;

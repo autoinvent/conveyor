@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useData } from '@/Data';
 import { useIsFirstRender } from '@/hooks';
 import { Lenses, DataLens } from '@/Lenses';
-import { TableRow, TableRowProps, useTable } from '@/Table';
+import { TableRow, type TableRowProps, useTable } from '@/Table';
 
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableCell } from './ModelIndexTableCell';

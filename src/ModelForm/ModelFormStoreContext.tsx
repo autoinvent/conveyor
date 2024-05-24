@@ -1,11 +1,11 @@
-import { ReactNode, createContext } from 'react';
-import { Store } from '@tanstack/react-store';
+import { type ReactNode, createContext } from 'react';
+import type { Store } from '@tanstack/react-store';
 
-import { DataType } from '@/Data';
-import { DataLens } from '@/Lenses';
-import { Field, OnSaveProps } from '@/types';
+import type { DataType } from '@/Data';
+import type { DataLens } from '@/Lenses';
+import type { Field, OnSaveProps } from '@/types';
 
-import { SelectOption } from './types';
+import type { SelectOption } from './types';
 
 export interface ModelFormStore {
   fields: Field[];

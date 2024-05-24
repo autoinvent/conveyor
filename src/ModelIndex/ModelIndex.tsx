@@ -1,13 +1,13 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
 import { useDependencyStore } from '@/hooks';
-import { Field } from '@/types';
+import type { Field } from '@/types';
 import { toField } from '@/utils';
 
 import { ModelIndexCreateButton } from './ModelIndexCreateButton';
 import { ModelIndexPagination } from './ModelIndexPagination';
 import {
-  ModelIndexStore,
+  type ModelIndexStore,
   ModelIndexStoreContext,
 } from './ModelIndexStoreContext';
 import { ModelIndexSettings } from './ModelIndexSettings';

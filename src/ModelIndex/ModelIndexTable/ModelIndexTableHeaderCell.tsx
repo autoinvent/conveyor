@@ -1,4 +1,4 @@
-import { TableHeaderCell, TableHeaderCellProps } from '@/Table';
+import { TableHeaderCell, type TableHeaderCellProps } from '@/Table';
 
 import { ModelIndexTableHeaderCellDefaultContent } from './ModelIndexTableHeaderCellDefaultContent';
 

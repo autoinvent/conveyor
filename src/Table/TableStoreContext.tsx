@@ -1,7 +1,7 @@
 import { createContext } from 'react';
-import { Store } from '@tanstack/react-store';
+import type { Store } from '@tanstack/react-store';
 
-import { DataType } from '@/Data';
+import type { DataType } from '@/Data';
 
 export interface TableStore {
   columnIds: string[];

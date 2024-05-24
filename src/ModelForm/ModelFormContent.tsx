@@ -1,8 +1,8 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { Slots } from '@/Slots';
-import { Field } from '@/types';
+import type { Field } from '@/types';
 
 import { ModelFormField } from './ModelFormField';
 import { useModelForm } from './useModelForm';

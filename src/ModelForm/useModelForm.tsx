@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { useStore } from '@tanstack/react-store';
 
-import { StoreSelector } from '@/types';
+import type { StoreSelector } from '@/types';
 
-import { ModelFormStore, ModelFormStoreContext } from './ModelFormStoreContext';
+import { type ModelFormStore, ModelFormStoreContext } from './ModelFormStoreContext';
 
 export const useModelForm = (selector?: StoreSelector<ModelFormStore>) => {
   const modelFormStore = useContext(ModelFormStoreContext);

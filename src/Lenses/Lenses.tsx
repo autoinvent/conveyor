@@ -1,11 +1,11 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
 import { useIsFirstRender } from '@/hooks';
 
 import {
-  LensType,
-  LensesStore,
+  type LensType,
+  type LensesStore,
   LensesStoreContext,
 } from './LensesStoreContext';
 

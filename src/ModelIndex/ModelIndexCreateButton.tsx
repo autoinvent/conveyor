@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
 import { useModelIndex } from './useModelIndex';

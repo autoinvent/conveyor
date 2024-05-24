@@ -1,9 +1,9 @@
-import { TableViewFilter } from '@/types';
+import type { TableViewFilter } from '@/types';
 
 export const addFilter = (
   filters: TableViewFilter[][],
   filter: TableViewFilter,
-  filterGroup: number = 0,
+  filterGroup = 0,
 ) => {
   const newFilters = filters ? [...filters] : [];
   if (filterGroup > newFilters.length || filterGroup < 0) {

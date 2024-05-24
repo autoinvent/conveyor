@@ -1,29 +1,29 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "types": ["vite/client", "vitest/globals"],
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "skipLibCheck": true,
+
+    // Mode
+    "moduleResolution": "Node10",
     "resolveJsonModule": true,
+    "baseUrl": ".",
+    "composite": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["vite/client"],
+
+    // Linting
+    "strict": true,
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
-  "exclude": [],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  "include": ["src/"],
+  "exclude": []
 }

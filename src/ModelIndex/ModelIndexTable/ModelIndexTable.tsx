@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
 import { useModelIndex } from '@/ModelIndex';
 import { Table } from '@/Table';

@@ -1,9 +1,9 @@
-import { Fragment, ReactNode, useEffect, useState } from 'react';
+import { Fragment, type ReactNode, useEffect, useState } from 'react';
 import { Store, useStore } from '@tanstack/react-store';
 
 import { useIsFirstRender } from '@/hooks';
 
-import { SlotsStore, SlotsStoreContext } from './SlotsStoreContext';
+import { type SlotsStore, SlotsStoreContext } from './SlotsStoreContext';
 
 export interface SlotsProps {
   slotOrder: string[];
