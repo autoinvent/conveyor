@@ -1,18 +1,10 @@
-import type { Preview } from '@storybook/react';
+import { withThemeByClassName } from '@storybook/addon-themes';
+import type { Preview } from "@storybook/react";
 
-import '../public/styles/index.css';
+import '@/index.css';
 
 const preview: Preview = {
   parameters: {
-    backgrounds: {
-      default: 'dark',
-      values: [
-        {
-          name: 'dark',
-          value: getComputedStyle(document.body).getPropertyValue('--bg-color'),
-        },
-      ],
-    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -21,5 +13,15 @@ const preview: Preview = {
     },
   },
 };
+
+export const decorators = [
+  withThemeByClassName({
+    themes: {
+      light: 'light',
+      dark: 'dark',
+    },
+    defaultTheme: 'light',
+  }),
+];
 
 export default preview;

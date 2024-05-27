@@ -11,12 +11,18 @@
     "baseUrl": ".",
     "composite": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
       "@/*": ["src/*"]
     },
     "types": ["vite/client"],
+
+    // Build
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./.build/tsconfig.tsbuildinfo",
 
     // Linting
     "strict": true,
@@ -25,5 +31,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/"],
-  "exclude": []
+  "exclude": ["node_modules", "dist"]
 }

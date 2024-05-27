@@ -34,31 +34,32 @@ export const Alert = ({
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
     if (expires) {
       timer = setTimeout(() => {
-        removeAlert(alertId);
+        onClose();
       }, expires);
     }
 
     return () => {
       clearTimeout(timer);
     };
-  }, [expires]);
+  }, [expires, onClose]);
 
   return show ? (
     <div
       className={twMerge(
-        'relative text-center w-full max-h-20 rounded border-2 p-4 transition-colors overflow-hidden',
+        'relative text-center w-full rounded border-2 p-4 transition-colors overflow-hidden',
         className,
       )}
       {...props}
       role="alert"
     >
       {content}
-      <span
+      <button
+        type="button"
         className="absolute top-1/2 transform -translate-y-1/2 right-2 opacity-50 cursor-pointer hover:opacity-100"
         onClick={onClose}
       >
         <LuX />
-      </span>
+      </button>
     </div>
   ) : null;
 };

@@ -1,3 +1,5 @@
+import './index.css'
+
 // common components
 export * from './Alerts';
 export * from './Data';

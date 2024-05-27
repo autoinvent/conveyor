@@ -15,9 +15,11 @@ Then you can use it in your project.
 ## Scripts
 
 - `pnpm build` - build library for production. The generated files will be on the `dist` folder. 
-- `pnpm pack` will package the files from `pnpm build` into a tarball for install.
-- `pnpm preview` - locally preview the production build.
+- `pnpm dev` - run storybook with tailwindcss watcher
 - `pnpm storybook` - run storybook
-- `pnpm storybook:tailwindcss` - run storybook with tailwindcss watcher
+- `pnpm tailwind` - run tailwind CLI tool to build css file
 - `pnpm format` - format all files with Biome.
 - `pnpm lint` - scan all files for linting errors.
+
+## Useful commands
+- `pnpm pack` will package the files from `pnpm build` into a tarball for install.
