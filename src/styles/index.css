@@ -686,6 +686,10 @@ button {
   margin: 2px;
 }
 
+.m-auto {
+  margin: auto;
+}
+
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -706,6 +710,10 @@ button {
 
 .mt-2 {
   margin-top: 0.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
 }
 
 .box-border {

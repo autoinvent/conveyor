@@ -16,15 +16,7 @@ export const DataStoreProvider = ({
   data,
   children,
 }: DataStoreProviderProps) => {
-  const store = useMemo(
-    () =>
-      createStore(
-        immer<DataType>(() => ({
-          data,
-        })),
-      ),
-    [data],
-  );
+  const store = useMemo(() => createStore(immer<DataType>(() => data)), [data]);
   return (
     <DataStoreContext.Provider value={store}>
       {children}
