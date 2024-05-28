@@ -809,10 +809,6 @@ button {
   width: 1%;
 }
 
-.w-\[1000px\] {
-  width: 1000px;
-}
-
 .w-\[200px\] {
   width: 200px;
 }
@@ -1134,10 +1130,6 @@ button {
 
 .p-1\.5 {
   padding: 0.375rem;
-}
-
-.p-2 {
-  padding: 0.5rem;
 }
 
 .p-4 {

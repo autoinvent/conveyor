@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { useData } from '@/Data';
+import { useDataStore } from '@/Data';
 import { Slot } from '@/Slots';
 
 export interface TableCellProps extends ComponentProps<'td'> {
@@ -14,10 +14,8 @@ export const TableCell = ({
   className,
   ...props
 }: TableCellProps) => {
-  const data = useData();
-  const columnData = data[columnId];
-  const displayData =
-    typeof columnData === 'object' ? JSON.stringify(columnData) : columnData;
+  const data = useDataStore((state) => state[columnId]);
+  const display = typeof data === 'object' ? JSON.stringify(data) : data;
   return (
     <Slot slot={columnId}>
       <td
@@ -27,7 +25,7 @@ export const TableCell = ({
         )}
         {...props}
       >
-        {children === undefined ? displayData : children}
+        {children === undefined ? display : children}
       </td>
     </Slot>
   );

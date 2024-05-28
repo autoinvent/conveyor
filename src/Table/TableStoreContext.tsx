@@ -2,9 +2,11 @@ import { type ReactNode, createContext, useMemo } from 'react';
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
+import type { DataType } from '@/Data';
+
 export interface TableState {
   columnIds: string[];
-  data?: Record<string, any>;
+  data?: DataType[];
 }
 
 export const TableStoreContext = createContext<

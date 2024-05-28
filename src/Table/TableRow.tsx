@@ -18,6 +18,7 @@ export const TableRow = ({
 }: TableRowProps) => {
   const columnIds = useTableStore((state) => state.columnIds);
   return (
+    // group className used for row highlighting on hover
     <tr className={twMerge('group', className)} {...props}>
       <Slots slotOrder={columnIds}>
         {children === undefined || prefilled ? (
