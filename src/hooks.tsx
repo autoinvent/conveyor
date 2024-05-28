@@ -1,21 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { Store, useStore as tsUseStore } from '@tanstack/react-store';
 
-export const useIsFirstRender = () => {
-  const isFirstRender = useRef(true);
+export const useIsMounted = () => {
+  const isMounted = useRef(false);
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    }
+    isMounted.current = true;
   }, []);
 
-  return isFirstRender;
+  return isMounted;
 };
 
 export const useDependencyStore = <T,>(dependencies: T) => {
   const [store] = useState(new Store<T>(dependencies));
-  const isFirstRender = useIsFirstRender();
+  const isMounted = useIsMounted();
 
   let effectDependencyList = [dependencies];
   let newDependencyState = dependencies;
@@ -25,7 +23,7 @@ export const useDependencyStore = <T,>(dependencies: T) => {
   }
 
   useEffect(() => {
-    if (!isFirstRender.current) {
+    if (isMounted.current) {
       store.setState(() => newDependencyState);
     }
   }, effectDependencyList);

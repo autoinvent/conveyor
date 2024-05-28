@@ -31,10 +31,8 @@ export const upperCaseFirst = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-export const generateUID = ({ seed = 32, prefix = 'UID' } = {}) => {
-  return `${prefix}-${Date.now().toString(seed)}-${Math.random()
-    .toString(seed)
-    .slice(2)}`;
+export const generateUID = (prefix = 'UID') => {
+  return `${prefix}-${crypto.randomUUID()}`
 };
 
 export const toField = (str: string | Field): Field => {

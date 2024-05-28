@@ -1,23 +1,21 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import { DataProvider, type DataType } from '@/Data';
-import { generateUID } from '@/utils';
 
 import { TableRow } from './TableRow';
-import { useTable } from './useTable';
+import { useTableStore } from './useTableStore';
 
 export interface TableBodyProps extends ComponentProps<'tbody'> {}
 
 export const TableBody = ({
   children,
   className,
-  ...props
+  ...htmlProps
 }: TableBodyProps) => {
-  const { selected: data } = useTable((state) => state.data);
+  const data = useTableStore((state) => state.data);
 
   return data && data.length > 0 ? (
-    <tbody className={twMerge('rounded', className)} {...props}>
+    <tbody className={className} {...htmlProps}>
       {data.map((rowData: DataType, index: number) => {
         const rowKey = `table-row-${index}`;
         return (

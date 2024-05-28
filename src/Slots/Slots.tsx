@@ -1,7 +1,7 @@
 import { Fragment, type ReactNode, useEffect, useState } from 'react';
 import { Store, useStore } from '@tanstack/react-store';
 
-import { useIsFirstRender } from '@/hooks';
+import { useIsMounted } from '@/hooks';
 
 import { type SlotsStore, SlotsStoreContext } from './SlotsStoreContext';
 
@@ -22,9 +22,9 @@ export const Slots = ({ slotOrder, children }: SlotsProps) => {
 
   const { slotOrder: slotKeys, slots } = useStore(slotsStore, (state) => state);
 
-  const isFirstRender = useIsFirstRender();
+  const isMounted = useIsMounted();
   useEffect(() => {
-    if (!isFirstRender.current) {
+    if (isMounted.current) {
       slotsStore.setState((state) => ({ ...state, slotOrder }));
     }
   }, [slotOrder]);

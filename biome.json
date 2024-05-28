@@ -19,6 +19,15 @@
       "recommended": true,
       "suspicious": {
         "noExplicitAny": "off"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "level": "error",
+          "options": {
+            "attributes": ["class", "className"],
+            "functions": ["clsx", "tw", "twMerge"]
+          }
+        }
       }
     },
     "ignore": ["/dist", "/node_modules"]

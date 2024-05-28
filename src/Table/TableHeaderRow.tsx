@@ -1,10 +1,9 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import { Slots } from '@/Slots';
 
 import { TableHeaderCell } from './TableHeaderCell';
-import { useTable } from './useTable';
+import { useTableStore } from './useTableStore';
 
 export interface TableHeaderRowProps extends ComponentProps<'tr'> {
   prefilled?: boolean;
@@ -14,11 +13,11 @@ export const TableHeaderRow = ({
   prefilled,
   children,
   className,
-  ...props
+  ...htmlProps
 }: TableHeaderRowProps) => {
-  const { selected: columnIds } = useTable((state) => state.columnIds);
+  const columnIds = useTableStore((state) => state.columnIds);
   return (
-    <tr className={twMerge('rounded cursor-default', className)} {...props}>
+    <tr className={className} {...htmlProps}>
       <Slots slotOrder={columnIds}>
         {children === undefined || prefilled ? (
           <>

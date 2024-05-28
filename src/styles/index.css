@@ -878,14 +878,8 @@ button {
   table-layout: auto;
 }
 
-.border-separate {
-  border-collapse: separate;
-}
-
-.border-spacing-0 {
-  --tw-border-spacing-x: 0px;
-  --tw-border-spacing-y: 0px;
-  border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
+.border-collapse {
+  border-collapse: collapse;
 }
 
 .-translate-y-1\/2 {
@@ -979,10 +973,6 @@ button {
   overflow: hidden;
 }
 
-.overflow-x-auto {
-  overflow-x: auto;
-}
-
 .whitespace-nowrap {
   white-space: nowrap;
 }
@@ -1051,10 +1041,6 @@ button {
 
 .border-r {
   border-right-width: 1px;
-}
-
-.border-solid {
-  border-style: solid;
 }
 
 .border-none {
@@ -1148,6 +1134,10 @@ button {
 
 .p-1\.5 {
   padding: 0.375rem;
+}
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 .p-4 {

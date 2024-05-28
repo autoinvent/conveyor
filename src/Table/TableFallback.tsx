@@ -1,7 +1,6 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
 
-import { useTable } from './useTable';
+import { useTableStore } from './useTableStore';
 
 export interface TableFallbackProps extends ComponentProps<'tbody'> {}
 
@@ -10,26 +9,23 @@ export const TableFallback = ({
   children,
   ...props
 }: TableFallbackProps) => {
-  const {
-    selected: { columnIds, data },
-  } = useTable((state) => ({
-    columnIds: state.columnIds,
-    data: state.data,
-  }));
+  const { columnIds, data } = useTableStore();
 
-  const cellContent = data ? (
-    'No Records Found.'
-  ) : (
+  const cellContent = (
     <div className="flex justify-center">
-      <div className="animate-spin rounded-[50%] border-[--fg-accent] border-t-[--text-color] border-y-4 border-x-4 h-[30px] w-[30px]"></div>
+      {data ? (
+        'No Records Found.'
+      ) : (
+        <div className="h-[30px] w-[30px] animate-spin rounded-[50%] border-[--fg-accent] border-x-4 border-y-4 border-t-[--text-color]" />
+      )}
     </div>
   );
 
   return (!data || data.length === 0) && columnIds.length > 0 ? (
-    <tbody className={twMerge('rounded', className)} {...props}>
-      <tr className="items-center group rounded cursor-default">
+    <tbody className={className} {...props}>
+      <tr>
         <td
-          className="text-center bg-[--fg-color] border border-solid group-hover:bg-[--fg-accent] border-[--border-color]"
+          className="border border-[--border-color] bg-[--fg-color] p-1.5"
           colSpan={columnIds.length}
         >
           {children === undefined ? cellContent : children}

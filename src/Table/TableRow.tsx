@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { Slots } from '@/Slots';
 
 import { TableCell } from './TableCell';
-import { useTable } from './useTable';
+import { useTableStore } from './useTableStore';
 
 export interface TableRowProps extends ComponentProps<'tr'> {
   prefilled?: boolean;
@@ -16,15 +16,9 @@ export const TableRow = ({
   className,
   ...props
 }: TableRowProps) => {
-  const { selected: columnIds } = useTable((state) => state.columnIds);
+  const columnIds = useTableStore((state) => state.columnIds);
   return (
-    <tr
-      className={twMerge(
-        'items-center group rounded cursor-default h-full',
-        className,
-      )}
-      {...props}
-    >
+    <tr className={twMerge('group', className)} {...props}>
       <Slots slotOrder={columnIds}>
         {children === undefined || prefilled ? (
           <>

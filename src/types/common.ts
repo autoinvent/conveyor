@@ -1,6 +1,6 @@
 import type { DataType } from '@/Data';
 
-export type StoreSelector<TStore> = (state: TStore) => any;
+export type StoreSelector<TState, T> = (state: TState) => T
 
 export interface Field {
   name: string;

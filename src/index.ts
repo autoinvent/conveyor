@@ -1,4 +1,4 @@
-import './index.css'
+import './styles/index.css'
 
 // common components
 export * from './Alerts';

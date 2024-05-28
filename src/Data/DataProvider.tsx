@@ -1,7 +1,7 @@
 import { type ReactNode, useEffect, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
-import { useIsFirstRender } from '@/hooks';
+import { useIsMounted } from '@/hooks';
 
 import { DataStoreContext } from './DataStoreContext';
 import type { DataType } from './types';
@@ -14,9 +14,9 @@ export interface DataProviderProps {
 export const DataProvider = ({ data, children }: DataProviderProps) => {
   const [dataStore] = useState(new Store<DataType>(data));
 
-  const isFirstRender = useIsFirstRender();
+  const isMounted = useIsMounted();
   useEffect(() => {
-    if (!isFirstRender.current) {
+    if (isMounted.current) {
       dataStore.setState(() => ({ ...data }));
     }
   }, [data]);

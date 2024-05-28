@@ -5,7 +5,9 @@
   "description": "UI component library for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/conveyor.umd.cjs",
   "module": "./dist/conveyor.js",
   "types": "./dist/types/index.d.ts",
@@ -23,7 +25,7 @@
     "build": "tailwind && vite build && tsc",
     "dev": "concurrently --kill-others \"pnpm:storybook\" \"pnpm:tailwind --watch\"",
     "storybook": "storybook dev -p 6006",
-    "tailwind": "tailwindcss -i ./src/tailwind.css -o ./src/index.css",
+    "tailwind": "tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/index.css",
     "format": "pnpx @biomejs/biome format --write *",
     "lint": "pnpx @biomejs/biome lint --apply *"
   },
@@ -34,9 +36,11 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-tabs": "^1.0.4",
     "@tanstack/react-store": "^0.3.1",
+    "immer": "^10.1.1",
     "react-hook-form": "^7.51.4",
     "react-icons": "^4.10.1",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "zustand": "^4.5.2"
   },
   "peerDependencies": {
     "@types/react": "^18.2.66",

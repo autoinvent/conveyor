@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 
 import type { DataType } from '@/Data';
 import { Lenses, DataLens } from '@/Lenses';
-import { useDependencyStore, useIsFirstRender } from '@/hooks';
+import { useDependencyStore, useIsMounted } from '@/hooks';
 import { toField } from '@/utils';
 
 import { type ModelFormStore, ModelFormStoreContext } from './ModelFormStoreContext';
@@ -66,9 +66,9 @@ export const ModelForm = Object.assign(
         break;
     }
 
-    const isFirstRender = useIsFirstRender();
+    const isMounted = useIsMounted();
     useEffect(() => {
-      if (!isFirstRender.current) {
+      if (isMounted.current) {
         methods.reset(defaultValues);
       }
     }, [defaultValues]);

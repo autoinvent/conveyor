@@ -1,7 +1,7 @@
 import { type ReactNode, useEffect, useState } from 'react';
 import { Store } from '@tanstack/react-store';
 
-import { useIsFirstRender } from '@/hooks';
+import { useIsMounted } from '@/hooks';
 
 import {
   type LensType,
@@ -27,9 +27,9 @@ export const Lenses = ({
     }),
   );
 
-  const isFirstRender = useIsFirstRender();
+  const isMounted = useIsMounted();
   useEffect(() => {
-    if (!isFirstRender.current && activeLens !== undefined) {
+    if (isMounted.current && activeLens !== undefined) {
       lensesStore.setState((state) => ({ ...state, activeLens }));
     }
   }, [activeLens]);

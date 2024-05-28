@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useData } from '@/Data';
-import { useIsFirstRender } from '@/hooks';
+import { useIsMounted } from '@/hooks';
 import { Lenses, DataLens } from '@/Lenses';
 import { TableRow, type TableRowProps, useTable } from '@/Table';
 
@@ -22,9 +22,9 @@ export const ModelIndexTableRow = ({
   const data = useData();
   const methods = useForm({ mode: 'onChange', defaultValues: data });
 
-  const isFirstRender = useIsFirstRender();
+  const isMounted = useIsMounted();
   useEffect(() => {
-    if (!isFirstRender.current) {
+    if (isMounted.current) {
       methods.reset(data);
     }
   }, [data]);

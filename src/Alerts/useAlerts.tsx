@@ -12,7 +12,7 @@ export const useAlerts = () => {
     alertsStore === undefined
       ? () => {}
       : (alertProps: Omit<AlertProps, 'alertId'>) => {
-          const alertId = generateUID({ prefix: 'alert-id' });
+          const alertId = crypto.randomUUID();
           alertsStore.setState((state) => {
             const newAlerts = [{ ...alertProps, alertId }, ...state.alerts];
             return {

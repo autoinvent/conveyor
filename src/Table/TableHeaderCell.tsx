@@ -12,16 +12,16 @@ export const TableHeaderCell = ({
   columnId,
   children,
   className,
-  ...props
+  ...htmlProps
 }: TableHeaderCellProps) => {
   return (
     <Slot slot={columnId}>
       <th
         className={twMerge(
-          'text-center bg-[--header-color] border border-solid border-[--border-color]',
+          'border border-[--border-color] bg-[--header-color] p-1.5',
           className,
         )}
-        {...props}
+        {...htmlProps}
       >
         {children === undefined ? humanizeText(columnId) : children}
       </th>
