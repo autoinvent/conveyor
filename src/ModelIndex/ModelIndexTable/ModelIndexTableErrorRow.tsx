@@ -1,25 +1,31 @@
-import { useFormContext } from 'react-hook-form';
+import type { ComponentProps } from 'react';
+import type { FieldErrors } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
+
 import { ErrorMessage } from '@hookform/error-message';
 
-import { useTable } from '@/Table';
-import { ACTION_SLOT } from './constants';
+import { useTableStore } from '@/Table';
 
-export const ModelIndexTableErrorRow = () => {
-  const { selected: columnIds } = useTable((state) => state.columnIds);
+import { ACTION_COLUMN } from './constants';
 
-  const {
-    formState: { errors },
-  } = useFormContext();
+export interface ModelIndexTableErrorRowProps extends ComponentProps<'tr'> {
+  errors: FieldErrors;
+}
+
+export const ModelIndexTableErrorRow = ({
+  errors,
+  className,
+}: ModelIndexTableErrorRowProps) => {
+  const fieldNames = useTableStore((state) => state.columnIds);
 
   return Object.keys(errors).length ? (
-    <tr className="danger">
-      {columnIds.map((columnId: string) => {
-        if (columnId === ACTION_SLOT) {
-          return <td key={ACTION_SLOT}></td>;
-        }
-        return (
-          <td key={columnId}>
-            <ErrorMessage errors={errors} name={columnId} />
+    <tr className={twMerge('danger', className)}>
+      {fieldNames.map((fieldName) => {
+        return fieldName === ACTION_COLUMN ? (
+          <td key={ACTION_COLUMN} />
+        ) : (
+          <td key={fieldName}>
+            <ErrorMessage errors={errors} name={fieldName} />
           </td>
         );
       })}

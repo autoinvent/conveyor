@@ -1,76 +1,65 @@
 import type { ComponentProps } from 'react';
 
-import { useDependencyStore } from '@/hooks';
-import type { Field } from '@/types';
+import type { DataType, Field } from '@/types';
 import { toField } from '@/utils';
 
 import { ModelIndexCreateButton } from './ModelIndexCreateButton';
-import { ModelIndexPagination } from './ModelIndexPagination';
+// import { ModelIndexPagination } from './ModelIndexPagination';
 import {
-  type ModelIndexStore,
-  ModelIndexStoreContext,
+  type ModelIndexState,
+  ModelIndexStoreProvider,
 } from './ModelIndexStoreContext';
-import { ModelIndexSettings } from './ModelIndexSettings';
+// import { ModelIndexSettings } from './ModelIndexSettings';
 import { ModelIndexTable } from './ModelIndexTable';
 import { ModelIndexTitle } from './ModelIndexTitle';
 
-export interface ModelIndexProps
-  extends Omit<ModelIndexStore, 'fields'>,
-    Omit<ComponentProps<'section'>, 'title'> {
+export interface ModelIndexProps<D extends DataType>
+  extends Omit<ModelIndexState<D>, 'fields'>,
+    ComponentProps<'div'> {
   fields: (string | Field)[];
 }
 
 export const ModelIndex = Object.assign(
-  ({
+  <D extends DataType>({
+    model,
     fields,
     data,
-    totalDataLength,
-    tableView,
-    setTableView,
-    title,
-    onSave,
-    onDelete,
-    onCreate,
-    onOpenFieldSelect,
     showActions = true,
+    onCreate,
+    onUpdate,
+    onDelete,
     children,
     ...htmlProps
-  }: ModelIndexProps) => {
-    const store = useDependencyStore<ModelIndexStore>({
-      fields: fields.map((field) => toField(field)),
-      data,
-      totalDataLength,
-      tableView,
-      setTableView,
-      title,
-      onSave,
-      onDelete,
-      onCreate,
-      onOpenFieldSelect,
-      showActions,
-    });
-
+  }: ModelIndexProps<D>) => {
     return (
-      <section {...htmlProps}>
-        <ModelIndexStoreContext.Provider value={store}>
+      <div {...htmlProps}>
+        <ModelIndexStoreProvider
+          model={model}
+          fields={fields.map(toField)}
+          data={data}
+          showActions={showActions}
+          onCreate={onCreate}
+          onUpdate={onUpdate}
+          onDelete={onDelete}
+        >
           {children === undefined ? (
             <>
               <ModelIndex.Title />
               <ModelIndex.Table />
-              <ModelIndex.Pagination />
+              {/* <ModelIndex.Pagination /> */}
             </>
           ) : (
             children
           )}
-        </ModelIndexStoreContext.Provider>
-      </section>
+        </ModelIndexStoreProvider>
+      </div>
     );
   },
   {
     CreateButton: ModelIndexCreateButton,
-    Settings: ModelIndexSettings,
+    // Settings: ModelIndexSettings,
     Title: ModelIndexTitle,
     Table: ModelIndexTable,
-    Pagination: ModelIndexPagination,
+    // Pagination: ModelIndexPagination,
   },
 );

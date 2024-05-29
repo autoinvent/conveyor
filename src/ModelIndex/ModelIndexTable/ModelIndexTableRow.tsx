@@ -1,15 +1,15 @@
-import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { useData } from '@/Data';
-import { useIsMounted } from '@/hooks';
+import { useDataStore } from '@/Data';
 import { Lenses, DataLens } from '@/Lenses';
-import { TableRow, type TableRowProps, useTable } from '@/Table';
+import { TableRow, type TableRowProps, useTableStore } from '@/Table';
+
+import { useModelIndexStore } from '../useModelIndexStore';
 
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
 import { ModelIndexTableErrorRow } from './ModelIndexTableErrorRow';
-import { ACTION_SLOT } from './constants';
+import { ACTION_COLUMN } from './constants';
 
 export interface ModelIndexTableRowProps extends TableRowProps {}
 
@@ -18,29 +18,24 @@ export const ModelIndexTableRow = ({
   children,
   ...props
 }: ModelIndexTableRowProps) => {
-  const { selected: columnIds } = useTable((state) => state.columnIds);
-  const data = useData();
+  const fieldNames = useTableStore((state) => state.columnIds);
+  const showActions = useModelIndexStore((state) => state.showActions);
+  const data = useDataStore();
   const methods = useForm({ mode: 'onChange', defaultValues: data });
 
-  const isMounted = useIsMounted();
-  useEffect(() => {
-    if (isMounted.current) {
-      methods.reset(data);
-    }
-  }, [data]);
-
   return (
-    <FormProvider {...methods}>
-      <Lenses initialLens={DataLens.DISPLAY}>
-        <TableRow prefilled={false} {...props}>
+    <Lenses initialLens={DataLens.DISPLAY}>
+      <TableRow prefilled={false} {...props}>
+        <FormProvider {...methods}>
           {children === undefined || prefilled ? (
             <>
-              {columnIds.map((columnId: string) => {
-                if (columnId === ACTION_SLOT) {
-                  return <ModelIndexTableActionCell key={ACTION_SLOT} />;
-                }
-                return (
-                  <ModelIndexTableCell key={columnId} fieldName={columnId} />
+              {fieldNames.map((fieldName) => {
+                return fieldName === ACTION_COLUMN ? (
+                  showActions ? (
+                    <ModelIndexTableActionCell key={fieldName} />
+                  ) : null
+                ) : (
+                  <ModelIndexTableCell key={fieldName} fieldName={fieldName} />
                 );
               })}
               {children}
@@ -48,9 +43,9 @@ export const ModelIndexTableRow = ({
           ) : (
             children
           )}
-        </TableRow>
-        <ModelIndexTableErrorRow />
-      </Lenses>
-    </FormProvider>
+        </FormProvider>
+      </TableRow>
+      <ModelIndexTableErrorRow errors={methods.formState.errors} />
+    </Lenses>
   );
 };

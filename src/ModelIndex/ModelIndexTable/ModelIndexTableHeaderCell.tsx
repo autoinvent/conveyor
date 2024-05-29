@@ -1,25 +1,24 @@
 import { TableHeaderCell, type TableHeaderCellProps } from '@/Table';
 
-import { ModelIndexTableHeaderCellDefaultContent } from './ModelIndexTableHeaderCellDefaultContent';
+import { humanizeText } from '@/utils';
 
 export interface ModelIndexTableHeaderCellProps
   extends Omit<TableHeaderCellProps, 'columnId'> {
   fieldName: string;
 }
 
-export const ModelIndexTableHeaderCell = Object.assign(
-  ({ fieldName, children, ...props }: ModelIndexTableHeaderCellProps) => {
-    return (
-      <TableHeaderCell className="min-w-fit" columnId={fieldName} {...props}>
-        {children === undefined ? (
-          <ModelIndexTableHeaderCellDefaultContent fieldName={fieldName} />
-        ) : (
-          children
-        )}
-      </TableHeaderCell>
-    );
-  },
-  {
-    DefaultContent: ModelIndexTableHeaderCellDefaultContent,
-  },
-);
+export const ModelIndexTableHeaderCell = ({
+  fieldName,
+  children,
+  ...props
+}: ModelIndexTableHeaderCellProps) => {
+  // TODO: classname default..
+  return (
+    <TableHeaderCell className="min-w-fit" columnId={fieldName} {...props}>
+      {children === undefined
+        ? // <ModelIndexTableHeaderCellDefaultContent fieldName={fieldName} />
+          humanizeText(fieldName)
+        : children}
+    </TableHeaderCell>
+  );
+};

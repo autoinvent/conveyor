@@ -1,8 +1,4 @@
-export enum SortDirection {
-  ASC = 'asc',
-  DESC = 'desc',
-  NONE = 'none',
-}
+import { SortDirection } from '@/types';
 
 export const DEFAULT_SORT_SEQUENCE = [
   SortDirection.ASC,
@@ -11,7 +7,7 @@ export const DEFAULT_SORT_SEQUENCE = [
 ];
 
 export const getCurrentSortDirection = (
-  sort: string[],
+  sort: string[] | undefined,
   field: string,
 ): SortDirection => {
   let currSort = SortDirection.NONE;
@@ -28,9 +24,9 @@ export const getCurrentSortDirection = (
 };
 
 export const nextSort = (
-  sort: string[],
+  sort: string[] | undefined,
   field: string,
-  sortSequence = DEFAULT_SORT_SEQUENCE,
+  sortSequence: SortDirection[] = DEFAULT_SORT_SEQUENCE,
 ) => {
   const sortSequenceMap = Object.fromEntries(
     sortSequence.map((seq, index) => [seq, index]),
@@ -76,7 +72,11 @@ export const nextSort = (
   return newSort;
 };
 
-export const swapSort = (sort: string[], index1: number, index2: number) => {
+export const swapSort = (
+  sort: string[] | undefined,
+  index1: number,
+  index2: number,
+) => {
   const newSort = sort ? [...sort] : [];
   if (
     index1 >= newSort.length ||

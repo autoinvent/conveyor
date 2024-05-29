@@ -1,9 +1,14 @@
-import { useModelIndex } from '@/ModelIndex';
-import { TableHeaderRow, type TableHeaderRowProps, useTable } from '@/Table';
+import {
+  TableHeaderRow,
+  type TableHeaderRowProps,
+  useTableStore,
+} from '@/Table';
+
+import { useModelIndexStore } from '../useModelIndexStore';
 
 import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
-import { ACTION_SLOT } from './constants';
+import { ACTION_COLUMN } from './constants';
 
 export interface ModelIndexTableHeaderRowProps extends TableHeaderRowProps {}
 
@@ -12,17 +17,22 @@ export const ModelIndexTableHeaderRow = ({
   children,
   ...props
 }: ModelIndexTableHeaderRowProps) => {
-  const { selected: columnIds } = useTable((state) => state.columnIds);
-  const { selected: showActions } = useModelIndex((state) => state.showActions);
+  const fieldNames = useTableStore((state) => state.columnIds);
+  const showActions = useModelIndexStore((state) => state.showActions);
   return (
     <TableHeaderRow prefilled={false} {...props}>
       {children === undefined || prefilled ? (
         <>
-          {columnIds.map((columnId: string) => {
-            if (columnId === ACTION_SLOT)
-              return <ModelIndexTableActionHeaderCell key={ACTION_SLOT} />;
-            return (
-              <ModelIndexTableHeaderCell key={columnId} fieldName={columnId} />
+          {fieldNames.map((fieldName) => {
+            return fieldName === ACTION_COLUMN ? (
+              showActions ? (
+                <ModelIndexTableActionHeaderCell key={fieldName} />
+              ) : null
+            ) : (
+              <ModelIndexTableHeaderCell
+                key={fieldName}
+                fieldName={fieldName}
+              />
             );
           })}
           {children}
@@ -30,7 +40,6 @@ export const ModelIndexTableHeaderRow = ({
       ) : (
         children
       )}
-      {showActions ? <ModelIndexTableActionHeaderCell /> : null}
     </TableHeaderRow>
   );
 };

@@ -2,34 +2,29 @@ import { type ReactNode, createContext, useMemo } from 'react';
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import type { DataType } from '@/Data';
+import type { DataType } from '@/types';
 
-export interface TableState {
+export interface TableState<D extends DataType> {
   columnIds: string[];
-  data?: DataType[];
+  data?: D[];
 }
 
 export const TableStoreContext = createContext<
-  StoreApi<TableState> | undefined
+  StoreApi<TableState<any>> | undefined
 >(undefined);
 
-export interface TableStoreProviderProps extends TableState {
+export interface TableStoreProviderProps<D extends DataType>
+  extends TableState<D> {
   children?: ReactNode;
 }
-export const TableStoreProvider = ({
-  columnIds,
-  data,
+export const TableStoreProvider = <D extends DataType>({
   children,
-}: TableStoreProviderProps) => {
+  ...tableState
+}: TableStoreProviderProps<D>) => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: entire states are used
   const store = useMemo(
-    () =>
-      createStore(
-        immer<TableState>(() => ({
-          columnIds,
-          data,
-        })),
-      ),
-    [columnIds, data],
+    () => createStore(immer<TableState<D>>(() => ({ ...tableState }))),
+    Object.values(tableState),
   );
   return (
     <TableStoreContext.Provider value={store}>

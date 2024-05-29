@@ -1,6 +1,8 @@
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import type { DataType } from '@/types';
+
 import { TableBody } from './TableBody';
 import { TableFallback } from './TableFallback';
 import { TableCell } from './TableCell';
@@ -10,10 +12,18 @@ import { TableHeaderRow } from './TableHeaderRow';
 import { TableRow } from './TableRow';
 import { type TableState, TableStoreProvider } from './TableStoreContext';
 
-export interface TableProps extends TableState, ComponentProps<'table'> {}
+export interface TableProps<D extends DataType>
+  extends TableState<D>,
+    ComponentProps<'table'> {}
 
 export const Table = Object.assign(
-  ({ columnIds, data, children, className, ...htmlProps }: TableProps) => {
+  <D extends DataType>({
+    columnIds,
+    data,
+    children,
+    className,
+    ...htmlProps
+  }: TableProps<D>) => {
     return (
       <TableStoreProvider columnIds={columnIds} data={data}>
         <table

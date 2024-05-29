@@ -1,15 +1,15 @@
 import type { ComponentProps } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
-import { useModelIndex } from './useModelIndex';
+import { useModelIndexStore } from './useModelIndexStore';
 
 export const ModelIndexCreateButton = (
   props: Omit<ComponentProps<'button'>, 'onClick'>,
 ) => {
-  const { selected: onCreate } = useModelIndex((state) => state.onCreate);
+  const onCreate = useModelIndexStore((state) => state.onCreate);
   return (
     <button
-      className=" text-sm px-2 py-1 h-8 min-h-8 min-w-8 w-8 bg-[--success] border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark] rounded-md"
+      className="h-8 w-8 rounded-md border-[--success] bg-[--success] px-2 py-1 text-sm hover:border-[--success-dark] hover:bg-[--success-dark]"
       onClick={() => onCreate?.()}
       {...props}
     >

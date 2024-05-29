@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -18,6 +18,11 @@ type Story = StoryObj<typeof meta>;
 export const ColumnReordering: Story = {
   render: (args) => {
     const [columnIds, setColumnIds] = useState(args.columnIds);
+
+    useEffect(() => {
+      setColumnIds(args.columnIds);
+    }, [args.columnIds]);
+
     return (
       <div className="flex flex-col">
         <Table {...args} columnIds={columnIds} />

@@ -8,7 +8,7 @@ export * from './ModelIndexTableErrorRow';
 export * from './ModelIndexTableFallback';
 export * from './ModelIndexTableHead';
 export * from './ModelIndexTableHeaderCell';
-export * from './ModelIndexTableHeaderCellDefaultContent';
+// export * from './ModelIndexTableHeaderCellDefaultContent'; TODO
 export * from './ModelIndexTableHeaderRow';
 export * from './ModelIndexTableRow';
 

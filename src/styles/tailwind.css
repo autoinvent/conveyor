@@ -17,7 +17,7 @@
         /* base text color */
         --text-color: hsl(from var(--bg-color) h s calc(l * 9));
         /* inactive or not interactable color for text*/
-        --text-muted: hsl(from var(--text-color) h s calc(l - .2));
+        --text-muted: hsl(from var(--text-color) h s calc(l * .65));
         /* Header color */
         --header-color: hsl(from var(--bg-color) h s calc(l * 0.75));
 
@@ -25,14 +25,14 @@
         --bg-danger: hsl(0, 100%, 95%);
         --bg-warning: hsl(51, 100%, 85%);
 
-        --success: hsl(from var(--bg-success) h s calc(l - 0.6));
-        --danger: hsl(from var(--bg-danger) h s calc(l - 0.6));
-        --warning: hsl(from var(--bg-warning) h s calc(l - 0.6));
+        --success: hsl(from var(--bg-success) h s 35%);
+        --danger: hsl(from var(--bg-danger) h s 35%);
+        --warning: hsl(from var(--bg-warning) h s 35%);
         --primary: hsl(210, 50%, 35%);
 
-        --success-dark: hsl(from var(--success) h s calc(l - 0.15));
-        --danger-dark: hsl(from var(--danger) h s calc(l - 0.15));
-        --primary-dark: hsl(from var(--primary) h s calc(l - 0.15));
+        --success-dark: hsl(from var(--success) h s 20%);
+        --danger-dark: hsl(from var(--danger) h s 20%);
+        --primary-dark: hsl(from var(--primary) h s 20%);
     }
 
     body {
@@ -42,20 +42,20 @@
     }
 
     button {
-        @apply inline-block justify-center items-center cursor-pointer text-base outline-none text-center no-underline align-middle min-h-[38px] min-w-[42px] px-3 py-1.5 border border-[--border-color] transition-colors
+        @apply inline-block justify-center items-center cursor-pointer text-base outline-none text-center no-underline align-middle px-2 py-1 border border-[--border-color] transition-colors
     }
 }
 
 
 .success {
     background-color: var(--bg-success);
-    border-color:  var(--success);
+    border-color: var(--success);
     color: var(--success);
 }
 
 .danger {
     background-color: var(--bg-danger);
-    border-color:  var(--danger);
+    border-color: var(--danger);
     color: var(--danger);
 }
 
@@ -64,4 +64,3 @@
     border-color: var(--warning);
     color: var(--warning);
 }
-

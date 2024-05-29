@@ -3,8 +3,10 @@
   "organizeImports": {
     "enabled": true
   },
+  "files": {
+    "ignore": ["/dist", "/node_modules"]
+  },
   "formatter": {
-    "ignore": ["/dist", "/node_modules"],
     "indentStyle": "space",
     "lineWidth": 80
   },
@@ -20,6 +22,9 @@
       "suspicious": {
         "noExplicitAny": "off"
       },
+      "correctness": {
+        "useExhaustiveDependencies": "warn"
+      },
       "nursery": {
         "useSortedClasses": {
           "level": "error",
@@ -29,8 +34,7 @@
           }
         }
       }
-    },
-    "ignore": ["/dist", "/node_modules"]
+    }
   },
   "vcs": {
     "enabled": true,

@@ -1,24 +1,39 @@
-import { type Dispatch, type ReactNode, type SetStateAction, createContext } from 'react';
-import type { Store } from '@tanstack/react-store';
+import { type ReactNode, createContext, useMemo } from 'react';
+import { type StoreApi, createStore } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 
-import type { DataType } from '@/Data';
-import type { SelectOption } from '@/ModelForm';
-import type { Field, TableView, OnSaveProps, ID } from '@/types';
+import type { DataType, Field, OnCreate, OnUpdate, OnDelete } from '@/types';
 
-export interface ModelIndexStore {
+export interface ModelIndexState<D extends DataType> {
+  model: string;
   fields: Field[];
-  data: DataType[];
-  totalDataLength: number;
-  tableView: TableView;
-  setTableView: Dispatch<SetStateAction<TableView>>;
-  title?: ReactNode;
-  onSave?: ({ data, dirtyFields }: OnSaveProps) => Promise<any>;
-  onDelete?: (id: ID) => Promise<any>;
-  onCreate?: () => void;
-  onOpenFieldSelect?: (fieldName: string) => Promise<SelectOption[]>;
+  data?: D[];
   showActions?: boolean;
+  onCreate?: OnCreate<D>;
+  onUpdate?: OnUpdate<D>;
+  onDelete?: OnDelete<D>;
 }
 
 export const ModelIndexStoreContext = createContext<
-  Store<ModelIndexStore> | undefined
+  StoreApi<ModelIndexState<any>> | undefined
 >(undefined);
+
+export interface ModelIndexStoreProviderProps<D extends DataType>
+  extends ModelIndexState<D> {
+  children?: ReactNode;
+}
+export const ModelIndexStoreProvider = <D extends DataType>({
+  children,
+  ...modelState
+}: ModelIndexStoreProviderProps<D>) => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: entire states are used
+  const store = useMemo(
+    () => createStore(immer<ModelIndexState<D>>(() => ({ ...modelState }))),
+    Object.values(modelState),
+  );
+  return (
+    <ModelIndexStoreContext.Provider value={store}>
+      {children}
+    </ModelIndexStoreContext.Provider>
+  );
+};

@@ -6,12 +6,14 @@ import {
   FaRegTimesCircle,
 } from 'react-icons/fa';
 
-import { type DataType, useData } from '@/Data';
+import { useDataStore } from '@/Data';
 import { Lens, useLenses, DataLens } from '@/Lenses';
-import { useModelIndex } from '@/ModelIndex';
 import { TableCell, type TableCellProps } from '@/Table';
+import type { DataType } from '@/types';
 
-import { ACTION_SLOT } from './constants';
+import { useModelIndexStore } from '../useModelIndexStore';
+
+import { ACTION_COLUMN } from './constants';
 
 export interface ModelIndexTableActionCellProps
   extends Omit<TableCellProps, 'columnId'> {}
@@ -21,18 +23,16 @@ export const ModelIndexTableActionCell = ({
   className,
   ...props
 }: ModelIndexTableActionCellProps) => {
-  const id = useData((state) => state.id);
+  const id = useDataStore((state) => state.id);
   const {
     formState: { dirtyFields },
     handleSubmit,
     reset,
   } = useFormContext();
   const { setLens } = useLenses();
-  const { selected } = useModelIndex((state) => ({
-    showActions: state.showActions,
-    onSave: state.onSave,
-    onDelete: state.onDelete,
-  }));
+  const showActions = useModelIndexStore((state) => state.showActions);
+  const onUpdate = useModelIndexStore((state) => state.onUpdate);
+  const onDelete = useModelIndexStore((state) => state.onDelete);
 
   const onEdit = () => setLens(DataLens.EDITING);
   const onCancelEdit = () => {
@@ -40,43 +40,39 @@ export const ModelIndexTableActionCell = ({
     reset();
   };
   const onSave = (formData: DataType) => {
-    selected.onSave?.({ data: formData, dirtyFields });
+    onUpdate?.({ data: formData, dirtyFields });
   };
 
-  return selected.showActions ? (
-    <TableCell columnId={ACTION_SLOT} {...props}>
+  return showActions ? (
+    <TableCell className="p-0" columnId={ACTION_COLUMN} {...props}>
       {children === undefined ? (
-        <form
-          className="whitespace-nowrap"
-          id={id}
-          onSubmit={handleSubmit(onSave)}
-        >
+        <form className="whitespace-nowrap" onSubmit={handleSubmit(onSave)}>
           <Lens lens={DataLens.DISPLAY}>
             <button
               type="button"
-              className="rounded-l-md border-[--primary] text-[--primary] hover:text-[--text-color] hover:bg-[--primary]"
+              className="h-8 w-8 rounded-l-sm border-[--primary] pr-6 text-[--primary] hover:bg-[--primary] hover:text-[--text-color]"
               onClick={onEdit}
             >
               <FaEdit />
             </button>
             <button
-              onClick={() => selected.onDelete?.(id)}
+              onClick={() => onDelete?.({ id })}
               type="button"
-              className="rounded-r-md border-[--danger] text-[--danger] hover:text-[--text-color] hover:bg-[--danger]"
+              className="h-8 w-8 rounded-r-sm border-[--danger] pr-6 text-[--danger] hover:bg-[--danger] hover:text-[--text-color]"
             >
               <FaRegTrashAlt />
             </button>
           </Lens>
           <Lens lens={DataLens.EDITING}>
             <button
-              className="rounded-l-md border-[--success] text-[--success] hover:text-[--text-color] hover:bg-[--success]"
+              className="h-8 w-8 rounded-l-sm border-[--success] pr-6 text-[--success] hover:bg-[--success] hover:text-[--text-color]"
               type="submit"
             >
               <FaRegSave />
             </button>
             <button
               type="button"
-              className="rounded-r-md border-[--primary] text-[--primary] hover:text-[--text-color] hover:bg-[--primary]"
+              className="h-8 w-8 rounded-r-sm border-[--primary] pr-6 text-[--primary] hover:bg-[--primary] hover:text-[--text-color]"
               onClick={onCancelEdit}
             >
               <FaRegTimesCircle />

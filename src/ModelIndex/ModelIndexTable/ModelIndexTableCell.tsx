@@ -1,8 +1,8 @@
 import { ModelFormInput, ModelFormValue } from '@/ModelForm';
 import { Lens, DataLens, useLenses } from '@/Lenses';
-import { useModelIndex } from '@/ModelIndex';
 import { TableCell, type TableCellProps } from '@/Table';
-import type { Field } from '@/types';
+
+import { useModelIndexStore } from '../useModelIndexStore';
 
 export interface ModelIndexTableCellProps
   extends Omit<TableCellProps, 'columnId'> {
@@ -15,20 +15,15 @@ export const ModelIndexTableCell = ({
   ...props
 }: ModelIndexTableCellProps) => {
   const { setLens } = useLenses();
-  const { selected } = useModelIndex((state) => ({
-    fields: state.fields,
-    onOpenFieldSelect: state.onOpenFieldSelect,
-  }));
-  const field = selected.fields.find(
-    (field: Field) => field.name === fieldName,
-  );
+  const fields = useModelIndexStore((state) => state.fields);
+  const field = fields.find((field) => field.name === fieldName);
   return (
     <TableCell
       columnId={fieldName}
       {...props}
       onDoubleClick={() => setLens(DataLens.EDITING)}
     >
-      {children === undefined ? (
+      {/* {children === undefined ? (
         <>
           <Lens lens={DataLens.DISPLAY}>
             <ModelFormValue field={field} />
@@ -46,7 +41,7 @@ export const ModelIndexTableCell = ({
         </>
       ) : (
         children
-      )}
+      )} */}
     </TableCell>
   );
 };

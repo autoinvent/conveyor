@@ -10,7 +10,7 @@ export * from './ModelIndexTitle';
 export * from './ModelIndexStoreContext';
 
 // hooks
-export * from './useModelIndex';
+export * from './useModelIndexStore';
 
 // utils
 export * from './utils';

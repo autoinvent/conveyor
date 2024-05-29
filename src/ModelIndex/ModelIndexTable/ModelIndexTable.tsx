@@ -1,7 +1,11 @@
 import type { ComponentProps } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 
-import { useModelIndex } from '@/ModelIndex';
 import { Table } from '@/Table';
+import type { DataType } from '@/types';
+
+import type { ModelIndexState } from '../ModelIndexStoreContext';
+import { useModelIndexStore } from '../useModelIndexStore';
 
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
@@ -12,25 +16,25 @@ import { ModelIndexTableHead } from './ModelIndexTableHead';
 import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
 import { ModelIndexTableRow } from './ModelIndexTableRow';
-import { ACTION_SLOT } from './constants';
+import { ACTION_COLUMN } from './constants';
 
 export interface ModelIndexTableProps extends ComponentProps<'table'> {}
 
 export const ModelIndexTable = Object.assign(
   ({ children, ...props }: ModelIndexTableProps) => {
-    const { selected } = useModelIndex((state) => {
-      return {
-        fields: state.fields.map((field) => field.name),
-        data: state.data,
-      };
-    });
+    const fieldNames = useModelIndexStore(
+      useShallow<ModelIndexState<DataType>, string[]>((state) =>
+        state.fields.map((field) => field.name),
+      ),
+    );
+    const data = useModelIndexStore((state) => state.data);
 
-    const fields = selected.fields.includes(ACTION_SLOT)
-      ? selected.fields
-      : selected.fields.concat(ACTION_SLOT);
+    if (!fieldNames.includes(ACTION_COLUMN)) {
+      fieldNames.push(ACTION_COLUMN);
+    }
 
     return (
-      <Table columnIds={fields} data={selected.data} {...props}>
+      <Table columnIds={fieldNames} data={data} {...props}>
         {children === undefined ? (
           <>
             <ModelIndexTableHead />

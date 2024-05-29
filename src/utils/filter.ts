@@ -1,7 +1,7 @@
 import type { TableViewFilter } from '@/types';
 
 export const addFilter = (
-  filters: TableViewFilter[][],
+  filters: TableViewFilter[][] | undefined,
   filter: TableViewFilter,
   filterGroup = 0,
 ) => {
@@ -9,11 +9,8 @@ export const addFilter = (
   if (filterGroup > newFilters.length || filterGroup < 0) {
     if (newFilters.length === 0) {
       throw new Error('filter is empty, try filterGroup = 0 first!');
-    } else {
-      throw new Error(
-        `filterGroup must be between 0 and ${newFilters.length}!`,
-      );
     }
+    throw new Error(`filterGroup must be between 0 and ${newFilters.length}!`);
   }
 
   if (filterGroup === newFilters.length) {
@@ -25,7 +22,7 @@ export const addFilter = (
 };
 
 export const removeFilter = (
-  filters: TableViewFilter[][],
+  filters: TableViewFilter[][] | undefined,
   filterGroup: number,
   filterGroupIndex: number,
 ) => {
@@ -49,7 +46,7 @@ export const removeFilter = (
 };
 
 export const swapFilter = (
-  filters: TableViewFilter[][],
+  filters: TableViewFilter[][] | undefined,
   filterGroup1: number,
   filterGroupIndex1: number,
   filterGroup2: number,

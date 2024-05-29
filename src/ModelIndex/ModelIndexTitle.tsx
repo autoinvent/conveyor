@@ -1,8 +1,10 @@
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import { humanizeText } from '@/utils';
+
 import { ModelIndexCreateButton } from './ModelIndexCreateButton';
-import { useModelIndex } from './useModelIndex';
+import { useModelIndexStore } from './useModelIndexStore';
 
 export interface ModelIndexTitleProps extends ComponentProps<'h2'> {}
 
@@ -11,23 +13,23 @@ export const ModelIndexTitle = ({
   className,
   ...props
 }: ModelIndexTitleProps) => {
-  const { selected: title } = useModelIndex((state) => state.title);
-  return title || children ? (
+  const model = useModelIndexStore((state) => state.model);
+  return (
     <h2
       className={twMerge(
-        'flex items-end justify-between w-full text-left font-semibold text-4xl whitespace-nowrap mb-2',
+        'm-2 mr-0 flex items-end justify-between whitespace-nowrap text-left font-semibold text-4xl',
         className,
       )}
       {...props}
     >
       {children === undefined ? (
         <>
-          <span>{title}</span>
+          <span>{humanizeText(model)}</span>
           <ModelIndexCreateButton />
         </>
       ) : (
         children
       )}
     </h2>
-  ) : null;
+  );
 };

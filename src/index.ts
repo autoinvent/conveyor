@@ -23,5 +23,5 @@ export * from './types';
 export * from './utils';
 
 // assests
-import Logo from './logo.svg';
+import Logo from './assets/logo.svg';
 export const ConveyorLogo = Logo;

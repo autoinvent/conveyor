@@ -1,12 +1,24 @@
-export type ID = string;
+export type ID = string | number;
 
-export type JSONType = string | number | boolean | null | Object;
+type JSONValue = 
+  | string 
+  | number 
+  | boolean 
+  | null 
+  | JSONObject 
+  | JSONArray;
+
+interface JSONObject {
+  [key: string]: JSONValue;
+}
+
+interface JSONArray extends Array<JSONValue> {}
 
 export interface SearchResult {
   type: string;
   id: ID;
   value: string;
-  extra: JSONType;
+  extra: JSONValue;
 }
 
 export interface CheckDeleteResult {
@@ -19,7 +31,7 @@ export interface TableViewFilter {
   path: string;
   op: string;
   not?: boolean;
-  value: JSONType;
+  value: JSONValue;
 }
 
 export interface TableView {
@@ -28,3 +40,12 @@ export interface TableView {
   page?: number;
   per_page?: number;
 }
+
+export enum ScalarTypes {
+  STRING = 'String',
+  INT = 'Int',
+  FLOAT = 'Float',
+  DATETIME = 'DateTime',
+  BOOLEAN = 'Boolean',
+}
+

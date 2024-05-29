@@ -1,6 +1,7 @@
 import type { ComponentProps } from 'react';
 
-import { DataStoreProvider, type DataType } from '@/Data';
+import { DataStoreProvider } from '@/Data';
+import type { DataType } from '@/types';
 import { generateUID } from '@/utils';
 
 import { TableRow } from './TableRow';
@@ -20,7 +21,7 @@ export const TableBody = ({
 
   return data && data.length > 0 ? (
     <tbody className={className} {...htmlProps}>
-      {data.map((rowData: DataType) => {
+      {data.map((rowData) => {
         const rowKey = `table-row-${getRowId(rowData)}`;
         return (
           <DataStoreProvider key={rowKey} data={rowData}>

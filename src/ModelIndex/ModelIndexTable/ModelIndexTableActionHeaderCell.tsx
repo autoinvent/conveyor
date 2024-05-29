@@ -1,6 +1,6 @@
 import { TableHeaderCell, type TableHeaderCellProps } from '@/Table';
 
-import { ACTION_SLOT } from './constants';
+import { ACTION_COLUMN } from './constants';
 
 export interface ModelIndexTableActionHeaderCellProps
   extends Omit<TableHeaderCellProps, 'columnId'> {}
@@ -12,8 +12,8 @@ export const ModelIndexTableActionHeaderCell = ({
 }: ModelIndexTableActionHeaderCellProps) => {
   return (
     <TableHeaderCell
-      className="w-[1%] max-w-24 whitespace-nowrap"
-      columnId={ACTION_SLOT}
+      className="w-[1%] whitespace-nowrap"
+      columnId={ACTION_COLUMN}
       {...props}
     >
       {children === undefined ? null : children}
