@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { ScalarTypes } from '@/types';
+
 import { ModelIndex } from './ModelIndex';
 
 const meta = {
@@ -7,13 +9,42 @@ const meta = {
   component: ModelIndex,
   tags: ['autodocs'],
   args: {
-    model: 'Feline',
-    fields: ['type', 'name', 'food'],
-    data: [
-      { type: 'Tiger', name: 'Tigger', food: 'fish' },
-      { type: 'Cat', name: 'Duchess', food: 'chicken' },
-      { type: 'Lion', name: 'Simba', food: 'Zebra' },
+    model: 'DisneyFelines',
+    fields: [
+      'id',
+      'type',
+      'name',
+      { name: 'happy', type: ScalarTypes.BOOLEAN, editable: true },
+      { name: 'released', type: ScalarTypes.DATETIME, editable: true },
     ],
+    data: [
+      {
+        id: '1',
+        type: 'Tiger',
+        name: 'Tigger',
+        happy: false,
+        released: '1928-10-1',
+      },
+      {
+        id: '2',
+        type: 'Cat',
+        name: 'Duchess',
+        happy: true,
+        released: '1994-06-24',
+      },
+      {
+        id: '3',
+        type: 'Lion',
+        name: 'Simba',
+        happy: true,
+        released: '1970-12-24',
+      },
+    ],
+  },
+  argTypes: {
+    showActions: {
+      control: 'boolean',
+    },
   },
 } satisfies Meta<typeof ModelIndex>;
 export default meta;
@@ -37,5 +68,11 @@ export const NoData: Story = {
 export const UndefinedData: Story = {
   args: {
     data: undefined,
+  },
+};
+
+export const DisableActions = {
+  args: {
+    showActions: false,
   },
 };

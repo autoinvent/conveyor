@@ -7,7 +7,14 @@ export const toField = (str: string | Field): Field => {
     }
     throw new Error(`${JSON.stringify(str)} must be of type Field.`);
   }
-  return { name: str, type: ScalarTypes.STRING };
+  return {
+    name: str,
+    type: ScalarTypes.STRING,
+    many: false,
+    required: false,
+    sortable: true,
+    editable: true,
+  };
 };
 
 export const isModelType = (field: Field) => {

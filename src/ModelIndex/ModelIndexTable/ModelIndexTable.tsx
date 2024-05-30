@@ -11,7 +11,6 @@ import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
 import { ModelIndexTableBody } from './ModelIndexTableBody';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
-import { ModelIndexTableFallback } from './ModelIndexTableFallback';
 import { ModelIndexTableHead } from './ModelIndexTableHead';
 import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
@@ -28,8 +27,15 @@ export const ModelIndexTable = Object.assign(
       ),
     );
     const data = useModelIndexStore((state) => state.data);
+    const showActions = useModelIndexStore((state) => state.showActions);
 
-    if (!fieldNames.includes(ACTION_COLUMN)) {
+    if (
+      fieldNames.length > 0 &&
+      showActions &&
+      data &&
+      data.length > 0 &&
+      !fieldNames.includes(ACTION_COLUMN)
+    ) {
       fieldNames.push(ACTION_COLUMN);
     }
 
@@ -39,7 +45,7 @@ export const ModelIndexTable = Object.assign(
           <>
             <ModelIndexTableHead />
             <ModelIndexTableBody />
-            <ModelIndexTableFallback />
+            <Table.Fallback />
           </>
         ) : (
           children
@@ -51,7 +57,7 @@ export const ModelIndexTable = Object.assign(
     ActionCell: ModelIndexTableActionCell,
     ActionHeaderCell: ModelIndexTableActionHeaderCell,
     Body: ModelIndexTableBody,
-    Fallback: ModelIndexTableFallback,
+    Fallback: Table.Fallback,
     Cell: ModelIndexTableCell,
     Head: ModelIndexTableHead,
     HeaderCell: ModelIndexTableHeaderCell,

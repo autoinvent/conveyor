@@ -710,16 +710,16 @@ button {
   margin-left: 12.5%;
 }
 
+.mr-0 {
+  margin-right: 0px;
+}
+
 .mt-2 {
   margin-top: 0.5rem;
 }
 
 .mt-4 {
   margin-top: 1rem;
-}
-
-.mr-0 {
-  margin-right: 0px;
 }
 
 .box-border {
@@ -835,10 +835,6 @@ button {
   width: 100%;
 }
 
-.w-\[500px\] {
-  width: 500px;
-}
-
 .min-w-32 {
   min-width: 8rem;
 }
@@ -861,15 +857,6 @@ button {
 
 .min-w-\[var\(--radix-select-trigger-width\)\] {
   min-width: var(--radix-select-trigger-width);
-}
-
-.min-w-fit {
-  min-width: -moz-fit-content;
-  min-width: fit-content;
-}
-
-.min-w-0 {
-  min-width: 0px;
 }
 
 .max-w-lg {
@@ -1211,20 +1198,8 @@ button {
   padding-right: 0.5rem;
 }
 
-.pr-2\.5 {
-  padding-right: 0.625rem;
-}
-
-.pr-4 {
-  padding-right: 1rem;
-}
-
 .pr-6 {
   padding-right: 1.5rem;
-}
-
-.pr-5 {
-  padding-right: 1.25rem;
 }
 
 .text-left {
@@ -1430,6 +1405,22 @@ button {
 
 .focus\:rounded-sm:focus {
   border-radius: 0.125rem;
+}
+
+.focus\:bg-\[--danger\]:focus {
+  background-color: var(--danger);
+}
+
+.focus\:bg-\[--primary\]:focus {
+  background-color: var(--primary);
+}
+
+.focus\:bg-\[--success\]:focus {
+  background-color: var(--success);
+}
+
+.focus\:text-\[--text-color\]:focus {
+  color: var(--text-color);
 }
 
 .focus\:outline-none:focus {

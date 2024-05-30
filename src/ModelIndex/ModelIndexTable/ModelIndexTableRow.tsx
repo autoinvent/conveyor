@@ -24,9 +24,9 @@ export const ModelIndexTableRow = ({
   const methods = useForm({ mode: 'onChange', defaultValues: data });
 
   return (
-    <Lenses initialLens={DataLens.DISPLAY}>
-      <TableRow prefilled={false} {...props}>
-        <FormProvider {...methods}>
+    <FormProvider {...methods}>
+      <Lenses initialLens={DataLens.DISPLAY}>
+        <TableRow prefilled={false} {...props}>
           {children === undefined || prefilled ? (
             <>
               {fieldNames.map((fieldName) => {
@@ -43,9 +43,9 @@ export const ModelIndexTableRow = ({
           ) : (
             children
           )}
-        </FormProvider>
-      </TableRow>
-      <ModelIndexTableErrorRow errors={methods.formState.errors} />
-    </Lenses>
+        </TableRow>
+        <ModelIndexTableErrorRow errors={methods.formState.errors} />
+      </Lenses>
+    </FormProvider>
   );
 };

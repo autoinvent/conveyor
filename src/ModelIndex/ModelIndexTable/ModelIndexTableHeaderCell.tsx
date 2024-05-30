@@ -12,9 +12,9 @@ export const ModelIndexTableHeaderCell = ({
   children,
   ...props
 }: ModelIndexTableHeaderCellProps) => {
-  // TODO: classname default..
+  // TODO: Sort
   return (
-    <TableHeaderCell className="min-w-fit" columnId={fieldName} {...props}>
+    <TableHeaderCell columnId={fieldName} {...props}>
       {children === undefined
         ? // <ModelIndexTableHeaderCellDefaultContent fieldName={fieldName} />
           humanizeText(fieldName)

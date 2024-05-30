@@ -1,5 +1,9 @@
-import { ModelFormInput, ModelFormValue } from '@/ModelForm';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+import { useConveyorStore } from '@/Conveyor';
 import { Lens, DataLens, useLenses } from '@/Lenses';
+import { ModelFormInput, ModelFormValue } from '@/ModelForm';
 import { TableCell, type TableCellProps } from '@/Table';
 
 import { useModelIndexStore } from '../useModelIndexStore';
@@ -12,36 +16,57 @@ export interface ModelIndexTableCellProps
 export const ModelIndexTableCell = ({
   fieldName,
   children,
+  className,
   ...props
 }: ModelIndexTableCellProps) => {
-  const { setLens } = useLenses();
-  const fields = useModelIndexStore((state) => state.fields);
-  const field = fields.find((field) => field.name === fieldName);
+  const { setLens, activeLens } = useLenses();
+  const field = useModelIndexStore((state) =>
+    state.fields.find((field) => field.name === fieldName),
+  );
+
+  if (field === undefined) {
+    throw new Error(
+      `${fieldName} does not exist in the list of fields passed in ModelIndex.`,
+    );
+  }
+  const inputFn = useConveyorStore(
+    (state) => state.inputOptions[field.type] ?? state.inputOptions.__default__,
+  );
+  const displayFn = useConveyorStore(
+    (state) => state.valueOptions[field.type] ?? state.valueOptions.__default__,
+  );
   return (
     <TableCell
       columnId={fieldName}
       {...props}
-      onDoubleClick={() => setLens(DataLens.EDITING)}
+      onDoubleClick={() =>
+        activeLens === DataLens.DISPLAY && setLens(DataLens.EDITING)
+      }
+      onKeyUp={(e) =>
+        e.key === 'Escape' &&
+        activeLens === DataLens.EDITING &&
+        setLens(DataLens.DISPLAY)
+      }
+      className={twMerge(
+        clsx(activeLens === DataLens.EDITING && 'p-0', className),
+      )}
     >
-      {/* {children === undefined ? (
+      {children === undefined ? (
         <>
           <Lens lens={DataLens.DISPLAY}>
-            <ModelFormValue field={field} />
+            <ModelFormValue field={field} render={displayFn} />
           </Lens>
           <Lens lens={DataLens.EDITING}>
             {field?.editable ? (
-              <ModelFormInput
-                field={field}
-                onOpenFieldSelect={selected.onOpenFieldSelect}
-              />
+              <ModelFormInput field={field} render={inputFn} />
             ) : (
-              <ModelFormValue field={field} />
+              <ModelFormValue field={field} render={displayFn} />
             )}
           </Lens>
         </>
       ) : (
         children
-      )} */}
+      )}
     </TableCell>
   );
 };

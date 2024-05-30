@@ -6,7 +6,6 @@ import {
   FaRegTimesCircle,
 } from 'react-icons/fa';
 
-import { useDataStore } from '@/Data';
 import { Lens, useLenses, DataLens } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
 import type { DataType } from '@/types';
@@ -23,9 +22,8 @@ export const ModelIndexTableActionCell = ({
   className,
   ...props
 }: ModelIndexTableActionCellProps) => {
-  const id = useDataStore((state) => state.id);
   const {
-    formState: { dirtyFields },
+    formState: { defaultValues, dirtyFields },
     handleSubmit,
     reset,
   } = useFormContext();
@@ -50,30 +48,33 @@ export const ModelIndexTableActionCell = ({
           <Lens lens={DataLens.DISPLAY}>
             <button
               type="button"
-              className="h-8 w-8 rounded-l-sm border-[--primary] pr-6 text-[--primary] hover:bg-[--primary] hover:text-[--text-color]"
+              className="h-8 w-8 rounded-l-sm border-[--primary] pr-6 text-[--primary] focus:bg-[--primary] hover:bg-[--primary] focus:text-[--text-color] hover:text-[--text-color]"
               onClick={onEdit}
+              onKeyUp={(e) => e.key === 'Enter' && onEdit()}
             >
               <FaEdit />
             </button>
             <button
-              onClick={() => onDelete?.({ id })}
+              onClick={() => onDelete?.(defaultValues)}
+              onKeyUp={(e) => e.key === 'Enter' && onDelete?.(defaultValues)}
               type="button"
-              className="h-8 w-8 rounded-r-sm border-[--danger] pr-6 text-[--danger] hover:bg-[--danger] hover:text-[--text-color]"
+              className="h-8 w-8 rounded-r-sm border-[--danger] pr-6 text-[--danger] focus:bg-[--danger] hover:bg-[--danger] focus:text-[--text-color] hover:text-[--text-color]"
             >
               <FaRegTrashAlt />
             </button>
           </Lens>
           <Lens lens={DataLens.EDITING}>
             <button
-              className="h-8 w-8 rounded-l-sm border-[--success] pr-6 text-[--success] hover:bg-[--success] hover:text-[--text-color]"
+              className="h-8 w-8 rounded-l-sm border-[--success] pr-6 text-[--success] focus:bg-[--success] hover:bg-[--success] focus:text-[--text-color] hover:text-[--text-color]"
               type="submit"
             >
               <FaRegSave />
             </button>
             <button
               type="button"
-              className="h-8 w-8 rounded-r-sm border-[--primary] pr-6 text-[--primary] hover:bg-[--primary] hover:text-[--text-color]"
+              className="h-8 w-8 rounded-r-sm border-[--primary] pr-6 text-[--primary] focus:bg-[--primary] hover:bg-[--primary] focus:text-[--text-color] hover:text-[--text-color]"
               onClick={onCancelEdit}
+              onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
             >
               <FaRegTimesCircle />
             </button>
