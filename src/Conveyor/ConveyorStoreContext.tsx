@@ -118,7 +118,7 @@ export const ConveyorStoreProvider = ({
             );
             draftState.valueOptions ??= {};
             draftState.valueOptions = Object.assign(
-              DEFAULT_CONVEYOR_STATE.valueOptions,
+              { ...DEFAULT_CONVEYOR_STATE.valueOptions },
               draftState.valueOptions,
             );
           }) as ConveyorState;

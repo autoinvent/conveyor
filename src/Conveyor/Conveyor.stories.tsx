@@ -12,7 +12,7 @@ const meta = {
   tags: ['autodocs'],
   args: {
     valueOptions: {
-      [ScalarTypes.STRING]: (value) => <b>{value}</b>,
+      [ScalarTypes.STRING]: (value) => <b className="text-cyan-400">{value}</b>,
     },
   },
 } satisfies Meta<typeof Conveyor>;
@@ -20,7 +20,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const OverridingInput: Story = {
+export const OverridingValue: Story = {
   render: (args) => {
     return (
       <div className="flex flex-col">

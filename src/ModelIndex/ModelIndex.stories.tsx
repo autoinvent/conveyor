@@ -11,9 +11,14 @@ const meta = {
   args: {
     model: 'DisneyFelines',
     fields: [
-      'id',
+      { name: 'id', type: ScalarTypes.STRING },
       'type',
-      'name',
+      {
+        name: 'name',
+        type: ScalarTypes.STRING,
+        editable: true,
+        required: true,
+      },
       { name: 'happy', type: ScalarTypes.BOOLEAN, editable: true },
       { name: 'released', type: ScalarTypes.DATETIME, editable: true },
     ],

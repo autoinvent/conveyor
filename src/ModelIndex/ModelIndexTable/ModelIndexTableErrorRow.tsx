@@ -24,7 +24,7 @@ export const ModelIndexTableErrorRow = ({
         return fieldName === ACTION_COLUMN ? (
           <td key={ACTION_COLUMN} />
         ) : (
-          <td key={fieldName}>
+          <td key={fieldName} className="danger border px-3">
             <ErrorMessage errors={errors} name={fieldName} />
           </td>
         );

@@ -48,7 +48,10 @@ export const ModelIndexTableCell = ({
         setLens(DataLens.DISPLAY)
       }
       className={twMerge(
-        clsx(activeLens === DataLens.EDITING && 'p-0', className),
+        clsx(
+          activeLens === DataLens.EDITING && field.editable && 'p-0',
+          className,
+        ),
       )}
     >
       {children === undefined ? (
