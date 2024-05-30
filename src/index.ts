@@ -20,6 +20,8 @@ export * from './types';
 // utils
 export * from './utils';
 
+export * from './enums'
+
 // assests
 import Logo from './logo.svg';
 export const ConveyorLogo = Logo;
