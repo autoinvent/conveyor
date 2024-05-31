@@ -11,12 +11,12 @@
     "baseUrl": ".",
     "composite": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
       "@/*": ["src/*"]
     },
     "types": ["vite/client"],
+    "noEmit": true,
 
     // Linting
     "strict": true,
@@ -25,5 +25,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/"],
-  "exclude": []
+  "exclude": ["node_modules", "dist"]
 }
