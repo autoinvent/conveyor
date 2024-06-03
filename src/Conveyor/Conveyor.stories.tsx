@@ -12,7 +12,9 @@ const meta = {
   tags: ['autodocs'],
   args: {
     valueOptions: {
-      [ScalarTypes.STRING]: (value) => <b className="text-cyan-400">{value}</b>,
+      [ScalarTypes.STRING]: (value) => (
+        <b className="text-green-700">{value}</b>
+      ),
     },
   },
 } satisfies Meta<typeof Conveyor>;

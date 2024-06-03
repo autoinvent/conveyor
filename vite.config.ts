@@ -1,14 +1,20 @@
 import { resolve } from 'node:path';
 
 import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   // https://github.com/vitejs/vite/pull/8090
-  define: {"process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)}, 
-  plugins: [react()],
+  define: { 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) },
+  plugins: [
+    react(),
+    dts(),
+    visualizer({ gzipSize: true, brotliSize: true, open: true }),
+  ],
   build: {
     sourcemap: true,
     lib: {
@@ -28,7 +34,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': '/src',
+      '@': resolve(__dirname, 'src'),
     },
   },
 });

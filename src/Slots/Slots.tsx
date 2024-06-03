@@ -1,40 +1,14 @@
-import { Fragment, type ReactNode, useEffect, useState } from 'react';
-import { Store, useStore } from '@tanstack/react-store';
+import type { ReactNode } from 'react';
 
-import { useIsMounted } from '@/hooks';
-
-import { type SlotsStore, SlotsStoreContext } from './SlotsStoreContext';
+import { SlotsStoreProvider } from './SlotsStoreContext';
 
 export interface SlotsProps {
-  slotOrder: string[];
+  slotKeys: string[];
   children?: ReactNode;
 }
 
-export const Slots = ({ slotOrder, children }: SlotsProps) => {
-  const [slotsStore] = useState(() => {
-    const slotEntries = slotOrder.map((slotKey) => [
-      slotKey,
-      { node: null, refIds: [] },
-    ]);
-    const slots = Object.fromEntries(slotEntries);
-    return new Store<SlotsStore>({ slotOrder, slots });
-  });
-
-  const { slotOrder: slotKeys, slots } = useStore(slotsStore, (state) => state);
-
-  const isMounted = useIsMounted();
-  useEffect(() => {
-    if (isMounted.current) {
-      slotsStore.setState((state) => ({ ...state, slotOrder }));
-    }
-  }, [slotOrder]);
-
+export const Slots = ({ slotKeys, children }: SlotsProps) => {
   return (
-    <SlotsStoreContext.Provider value={slotsStore}>
-      {slotKeys.map((slotKey) => {
-        return <Fragment key={slotKey}>{slots[slotKey]?.node}</Fragment>;
-      })}
-      {children}
-    </SlotsStoreContext.Provider>
+    <SlotsStoreProvider slotKeys={slotKeys}>{children}</SlotsStoreProvider>
   );
 };

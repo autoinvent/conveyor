@@ -15,7 +15,7 @@ export const TableHeaderCell = ({
   ...htmlProps
 }: TableHeaderCellProps) => {
   return (
-    <Slot slot={columnId}>
+    <Slot slotKey={columnId}>
       <th
         className={twMerge(
           'border border-[--border-color] bg-[--header-color] p-1.5',

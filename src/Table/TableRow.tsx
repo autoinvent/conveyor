@@ -20,7 +20,7 @@ export const TableRow = ({
   return (
     // group className used for row highlighting on hover
     <tr className={twMerge('group', className)} {...props}>
-      <Slots slotOrder={columnIds}>
+      <Slots slotKeys={columnIds}>
         {children === undefined || prefilled ? (
           <>
             {columnIds.map((columnId: string) => {

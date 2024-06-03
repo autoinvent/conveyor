@@ -5,7 +5,7 @@ import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
 import type { InputRenderFn, ValueRenderFn } from '@/ModelForm';
-import { ScalarTypes } from '@/types';
+import { type ID, DefaultTypes, ScalarTypes } from '@/types';
 
 export interface ConveyorState {
   inputOptions: Record<ScalarTypes | string, InputRenderFn>;
@@ -50,33 +50,40 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
         <input className="align-middle" type="checkbox" {...props.field} />
       </div>
     ),
-    __default__: (props) => <>{JSON.stringify(props.field.value)}</>,
+    [DefaultTypes.MODEL]: (props) => (
+      <div className="text-center">{JSON.stringify(props.field.value)}</div>
+    ),
   },
   valueOptions: {
-    [ScalarTypes.STRING]: (value: string) => (
-      <span className="h-full w-full p-1.5 text-start align-baseline">
+    [ScalarTypes.ID]: (value: ID) => (
+      <div className="h-full w-full p-1.5 text-center align-baseline text-cyan-600">
         {value}
-      </span>
+      </div>
+    ),
+    [ScalarTypes.STRING]: (value: string) => (
+      <div className="h-full w-full p-1.5 text-start align-baseline">
+        {value}
+      </div>
     ),
     [ScalarTypes.INT]: (value) => (
-      <span className="h-full w-full p-1.5 text-start align-baseline">
+      <div className="h-full w-full p-1.5 text-start align-baseline">
         {value}
-      </span>
+      </div>
     ),
     [ScalarTypes.FLOAT]: (value) => (
-      <span className="h-full w-full p-1.5 text-start align-baseline">
+      <div className="h-full w-full p-1.5 text-start align-baseline">
         {value}
-      </span>
+      </div>
     ),
     [ScalarTypes.DATETIME]: (value) => (
-      <span className="h-full w-full p-1.5 text-start align-baseline">
+      <div className="h-full w-full p-1.5 text-start align-baseline">
         {value
           ? new Intl.DateTimeFormat('en-us', {
               dateStyle: 'short',
               timeStyle: 'short',
             }).format(new Date(value))
           : 'none'}
-      </span>
+      </div>
     ),
     [ScalarTypes.BOOLEAN]: (value) => (
       <input
@@ -86,10 +93,10 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
         checked={!!value}
       />
     ),
-    __default__: (value) => (
-      <span className="h-full w-full p-1.5 text-start align-baseline">
+    [DefaultTypes.MODEL]: (value) => (
+      <div className="h-full w-full p-1.5 text-center align-baseline">
         {value?.id ? value.id : 'none'}
-      </span>
+      </div>
     ),
   },
 };

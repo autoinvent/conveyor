@@ -18,7 +18,7 @@ export const TableHeaderRow = ({
   const columnIds = useTableStore((state) => state.columnIds);
   return (
     <tr className={className} {...htmlProps}>
-      <Slots slotOrder={columnIds}>
+      <Slots slotKeys={columnIds}>
         {children === undefined || prefilled ? (
           <>
             {columnIds.map((columnId: string) => {

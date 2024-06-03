@@ -9,6 +9,10 @@ export interface Field {
   editable?: boolean;
 }
 
+export enum DefaultTypes {
+  MODEL = '__default_model__',
+}
+
 export enum SortDirection {
   ASC = 'asc',
   DESC = 'desc',

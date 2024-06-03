@@ -2,7 +2,7 @@
 export * from './ModelIndex';
 export * from './ModelIndexCreateButton';
 // export * from './ModelIndexPagination';
-export * from './ModelIndexSettings';
+// export * from './ModelIndexSettings';
 export * from './ModelIndexTable';
 export * from './ModelIndexTitle';
 

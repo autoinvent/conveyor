@@ -1,6 +1,6 @@
-import type { DataType } from '@/Data';
+import type { DataType } from './conveyor';
 
-export type StoreSelector<TState, T> = (state: TState) => T
+export type StoreSelector<TState, T> = (state: TState) => T;
 
 export interface OnSaveProps {
   data: DataType;

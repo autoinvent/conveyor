@@ -17,7 +17,7 @@ export const TableCell = ({
   const data = useDataStore((state) => state[columnId]);
   const display = typeof data === 'object' ? JSON.stringify(data) : data;
   return (
-    <Slot slot={columnId}>
+    <Slot slotKey={columnId}>
       <td
         className={twMerge(
           'border border-[--border-color] bg-[--fg-color] px-2 py-1.5 group-hover:bg-[--fg-accent]',

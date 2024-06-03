@@ -12,6 +12,7 @@ export interface ModelIndexState<D extends DataType> {
   onCreate?: OnCreate<D>;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;
+  // TODO: Add tableView
 }
 
 export const ModelIndexStoreContext = createContext<

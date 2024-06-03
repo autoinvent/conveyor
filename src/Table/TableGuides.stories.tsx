@@ -31,10 +31,11 @@ export const ColumnReordering: Story = {
           type="button"
           onClick={() => {
             setColumnIds((oldOrder) => {
-              const firstColumnId = oldOrder.shift();
+              const newOrder = [...oldOrder];
+              const firstColumnId = newOrder.shift();
               return firstColumnId === undefined
                 ? []
-                : [...oldOrder, firstColumnId];
+                : [...newOrder, firstColumnId];
             });
           }}
         >

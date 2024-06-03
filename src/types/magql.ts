@@ -1,12 +1,6 @@
 export type ID = string | number;
 
-type JSONValue = 
-  | string 
-  | number 
-  | boolean 
-  | null 
-  | JSONObject 
-  | JSONArray;
+type JSONValue = string | number | boolean | null | JSONObject | JSONArray;
 
 interface JSONObject {
   [key: string]: JSONValue;
@@ -42,10 +36,10 @@ export interface TableView {
 }
 
 export enum ScalarTypes {
+  ID = 'ID',
   STRING = 'String',
   INT = 'Int',
   FLOAT = 'Float',
   DATETIME = 'DateTime',
   BOOLEAN = 'Boolean',
 }
-

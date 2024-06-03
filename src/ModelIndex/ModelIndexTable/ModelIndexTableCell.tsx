@@ -2,9 +2,10 @@ import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 import { useConveyorStore } from '@/Conveyor';
+import { FormInput, FormValue } from '@/Form';
 import { Lens, DataLens, useLenses } from '@/Lenses';
-import { ModelFormInput, ModelFormValue } from '@/ModelForm';
 import { TableCell, type TableCellProps } from '@/Table';
+import { DefaultTypes } from '@/types';
 
 import { useModelIndexStore } from '../useModelIndexStore';
 
@@ -30,10 +31,12 @@ export const ModelIndexTableCell = ({
     );
   }
   const inputFn = useConveyorStore(
-    (state) => state.inputOptions[field.type] ?? state.inputOptions.__default__,
+    (state) =>
+      state.inputOptions[field.type] ?? state.inputOptions[DefaultTypes.MODEL],
   );
   const displayFn = useConveyorStore(
-    (state) => state.valueOptions[field.type] ?? state.valueOptions.__default__,
+    (state) =>
+      state.valueOptions[field.type] ?? state.valueOptions[DefaultTypes.MODEL],
   );
   return (
     <TableCell
@@ -57,13 +60,21 @@ export const ModelIndexTableCell = ({
       {children === undefined ? (
         <>
           <Lens lens={DataLens.DISPLAY}>
-            <ModelFormValue field={field} render={displayFn} />
+            <FormValue name={field.name} render={displayFn} />
           </Lens>
           <Lens lens={DataLens.EDITING}>
             {field?.editable ? (
-              <ModelFormInput field={field} render={inputFn} />
+              <FormInput
+                name={field.name}
+                rules={{
+                  required: field.required
+                    ? `${field.name} is required.`
+                    : false,
+                }}
+                render={inputFn}
+              />
             ) : (
-              <ModelFormValue field={field} render={displayFn} />
+              <FormValue name={field.name} render={displayFn} />
             )}
           </Lens>
         </>

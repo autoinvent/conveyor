@@ -9,11 +9,11 @@ export const toField = (str: string | Field): Field => {
   }
   return {
     name: str,
-    type: ScalarTypes.STRING,
+    type: str === 'id' ? ScalarTypes.ID : ScalarTypes.STRING,
     many: false,
     required: false,
     sortable: true,
-    editable: true,
+    editable: str !== 'id',
   };
 };
 
