@@ -1,7 +1,7 @@
 {
   "name": "@autoinvent/conveyor",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "UI component library for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
@@ -49,7 +49,7 @@
   "devDependencies": {
     "@babel/core": "^7.24.0",
     "@biomejs/biome": "1.7.1",
-    "@chromatic-com/storybook": "^1",
+    "@chromatic-com/storybook": "^1.5.0",
     "@storybook/addon-essentials": "^8.1.0",
     "@storybook/addon-interactions": "^8.1.0",
     "@storybook/addon-links": "^8.1.0",
