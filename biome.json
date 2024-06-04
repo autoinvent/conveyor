@@ -4,7 +4,10 @@
     "enabled": true
   },
   "files": {
-    "ignore": ["/dist", "/node_modules"]
+    "ignore": [
+      "/dist",
+      "/node_modules"
+    ]
   },
   "formatter": {
     "indentStyle": "space",
@@ -29,8 +32,15 @@
         "useSortedClasses": {
           "level": "error",
           "options": {
-            "attributes": ["class", "className"],
-            "functions": ["clsx", "tw", "twMerge"]
+            "attributes": [
+              "class",
+              "className"
+            ],
+            "functions": [
+              "clsx",
+              "tw",
+              "twMerge"
+            ]
           }
         }
       }
