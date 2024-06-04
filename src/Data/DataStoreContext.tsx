@@ -1,4 +1,10 @@
-import { type ReactNode, createContext, useMemo } from 'react';
+import {
+  type ReactNode,
+  createContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
@@ -16,7 +22,17 @@ export const DataStoreProvider = <D extends DataType>({
   data,
   children,
 }: DataStoreProviderProps<D>) => {
-  const store = useMemo(() => createStore(immer(() => data)), [data]);
+  const [store] = useState(() => createStore(immer(() => data)));
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    if (isMounted.current) store.setState(() => data);
+  }, [data, store]);
+
+  useEffect(() => {
+    isMounted.current = true;
+  }, []);
+
   return (
     <DataStoreContext.Provider value={store}>
       {children}

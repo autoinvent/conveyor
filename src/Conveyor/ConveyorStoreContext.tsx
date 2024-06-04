@@ -1,4 +1,10 @@
-import { type ReactNode, createContext, useMemo } from 'react';
+import {
+  type ReactNode,
+  createContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import dayjs from 'dayjs';
 import { produce } from 'immer';
 import { type StoreApi, createStore } from 'zustand';
@@ -12,8 +18,6 @@ export interface ConveyorState {
   valueOptions: Record<ScalarTypes | string, ValueRenderFn>;
 }
 
-// CAUTION: Be sure to use `structuredClone(DEFAULT_CONVEYOR_STATE)`
-// when using default objects
 export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
   inputOptions: {
     [ScalarTypes.STRING]: (props) => (
@@ -112,27 +116,33 @@ export const ConveyorStoreProvider = ({
   children,
   ...conveyorState
 }: ConveyorStoreProviderProps) => {
-  // biome-ignore lint/correctness/useExhaustiveDependencies: entire states are used
-  const store = useMemo(
-    () =>
-      createStore(
-        immer<ConveyorState>(() => {
-          return produce(conveyorState, (draftState) => {
-            draftState.inputOptions ??= {};
-            draftState.inputOptions = Object.assign(
-              { ...DEFAULT_CONVEYOR_STATE.inputOptions },
-              draftState.inputOptions,
-            );
-            draftState.valueOptions ??= {};
-            draftState.valueOptions = Object.assign(
-              { ...DEFAULT_CONVEYOR_STATE.valueOptions },
-              draftState.valueOptions,
-            );
-          }) as ConveyorState;
-        }),
-      ),
-    Object.values(conveyorState),
+  const storeState = produce(conveyorState, (draftState) => {
+    draftState.inputOptions ??= {};
+    draftState.inputOptions = Object.assign(
+      { ...DEFAULT_CONVEYOR_STATE.inputOptions },
+      draftState.inputOptions,
+    );
+    draftState.valueOptions ??= {};
+    draftState.valueOptions = Object.assign(
+      { ...DEFAULT_CONVEYOR_STATE.valueOptions },
+      draftState.valueOptions,
+    );
+  }) as ConveyorState;
+
+  const [store] = useState(() =>
+    createStore(immer<ConveyorState>(() => storeState)),
   );
+
+  const isMounted = useRef(false);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: should only render when props change, not when local variable is redefined
+  useEffect(() => {
+    if (isMounted.current) store.setState(() => storeState);
+  }, [conveyorState, store]);
+
+  useEffect(() => {
+    isMounted.current = true;
+  }, []);
+
   return (
     <ConveyorStoreContext.Provider value={store}>
       {children}

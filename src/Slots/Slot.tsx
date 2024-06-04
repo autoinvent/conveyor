@@ -19,17 +19,25 @@ export const Slot = ({ slotKey, children }: SlotProps) => {
         renderSlot: state.renderSlot,
       })),
     );
-  if (expiredSlotIds && !expiredSlotIds.includes(slotId)) {
-    if (currentSlotId !== slotId) {
-      replaceSlot(slotKey, slotId, children);
-    }
-  }
 
   useEffect(() => {
+    if (expiredSlotIds && !expiredSlotIds.includes(slotId)) {
+      if (currentSlotId !== slotId) {
+        replaceSlot(slotKey, slotId, children);
+      }
+    }
     if (currentSlotId === slotId) {
       renderSlot(slotKey, children);
     }
-  }, [children, slotKey, slotId, currentSlotId, renderSlot]);
+  }, [
+    children,
+    slotKey,
+    slotId,
+    currentSlotId,
+    expiredSlotIds,
+    renderSlot,
+    replaceSlot,
+  ]);
 
   return null;
 };

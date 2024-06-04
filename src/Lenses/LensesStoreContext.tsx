@@ -1,16 +1,24 @@
-import { type ReactNode, createContext, useMemo } from 'react';
+import {
+  type ReactNode,
+  createContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
+export type LensType = boolean | string | number;
+
 export interface LensesState {
-  activeLens: boolean | string | number;
+  activeLens: LensType;
+  setLens: (newLens: LensType) => void;
 }
 
 export const LensesStoreContext = createContext<
   StoreApi<LensesState> | undefined
 >(undefined);
 
-export type LensType = boolean | string | number;
 export interface LensesProps {
   initialLens?: LensType;
   activeLens?: LensType;
@@ -21,20 +29,32 @@ export const Lenses = ({
   activeLens,
   children,
 }: LensesProps) => {
-  // biome-ignore lint/correctness/useExhaustiveDependencies: initialLens is used as an initial value for activeLens
-  const store = useMemo(
-    () =>
-      createStore(
-        immer<LensesState>((set) => ({
-          activeLens: activeLens ?? initialLens,
-          setLens: (newLens: LensType) =>
-            set((state) => {
-              state.activeLens = newLens;
-            }),
-        })),
-      ),
-    [activeLens],
+  const [store] = useState(() =>
+    createStore(
+      immer<LensesState>((set) => ({
+        activeLens: activeLens ?? initialLens,
+        setLens: (newLens: LensType) =>
+          set((state) => {
+            state.activeLens = newLens;
+          }),
+      })),
+    ),
   );
+
+  const isMounted = useRef(false);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialLens meant to be used during first render only
+  useEffect(() => {
+    if (isMounted.current)
+      store.setState((state) => {
+        state.activeLens = activeLens ?? initialLens;
+      });
+  }, [activeLens, store]);
+
+  useEffect(() => {
+    isMounted.current = true;
+  }, []);
+
   return (
     <LensesStoreContext.Provider value={store}>
       {children}

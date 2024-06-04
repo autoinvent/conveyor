@@ -1,4 +1,10 @@
-import { type ReactNode, createContext, useMemo } from 'react';
+import {
+  type ReactNode,
+  createContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   type UseFormProps,
   type UseFormReturn,
@@ -27,11 +33,19 @@ export const FormStoreProvider = ({
   ...formProps
 }: FormStoreProviderProps) => {
   const methods = useForm(formProps);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: entire states are used
-  const store = useMemo(
-    () => createStore(immer<FormState>(() => ({ ...methods }))),
-    Object.values(methods),
+  const [store] = useState(() =>
+    createStore(immer<FormState>(() => ({ ...methods }))),
   );
+
+  const isMounted = useRef(false);
+  useEffect(() => {
+    if (isMounted.current) store.setState(() => methods);
+  }, [methods, store]);
+
+  useEffect(() => {
+    isMounted.current = true;
+  }, []);
+
   return (
     <FormStoreContext.Provider value={store}>
       {children}

@@ -26,9 +26,7 @@ export const ModelIndexTableCell = ({
   );
 
   if (field === undefined) {
-    throw new Error(
-      `${fieldName} does not exist in the list of fields passed in ModelIndex.`,
-    );
+    return null;
   }
   const inputFn = useConveyorStore(
     (state) =>

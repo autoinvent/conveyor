@@ -1,4 +1,10 @@
-import { type ReactNode, createContext, useMemo } from 'react';
+import {
+  type ReactNode,
+  createContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
@@ -27,11 +33,19 @@ export const ModelIndexStoreProvider = <D extends DataType>({
   children,
   ...modelState
 }: ModelIndexStoreProviderProps<D>) => {
-  // biome-ignore lint/correctness/useExhaustiveDependencies: entire states are used
-  const store = useMemo(
-    () => createStore(immer<ModelIndexState<D>>(() => ({ ...modelState }))),
-    Object.values(modelState),
+  const [store] = useState(() =>
+    createStore(immer<ModelIndexState<D>>(() => ({ ...modelState }))),
   );
+
+  const isMounted = useRef(false);
+  useEffect(() => {
+    if (isMounted.current) store.setState(() => modelState);
+  }, [modelState, store]);
+
+  useEffect(() => {
+    isMounted.current = true;
+  }, []);
+
   return (
     <ModelIndexStoreContext.Provider value={store}>
       {children}
