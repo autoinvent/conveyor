@@ -3,9 +3,9 @@ import { twMerge } from 'tailwind-merge';
 
 import { useConveyorStore } from '@/Conveyor';
 import { FormInput, FormValue } from '@/Form';
-import { Lens, DataLens, useLenses } from '@/Lenses';
+import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
-import { DefaultTypes } from '@/types';
+import { DataLens, DefaultTypes } from '@/types';
 
 import { useModelIndexStore } from '../useModelIndexStore';
 
@@ -20,7 +20,7 @@ export const ModelIndexTableCell = ({
   className,
   ...props
 }: ModelIndexTableCellProps) => {
-  const { setLens, activeLens } = useLenses();
+  const { setLens, activeLens } = useLensesStore();
   const field = useModelIndexStore((state) =>
     state.fields.find((field) => field.name === fieldName),
   );
@@ -43,27 +43,33 @@ export const ModelIndexTableCell = ({
       columnId={fieldName}
       {...props}
       onDoubleClick={() =>
-        activeLens === DataLens.DISPLAY && setLens(DataLens.EDITING)
+        activeLens === DataLens.VALUE && setLens(DataLens.INPUT)
       }
       onKeyUp={(e) =>
         e.key === 'Escape' &&
-        activeLens === DataLens.EDITING &&
-        setLens(DataLens.DISPLAY)
+        activeLens === DataLens.INPUT &&
+        setLens(DataLens.VALUE)
       }
       className={twMerge(
         clsx(
-          activeLens === DataLens.EDITING && field.editable && 'p-0',
+          activeLens === DataLens.INPUT && field.editable && 'p-0',
           className,
         ),
       )}
     >
       {children === undefined ? (
         <>
-          <Lens lens={DataLens.DISPLAY}>
+          <Lens
+            lens={
+              !field.editable && activeLens === DataLens.INPUT
+                ? DataLens.INPUT
+                : DataLens.VALUE
+            }
+          >
             <FormValue name={field.name} render={displayFn} />
           </Lens>
-          <Lens lens={DataLens.EDITING}>
-            {field?.editable ? (
+          {field.editable && (
+            <Lens lens={DataLens.INPUT}>
               <FormInput
                 name={field.name}
                 rules={{
@@ -73,10 +79,8 @@ export const ModelIndexTableCell = ({
                 }}
                 render={inputFn}
               />
-            ) : (
-              <FormValue name={field.name} render={displayFn} />
-            )}
-          </Lens>
+            </Lens>
+          )}
         </>
       ) : (
         children

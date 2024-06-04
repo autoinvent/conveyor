@@ -4,7 +4,7 @@ import { produce } from 'immer';
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import type { InputRenderFn, ValueRenderFn } from '@/ModelForm';
+import type { InputRenderFn, ValueRenderFn } from '@/Form';
 import { type ID, DefaultTypes, ScalarTypes } from '@/types';
 
 export interface ConveyorState {

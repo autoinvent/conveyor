@@ -1,8 +1,8 @@
-import { FormProvider, useForm } from 'react-hook-form';
-
 import { useDataStore } from '@/Data';
-import { Lenses, DataLens } from '@/Lenses';
-import { TableRow, type TableRowProps, useTableStore } from '@/Table';
+import { FormStoreProvider } from '@/Form';
+import { Lenses } from '@/Lenses';
+import { type TableRowProps, TableRow, useTableStore } from '@/Table';
+import { DataLens } from '@/types';
 
 import { useModelIndexStore } from '../useModelIndexStore';
 
@@ -21,11 +21,10 @@ export const ModelIndexTableRow = ({
   const fieldNames = useTableStore((state) => state.columnIds);
   const showActions = useModelIndexStore((state) => state.showActions);
   const data = useDataStore();
-  const methods = useForm({ mode: 'onChange', defaultValues: data });
 
   return (
-    <FormProvider {...methods}>
-      <Lenses initialLens={DataLens.DISPLAY}>
+    <FormStoreProvider mode="onChange" defaultValues={data}>
+      <Lenses initialLens={DataLens.VALUE}>
         <TableRow prefilled={false} {...props}>
           {children === undefined || prefilled ? (
             <>
@@ -44,8 +43,8 @@ export const ModelIndexTableRow = ({
             children
           )}
         </TableRow>
-        <ModelIndexTableErrorRow errors={methods.formState.errors} />
+        <ModelIndexTableErrorRow />
       </Lenses>
-    </FormProvider>
+    </FormStoreProvider>
   );
 };

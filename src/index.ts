@@ -3,9 +3,8 @@ import './styles/index.css';
 // common components
 // export * from './Alerts';
 export * from './Data';
-// export * from './Lenses';
-export * from './Loading'; // TODO: Inspect
-// export * from './Slots';
+export * from './Lenses';
+export * from './Slots';
 export * from './Table';
 
 // model components

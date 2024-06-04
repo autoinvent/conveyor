@@ -1,5 +1,5 @@
 import { withThemeByClassName } from '@storybook/addon-themes';
-import type { Preview } from "@storybook/react";
+import type { Preview } from '@storybook/react';
 
 import '@/styles/index.css';
 
@@ -11,15 +11,15 @@ const preview: Preview = {
         {
           name: 'dark',
           value: 'hsl(0 0% 9.8%)',
-        }
-      ]
+        },
+      ],
     },
     controls: {
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
-    }
+    },
   },
 };
 

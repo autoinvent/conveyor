@@ -1,4 +1,3 @@
-import { useFormContext } from 'react-hook-form';
 import {
   FaRegTrashAlt,
   FaEdit,
@@ -6,9 +5,10 @@ import {
   FaRegTimesCircle,
 } from 'react-icons/fa';
 
-import { Lens, useLenses, DataLens } from '@/Lenses';
+import { Lens, useLensesStore } from '@/Lenses';
+import { useFormStore } from '@/Form';
 import { TableCell, type TableCellProps } from '@/Table';
-import type { DataType } from '@/types';
+import { type DataType, DataLens } from '@/types';
 
 import { useModelIndexStore } from '../useModelIndexStore';
 
@@ -22,19 +22,19 @@ export const ModelIndexTableActionCell = ({
   className,
   ...props
 }: ModelIndexTableActionCellProps) => {
-  const {
-    formState: { defaultValues, dirtyFields },
-    handleSubmit,
-    reset,
-  } = useFormContext();
-  const { setLens } = useLenses();
+  const { defaultValues, dirtyFields } = useFormStore(
+    (state) => state.formState,
+  );
+  const reset = useFormStore((state) => state.reset);
+  const handleSubmit = useFormStore((state) => state.handleSubmit);
+  const setLens = useLensesStore((state) => state.setLens);
   const showActions = useModelIndexStore((state) => state.showActions);
   const onUpdate = useModelIndexStore((state) => state.onUpdate);
   const onDelete = useModelIndexStore((state) => state.onDelete);
 
-  const onEdit = () => setLens(DataLens.EDITING);
+  const onEdit = () => setLens(DataLens.INPUT);
   const onCancelEdit = () => {
-    setLens(DataLens.DISPLAY);
+    setLens(DataLens.VALUE);
     reset();
   };
   const onSave = (formData: DataType) => {
@@ -45,7 +45,7 @@ export const ModelIndexTableActionCell = ({
     <TableCell className="p-0" columnId={ACTION_COLUMN} {...props}>
       {children === undefined ? (
         <form className="whitespace-nowrap" onSubmit={handleSubmit(onSave)}>
-          <Lens lens={DataLens.DISPLAY}>
+          <Lens lens={DataLens.VALUE}>
             <button
               type="button"
               className="h-8 w-8 rounded-l-sm border-[--primary] pr-6 text-[--primary] focus:bg-[--primary] hover:bg-[--primary] focus:text-[--text-color] hover:text-[--text-color]"
@@ -63,7 +63,7 @@ export const ModelIndexTableActionCell = ({
               <FaRegTrashAlt />
             </button>
           </Lens>
-          <Lens lens={DataLens.EDITING}>
+          <Lens lens={DataLens.INPUT}>
             <button
               className="h-8 w-8 rounded-l-sm border-[--success] pr-6 text-[--success] focus:bg-[--success] hover:bg-[--success] focus:text-[--text-color] hover:text-[--text-color]"
               type="submit"

@@ -16,16 +16,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const ColumnReordering: Story = {
-  render: (args) => {
-    const [columnIds, setColumnIds] = useState(args.columnIds);
+  render: ({ columnIds: argsColumnIds, ...rest }) => {
+    const [columnIds, setColumnIds] = useState(argsColumnIds);
 
     useEffect(() => {
-      setColumnIds(args.columnIds);
-    }, [args.columnIds]);
+      setColumnIds(argsColumnIds);
+    }, [argsColumnIds]);
 
     return (
       <div className="flex flex-col">
-        <Table {...args} columnIds={columnIds} />
+        <Table {...rest} columnIds={columnIds} />
         <button
           className="m-auto mt-4"
           type="button"
