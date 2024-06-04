@@ -60,27 +60,22 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
   },
   valueOptions: {
     [ScalarTypes.ID]: (value: ID) => (
-      <div className="h-full w-full p-1.5 text-center align-baseline text-cyan-600">
+      <div className="h-full w-full text-center align-baseline text-cyan-600">
         {value}
       </div>
     ),
     [ScalarTypes.STRING]: (value: string) => (
-      <div className="h-full w-full p-1.5 text-start align-baseline">
-        {value}
-      </div>
+      // biome-ignore lint/nursery/useSortedClasses: <explanation>
+      <div className="h-full w-full  text-start align-baseline">{value}</div>
     ),
     [ScalarTypes.INT]: (value) => (
-      <div className="h-full w-full p-1.5 text-start align-baseline">
-        {value}
-      </div>
+      <div className="h-full w-full text-start align-baseline">{value}</div>
     ),
     [ScalarTypes.FLOAT]: (value) => (
-      <div className="h-full w-full p-1.5 text-start align-baseline">
-        {value}
-      </div>
+      <div className="h-full w-full text-start align-baseline">{value}</div>
     ),
     [ScalarTypes.DATETIME]: (value) => (
-      <div className="h-full w-full p-1.5 text-start align-baseline">
+      <div className="h-full w-full text-start align-baseline">
         {value
           ? new Intl.DateTimeFormat('en-us', {
               dateStyle: 'short',
@@ -98,7 +93,7 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
       />
     ),
     [DefaultTypes.MODEL]: (value) => (
-      <div className="h-full w-full p-1.5 text-center align-baseline">
+      <div className="h-full w-full text-center align-baseline">
         {value?.id ? value.id : 'none'}
       </div>
     ),
