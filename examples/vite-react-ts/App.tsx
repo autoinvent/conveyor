@@ -1,11 +1,6 @@
 import { Helmet } from 'react-helmet';
-
-import {
-  ConveyorLogo,
-  Conveyor,
-  ModelIndex,
-  ScalarTypes,
-} from '@autoinvent/conveyor';
+import ConveyorLogo from '@autoinvent/conveyor/logo.svg';
+import { Conveyor, ModelIndex, ScalarTypes } from '@autoinvent/conveyor';
 
 const App = () => {
   return (

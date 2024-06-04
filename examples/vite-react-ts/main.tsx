@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 
-import '@autoinvent/conveyor/style.css';
+import '@autoinvent/conveyor/styles.css';
 
 import App from './App';
 

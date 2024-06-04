@@ -50,7 +50,7 @@ packages:
     engines: {node: '>=6.0.0'}
 
   '@autoinvent/conveyor@file:autoinvent-conveyor-1.0.0.tgz':
-    resolution: {integrity: sha512-I4r/KzJXh+wBq2KE2UquIqyIYUa0QGhsxKiNILRKQgtrIp5PZjDqwhhznEFEwFa5N9n7z2QaTov86nicCey2ng==, tarball: file:autoinvent-conveyor-1.0.0.tgz}
+    resolution: {integrity: sha512-ObhCFH80Tsk3TA4pkMSekYh8ixtQOyvuAVwiNLjty0ryz+tSZZJUN8vJfSDk+jwq6E8mUxfbdG+BkY21E7RbVg==, tarball: file:autoinvent-conveyor-1.0.0.tgz}
     version: 1.0.0
     peerDependencies:
       '@types/react': ^18.2.66

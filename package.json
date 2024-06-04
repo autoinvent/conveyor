@@ -16,9 +16,9 @@
       "import": "./dist/conveyor.js",
       "require": "./dist/conveyor.umd.cjs"
     },
-    "./style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
+    "./styles.css": {
+      "import": "./dist/styles.css",
+      "require": "./dist/styles.css"
     },
     "./logo.svg": {
       "import": "./dist/logo.svg",

@@ -25,6 +25,7 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
         className="h-full w-full bg-[--bg-accent] px-3"
         type="text"
         {...props.field}
+        autoComplete="false"
       />
     ),
     [ScalarTypes.INT]: (props) => (
@@ -90,6 +91,7 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
         disabled={true}
         type="checkbox"
         checked={!!value}
+        name="checkbox"
       />
     ),
     [DefaultTypes.MODEL]: (value) => (
