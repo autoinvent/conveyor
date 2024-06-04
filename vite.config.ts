@@ -12,8 +12,8 @@ export default defineConfig({
   define: { 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) },
   plugins: [
     react(),
-    dts(),
-    visualizer({ gzipSize: true, brotliSize: true, open: true }),
+    dts({ insertTypesEntry: true }),
+    visualizer({ gzipSize: true, brotliSize: true, open: false }),
   ],
   build: {
     sourcemap: true,

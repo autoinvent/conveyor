@@ -1,10 +1,9 @@
-import { useEffect, useState, memo } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Lenses } from './LensesStoreContext';
 import { Lens } from './Lens';
-import { useLensesStore } from './useLensesStore';
 
 const meta = {
   title: 'Commons/Lenses',
@@ -40,8 +39,6 @@ export const BasicUsage: Story = {
               (Inital Lens) Green Lens
             </div>
           </Lens>
-          <TestComp />
-          <TestComp2 />
         </Lenses>
         <button
           className="m-auto mt-4"
@@ -56,61 +53,3 @@ export const BasicUsage: Story = {
     );
   },
 };
-
-const TestComp = memo(() => {
-  const x = useLensesStore((state) => state.setLens);
-  console.log('test rendered');
-  return <div>hello</div>;
-});
-
-const TestComp2 = memo(() => {
-  const setLens = useLensesStore((state) => state.setLens);
-  console.log('test2 rendered');
-  return (
-    <button type="button" onClick={() => setLens('green')}>
-      hello
-    </button>
-  );
-});
-
-// export const BasicUsage: Story = {
-//   render: (props) => {
-//     return (
-//       <p>
-//         My favorite color is:
-//         <Lenses {...props}>
-//           <BlueLens />
-//           <RedLens />
-//         </Lenses>
-//       </p>
-//     );
-//   },
-// };
-
-// const BlueLens = () => {
-//   const { AvailableLenses, setLens } = useLenses();
-//   return (
-//     <Lens lens={AvailableLenses.BLUE}>
-//       <button
-//         style={{ backgroundColor: 'blue', color: 'white' }}
-//         onClick={() => setLens(AvailableLenses.RED)}
-//       >
-//         BLUE
-//       </button>
-//     </Lens>
-//   );
-// };
-
-// const RedLens = () => {
-//   const { AvailableLenses, setLens } = useLenses();
-//   return (
-//     <Lens lens={AvailableLenses.RED}>
-//       <button
-//         style={{ backgroundColor: 'red' }}
-//         onClick={() => setLens(AvailableLenses.BLUE)}
-//       >
-//         RED
-//       </button>
-//     </Lens>
-//   );
-// };

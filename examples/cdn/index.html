@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- <link id="favicon" rel="icon" type="image/svg+xml" href={ConveyorLogo} /> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conveyor</title>
+  <style>
+    body {
+      height: 100%;
+      margin: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+  </style>
+
+  <!--
+      This example depends on Promise and fetch, which are available in modern browsers, but can be "polyfilled" for older browsers.
+      Conveyor itself depends on React DOM.
+      If you do not want to rely on a CDN, you can host these files locally or nclude them directly in your favored resource bundler.
+    -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <link crossorigin href="/dist/styles.css" rel="stylesheet" />
+  <script crossorigin src="/dist/conveyor.umd.cjs"></script>
+
+</head>
+
+<body>
+  <div id="conveyor">Loading...</div>
+  <script defer>
+    const { Conveyor, ModelIndex, ScalarTypes } = window.conveyor;
+
+    const root = ReactDOM.createRoot(document.getElementById("conveyor"))
+    root.render(
+      React.createElement('div', {
+        className: "flex flex-col"
+      }, React.createElement(Conveyor, {
+        valueOptions: {
+          [ScalarTypes.STRING]: (value) => React.createElement('b', { className: "text-green-700" }, value),
+        }
+      }, React.createElement(ModelIndex, {
+        model: "DisneyCats",
+        fields: [
+          'id',
+          'type',
+          {
+            name: 'name',
+            type: ScalarTypes.STRING,
+            editable: true,
+            required: true,
+          },
+          { name: 'isHappy', type: ScalarTypes.BOOLEAN, editable: true },
+          { name: 'released', type: ScalarTypes.DATETIME, editable: true },
+          { name: 'bestBearFriend', type: 'DisneyBear', editable: true },
+        ],
+        data: [
+          {
+            id: '1',
+            type: 'Tiger',
+            name: 'Tigger',
+            isHappy: false,
+            released: '1928-10-1',
+            bestBearFriend: { id: '1' },
+          },
+          {
+            id: '2',
+            type: 'Cat',
+            name: 'Duchess',
+            isHappy: true,
+            released: '1994-06-24',
+            bestBearFriend: null,
+          },
+          {
+            id: '3',
+            type: 'Lion',
+            name: 'Simba',
+            isHappy: true,
+            released: '1970-12-24',
+            bestBearFriend: null,
+          },
+        ]
+      })))
+    );
+  </script>
+</body>
+
+</html>

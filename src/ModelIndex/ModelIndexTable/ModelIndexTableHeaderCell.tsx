@@ -1,6 +1,7 @@
 import { TableHeaderCell, type TableHeaderCellProps } from '@/Table';
-
 import { humanizeText } from '@/utils';
+
+import { useModelIndexStore } from '../useModelIndexStore';
 
 export interface ModelIndexTableHeaderCellProps
   extends Omit<TableHeaderCellProps, 'columnId'> {
@@ -12,7 +13,12 @@ export const ModelIndexTableHeaderCell = ({
   children,
   ...props
 }: ModelIndexTableHeaderCellProps) => {
-  // TODO: Sort
+  const field = useModelIndexStore((state) =>
+    state.fields.find((field) => field.name === fieldName),
+  );
+  if (field === undefined) {
+    return null;
+  }
   return (
     <TableHeaderCell columnId={fieldName} {...props}>
       {children === undefined

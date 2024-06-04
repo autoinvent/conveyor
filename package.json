@@ -19,11 +19,19 @@
     "./style.css": {
       "import": "./dist/style.css",
       "require": "./dist/style.css"
+    },
+    "./logo.svg": {
+      "import": "./dist/logo.svg",
+      "require": "./dist/logo.svg"
     }
   },
   "scripts": {
     "build": "pnpm build:css && tsc && vite build ",
-    "build:css": "pnpx tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/index.css",
+    "build:css": "pnpx tailwindcss -i ./src/styles/tailwind.css -o ./public/styles.css",
+    "build:examples:vite-react-ts": "pnpm build && pnpm pack && cp *.tgz ./examples/vite-react-ts/ && cd ./examples/vite-react-ts/ && pnpm remove @autoinvent/conveyor && pnpm add ./*.tgz",
+    "build:examples:cdn": "pnpm build && pnpm pack && cp -r ./dist ./examples/cdn",
+    "examples:vite-react-ts": "cd ./examples/vite-react-ts/ && pnpm dev",
+    "examples:cdn": "cd ./examples/cdn/ && pnpm dev",
     "dev": "concurrently --kill-others \"pnpm:storybook\" \"pnpm:build:css --watch\"",
     "storybook": "storybook dev -p 6006",
     "format": "pnpx @biomejs/biome format --write *",
