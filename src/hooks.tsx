@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import { useFormContext as rhfUseFormContext } from 'react-hook-form';
+
 import { Store, useStore as tsUseStore } from '@tanstack/react-store';
+
 
 export const useIsFirstRender = () => {
   const isFirstRender = useRef(true);
@@ -24,6 +27,7 @@ export const useDependencyStore = <T,>(dependencies: T) => {
     newDependencyState = { ...dependencies };
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: isFirstRender must not affect useEffect from firing
   useEffect(() => {
     if (!isFirstRender.current) {
       store.setState(() => newDependencyState);
@@ -33,3 +37,5 @@ export const useDependencyStore = <T,>(dependencies: T) => {
 };
 
 export const useStore = tsUseStore;
+
+export const useFormContext = rhfUseFormContext
