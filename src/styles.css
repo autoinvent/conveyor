@@ -17,7 +17,7 @@
         /* base text color */
         --text-color: hsl(from var(--bg-color) h s calc(l * 9));
         /* inactive or not interactable color for text*/
-        --text-muted: hsl(from var(--text-color) h s calc(l - .2));
+        --text-muted: hsl(from var(--text-color) h s calc(l * 0.77));
         /* Header color */
         --header-color: hsl(from var(--bg-color) h s calc(l * 0.75));
 
