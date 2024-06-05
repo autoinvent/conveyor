@@ -25,14 +25,14 @@
         --bg-danger: hsl(0, 100%, 95%);
         --bg-warning: hsl(51, 100%, 85%);
 
-        --success: hsl(from var(--bg-success) h s calc(l - 0.6));
-        --danger: hsl(from var(--bg-danger) h s calc(l - 0.6));
-        --warning: hsl(from var(--bg-warning) h s calc(l - 0.6));
+        --success: hsl(from var(--bg-success) h s calc(l * 0.37));
+        --danger: hsl(from var(--bg-danger) h s calc(l * 0.37));
+        --warning: hsl(from var(--bg-warning) h s calc(l * 0.37));
         --primary: hsl(210, 50%, 35%);
 
-        --success-dark: hsl(from var(--success) h s calc(l - 0.15));
-        --danger-dark: hsl(from var(--danger) h s calc(l - 0.15));
-        --primary-dark: hsl(from var(--primary) h s calc(l - 0.15));
+        --success-dark: hsl(from var(--success) h s calc(l * 0.57));
+        --danger-dark: hsl(from var(--danger) h s calc(l * 0.57));
+        --primary-dark: hsl(from var(--primary) h s calc(l * 0.57));
     }
 
     body {
