@@ -1,4 +1,4 @@
-import { type ControllerProps, Controller } from 'react-hook-form';
+import { Controller, type ControllerProps } from 'react-hook-form';
 
 import { useFormStore } from './useFormStore';
 

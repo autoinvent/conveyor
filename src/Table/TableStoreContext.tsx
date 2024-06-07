@@ -32,9 +32,13 @@ export const TableStoreProvider = <D extends DataType>({
   );
 
   const isMounted = useRef(false);
+  /* 
+    biome-ignore lint/correctness/useExhaustiveDependencies:
+      The reference to tableState does not matter, only the contents.
+  */
   useEffect(() => {
     if (isMounted.current) store.setState(() => tableState);
-  }, [tableState, store]);
+  }, [...Object.values(tableState), store]);
 
   useEffect(() => {
     isMounted.current = true;

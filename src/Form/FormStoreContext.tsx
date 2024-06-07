@@ -38,9 +38,13 @@ export const FormStoreProvider = ({
   );
 
   const isMounted = useRef(false);
+  /*
+    biome-ignore lint/correctness/useExhaustiveDependencies:
+      The reference to methods does not matter, only the contents.
+  */
   useEffect(() => {
     if (isMounted.current) store.setState(() => methods);
-  }, [methods, store]);
+  }, [...Object.values(methods), store]);
 
   useEffect(() => {
     isMounted.current = true;

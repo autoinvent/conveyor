@@ -4,8 +4,8 @@ import { twMerge } from 'tailwind-merge';
 import type { DataType } from '@/types';
 
 import { TableBody } from './TableBody';
-import { TableFallback } from './TableFallback';
 import { TableCell } from './TableCell';
+import { TableFallback } from './TableFallback';
 import { TableHead } from './TableHead';
 import { TableHeaderCell } from './TableHeaderCell';
 import { TableHeaderRow } from './TableHeaderRow';

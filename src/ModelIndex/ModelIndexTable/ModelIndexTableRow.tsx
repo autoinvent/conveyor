@@ -1,7 +1,7 @@
 import { useDataStore } from '@/Data';
 import { FormStoreProvider } from '@/Form';
 import { Lenses } from '@/Lenses';
-import { type TableRowProps, TableRow, useTableStore } from '@/Table';
+import { TableRow, type TableRowProps, useTableStore } from '@/Table';
 import { DataLens } from '@/types';
 
 import { useModelIndexStore } from '../useModelIndexStore';

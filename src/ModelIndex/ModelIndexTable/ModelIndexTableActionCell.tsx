@@ -1,14 +1,14 @@
 import {
-  FaRegTrashAlt,
   FaEdit,
   FaRegSave,
   FaRegTimesCircle,
+  FaRegTrashAlt,
 } from 'react-icons/fa';
 
-import { Lens, useLensesStore } from '@/Lenses';
 import { useFormStore } from '@/Form';
+import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
-import { type DataType, DataLens } from '@/types';
+import { DataLens, type DataType } from '@/types';
 
 import { useModelIndexStore } from '../useModelIndexStore';
 

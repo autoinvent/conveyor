@@ -8,7 +8,7 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import type { DataType, Field, OnCreate, OnUpdate, OnDelete } from '@/types';
+import type { DataType, Field, OnCreate, OnDelete, OnUpdate } from '@/types';
 
 export interface ModelIndexState<D extends DataType> {
   model: string;
@@ -38,9 +38,13 @@ export const ModelIndexStoreProvider = <D extends DataType>({
   );
 
   const isMounted = useRef(false);
+  /*
+    biome-ignore lint/correctness/useExhaustiveDependencies: 
+      The reference to modelState does not matter, only the contents.
+  */
   useEffect(() => {
     if (isMounted.current) store.setState(() => modelState);
-  }, [modelState, store]);
+  }, [...Object.values(modelState), store]);
 
   useEffect(() => {
     isMounted.current = true;

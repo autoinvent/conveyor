@@ -1,4 +1,9 @@
-import { type ComponentProps, type ComponentType, Fragment, useState } from 'react';
+import {
+  type ComponentProps,
+  type ComponentType,
+  Fragment,
+  useState,
+} from 'react';
 import { twMerge } from 'tailwind-merge';
 import { Store, useStore } from '@tanstack/react-store';
 

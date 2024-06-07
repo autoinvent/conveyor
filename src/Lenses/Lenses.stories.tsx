@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Lenses } from './LensesStoreContext';
 import { Lens } from './Lens';
+import { Lenses } from './LensesStoreContext';
 
 const meta = {
   title: 'Commons/Lenses',

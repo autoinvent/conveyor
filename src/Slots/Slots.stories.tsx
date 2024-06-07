@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Slots } from './SlotsStoreContext';
 import { Slot } from './Slot';
+import { Slots } from './SlotsStoreContext';
 
 const meta = {
   title: 'Commons/Slots',

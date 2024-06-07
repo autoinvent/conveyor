@@ -5,9 +5,7 @@
   "description": "UI component library for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "main": "./dist/conveyor.umd.cjs",
   "module": "./dist/conveyor.js",
   "types": "./dist/index.d.ts",
@@ -34,8 +32,9 @@
     "examples:cdn": "cd ./examples/cdn/ && pnpm dev",
     "dev": "concurrently --kill-others \"pnpm:storybook\" \"pnpm:build:css --watch\"",
     "storybook": "storybook dev -p 6006",
-    "format": "pnpx @biomejs/biome format --write *",
-    "lint": "pnpx @biomejs/biome lint --apply *"
+    "format": "pnpx @biomejs/biome format --write",
+    "lint": "pnpx @biomejs/biome lint --write",
+    "check": "pnpx @biomejs/biome check --write"
   },
   "dependencies": {
     "@hookform/error-message": "^2.0.1",

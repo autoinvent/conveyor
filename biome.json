@@ -4,10 +4,8 @@
     "enabled": true
   },
   "files": {
-    "ignore": [
-      "/dist",
-      "/node_modules"
-    ]
+    "ignore": ["dist", "node_modules"],
+    "include": ["src/**/*"]
   },
   "formatter": {
     "indentStyle": "space",
@@ -25,22 +23,12 @@
       "suspicious": {
         "noExplicitAny": "off"
       },
-      "correctness": {
-        "useExhaustiveDependencies": "warn"
-      },
       "nursery": {
         "useSortedClasses": {
           "level": "error",
           "options": {
-            "attributes": [
-              "class",
-              "className"
-            ],
-            "functions": [
-              "clsx",
-              "tw",
-              "twMerge"
-            ]
+            "attributes": ["class", "className"],
+            "functions": ["clsx", "tw", "twMerge"]
           }
         }
       }

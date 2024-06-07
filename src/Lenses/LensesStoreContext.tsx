@@ -29,10 +29,11 @@ export const Lenses = ({
   activeLens,
   children,
 }: LensesProps) => {
+  const [initLens] = useState(initialLens);
   const [store] = useState(() =>
     createStore(
       immer<LensesState>((set) => ({
-        activeLens: activeLens ?? initialLens,
+        activeLens: activeLens ?? initLens,
         setLens: (newLens: LensType) =>
           set((state) => {
             state.activeLens = newLens;
@@ -43,13 +44,12 @@ export const Lenses = ({
 
   const isMounted = useRef(false);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: initialLens meant to be used during first render only
   useEffect(() => {
     if (isMounted.current)
       store.setState((state) => {
-        state.activeLens = activeLens ?? initialLens;
+        state.activeLens = activeLens ?? initLens;
       });
-  }, [activeLens, store]);
+  }, [activeLens, initLens, store]);
 
   useEffect(() => {
     isMounted.current = true;

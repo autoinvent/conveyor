@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ModelIndex } from '@/ModelIndex';
-import { ScalarTypes } from '@/types';
 import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
+import { ScalarTypes } from '@/types';
 
 import { Conveyor } from './Conveyor';
 

@@ -6,8 +6,8 @@ import {
 
 import { useModelIndexStore } from '../useModelIndexStore';
 
-import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
+import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ACTION_COLUMN } from './constants';
 
 export interface ModelIndexTableHeaderRowProps extends TableHeaderRowProps {}

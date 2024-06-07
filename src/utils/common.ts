@@ -29,5 +29,5 @@ export const upperCaseFirst = (str: string) => {
 };
 
 export const generateUID = (prefix = 'UID') => {
-  return `${prefix}-${crypto.randomUUID()}`
+  return `${prefix}-${crypto.randomUUID()}`;
 };

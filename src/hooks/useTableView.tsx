@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
 import { produce } from 'immer';
+import { useCallback, useState } from 'react';
 
 import type { TableView, TableViewFilter } from '@/types';
 import type { SortDirection } from '@/types';

@@ -1,4 +1,4 @@
 // components
 export * from './ModelIndexFilter';
-export * from './ModelIndexSettings';
-export * from './ModelIndexSettingsButton';
+// export * from './ModelIndexSettings';
+// export * from './ModelIndexSettingsButton';
