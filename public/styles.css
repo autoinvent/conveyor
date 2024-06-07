@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.4 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -460,19 +460,19 @@ video {
   /* base text color */
   --text-color: hsl(from var(--bg-color) h s calc(l * 9));
   /* inactive or not interactable color for text*/
-  --text-muted: hsl(from var(--text-color) h s calc(l * .65));
+  --text-muted: hsl(from var(--text-color) h s calc(l * 0.77));
   /* Header color */
   --header-color: hsl(from var(--bg-color) h s calc(l * 0.75));
   --bg-success: hsl(160, 100%, 95%);
   --bg-danger: hsl(0, 100%, 95%);
   --bg-warning: hsl(51, 100%, 85%);
-  --success: hsl(from var(--bg-success) h s 35%);
-  --danger: hsl(from var(--bg-danger) h s 35%);
-  --warning: hsl(from var(--bg-warning) h s 35%);
+  --success: hsl(from var(--bg-success) h s calc(l * 0.37));
+  --danger: hsl(from var(--bg-danger) h s calc(l * 0.37));
+  --warning: hsl(from var(--bg-warning) h s calc(l * 0.37));
   --primary: hsl(210, 50%, 35%);
-  --success-dark: hsl(from var(--success) h s 20%);
-  --danger-dark: hsl(from var(--danger) h s 20%);
-  --primary-dark: hsl(from var(--primary) h s 20%);
+  --success-dark: hsl(from var(--success) h s calc(l * 0.57));
+  --danger-dark: hsl(from var(--danger) h s calc(l * 0.57));
+  --primary-dark: hsl(from var(--primary) h s calc(l * 0.57));
 }
 
 body {
