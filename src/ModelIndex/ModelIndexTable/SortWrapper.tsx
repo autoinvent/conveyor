@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react';
-import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
+import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 import { twMerge } from 'tailwind-merge';
 
-import { Lenses, Lens } from '@/Lenses';
+import { Lens, Lenses } from '@/Lenses';
 
 import { SortDirection } from '../utils';
 
