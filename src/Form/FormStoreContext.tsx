@@ -8,6 +8,7 @@ import {
 import {
   type UseFormProps,
   type UseFormReturn,
+  FormProvider,
   useForm,
 } from 'react-hook-form';
 import { type StoreApi, createStore } from 'zustand';
@@ -33,26 +34,6 @@ export const FormStoreProvider = ({
   ...formProps
 }: FormStoreProviderProps) => {
   const methods = useForm(formProps);
-  const [store] = useState(() =>
-    createStore(immer<FormState>(() => ({ ...methods }))),
-  );
 
-  const isMounted = useRef(false);
-  /*
-    biome-ignore lint/correctness/useExhaustiveDependencies:
-      The reference to methods does not matter, only the contents.
-  */
-  useEffect(() => {
-    if (isMounted.current) store.setState(() => methods);
-  }, [...Object.values(methods), store]);
-
-  useEffect(() => {
-    isMounted.current = true;
-  }, []);
-
-  return (
-    <FormStoreContext.Provider value={store}>
-      {children}
-    </FormStoreContext.Provider>
-  );
+  return <FormProvider {...methods}>{children}</FormProvider>;
 };

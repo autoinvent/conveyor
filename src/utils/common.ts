@@ -13,7 +13,7 @@ export const snakeToCamelCase = (str: string) => {
   );
 };
 
-export const humanizeText = (str: string) => {
+export const humanizeText = (str = '') => {
   if (!str) return '';
   const camelCaseStr = snakeToCamelCase(str);
   const separatedWords = camelCaseStr.replace(

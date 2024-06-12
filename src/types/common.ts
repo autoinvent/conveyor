@@ -1,11 +1,5 @@
 export type DataType = Record<string, any>;
 
-export enum SortDirection {
-  ASC = 'asc',
-  DESC = 'desc',
-  NONE = 'none',
-}
-
 export enum DataLens {
   VALUE = 'value',
   INPUT = 'input',

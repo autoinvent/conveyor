@@ -14,23 +14,17 @@
       overflow: hidden;
     }
   </style>
-
-  <!--
-      This example depends on Promise and fetch, which are available in modern browsers, but can be "polyfilled" for older browsers.
-      Conveyor itself depends on React DOM.
-      If you do not want to rely on a CDN, you can host these files locally or nclude them directly in your favored resource bundler.
-    -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <link crossorigin href="/dist/styles.css" rel="stylesheet" />
-  <script crossorigin src="/dist/conveyor.umd.cjs"></script>
-
+  <link rel="stylesheet" href="/dist/styles.css" />
 </head>
 
 <body>
   <img src="/dist/logo.svg" alt="" class="h-8 w-8" />
   <div id="conveyor">Loading...</div>
-  <script defer>
+  <script type="module">
+    import React from "https://esm.sh/react@19/?dev"
+    import ReactDOMClient from "https://esm.sh/react-dom@19/client?dev"
+    import { Conveyor, ModelIndex, ScalarTypes } from "/dist/conveyor.js"
+
     const { Conveyor, ModelIndex, ScalarTypes } = window.conveyor;
 
     const root = ReactDOM.createRoot(document.getElementById("conveyor"))

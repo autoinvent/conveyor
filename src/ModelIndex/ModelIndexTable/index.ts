@@ -7,9 +7,9 @@ export * from './ModelIndexTableCell';
 export * from './ModelIndexTableErrorRow';
 export * from './ModelIndexTableHead';
 export * from './ModelIndexTableHeaderCell';
-// export * from './ModelIndexTableHeaderCellDefaultContent'; TODO
 export * from './ModelIndexTableHeaderRow';
 export * from './ModelIndexTableRow';
+export * from './SortWrapper';
 
 // constants
 export * from './constants';

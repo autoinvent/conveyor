@@ -4,7 +4,7 @@ import type { DataType, Field } from '@/types';
 import { toField } from '@/utils';
 
 import { ModelIndexCreateButton } from './ModelIndexCreateButton';
-// import { ModelIndexPagination } from './ModelIndexPagination';
+import { ModelIndexPagination } from './ModelIndexPagination';
 import {
   type ModelIndexState,
   ModelIndexStoreProvider,
@@ -28,6 +28,9 @@ export const ModelIndex = Object.assign(
     onCreate,
     onUpdate,
     onDelete,
+    tableView,
+    onTableViewChange,
+    paginationOptions,
     children,
     ...htmlProps
   }: ModelIndexProps<D>) => {
@@ -41,12 +44,15 @@ export const ModelIndex = Object.assign(
           onCreate={onCreate}
           onUpdate={onUpdate}
           onDelete={onDelete}
+          tableView={tableView}
+          onTableViewChange={onTableViewChange}
+          paginationOptions={paginationOptions}
         >
           {children === undefined ? (
             <>
               <ModelIndex.Title />
               <ModelIndex.Table />
-              {/* <ModelIndex.Pagination /> */}
+              <ModelIndex.Pagination />
             </>
           ) : (
             children
@@ -60,6 +66,6 @@ export const ModelIndex = Object.assign(
     // Settings: ModelIndexSettings,
     Title: ModelIndexTitle,
     Table: ModelIndexTable,
-    // Pagination: ModelIndexPagination,
+    Pagination: ModelIndexPagination,
   },
 );

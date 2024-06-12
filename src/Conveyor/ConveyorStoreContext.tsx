@@ -122,12 +122,14 @@ export const ConveyorStoreProvider = ({
       produce(conveyorState, (draftState) => {
         draftState.inputOptions ??= {};
         draftState.inputOptions = Object.assign(
-          { ...DEFAULT_CONVEYOR_STATE.inputOptions },
+          {},
+          DEFAULT_CONVEYOR_STATE.inputOptions,
           draftState.inputOptions,
         );
         draftState.valueOptions ??= {};
         draftState.valueOptions = Object.assign(
-          { ...DEFAULT_CONVEYOR_STATE.valueOptions },
+          {},
+          DEFAULT_CONVEYOR_STATE.valueOptions,
           draftState.valueOptions,
         );
       }) as ConveyorState,

@@ -8,17 +8,31 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import type { DataType, Field, OnCreate, OnDelete, OnUpdate } from '@/types';
+import type {
+  DataType,
+  Field,
+  OnCreate,
+  OnDelete,
+  OnUpdate,
+  TableView,
+} from '@/types';
+
+export interface PaginationOptions {
+  totalDataLength: number;
+  pageButtonLimit?: number; // The max number of page btns to show at a time
+}
 
 export interface ModelIndexState<D extends DataType> {
-  model: string;
+  model?: string;
   fields: Field[];
   data?: D[];
   showActions?: boolean;
   onCreate?: OnCreate<D>;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;
-  // TODO: Add tableView
+  tableView?: TableView;
+  onTableViewChange?: (changedTableView: Partial<TableView>) => void;
+  paginationOptions?: PaginationOptions;
 }
 
 export const ModelIndexStoreContext = createContext<

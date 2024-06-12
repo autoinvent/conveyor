@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ScalarTypes } from '@/types';
 
 import { ModelIndex } from './ModelIndex';
+import { useTableView } from './useTableView';
 
 const meta = {
   title: 'Model/ModelIndex/ModelIndex',
@@ -21,7 +22,12 @@ const meta = {
       },
       { name: 'isHappy', type: ScalarTypes.BOOLEAN, editable: true },
       { name: 'released', type: ScalarTypes.DATETIME, editable: true },
-      { name: 'bestBearFriend', type: 'DisneyBear', editable: true },
+      {
+        name: 'bestBearFriend',
+        type: 'DisneyBear',
+        editable: true,
+        sortable: false,
+      },
     ],
     data: [
       {
@@ -29,7 +35,7 @@ const meta = {
         type: 'Tiger',
         name: 'Tigger',
         isHappy: false,
-        released: '1928-10-1',
+        released: null,
         bestBearFriend: { id: '1' },
       },
       {
@@ -49,11 +55,18 @@ const meta = {
         bestBearFriend: null,
       },
     ],
+    paginationOptions: {
+      totalDataLength: 514,
+    },
   },
   argTypes: {
     showActions: {
       control: 'boolean',
     },
+  },
+  render: (props) => {
+    const tableViewOptions = useTableView();
+    return <ModelIndex {...props} {...tableViewOptions} />;
   },
 } satisfies Meta<typeof ModelIndex>;
 export default meta;

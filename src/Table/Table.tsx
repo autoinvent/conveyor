@@ -28,7 +28,7 @@ export const Table = Object.assign(
       <TableStoreProvider columnIds={columnIds} data={data}>
         <table
           className={twMerge(
-            'relative h-fit w-full table-auto border-collapse cursor-default overflow-hidden rounded',
+            'h-fit w-full table-auto border-collapse cursor-default rounded',
             className,
           )}
           {...htmlProps}

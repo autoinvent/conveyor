@@ -24,6 +24,6 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["*.tsx"],
+  "include": ["."],
   "exclude": ["node_modules", "dist"]
 }

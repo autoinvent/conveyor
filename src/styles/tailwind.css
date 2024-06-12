@@ -42,7 +42,7 @@
     }
 
     button {
-        @apply inline-block justify-center items-center cursor-pointer text-base outline-none text-center no-underline align-middle px-2 py-1 border border-[--border-color] transition-colors
+        @apply px-2 py-1 border border-[--border-color]
     }
 }
 

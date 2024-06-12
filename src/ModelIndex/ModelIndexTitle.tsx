@@ -17,14 +17,14 @@ export const ModelIndexTitle = ({
   return (
     <h2
       className={twMerge(
-        'm-2 mr-0 flex items-end justify-between whitespace-nowrap text-left font-semibold text-4xl',
+        'mb-2 flex items-end font-semibold text-4xl',
         className,
       )}
       {...props}
     >
       {children === undefined ? (
         <>
-          <span>{humanizeText(model)}</span>
+          <span className="grow">{humanizeText(model)}</span>
           <ModelIndexCreateButton />
         </>
       ) : (
