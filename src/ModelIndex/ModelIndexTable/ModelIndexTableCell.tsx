@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
+import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { useConveyorStore } from '@/Conveyor';
+import { useConveyorStore, DEFAULT_TYPE } from '@/Conveyor';
 import { FormInput, FormValue } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
-import { DataLens, DefaultTypes } from '@/types';
+import { DataLens } from '@/types';
 
 import { useModelIndexStore } from '../useModelIndexStore';
 
@@ -21,6 +22,7 @@ export const ModelIndexTableCell = ({
   ...props
 }: ModelIndexTableCellProps) => {
   const { setLens, activeLens } = useLensesStore();
+  const [currentLens, setCurrentLens] = useState(activeLens);
   const field = useModelIndexStore((state) =>
     state.fields.find((field) => field.name === fieldName),
   );
@@ -30,12 +32,18 @@ export const ModelIndexTableCell = ({
   }
   const inputFn = useConveyorStore(
     (state) =>
-      state.inputOptions[field.type] ?? state.inputOptions[DefaultTypes.MODEL],
+      state.inputOptions[field.type] ?? state.inputOptions[DEFAULT_TYPE],
   );
   const displayFn = useConveyorStore(
     (state) =>
-      state.valueOptions[field.type] ?? state.valueOptions[DefaultTypes.MODEL],
+      state.valueOptions[field.type] ?? state.valueOptions[DEFAULT_TYPE],
   );
+
+  useEffect(() => {
+    if (activeLens !== DataLens.LOADING) {
+      setCurrentLens(activeLens);
+    }
+  }, [activeLens]);
   return (
     <TableCell
       columnId={fieldName}
@@ -50,7 +58,7 @@ export const ModelIndexTableCell = ({
       }
       className={twMerge(
         clsx(
-          activeLens === DataLens.INPUT && field.editable && 'p-0',
+          currentLens === DataLens.INPUT && field.editable && 'p-0',
           className,
         ),
       )}
@@ -59,26 +67,39 @@ export const ModelIndexTableCell = ({
         <>
           <Lens
             lens={
-              !field.editable && activeLens === DataLens.INPUT
-                ? DataLens.INPUT
-                : DataLens.VALUE
+              !field.editable
+                ? activeLens
+                : activeLens === DataLens.LOADING &&
+                    currentLens === DataLens.VALUE
+                  ? DataLens.LOADING
+                  : DataLens.VALUE
             }
           >
             <FormValue name={field.name} render={displayFn} />
           </Lens>
-          {field.editable && (
-            <Lens lens={DataLens.INPUT}>
-              <FormInput
-                name={field.name}
-                rules={{
-                  required: field.required
-                    ? `${field.name} is required.`
-                    : false,
-                }}
-                render={inputFn}
-              />
-            </Lens>
-          )}
+          <Lens
+            lens={
+              !field.editable
+                ? false
+                : activeLens === DataLens.LOADING &&
+                    currentLens === DataLens.INPUT
+                  ? DataLens.LOADING
+                  : DataLens.INPUT
+            }
+          >
+            <FormInput
+              name={field.name}
+              rules={{
+                required: field.required ? `${field.name} is required.` : false,
+              }}
+              render={(props) =>
+                inputFn({
+                  ...props,
+                  disabled: activeLens === DataLens.LOADING,
+                })
+              }
+            />
+          </Lens>
         </>
       ) : (
         children

@@ -1,8 +1,6 @@
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { humanizeText } from '@/utils';
-
 import { ModelIndexCreateButton } from './ModelIndexCreateButton';
 import { useModelIndexStore } from './useModelIndexStore';
 
@@ -13,7 +11,7 @@ export const ModelIndexTitle = ({
   className,
   ...props
 }: ModelIndexTitleProps) => {
-  const model = useModelIndexStore((state) => state.model);
+  const title = useModelIndexStore((state) => state.title);
   return (
     <h2
       className={twMerge(
@@ -24,7 +22,7 @@ export const ModelIndexTitle = ({
     >
       {children === undefined ? (
         <>
-          <span className="grow">{humanizeText(model)}</span>
+          <span className="grow">{title}</span>
           <ModelIndexCreateButton />
         </>
       ) : (

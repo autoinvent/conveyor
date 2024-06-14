@@ -6,7 +6,3 @@ export interface Field {
   sortable?: boolean;
   editable?: boolean;
 }
-
-export enum DefaultTypes {
-  MODEL = '__default_model__',
-}

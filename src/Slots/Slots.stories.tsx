@@ -110,7 +110,7 @@ export const DynamicSlots: Story = {
     const [contents, setContents] = useState<string[]>([]);
     return (
       <div className="flex flex-col text-center">
-        <div className="margin-auto width-[100px]">
+        <div className="margin-auto width-24">
           {contents.length < ingredients.length && (
             <button
               type="button"

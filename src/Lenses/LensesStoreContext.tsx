@@ -34,7 +34,7 @@ export const Lenses = ({
     createStore(
       immer<LensesState>((set) => ({
         activeLens: activeLens ?? initLens,
-        setLens: (newLens: LensType) =>
+        setLens: (newLens) =>
           set((state) => {
             state.activeLens = newLens;
           }),

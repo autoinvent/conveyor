@@ -9,19 +9,18 @@ import {
   type ModelIndexState,
   ModelIndexStoreProvider,
 } from './ModelIndexStoreContext';
-// import { ModelIndexSettings } from './ModelIndexSettings';
 import { ModelIndexTable } from './ModelIndexTable';
 import { ModelIndexTitle } from './ModelIndexTitle';
 
 export interface ModelIndexProps<D extends DataType>
-  extends Omit<ModelIndexState<D>, 'fields'>,
+  extends Omit<ModelIndexState<D>, 'fields' | 'title'>,
     ComponentProps<'div'> {
   fields: (string | Field)[];
 }
 
 export const ModelIndex = Object.assign(
   <D extends DataType>({
-    model,
+    title,
     fields,
     data,
     showActions = true,
@@ -37,7 +36,7 @@ export const ModelIndex = Object.assign(
     return (
       <div {...htmlProps}>
         <ModelIndexStoreProvider
-          model={model}
+          title={title}
           fields={fields.map(toField)}
           data={data}
           showActions={showActions}
@@ -63,7 +62,6 @@ export const ModelIndex = Object.assign(
   },
   {
     CreateButton: ModelIndexCreateButton,
-    // Settings: ModelIndexSettings,
     Title: ModelIndexTitle,
     Table: ModelIndexTable,
     Pagination: ModelIndexPagination,

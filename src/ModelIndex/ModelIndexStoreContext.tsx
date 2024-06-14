@@ -23,7 +23,7 @@ export interface PaginationOptions {
 }
 
 export interface ModelIndexState<D extends DataType> {
-  model?: string;
+  title?: ReactNode;
   fields: Field[];
   data?: D[];
   showActions?: boolean;

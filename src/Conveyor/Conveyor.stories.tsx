@@ -12,7 +12,7 @@ const meta = {
   tags: ['autodocs'],
   args: {
     valueOptions: {
-      [ScalarTypes.STRING]: (value) => (
+      [ScalarTypes.STRING]: ({ value }) => (
         <b className="text-green-700">{value}</b>
       ),
     },

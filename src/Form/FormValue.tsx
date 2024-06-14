@@ -2,7 +2,12 @@ import type { ReactNode } from 'react';
 
 import { useFormStore } from './useFormStore';
 
-export type ValueRenderFn = (value: any) => ReactNode;
+export interface ValueRenderFnProps {
+  name: string;
+  value: any;
+}
+export type ValueRenderFn = (props: ValueRenderFnProps) => ReactNode;
+
 export interface FormValueProps {
   name: string;
   render: ValueRenderFn;
@@ -11,5 +16,5 @@ export interface FormValueProps {
 export const FormValue = ({ name, render }: FormValueProps) => {
   const { getValues } = useFormStore();
   const value = getValues(name);
-  return render(value);
+  return render({ name, value });
 };

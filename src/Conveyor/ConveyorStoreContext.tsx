@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { produce } from 'immer';
 import {
   type ReactNode,
@@ -11,8 +10,21 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import type { InputRenderFn, ValueRenderFn } from '@/Form';
-import { DefaultTypes, type ID, ScalarTypes } from '@/types';
+import {
+  type InputRenderFn,
+  type ValueRenderFn,
+  StringInput,
+  NumberInput,
+  DatetimeInput,
+  BooleanInput,
+  BooleanValue,
+  DatetimeValue,
+  IdValue,
+  StringValue,
+} from '@/Form';
+import { ScalarTypes } from '@/types';
+
+export const DEFAULT_TYPE = 'DEFAULT_TYPE';
 
 export interface ConveyorState {
   inputOptions: Record<ScalarTypes | string, InputRenderFn>;
@@ -21,84 +33,21 @@ export interface ConveyorState {
 
 export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
   inputOptions: {
-    [ScalarTypes.STRING]: (props) => (
-      <input
-        className="h-full w-full bg-[--bg-accent] px-3"
-        type="text"
-        {...props.field}
-        autoComplete="false"
-      />
-    ),
-    [ScalarTypes.INT]: (props) => (
-      <input
-        className="h-full w-full bg-[--bg-accent] px-3"
-        type="number"
-        {...props.field}
-      />
-    ),
-    [ScalarTypes.FLOAT]: (props) => (
-      <input
-        className="h-full w-full bg-[--bg-accent] px-3"
-        type="number"
-        {...props.field}
-      />
-    ),
-    [ScalarTypes.DATETIME]: ({ field: { value, ...rest } }) => (
-      <input
-        className="h-full w-full bg-[--bg-accent] px-3"
-        type="datetime-local"
-        value={value ? dayjs(value).format('YYYY-MM-DDTHH:mm:ss') : undefined}
-        {...rest}
-      />
-    ),
-    [ScalarTypes.BOOLEAN]: (props) => (
-      <div className="h-full w-full bg-[--bg-accent] text-center">
-        <input className="align-middle" type="checkbox" {...props.field} />
-      </div>
-    ),
-    [DefaultTypes.MODEL]: (props) => (
-      <div className="text-center">{JSON.stringify(props.field.value)}</div>
-    ),
+    [ScalarTypes.STRING]: StringInput,
+    [ScalarTypes.INT]: NumberInput,
+    [ScalarTypes.FLOAT]: NumberInput,
+    [ScalarTypes.DATETIME]: DatetimeInput,
+    [ScalarTypes.BOOLEAN]: BooleanInput,
+    [DEFAULT_TYPE]: ({ inputProps: { value } }) => <>{JSON.stringify(value)}</>,
   },
   valueOptions: {
-    [ScalarTypes.ID]: (value: ID) => (
-      <div className="h-full w-full text-center align-baseline text-cyan-600">
-        {value}
-      </div>
-    ),
-    [ScalarTypes.STRING]: (value: string) => (
-      <div className="h-full w-full text-start align-baseline">{value}</div>
-    ),
-    [ScalarTypes.INT]: (value) => (
-      <div className="h-full w-full text-start align-baseline">{value}</div>
-    ),
-    [ScalarTypes.FLOAT]: (value) => (
-      <div className="h-full w-full text-start align-baseline">{value}</div>
-    ),
-    [ScalarTypes.DATETIME]: (value) => (
-      <div className="h-full w-full text-start align-baseline">
-        {value
-          ? new Intl.DateTimeFormat('en-us', {
-              dateStyle: 'short',
-              timeStyle: 'short',
-            }).format(new Date(value))
-          : 'none'}
-      </div>
-    ),
-    [ScalarTypes.BOOLEAN]: (value) => (
-      <input
-        className="w-full"
-        disabled={true}
-        type="checkbox"
-        checked={!!value}
-        name="checkbox"
-      />
-    ),
-    [DefaultTypes.MODEL]: (value) => (
-      <div className="h-full w-full text-center align-baseline">
-        {value?.id ? value.id : 'none'}
-      </div>
-    ),
+    [ScalarTypes.ID]: IdValue,
+    [ScalarTypes.STRING]: StringValue,
+    [ScalarTypes.INT]: StringValue,
+    [ScalarTypes.FLOAT]: StringValue,
+    [ScalarTypes.DATETIME]: DatetimeValue,
+    [ScalarTypes.BOOLEAN]: BooleanValue,
+    [DEFAULT_TYPE]: ({ value }) => <>{JSON.stringify(value)}</>,
   },
 };
 

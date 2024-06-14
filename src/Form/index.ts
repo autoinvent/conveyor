@@ -1,4 +1,6 @@
 // components
+export * from './BasicInputs';
+export * from './BasicValues';
 export * from './FormInput';
 export * from './FormValue';
 

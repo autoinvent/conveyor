@@ -3,6 +3,7 @@ export type DataType = Record<string, any>;
 export enum DataLens {
   VALUE = 'value',
   INPUT = 'input',
+  LOADING = 'loading',
 }
 
 export type OnCreate<D extends DataType> = (

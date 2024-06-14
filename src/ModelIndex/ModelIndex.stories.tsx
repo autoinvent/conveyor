@@ -10,7 +10,7 @@ const meta = {
   component: ModelIndex,
   tags: ['autodocs'],
   args: {
-    model: 'DisneyCats',
+    title: 'Disney Cats',
     fields: [
       'id',
       'type',
@@ -43,7 +43,7 @@ const meta = {
         type: 'Cat',
         name: 'Duchess',
         isHappy: true,
-        released: '1994-06-24',
+        released: '1994-06-24T01:56:34.926365',
         bestBearFriend: null,
       },
       {
@@ -51,10 +51,12 @@ const meta = {
         type: 'Lion',
         name: 'Simba',
         isHappy: true,
-        released: '1970-12-24',
+        released: '1970-12-24T01:56:34.926365',
         bestBearFriend: null,
       },
     ],
+    onUpdate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
+    onDelete: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     paginationOptions: {
       totalDataLength: 514,
     },
@@ -63,6 +65,8 @@ const meta = {
     showActions: {
       control: 'boolean',
     },
+    onUpdate: { control: false },
+    onDelete: { control: false },
   },
   render: (props) => {
     const tableViewOptions = useTableView();

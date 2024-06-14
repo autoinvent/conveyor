@@ -123,7 +123,7 @@ export const ModelIndexPagination = ({
           </>
         )}
         <li>
-          <span>
+          <span className="whitespace-nowrap">
             {` Showing items ${per_page * (page - 1) + 1} - ${
               totalPages === page ? totalDataLength : per_page * page
             } of ${totalDataLength}`}
