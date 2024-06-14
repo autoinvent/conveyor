@@ -1,7 +1,7 @@
-import * as React from 'react';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
-import { twMerge } from 'tailwind-merge';
 import clsx from 'clsx';
+import * as React from 'react';
+import { twMerge } from 'tailwind-merge';
 
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,

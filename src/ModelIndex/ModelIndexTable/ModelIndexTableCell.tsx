@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { useConveyorStore, DEFAULT_TYPE } from '@/Conveyor';
+import { DEFAULT_TYPE, useConveyorStore } from '@/Conveyor';
 import { FormInput, FormValue } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';

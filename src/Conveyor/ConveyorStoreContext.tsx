@@ -11,16 +11,16 @@ import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
 import {
-  type InputRenderFn,
-  type ValueRenderFn,
-  StringInput,
-  NumberInput,
-  DatetimeInput,
   BooleanInput,
   BooleanValue,
+  DatetimeInput,
   DatetimeValue,
   IdValue,
+  type InputRenderFn,
+  NumberInput,
+  StringInput,
   StringValue,
+  type ValueRenderFn,
 } from '@/Form';
 import { ScalarTypes } from '@/types';
 
