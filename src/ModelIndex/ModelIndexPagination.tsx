@@ -7,6 +7,8 @@ import {
 } from 'react-icons/lu';
 import { twMerge } from 'tailwind-merge';
 
+import { ScrollArea, ScrollBar } from '@/AtomicComponents';
+
 import { useModelIndexStore } from './useModelIndexStore';
 
 export interface ModelIndexPaginationProps extends ComponentProps<'nav'> {}
@@ -61,75 +63,82 @@ export const ModelIndexPagination = ({
   }
 
   return (
-    <nav
-      role="navigation"
-      aria-label="pagination"
-      className={twMerge('mt-2 w-full text-sm', className)}
-    >
-      <ul className="flex items-center gap-1">
-        {/* Previous Page Set Button */}
-        {page > pageButtonLimit && (
-          <li>
-            <button
-              type="button"
-              className="flex items-center border-none p-0"
-              aria-label={`Go to page ${lowerBoundPage - 1}`}
-              onClick={() => onTableViewChange?.({ page: lowerBoundPage - 1 })}
-            >
-              <LuChevronLeft className="h-4 w-4" />
-            </button>
-          </li>
-        )}
-        {/* Page buttons */}
-        {[...Array(upperBoundPage - lowerBoundPage + 1).keys()].map((index) => {
-          const buttonPage = index + lowerBoundPage;
-          return (
-            <li key={index}>
-              <button
-                type="button"
-                className={twMerge(
-                  clsx(
-                    'rounded-md hover:bg-[--border-color]',
-                    buttonPage === page &&
-                      'border-[--success] bg-[--success] hover:border-[--success-dark] hover:bg-[--success-dark]',
-                  ),
-                )}
-                onClick={() => onTableViewChange?.({ page: buttonPage })}
-              >
-                {buttonPage}
-              </button>
-            </li>
-          );
-        })}
-        {/* Next Page Set Button */}
-        {currentPageSet < totalPageSets && (
-          <>
-            <li>
-              <LuMoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">More Pages</span>
-            </li>
+    <ScrollArea>
+      <nav
+        role="navigation"
+        aria-label="pagination"
+        className={twMerge('mt-2 w-full text-sm', className)}
+      >
+        <ul className="flex items-center gap-1">
+          {/* Previous Page Set Button */}
+          {page > pageButtonLimit && (
             <li>
               <button
                 type="button"
                 className="flex items-center border-none p-0"
-                aria-label={`Go to page ${upperBoundPage + 1}`}
+                aria-label={`Go to page ${lowerBoundPage - 1}`}
                 onClick={() =>
-                  onTableViewChange?.({ page: upperBoundPage + 1 })
+                  onTableViewChange?.({ page: lowerBoundPage - 1 })
                 }
               >
-                <LuChevronRight className="h-4 w-4" />
+                <LuChevronLeft className="h-4 w-4" />
               </button>
             </li>
-          </>
-        )}
-        <li>
-          <span className="whitespace-nowrap">
-            {` Showing items ${per_page * (page - 1) + 1} - ${
-              totalPages === page ? totalDataLength : per_page * page
-            } of ${totalDataLength}`}
-          </span>
-        </li>
-      </ul>
-    </nav>
+          )}
+          {/* Page buttons */}
+          {[...Array(upperBoundPage - lowerBoundPage + 1).keys()].map(
+            (index) => {
+              const buttonPage = index + lowerBoundPage;
+              return (
+                <li key={index}>
+                  <button
+                    type="button"
+                    className={twMerge(
+                      clsx(
+                        'rounded-md hover:bg-[--border-color]',
+                        buttonPage === page &&
+                          'border-[--success] bg-[--success] hover:border-[--success-dark] hover:bg-[--success-dark]',
+                      ),
+                    )}
+                    onClick={() => onTableViewChange?.({ page: buttonPage })}
+                  >
+                    {buttonPage}
+                  </button>
+                </li>
+              );
+            },
+          )}
+          {/* Next Page Set Button */}
+          {currentPageSet < totalPageSets && (
+            <>
+              <li>
+                <LuMoreHorizontal className="h-4 w-4" />
+                <span className="sr-only">More Pages</span>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className="flex items-center border-none p-0"
+                  aria-label={`Go to page ${upperBoundPage + 1}`}
+                  onClick={() =>
+                    onTableViewChange?.({ page: upperBoundPage + 1 })
+                  }
+                >
+                  <LuChevronRight className="h-4 w-4" />
+                </button>
+              </li>
+            </>
+          )}
+          <li>
+            <span className="whitespace-nowrap">
+              {` Showing items ${per_page * (page - 1) + 1} - ${
+                totalPages === page ? totalDataLength : per_page * page
+              } of ${totalDataLength}`}
+            </span>
+          </li>
+        </ul>
+      </nav>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 };

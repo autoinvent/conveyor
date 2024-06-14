@@ -1,3 +1,5 @@
+import { twMerge } from 'tailwind-merge';
+
 import { TableHeaderCell, type TableHeaderCellProps } from '@/Table';
 
 import { ACTION_COLUMN } from './constants';
@@ -12,7 +14,7 @@ export const ModelIndexTableActionHeaderCell = ({
 }: ModelIndexTableActionHeaderCellProps) => {
   return (
     <TableHeaderCell
-      className="w-[1%] whitespace-nowrap"
+      className={twMerge('w-0', className)}
       columnId={ACTION_COLUMN}
       {...props}
     >

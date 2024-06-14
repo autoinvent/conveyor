@@ -55,6 +55,7 @@ const meta = {
         bestBearFriend: null,
       },
     ],
+    onCreate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     paginationOptions: {
@@ -65,6 +66,7 @@ const meta = {
     showActions: {
       control: 'boolean',
     },
+    onCreate: { control: false },
     onUpdate: { control: false },
     onDelete: { control: false },
   },

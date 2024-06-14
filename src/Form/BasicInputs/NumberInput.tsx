@@ -14,7 +14,10 @@ export const NumberInput = ({
   return (
     <input
       type="number"
-      className={twMerge('h-full w-full bg-[--bg-accent] px-3', className)}
+      className={twMerge(
+        'h-full w-full bg-[--bg-accent] px-3 outline-1 outline-[--text-color] focus:outline',
+        className,
+      )}
       {...htmlProps}
       {...inputProps}
     />

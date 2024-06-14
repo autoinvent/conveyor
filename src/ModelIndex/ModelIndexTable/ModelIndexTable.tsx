@@ -1,6 +1,7 @@
 import type { ComponentProps } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
+import { ScrollArea, ScrollBar } from '@/AtomicComponents';
 import { Table } from '@/Table';
 import type { DataType } from '@/types';
 
@@ -40,17 +41,20 @@ export const ModelIndexTable = Object.assign(
     }
 
     return (
-      <Table columnIds={fieldNames} data={data} {...props}>
-        {children === undefined ? (
-          <>
-            <ModelIndexTableHead />
-            <ModelIndexTableBody />
-            <Table.Fallback />
-          </>
-        ) : (
-          children
-        )}
-      </Table>
+      <ScrollArea>
+        <Table columnIds={fieldNames} data={data} {...props}>
+          {children === undefined ? (
+            <>
+              <ModelIndexTableHead />
+              <ModelIndexTableBody />
+              <Table.Fallback />
+            </>
+          ) : (
+            children
+          )}
+        </Table>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     );
   },
   {

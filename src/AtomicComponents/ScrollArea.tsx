@@ -12,7 +12,7 @@ const ScrollArea = React.forwardRef<
     className={twMerge('relative overflow-hidden', className)}
     {...props}
   >
-    <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]">
+    <ScrollAreaPrimitive.Viewport className="mb-2 h-full w-full rounded-[inherit]">
       {children}
     </ScrollAreaPrimitive.Viewport>
     <ScrollBar />
@@ -30,7 +30,7 @@ const ScrollBar = React.forwardRef<
     orientation={orientation}
     className={twMerge(
       clsx(
-        'flex touch-none select-none transition-colors',
+        'flex touch-none select-none bg-[--border-color] transition-colors',
         orientation === 'vertical' &&
           'h-full w-2.5 border-l border-l-transparent p-[1px]',
         orientation === 'horizontal' &&
@@ -40,7 +40,7 @@ const ScrollBar = React.forwardRef<
     )}
     {...props}
   >
-    <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-border" />
+    <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-[--bg-accent] bg-border" />
   </ScrollAreaPrimitive.ScrollAreaScrollbar>
 ));
 ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName;
