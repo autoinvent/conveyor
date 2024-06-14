@@ -612,32 +612,8 @@ button {
   border-width: 0;
 }
 
-.absolute {
-  position: absolute;
-}
-
 .relative {
   position: relative;
-}
-
-.bottom-\[-10px\] {
-  bottom: -10px;
-}
-
-.bottom-0 {
-  bottom: 0px;
-}
-
-.bottom-4 {
-  bottom: 1rem;
-}
-
-.bottom-\[20\%\] {
-  bottom: 20%;
-}
-
-.top-0 {
-  top: 0px;
 }
 
 .m-auto {
@@ -697,6 +673,10 @@ button {
   height: 100%;
 }
 
+.w-0 {
+  width: 0px;
+}
+
 .w-2 {
   width: 0.5rem;
 }
@@ -717,25 +697,8 @@ button {
   width: 2rem;
 }
 
-.w-\[1\%\] {
-  width: 1%;
-}
-
 .w-full {
   width: 100%;
-}
-
-.w-fit {
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
-.w-\[0\%\] {
-  width: 0%;
-}
-
-.w-0 {
-  width: 0px;
 }
 
 .flex-1 {
@@ -888,6 +851,10 @@ button {
   background-color: var(--bg-accent);
 }
 
+.bg-\[--border-color\] {
+  background-color: var(--border-color);
+}
+
 .bg-\[--fg-color\] {
   background-color: var(--fg-color);
 }
@@ -915,15 +882,6 @@ button {
   background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 
-.bg-\[--border-color\] {
-  background-color: var(--border-color);
-}
-
-.bg-red-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
-}
-
 .p-0 {
   padding: 0px;
 }
@@ -936,8 +894,16 @@ button {
   padding: 0.375rem;
 }
 
+.p-2 {
+  padding: 0.5rem;
+}
+
 .p-\[1px\] {
   padding: 1px;
+}
+
+.p-4 {
+  padding: 1rem;
 }
 
 .px-2 {
@@ -963,6 +929,21 @@ button {
 .py-1\.5 {
   padding-top: 0.375rem;
   padding-bottom: 0.375rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .text-center {
@@ -1034,27 +1015,12 @@ button {
   color: rgb(254 240 138 / var(--tw-text-opacity));
 }
 
-.outline-none {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-.outline {
-  outline-style: solid;
-}
-
 .outline-1 {
   outline-width: 1px;
 }
 
 .outline-\[--text-color\] {
   outline-color: var(--text-color);
-}
-
-.ring-0 {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
 .transition-colors {
