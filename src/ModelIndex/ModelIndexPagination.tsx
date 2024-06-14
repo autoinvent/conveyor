@@ -7,8 +7,6 @@ import {
 } from 'react-icons/lu';
 import { twMerge } from 'tailwind-merge';
 
-import { ScrollArea, ScrollBar } from '@/AtomicComponents';
-
 import { useModelIndexStore } from './useModelIndexStore';
 
 export interface ModelIndexPaginationProps extends ComponentProps<'nav'> {}
@@ -63,7 +61,6 @@ export const ModelIndexPagination = ({
   }
 
   return (
-    // <ScrollArea>
     <nav
       role="navigation"
       aria-label="pagination"

@@ -13,8 +13,8 @@ import { ModelIndexTable } from './ModelIndexTable';
 import { ModelIndexTitle } from './ModelIndexTitle';
 
 export interface ModelIndexProps<D extends DataType>
-  extends Omit<ModelIndexState<D>, 'fields' | 'title'>,
-    ComponentProps<'div'> {
+  extends Omit<ModelIndexState<D>, 'fields'>,
+    Omit<ComponentProps<'div'>, 'title'> {
   fields: (string | Field)[];
 }
 

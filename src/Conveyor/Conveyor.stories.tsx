@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ModelIndex } from '@/ModelIndex';
+import { ModelIndex, useTableView } from '@/ModelIndex';
 import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
 import { ScalarTypes } from '@/types';
 
@@ -24,10 +24,11 @@ type Story = StoryObj<typeof meta>;
 
 export const OverridingValue: Story = {
   render: (args) => {
+    const tableViewOptions = useTableView();
     return (
       <div className="flex flex-col">
         <Conveyor {...args}>
-          <ModelIndex {...ModelIndexStoryMeta.args} />
+          <ModelIndex {...ModelIndexStoryMeta.args} {...tableViewOptions} />
         </Conveyor>
       </div>
     );

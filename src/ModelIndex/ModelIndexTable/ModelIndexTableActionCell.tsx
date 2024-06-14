@@ -14,8 +14,8 @@ import { DataLens, type DataType } from '@/types';
 
 import { useModelIndexStore } from '../useModelIndexStore';
 
-import { ACTION_COLUMN } from './constants';
 import { twMerge } from 'tailwind-merge';
+import { ACTION_COLUMN } from './constants';
 
 export interface ModelIndexTableActionCellProps
   extends Omit<TableCellProps, 'columnId'> {}

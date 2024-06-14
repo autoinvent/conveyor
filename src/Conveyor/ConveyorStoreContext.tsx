@@ -38,7 +38,9 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
     [ScalarTypes.FLOAT]: NumberInput,
     [ScalarTypes.DATETIME]: DatetimeInput,
     [ScalarTypes.BOOLEAN]: BooleanInput,
-    [DEFAULT_TYPE]: ({ inputProps: { value } }) => <>{JSON.stringify(value)}</>,
+    [DEFAULT_TYPE]: ({ inputProps: { value } }) => (
+      <div className="px-2.5 py-1.5">{JSON.stringify(value)}</div>
+    ),
   },
   valueOptions: {
     [ScalarTypes.ID]: IdValue,
