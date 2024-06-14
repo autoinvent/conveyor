@@ -1,6 +1,7 @@
 import { useDataStore } from '@/Data';
 import { FormStoreProvider } from '@/Form';
 import { Lenses } from '@/Lenses';
+import { LoadingStoreProvider } from '@/Loading';
 import { TableRow, type TableRowProps, useTableStore } from '@/Table';
 import { DataLens } from '@/types';
 
@@ -25,24 +26,29 @@ export const ModelIndexTableRow = ({
   return (
     <FormStoreProvider mode="onChange" defaultValues={data}>
       <Lenses initialLens={DataLens.VALUE}>
-        <TableRow prefilled={false} {...props}>
-          {children === undefined || prefilled ? (
-            <>
-              {fieldNames.map((fieldName) => {
-                return fieldName === ACTION_COLUMN ? (
-                  showActions ? (
-                    <ModelIndexTableActionCell key={fieldName} />
-                  ) : null
-                ) : (
-                  <ModelIndexTableCell key={fieldName} fieldName={fieldName} />
-                );
-              })}
-              {children}
-            </>
-          ) : (
-            children
-          )}
-        </TableRow>
+        <LoadingStoreProvider>
+          <TableRow prefilled={false} {...props}>
+            {children === undefined || prefilled ? (
+              <>
+                {fieldNames.map((fieldName) => {
+                  return fieldName === ACTION_COLUMN ? (
+                    showActions ? (
+                      <ModelIndexTableActionCell key={fieldName} />
+                    ) : null
+                  ) : (
+                    <ModelIndexTableCell
+                      key={fieldName}
+                      fieldName={fieldName}
+                    />
+                  );
+                })}
+                {children}
+              </>
+            ) : (
+              children
+            )}
+          </TableRow>
+        </LoadingStoreProvider>
         <ModelIndexTableErrorRow />
       </Lenses>
     </FormStoreProvider>

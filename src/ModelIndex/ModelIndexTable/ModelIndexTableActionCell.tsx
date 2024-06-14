@@ -8,6 +8,7 @@ import {
 import { Spinner } from '@/AtomicComponents';
 import { useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
+import { useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type DataType } from '@/types';
 
@@ -24,12 +25,13 @@ export const ModelIndexTableActionCell = ({
   className,
   ...props
 }: ModelIndexTableActionCellProps) => {
+  const { isLoading, setIsLoading } = useLoadingStore();
   const { defaultValues, dirtyFields } = useFormStore(
     (state) => state.formState,
   );
   const reset = useFormStore((state) => state.reset);
   const handleSubmit = useFormStore((state) => state.handleSubmit);
-  const { activeLens, setLens } = useLensesStore();
+  const setLens = useLensesStore((state) => state.setLens);
   const showActions = useModelIndexStore((state) => state.showActions);
   const onUpdate = useModelIndexStore((state) => state.onUpdate);
   const onDelete = useModelIndexStore((state) => state.onDelete);
@@ -40,15 +42,15 @@ export const ModelIndexTableActionCell = ({
     reset();
   };
   const onSave = (formData: DataType) => {
-    onUpdate && setLens(DataLens.LOADING);
+    onUpdate && setIsLoading(true);
     onUpdate?.({ data: formData, dirtyFields })?.finally(() => {
-      setLens(activeLens);
+      setIsLoading(false);
     });
   };
   const onDeleteHandler = () => {
-    onDelete && setLens(DataLens.LOADING);
+    onDelete && setIsLoading(true);
     onDelete?.(defaultValues)?.finally(() => {
-      setLens(activeLens);
+      setIsLoading(false);
     });
   };
 
@@ -63,7 +65,7 @@ export const ModelIndexTableActionCell = ({
           className="flex h-full items-center justify-center whitespace-nowrap"
           onSubmit={handleSubmit(onSave)}
         >
-          <Lens lens={DataLens.VALUE}>
+          <Lens lens={!isLoading && DataLens.VALUE}>
             <button
               type="button"
               className="flex h-full grow items-center justify-center rounded-l-sm border-[--primary] text-[--primary] focus:bg-[--primary] hover:bg-[--primary] focus:text-[--text-color] hover:text-[--text-color]"
@@ -83,7 +85,7 @@ export const ModelIndexTableActionCell = ({
               </button>
             )}
           </Lens>
-          <Lens lens={DataLens.INPUT}>
+          <Lens lens={!isLoading && DataLens.INPUT}>
             {onUpdate && (
               <button
                 className="flex h-full grow items-center justify-center rounded-l-sm border-[--success] text-[--success] focus:bg-[--success] hover:bg-[--success] focus:text-[--text-color] hover:text-[--text-color]"
@@ -101,9 +103,7 @@ export const ModelIndexTableActionCell = ({
               <FaRegTimesCircle />
             </button>
           </Lens>
-          <Lens lens={DataLens.LOADING}>
-            <Spinner />
-          </Lens>
+          {isLoading && <Spinner />}
         </form>
       ) : (
         children
