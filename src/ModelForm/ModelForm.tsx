@@ -9,6 +9,7 @@ import { toField } from '@/utils';
 
 import { ModelFormActions } from './ModelFormActions';
 import { ModelFormContent } from './ModelFormContent';
+import { ModelFormFallback } from './ModelFormFallback';
 import { ModelFormField } from './ModelFormField';
 import {
   type ModelFormState,
@@ -16,7 +17,6 @@ import {
 } from './ModelFormStoreContext';
 import { ModelFormTitle } from './ModelFormTitle';
 import { useModelFormStore } from './useModelFormStore';
-import { ModelFormFallback } from './ModelFormFallback';
 
 export interface ModelFormProps<D extends DataType>
   extends Omit<ModelFormState<D>, 'fields'>,

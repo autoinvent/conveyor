@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
-import { ScalarTypes } from '@/types';
 
 import { ModelForm } from './ModelForm';
 

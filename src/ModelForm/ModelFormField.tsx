@@ -9,8 +9,8 @@ import { Slot } from '@/Slots';
 import { DataLens } from '@/types';
 import { humanizeText } from '@/utils';
 
-import { useModelFormStore } from './useModelFormStore';
 import { twMerge } from 'tailwind-merge';
+import { useModelFormStore } from './useModelFormStore';
 
 export interface ModelFormFieldProps extends ComponentProps<'div'> {
   fieldName: string;

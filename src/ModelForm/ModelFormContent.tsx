@@ -5,9 +5,9 @@ import { useShallow } from 'zustand/react/shallow';
 import { Slots } from '@/Slots';
 import type { DataType } from '@/types';
 
+import { ModelFormField } from './ModelFormField';
 import type { ModelFormState } from './ModelFormStoreContext';
 import { useModelFormStore } from './useModelFormStore';
-import { ModelFormField } from './ModelFormField';
 
 export interface ModelFormContentProps extends ComponentProps<'div'> {
   prefilled?: boolean;
