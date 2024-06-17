@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 
 import { DEFAULT_TYPE, useConveyorStore } from '@/Conveyor';
 import { FormError, FormInput, FormValue } from '@/Form';
@@ -31,12 +32,20 @@ export const ModelFormField = ({
     return null;
   }
   const inputFn = useConveyorStore(
-    (state) =>
-      state.inputOptions[field.type] ?? state.inputOptions[DEFAULT_TYPE],
+    useShallow(
+      (state) =>
+        state.typeOptions?.[field.type]?.inputRenderFn ??
+        state.typeOptions?.[DEFAULT_TYPE]?.inputRenderFn ??
+        (() => null),
+    ),
   );
-  const displayFn = useConveyorStore(
-    (state) =>
-      state.valueOptions[field.type] ?? state.valueOptions[DEFAULT_TYPE],
+  const valueFn = useConveyorStore(
+    useShallow(
+      (state) =>
+        state.typeOptions?.[field.type]?.valueRenderFn ??
+        state.typeOptions?.[DEFAULT_TYPE]?.valueRenderFn ??
+        (() => null),
+    ),
   );
 
   return (
@@ -50,13 +59,13 @@ export const ModelFormField = ({
             <div className="flex h-full divide-x divide-[--border-color] rounded border border-[--border-color]">
               <label
                 htmlFor={fieldName}
-                className="whitespace-nowrap bg-[--fg-color] p-2"
+                className="whitespace-nowrap bg-[--fg-accent] p-2"
               >
                 {humanizeText(fieldName)}
               </label>
-              <span className="h-full w-full ">
+              <span className="h-full w-full bg-[--fg-color]">
                 <Lens lens={!field.editable ? activeLens : DataLens.VALUE}>
-                  <FormValue name={field.name} render={displayFn} />
+                  <FormValue name={field.name} render={valueFn} />
                 </Lens>
                 <Lens lens={!field.editable ? false : DataLens.INPUT}>
                   <FormInput

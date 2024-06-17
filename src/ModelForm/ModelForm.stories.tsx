@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
 import { ScalarTypes } from '@/types';
 
 import { ModelForm } from './ModelForm';
@@ -10,32 +11,8 @@ const meta = {
   tags: ['autodocs'],
   args: {
     title: 'Disney Cat',
-    fields: [
-      'id',
-      'type',
-      {
-        name: 'name',
-        type: ScalarTypes.STRING,
-        editable: true,
-        rules: { required: 'Name is required.' },
-      },
-      { name: 'isHappy', type: ScalarTypes.BOOLEAN, editable: true },
-      { name: 'released', type: ScalarTypes.DATETIME, editable: true },
-      {
-        name: 'bestBearFriend',
-        type: 'DisneyBear',
-        editable: true,
-        sortable: false,
-      },
-    ],
-    data: {
-      id: '1',
-      type: 'Tiger',
-      name: 'Tigger',
-      isHappy: false,
-      released: null,
-      bestBearFriend: { id: '1' },
-    },
+    fields: ModelIndexStoryMeta.args.fields,
+    data: ModelIndexStoryMeta.args.data[0],
     onCreate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 3000)),

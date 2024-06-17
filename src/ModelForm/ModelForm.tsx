@@ -44,7 +44,7 @@ export const ModelForm = Object.assign(
     return (
       <form className={className} {...htmlProps}>
         <LoadingStoreProvider>
-          <Lenses initialLens={DataLens.INPUT}>
+          <Lenses initialLens={DataLens.VALUE}>
             <ModelFormStoreProvider
               title={title}
               fields={fields.map(toField)}

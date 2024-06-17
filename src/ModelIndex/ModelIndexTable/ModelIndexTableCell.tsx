@@ -1,5 +1,5 @@
-import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { useShallow } from 'zustand/react/shallow';
 
 import { DEFAULT_TYPE, useConveyorStore } from '@/Conveyor';
 import { FormInput, FormValue } from '@/Form';
@@ -31,12 +31,20 @@ export const ModelIndexTableCell = ({
     return null;
   }
   const inputFn = useConveyorStore(
-    (state) =>
-      state.inputOptions[field.type] ?? state.inputOptions[DEFAULT_TYPE],
+    useShallow(
+      (state) =>
+        state.typeOptions?.[field.type]?.inputRenderFn ??
+        state.typeOptions?.[DEFAULT_TYPE]?.inputRenderFn ??
+        (() => null),
+    ),
   );
-  const displayFn = useConveyorStore(
-    (state) =>
-      state.valueOptions[field.type] ?? state.valueOptions[DEFAULT_TYPE],
+  const valueFn = useConveyorStore(
+    useShallow(
+      (state) =>
+        state.typeOptions?.[field.type]?.valueRenderFn ??
+        state.typeOptions?.[DEFAULT_TYPE]?.valueRenderFn ??
+        (() => null),
+    ),
   );
 
   return (
@@ -51,17 +59,12 @@ export const ModelIndexTableCell = ({
         activeLens === DataLens.INPUT &&
         setLens(DataLens.VALUE)
       }
-      className={twMerge(
-        clsx(
-          activeLens === DataLens.INPUT && field.editable && 'p-0',
-          className,
-        ),
-      )}
+      className={twMerge('p-0', className)}
     >
       {children === undefined ? (
         <>
           <Lens lens={!field.editable ? activeLens : DataLens.VALUE}>
-            <FormValue name={field.name} render={displayFn} />
+            <FormValue name={field.name} render={valueFn} />
           </Lens>
           <Lens lens={!field.editable ? false : DataLens.INPUT}>
             <FormInput

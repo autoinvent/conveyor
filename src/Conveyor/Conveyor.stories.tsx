@@ -6,15 +6,25 @@ import { ScalarTypes } from '@/types';
 
 import { Conveyor } from './Conveyor';
 
+const BEARS = [
+  { id: '1', name: 'Winnie The Pooh' },
+  { id: '2', name: 'Baloo' },
+];
+
 const meta = {
   title: 'Model/Conveyor/Conveyor',
   component: Conveyor,
   tags: ['autodocs'],
   args: {
-    valueOptions: {
-      [ScalarTypes.STRING]: ({ value }) => (
-        <b className="text-green-700">{value}</b>
-      ),
+    typeOptions: {
+      [ScalarTypes.STRING]: {
+        valueRenderFn: ({ value }) => <b className="text-green-700">{value}</b>,
+      },
+      DisneyBear: {
+        valueRenderFn: ({ value }) => (
+          <b>{BEARS.find((bear) => bear.id === value?.id)?.name ?? 'none'}</b>
+        ),
+      },
     },
   },
 } satisfies Meta<typeof Conveyor>;

@@ -1,4 +1,4 @@
-import type { ComponentProps, ReactElement } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import {
   Controller,
   type ControllerFieldState,
@@ -19,7 +19,7 @@ export interface InputRenderFnProps
   inputState: ControllerFieldState;
   formState: UseFormStateReturn<FieldValues>;
 }
-export type InputRenderFn = (props: InputRenderFnProps) => ReactElement;
+export type InputRenderFn = (props: InputRenderFnProps) => ReactNode;
 
 export interface FormInputProps
   extends Omit<ControllerProps, 'control' | 'render'> {
@@ -33,9 +33,9 @@ export const FormInput = ({ render, ...rest }: FormInputProps) => {
     <Controller
       {...rest}
       control={control}
-      render={({ field, fieldState, formState }) =>
-        render({ inputProps: field, inputState: fieldState, formState })
-      }
+      render={({ field, fieldState, formState }) => (
+        <>{render({ inputProps: field, inputState: fieldState, formState })}</>
+      )}
     />
   );
 };

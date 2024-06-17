@@ -31,3 +31,36 @@ export const upperCaseFirst = (str: string) => {
 export const generateUID = (prefix = 'UID') => {
   return `${prefix}-${crypto.randomUUID()}`;
 };
+
+// CAUTION: Infinite loop on circular references
+export const deepObjectMerge = (
+  target: Record<string, any>,
+  ...sources: Record<string, any>[]
+): Record<string, any> => {
+  if (!sources.length) return target;
+  const source = sources.shift();
+  if (
+    typeof target !== 'object' ||
+    typeof source !== 'object' ||
+    Array.isArray(target) ||
+    Array.isArray(source)
+  ) {
+    throw new Error(
+      'target and sources needs to be of type Record<string, any>',
+    );
+  }
+
+  // biome-ignore lint/complexity/noForEach: not a sparse array
+  Object.keys(source).forEach((key) => {
+    if (typeof source[key] === 'object') {
+      if (target[key]) {
+        deepObjectMerge(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    } else {
+      Object.assign(target, { [key]: source[key] });
+    }
+  });
+  return deepObjectMerge(target, ...sources);
+};

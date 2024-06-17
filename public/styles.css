@@ -633,10 +633,6 @@ button {
   margin-top: 1rem;
 }
 
-.mr-2 {
-  margin-right: 0.5rem;
-}
-
 .flex {
   display: flex;
 }
@@ -698,22 +694,12 @@ button {
   flex-basis: 50%;
 }
 
-.basis-5\/12 {
-  flex-basis: 41.666667%;
-}
-
 .table-auto {
   table-layout: auto;
 }
 
 .border-collapse {
   border-collapse: collapse;
-}
-
-.border-spacing-1 {
-  --tw-border-spacing-x: 0.25rem;
-  --tw-border-spacing-y: 0.25rem;
-  border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
 }
 
 @keyframes spin {
@@ -754,20 +740,10 @@ button {
   gap: 0.25rem;
 }
 
-.gap-2 {
-  gap: 0.5rem;
-}
-
 .divide-x > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-x-reverse: 0;
   border-right-width: calc(1px * var(--tw-divide-x-reverse));
   border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
-}
-
-.divide-x-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-x-reverse: 0;
-  border-right-width: calc(2px * var(--tw-divide-x-reverse));
-  border-left-width: calc(2px * calc(1 - var(--tw-divide-x-reverse)));
 }
 
 .divide-\[--border-color\] > :not([hidden]) ~ :not([hidden]) {
@@ -798,16 +774,6 @@ button {
 .rounded-r-sm {
   border-top-right-radius: 0.125rem;
   border-bottom-right-radius: 0.125rem;
-}
-
-.rounded-l {
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
-}
-
-.rounded-r {
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
 }
 
 .border {
@@ -848,6 +814,10 @@ button {
 
 .bg-\[--bg-accent\] {
   background-color: var(--bg-accent);
+}
+
+.bg-\[--fg-accent\] {
+  background-color: var(--fg-accent);
 }
 
 .bg-\[--fg-color\] {
@@ -931,8 +901,20 @@ button {
   text-align: center;
 }
 
+.text-justify {
+  text-align: justify;
+}
+
 .text-start {
   text-align: start;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.align-bottom {
+  vertical-align: bottom;
 }
 
 .text-4xl {

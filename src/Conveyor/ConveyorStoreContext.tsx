@@ -15,6 +15,7 @@ import {
   BooleanValue,
   DatetimeInput,
   DatetimeValue,
+  DefaultValue,
   IdValue,
   type InputRenderFn,
   NumberInput,
@@ -23,33 +24,50 @@ import {
   type ValueRenderFn,
 } from '@/Form';
 import { ScalarTypes } from '@/types';
+import { deepObjectMerge } from '@/utils';
 
 export const DEFAULT_TYPE = 'DEFAULT_TYPE';
 
 export interface ConveyorState {
-  inputOptions: Record<ScalarTypes | string, InputRenderFn>;
-  valueOptions: Record<ScalarTypes | string, ValueRenderFn>;
+  typeOptions?: {
+    [type: string]: {
+      inputRenderFn?: InputRenderFn;
+      valueRenderFn?: ValueRenderFn;
+    };
+  };
 }
 
 export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
-  inputOptions: {
-    [ScalarTypes.STRING]: StringInput,
-    [ScalarTypes.INT]: NumberInput,
-    [ScalarTypes.FLOAT]: NumberInput,
-    [ScalarTypes.DATETIME]: DatetimeInput,
-    [ScalarTypes.BOOLEAN]: BooleanInput,
-    [DEFAULT_TYPE]: ({ inputProps: { value } }) => (
-      <div className="px-2.5 py-1.5">{JSON.stringify(value)}</div>
-    ),
-  },
-  valueOptions: {
-    [ScalarTypes.ID]: IdValue,
-    [ScalarTypes.STRING]: RawValue,
-    [ScalarTypes.INT]: RawValue,
-    [ScalarTypes.FLOAT]: RawValue,
-    [ScalarTypes.DATETIME]: DatetimeValue,
-    [ScalarTypes.BOOLEAN]: BooleanValue,
-    [DEFAULT_TYPE]: ({ value }) => <>{JSON.stringify(value)}</>,
+  typeOptions: {
+    [ScalarTypes.ID]: {
+      valueRenderFn: IdValue,
+    },
+    [ScalarTypes.STRING]: {
+      valueRenderFn: RawValue,
+      inputRenderFn: StringInput,
+    },
+    [ScalarTypes.INT]: {
+      valueRenderFn: RawValue,
+      inputRenderFn: NumberInput,
+    },
+    [ScalarTypes.FLOAT]: {
+      valueRenderFn: RawValue,
+      inputRenderFn: NumberInput,
+    },
+    [ScalarTypes.DATETIME]: {
+      valueRenderFn: DatetimeValue,
+      inputRenderFn: DatetimeInput,
+    },
+    [ScalarTypes.BOOLEAN]: {
+      valueRenderFn: BooleanValue,
+      inputRenderFn: BooleanInput,
+    },
+    [DEFAULT_TYPE]: {
+      valueRenderFn: DefaultValue,
+      inputRenderFn: ({ inputProps: { value, name } }) => (
+        <DefaultValue name={name} value={value} />
+      ),
+    },
   },
 };
 
@@ -70,18 +88,10 @@ export const ConveyorStoreProvider = ({
   */
   const storeState = useMemo(
     () =>
-      produce(conveyorState, (draftState) => {
-        draftState.inputOptions ??= {};
-        draftState.inputOptions = Object.assign(
-          {},
-          DEFAULT_CONVEYOR_STATE.inputOptions,
-          draftState.inputOptions,
-        );
-        draftState.valueOptions ??= {};
-        draftState.valueOptions = Object.assign(
-          {},
-          DEFAULT_CONVEYOR_STATE.valueOptions,
-          draftState.valueOptions,
+      produce(DEFAULT_CONVEYOR_STATE, (draftState) => {
+        deepObjectMerge(
+          draftState.typeOptions ?? {},
+          conveyorState.typeOptions ?? {},
         );
       }) as ConveyorState,
     Object.values(conveyorState),
