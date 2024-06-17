@@ -16,7 +16,10 @@ export const ModelIndexTableErrorRow = ({
 }: ModelIndexTableErrorRowProps) => {
   const fieldNames = useTableStore((state) => state.columnIds);
   const errors = useFormStore((state) => state.formState.errors);
-  return errors && Object.keys(errors).length ? (
+  const hasErrorMessage = Object.keys(errors).some(
+    (fieldName) => errors[fieldName]?.message,
+  );
+  return errors && hasErrorMessage && Object.keys(errors).length ? (
     <tr className={twMerge('danger', className)} {...htmlProps}>
       {fieldNames.map((fieldName) => {
         return fieldName === ACTION_COLUMN ? (

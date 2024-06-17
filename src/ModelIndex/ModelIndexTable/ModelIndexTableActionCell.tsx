@@ -5,10 +5,9 @@ import {
   FaRegTrashAlt,
 } from 'react-icons/fa';
 
-import { Spinner } from '@/AtomicComponents';
 import { useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
-import { useLoadingStore } from '@/Loading';
+import { Spinner, useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type DataType } from '@/types';
 

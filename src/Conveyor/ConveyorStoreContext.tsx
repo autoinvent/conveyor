@@ -19,7 +19,7 @@ import {
   type InputRenderFn,
   NumberInput,
   StringInput,
-  StringValue,
+  RawValue,
   type ValueRenderFn,
 } from '@/Form';
 import { ScalarTypes } from '@/types';
@@ -44,9 +44,9 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
   },
   valueOptions: {
     [ScalarTypes.ID]: IdValue,
-    [ScalarTypes.STRING]: StringValue,
-    [ScalarTypes.INT]: StringValue,
-    [ScalarTypes.FLOAT]: StringValue,
+    [ScalarTypes.STRING]: RawValue,
+    [ScalarTypes.INT]: RawValue,
+    [ScalarTypes.FLOAT]: RawValue,
     [ScalarTypes.DATETIME]: DatetimeValue,
     [ScalarTypes.BOOLEAN]: BooleanValue,
     [DEFAULT_TYPE]: ({ value }) => <>{JSON.stringify(value)}</>,

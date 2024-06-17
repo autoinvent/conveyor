@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 
-import { Spinner } from '@/AtomicComponents';
+import { Spinner } from '@/Loading';
 
 import { useTableStore } from './useTableStore';
 

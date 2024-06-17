@@ -1,3 +1,6 @@
+//components
+export * from './Spinner';
+
 // contexts
 export * from './LoadingStoreContext';
 

@@ -9,14 +9,16 @@ export const DatetimeInput = ({
   inputState,
   formState,
   className,
+  'aria-invalid': ariaInvalid,
   ...htmlProps
 }: DatetimeInputProps) => {
   return (
     <input
       type="datetime-local"
       value={value?.substring(0, 19) ?? ''}
+      aria-invalid={ariaInvalid ?? inputState.invalid}
       className={twMerge(
-        'h-full w-full bg-[--bg-accent] px-3 outline-1 outline-[--text-color] focus:outline',
+        'h-full w-full bg-[--bg-accent] px-3 outline-1 outline-[--text-color] aria-[invalid=true]:border aria-[invalid=true]:border-[--danger] focus:outline aria-[invalid=true]:outline-[--danger]',
         className,
       )}
       {...htmlProps}

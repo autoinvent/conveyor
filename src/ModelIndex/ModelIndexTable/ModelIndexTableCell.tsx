@@ -66,9 +66,7 @@ export const ModelIndexTableCell = ({
           <Lens lens={!field.editable ? false : DataLens.INPUT}>
             <FormInput
               name={field.name}
-              rules={{
-                required: field.required ? `${field.name} is required.` : false,
-              }}
+              rules={field.rules}
               render={(props) =>
                 inputFn({
                   ...props,
