@@ -25,9 +25,7 @@ export const ModelIndexTableHeaderRow = ({
         <>
           {fieldNames.map((fieldName) => {
             return fieldName === ACTION_COLUMN ? (
-              showActions ? (
-                <ModelIndexTableActionHeaderCell key={fieldName} />
-              ) : null
+              showActions && <ModelIndexTableActionHeaderCell key={fieldName} />
             ) : (
               <ModelIndexTableHeaderCell
                 key={fieldName}

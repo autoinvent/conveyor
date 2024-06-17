@@ -33,7 +33,13 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const BasicUsage: Story = {};
+export const CreateForm: Story = {};
+
+export const UpdateForm: Story = {
+  args: {
+    onCreate: undefined,
+  },
+};
 
 export const NoFields: Story = {
   args: {

@@ -42,9 +42,7 @@ export const ModelIndexTableRow = ({
               <>
                 {fieldNames.map((fieldName) => {
                   return fieldName === ACTION_COLUMN ? (
-                    showActions ? (
-                      <ModelIndexTableActionCell key={fieldName} />
-                    ) : null
+                    showActions && <ModelIndexTableActionCell key={fieldName} />
                   ) : (
                     <ModelIndexTableCell
                       key={fieldName}

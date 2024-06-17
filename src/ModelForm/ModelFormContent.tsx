@@ -24,20 +24,23 @@ export const ModelFormContent = ({
       state.fields.map((field) => field.name),
     ),
   );
+  const data = useModelFormStore((state) => state.data);
   return (
-    <div className={twMerge('flex flex-wrap', className)} {...htmlProps}>
-      <Slots slotKeys={fieldNames}>
-        {children === undefined || prefilled ? (
-          <>
-            {fieldNames.map((fieldName) => (
-              <ModelFormField key={fieldName} fieldName={fieldName} />
-            ))}
-            {children}
-          </>
-        ) : (
-          children
-        )}
-      </Slots>
-    </div>
+    data && (
+      <div className={twMerge('flex flex-wrap', className)} {...htmlProps}>
+        <Slots slotKeys={fieldNames}>
+          {children === undefined || prefilled ? (
+            <>
+              {fieldNames.map((fieldName) => (
+                <ModelFormField key={fieldName} fieldName={fieldName} />
+              ))}
+              {children}
+            </>
+          ) : (
+            children
+          )}
+        </Slots>
+      </div>
+    )
   );
 };

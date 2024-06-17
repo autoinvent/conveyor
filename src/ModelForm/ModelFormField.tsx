@@ -62,6 +62,9 @@ export const ModelFormField = ({
                 className="whitespace-nowrap bg-[--fg-accent] p-2"
               >
                 {humanizeText(fieldName)}
+                {field.rules?.required && (
+                  <span className="text-[--danger]">{' *'}</span>
+                )}
               </label>
               <span className="h-full w-full bg-[--fg-color]">
                 <Lens lens={!field.editable ? activeLens : DataLens.VALUE}>

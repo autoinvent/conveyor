@@ -53,60 +53,62 @@ export const ModelIndexTableActionCell = ({
     });
   };
 
-  return showActions ? (
-    <TableCell
-      className={twMerge('w-0 p-0', className)}
-      columnId={ACTION_COLUMN}
-      {...props}
-    >
-      {children === undefined ? (
-        <form
-          className="flex h-full items-center justify-center whitespace-nowrap"
-          onSubmit={handleSubmit(onSave)}
-        >
-          <Lens lens={!isLoading && DataLens.VALUE}>
-            <button
-              type="button"
-              className="flex h-full grow items-center justify-center rounded-l-sm border-[--primary] text-[--primary] focus:bg-[--primary] hover:bg-[--primary] focus:text-[--text-color] hover:text-[--text-color]"
-              onClick={onEdit}
-              onKeyUp={(e) => e.key === 'Enter' && onEdit()}
-            >
-              <FaEdit />
-            </button>
-            {onDelete && (
+  return (
+    showActions && (
+      <TableCell
+        className={twMerge('w-0 p-0', className)}
+        columnId={ACTION_COLUMN}
+        {...props}
+      >
+        {children === undefined ? (
+          <form
+            className="flex h-full items-center justify-center whitespace-nowrap"
+            onSubmit={handleSubmit(onSave)}
+          >
+            <Lens lens={!isLoading && DataLens.VALUE}>
               <button
-                onClick={onDeleteHandler}
-                onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
                 type="button"
-                className="flex h-full grow items-center justify-center rounded-r-sm border-[--danger] text-[--danger] focus:bg-[--danger] hover:bg-[--danger] focus:text-[--text-color] hover:text-[--text-color]"
+                className="flex h-full grow items-center justify-center rounded-l-sm border-[--primary] text-[--primary] focus:bg-[--primary] hover:bg-[--primary] focus:text-[--text-color] hover:text-[--text-color]"
+                onClick={onEdit}
+                onKeyUp={(e) => e.key === 'Enter' && onEdit()}
               >
-                <FaRegTrashAlt />
+                <FaEdit />
               </button>
-            )}
-          </Lens>
-          <Lens lens={!isLoading && DataLens.INPUT}>
-            {onUpdate && (
+              {onDelete && (
+                <button
+                  onClick={onDeleteHandler}
+                  onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
+                  type="button"
+                  className="flex h-full grow items-center justify-center rounded-r-sm border-[--danger] text-[--danger] focus:bg-[--danger] hover:bg-[--danger] focus:text-[--text-color] hover:text-[--text-color]"
+                >
+                  <FaRegTrashAlt />
+                </button>
+              )}
+            </Lens>
+            <Lens lens={!isLoading && DataLens.INPUT}>
+              {onUpdate && (
+                <button
+                  className="flex h-full grow items-center justify-center rounded-l-sm border-[--success] text-[--success] focus:bg-[--success] hover:bg-[--success] focus:text-[--text-color] hover:text-[--text-color]"
+                  type="submit"
+                >
+                  <FaRegSave />
+                </button>
+              )}
               <button
-                className="flex h-full grow items-center justify-center rounded-l-sm border-[--success] text-[--success] focus:bg-[--success] hover:bg-[--success] focus:text-[--text-color] hover:text-[--text-color]"
-                type="submit"
+                type="button"
+                className="flex h-full grow items-center justify-center rounded-r-sm border-[--primary] text-[--primary] focus:bg-[--primary] hover:bg-[--primary] focus:text-[--text-color] hover:text-[--text-color]"
+                onClick={onCancelEdit}
+                onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
               >
-                <FaRegSave />
+                <FaRegTimesCircle />
               </button>
-            )}
-            <button
-              type="button"
-              className="flex h-full grow items-center justify-center rounded-r-sm border-[--primary] text-[--primary] focus:bg-[--primary] hover:bg-[--primary] focus:text-[--text-color] hover:text-[--text-color]"
-              onClick={onCancelEdit}
-              onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
-            >
-              <FaRegTimesCircle />
-            </button>
-          </Lens>
-          {isLoading && <Spinner />}
-        </form>
-      ) : (
-        children
-      )}
-    </TableCell>
-  ) : null;
+            </Lens>
+            {isLoading && <Spinner />}
+          </form>
+        ) : (
+          children
+        )}
+      </TableCell>
+    )
+  );
 };

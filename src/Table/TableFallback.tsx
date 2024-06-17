@@ -13,24 +13,27 @@ export const TableFallback = ({
 }: TableFallbackProps) => {
   const { columnIds, data } = useTableStore();
 
-  return (!data || data.length === 0) && columnIds.length > 0 ? (
-    <tbody className={className} {...props}>
-      <tr>
-        <td
-          className="border border-[--border-color] bg-[--fg-color] p-1.5"
-          colSpan={columnIds.length}
-        >
-          {children === undefined ? (
-            data ? (
-              <div className="text-center">No Records Found.</div>
+  return (
+    (!data || data.length === 0) &&
+    columnIds.length > 0 && (
+      <tbody className={className} {...props}>
+        <tr>
+          <td
+            className="border border-[--border-color] bg-[--fg-color] p-1.5"
+            colSpan={columnIds.length}
+          >
+            {children === undefined ? (
+              data ? (
+                <div className="text-center">No Records Found.</div>
+              ) : (
+                <Spinner />
+              )
             ) : (
-              <Spinner />
-            )
-          ) : (
-            children
-          )}
-        </td>
-      </tr>
-    </tbody>
-  ) : null;
+              children
+            )}
+          </td>
+        </tr>
+      </tbody>
+    )
+  );
 };

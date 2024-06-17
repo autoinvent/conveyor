@@ -19,16 +19,19 @@ export const TableBody = ({
 }: TableBodyProps) => {
   const data = useTableStore((state) => state.data);
 
-  return data && data.length > 0 ? (
-    <tbody className={className} {...htmlProps}>
-      {data.map((rowData) => {
-        const rowKey = `table-row-${getRowId(rowData)}`;
-        return (
-          <DataStoreProvider key={rowKey} data={rowData}>
-            {children === undefined ? <TableRow /> : children}
-          </DataStoreProvider>
-        );
-      })}
-    </tbody>
-  ) : null;
+  return (
+    data &&
+    data.length > 0 && (
+      <tbody className={className} {...htmlProps}>
+        {data.map((rowData) => {
+          const rowKey = `table-row-${getRowId(rowData)}`;
+          return (
+            <DataStoreProvider key={rowKey} data={rowData}>
+              {children === undefined ? <TableRow /> : children}
+            </DataStoreProvider>
+          );
+        })}
+      </tbody>
+    )
+  );
 };

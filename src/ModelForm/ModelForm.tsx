@@ -1,8 +1,9 @@
 import type { ComponentProps } from 'react';
 import type { UseFormProps } from 'react-hook-form';
 
+import { FormStoreProvider, useFormStore } from '@/Form';
 import { Lenses } from '@/Lenses';
-import { LoadingStoreProvider } from '@/Loading';
+import { LoadingStoreProvider, useLoadingStore } from '@/Loading';
 import { DataLens, type DataType, type Field } from '@/types';
 import { toField } from '@/utils';
 
@@ -14,11 +15,12 @@ import {
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
 import { ModelFormTitle } from './ModelFormTitle';
-import { FormStoreProvider } from '..';
+import { useModelFormStore } from './useModelFormStore';
+import { ModelFormFallback } from './ModelFormFallback';
 
 export interface ModelFormProps<D extends DataType>
   extends Omit<ModelFormState<D>, 'fields'>,
-    Omit<ComponentProps<'form'>, 'title'> {
+    Omit<ComponentProps<'form'>, 'title' | 'onSubmit'> {
   fields: (string | Field)[];
   formOptions?: UseFormProps;
 }
@@ -42,38 +44,64 @@ export const ModelForm = Object.assign(
       formOptions,
     );
     return (
-      <form className={className} {...htmlProps}>
-        <LoadingStoreProvider>
-          <Lenses initialLens={DataLens.VALUE}>
-            <ModelFormStoreProvider
-              title={title}
-              fields={fields.map(toField)}
-              data={data}
-              showActions={showActions}
-              onCreate={onCreate}
-              onUpdate={onUpdate}
-              onDelete={onDelete}
-            >
-              <FormStoreProvider {...formProps}>
+      <ModelFormStoreProvider
+        title={title}
+        fields={fields.map(toField)}
+        data={data}
+        showActions={showActions}
+        onCreate={onCreate}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+      >
+        <FormStoreProvider {...formProps}>
+          <LoadingStoreProvider>
+            <Form {...htmlProps}>
+              <Lenses initialLens={DataLens.INPUT}>
                 {children === undefined ? (
                   <>
                     <ModelForm.Title />
                     <ModelForm.Content />
+                    <ModelForm.Actions />
+                    <ModelForm.Fallback />
                   </>
                 ) : (
                   children
                 )}
-              </FormStoreProvider>
-            </ModelFormStoreProvider>
-          </Lenses>
-        </LoadingStoreProvider>
-      </form>
+              </Lenses>
+            </Form>
+          </LoadingStoreProvider>
+        </FormStoreProvider>
+      </ModelFormStoreProvider>
     );
   },
   {
     Actions: ModelFormActions,
     Content: ModelFormContent,
+    Fallback: ModelFormFallback,
     Field: ModelFormField,
     Title: ModelFormTitle,
   },
 );
+
+interface FormProps extends Omit<ComponentProps<'form'>, 'title'> {}
+
+const Form = ({ children, ...htmlProps }: FormProps) => {
+  const setIsLoading = useLoadingStore((state) => state.setIsLoading);
+  const handleSubmit = useFormStore((state) => state.handleSubmit);
+  const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
+  const onCreate = useModelFormStore((state) => state.onCreate);
+  const onUpdate = useModelFormStore((state) => state.onUpdate);
+  const onSave = onCreate ?? onUpdate;
+  const onSubmit = (formData: DataType) => {
+    onSave && setIsLoading(true);
+    onSave?.({ data: formData, dirtyFields })?.finally(() => {
+      setIsLoading(false);
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} {...htmlProps}>
+      {children}
+    </form>
+  );
+};
