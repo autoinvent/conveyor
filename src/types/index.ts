@@ -1,3 +1,3 @@
 export * from './common';
+export * from './conveyor';
 export * from './magql';
-export * from './model';

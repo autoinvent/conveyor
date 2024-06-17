@@ -1,11 +1,9 @@
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { ErrorMessage } from '@hookform/error-message';
-
 import { useTableStore } from '@/Table';
 
-import { useFormStore } from '@/Form';
+import { FormError, useFormStore } from '@/Form';
 import { ACTION_COLUMN } from './constants';
 
 export interface ModelIndexTableErrorRowProps extends ComponentProps<'tr'> {}
@@ -19,14 +17,14 @@ export const ModelIndexTableErrorRow = ({
   const hasErrorMessage = Object.keys(errors).some(
     (fieldName) => errors[fieldName]?.message,
   );
-  return errors && hasErrorMessage && Object.keys(errors).length ? (
+  return hasErrorMessage && Object.keys(errors).length ? (
     <tr className={twMerge('danger', className)} {...htmlProps}>
       {fieldNames.map((fieldName) => {
         return fieldName === ACTION_COLUMN ? (
           <td className="border" key={ACTION_COLUMN} />
         ) : (
           <td key={fieldName} className="border px-3">
-            <ErrorMessage errors={errors} name={fieldName} />
+            <FormError name={fieldName} />
           </td>
         );
       })}

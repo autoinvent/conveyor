@@ -1,7 +1,9 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+import type { UseFormProps } from 'react-hook-form';
 
-import type { DataType, Field } from '@/types';
+import { Lenses } from '@/Lenses';
+import { LoadingStoreProvider } from '@/Loading';
+import { DataLens, type DataType, type Field } from '@/types';
 import { toField } from '@/utils';
 
 import { ModelFormActions } from './ModelFormActions';
@@ -12,11 +14,13 @@ import {
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
 import { ModelFormTitle } from './ModelFormTitle';
+import { FormStoreProvider } from '..';
 
 export interface ModelFormProps<D extends DataType>
   extends Omit<ModelFormState<D>, 'fields'>,
     Omit<ComponentProps<'form'>, 'title'> {
   fields: (string | Field)[];
+  formOptions?: UseFormProps;
 }
 
 export const ModelForm = Object.assign(
@@ -30,28 +34,39 @@ export const ModelForm = Object.assign(
     onDelete,
     className,
     children,
+    formOptions,
     ...htmlProps
   }: ModelFormProps<D>) => {
+    const formProps = Object.assign(
+      { mode: 'onChange', defaultValues: data },
+      formOptions,
+    );
     return (
-      <form className={twMerge('', className)} {...htmlProps}>
-        <ModelFormStoreProvider
-          title={title}
-          fields={fields.map(toField)}
-          data={data}
-          showActions={showActions}
-          onCreate={onCreate}
-          onUpdate={onUpdate}
-          onDelete={onDelete}
-        >
-          {children === undefined ? (
-            <>
-              <ModelForm.Title />
-              <ModelForm.Content />
-            </>
-          ) : (
-            children
-          )}
-        </ModelFormStoreProvider>
+      <form className={className} {...htmlProps}>
+        <LoadingStoreProvider>
+          <Lenses initialLens={DataLens.INPUT}>
+            <ModelFormStoreProvider
+              title={title}
+              fields={fields.map(toField)}
+              data={data}
+              showActions={showActions}
+              onCreate={onCreate}
+              onUpdate={onUpdate}
+              onDelete={onDelete}
+            >
+              <FormStoreProvider {...formProps}>
+                {children === undefined ? (
+                  <>
+                    <ModelForm.Title />
+                    <ModelForm.Content />
+                  </>
+                ) : (
+                  children
+                )}
+              </FormStoreProvider>
+            </ModelFormStoreProvider>
+          </Lenses>
+        </LoadingStoreProvider>
       </form>
     );
   },

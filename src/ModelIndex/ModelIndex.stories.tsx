@@ -18,7 +18,7 @@ const meta = {
         name: 'name',
         type: ScalarTypes.STRING,
         editable: true,
-        rules: { required: true },
+        rules: { required: 'Name is required.' },
       },
       {
         name: 'isHappy',

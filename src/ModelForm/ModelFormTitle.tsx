@@ -1,6 +1,8 @@
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import { useModelFormStore } from './useModelFormStore';
+
 export interface ModelFormTitleProps extends ComponentProps<'h2'> {}
 
 export const ModelFormTitle = ({
@@ -8,7 +10,7 @@ export const ModelFormTitle = ({
   className,
   ...props
 }: ModelFormTitleProps) => {
-  const title = ''; //useModelFormStore((state) => state.title);
+  const title = useModelFormStore((state) => state.title);
   return (
     <h2
       className={twMerge(

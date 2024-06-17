@@ -9,7 +9,7 @@ const meta = {
   component: ModelForm,
   tags: ['autodocs'],
   args: {
-    title: 'Disney Cats',
+    title: 'Disney Cat',
     fields: [
       'id',
       'type',
@@ -17,7 +17,7 @@ const meta = {
         name: 'name',
         type: ScalarTypes.STRING,
         editable: true,
-        rules: { required: true },
+        rules: { required: 'Name is required.' },
       },
       { name: 'isHappy', type: ScalarTypes.BOOLEAN, editable: true },
       { name: 'released', type: ScalarTypes.DATETIME, editable: true },

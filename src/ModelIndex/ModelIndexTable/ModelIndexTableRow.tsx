@@ -15,28 +15,28 @@ import { ModelIndexTableErrorRow } from './ModelIndexTableErrorRow';
 import { ACTION_COLUMN } from './constants';
 
 export interface ModelIndexTableRowProps extends TableRowProps {
-  formProps?: UseFormProps;
+  formOptions?: UseFormProps;
 }
 
 export const ModelIndexTableRow = ({
   prefilled,
   defaultValue,
-  formProps,
+  formOptions,
   children,
   ...props
 }: ModelIndexTableRowProps) => {
   const fieldNames = useTableStore((state) => state.columnIds);
   const showActions = useModelIndexStore((state) => state.showActions);
   const data = useDataStore();
-  const form = Object.assign(
+  const formProps = Object.assign(
     { mode: 'onChange', defaultValues: data },
-    formProps,
+    formOptions,
   );
 
   return (
-    <FormStoreProvider {...form}>
-      <Lenses initialLens={DataLens.VALUE}>
-        <LoadingStoreProvider>
+    <FormStoreProvider {...formProps}>
+      <LoadingStoreProvider>
+        <Lenses initialLens={DataLens.VALUE}>
           <TableRow prefilled={false} {...props}>
             {children === undefined || prefilled ? (
               <>
@@ -58,9 +58,9 @@ export const ModelIndexTableRow = ({
               children
             )}
           </TableRow>
-        </LoadingStoreProvider>
-        <ModelIndexTableErrorRow />
-      </Lenses>
+        </Lenses>
+      </LoadingStoreProvider>
+      <ModelIndexTableErrorRow />
     </FormStoreProvider>
   );
 };
