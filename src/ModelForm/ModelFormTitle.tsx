@@ -14,7 +14,7 @@ export const ModelFormTitle = ({
   return (
     <h2
       className={twMerge(
-        'mb-2 flex items-end font-semibold text-4xl',
+        'mb-2 flex items-end text-start font-semibold text-4xl',
         className,
       )}
       {...props}

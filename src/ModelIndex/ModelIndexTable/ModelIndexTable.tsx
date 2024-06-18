@@ -21,7 +21,7 @@ export interface ModelIndexTableProps extends ComponentProps<'table'> {}
 
 export const ModelIndexTable = Object.assign(
   ({ children, ...props }: ModelIndexTableProps) => {
-    const fieldNames = useModelIndexStore(
+    let fieldNames = useModelIndexStore(
       useShallow<ModelIndexState<DataType>, string[]>((state) =>
         state.fields.map((field) => field.name),
       ),
@@ -36,7 +36,7 @@ export const ModelIndexTable = Object.assign(
       data.length > 0 &&
       !fieldNames.includes(ACTION_COLUMN)
     ) {
-      fieldNames.push(ACTION_COLUMN);
+      fieldNames = fieldNames.concat([ACTION_COLUMN]);
     }
 
     return (

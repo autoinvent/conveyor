@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ScalarTypes } from '@/types';
@@ -106,5 +108,24 @@ export const UndefinedData: Story = {
 export const DisableActions = {
   args: {
     showActions: false,
+  },
+};
+
+export const LoadedData = {
+  render: ({ data, ...props }: any) => {
+    const tableViewOptions = useTableView();
+    const [currData, setCurrData] = useState(undefined);
+
+    return (
+      <>
+        <button type="button" onClick={() => setCurrData(data)}>
+          Get Data
+        </button>
+        <button type="button" onClick={() => setCurrData(undefined)}>
+          Load Data
+        </button>
+        <ModelIndex data={currData} {...props} {...tableViewOptions} />
+      </>
+    );
   },
 };
