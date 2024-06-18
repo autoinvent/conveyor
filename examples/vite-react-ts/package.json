@@ -9,7 +9,7 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@autoinvent/conveyor": "file:autoinvent-conveyor-1.0.0.tgz",
+    "@autoinvent/conveyor": "file:autoinvent-conveyor-1.0.2.tgz",
     "react-helmet": "^6.1.0"
   },
   "peerDependencies": {
@@ -19,7 +19,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.0",
+    "@babel/core": "^7.24.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/react-helmet": "^6.1.11",

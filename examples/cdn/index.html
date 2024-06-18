@@ -15,28 +15,34 @@
     }
   </style>
   <link rel="stylesheet" href="/dist/styles.css" />
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="/dist/conveyor.umd.cjs"></script>
 </head>
 
 <body>
   <img src="/dist/logo.svg" alt="" class="h-8 w-8" />
   <div id="conveyor">Loading...</div>
-  <script type="module">
-    import React from "https://esm.sh/react@19/?dev"
-    import ReactDOMClient from "https://esm.sh/react-dom@19/client?dev"
-    import { Conveyor, ModelIndex, ScalarTypes } from "/dist/conveyor.js"
+  <script defer>
+    // <script type="module">
+    // import React from "https://esm.sh/react@18"
+    // import ReactDOMClient from "https://esm.sh/react-dom@18"
+    // import { ModelIndex, ScalarTypes, Table } from "https://esm.sh/@autoinvent/conveyor@1.0.2"
 
-    const { Conveyor, ModelIndex, ScalarTypes } = window.conveyor;
 
+    const { Conveyor, ModelIndex, ScalarTypes, useTableView } = window.conveyor;
     const root = ReactDOM.createRoot(document.getElementById("conveyor"))
     root.render(
       React.createElement('div', {
         className: "flex flex-col"
       }, React.createElement(Conveyor, {
-        valueOptions: {
-          [ScalarTypes.STRING]: (value) => React.createElement('b', { className: "text-green-700" }, value),
+        typeOptions: {
+          [ScalarTypes.STRING]: {
+            valueRenderFn: ({ value }) => React.createElement('b', { className: "text-green-700" }, value)
+          },
         }
       }, React.createElement(ModelIndex, {
-        model: "DisneyCats",
+        title: 'Disney Cats',
         fields: [
           'id',
           'type',
@@ -44,11 +50,20 @@
             name: 'name',
             type: ScalarTypes.STRING,
             editable: true,
-            required: true,
+            rules: { required: 'Name is required.' },
           },
-          { name: 'isHappy', type: ScalarTypes.BOOLEAN, editable: true },
+          {
+            name: 'isHappy',
+            type: ScalarTypes.BOOLEAN,
+            editable: true,
+          },
           { name: 'released', type: ScalarTypes.DATETIME, editable: true },
-          { name: 'bestBearFriend', type: 'DisneyBear', editable: true },
+          {
+            name: 'bestBearFriend',
+            type: 'DisneyBear',
+            editable: true,
+            sortable: false,
+          },
         ],
         data: [
           {
@@ -56,7 +71,7 @@
             type: 'Tiger',
             name: 'Tigger',
             isHappy: false,
-            released: '1928-10-1',
+            released: null,
             bestBearFriend: { id: '1' },
           },
           {
@@ -64,7 +79,7 @@
             type: 'Cat',
             name: 'Duchess',
             isHappy: true,
-            released: '1994-06-24',
+            released: '1994-06-24T01:56:34.926365',
             bestBearFriend: null,
           },
           {
@@ -72,11 +87,18 @@
             type: 'Lion',
             name: 'Simba',
             isHappy: true,
-            released: '1970-12-24',
+            released: '1970-12-24T01:56:34.926365',
             bestBearFriend: null,
           },
-        ]
-      })))
+        ],
+        onCreate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
+        onUpdate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
+        onDelete: () => new Promise((resolve) => setTimeout(resolve, 3000)),
+        paginationOptions: {
+          totalDataLength: 514,
+        },
+      }
+      )))
     );
   </script>
 </body>

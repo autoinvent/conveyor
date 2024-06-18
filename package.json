@@ -28,7 +28,7 @@
   "scripts": {
     "build": "pnpm build:css && tsc && vite build ",
     "build:css": "pnpx tailwindcss -i ./src/styles/tailwind.css -o ./public/styles.css",
-    "build:examples:vite-react-ts": "pnpm build && pnpm pack && cp *.tgz ./examples/vite-react-ts/ && cd ./examples/vite-react-ts/ && pnpm remove @autoinvent/conveyor && pnpm add ./*.tgz",
+    "build:examples:vite-react-ts": "pnpm build && pnpm pack &&  rm -f ./examples/vite-react-ts/*.tgz && cp *.tgz ./examples/vite-react-ts/ && cd ./examples/vite-react-ts/ && pnpm remove @autoinvent/conveyor && pnpm add ./*.tgz",
     "build:examples:cdn": "pnpm build && pnpm pack && cp -r ./dist ./examples/cdn",
     "examples:vite-react-ts": "cd ./examples/vite-react-ts/ && pnpm dev",
     "examples:cdn": "cd ./examples/cdn/ && pnpm dev",
