@@ -18,7 +18,7 @@ import type {
 } from '@/types';
 
 export interface PaginationOptions {
-  totalDataLength: number;
+  totalDataLength?: number;
   pageButtonLimit?: number; // The max number of page btns to show at a time
 }
 
