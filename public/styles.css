@@ -480,16 +480,6 @@ video {
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  color-scheme: dark;
-}
-
-button {
-  border-width: 1px;
-  border-color: var(--border-color);
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
 }
 
 *, ::before, ::after {
@@ -1054,4 +1044,10 @@ button {
 
 .aria-\[invalid\=true\]\:outline-\[--danger\][aria-invalid=true] {
   outline-color: var(--danger);
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark\:\[color-scheme\:dark\] {
+    color-scheme: dark;
+  }
 }

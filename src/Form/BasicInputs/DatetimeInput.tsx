@@ -18,7 +18,7 @@ export const DatetimeInput = ({
       value={value?.substring(0, 19) ?? ''}
       aria-invalid={ariaInvalid ?? inputState.invalid}
       className={twMerge(
-        'h-full w-full bg-[--bg-accent] px-3 outline-1 outline-[--text-color] aria-[invalid=true]:border aria-[invalid=true]:border-[--danger] focus:outline aria-[invalid=true]:outline-[--danger]',
+        'h-full w-full bg-[--bg-accent] px-3 outline-1 outline-[--text-color] aria-[invalid=true]:border aria-[invalid=true]:border-[--danger] focus:outline aria-[invalid=true]:outline-[--danger] dark:[color-scheme:dark]',
         className,
       )}
       {...htmlProps}

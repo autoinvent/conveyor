@@ -89,7 +89,7 @@ export const ModelIndexPagination = ({
                 type="button"
                 className={twMerge(
                   clsx(
-                    'rounded-md hover:bg-[--border-color]',
+                    'rounded-md border border-[--border-color] px-2 py-1 hover:bg-[--border-color]',
                     buttonPage === page &&
                       'border-[--success] bg-[--success] hover:border-[--success-dark] hover:bg-[--success-dark]',
                   ),
