@@ -9,6 +9,7 @@ export interface SlotProps {
 
 export const Slot = ({ slotKey, children }: SlotProps) => {
   const slotId = useId();
+  const slotKeys = useSlotsStore((state) => state.slotKeys);
   const slotNode = useSlotsStore((state) => state.slotNodes[slotKey]);
   const initalizeSlot = useSlotsStore((state) => state.initalizeSlot);
   const replaceSlot = useSlotsStore((state) => state.replaceSlot);
@@ -34,5 +35,5 @@ export const Slot = ({ slotKey, children }: SlotProps) => {
     replaceSlot,
   ]);
 
-  return null;
+  return <>{null && slotKeys}</>;
 };
