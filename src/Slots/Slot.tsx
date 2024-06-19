@@ -1,5 +1,4 @@
 import { type ReactNode, useEffect, useId } from 'react';
-import { useShallow } from 'zustand/react/shallow';
 
 import { useSlotsStore } from './useSlotsStore';
 
@@ -10,31 +9,27 @@ export interface SlotProps {
 
 export const Slot = ({ slotKey, children }: SlotProps) => {
   const slotId = useId();
-  const { currentSlotId, expiredSlotIds, replaceSlot, renderSlot } =
-    useSlotsStore(
-      useShallow((state) => ({
-        currentSlotId: state.currentSlotIds[slotKey],
-        expiredSlotIds: state.expiredSlotIds[slotKey],
-        replaceSlot: state.replaceSlot,
-        renderSlot: state.renderSlot,
-      })),
-    );
+  const slotNode = useSlotsStore((state) => state.slotNodes[slotKey]);
+  const initalizeSlot = useSlotsStore((state) => state.initalizeSlot);
+  const replaceSlot = useSlotsStore((state) => state.replaceSlot);
+  const renderSlot = useSlotsStore((state) => state.renderSlot);
 
   useEffect(() => {
-    if (expiredSlotIds && !expiredSlotIds.includes(slotId)) {
-      if (currentSlotId !== slotId) {
+    if (slotNode) {
+      if (slotNode.id === slotId) {
+        renderSlot(slotKey, children);
+      } else if (!slotNode.expiredIds.includes(slotId)) {
         replaceSlot(slotKey, slotId, children);
       }
-    }
-    if (currentSlotId === slotId) {
-      renderSlot(slotKey, children);
+    } else {
+      initalizeSlot(slotKey, slotId, children);
     }
   }, [
     children,
     slotKey,
     slotId,
-    currentSlotId,
-    expiredSlotIds,
+    slotNode,
+    initalizeSlot,
     renderSlot,
     replaceSlot,
   ]);

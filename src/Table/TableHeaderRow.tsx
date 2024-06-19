@@ -21,7 +21,7 @@ export const TableHeaderRow = ({
       <Slots slotKeys={columnIds}>
         {children === undefined || prefilled ? (
           <>
-            {columnIds.map((columnId: string) => {
+            {columnIds.map((columnId) => {
               return <TableHeaderCell key={columnId} columnId={columnId} />;
             })}
             {children}

@@ -10,12 +10,17 @@ import {
 import { type StoreApi, createStore, useStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
+export interface SlotNode {
+  id: string;
+  node: ReactNode;
+  expiredIds: string[];
+}
+
 export interface SlotsState {
   slotKeys: string[];
-  currentSlotNodes: Record<string, ReactNode>;
-  currentSlotIds: Record<string, string>;
-  expiredSlotIds: Record<string, string[]>;
-  replaceSlot: (slotKey: string, newSlotId: string, newNode: ReactNode) => void;
+  slotNodes: Record<string, SlotNode>;
+  initalizeSlot: (slotKey: string, newId: string, newNode: ReactNode) => void;
+  replaceSlot: (slotKey: string, newId: string, newNode: ReactNode) => void;
   renderSlot: (slotKey: string, node: ReactNode) => void;
 }
 
@@ -28,68 +33,47 @@ export interface SlotsProps {
   children?: ReactNode;
 }
 export const Slots = ({ slotKeys, children }: SlotsProps) => {
-  const initalSlotNodes = useMemo(
-    () =>
-      slotKeys.reduce<Record<string, ReactNode>>((currentSlotIds, slotKey) => {
-        currentSlotIds[slotKey] = null;
-        return currentSlotIds;
-      }, {}),
-    [slotKeys],
-  );
-  const initalSlotIds = useMemo(
-    () =>
-      slotKeys.reduce<Record<string, string>>((currentSlotIds, slotKey) => {
-        currentSlotIds[slotKey] = '';
-        return currentSlotIds;
-      }, {}),
-    [slotKeys],
-  );
-  const initialExpiredSlotIds = useMemo(
-    () =>
-      slotKeys.reduce<Record<string, string[]>>((expiredSlotIds, slotKey) => {
-        expiredSlotIds[slotKey] = [];
-        return expiredSlotIds;
-      }, {}),
-    [slotKeys],
-  );
-
   const [store] = useState(() =>
     createStore(
       immer<SlotsState>((set) => ({
         slotKeys,
-        currentSlotNodes: initalSlotNodes,
-        currentSlotIds: initalSlotIds,
-        expiredSlotIds: initialExpiredSlotIds,
-        replaceSlot: (slotKey, newSlotId, newNode) =>
+        slotNodes: {},
+        initalizeSlot: (slotKey, newId, newNode) =>
           set((state) => {
-            const currentSlotId = state.currentSlotIds[slotKey];
-            if (currentSlotId) {
-              state.expiredSlotIds[slotKey].push(currentSlotId);
+            state.slotNodes[slotKey] = {
+              id: newId,
+              node: newNode,
+              expiredIds: [],
+            };
+          }),
+        replaceSlot: (slotKey, newId, newNode) =>
+          set((state) => {
+            const slotNode = state.slotNodes[slotKey];
+            if (slotNode.id) {
+              state.slotNodes[slotKey].expiredIds.push(slotNode.id);
             }
-            state.currentSlotIds[slotKey] = newSlotId;
-            state.currentSlotNodes[slotKey] = newNode;
+            state.slotNodes[slotKey].id = newId;
+            state.slotNodes[slotKey].node = newNode;
           }),
         renderSlot: (slotKey, node) =>
           set((state) => {
-            state.currentSlotNodes[slotKey] = node;
+            state.slotNodes[slotKey].node = node;
           }),
       })),
     ),
   );
 
-  const currentSlotNodes = useStore(store, (state) => state.currentSlotNodes);
+  const slotNodes = useStore(store, (state) => state.slotNodes);
 
   const isMounted = useRef(false);
 
   useEffect(() => {
-    if (isMounted.current)
+    if (isMounted.current) {
       store.setState((state) => {
         state.slotKeys = slotKeys;
-        state.currentSlotNodes = initalSlotNodes;
-        state.currentSlotIds = initalSlotIds;
-        state.expiredSlotIds = initialExpiredSlotIds;
       });
-  }, [slotKeys, initalSlotNodes, initalSlotIds, initialExpiredSlotIds, store]);
+    }
+  }, [slotKeys, store]);
 
   useEffect(() => {
     isMounted.current = true;
@@ -98,7 +82,7 @@ export const Slots = ({ slotKeys, children }: SlotsProps) => {
   return (
     <SlotsStoreContext.Provider value={store}>
       {slotKeys.map((slotKey) => (
-        <Fragment key={slotKey}>{currentSlotNodes[slotKey]}</Fragment>
+        <Fragment key={slotKey}>{slotNodes?.[slotKey]?.node ?? null}</Fragment>
       ))}
       {children}
     </SlotsStoreContext.Provider>

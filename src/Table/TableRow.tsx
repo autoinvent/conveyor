@@ -23,7 +23,7 @@ export const TableRow = ({
       <Slots slotKeys={columnIds}>
         {children === undefined || prefilled ? (
           <>
-            {columnIds.map((columnId: string) => {
+            {columnIds.map((columnId) => {
               return <TableCell key={columnId} columnId={columnId} />;
             })}
             {children}

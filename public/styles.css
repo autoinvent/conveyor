@@ -891,6 +891,10 @@ body {
   text-align: center;
 }
 
+.text-start {
+  text-align: start;
+}
+
 .align-bottom {
   vertical-align: bottom;
 }
@@ -962,6 +966,10 @@ body {
 
 .outline-\[--text-color\] {
   outline-color: var(--text-color);
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .success {
