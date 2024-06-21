@@ -68,7 +68,7 @@ export const ModelIndexTableActionCell = ({
             <Lens lens={!isLoading && DataLens.VALUE}>
               <button
                 type="button"
-                className="flex h-full grow items-center justify-center rounded-l-sm border border-[--primary] px-2 py-1 text-[--primary] focus:bg-[--primary] hover:bg-[--primary] focus:text-[--text-color] hover:text-[--text-color]"
+                className="flex h-full grow items-center justify-center rounded-l-sm border border-primary px-2 py-1 text-primary focus:bg-primary hover:bg-primary focus:text-text hover:text-text"
                 onClick={onEdit}
                 onKeyUp={(e) => e.key === 'Enter' && onEdit()}
               >
@@ -79,7 +79,7 @@ export const ModelIndexTableActionCell = ({
                   onClick={onDeleteHandler}
                   onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
                   type="button"
-                  className="flex h-full grow items-center justify-center rounded-r-sm border border-[--danger] px-2 py-1 text-[--danger] focus:bg-[--danger] hover:bg-[--danger] focus:text-[--text-color] hover:text-[--text-color]"
+                  className="flex h-full grow items-center justify-center rounded-r-sm border border-danger px-2 py-1 text-danger focus:bg-danger hover:bg-danger focus:text-text hover:text-text"
                 >
                   <FaRegTrashAlt />
                 </button>
@@ -88,7 +88,7 @@ export const ModelIndexTableActionCell = ({
             <Lens lens={!isLoading && DataLens.INPUT}>
               {onUpdate && (
                 <button
-                  className="flex h-full grow items-center justify-center rounded-l-sm border border-[--success] px-2 py-1 text-[--success] focus:bg-[--success] hover:bg-[--success] focus:text-[--text-color] hover:text-[--text-color]"
+                  className="flex h-full grow items-center justify-center rounded-l-sm border border-success px-2 py-1 text-success focus:bg-success hover:bg-success focus:text-text hover:text-text"
                   type="submit"
                 >
                   <FaRegSave />
@@ -96,7 +96,7 @@ export const ModelIndexTableActionCell = ({
               )}
               <button
                 type="button"
-                className="flex h-full grow items-center justify-center rounded-r-sm border border-[--primary] px-2 py-1 text-[--primary] focus:bg-[--primary] hover:bg-[--primary] focus:text-[--text-color] hover:text-[--text-color]"
+                className="flex h-full grow items-center justify-center rounded-r-sm border border-primary px-2 py-1 text-primary focus:bg-primary hover:bg-primary focus:text-text hover:text-text"
                 onClick={onCancelEdit}
                 onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
               >

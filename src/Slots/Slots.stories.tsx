@@ -117,7 +117,7 @@ export const DynamicSlots: Story = {
               onClick={() =>
                 setContents(ingredients.slice(0, contents.length + 1))
               }
-              className="border border-[--border-color] px-2 py-1"
+              className="border border-border px-2 py-1"
             >
               Add {ingredients[contents.length]}
             </button>
@@ -128,7 +128,7 @@ export const DynamicSlots: Story = {
               onClick={() =>
                 setContents(ingredients.slice(0, contents.length - 1))
               }
-              className="border border-[--border-color] px-2 py-1"
+              className="border border-border px-2 py-1"
             >
               Remove {ingredients[contents.length - 1]}
             </button>

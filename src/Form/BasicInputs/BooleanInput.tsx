@@ -17,8 +17,8 @@ export const BooleanInput = ({
     <div
       className={twMerge(
         clsx(
-          inputState.invalid && 'border border-[--danger]',
-          'flex h-full w-full items-center justify-center bg-[--bg-accent]',
+          inputState.invalid && 'border border-danger',
+          'flex h-full w-full items-center justify-center bg-input disabled:opacity-75',
         ),
       )}
     >

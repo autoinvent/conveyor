@@ -17,10 +17,7 @@ export const TableHeaderCell = ({
   return (
     <Slot slotKey={columnId}>
       <th
-        className={twMerge(
-          'border border-[--border-color] bg-[--header-color] p-1.5',
-          className,
-        )}
+        className={twMerge('border border-border bg-accent p-1.5', className)}
         {...htmlProps}
       >
         {children === undefined ? humanizeText(columnId) : children}

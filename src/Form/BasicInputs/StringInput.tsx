@@ -17,7 +17,7 @@ export const StringInput = ({
       type="text"
       aria-invalid={ariaInvalid ?? inputState.invalid}
       className={twMerge(
-        'h-full w-full bg-[--bg-accent] px-3 outline-1 outline-[--text-color] aria-[invalid=true]:border aria-[invalid=true]:border-[--danger] focus:outline aria-[invalid=true]:outline-[--danger]',
+        'h-full w-full bg-input px-3 outline-1 outline-outline ring-0 aria-[invalid=true]:border aria-[invalid=true]:border-danger disabled:opacity-75 focus:outline aria-[invalid=true]:outline-danger',
         className,
       )}
       {...htmlProps}

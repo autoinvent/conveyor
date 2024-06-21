@@ -1,20 +1,24 @@
 import { type Field, ScalarTypes } from '@/types';
 
-export const toField = (str: string | Field): Field => {
-  if (typeof str === 'object') {
-    if (str.name && str.type) {
-      return str;
-    }
-    throw new Error(`${JSON.stringify(str)} must be of type Field.`);
+export const toField = (field: string | Field): Field => {
+  if (
+    !(typeof field === 'object' || typeof field === 'string') ||
+    field === '' ||
+    (typeof field === 'object' && (!field.name || !field?.type))
+  ) {
+    throw new Error(
+      'field must be a non-empty string or an object of type Field.',
+    );
   }
-  return {
-    name: str,
-    type: str === 'id' ? ScalarTypes.ID : ScalarTypes.STRING,
-    sortable: true,
-    editable: str !== 'id',
-  };
-};
 
-export const isModelType = (field: Field) => {
-  return !(Object.values(ScalarTypes) as string[]).includes(field.type);
+  if (typeof field === 'string') {
+    return {
+      name: field,
+      type: field === 'id' ? ScalarTypes.ID : ScalarTypes.STRING,
+      sortable: true,
+      editable: field !== 'id',
+    };
+  }
+
+  return Object.assign({ required: true, editable: true }, field);
 };

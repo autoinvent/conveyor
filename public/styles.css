@@ -447,39 +447,27 @@ video {
 }
 
 :root {
-  /* main background color */
-  --bg-color: hsl(0 0% 9.8%);
-  /* bg-color brightness factor */
-  --bg-color-bright: hsl(0, 0%, 100%);
-  /* accent to distinguish components on top of --bg-color   */
-  --bg-accent: hsl(0 0% 0%);
-  /* second level background color used on components on top of the --bg-color */
-  --fg-color: hsl(0 0% 14.7%);
-  /* accent to distinguish components on top of --fg-color  */
-  --fg-accent: hsl(0 0% 19.6%);
-  /* border color */
-  --border-color: hsl(0 0% 24.5%);
-  /* base text color */
-  --text-color: hsl(0 0% 88.2%);
-  /* inactive or not interactable color for text*/
-  --text-muted: hsl(0 0% 67.914%);
-  /* Header color */
-  --header-color: hsl(0 0% 7.35%);
-  --bg-success: hsl(160, 100%, 95%);
-  --bg-danger: hsl(0, 100%, 95%);
-  --bg-warning: hsl(51, 100%, 85%);
-  --success: hsl(160, 100%, 35.15%);
-  --danger: hsl(0, 100%, 35.15%);
-  --warning: hsl(51, 100%, 35.15%);
-  --primary: hsl(210, 50%, 35%);
-  --success-dark: hsl(160, 100%, 20.0355%);
-  --danger-dark: hsl(0, 100%, 20.0355%);
-  --primary-dark: hsl(210, 50%, 20.0355%);
+  --background: 0 0% 9.8%;
+  --foreground: 0 0% 14.7%;
+  --accent: 0 0% 7.35%;
+  --accent-foreground: 0 0% 19.6%;
+  --border: 0 0% 24.5%;
+  --outline: 0 0% 88.2%;
+  --input: 0 0% 0%;
+  --text: 0 0% 88.2%;
+  --primary: 210, 50%, 35.15%;
+  --primary-accent: 210, 50%, 20.0355%;
+  --success: 160, 100%, 35.15%;
+  --success-accent: 160, 100%, 20.0355%;
+  --danger: 0, 100%, 35.15%;
+  --danger-accent: 0, 100%, 20.0355%;
+  --warning: 51, 100%, 35.15%;
+  --warning-accent: 51, 100%, 20.0355%;
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: hsl(var(--background));
+  color: hsl(var(--text));
 }
 
 *, ::before, ::after {
@@ -736,8 +724,8 @@ body {
   border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
 }
 
-.divide-\[--border-color\] > :not([hidden]) ~ :not([hidden]) {
-  border-color: var(--border-color);
+.divide-border > :not([hidden]) ~ :not([hidden]) {
+  border-color: hsl(var(--border));
 }
 
 .whitespace-nowrap {
@@ -778,48 +766,36 @@ body {
   border-style: none;
 }
 
-.border-\[--border-color\] {
-  border-color: var(--border-color);
+.border-accent-foreground {
+  border-color: hsl(var(--accent-foreground));
 }
 
-.border-\[--danger\] {
-  border-color: var(--danger);
+.border-border {
+  border-color: hsl(var(--border));
 }
 
-.border-\[--fg-accent\] {
-  border-color: var(--fg-accent);
+.border-danger {
+  border-color: hsl(var(--danger));
 }
 
-.border-\[--primary\] {
-  border-color: var(--primary);
+.border-primary {
+  border-color: hsl(var(--primary));
 }
 
-.border-\[--success\] {
-  border-color: var(--success);
+.border-success {
+  border-color: hsl(var(--success));
 }
 
-.border-t-\[--text-color\] {
-  border-top-color: var(--text-color);
+.border-t-text {
+  border-top-color: hsl(var(--text));
 }
 
-.bg-\[--bg-accent\] {
-  background-color: var(--bg-accent);
+.bg-accent {
+  background-color: hsl(var(--accent));
 }
 
-.bg-\[--fg-accent\] {
-  background-color: var(--fg-accent);
-}
-
-.bg-\[--fg-color\] {
-  background-color: var(--fg-color);
-}
-
-.bg-\[--header-color\] {
-  background-color: var(--header-color);
-}
-
-.bg-\[--success\] {
-  background-color: var(--success);
+.bg-accent-foreground {
+  background-color: hsl(var(--accent-foreground));
 }
 
 .bg-blue-600 {
@@ -827,14 +803,26 @@ body {
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
+.bg-foreground {
+  background-color: hsl(var(--foreground));
+}
+
 .bg-green-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(22 163 74 / var(--tw-bg-opacity));
 }
 
+.bg-input {
+  background-color: hsl(var(--input));
+}
+
 .bg-red-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(220 38 38 / var(--tw-bg-opacity));
+}
+
+.bg-success {
+  background-color: hsl(var(--success));
 }
 
 .p-0 {
@@ -851,6 +839,11 @@ body {
 
 .p-2 {
   padding: 0.5rem;
+}
+
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .px-2 {
@@ -913,21 +906,13 @@ body {
   font-weight: 600;
 }
 
-.text-\[--danger\] {
-  color: var(--danger);
-}
-
-.text-\[--primary\] {
-  color: var(--primary);
-}
-
-.text-\[--success\] {
-  color: var(--success);
-}
-
 .text-cyan-600 {
   --tw-text-opacity: 1;
   color: rgb(8 145 178 / var(--tw-text-opacity));
+}
+
+.text-danger {
+  color: hsl(var(--danger));
 }
 
 .text-green-700 {
@@ -950,9 +935,17 @@ body {
   color: rgb(251 146 60 / var(--tw-text-opacity));
 }
 
+.text-primary {
+  color: hsl(var(--primary));
+}
+
 .text-rose-900 {
   --tw-text-opacity: 1;
   color: rgb(136 19 55 / var(--tw-text-opacity));
+}
+
+.text-success {
+  color: hsl(var(--success));
 }
 
 .text-yellow-200 {
@@ -964,94 +957,84 @@ body {
   outline-width: 1px;
 }
 
-.outline-\[--text-color\] {
-  outline-color: var(--text-color);
+.outline-outline {
+  outline-color: hsl(var(--outline));
 }
 
-.success {
-  background-color: var(--bg-success);
-  border-color: var(--success);
-  color: var(--success);
+.ring-0 {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
-.danger {
-  background-color: var(--bg-danger);
-  border-color: var(--danger);
-  color: var(--danger);
+.hover\:border-success-accent:hover {
+  border-color: hsl(var(--success-accent));
 }
 
-.warning {
-  background-color: var(--bg-warning);
-  border-color: var(--warning);
-  color: var(--warning);
+.hover\:bg-accent-foreground:hover {
+  background-color: hsl(var(--accent-foreground));
 }
 
-.hover\:border-\[--success-dark\]:hover {
-  border-color: var(--success-dark);
+.hover\:bg-danger:hover {
+  background-color: hsl(var(--danger));
 }
 
-.hover\:bg-\[--border-color\]:hover {
-  background-color: var(--border-color);
+.hover\:bg-primary:hover {
+  background-color: hsl(var(--primary));
 }
 
-.hover\:bg-\[--danger\]:hover {
-  background-color: var(--danger);
+.hover\:bg-success:hover {
+  background-color: hsl(var(--success));
 }
 
-.hover\:bg-\[--primary\]:hover {
-  background-color: var(--primary);
+.hover\:bg-success-accent:hover {
+  background-color: hsl(var(--success-accent));
 }
 
-.hover\:bg-\[--success-dark\]:hover {
-  background-color: var(--success-dark);
+.hover\:text-text:hover {
+  color: hsl(var(--text));
 }
 
-.hover\:bg-\[--success\]:hover {
-  background-color: var(--success);
+.focus\:bg-danger:focus {
+  background-color: hsl(var(--danger));
 }
 
-.hover\:text-\[--text-color\]:hover {
-  color: var(--text-color);
+.focus\:bg-primary:focus {
+  background-color: hsl(var(--primary));
 }
 
-.focus\:bg-\[--danger\]:focus {
-  background-color: var(--danger);
+.focus\:bg-success:focus {
+  background-color: hsl(var(--success));
 }
 
-.focus\:bg-\[--primary\]:focus {
-  background-color: var(--primary);
-}
-
-.focus\:bg-\[--success\]:focus {
-  background-color: var(--success);
-}
-
-.focus\:text-\[--text-color\]:focus {
-  color: var(--text-color);
+.focus\:text-text:focus {
+  color: hsl(var(--text));
 }
 
 .focus\:outline:focus {
   outline-style: solid;
 }
 
-.group:hover .group-hover\:bg-\[--fg-accent\] {
-  background-color: var(--fg-accent);
+.disabled\:opacity-75:disabled {
+  opacity: 0.75;
+}
+
+.group:hover .group-hover\:bg-accent-foreground {
+  background-color: hsl(var(--accent-foreground));
 }
 
 .aria-\[invalid\=true\]\:border[aria-invalid=true] {
   border-width: 1px;
 }
 
-.aria-\[invalid\=true\]\:border-\[--danger\][aria-invalid=true] {
-  border-color: var(--danger);
+.aria-\[invalid\=true\]\:border-danger[aria-invalid=true] {
+  border-color: hsl(var(--danger));
 }
 
-.aria-\[invalid\=true\]\:outline-\[--danger\][aria-invalid=true] {
-  outline-color: var(--danger);
+.aria-\[invalid\=true\]\:outline-danger[aria-invalid=true] {
+  outline-color: hsl(var(--danger));
 }
 
-@media (prefers-color-scheme: dark) {
-  .dark\:\[color-scheme\:dark\] {
-    color-scheme: dark;
-  }
+.dark\:\[color-scheme\:dark\]:where(.dark, .dark *) {
+  color-scheme: dark;
 }

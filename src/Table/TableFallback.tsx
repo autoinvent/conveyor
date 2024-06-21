@@ -18,10 +18,7 @@ export const TableFallback = ({
     columnIds.length > 0 && (
       <tbody className={className} {...props}>
         <tr>
-          <td
-            className="border border-[--border-color] bg-[--fg-color] p-1.5"
-            colSpan={columnIds.length}
-          >
+          <td className="border border-border p-1.5" colSpan={columnIds.length}>
             {children === undefined ? (
               data ? (
                 <div className="text-center">No Records Found.</div>

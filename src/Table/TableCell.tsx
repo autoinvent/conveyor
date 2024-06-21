@@ -20,7 +20,7 @@ export const TableCell = ({
     <Slot slotKey={columnId}>
       <td
         className={twMerge(
-          'h-full border border-[--border-color] bg-[--fg-color] px-2.5 py-1.5 group-hover:bg-[--fg-accent]',
+          'h-full border border-border px-2.5 py-1.5 group-hover:bg-accent-foreground',
           className,
         )}
         {...props}

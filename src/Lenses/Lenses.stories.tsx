@@ -41,7 +41,7 @@ export const BasicUsage: Story = {
           </Lens>
         </Lenses>
         <button
-          className="m-auto mt-4 border border-[--border-color] px-2 py-1"
+          className="m-auto mt-4 border border-border px-2 py-1"
           type="button"
           onClick={() => {
             setActiveLens(activeLens === 'red' ? 'blue' : 'red');

@@ -10,7 +10,7 @@ export const ModelIndexCreateButton = (
   return (
     onCreate && (
       <button
-        className="h-8 w-8 rounded-md border border-[--success] bg-[--success] px-2 py-1 text-sm hover:border-[--success-dark] hover:bg-[--success-dark]"
+        className="h-8 w-8 rounded-md border border-success bg-success px-2 py-1 text-sm hover:border-success-accent hover:bg-success-accent"
         onClick={() => onCreate?.()}
         {...props}
       >

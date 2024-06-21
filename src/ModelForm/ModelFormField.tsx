@@ -56,17 +56,17 @@ export const ModelFormField = ({
       >
         {children === undefined ? (
           <>
-            <div className="flex h-full divide-x divide-[--border-color] rounded border border-[--border-color]">
+            <div className="flex h-full divide-x divide-border rounded border border-border">
               <label
                 htmlFor={fieldName}
-                className="whitespace-nowrap bg-[--fg-accent] p-2"
+                className="whitespace-nowrap bg-accent-foreground p-2"
               >
                 {humanizeText(fieldName)}
                 {field.rules?.required && (
-                  <span className="text-[--danger]">{' *'}</span>
+                  <span className="text-danger">{' *'}</span>
                 )}
               </label>
-              <span className="h-full w-full bg-[--fg-color]">
+              <span className="h-full w-full bg-foreground">
                 <Lens lens={!field.editable ? activeLens : DataLens.VALUE}>
                   <FormValue name={field.name} render={valueFn} />
                 </Lens>
@@ -84,7 +84,7 @@ export const ModelFormField = ({
                 </Lens>
               </span>
             </div>
-            <span className="text-[--danger]">
+            <span className="text-danger">
               <FormError name={fieldName} />
             </span>
           </>

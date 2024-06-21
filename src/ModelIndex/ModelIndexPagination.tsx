@@ -72,7 +72,7 @@ export const ModelIndexPagination = ({
           <li>
             <button
               type="button"
-              className="flex items-center border-none p-0"
+              className="flex items-center rounded-md border-none px-0 py-1 hover:bg-accent-foreground"
               aria-label={`Go to page ${lowerBoundPage - 1}`}
               onClick={() => onTableViewChange?.({ page: lowerBoundPage - 1 })}
             >
@@ -89,9 +89,9 @@ export const ModelIndexPagination = ({
                 type="button"
                 className={twMerge(
                   clsx(
-                    'rounded-md border border-[--border-color] px-2 py-1 hover:bg-[--border-color]',
+                    'rounded-md border border-border px-2 py-1 hover:bg-accent-foreground',
                     buttonPage === page &&
-                      'border-[--success] bg-[--success] hover:border-[--success-dark] hover:bg-[--success-dark]',
+                      'border-success bg-success hover:border-success-accent hover:bg-success-accent',
                   ),
                 )}
                 onClick={() => onTableViewChange?.({ page: buttonPage })}
@@ -111,7 +111,7 @@ export const ModelIndexPagination = ({
             <li>
               <button
                 type="button"
-                className="flex items-center border-none p-0"
+                className="flex items-center rounded-md border-none px-0 py-1 hover:bg-accent-foreground"
                 aria-label={`Go to page ${upperBoundPage + 1}`}
                 onClick={() =>
                   onTableViewChange?.({ page: upperBoundPage + 1 })
