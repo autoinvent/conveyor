@@ -7,7 +7,7 @@ export enum DataLens {
 
 export type OnCreate<D extends DataType> =
   | ((data?: Partial<D>) => Promise<any>)
-  | ((data?: Partial<D>) => Promise<any>);
+  | ((data?: Partial<D>) => void);
 
 export type OnUpdate<D extends DataType> =
   | (({
