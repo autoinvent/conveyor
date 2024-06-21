@@ -92,11 +92,10 @@ const Form = ({ children, ...htmlProps }: FormProps) => {
   const onCreate = useModelFormStore((state) => state.onCreate);
   const onUpdate = useModelFormStore((state) => state.onUpdate);
   const onSave = onCreate ?? onUpdate;
-  const onSubmit = (formData: DataType) => {
+  const onSubmit = async (formData: DataType) => {
     onSave && setIsLoading(true);
-    onSave?.({ data: formData, dirtyFields })?.finally(() => {
-      setIsLoading(false);
-    });
+    await onSave?.({ data: formData, dirtyFields });
+    setIsLoading(false);
   };
 
   return (

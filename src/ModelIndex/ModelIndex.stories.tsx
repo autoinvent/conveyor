@@ -60,7 +60,7 @@ const meta = {
     ],
     onCreate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
-    onDelete: () => new Promise((resolve) => setTimeout(resolve, 3000)),
+    onDelete: () => {},
     paginationOptions: {
       totalDataLength: 514,
     },

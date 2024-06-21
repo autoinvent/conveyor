@@ -40,17 +40,15 @@ export const ModelIndexTableActionCell = ({
     setLens(DataLens.VALUE);
     reset();
   };
-  const onSave = (formData: DataType) => {
+  const onSave = async (formData: DataType) => {
     onUpdate && setIsLoading(true);
-    onUpdate?.({ data: formData, dirtyFields })?.finally(() => {
-      setIsLoading(false);
-    });
+    await onUpdate?.({ data: formData, dirtyFields });
+    setIsLoading(false);
   };
-  const onDeleteHandler = () => {
+  const onDeleteHandler = async () => {
     onDelete && setIsLoading(true);
-    onDelete?.(defaultValues)?.finally(() => {
-      setIsLoading(false);
-    });
+    await onDelete?.(defaultValues);
+    setIsLoading(false);
   };
 
   return (

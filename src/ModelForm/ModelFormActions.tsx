@@ -27,11 +27,10 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
     setLens(DataLens.VALUE);
     reset();
   };
-  const onDeleteHandler = () => {
+  const onDeleteHandler = async () => {
     onDelete && setIsLoading(true);
-    onDelete?.(defaultValues)?.finally(() => {
-      setIsLoading(false);
-    });
+    await onDelete?.(defaultValues);
+    setIsLoading(false);
   };
 
   return (
