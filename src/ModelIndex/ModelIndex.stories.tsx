@@ -19,19 +19,16 @@ const meta = {
       {
         name: 'name',
         type: ScalarTypes.STRING,
-        editable: true,
         rules: { required: 'Name is required.' },
       },
       {
         name: 'isHappy',
         type: ScalarTypes.BOOLEAN,
-        editable: true,
       },
-      { name: 'released', type: ScalarTypes.DATETIME, editable: true },
+      { name: 'released', type: ScalarTypes.DATETIME },
       {
         name: 'bestBearFriend',
         type: 'DisneyBear',
-        editable: true,
         sortable: false,
       },
     ],
