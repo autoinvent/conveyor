@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ScalarTypes } from '@/types';
+import { type DataType, ScalarTypes } from '@/types';
 
 import { ModelIndex } from './ModelIndex';
 import { useTableView } from './useTableView';
@@ -109,10 +109,10 @@ export const DisableActions = {
 };
 
 export const LoadedData = {
-  render: ({ data, ...props }: any) => {
+  render: ({ data, onUpdate, ...props }: any) => {
     const tableViewOptions = useTableView();
-    const [currData, setCurrData] = useState(undefined);
-
+    const [currData, setCurrData] = useState<undefined | DataType[]>(undefined);
+    console.log(currData);
     return (
       <>
         <button type="button" onClick={() => setCurrData(data)}>
@@ -121,7 +121,25 @@ export const LoadedData = {
         <button type="button" onClick={() => setCurrData(undefined)}>
           Load Data
         </button>
-        <ModelIndex data={currData} {...props} {...tableViewOptions} />
+        <ModelIndex
+          data={currData}
+          {...props}
+          {...tableViewOptions}
+          onUpdate={(params) => {
+            const id = params?.data?.id;
+            if (params?.data) {
+              setCurrData((oldData) => {
+                const idx = oldData?.findIndex((d: any) => d.id === id);
+                if (idx && idx >= 0 && oldData) {
+                  const newData = [...oldData];
+                  newData[idx] = params.data;
+                  return newData;
+                }
+                return oldData;
+              });
+            }
+          }}
+        />
       </>
     );
   },

@@ -29,7 +29,7 @@ export const ModelIndexTableRow = ({
   const showActions = useModelIndexStore((state) => state.showActions);
   const data = useDataStore();
   const formProps = Object.assign(
-    { mode: 'onChange', defaultValues: data },
+    { mode: 'onChange', values: data },
     formOptions,
   );
 

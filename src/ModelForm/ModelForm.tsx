@@ -40,7 +40,7 @@ export const ModelForm = Object.assign(
     ...htmlProps
   }: ModelFormProps<D>) => {
     const formProps = Object.assign(
-      { mode: 'onChange', defaultValues: data },
+      { mode: 'onChange', values: data },
       formOptions,
     );
     return (

@@ -29,7 +29,7 @@
     "build:examples:cdn": "pnpm build && pnpm pack && cp -r ./dist ./examples/cdn",
     "examples:vite-react-ts": "cd ./examples/vite-react-ts/ && pnpm dev",
     "examples:cdn": "cd ./examples/cdn/ && pnpm dev",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --no-open",
     "storybook:css": "concurrently --kill-others \"pnpm:storybook\" \"pnpm:build:css --watch\"",
     "format": "pnpx @biomejs/biome format --write",
     "lint": "pnpx @biomejs/biome lint --write",
