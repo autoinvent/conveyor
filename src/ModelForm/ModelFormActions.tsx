@@ -19,6 +19,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
   const onCreate = useModelFormStore((state) => state.onCreate);
   const onUpdate = useModelFormStore((state) => state.onUpdate);
   const onDelete = useModelFormStore((state) => state.onDelete);
+  const onSave = onCreate ?? onUpdate;
   const data = useModelFormStore((state) => state.data);
   const fields = useModelFormStore((state) => state.fields);
 
@@ -41,7 +42,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
         <Lens lens={!isLoading && DataLens.VALUE}>
           <button
             type="button"
-            className=" flex h-full items-center justify-center rounded-l-sm border border-primary px-2 py-1 text-primary focus:bg-primary hover:bg-primary focus:text-text hover:text-text"
+            className='flex h-full items-center justify-center rounded-l-sm border border-primary px-2 py-1 text-primary focus:bg-primary hover:bg-primary focus:text-text hover:text-text'
             onClick={onEdit}
             onKeyUp={(e) => e.key === 'Enter' && onEdit()}
           >
@@ -59,7 +60,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
           )}
         </Lens>
         <Lens lens={!isLoading && DataLens.INPUT}>
-          {onUpdate && (
+          {onSave && (
             <button
               className="flex h-full items-center justify-center rounded-l-sm border border-success px-2 py-1 text-success focus:bg-success hover:bg-success focus:text-text hover:text-text"
               type="submit"

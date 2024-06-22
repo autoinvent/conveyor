@@ -5,28 +5,20 @@ export enum DataLens {
   INPUT = "input",
 }
 
+export interface ActionParams<D extends DataType> {
+  data: Exclude<D, undefined>;
+  dirtyFields: Record<string, boolean>;
+}
 export type OnCreate<D extends DataType> =
-  | ((params?: {
-      data?: Partial<D>;
-      dirtyFields?: Record<string, boolean>;
-    }) => Promise<any>)
-  | ((params?: {
-      data?: Partial<D>;
-      dirtyFields?: Record<string, boolean>;
-    }) => void);
+  | ((params?: ActionParams<D>) => Promise<any>)
+  | ((params?: ActionParams<D>) => void);
 
 export type OnUpdate<D extends DataType> =
-  | ((params?: {
-      data?: Partial<D>;
-      dirtyFields?: Record<string, boolean>;
-    }) => Promise<any>)
-  | ((params?: {
-      data?: Partial<D>;
-      dirtyFields?: Record<string, boolean>;
-    }) => void);
+  | ((params?: ActionParams<D>) => Promise<any>)
+  | ((params?: ActionParams<D>) => void);
 
 export type OnDelete<D extends DataType> =
-  | ((data?: Partial<D>) => Promise<any>)
-  | ((data?: Partial<D>) => void);
+  | ((data?: D) => Promise<any>)
+  | ((data?: D) => void);
 
 export type StoreSelector<TState, T> = (state: TState) => T;
