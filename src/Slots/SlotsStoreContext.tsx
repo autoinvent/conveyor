@@ -18,9 +18,7 @@ export interface SlotNode {
 export interface SlotsState {
   slotKeys: string[];
   slotNodes: Record<string, SlotNode>;
-  initalizeSlot: (slotKey: string, newId: string, newNode: ReactNode) => void;
-  replaceSlot: (slotKey: string, newId: string, newNode: ReactNode) => void;
-  renderSlot: (slotKey: string, node: ReactNode) => void;
+  setSlotNode: (slotKey: string, newId: string, newNode: ReactNode) => void;
 }
 
 export const SlotsStoreContext = createContext<
@@ -37,26 +35,30 @@ export const Slots = ({ slotKeys, children }: SlotsProps) => {
       immer<SlotsState>((set) => ({
         slotKeys,
         slotNodes: {},
-        initalizeSlot: (slotKey, newId, newNode) =>
-          set((state) => {
-            state.slotNodes[slotKey] = {
-              id: newId,
-              node: newNode,
-              expiredIds: [],
-            };
-          }),
-        replaceSlot: (slotKey, newId, newNode) =>
+        setSlotNode: (slotKey, newId, newNode) =>
           set((state) => {
             const slotNode = state.slotNodes[slotKey];
-            if (slotNode.id) {
-              state.slotNodes[slotKey].expiredIds.push(slotNode.id);
+            if (slotNode) {
+              if (slotNode.id === newId) {
+                if (slotNode.id) {
+                  state.slotNodes[slotKey].expiredIds.push(slotNode.id);
+                }
+                state.slotNodes[slotKey].id = newId;
+                state.slotNodes[slotKey].node = newNode;
+              } else if (!slotNode.expiredIds.includes(newId)) {
+                if (slotNode.id) {
+                  state.slotNodes[slotKey].expiredIds.push(slotNode.id);
+                }
+                state.slotNodes[slotKey].id = newId;
+                state.slotNodes[slotKey].node = newNode;
+              }
+            } else {
+              state.slotNodes[slotKey] = {
+                id: newId,
+                node: newNode,
+                expiredIds: [],
+              };
             }
-            state.slotNodes[slotKey].id = newId;
-            state.slotNodes[slotKey].node = newNode;
-          }),
-        renderSlot: (slotKey, node) =>
-          set((state) => {
-            state.slotNodes[slotKey].node = node;
           }),
       })),
     ),

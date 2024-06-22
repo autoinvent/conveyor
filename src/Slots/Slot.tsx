@@ -9,30 +9,11 @@ export interface SlotProps {
 
 export const Slot = ({ slotKey, children }: SlotProps) => {
   const slotId = useId();
-  const slotNode = useSlotsStore((state) => state.slotNodes[slotKey]);
-  const initalizeSlot = useSlotsStore((state) => state.initalizeSlot);
-  const replaceSlot = useSlotsStore((state) => state.replaceSlot);
-  const renderSlot = useSlotsStore((state) => state.renderSlot);
+  const setSlotNode = useSlotsStore((state) => state.setSlotNode);
 
   useEffect(() => {
-    if (slotNode) {
-      if (slotNode.id === slotId) {
-        renderSlot(slotKey, children);
-      } else if (!slotNode.expiredIds.includes(slotId)) {
-        replaceSlot(slotKey, slotId, children);
-      }
-    } else {
-      initalizeSlot(slotKey, slotId, children);
-    }
-  }, [
-    children,
-    slotKey,
-    slotId,
-    slotNode,
-    initalizeSlot,
-    renderSlot,
-    replaceSlot,
-  ]);
+    setSlotNode(slotKey, slotId, children);
+  }, [children, slotKey, slotId, setSlotNode]);
 
   return null;
 };
