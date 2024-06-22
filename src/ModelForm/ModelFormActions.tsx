@@ -12,7 +12,6 @@ export interface ModelFormActionsProps extends ComponentProps<'div'> {}
 
 export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
   const { isLoading, setIsLoading } = useLoadingStore();
-  const defaultValues = useFormStore((state) => state.formState.defaultValues);
   const reset = useFormStore((state) => state.reset);
   const setLens = useLensesStore((state) => state.setLens);
   const showActions = useModelFormStore((state) => state.showActions);
@@ -30,7 +29,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
   };
   const onDeleteHandler = async () => {
     onDelete && setIsLoading(true);
-    await onDelete?.(defaultValues);
+    await onDelete?.(data);
     setIsLoading(false);
   };
 
