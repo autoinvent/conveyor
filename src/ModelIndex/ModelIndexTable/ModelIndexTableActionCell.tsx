@@ -15,6 +15,7 @@ import { useModelIndexStore } from '../useModelIndexStore';
 
 import { twMerge } from 'tailwind-merge';
 import { ACTION_COLUMN } from './constants';
+import { useDataStore } from '@/Data';
 
 export interface ModelIndexTableActionCellProps
   extends Omit<TableCellProps, 'columnId'> {}
@@ -25,9 +26,8 @@ export const ModelIndexTableActionCell = ({
   ...props
 }: ModelIndexTableActionCellProps) => {
   const { isLoading, setIsLoading } = useLoadingStore();
-  const { defaultValues, dirtyFields } = useFormStore(
-    (state) => state.formState,
-  );
+  const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
+  const data = useDataStore()
   const reset = useFormStore((state) => state.reset);
   const handleSubmit = useFormStore((state) => state.handleSubmit);
   const setLens = useLensesStore((state) => state.setLens);
@@ -47,7 +47,7 @@ export const ModelIndexTableActionCell = ({
   };
   const onDeleteHandler = async () => {
     onDelete && setIsLoading(true);
-    await onDelete?.(defaultValues);
+    await onDelete?.(data);
     setIsLoading(false);
   };
 

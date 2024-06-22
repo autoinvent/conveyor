@@ -20,7 +20,6 @@ export interface ModelIndexTableRowProps extends TableRowProps {
 
 export const ModelIndexTableRow = ({
   prefilled,
-  defaultValue,
   formOptions,
   children,
   ...props
