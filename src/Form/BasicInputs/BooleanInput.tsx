@@ -6,7 +6,7 @@ import clsx from 'clsx';
 export interface BooleanInputProps extends InputRenderFnProps {}
 
 export const BooleanInput = ({
-  inputProps,
+  inputProps: { value, ...restInputProps },
   inputState,
   formState,
   className,
@@ -25,9 +25,10 @@ export const BooleanInput = ({
       <input
         type="checkbox"
         aria-invalid={ariaInvalid ?? inputState.invalid}
+        checked={value}
         className={className}
         {...htmlProps}
-        {...inputProps}
+        {...restInputProps}
       />
     </div>
   );

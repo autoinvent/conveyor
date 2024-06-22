@@ -112,7 +112,6 @@ export const LoadedData = {
   render: ({ data, onUpdate, ...props }: any) => {
     const tableViewOptions = useTableView();
     const [currData, setCurrData] = useState<undefined | DataType[]>(undefined);
-    console.log(currData);
     return (
       <>
         <button type="button" onClick={() => setCurrData(data)}>
@@ -130,7 +129,7 @@ export const LoadedData = {
             if (params?.data) {
               setCurrData((oldData) => {
                 const idx = oldData?.findIndex((d: any) => d.id === id);
-                if (idx && idx >= 0 && oldData) {
+                if (idx !== undefined && idx >= 0 && oldData) {
                   const newData = [...oldData];
                   newData[idx] = params.data;
                   return newData;
