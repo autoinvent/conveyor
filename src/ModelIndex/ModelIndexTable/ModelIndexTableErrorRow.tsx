@@ -20,12 +20,18 @@ export const ModelIndexTableErrorRow = ({
   return (
     hasErrorMessage &&
     Object.keys(errors).length > 0 && (
-      <tr className={twMerge('danger', className)} {...htmlProps}>
+      <tr
+        className={twMerge(
+          'border-danger bg-danger-background text-danger',
+          className,
+        )}
+        {...htmlProps}
+      >
         {fieldNames.map((fieldName) => {
           return fieldName === ACTION_COLUMN ? (
-            <td className="border" key={ACTION_COLUMN} />
+            <td className="border border-danger" key={ACTION_COLUMN} />
           ) : (
-            <td key={fieldName} className="border px-3">
+            <td key={fieldName} className="border border-danger px-3">
               <FormError name={fieldName} />
             </td>
           );

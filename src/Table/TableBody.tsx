@@ -1,5 +1,7 @@
 import type { ComponentProps } from 'react';
 
+import { TableBody as STableBody } from '@/lib/components/ui/table';
+
 import { DataStoreProvider } from '@/Data';
 import type { DataType } from '@/types';
 import { generateUID } from '@/utils';
@@ -7,14 +9,13 @@ import { generateUID } from '@/utils';
 import { TableRow } from './TableRow';
 import { useTableStore } from './useTableStore';
 
-export interface TableBodyProps extends ComponentProps<'tbody'> {
+export interface TableBodyProps extends ComponentProps<typeof STableBody> {
   getRowId?: (data: DataType) => string | number;
 }
 
 export const TableBody = ({
   getRowId = () => generateUID(),
   children,
-  className,
   ...htmlProps
 }: TableBodyProps) => {
   const data = useTableStore((state) => state.data);
@@ -22,7 +23,7 @@ export const TableBody = ({
   return (
     data &&
     data.length > 0 && (
-      <tbody className={className} {...htmlProps}>
+      <STableBody {...htmlProps}>
         {data.map((rowData) => {
           const rowKey = `table-row-${getRowId(rowData)}`;
           return (
@@ -31,7 +32,7 @@ export const TableBody = ({
             </DataStoreProvider>
           );
         })}
-      </tbody>
+      </STableBody>
     )
   );
 };

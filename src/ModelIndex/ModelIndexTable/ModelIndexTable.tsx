@@ -1,6 +1,8 @@
 import type { ComponentProps } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
+import type { Table as STable } from '@/lib/components/ui/table';
+
 import { Table } from '@/Table';
 import type { DataType } from '@/types';
 
@@ -17,7 +19,7 @@ import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
 import { ModelIndexTableRow } from './ModelIndexTableRow';
 import { ACTION_COLUMN } from './constants';
 
-export interface ModelIndexTableProps extends ComponentProps<'table'> {}
+export interface ModelIndexTableProps extends ComponentProps<typeof STable> {}
 
 export const ModelIndexTable = Object.assign(
   ({ children, ...props }: ModelIndexTableProps) => {

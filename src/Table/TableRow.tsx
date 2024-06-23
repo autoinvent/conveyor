@@ -1,25 +1,20 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+
+import { TableRow as STableRow } from '@/lib/components/ui/table';
 
 import { Slots } from '@/Slots';
 
 import { TableCell } from './TableCell';
 import { useTableStore } from './useTableStore';
 
-export interface TableRowProps extends ComponentProps<'tr'> {
+export interface TableRowProps extends ComponentProps<typeof STableRow> {
   prefilled?: boolean;
 }
 
-export const TableRow = ({
-  prefilled,
-  children,
-  className,
-  ...props
-}: TableRowProps) => {
+export const TableRow = ({ prefilled, children, ...props }: TableRowProps) => {
   const columnIds = useTableStore((state) => state.columnIds);
   return (
-    // group className used for row highlighting on hover
-    <tr className={twMerge('group', className)} {...props}>
+    <STableRow {...props}>
       <Slots slotKeys={columnIds}>
         {children === undefined || prefilled ? (
           <>
@@ -32,6 +27,6 @@ export const TableRow = ({
           children
         )}
       </Slots>
-    </tr>
+    </STableRow>
   );
 };

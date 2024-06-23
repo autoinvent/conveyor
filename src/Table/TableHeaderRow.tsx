@@ -1,23 +1,24 @@
 import type { ComponentProps } from 'react';
 
+import { TableRow as STableRow } from '@/lib/components/ui/table';
+
 import { Slots } from '@/Slots';
 
 import { TableHeaderCell } from './TableHeaderCell';
 import { useTableStore } from './useTableStore';
 
-export interface TableHeaderRowProps extends ComponentProps<'tr'> {
+export interface TableHeaderRowProps extends ComponentProps<typeof STableRow> {
   prefilled?: boolean;
 }
 
 export const TableHeaderRow = ({
   prefilled,
   children,
-  className,
   ...htmlProps
 }: TableHeaderRowProps) => {
   const columnIds = useTableStore((state) => state.columnIds);
   return (
-    <tr className={className} {...htmlProps}>
+    <STableRow {...htmlProps}>
       <Slots slotKeys={columnIds}>
         {children === undefined || prefilled ? (
           <>
@@ -30,6 +31,6 @@ export const TableHeaderRow = ({
           children
         )}
       </Slots>
-    </tr>
+    </STableRow>
   );
 };

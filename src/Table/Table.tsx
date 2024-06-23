@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
 
+import { Table as STable } from '@/lib/components/ui/table';
 import type { DataType } from '@/types';
 
 import { TableBody } from './TableBody';
@@ -14,25 +14,18 @@ import { type TableState, TableStoreProvider } from './TableStoreContext';
 
 export interface TableProps<D extends DataType>
   extends TableState<D>,
-    ComponentProps<'table'> {}
+    ComponentProps<typeof STable> {}
 
 export const Table = Object.assign(
   <D extends DataType>({
     columnIds,
     data,
     children,
-    className,
     ...htmlProps
   }: TableProps<D>) => {
     return (
       <TableStoreProvider columnIds={columnIds} data={data}>
-        <table
-          className={twMerge(
-            'h-fit w-full table-auto border-collapse cursor-default rounded bg-foreground',
-            className,
-          )}
-          {...htmlProps}
-        >
+        <STable {...htmlProps}>
           {children === undefined ? (
             <>
               <TableHead />
@@ -42,7 +35,7 @@ export const Table = Object.assign(
           ) : (
             children
           )}
-        </table>
+        </STable>
       </TableStoreProvider>
     );
   },

@@ -1,17 +1,15 @@
 import type { ComponentProps } from 'react';
 
+import { TableHeader as STableHead } from '@/lib/components/ui/table';
+
 import { TableHeaderRow } from './TableHeaderRow';
 
-export interface TableHeadProps extends ComponentProps<'thead'> {}
+export interface TableHeadProps extends ComponentProps<typeof STableHead> {}
 
-export const TableHead = ({
-  children,
-  className,
-  ...htmlProps
-}: TableHeadProps) => {
+export const TableHead = ({ children, ...htmlProps }: TableHeadProps) => {
   return (
-    <thead className={className} {...htmlProps}>
+    <STableHead {...htmlProps}>
       {children === undefined ? <TableHeaderRow /> : children}
-    </thead>
+    </STableHead>
   );
 };

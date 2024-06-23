@@ -1,36 +1,36 @@
 import type { ComponentProps } from 'react';
 
+import {
+  TableRow as STableRow,
+  TableCell as STableCell,
+  TableBody as STableBody,
+} from '@/lib/components/ui/table';
+
 import { Spinner } from '@/Loading';
 
 import { useTableStore } from './useTableStore';
 
-export interface TableFallbackProps extends ComponentProps<'tbody'> {}
+export interface TableFallbackProps extends ComponentProps<typeof STableBody> {}
 
-export const TableFallback = ({
-  className,
-  children,
-  ...props
-}: TableFallbackProps) => {
+export const TableFallback = ({ children, ...props }: TableFallbackProps) => {
   const { columnIds, data } = useTableStore();
 
   return (
     (!data || data.length === 0) &&
     columnIds.length > 0 && (
-      <tbody className={className} {...props}>
-        <tr>
-          <td className="border border-border p-1.5" colSpan={columnIds.length}>
+      <STableBody {...props}>
+        <STableRow>
+          <STableCell colSpan={columnIds.length}>
             {children === undefined ? (
-              data ? (
-                <div className="text-center">No Records Found.</div>
-              ) : (
-                <Spinner />
-              )
+              <div className="text-center">
+                {data ? 'No Records Found.' : <Spinner />}
+              </div>
             ) : (
               children
             )}
-          </td>
-        </tr>
-      </tbody>
+          </STableCell>
+        </STableRow>
+      </STableBody>
     )
   );
 };

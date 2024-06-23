@@ -11,6 +11,7 @@ import {
 } from './ModelIndexStoreContext';
 import { ModelIndexTable } from './ModelIndexTable';
 import { ModelIndexTitle } from './ModelIndexTitle';
+import { cn } from '@/lib/utils';
 
 export interface ModelIndexProps<D extends DataType>
   extends Omit<ModelIndexState<D>, 'fields'>,
@@ -31,10 +32,11 @@ export const ModelIndex = Object.assign(
     onTableViewChange,
     paginationOptions,
     children,
+    className,
     ...htmlProps
   }: ModelIndexProps<D>) => {
     return (
-      <div {...htmlProps}>
+      <div className={cn('container mx-auto py-10', className)} {...htmlProps}>
         <ModelIndexStoreProvider
           title={title}
           fields={fields.map(toField)}

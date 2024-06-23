@@ -1,32 +1,22 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+
+import { TableCell as STableCell } from '@/lib/components/ui/table';
 
 import { useDataStore } from '@/Data';
 import { Slot } from '@/Slots';
 
-export interface TableCellProps extends ComponentProps<'td'> {
+export interface TableCellProps extends ComponentProps<typeof STableCell> {
   columnId: string;
 }
 
-export const TableCell = ({
-  columnId,
-  children,
-  className,
-  ...props
-}: TableCellProps) => {
+export const TableCell = ({ columnId, children, ...props }: TableCellProps) => {
   const data = useDataStore((state) => state[columnId]);
   const display = typeof data === 'object' ? JSON.stringify(data) : data;
   return (
     <Slot slotKey={columnId}>
-      <td
-        className={twMerge(
-          'h-full border border-border px-2.5 py-1.5 group-hover:bg-accent-foreground',
-          className,
-        )}
-        {...props}
-      >
+      <STableCell {...props}>
         {children === undefined ? display : children}
-      </td>
+      </STableCell>
     </Slot>
   );
 };
