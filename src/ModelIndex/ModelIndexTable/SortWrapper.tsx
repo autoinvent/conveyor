@@ -1,10 +1,16 @@
 import type { ComponentProps } from 'react';
-import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
-import { twMerge } from 'tailwind-merge';
+import {
+  CaretUpIcon,
+  CaretDownIcon,
+  CaretSortIcon,
+} from '@radix-ui/react-icons';
+
+import { cn } from '@/lib/utils';
 
 import { Lens, Lenses } from '@/Lenses';
 
 import { SortDirection } from '../utils';
+import { Button } from '@/lib/components/ui/button';
 
 export interface SortWrapperProps extends ComponentProps<'div'> {
   sortDirection: SortDirection;
@@ -20,10 +26,13 @@ export const SortWrapper = ({
   children,
 }: SortWrapperProps) => {
   return (
-    <div className={twMerge('flex items-center', className)}>
+    <div className={cn('flex items-center', className)}>
       <span className="grow">{children}</span>
       {sortable && (
-        <span
+        <Button
+          size="icon"
+          variant="outline"
+          className="border-none"
           onKeyUp={(e) =>
             e.key === 'Enter' && onNextSortDirection(sortDirection)
           }
@@ -31,16 +40,16 @@ export const SortWrapper = ({
         >
           <Lenses activeLens={sortDirection}>
             <Lens lens={SortDirection.ASC}>
-              <FaSortUp />
+              <CaretUpIcon />
             </Lens>
             <Lens lens={SortDirection.DESC}>
-              <FaSortDown />
+              <CaretDownIcon />
             </Lens>
             <Lens lens={SortDirection.NONE}>
-              <FaSort />
+              <CaretSortIcon />
             </Lens>
           </Lenses>
-        </span>
+        </Button>
       )}
     </div>
   );

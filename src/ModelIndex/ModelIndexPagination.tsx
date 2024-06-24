@@ -1,18 +1,22 @@
-import clsx from 'clsx';
 import type { ComponentProps } from 'react';
+
 import {
-  LuChevronLeft,
-  LuChevronRight,
-  LuMoreHorizontal,
-} from 'react-icons/lu';
-import { twMerge } from 'tailwind-merge';
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/lib/components/ui/pagination';
 
 import { useModelIndexStore } from './useModelIndexStore';
 
-export interface ModelIndexPaginationProps extends ComponentProps<'nav'> {}
+export interface ModelIndexPaginationProps
+  extends ComponentProps<typeof Pagination> {}
 
 export const ModelIndexPagination = ({
-  className,
+  ...paginationProps
 }: ModelIndexPaginationProps) => {
   const fieldsLength = useModelIndexStore((state) => state.fields.length);
   const onTableViewChange = useModelIndexStore(
@@ -61,75 +65,55 @@ export const ModelIndexPagination = ({
   }
 
   return (
-    <nav
-      role="navigation"
-      aria-label="pagination"
-      className={twMerge('mt-2 w-full text-sm', className)}
-    >
-      <ul className="flex flex-wrap items-center gap-1">
+    <Pagination {...paginationProps}>
+      <PaginationContent>
         {/* Previous Page Set Button */}
         {page > pageButtonLimit && (
-          <li>
-            <button
-              type="button"
-              className="flex items-center rounded-md border-none px-0 py-1 hover:bg-accent-foreground"
+          <PaginationItem>
+            <PaginationPrevious
               aria-label={`Go to page ${lowerBoundPage - 1}`}
               onClick={() => onTableViewChange?.({ page: lowerBoundPage - 1 })}
-            >
-              <LuChevronLeft className="h-4 w-4" />
-            </button>
-          </li>
+            />
+          </PaginationItem>
         )}
         {/* Page buttons */}
         {[...Array(upperBoundPage - lowerBoundPage + 1).keys()].map((index) => {
           const buttonPage = index + lowerBoundPage;
           return (
-            <li key={index}>
-              <button
-                type="button"
-                className={twMerge(
-                  clsx(
-                    'rounded-md border border-border px-2 py-1 hover:bg-accent-foreground',
-                    buttonPage === page &&
-                      'border-success bg-success hover:border-success-accent hover:bg-success-accent',
-                  ),
-                )}
+            <PaginationItem key={index}>
+              <PaginationLink
+                isActive={buttonPage === page}
                 onClick={() => onTableViewChange?.({ page: buttonPage })}
               >
                 {buttonPage}
-              </button>
-            </li>
+              </PaginationLink>
+            </PaginationItem>
           );
         })}
         {/* Next Page Set Button */}
         {currentPageSet < totalPageSets && (
           <>
-            <li>
-              <LuMoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">More Pages</span>
-            </li>
-            <li>
-              <button
-                type="button"
-                className="flex items-center rounded-md border-none px-0 py-1 hover:bg-accent-foreground"
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
                 aria-label={`Go to page ${upperBoundPage + 1}`}
                 onClick={() =>
                   onTableViewChange?.({ page: upperBoundPage + 1 })
                 }
-              >
-                <LuChevronRight className="h-4 w-4" />
-              </button>
-            </li>
+              />
+            </PaginationItem>
           </>
         )}
-        <li>
+        <PaginationItem>
           <span className="whitespace-nowrap">
             {` Showing items ${per_page * (page - 1) + 1} - ${
               totalPages === page ? totalDataLength : per_page * page
             } of ${totalDataLength}`}
           </span>
-        </li>
-      </ul>
-    </nav>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   );
 };

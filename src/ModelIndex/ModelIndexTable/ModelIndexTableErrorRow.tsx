@@ -1,5 +1,10 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+
+import {
+  TableRow as STableRow,
+  TableCell as STableCell,
+} from '@/lib/components/ui/table';
+import { cn } from '@/lib/utils';
 
 import { useTableStore } from '@/Table';
 
@@ -20,23 +25,23 @@ export const ModelIndexTableErrorRow = ({
   return (
     hasErrorMessage &&
     Object.keys(errors).length > 0 && (
-      <tr
-        className={twMerge(
-          'border-danger bg-danger-background text-danger',
+      <STableRow
+        className={cn(
+          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
           className,
         )}
         {...htmlProps}
       >
         {fieldNames.map((fieldName) => {
           return fieldName === ACTION_COLUMN ? (
-            <td className="border border-danger" key={ACTION_COLUMN} />
+            <STableCell key={ACTION_COLUMN} />
           ) : (
-            <td key={fieldName} className="border border-danger px-3">
+            <STableCell key={fieldName}>
               <FormError name={fieldName} />
-            </td>
+            </STableCell>
           );
         })}
-      </tr>
+      </STableRow>
     )
   );
 };

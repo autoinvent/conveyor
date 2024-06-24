@@ -1,10 +1,14 @@
 import {
-  FaEdit,
-  FaRegSave,
-  FaRegTimesCircle,
-  FaRegTrashAlt,
-} from 'react-icons/fa';
+  TrashIcon,
+  Pencil2Icon,
+  EnterIcon,
+  ExitIcon,
+} from '@radix-ui/react-icons';
 
+import { Button } from '@/lib/components/ui/button';
+import { cn } from '@/lib/utils';
+
+import { useDataStore } from '@/Data';
 import { useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { Spinner, useLoadingStore } from '@/Loading';
@@ -13,9 +17,7 @@ import { DataLens, type DataType } from '@/types';
 
 import { useModelIndexStore } from '../useModelIndexStore';
 
-import { twMerge } from 'tailwind-merge';
 import { ACTION_COLUMN } from './constants';
-import { useDataStore } from '@/Data';
 
 export interface ModelIndexTableActionCellProps
   extends Omit<TableCellProps, 'columnId'> {}
@@ -27,7 +29,7 @@ export const ModelIndexTableActionCell = ({
 }: ModelIndexTableActionCellProps) => {
   const { isLoading, setIsLoading } = useLoadingStore();
   const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
-  const data = useDataStore()
+  const data = useDataStore();
   const reset = useFormStore((state) => state.reset);
   const handleSubmit = useFormStore((state) => state.handleSubmit);
   const setLens = useLensesStore((state) => state.setLens);
@@ -54,7 +56,7 @@ export const ModelIndexTableActionCell = ({
   return (
     showActions && (
       <TableCell
-        className={twMerge('w-0 p-0', className)}
+        className={cn('w-0 p-0', className)}
         columnId={ACTION_COLUMN}
         {...props}
       >
@@ -64,42 +66,39 @@ export const ModelIndexTableActionCell = ({
             onSubmit={handleSubmit(onSave)}
           >
             <Lens lens={!isLoading && DataLens.VALUE}>
-              <button
-                type="button"
-                className="flex h-full grow items-center justify-center rounded-l-sm border border-primary px-2 py-1 text-primary focus:bg-primary hover:bg-primary focus:text-text hover:text-text"
+              <Button
+                variant="outline"
+                size="icon"
                 onClick={onEdit}
                 onKeyUp={(e) => e.key === 'Enter' && onEdit()}
               >
-                <FaEdit />
-              </button>
+                <EnterIcon />
+              </Button>
               {onDelete && (
-                <button
+                <Button
+                  variant="outline-destructive"
+                  size="icon"
                   onClick={onDeleteHandler}
                   onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
-                  type="button"
-                  className="flex h-full grow items-center justify-center rounded-r-sm border border-danger px-2 py-1 text-danger focus:bg-danger hover:bg-danger focus:text-text hover:text-text"
                 >
-                  <FaRegTrashAlt />
-                </button>
+                  <TrashIcon />
+                </Button>
               )}
             </Lens>
             <Lens lens={!isLoading && DataLens.INPUT}>
               {onUpdate && (
-                <button
-                  className="flex h-full grow items-center justify-center rounded-l-sm border border-success px-2 py-1 text-success focus:bg-success hover:bg-success focus:text-text hover:text-text"
-                  type="submit"
-                >
-                  <FaRegSave />
-                </button>
+                <Button type="submit" variant="outline-success" size="icon">
+                  <Pencil2Icon />
+                </Button>
               )}
-              <button
-                type="button"
-                className="flex h-full grow items-center justify-center rounded-r-sm border border-primary px-2 py-1 text-primary focus:bg-primary hover:bg-primary focus:text-text hover:text-text"
+              <Button
+                variant="outline"
+                size="icon"
                 onClick={onCancelEdit}
                 onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
               >
-                <FaRegTimesCircle />
-              </button>
+                <ExitIcon />
+              </Button>
             </Lens>
             {isLoading && <Spinner />}
           </form>

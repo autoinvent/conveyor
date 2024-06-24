@@ -1,5 +1,6 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+
+import { cn } from '@/lib/utils';
 
 import { ModelIndexCreateButton } from './ModelIndexCreateButton';
 import { useModelIndexStore } from './useModelIndexStore';
@@ -14,7 +15,7 @@ export const ModelIndexTitle = ({
   const title = useModelIndexStore((state) => state.title);
   return (
     <h2
-      className={twMerge(
+      className={cn(
         'mb-2 flex items-end text-start font-semibold text-4xl',
         className,
       )}

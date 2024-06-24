@@ -1,21 +1,26 @@
 import type { ComponentProps } from 'react';
-import { FaPlus } from 'react-icons/fa';
+
+import { PlusIcon } from '@radix-ui/react-icons';
+
+import { Button } from '@/lib/components/ui/button';
 
 import { useModelIndexStore } from './useModelIndexStore';
 
-export const ModelIndexCreateButton = (
-  props: Omit<ComponentProps<'button'>, 'onClick'>,
-) => {
+export const ModelIndexCreateButton = ({
+  onClick,
+  ...buttonProps
+}: ComponentProps<typeof Button>) => {
   const onCreate = useModelIndexStore((state) => state.onCreate);
   return (
     onCreate && (
-      <button
-        className="h-8 w-8 rounded-md border border-success bg-success px-2 py-1 text-sm hover:border-success-accent hover:bg-success-accent"
-        onClick={() => onCreate?.()}
-        {...props}
+      <Button
+        variant="outline-success"
+        size="icon"
+        onClick={onClick ?? (() => onCreate?.())}
+        {...buttonProps}
       >
-        <FaPlus />
-      </button>
+        <PlusIcon />
+      </Button>
     )
   );
 };

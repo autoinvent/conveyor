@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge';
+import { cn } from '@/lib/utils';
 
 import { TableHeaderCell, type TableHeaderCellProps } from '@/Table';
 
@@ -14,7 +14,7 @@ export const ModelIndexTableActionHeaderCell = ({
 }: ModelIndexTableActionHeaderCellProps) => {
   return (
     <TableHeaderCell
-      className={twMerge('w-0', className)}
+      className={cn('w-0', className)}
       columnId={ACTION_COLUMN}
       {...props}
     >

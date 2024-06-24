@@ -1,5 +1,6 @@
-import { twMerge } from 'tailwind-merge';
 import { useShallow } from 'zustand/react/shallow';
+
+import { cn } from '@/lib/utils';
 
 import { DEFAULT_TYPE, useConveyorStore } from '@/Conveyor';
 import { FormInput, FormValue } from '@/Form';
@@ -59,7 +60,6 @@ export const ModelIndexTableCell = ({
         activeLens === DataLens.INPUT &&
         setLens(DataLens.VALUE)
       }
-      className={twMerge('p-0', className)}
     >
       {children === undefined ? (
         <>

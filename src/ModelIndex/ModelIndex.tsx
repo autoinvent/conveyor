@@ -1,5 +1,7 @@
 import type { ComponentProps } from 'react';
 
+import { cn } from '@/lib/utils';
+
 import type { DataType, Field } from '@/types';
 import { toField } from '@/utils';
 
@@ -11,7 +13,6 @@ import {
 } from './ModelIndexStoreContext';
 import { ModelIndexTable } from './ModelIndexTable';
 import { ModelIndexTitle } from './ModelIndexTitle';
-import { cn } from '@/lib/utils';
 
 export interface ModelIndexProps<D extends DataType>
   extends Omit<ModelIndexState<D>, 'fields'>,
