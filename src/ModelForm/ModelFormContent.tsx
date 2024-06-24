@@ -1,5 +1,4 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
 import { useShallow } from 'zustand/react/shallow';
 
 import { Slots } from '@/Slots';
@@ -8,6 +7,7 @@ import type { DataType } from '@/types';
 import { ModelFormField } from './ModelFormField';
 import type { ModelFormState } from './ModelFormStoreContext';
 import { useModelFormStore } from './useModelFormStore';
+import { cn } from '@/lib/utils';
 
 export interface ModelFormContentProps extends ComponentProps<'div'> {
   prefilled?: boolean;
@@ -15,8 +15,8 @@ export interface ModelFormContentProps extends ComponentProps<'div'> {
 
 export const ModelFormContent = ({
   prefilled,
-  className,
   children,
+  className,
   ...htmlProps
 }: ModelFormContentProps) => {
   const fieldNames = useModelFormStore(
@@ -27,7 +27,7 @@ export const ModelFormContent = ({
   const data = useModelFormStore((state) => state.data);
   return (
     data && (
-      <div className={twMerge('flex flex-wrap', className)} {...htmlProps}>
+      <div className={cn('space-y-8', className)} {...htmlProps}>
         <Slots slotKeys={fieldNames}>
           {children === undefined || prefilled ? (
             <>

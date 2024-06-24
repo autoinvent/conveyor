@@ -1,5 +1,7 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+
+import { Button } from '@/lib/components/ui/button';
+import { cn } from '@/lib/utils';
 
 import { useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
@@ -37,44 +39,38 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
     showActions &&
     fields.length > 0 &&
     data && (
-      <div className={twMerge('flex justify-center', className)}>
+      <div className={cn('flex justify-center', className)}>
         <Lens lens={!isLoading && DataLens.VALUE}>
-          <button
-            type="button"
-            className='flex h-full items-center justify-center rounded-l-sm border border-primary px-2 py-1 text-primary focus:bg-primary hover:bg-primary focus:text-text hover:text-text'
+          <Button
             onClick={onEdit}
             onKeyUp={(e) => e.key === 'Enter' && onEdit()}
+            variant="outline"
           >
             Edit
-          </button>
+          </Button>
           {!onCreate && onDelete && (
-            <button
+            <Button
               onClick={onDeleteHandler}
               onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
-              type="button"
-              className="flex h-full items-center justify-center rounded-r-sm border border-danger px-2 py-1 text-danger focus:bg-danger hover:bg-danger focus:text-text hover:text-text"
+              variant="outline-destructive"
             >
               Delete
-            </button>
+            </Button>
           )}
         </Lens>
         <Lens lens={!isLoading && DataLens.INPUT}>
           {onSave && (
-            <button
-              className="flex h-full items-center justify-center rounded-l-sm border border-success px-2 py-1 text-success focus:bg-success hover:bg-success focus:text-text hover:text-text"
-              type="submit"
-            >
+            <Button type="submit" variant="outline-success">
               {onCreate ? 'Create' : 'Save'}
-            </button>
+            </Button>
           )}
-          <button
-            type="button"
-            className="flex h-full items-center justify-center rounded-r-sm border border-primary px-2 py-1 text-primary focus:bg-primary hover:bg-primary focus:text-text hover:text-text"
+          <Button
+            variant="outline"
             onClick={onCancelEdit}
             onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
           >
             Cancel
-          </button>
+          </Button>
         </Lens>
         {isLoading && <Spinner />}
       </div>

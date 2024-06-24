@@ -642,19 +642,18 @@ body {
   margin: auto;
 }
 
+.m-2 {
+  margin: 0.5rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
 }
 
-.my-2 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.mx-1 {
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .mb-2 {
@@ -713,6 +712,10 @@ body {
   height: 100%;
 }
 
+.h-\[1px\] {
+  height: 1px;
+}
+
 .w-0 {
   width: 0px;
 }
@@ -733,16 +736,16 @@ body {
   width: 100%;
 }
 
+.w-\[1px\] {
+  width: 1px;
+}
+
 .shrink-0 {
   flex-shrink: 0;
 }
 
 .grow {
   flex-grow: 1;
-}
-
-.basis-1\/2 {
-  flex-basis: 50%;
 }
 
 .caption-bottom {
@@ -787,22 +790,26 @@ body {
   gap: 0.25rem;
 }
 
-.divide-x > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-x-reverse: 0;
-  border-right-width: calc(1px * var(--tw-divide-x-reverse));
-  border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 
-.divide-border > :not([hidden]) ~ :not([hidden]) {
-  border-color: hsl(var(--border));
+.space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+}
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
 
 .whitespace-nowrap {
   white-space: nowrap;
-}
-
-.rounded {
-  border-radius: 0.25rem;
 }
 
 .rounded-md {
@@ -855,10 +862,6 @@ body {
   border-color: hsl(var(--success));
 }
 
-.bg-accent-foreground {
-  background-color: hsl(var(--accent-foreground));
-}
-
 .bg-background {
   background-color: hsl(var(--background));
 }
@@ -900,6 +903,10 @@ body {
 
 .bg-secondary {
   background-color: hsl(var(--secondary));
+}
+
+.bg-border {
+  background-color: hsl(var(--border));
 }
 
 .p-0 {
@@ -992,10 +999,6 @@ body {
   vertical-align: middle;
 }
 
-.align-bottom {
-  vertical-align: bottom;
-}
-
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
@@ -1014,9 +1017,8 @@ body {
   font-weight: 600;
 }
 
-.text-cyan-600 {
-  --tw-text-opacity: 1;
-  color: rgb(8 145 178 / var(--tw-text-opacity));
+.text-current {
+  color: currentColor;
 }
 
 .text-destructive {
@@ -1077,10 +1079,6 @@ body {
   color: rgb(254 240 138 / var(--tw-text-opacity));
 }
 
-.text-current {
-  color: currentColor;
-}
-
 .underline-offset-4 {
   text-underline-offset: 4px;
 }
@@ -1095,10 +1093,6 @@ body {
 
 .outline-success {
   outline-color: hsl(var(--success));
-}
-
-.ring-inset {
-  --tw-ring-inset: inset;
 }
 
 .ring-offset-background {
@@ -1152,6 +1146,16 @@ body {
 
 .placeholder\:text-muted-foreground::placeholder {
   color: hsl(var(--muted-foreground));
+}
+
+.after\:text-destructive::after {
+  content: var(--tw-content);
+  color: hsl(var(--destructive));
+}
+
+.after\:content-\[\"\*\"\]::after {
+  --tw-content: "*";
+  content: var(--tw-content);
 }
 
 .hover\:bg-accent:hover {
@@ -1245,20 +1249,16 @@ body {
   opacity: 0.75;
 }
 
-.aria-\[invalid\=true\]\:border-destructive[aria-invalid=true] {
-  border-color: hsl(var(--destructive));
-}
-
 .aria-\[invalid\=true\]\:ring-destructive[aria-invalid=true] {
   --tw-ring-color: hsl(var(--destructive));
 }
 
-.data-\[state\=selected\]\:bg-muted[data-state=selected] {
-  background-color: hsl(var(--muted));
-}
-
 .data-\[state\=checked\]\:bg-primary[data-state=checked] {
   background-color: hsl(var(--primary));
+}
+
+.data-\[state\=selected\]\:bg-muted[data-state=selected] {
+  background-color: hsl(var(--muted));
 }
 
 .data-\[state\=checked\]\:text-primary-foreground[data-state=checked] {
@@ -1267,10 +1267,6 @@ body {
 
 .dark\:\[color-scheme\:dark\]:where(.dark, .dark *) {
   color-scheme: dark;
-}
-
-.\[\&\:has\(\[role\=checkbox\]\)\]\:pr-0:has([role=checkbox]) {
-  padding-right: 0px;
 }
 
 .\[\&\>tr\]\:last\:border-b-0:last-child>tr {

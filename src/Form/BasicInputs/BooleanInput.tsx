@@ -12,33 +12,14 @@ export const BooleanInput = ({
   style,
 }: BooleanInputProps) => {
   return (
-    <div className="text-center">
-      <Checkbox
-        checked={value}
-        value={value}
-        onCheckedChange={onChange}
-        aria-invalid={ariaInvalid ?? inputState.invalid}
-        {...restInputProps}
-        className={className}
-        style={style}
-      />
-    </div>
-    // <div
-    //   className={twMerge(
-    //     clsx(
-    //       inputState.invalid && 'border border-danger',
-    //       'flex h-full w-full items-center justify-center bg-input disabled:opacity-75',
-    //     ),
-    //   )}
-    // >
-    //   <input
-    //     type="checkbox"
-    //     aria-invalid={ariaInvalid ?? inputState.invalid}
-    //     checked={value}
-    //     className={className}
-    //     {...htmlProps}
-    //     {...restInputProps}
-    //   />
-    // </div>
+    <Checkbox
+      checked={value}
+      value={value}
+      onCheckedChange={onChange}
+      aria-invalid={ariaInvalid ?? inputState.invalid}
+      {...restInputProps}
+      className={className}
+      style={style}
+    />
   );
 };

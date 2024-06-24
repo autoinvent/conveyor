@@ -16,7 +16,6 @@ import {
   DatetimeInput,
   DatetimeValue,
   DefaultValue,
-  IdValue,
   type InputRenderFn,
   NumberInput,
   RawValue,
@@ -40,7 +39,7 @@ export interface ConveyorState {
 export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
   typeOptions: {
     [ScalarTypes.ID]: {
-      valueRenderFn: IdValue,
+      valueRenderFn: RawValue,
     },
     [ScalarTypes.STRING]: {
       valueRenderFn: RawValue,

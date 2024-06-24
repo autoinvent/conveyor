@@ -25,14 +25,10 @@ export const ModelIndexTableCell = ({
   const field = useModelIndexStore((state) =>
     state.fields.find((field) => field.name === fieldName),
   );
-
-  if (field === undefined) {
-    return null;
-  }
   const inputFn = useConveyorStore(
     useShallow(
       (state) =>
-        state.typeOptions?.[field.type]?.inputRenderFn ??
+        state.typeOptions?.[field?.type ?? DEFAULT_TYPE]?.inputRenderFn ??
         state.typeOptions?.[DEFAULT_TYPE]?.inputRenderFn ??
         (() => null),
     ),
@@ -40,11 +36,15 @@ export const ModelIndexTableCell = ({
   const valueFn = useConveyorStore(
     useShallow(
       (state) =>
-        state.typeOptions?.[field.type]?.valueRenderFn ??
+        state.typeOptions?.[field?.type ?? DEFAULT_TYPE]?.valueRenderFn ??
         state.typeOptions?.[DEFAULT_TYPE]?.valueRenderFn ??
         (() => null),
     ),
   );
+
+  if (field === undefined) {
+    return null;
+  }
 
   return (
     <TableCell

@@ -1,15 +1,16 @@
 import type { ComponentProps } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
+import { cn } from '@/lib/utils';
+
 import { DEFAULT_TYPE, useConveyorStore } from '@/Conveyor';
-import { FormError, FormInput, FormValue } from '@/Form';
-import { Lens, useLensesStore } from '@/Lenses';
+import { FormError, FormInput, FormValue, useFormStore } from '@/Form';
+import { Lens } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
 import { Slot } from '@/Slots';
 import { DataLens } from '@/types';
 import { humanizeText } from '@/utils';
 
-import { twMerge } from 'tailwind-merge';
 import { useModelFormStore } from './useModelFormStore';
 
 export interface ModelFormFieldProps extends ComponentProps<'div'> {
@@ -22,19 +23,18 @@ export const ModelFormField = ({
   className,
   ...htmlProps
 }: ModelFormFieldProps) => {
+  const fieldError = useFormStore(
+    (state) => state.formState.errors?.[fieldName],
+  );
   const isLoading = useLoadingStore((state) => state.isLoading);
-  const activeLens = useLensesStore((state) => state.activeLens);
   const field = useModelFormStore((state) =>
     state.fields.find((field) => field.name === fieldName),
   );
 
-  if (field === undefined) {
-    return null;
-  }
   const inputFn = useConveyorStore(
     useShallow(
       (state) =>
-        state.typeOptions?.[field.type]?.inputRenderFn ??
+        state.typeOptions?.[field?.type ?? DEFAULT_TYPE]?.inputRenderFn ??
         state.typeOptions?.[DEFAULT_TYPE]?.inputRenderFn ??
         (() => null),
     ),
@@ -42,51 +42,57 @@ export const ModelFormField = ({
   const valueFn = useConveyorStore(
     useShallow(
       (state) =>
-        state.typeOptions?.[field.type]?.valueRenderFn ??
+        state.typeOptions?.[field?.type ?? DEFAULT_TYPE]?.valueRenderFn ??
         state.typeOptions?.[DEFAULT_TYPE]?.valueRenderFn ??
         (() => null),
     ),
   );
 
+  if (field === undefined) {
+    return null;
+  }
+
   return (
     <Slot slotKey={fieldName}>
-      <div
-        className={twMerge('my-2 flex basis-1/2 flex-col pr-2', className)}
-        {...htmlProps}
-      >
+      <div className={cn('space-y-2', className)} {...htmlProps}>
         {children === undefined ? (
           <>
-            <div className="flex h-full divide-x divide-border rounded border border-border">
-              <label
-                htmlFor={fieldName}
-                className="whitespace-nowrap bg-accent-foreground p-2"
-              >
-                {humanizeText(fieldName)}
-                {field.rules?.required && (
-                  <span className="text-danger">{' *'}</span>
-                )}
-              </label>
-              <span className="h-full w-full bg-foreground">
-                <Lens lens={!field.editable ? activeLens : DataLens.VALUE}>
-                  <FormValue name={field.name} render={valueFn} />
-                </Lens>
-                <Lens lens={!field.editable ? false : DataLens.INPUT}>
-                  <FormInput
-                    name={field.name}
-                    rules={field.rules}
-                    render={(props) =>
-                      inputFn({
-                        ...props,
-                        disabled: isLoading,
-                      })
-                    }
-                  />
-                </Lens>
-              </span>
+            <label
+              htmlFor={fieldName}
+              className={cn(
+                fieldError && 'text-destructive',
+                field.rules?.required && 'after:content-["*"]',
+                'mr-2 whitespace-nowrap after:text-destructive',
+              )}
+            >
+              {humanizeText(fieldName)}
+            </label>
+            <div>
+              {field.editable ? (
+                <>
+                  <Lens lens={DataLens.VALUE}>
+                    <FormValue name={field.name} render={valueFn} />
+                  </Lens>
+                  <Lens lens={DataLens.INPUT}>
+                    <FormInput
+                      name={field.name}
+                      rules={field.rules}
+                      render={(props) =>
+                        inputFn({
+                          ...props,
+                          disabled: isLoading,
+                        })
+                      }
+                    />
+                  </Lens>
+                </>
+              ) : (
+                <FormValue name={field.name} render={valueFn} />
+              )}
             </div>
-            <span className="text-danger">
+            <p className="font-medium text-destructive text-sm">
               <FormError name={fieldName} />
-            </span>
+            </p>
           </>
         ) : (
           children

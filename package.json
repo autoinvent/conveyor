@@ -50,7 +50,6 @@
     "immer": "^10.1.1",
     "lucide-react": "^0.396.0",
     "react-hook-form": "^7.51.4",
-    "react-icons": "^4.10.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.2"
