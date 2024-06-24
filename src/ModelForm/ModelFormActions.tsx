@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { Spinner, useLoadingStore } from '@/Loading';
-import { DataLens } from '@/types';
+import { DataLens, type DataType } from '@/types';
 
 import { useModelFormStore } from './useModelFormStore';
 
@@ -15,6 +15,8 @@ export interface ModelFormActionsProps extends ComponentProps<'div'> {}
 export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
   const { isLoading, setIsLoading } = useLoadingStore();
   const reset = useFormStore((state) => state.reset);
+  const handleSubmit = useFormStore((state) => state.handleSubmit);
+  const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
   const setLens = useLensesStore((state) => state.setLens);
   const showActions = useModelFormStore((state) => state.showActions);
   const onCreate = useModelFormStore((state) => state.onCreate);
@@ -45,6 +47,13 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
     setIsLoading(false);
   };
 
+  const onSubmit = async (formData: DataType) => {
+    onSave && setIsLoading(true);
+    await onSave?.({ data: formData, dirtyFields });
+    setIsLoading(false);
+    onCancelEditHandler()
+  };
+
   return (
     showActions &&
     fields.length > 0 &&
@@ -70,7 +79,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
         </Lens>
         <Lens lens={!isLoading && DataLens.INPUT}>
           {onSave && (
-            <Button type="submit" variant="outline-success">
+            <Button type="submit" variant="outline-success" onClick={handleSubmit(onSubmit)}>
               {onCreate ? 'Create' : 'Save'}
             </Button>
           )}

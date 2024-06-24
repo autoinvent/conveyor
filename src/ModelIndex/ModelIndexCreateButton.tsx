@@ -1,6 +1,5 @@
 import type { ComponentProps } from 'react';
-
-import { PlusIcon } from '@radix-ui/react-icons';
+import { Plus } from 'lucide-react';
 
 import { Button } from '@/lib/components/ui/button';
 
@@ -19,7 +18,7 @@ export const ModelIndexCreateButton = ({
         onClick={onClick ?? (() => onCreate?.())}
         {...buttonProps}
       >
-        <PlusIcon />
+        <Plus />
       </Button>
     )
   );

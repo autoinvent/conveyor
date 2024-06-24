@@ -1,6 +1,9 @@
+import {useState} from 'react'
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
+import type { DataType } from '@/types';
 
 import { ModelForm } from './ModelForm';
 
@@ -63,3 +66,29 @@ export const DisableActions = {
     showActions: false,
   },
 };
+
+export const LoadedData = {
+  render: ({ data, onUpdate, onCreate,...props }: any) => {
+    const [currData, setCurrData] = useState<undefined | DataType>(undefined);
+    return (
+      <>
+        <button type="button" onClick={() => setCurrData(data)}>
+          Get Data
+        </button>
+        <button type="button" onClick={() => setCurrData(undefined)}>
+          Load Data
+        </button>
+        <ModelForm
+          data={currData}
+          {...props}
+          onUpdate={(params) => {
+            if (params?.data) {
+              setCurrData(params.data);
+            }
+          }}
+        />
+      </>
+    );
+  },
+};
+

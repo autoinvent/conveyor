@@ -1,9 +1,9 @@
 import {
-  EnterIcon,
-  ExitIcon,
-  Pencil2Icon,
-  TrashIcon,
-} from '@radix-ui/react-icons';
+  SquarePen,
+  Save,
+  Trash2,
+  X,
+} from 'lucide-react'
 
 import { Button } from '@/lib/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -46,6 +46,7 @@ export const ModelIndexTableActionCell = ({
     onUpdate && setIsLoading(true);
     await onUpdate?.({ data: formData, dirtyFields });
     setIsLoading(false);
+    onCancelEdit();
   };
   const onDeleteHandler = async () => {
     onDelete && setIsLoading(true);
@@ -72,7 +73,7 @@ export const ModelIndexTableActionCell = ({
                 onClick={onEdit}
                 onKeyUp={(e) => e.key === 'Enter' && onEdit()}
               >
-                <EnterIcon />
+                <SquarePen />
               </Button>
               {onDelete && (
                 <Button
@@ -81,14 +82,14 @@ export const ModelIndexTableActionCell = ({
                   onClick={onDeleteHandler}
                   onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
                 >
-                  <TrashIcon />
+                  <Trash2 />
                 </Button>
               )}
             </Lens>
             <Lens lens={!isLoading && DataLens.INPUT}>
               {onUpdate && (
                 <Button type="submit" variant="outline-success" size="icon">
-                  <Pencil2Icon />
+                  <Save />
                 </Button>
               )}
               <Button
@@ -97,7 +98,7 @@ export const ModelIndexTableActionCell = ({
                 onClick={onCancelEdit}
                 onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
               >
-                <ExitIcon />
+                <X />
               </Button>
             </Lens>
             {isLoading && <Spinner />}
