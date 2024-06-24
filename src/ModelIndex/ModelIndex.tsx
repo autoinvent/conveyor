@@ -1,7 +1,6 @@
 import type { ComponentProps } from 'react';
 
 import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
 
 import type { DataType, Field } from '@/types';
 import { toField } from '@/utils';
@@ -34,11 +33,10 @@ export const ModelIndex = Object.assign(
     onTableViewChange,
     paginationOptions,
     children,
-    className,
     ...htmlProps
   }: ModelIndexProps<D>) => {
     return (
-      <div className={cn('container', className)} {...htmlProps}>
+      <div {...htmlProps}>
         <ModelIndexStoreProvider
           title={title}
           fields={fields.map(toField)}
