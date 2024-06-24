@@ -1,5 +1,3 @@
-import { Save } from 'lucide-react';
-
 import {
   EnterIcon,
   ExitIcon,
