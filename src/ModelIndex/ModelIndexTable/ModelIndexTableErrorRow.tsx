@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react';
 
 import {
-  TableRow as STableRow,
   TableCell as STableCell,
+  TableRow as STableRow,
 } from '@/lib/components/ui/table';
 import { cn } from '@/lib/utils';
 

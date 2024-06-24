@@ -1,8 +1,8 @@
 export type DataType = Record<string, any>;
 
 export enum DataLens {
-  VALUE = "value",
-  INPUT = "input",
+  VALUE = 'value',
+  INPUT = 'input',
 }
 
 export interface ActionParams<D extends DataType> {

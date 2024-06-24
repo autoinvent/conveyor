@@ -20,14 +20,24 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
   const onCreate = useModelFormStore((state) => state.onCreate);
   const onUpdate = useModelFormStore((state) => state.onUpdate);
   const onDelete = useModelFormStore((state) => state.onDelete);
+  const onEdit = useModelFormStore((state) => state.onEdit);
+  const onCancelEdit = useModelFormStore((state) => state.onCancelEdit);
   const onSave = onCreate ?? onUpdate;
   const data = useModelFormStore((state) => state.data);
   const fields = useModelFormStore((state) => state.fields);
 
-  const onEdit = () => setLens(DataLens.INPUT);
-  const onCancelEdit = () => {
-    setLens(DataLens.VALUE);
-    reset();
+  const onEditHandler = () => {
+    const onEditMiddleware = () => setLens(DataLens.INPUT);
+    onEdit ? onEdit(onEditMiddleware) : onEditMiddleware();
+  };
+  const onCancelEditHandler = () => {
+    const onCancelEditMiddleware = () => {
+      setLens(DataLens.VALUE);
+      reset();
+    };
+    onCancelEdit
+      ? onCancelEdit(onCancelEditMiddleware)
+      : onCancelEditMiddleware();
   };
   const onDeleteHandler = async () => {
     onDelete && setIsLoading(true);
@@ -42,8 +52,8 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
       <div className={cn('flex justify-center', className)}>
         <Lens lens={!isLoading && DataLens.VALUE}>
           <Button
-            onClick={onEdit}
-            onKeyUp={(e) => e.key === 'Enter' && onEdit()}
+            onClick={onEditHandler}
+            onKeyUp={(e) => e.key === 'Enter' && onEditHandler()}
             variant="outline"
           >
             Edit
@@ -66,8 +76,8 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
           )}
           <Button
             variant="outline"
-            onClick={onCancelEdit}
-            onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
+            onClick={onCancelEditHandler}
+            onKeyUp={(e) => e.key === 'Enter' && onCancelEditHandler()}
           >
             Cancel
           </Button>

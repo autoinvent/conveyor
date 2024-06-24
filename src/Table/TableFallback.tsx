@@ -1,9 +1,9 @@
 import type { ComponentProps } from 'react';
 
 import {
-  TableRow as STableRow,
-  TableCell as STableCell,
   TableBody as STableBody,
+  TableCell as STableCell,
+  TableRow as STableRow,
 } from '@/lib/components/ui/table';
 
 import { Spinner } from '@/Loading';

@@ -34,6 +34,8 @@ export const ModelForm = Object.assign(
     onCreate,
     onUpdate,
     onDelete,
+    onEdit,
+    onCancelEdit,
     className,
     children,
     formOptions,
@@ -52,6 +54,8 @@ export const ModelForm = Object.assign(
         onCreate={onCreate}
         onUpdate={onUpdate}
         onDelete={onDelete}
+        onEdit={onEdit}
+        onCancelEdit={onCancelEdit}
       >
         <FormStoreProvider {...formProps}>
           <LoadingStoreProvider>

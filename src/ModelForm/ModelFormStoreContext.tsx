@@ -18,6 +18,8 @@ export interface ModelFormState<D extends DataType> {
   onCreate?: OnCreate<D>;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;
+  onEdit?: (onEdit: () => void) => void;
+  onCancelEdit?: (onCancelEdit: () => void) => void;
 }
 
 export const ModelFormStoreContext = createContext<

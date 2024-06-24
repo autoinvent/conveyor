@@ -1,16 +1,16 @@
-import type { ComponentProps } from 'react';
 import {
-  CaretUpIcon,
   CaretDownIcon,
   CaretSortIcon,
+  CaretUpIcon,
 } from '@radix-ui/react-icons';
+import type { ComponentProps } from 'react';
 
 import { cn } from '@/lib/utils';
 
 import { Lens, Lenses } from '@/Lenses';
 
-import { SortDirection } from '../utils';
 import { Button } from '@/lib/components/ui/button';
+import { SortDirection } from '../utils';
 
 export interface SortWrapperProps extends ComponentProps<'div'> {
   sortDirection: SortDirection;

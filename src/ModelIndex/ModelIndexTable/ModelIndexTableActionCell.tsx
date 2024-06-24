@@ -1,10 +1,10 @@
 import { Save } from 'lucide-react';
 
 import {
-  TrashIcon,
   EnterIcon,
   ExitIcon,
   Pencil2Icon,
+  TrashIcon,
 } from '@radix-ui/react-icons';
 
 import { Button } from '@/lib/components/ui/button';
