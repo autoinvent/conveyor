@@ -1,5 +1,6 @@
 import type { ComponentProps } from 'react';
 
+import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
 import type { DataType, Field } from '@/types';
@@ -53,7 +54,10 @@ export const ModelIndex = Object.assign(
           {children === undefined ? (
             <>
               <ModelIndex.Title />
-              <ModelIndex.Table />
+              <ScrollArea>
+                <ModelIndex.Table />
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
               <ModelIndex.Pagination />
             </>
           ) : (

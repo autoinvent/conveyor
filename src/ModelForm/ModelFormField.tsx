@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react';
+import { useId, type ComponentProps } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { cn } from '@/lib/utils';
@@ -23,6 +23,8 @@ export const ModelFormField = ({
   className,
   ...htmlProps
 }: ModelFormFieldProps) => {
+  const refId = useId();
+  const formFieldId = `${fieldName}-${refId}`;
   const fieldError = useFormStore(
     (state) => state.formState.errors?.[fieldName],
   );
@@ -58,7 +60,7 @@ export const ModelFormField = ({
         {children === undefined ? (
           <>
             <label
-              htmlFor={fieldName}
+              htmlFor={formFieldId}
               className={cn(
                 fieldError && 'text-destructive',
                 field.rules?.required && 'after:content-["*"]',
@@ -79,8 +81,9 @@ export const ModelFormField = ({
                       rules={field.rules}
                       render={(props) =>
                         inputFn({
-                          ...props,
+                          id: formFieldId,
                           disabled: isLoading,
+                          ...props,
                         })
                       }
                     />
