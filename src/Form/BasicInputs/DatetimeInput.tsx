@@ -1,4 +1,5 @@
-import { twMerge } from 'tailwind-merge';
+import { Input } from '@/lib/components/ui/input';
+import { cn } from '@/lib/utils';
 
 import type { InputRenderFnProps } from '@/Form';
 
@@ -13,14 +14,11 @@ export const DatetimeInput = ({
   ...htmlProps
 }: DatetimeInputProps) => {
   return (
-    <input
+    <Input
       type="datetime-local"
       value={value?.substring(0, 19) ?? ''}
       aria-invalid={ariaInvalid ?? inputState.invalid}
-      className={twMerge(
-        'h-full w-full bg-input px-3 outline-1 outline-outline ring-0 aria-[invalid=true]:border aria-[invalid=true]:border-danger focus:outline aria-[invalid=true]:outline-danger dark:[color-scheme:dark]',
-        className,
-      )}
+      className={cn('dark:[color-scheme:dark]', className)}
       {...htmlProps}
       {...restInputProps}
     />

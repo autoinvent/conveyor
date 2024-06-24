@@ -1,7 +1,5 @@
 import { useShallow } from 'zustand/react/shallow';
 
-import { cn } from '@/lib/utils';
-
 import { DEFAULT_TYPE, useConveyorStore } from '@/Conveyor';
 import { FormInput, FormValue } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
@@ -62,23 +60,27 @@ export const ModelIndexTableCell = ({
       }
     >
       {children === undefined ? (
-        <>
-          <Lens lens={!field.editable ? activeLens : DataLens.VALUE}>
-            <FormValue name={field.name} render={valueFn} />
-          </Lens>
-          <Lens lens={!field.editable ? false : DataLens.INPUT}>
-            <FormInput
-              name={field.name}
-              rules={field.rules}
-              render={(props) =>
-                inputFn({
-                  ...props,
-                  disabled: isLoading,
-                })
-              }
-            />
-          </Lens>
-        </>
+        field.editable ? (
+          <>
+            <Lens lens={DataLens.VALUE}>
+              <FormValue name={field.name} render={valueFn} />
+            </Lens>
+            <Lens lens={DataLens.INPUT}>
+              <FormInput
+                name={field.name}
+                rules={field.rules}
+                render={(props) =>
+                  inputFn({
+                    ...props,
+                    disabled: isLoading,
+                  })
+                }
+              />
+            </Lens>
+          </>
+        ) : (
+          <FormValue name={field.name} render={valueFn} />
+        )
       ) : (
         children
       )}
