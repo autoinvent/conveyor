@@ -38,7 +38,7 @@ export const ModelIndex = Object.assign(
     ...htmlProps
   }: ModelIndexProps<D>) => {
     return (
-      <div className={cn('container mx-auto py-10', className)} {...htmlProps}>
+      <div className={cn('container', className)} {...htmlProps}>
         <ModelIndexStoreProvider
           title={title}
           fields={fields.map(toField)}
