@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 import type { UseFormProps } from 'react-hook-form';
 
 import { FormStoreProvider, useFormStore } from '@/Form';
-import { Lenses } from '@/Lenses';
+import { Lenses, useLensesStore } from '@/Lenses';
 import { LoadingStoreProvider, useLoadingStore } from '@/Loading';
 import { DataLens, type DataType, type Field } from '@/types';
 import { toField } from '@/utils';
@@ -90,20 +90,8 @@ export const ModelForm = Object.assign(
 interface FormProps extends Omit<ComponentProps<'form'>, 'title'> {}
 
 const Form = ({ children, ...htmlProps }: FormProps) => {
-  const setIsLoading = useLoadingStore((state) => state.setIsLoading);
-  const handleSubmit = useFormStore((state) => state.handleSubmit);
-  const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
-  const onCreate = useModelFormStore((state) => state.onCreate);
-  const onUpdate = useModelFormStore((state) => state.onUpdate);
-  const onSave = onCreate ?? onUpdate;
-  const onSubmit = async (formData: DataType) => {
-    onSave && setIsLoading(true);
-    await onSave?.({ data: formData, dirtyFields });
-    setIsLoading(false);
-  };
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} {...htmlProps}>
+    <form onSubmit={(e) => e.preventDefault()} {...htmlProps}>
       {children}
     </form>
   );
