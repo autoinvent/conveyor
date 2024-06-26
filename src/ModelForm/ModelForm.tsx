@@ -1,9 +1,9 @@
 import type { ComponentProps } from 'react';
 import type { UseFormProps } from 'react-hook-form';
 
-import { FormStoreProvider, useFormStore } from '@/Form';
-import { Lenses, useLensesStore } from '@/Lenses';
-import { LoadingStoreProvider, useLoadingStore } from '@/Loading';
+import { FormStoreProvider } from '@/Form';
+import { Lenses } from '@/Lenses';
+import { LoadingStoreProvider } from '@/Loading';
 import { DataLens, type DataType, type Field } from '@/types';
 import { toField } from '@/utils';
 
@@ -16,7 +16,6 @@ import {
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
 import { ModelFormTitle } from './ModelFormTitle';
-import { useModelFormStore } from './useModelFormStore';
 
 export interface ModelFormProps<D extends DataType>
   extends Omit<ModelFormState<D>, 'fields'>,
@@ -36,7 +35,6 @@ export const ModelForm = Object.assign(
     onDelete,
     onEdit,
     onCancelEdit,
-    className,
     children,
     formOptions,
     ...htmlProps

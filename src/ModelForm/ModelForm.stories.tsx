@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -68,7 +68,7 @@ export const DisableActions = {
 };
 
 export const LoadedData = {
-  render: ({ data, onUpdate, onCreate,...props }: any) => {
+  render: ({ data, onUpdate, onCreate, ...props }: any) => {
     const [currData, setCurrData] = useState<undefined | DataType>(undefined);
     return (
       <>
@@ -91,4 +91,3 @@ export const LoadedData = {
     );
   },
 };
-

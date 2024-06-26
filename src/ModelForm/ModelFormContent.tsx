@@ -27,7 +27,7 @@ export const ModelFormContent = ({
   const data = useModelFormStore((state) => state.data);
   return (
     data && (
-      <div className={cn('space-y-8', className)} {...htmlProps}>
+      <div className={cn('space-y-4', className)} {...htmlProps}>
         <Slots slotKeys={fieldNames}>
           {children === undefined || prefilled ? (
             <>

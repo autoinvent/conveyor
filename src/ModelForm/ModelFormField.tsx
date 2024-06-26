@@ -1,6 +1,7 @@
 import { useId, type ComponentProps } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
+import { Label } from '@/lib/components/ui/label';
 import { cn } from '@/lib/utils';
 
 import { DEFAULT_TYPE, useConveyorStore } from '@/Conveyor';
@@ -25,6 +26,7 @@ export const ModelFormField = ({
 }: ModelFormFieldProps) => {
   const refId = useId();
   const formFieldId = `${fieldName}-${refId}`;
+  const formErrorMessageId = `${formFieldId}-error-message-${refId}`;
   const fieldError = useFormStore(
     (state) => state.formState.errors?.[fieldName],
   );
@@ -56,19 +58,19 @@ export const ModelFormField = ({
 
   return (
     <Slot slotKey={fieldName}>
-      <div className={cn('space-y-2', className)} {...htmlProps}>
+      <div className={cn('m-2 ml-0 space-y-2', className)} {...htmlProps}>
         {children === undefined ? (
           <>
-            <label
+            <Label
               htmlFor={formFieldId}
               className={cn(
-                fieldError && 'text-destructive',
+                !!fieldError && 'text-destructive',
                 field.rules?.required && 'after:content-["*"]',
                 'mr-2 whitespace-nowrap after:text-destructive',
               )}
             >
               {humanizeText(fieldName)}
-            </label>
+            </Label>
             <div>
               {field.editable ? (
                 <>
@@ -83,6 +85,10 @@ export const ModelFormField = ({
                         inputFn({
                           id: formFieldId,
                           disabled: isLoading,
+                          'aria-describedby': !fieldError
+                            ? `${formFieldId}`
+                            : `${formFieldId} ${formErrorMessageId}`,
+                          'aria-invalid': !!fieldError,
                           ...props,
                         })
                       }
@@ -93,7 +99,10 @@ export const ModelFormField = ({
                 <FormValue name={field.name} render={valueFn} />
               )}
             </div>
-            <p className="font-medium text-destructive text-sm">
+            <p
+              id={formErrorMessageId}
+              className="font-medium text-destructive text-sm"
+            >
               <FormError name={fieldName} />
             </p>
           </>
