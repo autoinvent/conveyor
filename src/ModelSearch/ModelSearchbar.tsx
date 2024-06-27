@@ -1,5 +1,5 @@
 import { type ComponentProps, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import { Search } from 'lucide-react';
 
 export interface SearchBarProps extends ComponentProps<'form'> {
   onSearch: (value: string) => void;
@@ -9,7 +9,7 @@ export const SearchBar = ({ onSearch, ...props }: SearchBarProps) => {
   const [value, setValue] = useState('');
   return (
     <form
-      className="flex border border-[--border-color] rounded-2xl items-center text-center my-2"
+      className="my-2 flex items-center rounded-2xl border border-border text-center"
       onSubmit={(e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -17,16 +17,16 @@ export const SearchBar = ({ onSearch, ...props }: SearchBarProps) => {
       }}
     >
       <input
-        className="flex-1 bg-transparent text-[--text-color] border border-transparent outline-none py-1.5 px-3 border-r-[--border-color] rounded-l-2xl"
+        className="flex-1 rounded-l-2xl border border-transparent border-r-border bg-transparent px-3 py-1.5 outline-none"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         type="search"
       />
       <button
-        className="bg-transparent py-1.5 px-3 border border-transparent text-center rounded-r-2xl cursor-pointer"
+        className="cursor-pointer rounded-r-2xl border border-transparent bg-transparent px-3 py-1.5 text-center"
         type="submit"
       >
-        <FaSearch />
+        <Search />
       </button>
     </form>
   );
