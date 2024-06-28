@@ -16,6 +16,7 @@ import {
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
 import { ModelFormTitle } from './ModelFormTitle';
+import { cn } from '@/lib/utils';
 
 export interface ModelFormProps<D extends DataType>
   extends Omit<ModelFormState<D>, 'fields'>,
@@ -35,8 +36,10 @@ export const ModelForm = Object.assign(
     onDelete,
     onEdit,
     onCancelEdit,
+    initialLens = DataLens.INPUT,
     children,
     formOptions,
+    className,
     ...htmlProps
   }: ModelFormProps<D>) => {
     const formProps = Object.assign(
@@ -54,11 +57,12 @@ export const ModelForm = Object.assign(
         onDelete={onDelete}
         onEdit={onEdit}
         onCancelEdit={onCancelEdit}
+        initialLens={initialLens}
       >
         <FormStoreProvider {...formProps}>
           <LoadingStoreProvider>
-            <Form {...htmlProps}>
-              <Lenses initialLens={DataLens.INPUT}>
+            <Form className={cn('space-y-4', className)} {...htmlProps}>
+              <Lenses initialLens={initialLens}>
                 {children === undefined ? (
                   <>
                     <ModelForm.Title />

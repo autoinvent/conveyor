@@ -15,7 +15,7 @@ export interface InputRenderFnProps
     ComponentProps<'input'>,
     'onFocus' | 'onChange' | 'value' | 'name' | 'ref' | 'type'
   > {
-  inputProps: ControllerRenderProps<FieldValues, string>;
+  inputProps: Omit<ControllerRenderProps<FieldValues, string>, 'disabled'>;
   inputState: ControllerFieldState;
   formState: UseFormStateReturn<FieldValues>;
 }

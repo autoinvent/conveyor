@@ -6,8 +6,6 @@ export interface BooleanInputProps extends InputRenderFnProps {}
 
 export const BooleanInput = ({
   inputProps: { value, onChange, ...restInputProps },
-  inputState,
-  'aria-invalid': ariaInvalid,
   id,
   disabled,
   className,
@@ -18,13 +16,11 @@ export const BooleanInput = ({
       <Checkbox
         id={id}
         disabled={disabled}
-        checked={value}
-        value={value}
+        checked={!!value}
         onCheckedChange={onChange}
-        aria-invalid={ariaInvalid ?? inputState.invalid}
-        {...restInputProps}
         className={className}
         style={style}
+        {...restInputProps}
       />
     </div>
   );

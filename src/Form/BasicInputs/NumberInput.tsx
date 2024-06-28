@@ -5,18 +5,17 @@ import type { InputRenderFnProps } from '@/Form';
 export interface NumberInputProps extends InputRenderFnProps {}
 
 export const NumberInput = ({
-  inputProps,
+  inputProps: { value, ...restInputProps },
   inputState,
   formState,
-  'aria-invalid': ariaInvalid,
   ...htmlProps
 }: NumberInputProps) => {
   return (
     <Input
       type="number"
-      aria-invalid={ariaInvalid ?? inputState.invalid}
+      value={value ?? 0}
+      {...restInputProps}
       {...htmlProps}
-      {...inputProps}
     />
   );
 };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { type DataType, ScalarTypes } from '@/types';
+import { type DataType, FieldTypes } from '@/types';
 
 import { ModelIndex } from './ModelIndex';
 import { useTableView } from './useTableView';
@@ -18,17 +18,17 @@ const meta = {
       'type',
       {
         name: 'name',
-        type: ScalarTypes.STRING,
+        type: FieldTypes.STRING,
         rules: { required: 'Name is required.' },
       },
       {
         name: 'isHappy',
-        type: ScalarTypes.BOOLEAN,
+        type: FieldTypes.BOOLEAN,
       },
-      { name: 'released', type: ScalarTypes.DATETIME },
+      { name: 'released', type: FieldTypes.DATETIME },
       {
         name: 'bestBearFriend',
-        type: 'DisneyBear',
+        type: FieldTypes.MODEL_ITEM,
         sortable: false,
       },
     ],

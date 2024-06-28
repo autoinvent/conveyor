@@ -10,17 +10,15 @@ export const DatetimeInput = ({
   inputState,
   formState,
   className,
-  'aria-invalid': ariaInvalid,
   ...htmlProps
 }: DatetimeInputProps) => {
   return (
     <Input
       type="datetime-local"
       value={value?.substring(0, 19) ?? ''}
-      aria-invalid={ariaInvalid ?? inputState.invalid}
       className={cn('dark:[color-scheme:dark]', className)}
-      {...htmlProps}
       {...restInputProps}
+      {...htmlProps}
     />
   );
 };

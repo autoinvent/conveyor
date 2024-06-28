@@ -17,15 +17,14 @@ import {
   DatetimeValue,
   DefaultValue,
   type InputRenderFn,
+  ModelItemInput,
   NumberInput,
   RawValue,
   StringInput,
   type ValueRenderFn,
 } from '@/Form';
-import { ScalarTypes } from '@/types';
+import { FieldTypes } from '@/types';
 import { deepObjectMerge } from '@/utils';
-
-export const DEFAULT_TYPE = 'DEFAULT_TYPE';
 
 export interface ConveyorState {
   typeOptions?: {
@@ -38,30 +37,33 @@ export interface ConveyorState {
 
 export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
   typeOptions: {
-    [ScalarTypes.ID]: {
+    [FieldTypes.ID]: {
       valueRenderFn: RawValue,
     },
-    [ScalarTypes.STRING]: {
+    [FieldTypes.STRING]: {
       valueRenderFn: RawValue,
       inputRenderFn: StringInput,
     },
-    [ScalarTypes.INT]: {
+    [FieldTypes.INT]: {
       valueRenderFn: RawValue,
       inputRenderFn: NumberInput,
     },
-    [ScalarTypes.FLOAT]: {
+    [FieldTypes.FLOAT]: {
       valueRenderFn: RawValue,
       inputRenderFn: NumberInput,
     },
-    [ScalarTypes.DATETIME]: {
+    [FieldTypes.DATETIME]: {
       valueRenderFn: DatetimeValue,
       inputRenderFn: DatetimeInput,
     },
-    [ScalarTypes.BOOLEAN]: {
+    [FieldTypes.BOOLEAN]: {
       valueRenderFn: BooleanValue,
       inputRenderFn: BooleanInput,
     },
-    [DEFAULT_TYPE]: {
+    [FieldTypes.MODEL_ITEM]: {
+      inputRenderFn: ModelItemInput,
+    },
+    [FieldTypes.DEFAULT]: {
       valueRenderFn: DefaultValue,
       inputRenderFn: ({ inputProps: { value, name } }) => (
         <DefaultValue name={name} value={value} />

@@ -8,6 +8,7 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
+import type { LensType } from '@/Lenses';
 import type { DataType, Field, OnCreate, OnDelete, OnUpdate } from '@/types';
 
 export interface ModelFormState<D extends DataType> {
@@ -20,6 +21,7 @@ export interface ModelFormState<D extends DataType> {
   onDelete?: OnDelete<D>;
   onEdit?: (onEdit: () => void) => void;
   onCancelEdit?: (onCancelEdit: () => void) => void;
+  initialLens?: LensType;
 }
 
 export const ModelFormStoreContext = createContext<

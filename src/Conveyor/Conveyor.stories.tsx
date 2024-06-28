@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { ModelIndex, useTableView } from '@/ModelIndex';
 import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
-import { ScalarTypes } from '@/types';
+import { FieldTypes } from '@/types';
 
 import { Conveyor } from './Conveyor';
 
@@ -17,7 +17,7 @@ const meta = {
   tags: ['autodocs'],
   args: {
     typeOptions: {
-      [ScalarTypes.STRING]: {
+      [FieldTypes.STRING]: {
         valueRenderFn: ({ value }) => <b className="text-green-700">{value}</b>,
       },
       DisneyBear: {

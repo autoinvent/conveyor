@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { useDataStore } from '@/Data';
+
 import { Table } from './Table';
 import TableStoryMeta from './Table.stories';
 
@@ -13,20 +15,27 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const CustomCell = () => {
+  const data = useDataStore();
+  return `${data.firstname}.${data.lastname}`;
+};
+
 export const CustomTableCells: Story = {
   render: (props) => {
     return (
       <Table {...props}>
         <Table.Head>
-          <Table.HeaderRow prefilled={true}>
+          <Table.HeaderRow prefilled>
             <Table.HeaderCell columnId="username">
               Username (f.l)
             </Table.HeaderCell>
           </Table.HeaderRow>
         </Table.Head>
         <Table.Body>
-          <Table.Row prefilled={true}>
-            <Table.Cell columnId="username">Hello</Table.Cell>
+          <Table.Row prefilled>
+            <Table.Cell columnId="username">
+              <CustomCell />
+            </Table.Cell>
           </Table.Row>
         </Table.Body>
       </Table>

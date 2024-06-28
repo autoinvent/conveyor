@@ -1,4 +1,4 @@
-import { type Field, ScalarTypes } from '@/types';
+import { type Field, FieldTypes } from '@/types';
 
 export const toField = (field: string | Field): Field => {
   if (
@@ -14,7 +14,7 @@ export const toField = (field: string | Field): Field => {
   if (typeof field === 'string') {
     return {
       name: field,
-      type: field === 'id' ? ScalarTypes.ID : ScalarTypes.STRING,
+      type: field === 'id' ? FieldTypes.ID : FieldTypes.STRING,
       sortable: true,
       editable: field !== 'id',
     };

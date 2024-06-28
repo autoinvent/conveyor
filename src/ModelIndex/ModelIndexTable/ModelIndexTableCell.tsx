@@ -1,11 +1,12 @@
+import { useId } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
-import { DEFAULT_TYPE, useConveyorStore } from '@/Conveyor';
-import { FormInput, FormValue } from '@/Form';
+import { useConveyorStore } from '@/Conveyor';
+import { FormInput, FormValue, useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
-import { DataLens } from '@/types';
+import { DataLens, FieldTypes } from '@/types';
 
 import { useModelIndexStore } from '../useModelIndexStore';
 
@@ -20,24 +21,31 @@ export const ModelIndexTableCell = ({
   className,
   ...props
 }: ModelIndexTableCellProps) => {
+  const refId = useId();
+  const formFieldId = `${fieldName}-${refId}`;
+  const formErrorMessageId = `${formFieldId}-error-message-${refId}`;
+  const fieldError = useFormStore(
+    (state) => state.formState.errors?.[fieldName],
+  );
   const isLoading = useLoadingStore((state) => state.isLoading);
   const { setLens, activeLens } = useLensesStore();
+  const showActions = useModelIndexStore((state) => state.showActions);
   const field = useModelIndexStore((state) =>
     state.fields.find((field) => field.name === fieldName),
   );
   const inputFn = useConveyorStore(
     useShallow(
       (state) =>
-        state.typeOptions?.[field?.type ?? DEFAULT_TYPE]?.inputRenderFn ??
-        state.typeOptions?.[DEFAULT_TYPE]?.inputRenderFn ??
+        state.typeOptions?.[field?.type ?? FieldTypes.DEFAULT]?.inputRenderFn ??
+        state.typeOptions?.[FieldTypes.DEFAULT]?.inputRenderFn ??
         (() => null),
     ),
   );
   const valueFn = useConveyorStore(
     useShallow(
       (state) =>
-        state.typeOptions?.[field?.type ?? DEFAULT_TYPE]?.valueRenderFn ??
-        state.typeOptions?.[DEFAULT_TYPE]?.valueRenderFn ??
+        state.typeOptions?.[field?.type ?? FieldTypes.DEFAULT]?.valueRenderFn ??
+        state.typeOptions?.[FieldTypes.DEFAULT]?.valueRenderFn ??
         (() => null),
     ),
   );
@@ -51,7 +59,7 @@ export const ModelIndexTableCell = ({
       columnId={fieldName}
       {...props}
       onDoubleClick={() =>
-        activeLens === DataLens.VALUE && setLens(DataLens.INPUT)
+        showActions && activeLens === DataLens.VALUE && setLens(DataLens.INPUT)
       }
       onKeyUp={(e) =>
         e.key === 'Escape' &&
@@ -71,8 +79,14 @@ export const ModelIndexTableCell = ({
                 rules={field.rules}
                 render={(props) =>
                   inputFn({
-                    ...props,
+                    id: formFieldId,
                     disabled: isLoading,
+                    required: !!field.rules?.required,
+                    'aria-describedby': !fieldError
+                      ? `${formFieldId}`
+                      : `${formFieldId} ${formErrorMessageId}`,
+                    'aria-invalid': !!fieldError || props.inputState.invalid,
+                    ...props,
                   })
                 }
               />

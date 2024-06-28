@@ -4,12 +4,12 @@ import { useShallow } from 'zustand/react/shallow';
 import { Label } from '@/lib/components/ui/label';
 import { cn } from '@/lib/utils';
 
-import { DEFAULT_TYPE, useConveyorStore } from '@/Conveyor';
+import { useConveyorStore } from '@/Conveyor';
 import { FormError, FormInput, FormValue, useFormStore } from '@/Form';
 import { Lens } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
 import { Slot } from '@/Slots';
-import { DataLens } from '@/types';
+import { DataLens, FieldTypes } from '@/types';
 import { humanizeText } from '@/utils';
 
 import { useModelFormStore } from './useModelFormStore';
@@ -38,16 +38,16 @@ export const ModelFormField = ({
   const inputFn = useConveyorStore(
     useShallow(
       (state) =>
-        state.typeOptions?.[field?.type ?? DEFAULT_TYPE]?.inputRenderFn ??
-        state.typeOptions?.[DEFAULT_TYPE]?.inputRenderFn ??
+        state.typeOptions?.[field?.type ?? FieldTypes.DEFAULT]?.inputRenderFn ??
+        state.typeOptions?.[FieldTypes.DEFAULT]?.inputRenderFn ??
         (() => null),
     ),
   );
   const valueFn = useConveyorStore(
     useShallow(
       (state) =>
-        state.typeOptions?.[field?.type ?? DEFAULT_TYPE]?.valueRenderFn ??
-        state.typeOptions?.[DEFAULT_TYPE]?.valueRenderFn ??
+        state.typeOptions?.[field?.type ?? FieldTypes.DEFAULT]?.valueRenderFn ??
+        state.typeOptions?.[FieldTypes.DEFAULT]?.valueRenderFn ??
         (() => null),
     ),
   );
@@ -85,10 +85,12 @@ export const ModelFormField = ({
                         inputFn({
                           id: formFieldId,
                           disabled: isLoading,
+                          required: !!field.rules?.required,
                           'aria-describedby': !fieldError
                             ? `${formFieldId}`
                             : `${formFieldId} ${formErrorMessageId}`,
-                          'aria-invalid': !!fieldError,
+                          'aria-invalid':
+                            !!fieldError || props.inputState.invalid,
                           ...props,
                         })
                       }

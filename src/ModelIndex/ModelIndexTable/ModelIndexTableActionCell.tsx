@@ -1,9 +1,4 @@
-import {
-  SquarePen,
-  Save,
-  Trash2,
-  X,
-} from 'lucide-react'
+import { SquarePen, Save, Trash2, X } from 'lucide-react';
 
 import { Button } from '@/lib/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -73,7 +68,7 @@ export const ModelIndexTableActionCell = ({
                 onClick={onEdit}
                 onKeyUp={(e) => e.key === 'Enter' && onEdit()}
               >
-                <SquarePen />
+                <SquarePen className="h-4 w-4" />
               </Button>
               {onDelete && (
                 <Button
@@ -82,14 +77,14 @@ export const ModelIndexTableActionCell = ({
                   onClick={onDeleteHandler}
                   onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
                 >
-                  <Trash2 />
+                  <Trash2 className="h-4 w-4" />
                 </Button>
               )}
             </Lens>
             <Lens lens={!isLoading && DataLens.INPUT}>
               {onUpdate && (
                 <Button type="submit" variant="outline-success" size="icon">
-                  <Save />
+                  <Save className="h-4 w-4" />
                 </Button>
               )}
               <Button
@@ -98,7 +93,7 @@ export const ModelIndexTableActionCell = ({
                 onClick={onCancelEdit}
                 onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
               >
-                <X />
+                <X className="h-4 w-4" />
               </Button>
             </Lens>
             {isLoading && <Spinner />}

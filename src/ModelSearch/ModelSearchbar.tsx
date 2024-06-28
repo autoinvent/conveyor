@@ -1,11 +1,11 @@
 import { type ComponentProps, useState } from 'react';
 import { Search } from 'lucide-react';
 
-export interface SearchBarProps extends ComponentProps<'form'> {
+export interface ModelSearchbarProps extends ComponentProps<'form'> {
   onSearch: (value: string) => void;
 }
 
-export const SearchBar = ({ onSearch, ...props }: SearchBarProps) => {
+export const ModelSearchbar = ({ onSearch, ...props }: ModelSearchbarProps) => {
   const [value, setValue] = useState('');
   return (
     <form
