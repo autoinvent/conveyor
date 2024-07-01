@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Button } from '@/lib/components/ui/button';
+
 import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
 import type { DataType } from '@/types';
 
@@ -72,12 +74,12 @@ export const LoadedData = {
     const [currData, setCurrData] = useState<undefined | DataType>(undefined);
     return (
       <>
-        <button type="button" onClick={() => setCurrData(data)}>
+        <Button variant="outline" onClick={() => setCurrData(data)}>
           Get Data
-        </button>
-        <button type="button" onClick={() => setCurrData(undefined)}>
+        </Button>
+        <Button variant="outline" onClick={() => setCurrData(undefined)}>
           Load Data
-        </button>
+        </Button>
         <ModelForm
           data={currData}
           {...props}

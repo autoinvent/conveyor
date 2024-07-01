@@ -24,7 +24,7 @@ export const ModelItemInput = ({
     if (!required) {
       options.push({ value: null, label: 'None' });
     }
-    if (value !== null) {
+    if (value) {
       options.push({
         value: value?.id,
         label: typeof value?.id === 'string' ? value.id : valueStr,
@@ -56,7 +56,7 @@ export const ModelItemInput = ({
             );
           })
         ) : (
-          <div className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+          <div className="relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
             No Options
           </div>
         )}

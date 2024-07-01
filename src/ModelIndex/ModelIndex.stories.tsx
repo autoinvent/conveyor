@@ -2,6 +2,9 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Button } from '@/lib/components/ui/button';
+import { Separator } from '@/lib/components/ui/separator';
+
 import { type DataType, FieldTypes } from '@/types';
 
 import { ModelIndex } from './ModelIndex';
@@ -58,31 +61,76 @@ const meta = {
         bestBearFriend: null,
       },
     ],
-    onCreate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
-    onUpdate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
-    onDelete: () => {},
     paginationOptions: {
       totalDataLength: 514,
     },
+    showActions: true,
+    onUpdate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
+    onDelete: () => new Promise((resolve) => setTimeout(resolve, 3000)),
   },
   argTypes: {
     showActions: {
       control: 'boolean',
     },
-    onCreate: { control: false },
     onUpdate: { control: false },
     onDelete: { control: false },
-  },
-  render: (props) => {
-    const tableViewOptions = useTableView();
-    return <ModelIndex {...props} {...tableViewOptions} />;
   },
 } satisfies Meta<typeof ModelIndex>;
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const BasicUsage: Story = {};
+export const BasicUsage: Story = {
+  render: ({ data, onUpdate, ...props }: any) => {
+    const tableViewOptions = useTableView();
+    const [currData, setCurrData] = useState<undefined | DataType[]>(data);
+    return (
+      <>
+        <h2 className="ml-4">Data Actions</h2>
+        <Button variant="outline" onClick={() => setCurrData(data)}>
+          Get Data
+        </Button>
+        <Button variant="outline" onClick={() => setCurrData(undefined)}>
+          Load Data
+        </Button>
+        <Separator className="my-4" />
+        <ModelIndex
+          data={currData}
+          {...props}
+          {...tableViewOptions}
+          onUpdate={(params) => {
+            const id = params?.data?.id;
+            if (params?.data) {
+              setCurrData((oldData) => {
+                const idx = oldData?.findIndex((d: DataType) => d.id === id);
+                if (idx !== undefined && idx >= 0 && oldData) {
+                  const newData = [...oldData];
+                  newData[idx] = params.data;
+                  return newData;
+                }
+                return oldData;
+              });
+            }
+          }}
+          onDelete={(data) => {
+            const id = data?.id;
+            if (data?.id) {
+              setCurrData((oldData) => {
+                const idx = oldData?.findIndex((d: DataType) => d.id === id);
+                if (idx !== undefined && idx >= 0 && oldData) {
+                  const newData = [...oldData];
+                  newData.splice(idx, 1);
+                  return newData;
+                }
+                return oldData;
+              });
+            }
+          }}
+        />
+      </>
+    );
+  },
+};
 
 export const NoFields: Story = {
   args: {
@@ -105,41 +153,5 @@ export const UndefinedData: Story = {
 export const DisableActions = {
   args: {
     showActions: false,
-  },
-};
-
-export const LoadedData = {
-  render: ({ data, onUpdate, ...props }: any) => {
-    const tableViewOptions = useTableView();
-    const [currData, setCurrData] = useState<undefined | DataType[]>(undefined);
-    return (
-      <>
-        <button type="button" onClick={() => setCurrData(data)}>
-          Get Data
-        </button>
-        <button type="button" onClick={() => setCurrData(undefined)}>
-          Load Data
-        </button>
-        <ModelIndex
-          data={currData}
-          {...props}
-          {...tableViewOptions}
-          onUpdate={(params) => {
-            const id = params?.data?.id;
-            if (params?.data) {
-              setCurrData((oldData) => {
-                const idx = oldData?.findIndex((d: any) => d.id === id);
-                if (idx !== undefined && idx >= 0 && oldData) {
-                  const newData = [...oldData];
-                  newData[idx] = params.data;
-                  return newData;
-                }
-                return oldData;
-              });
-            }
-          }}
-        />
-      </>
-    );
   },
 };

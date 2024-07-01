@@ -1,9 +1,9 @@
 // components
 export * from './ModelIndex';
-export * from './ModelIndexCreateButton';
 export * from './ModelIndexPagination';
 export * from './ModelIndexTable';
 export * from './ModelIndexTitle';
+export * from './SortWrapper';
 
 // contexts
 export * from './ModelIndexStoreContext';

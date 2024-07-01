@@ -5,7 +5,6 @@ import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
 import type { DataType, Field } from '@/types';
 import { toField } from '@/utils';
 
-import { ModelIndexCreateButton } from './ModelIndexCreateButton';
 import { ModelIndexPagination } from './ModelIndexPagination';
 import {
   type ModelIndexState,
@@ -25,8 +24,7 @@ export const ModelIndex = Object.assign(
     title,
     fields,
     data,
-    showActions = true,
-    onCreate,
+    showActions,
     onUpdate,
     onDelete,
     tableView,
@@ -42,7 +40,6 @@ export const ModelIndex = Object.assign(
           fields={fields.map(toField)}
           data={data}
           showActions={showActions}
-          onCreate={onCreate}
           onUpdate={onUpdate}
           onDelete={onDelete}
           tableView={tableView}
@@ -66,7 +63,6 @@ export const ModelIndex = Object.assign(
     );
   },
   {
-    CreateButton: ModelIndexCreateButton,
     Title: ModelIndexTitle,
     Table: ModelIndexTable,
     Pagination: ModelIndexPagination,

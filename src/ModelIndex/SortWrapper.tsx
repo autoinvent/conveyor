@@ -5,12 +5,12 @@ import {
 } from '@radix-ui/react-icons';
 import type { ComponentProps } from 'react';
 
+import { Button } from '@/lib/components/ui/button';
 import { cn } from '@/lib/utils';
 
 import { Lens, Lenses } from '@/Lenses';
 
-import { Button } from '@/lib/components/ui/button';
-import { SortDirection } from '../utils';
+import { SortDirection } from './utils';
 
 export interface SortWrapperProps extends ComponentProps<'div'> {
   sortDirection: SortDirection;
@@ -32,7 +32,7 @@ export const SortWrapper = ({
         <Button
           size="icon"
           variant="outline"
-          className="border-none"
+          className="border-none bg-transparent"
           onKeyUp={(e) =>
             e.key === 'Enter' && onNextSortDirection(sortDirection)
           }

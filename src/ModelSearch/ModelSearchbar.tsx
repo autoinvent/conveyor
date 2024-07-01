@@ -1,6 +1,8 @@
 import { type ComponentProps, useState } from 'react';
 import { Search } from 'lucide-react';
 
+import { Button } from '@/lib/components/ui/button';
+
 export interface ModelSearchbarProps extends ComponentProps<'form'> {
   onSearch: (value: string) => void;
 }
@@ -22,12 +24,12 @@ export const ModelSearchbar = ({ onSearch, ...props }: ModelSearchbarProps) => {
         onChange={(e) => setValue(e.target.value)}
         type="search"
       />
-      <button
+      <Button
         className="cursor-pointer rounded-r-2xl border border-transparent bg-transparent px-3 py-1.5 text-center"
         type="submit"
       >
         <Search />
-      </button>
+      </Button>
     </form>
   );
 };

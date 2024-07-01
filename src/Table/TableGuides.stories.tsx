@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Button } from '@/lib/components/ui/button';
+
 import { Table } from './Table';
 import TableStoryMeta from './Table.stories';
 
@@ -26,9 +28,9 @@ export const ColumnReordering: Story = {
     return (
       <div className="flex flex-col">
         <Table {...rest} columnIds={columnIds} />
-        <button
+        <Button
+          variant="outline"
           className="m-auto mt-4 border border-border px-2 py-1"
-          type="button"
           onClick={() => {
             setColumnIds((oldOrder) => {
               const newOrder = [...oldOrder];
@@ -40,7 +42,7 @@ export const ColumnReordering: Story = {
           }}
         >
           reorder
-        </button>
+        </Button>
       </div>
     );
   },

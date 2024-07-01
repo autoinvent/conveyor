@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Button } from '@/lib/components/ui/button';
+
 import { Slot } from './Slot';
 import { Slots } from './SlotsStoreContext';
 
@@ -112,26 +114,26 @@ export const DynamicSlots: Story = {
       <div className="flex flex-col text-center">
         <div className="margin-auto width-24">
           {contents.length < ingredients.length && (
-            <button
-              type="button"
+            <Button
+              variant="outline"
               onClick={() =>
                 setContents(ingredients.slice(0, contents.length + 1))
               }
               className="border border-border px-2 py-1"
             >
               Add {ingredients[contents.length]}
-            </button>
+            </Button>
           )}
           {contents.length > 0 && (
-            <button
-              type="button"
+            <Button
+              variant="outline"
               onClick={() =>
                 setContents(ingredients.slice(0, contents.length - 1))
               }
               className="border border-border px-2 py-1"
             >
               Remove {ingredients[contents.length - 1]}
-            </button>
+            </Button>
           )}
         </div>
         <Slots slotKeys={contents}>

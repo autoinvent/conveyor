@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Button } from '@/lib/components/ui/button';
+
 import { Lens } from './Lens';
 import { Lenses } from './LensesStoreContext';
 
@@ -40,15 +42,15 @@ export const BasicUsage: Story = {
             </div>
           </Lens>
         </Lenses>
-        <button
+        <Button
+          variant="outline"
           className="m-auto mt-4 border border-border px-2 py-1"
-          type="button"
           onClick={() => {
             setActiveLens(activeLens === 'red' ? 'blue' : 'red');
           }}
         >
           Change colors
-        </button>
+        </Button>
       </div>
     );
   },

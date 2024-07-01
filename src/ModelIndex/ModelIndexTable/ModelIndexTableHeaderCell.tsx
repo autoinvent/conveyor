@@ -1,10 +1,9 @@
 import { TableHeaderCell, type TableHeaderCellProps } from '@/Table';
 import { humanizeText } from '@/utils';
 
+import { SortWrapper } from '../SortWrapper';
 import { useModelIndexStore } from '../useModelIndexStore';
 import { getFieldSortDirection, getNextSort } from '../utils';
-
-import { SortWrapper } from './SortWrapper';
 
 export interface ModelIndexTableHeaderCellProps
   extends Omit<TableHeaderCellProps, 'columnId'> {

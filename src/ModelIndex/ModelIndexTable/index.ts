@@ -9,7 +9,6 @@ export * from './ModelIndexTableHead';
 export * from './ModelIndexTableHeaderCell';
 export * from './ModelIndexTableHeaderRow';
 export * from './ModelIndexTableRow';
-export * from './SortWrapper';
 
 // constants
 export * from './constants';

@@ -8,14 +8,7 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import type {
-  DataType,
-  Field,
-  OnCreate,
-  OnDelete,
-  OnUpdate,
-  TableView,
-} from '@/types';
+import type { DataType, Field, OnDelete, OnUpdate, TableView } from '@/types';
 
 export interface PaginationOptions {
   totalDataLength?: number;
@@ -27,7 +20,6 @@ export interface ModelIndexState<D extends DataType> {
   fields: Field[];
   data?: D[];
   showActions?: boolean;
-  onCreate?: OnCreate<D>;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;
   tableView?: TableView;

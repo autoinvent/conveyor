@@ -2,7 +2,6 @@ import type { ComponentProps } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { ModelIndexCreateButton } from './ModelIndexCreateButton';
 import { useModelIndexStore } from './useModelIndexStore';
 
 export interface ModelIndexTitleProps extends ComponentProps<'h2'> {}
@@ -24,7 +23,6 @@ export const ModelIndexTitle = ({
       {children === undefined ? (
         <>
           <span className="grow">{title}</span>
-          <ModelIndexCreateButton />
         </>
       ) : (
         children

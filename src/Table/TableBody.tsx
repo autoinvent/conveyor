@@ -14,7 +14,7 @@ export interface TableBodyProps extends ComponentProps<typeof STableBody> {
 }
 
 export const TableBody = ({
-  getRowId = () => generateUID(),
+  getRowId = (rowData) => JSON.stringify(rowData),
   children,
   ...htmlProps
 }: TableBodyProps) => {
