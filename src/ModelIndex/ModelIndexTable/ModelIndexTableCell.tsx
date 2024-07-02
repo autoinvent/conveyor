@@ -24,9 +24,6 @@ export const ModelIndexTableCell = ({
   const refId = useId();
   const formFieldId = `${fieldName}-${refId}`;
   const formErrorMessageId = `${formFieldId}-error-message-${refId}`;
-  const fieldError = useFormStore(
-    (state) => state.formState.errors?.[fieldName],
-  );
   const isLoading = useLoadingStore((state) => state.isLoading);
   const { setLens, activeLens } = useLensesStore();
   const showActions = useModelIndexStore((state) => state.showActions);
@@ -82,10 +79,10 @@ export const ModelIndexTableCell = ({
                     id: formFieldId,
                     disabled: isLoading,
                     required: !!field.rules?.required,
-                    'aria-describedby': !fieldError
+                    'aria-describedby': !props.inputState.invalid
                       ? `${formFieldId}`
                       : `${formFieldId} ${formErrorMessageId}`,
-                    'aria-invalid': !!fieldError || props.inputState.invalid,
+                    'aria-invalid': props.inputState.invalid,
                     ...props,
                   })
                 }

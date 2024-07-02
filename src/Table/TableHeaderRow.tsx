@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 
-import { TableRow as STableRow } from '@/lib/components/ui/table';
+import { STableRow } from '@/lib/components/ui/table';
 
 import { Slots } from '@/Slots';
 

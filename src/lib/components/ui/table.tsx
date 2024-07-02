@@ -56,7 +56,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      'border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50',
+      'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
       className,
     )}
     {...props}
@@ -100,12 +100,12 @@ const TableCaption = React.forwardRef<
 TableCaption.displayName = 'TableCaption';
 
 export {
-  Table,
-  TableHeader,
-  TableBody,
-  TableFooter,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableCaption,
+  Table as STable,
+  TableHeader as STableHeader,
+  TableBody as STableBody,
+  TableFooter as STableFooter,
+  TableHead as STableHead,
+  TableRow as STableRow,
+  TableCell as STableCell,
+  TableCaption as STableCaption,
 };

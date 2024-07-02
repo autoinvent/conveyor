@@ -19,8 +19,4 @@ export * from './types';
 export * from './utils';
 
 // shadcn
-export * from './lib/components/ui/button';
-export * from './lib/components/ui/checkbox';
-export * from './lib/components/ui/input';
-export * from './lib/components/ui/label';
-export * from './lib/components/ui/scroll-area';
+export * from './lib';

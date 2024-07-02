@@ -86,11 +86,10 @@ export const ModelFormField = ({
                           id: formFieldId,
                           disabled: isLoading,
                           required: !!field.rules?.required,
-                          'aria-describedby': !fieldError
+                          'aria-describedby': !props.inputState.invalid
                             ? `${formFieldId}`
                             : `${formFieldId} ${formErrorMessageId}`,
-                          'aria-invalid':
-                            !!fieldError || props.inputState.invalid,
+                          'aria-invalid': props.inputState.invalid,
                           ...props,
                         })
                       }

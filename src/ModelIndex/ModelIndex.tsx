@@ -1,11 +1,10 @@
 import type { ComponentProps } from 'react';
 
-import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
-
 import type { DataType, Field } from '@/types';
 import { toField } from '@/utils';
 
 import { ModelIndexPagination } from './ModelIndexPagination';
+import { ModelIndexSettings } from './ModelIndexSettings';
 import {
   type ModelIndexState,
   ModelIndexStoreProvider,
@@ -49,10 +48,7 @@ export const ModelIndex = Object.assign(
           {children === undefined ? (
             <>
               <ModelIndex.Title />
-              <ScrollArea>
-                <ModelIndex.Table />
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
+              <ModelIndex.Table />
               <ModelIndex.Pagination />
             </>
           ) : (
@@ -66,5 +62,6 @@ export const ModelIndex = Object.assign(
     Title: ModelIndexTitle,
     Table: ModelIndexTable,
     Pagination: ModelIndexPagination,
+    Settings: ModelIndexSettings,
   },
 );

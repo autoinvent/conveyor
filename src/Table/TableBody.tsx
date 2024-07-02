@@ -1,10 +1,9 @@
 import type { ComponentProps } from 'react';
 
-import { TableBody as STableBody } from '@/lib/components/ui/table';
+import { STableBody } from '@/lib/components/ui/table';
 
 import { DataStoreProvider } from '@/Data';
 import type { DataType } from '@/types';
-import { generateUID } from '@/utils';
 
 import { TableRow } from './TableRow';
 import { useTableStore } from './useTableStore';

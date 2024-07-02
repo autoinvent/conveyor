@@ -14,7 +14,7 @@ import type { DataType, Field, OnCreate, OnDelete, OnUpdate } from '@/types';
 export interface ModelFormState<D extends DataType> {
   title?: ReactNode;
   fields: Field[];
-  data?: D;
+  data: D;
   showActions?: boolean;
   onCreate?: OnCreate<D>;
   onUpdate?: OnUpdate<D>;

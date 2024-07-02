@@ -1,12 +1,12 @@
 import type { ComponentProps } from 'react';
 
-import { TableHead as STableHeaderCell } from '@/lib/components/ui/table';
+import { STableHead } from '@/lib/components/ui/table';
 
 import { Slot } from '@/Slots';
 import { humanizeText } from '@/utils';
 
 export interface TableHeaderCellProps
-  extends ComponentProps<typeof STableHeaderCell> {
+  extends ComponentProps<typeof STableHead> {
   columnId: string;
 }
 
@@ -17,9 +17,9 @@ export const TableHeaderCell = ({
 }: TableHeaderCellProps) => {
   return (
     <Slot slotKey={columnId}>
-      <STableHeaderCell {...htmlProps}>
+      <STableHead {...htmlProps}>
         {children === undefined ? humanizeText(columnId) : children}
-      </STableHeaderCell>
+      </STableHead>
     </Slot>
   );
 };

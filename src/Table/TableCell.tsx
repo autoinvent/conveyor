@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 
-import { TableCell as STableCell } from '@/lib/components/ui/table';
+import { STableCell } from '@/lib/components/ui/table';
 
 import { useDataStore } from '@/Data';
 import { Slot } from '@/Slots';

@@ -25,4 +25,7 @@ export type OnDelete<D extends DataType> =
 
 export type StoreSelector<TState, T> = (state: TState) => T;
 
-export type SelectOption = { value: number | string | null; label: ReactNode };
+export type SelectOption = {
+  value: number | string | boolean | null;
+  label: ReactNode;
+};
