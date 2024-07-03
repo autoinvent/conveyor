@@ -16,7 +16,7 @@ export const StringInput = ({
       value={value ?? ''}
       {...restInputProps}
       {...htmlProps}
-      autoComplete="false"
+      autoComplete="off"
     />
   );
 };

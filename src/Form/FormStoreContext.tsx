@@ -4,10 +4,11 @@ import {
   type UseFormProps,
   type UseFormReturn,
   useForm,
+  type FieldValues,
 } from 'react-hook-form';
 
-export interface FormState
-  extends Omit<UseFormReturn, 'control' | 'formState'> {
+export interface FormState<D extends FieldValues>
+  extends Omit<UseFormReturn<D>, 'control' | 'formState'> {
   control: any;
   formState: any;
 }

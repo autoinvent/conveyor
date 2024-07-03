@@ -28,7 +28,7 @@ export interface ModelIndexSettingsProps
 export const ModelIndexSettings = Object.assign(
   ({
     defaultTab = 'Filter',
-    tabList = ['Filter'],
+    tabList = ['Filter', 'Sort'],
     className,
     children,
     ...dialogContentProps
@@ -61,9 +61,9 @@ export const ModelIndexSettings = Object.assign(
                 <TabsContent value="Filter">
                   <ModelIndexFilterSetting />
                 </TabsContent>
-                {/* <TabsContent value="Sort">
+                <TabsContent value="Sort">
                   <ModelIndexSortSetting />
-                </TabsContent> */}
+                </TabsContent>
               </>
             ) : (
               children

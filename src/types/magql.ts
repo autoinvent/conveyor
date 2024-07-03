@@ -1,12 +1,6 @@
 export type ID = string | number;
 
-type JSONValue = string | number | boolean | null | JSONObject | JSONArray;
-
-interface JSONObject {
-  [key: string]: JSONValue;
-}
-
-interface JSONArray extends Array<JSONValue> {}
+type JSONValue = string;
 
 export interface SearchResult {
   type: string;

@@ -1,14 +1,18 @@
-import { useFormContext } from 'react-hook-form';
+import { type FieldValues, useFormContext } from 'react-hook-form';
 
 import type { StoreSelector } from '@/types';
 
 import type { FormState } from './FormStoreContext';
 
-export function useFormStore(): FormState;
-export function useFormStore<T>(selector: StoreSelector<FormState, T>): T;
+export function useFormStore<D extends FieldValues>(): FormState<D>;
+export function useFormStore<T, D extends FieldValues>(
+  selector: StoreSelector<FormState<D>, T>,
+): T;
 
-export function useFormStore<T>(selector?: StoreSelector<FormState, T>) {
-  const methods = useFormContext();
+export function useFormStore<T, D extends FieldValues>(
+  selector?: StoreSelector<FormState<D>, T>,
+) {
+  const methods = useFormContext<D>();
 
   const selected = selector ? selector(methods) : methods;
 
