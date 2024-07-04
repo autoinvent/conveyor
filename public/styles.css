@@ -1490,6 +1490,34 @@ body {
   background-color: hsl(var(--muted) / 0.5);
 }
 
+.hover\:bg-accent:hover {
+  background-color: hsl(var(--accent));
+}
+
+.hover\:bg-primary\/90:hover {
+  background-color: hsl(var(--primary) / 0.9);
+}
+
+.hover\:bg-secondary\/80:hover {
+  background-color: hsl(var(--secondary) / 0.8);
+}
+
+.hover\:text-accent-foreground:hover {
+  color: hsl(var(--accent-foreground));
+}
+
+.hover\:text-destructive\/90:hover {
+  color: hsl(var(--destructive) / 0.9);
+}
+
+.hover\:text-success\/90:hover {
+  color: hsl(var(--success) / 0.9);
+}
+
+.hover\:underline:hover {
+  text-decoration-line: underline;
+}
+
 .hover\:opacity-100:hover {
   opacity: 1;
 }
@@ -1728,6 +1756,38 @@ body {
 
 .dark\:\[color-scheme\:dark\]:where(.dark, .dark *) {
   color-scheme: dark;
+}
+
+.\[\&\:not\(\:disabled\)\]\:hover\:bg-accent:hover:not(:disabled) {
+  background-color: hsl(var(--accent));
+}
+
+.\[\&\:not\(\:disabled\)\]\:hover\:bg-destructive\/90:hover:not(:disabled) {
+  background-color: hsl(var(--destructive) / 0.9);
+}
+
+.\[\&\:not\(\:disabled\)\]\:hover\:bg-primary\/90:hover:not(:disabled) {
+  background-color: hsl(var(--primary) / 0.9);
+}
+
+.\[\&\:not\(\:disabled\)\]\:hover\:bg-secondary\/80:hover:not(:disabled) {
+  background-color: hsl(var(--secondary) / 0.8);
+}
+
+.\[\&\:not\(\:disabled\)\]\:hover\:text-accent-foreground:hover:not(:disabled) {
+  color: hsl(var(--accent-foreground));
+}
+
+.\[\&\:not\(\:disabled\)\]\:hover\:text-destructive\/90:hover:not(:disabled) {
+  color: hsl(var(--destructive) / 0.9);
+}
+
+.\[\&\:not\(\:disabled\)\]\:hover\:text-success\/90:hover:not(:disabled) {
+  color: hsl(var(--success) / 0.9);
+}
+
+.\[\&\:not\(\:disabled\)\]\:hover\:underline:hover:not(:disabled) {
+  text-decoration-line: underline;
 }
 
 .\[\&\>span\]\:line-clamp-1>span {
