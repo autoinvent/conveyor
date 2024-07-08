@@ -895,6 +895,10 @@ body {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -1407,6 +1411,14 @@ body {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .transition-all {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1488,34 +1500,6 @@ body {
 
 .hover\:bg-muted\/50:hover {
   background-color: hsl(var(--muted) / 0.5);
-}
-
-.hover\:bg-accent:hover {
-  background-color: hsl(var(--accent));
-}
-
-.hover\:bg-primary\/90:hover {
-  background-color: hsl(var(--primary) / 0.9);
-}
-
-.hover\:bg-secondary\/80:hover {
-  background-color: hsl(var(--secondary) / 0.8);
-}
-
-.hover\:text-accent-foreground:hover {
-  color: hsl(var(--accent-foreground));
-}
-
-.hover\:text-destructive\/90:hover {
-  color: hsl(var(--destructive) / 0.9);
-}
-
-.hover\:text-success\/90:hover {
-  color: hsl(var(--success) / 0.9);
-}
-
-.hover\:underline:hover {
-  text-decoration-line: underline;
 }
 
 .hover\:opacity-100:hover {
@@ -1756,38 +1740,6 @@ body {
 
 .dark\:\[color-scheme\:dark\]:where(.dark, .dark *) {
   color-scheme: dark;
-}
-
-.\[\&\:not\(\:disabled\)\]\:hover\:bg-accent:hover:not(:disabled) {
-  background-color: hsl(var(--accent));
-}
-
-.\[\&\:not\(\:disabled\)\]\:hover\:bg-destructive\/90:hover:not(:disabled) {
-  background-color: hsl(var(--destructive) / 0.9);
-}
-
-.\[\&\:not\(\:disabled\)\]\:hover\:bg-primary\/90:hover:not(:disabled) {
-  background-color: hsl(var(--primary) / 0.9);
-}
-
-.\[\&\:not\(\:disabled\)\]\:hover\:bg-secondary\/80:hover:not(:disabled) {
-  background-color: hsl(var(--secondary) / 0.8);
-}
-
-.\[\&\:not\(\:disabled\)\]\:hover\:text-accent-foreground:hover:not(:disabled) {
-  color: hsl(var(--accent-foreground));
-}
-
-.\[\&\:not\(\:disabled\)\]\:hover\:text-destructive\/90:hover:not(:disabled) {
-  color: hsl(var(--destructive) / 0.9);
-}
-
-.\[\&\:not\(\:disabled\)\]\:hover\:text-success\/90:hover:not(:disabled) {
-  color: hsl(var(--success) / 0.9);
-}
-
-.\[\&\:not\(\:disabled\)\]\:hover\:underline:hover:not(:disabled) {
-  text-decoration-line: underline;
 }
 
 .\[\&\>span\]\:line-clamp-1>span {

@@ -3,6 +3,7 @@ import type { RegisterOptions } from 'react-hook-form';
 import { ScalarTypes } from './magql';
 
 export interface Field {
+  id: number;
   name: string;
   type: string;
   rules?: Omit<
