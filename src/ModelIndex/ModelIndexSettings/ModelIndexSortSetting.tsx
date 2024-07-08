@@ -10,6 +10,8 @@ import { useModelIndexStore } from '../useModelIndexStore';
 import { SortableList } from './components/SortableList';
 import { useState } from 'react';
 
+import type { Field } from '@/types';
+
 export const ModelIndexSortSetting = () => {
 
   const sort = useModelIndexStore(state => state.tableView?.sort) // sort to be passed to magiql endpoint
@@ -18,7 +20,7 @@ export const ModelIndexSortSetting = () => {
   // each field type has a boolean sortable field inside of it 
   const sortedFields = fields.filter(field => field.sortable) // return array of sorted fields
   console.log(sortedFields);
-  const [items, setItems] = useState(sortedFields);
+  const [items, setItems] = useState<Field[]>(sortedFields);
   return (
     <Card>
       <CardHeader>
@@ -32,8 +34,8 @@ export const ModelIndexSortSetting = () => {
         items={items}
         onChange={setItems}
         renderItem={(item) => (
-          <SortableList.Item id={item.id}>
-            {item.id}
+          <SortableList.Item id={item.name}>
+            {item.name}
           </SortableList.Item>
         )}
       />

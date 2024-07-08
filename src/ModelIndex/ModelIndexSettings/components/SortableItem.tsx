@@ -49,7 +49,7 @@ export default function SortableItem({ children, id }: PropsWithChildren<Props>)
 
   return (
     <SortableItemContext.Provider value={context}>
-      <li className="SortableItem" ref={setNodeRef} style={style}>
+      <li className="SortableItem space-y-1" ref={setNodeRef} style={style}>
         {children}
       </li>
     </SortableItemContext.Provider>
