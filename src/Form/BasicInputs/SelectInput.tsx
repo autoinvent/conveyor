@@ -5,7 +5,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/lib/components/ui/select';
-import { cn } from '@/lib/utils';
 
 import type { InputRenderFnProps } from '@/Form';
 import type { SelectOption } from '@/types';

@@ -19,11 +19,14 @@ import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
 import { ModelIndexTableRow } from './ModelIndexTableRow';
 import { ACTION_COLUMN } from './constants';
+import { ConditionalWrapper } from '@/utils';
 
-export interface ModelIndexTableProps extends ComponentProps<typeof STable> {}
+export interface ModelIndexTableProps extends ComponentProps<typeof STable> {
+  scrollable?: boolean;
+}
 
 export const ModelIndexTable = Object.assign(
-  ({ children, ...props }: ModelIndexTableProps) => {
+  ({ scrollable = true, children, ...props }: ModelIndexTableProps) => {
     let fieldNames = useModelIndexStore(
       useShallow<ModelIndexState<DataType>, string[]>((state) =>
         state.fields.map((field) => field.name),
@@ -43,7 +46,15 @@ export const ModelIndexTable = Object.assign(
     }
 
     return (
-      <ScrollArea>
+      <ConditionalWrapper
+        condition={scrollable}
+        wrapper={(base) => (
+          <ScrollArea>
+            {base}
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        )}
+      >
         <Table columnIds={fieldNames} data={data} {...props}>
           {children === undefined ? (
             <>
@@ -55,8 +66,7 @@ export const ModelIndexTable = Object.assign(
             children
           )}
         </Table>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+      </ConditionalWrapper>
     );
   },
   {
