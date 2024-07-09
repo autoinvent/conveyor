@@ -10,7 +10,7 @@ export * from './Table';
 // model components
 export * from './ModelForm';
 export * from './ModelIndex';
-export * from './ModelSearch';
+// export * from './ModelSearch';
 
 // types
 export * from './types';

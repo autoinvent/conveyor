@@ -1,0 +1,49 @@
+import { Sandpack } from "@codesandbox/sandpack-react"
+import { nightOwl } from "@codesandbox/sandpack-themes"
+import { Meta, Title, Description, Story } from '@storybook/blocks'
+
+import designSystemRaw from "@/../dist/conveyor.js?raw";
+import designSystemStylesRaw from "@/../dist/styles.css?raw";
+
+import { ModelIndex } from './ModelIndex'
+
+import * as ModelIndexStories from './ModelIndex.stories.tsx'
+
+<Meta of={ModelIndexStories} />
+
+<Title />
+
+<Description />
+
+<Sandpack 
+  options={{
+    showLineNumbers: true,
+    showTabs: true,
+  }}
+  files={{
+    "/App.jsx": `
+    import  "@internals/design-system/styles.css"
+    import { ModelIndex } from "@internals/design-system"
+
+    export default function App() {
+      return (
+        <ModelIndex fields={[]} data={[]} />
+      )
+    }
+    `,
+    "/node_modules/@internals/design-system/package.json": {
+        hidden: true,
+        code: JSON.stringify({
+          name: "@design-system",
+          main: "./index.js",
+        }),
+      },
+      "/node_modules/@internals/design-system/index.js": {
+        hidden: true,
+        code: designSystemRaw,
+      },
+      "/node_modules/@internals/design-system/styles.css": {
+        hidden: true,
+        code: designSystemStylesRaw,
+      },
+  }}  theme={nightOwl} template="vite-react"/>

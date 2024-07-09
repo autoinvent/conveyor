@@ -686,11 +686,6 @@ body {
   margin-bottom: 0.25rem;
 }
 
-.my-2 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -909,10 +904,6 @@ body {
   cursor: default;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
 .touch-none {
   touch-action: none;
 }
@@ -987,16 +978,16 @@ body {
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 
-.space-y-4 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
-}
-
 .space-y-2\.5 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.625rem * var(--tw-space-y-reverse));
+}
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
 
 .overflow-hidden {
@@ -1005,10 +996,6 @@ body {
 
 .whitespace-nowrap {
   white-space: nowrap;
-}
-
-.rounded-2xl {
-  border-radius: 1rem;
 }
 
 .rounded-\[inherit\] {
@@ -1029,16 +1016,6 @@ body {
 
 .rounded-sm {
   border-radius: calc(var(--radius) - 4px);
-}
-
-.rounded-l-2xl {
-  border-top-left-radius: 1rem;
-  border-bottom-left-radius: 1rem;
-}
-
-.rounded-r-2xl {
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 1rem;
 }
 
 .border {
@@ -1073,16 +1050,8 @@ body {
   border-color: hsl(var(--primary));
 }
 
-.border-transparent {
-  border-color: transparent;
-}
-
 .border-l-transparent {
   border-left-color: transparent;
-}
-
-.border-r-border {
-  border-right-color: hsl(var(--border));
 }
 
 .border-t-transparent {
@@ -1148,10 +1117,6 @@ body {
   background-color: transparent;
 }
 
-.p-0 {
-  padding: 0px;
-}
-
 .p-1 {
   padding: 0.25rem;
 }
@@ -1170,10 +1135,6 @@ body {
 
 .p-\[1px\] {
   padding: 1px;
-}
-
-.p-4 {
-  padding: 1rem;
 }
 
 .px-2 {
@@ -1498,34 +1459,6 @@ body {
 
 .hover\:bg-muted\/50:hover {
   background-color: hsl(var(--muted) / 0.5);
-}
-
-.hover\:bg-accent:hover {
-  background-color: hsl(var(--accent));
-}
-
-.hover\:bg-primary\/90:hover {
-  background-color: hsl(var(--primary) / 0.9);
-}
-
-.hover\:bg-secondary\/80:hover {
-  background-color: hsl(var(--secondary) / 0.8);
-}
-
-.hover\:text-accent-foreground:hover {
-  color: hsl(var(--accent-foreground));
-}
-
-.hover\:text-destructive\/90:hover {
-  color: hsl(var(--destructive) / 0.9);
-}
-
-.hover\:text-success\/90:hover {
-  color: hsl(var(--success) / 0.9);
-}
-
-.hover\:underline:hover {
-  text-decoration-line: underline;
 }
 
 .hover\:opacity-100:hover {
