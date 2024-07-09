@@ -6,16 +6,15 @@ import {
   CardFooter,
   CardHeader,
 } from '@/lib/components/ui/card';
+import { useState } from 'react';
 import { useModelIndexStore } from '../useModelIndexStore';
 import { SortableList } from './components/SortableList';
-import { useState } from 'react';
 
 export const ModelIndexSortSetting = () => {
 
   const sort = useModelIndexStore(state => state.tableView?.sort) // sort to be passed to magiql endpoint
-  const fields = useModelIndexStore(state => state.fields) // list of fields
-  const sortedFieldNames = fields.filter(field => field.sortable).map(item => item.name); // sort fields then get their names (unique identifiers)
-  const [items, setItems] = useState<string[]>(sortedFieldNames);
+  const fieldNames = useModelIndexStore(state => state.fields).map(item => item.name); // get names of all fields (unique identifiers)
+  const [items, setItems] = useState<string[]>(fieldNames);
   return (
     <Card>
       <CardHeader>
@@ -29,7 +28,7 @@ export const ModelIndexSortSetting = () => {
       />
       </CardContent>
       <CardFooter>
-        <Button>Apply sorting order</Button>
+        <Button>Apply Sorting Order</Button>
       </CardFooter>
     </Card>
   );

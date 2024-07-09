@@ -1,21 +1,21 @@
-import type React from 'react';
 import {
   DndContext,
-  closestCenter,
   KeyboardSensor,
   PointerSensor,
+  closestCenter,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
 import {
-  arrayMove,
   SortableContext,
+  arrayMove,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import type React from 'react';
 
-import { SortableItem } from './SortableItem';
 import type { DragEndEvent } from "@dnd-kit/core";
+import { SortableItem } from './SortableItem';
 
 interface Props {
   items: string[];
@@ -43,7 +43,6 @@ export function SortableList({items, setItems} : Props) {
         strategy={verticalListSortingStrategy}
       >
         {items.map(id => {
-          console.log(id);
           return <SortableItem key={id} id={id} />;
           })}
       </SortableContext>

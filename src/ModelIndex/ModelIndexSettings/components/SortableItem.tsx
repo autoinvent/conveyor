@@ -1,6 +1,6 @@
-import {useSortable} from '@dnd-kit/sortable';
-import {CSS} from '@dnd-kit/utilities';
 import type { UniqueIdentifier } from '@dnd-kit/core';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 
 interface Props {
