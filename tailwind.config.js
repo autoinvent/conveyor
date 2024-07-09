@@ -2,7 +2,7 @@
 module.exports = {
   darkMode: 'selector',
   content: [
-    './src/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx,mdx}',
   ],
   prefix: "",
   theme: {

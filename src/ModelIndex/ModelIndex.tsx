@@ -1,5 +1,7 @@
 import type { ComponentProps } from 'react';
 
+import { cn } from '@/lib/utils';
+
 import type { DataType, Field } from '@/types';
 import { toField } from '@/utils';
 
@@ -30,10 +32,11 @@ export const ModelIndex = Object.assign(
     onTableViewChange,
     paginationOptions,
     children,
+    className,
     ...htmlProps
   }: ModelIndexProps<D>) => {
     return (
-      <div {...htmlProps}>
+      <div className={cn('space-y-2.5', className)} {...htmlProps}>
         <ModelIndexStoreProvider
           title={title}
           fields={fields.map(toField)}

@@ -23,10 +23,16 @@ import { ConditionalWrapper } from '@/utils';
 
 export interface ModelIndexTableProps extends ComponentProps<typeof STable> {
   scrollable?: boolean;
+  bordered?: boolean;
 }
 
 export const ModelIndexTable = Object.assign(
-  ({ scrollable = true, children, ...props }: ModelIndexTableProps) => {
+  ({
+    scrollable = true,
+    bordered = true,
+    children,
+    ...props
+  }: ModelIndexTableProps) => {
     let fieldNames = useModelIndexStore(
       useShallow<ModelIndexState<DataType>, string[]>((state) =>
         state.fields.map((field) => field.name),
@@ -47,25 +53,30 @@ export const ModelIndexTable = Object.assign(
 
     return (
       <ConditionalWrapper
-        condition={scrollable}
-        wrapper={(base) => (
-          <ScrollArea>
-            {base}
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        )}
+        condition={bordered}
+        wrapper={(base) => <div className="rounded-md border">{base}</div>}
       >
-        <Table columnIds={fieldNames} data={data} {...props}>
-          {children === undefined ? (
-            <>
-              <ModelIndexTableHead />
-              <ModelIndexTableBody />
-              <Table.Fallback />
-            </>
-          ) : (
-            children
+        <ConditionalWrapper
+          condition={scrollable}
+          wrapper={(base) => (
+            <ScrollArea>
+              {base}
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
           )}
-        </Table>
+        >
+          <Table columnIds={fieldNames} data={data} {...props}>
+            {children === undefined ? (
+              <>
+                <ModelIndexTableHead />
+                <ModelIndexTableBody />
+                <Table.Fallback />
+              </>
+            ) : (
+              children
+            )}
+          </Table>
+        </ConditionalWrapper>
       </ConditionalWrapper>
     );
   },

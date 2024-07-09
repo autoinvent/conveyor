@@ -52,7 +52,7 @@ export const ModelIndexTableActionCell = ({
   return (
     showActions && (
       <TableCell
-        className={cn('w-0 p-0', className)}
+        className={cn('w-0', className)}
         columnId={ACTION_COLUMN}
         {...props}
       >

@@ -993,6 +993,12 @@ body {
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
 
+.space-y-2\.5 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.625rem * var(--tw-space-y-reverse));
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -1164,6 +1170,10 @@ body {
 
 .p-\[1px\] {
   padding: 1px;
+}
+
+.p-4 {
+  padding: 1rem;
 }
 
 .px-2 {
@@ -1490,6 +1500,34 @@ body {
   background-color: hsl(var(--muted) / 0.5);
 }
 
+.hover\:bg-accent:hover {
+  background-color: hsl(var(--accent));
+}
+
+.hover\:bg-primary\/90:hover {
+  background-color: hsl(var(--primary) / 0.9);
+}
+
+.hover\:bg-secondary\/80:hover {
+  background-color: hsl(var(--secondary) / 0.8);
+}
+
+.hover\:text-accent-foreground:hover {
+  color: hsl(var(--accent-foreground));
+}
+
+.hover\:text-destructive\/90:hover {
+  color: hsl(var(--destructive) / 0.9);
+}
+
+.hover\:text-success\/90:hover {
+  color: hsl(var(--success) / 0.9);
+}
+
+.hover\:underline:hover {
+  text-decoration-line: underline;
+}
+
 .hover\:opacity-100:hover {
   opacity: 1;
 }
@@ -1538,6 +1576,38 @@ body {
 
 .focus-visible\:ring-offset-2:focus-visible {
   --tw-ring-offset-width: 2px;
+}
+
+.hover\:enabled\:bg-accent:enabled:hover {
+  background-color: hsl(var(--accent));
+}
+
+.hover\:enabled\:bg-destructive\/90:enabled:hover {
+  background-color: hsl(var(--destructive) / 0.9);
+}
+
+.hover\:enabled\:bg-primary\/90:enabled:hover {
+  background-color: hsl(var(--primary) / 0.9);
+}
+
+.hover\:enabled\:bg-secondary\/80:enabled:hover {
+  background-color: hsl(var(--secondary) / 0.8);
+}
+
+.hover\:enabled\:text-accent-foreground:enabled:hover {
+  color: hsl(var(--accent-foreground));
+}
+
+.hover\:enabled\:text-destructive\/90:enabled:hover {
+  color: hsl(var(--destructive) / 0.9);
+}
+
+.hover\:enabled\:text-success\/90:enabled:hover {
+  color: hsl(var(--success) / 0.9);
+}
+
+.hover\:enabled\:underline:enabled:hover {
+  text-decoration-line: underline;
 }
 
 .disabled\:pointer-events-none:disabled {

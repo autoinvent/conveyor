@@ -18,7 +18,6 @@ export interface ModelIndexTableCellProps
 export const ModelIndexTableCell = ({
   fieldName,
   children,
-  className,
   ...props
 }: ModelIndexTableCellProps) => {
   const refId = useId();
@@ -54,7 +53,6 @@ export const ModelIndexTableCell = ({
   return (
     <TableCell
       columnId={fieldName}
-      {...props}
       onDoubleClick={() =>
         showActions && activeLens === DataLens.VALUE && setLens(DataLens.INPUT)
       }
@@ -63,6 +61,7 @@ export const ModelIndexTableCell = ({
         activeLens === DataLens.INPUT &&
         setLens(DataLens.VALUE)
       }
+      {...props}
     >
       {children === undefined ? (
         field.editable ? (

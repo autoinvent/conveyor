@@ -16,7 +16,7 @@ export const ModelIndexTitle = ({
   return (
     <h2
       className={cn(
-        'mb-2 flex items-end text-start font-semibold text-4xl',
+        'flex items-end text-start font-semibold text-4xl',
         className,
       )}
       {...props}
