@@ -8,7 +8,7 @@ import {
 } from '@/lib/components/ui/card';
 import { useState } from 'react';
 import { useModelIndexStore } from '../useModelIndexStore';
-import { SortableList } from './components/SortableList';
+import { SortableList } from './Sort/SortableList';
 
 export const ModelIndexSortSetting = () => {
 
