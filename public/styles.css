@@ -927,6 +927,10 @@ body {
           user-select: none;
 }
 
+.list-none {
+  list-style-type: none;
+}
+
 .flex-row {
   flex-direction: row;
 }

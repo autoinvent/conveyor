@@ -1,92 +1,68 @@
-import React, { useEffect, useMemo, useState } from "react";
-import type { ReactNode } from "react";
+import type React from 'react';
 import {
   DndContext,
+  closestCenter,
   KeyboardSensor,
   PointerSensor,
   useSensor,
-  useSensors
-} from "@dnd-kit/core";
-import type { Active } from "@dnd-kit/core";
+  useSensors,
+} from '@dnd-kit/core';
 import {
-  SortableContext,
   arrayMove,
-  sortableKeyboardCoordinates
-} from "@dnd-kit/sortable";
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
-import SortableItem from "./SortableItem";
-import { SortableOverlay } from "./SortableOverlay";
-
-import type { Field } from "@/types";
+import { SortableItem } from './SortableItem';
+import type { DragEndEvent } from "@dnd-kit/core";
 
 interface Props {
-  items: Field[];
-  onChange(items: Field[]): void;
-  renderItem(item: Field): ReactNode;
+  items: string[];
+  setItems: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export function SortableList({
-  items,
-  onChange,
-  renderItem
-}: Props) {
-  const [active, setActive] = useState<Active | null>(null);
 
-  useEffect(() => {
-    console.log(active?.data);
-  }, [active]);
+export function SortableList({items, setItems} : Props) {
 
-  // const activeItem = useMemo(
-  //   () => items.find((item) => item.name === active?.data[0]),
-  //   [active, items]
-  // );
-
-  const activeItem = useMemo(
-    () => items.find((item) => {
-      console.log(item.name, active?.data);
-      return item.name === active?.id
-    }),
-    [active, items]
-  );
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates
+      coordinateGetter: sortableKeyboardCoordinates,
     })
   );
 
   return (
-    <DndContext
+    <DndContext 
       sensors={sensors}
-      onDragStart={({ active }) => {
-        setActive(active);
-      }}
-      onDragEnd={({ active, over }) => {
-        if (over && active.id !== over?.id) {
-          const activeIndex = items.findIndex(({ name }) => name === active.id);
-          const overIndex = items.findIndex(({ name }) => name === over.id);
-          console.log(activeIndex, overIndex);
-          onChange(arrayMove(items, activeIndex, overIndex));
-        }
-        setActive(null);
-      }}
-      onDragCancel={() => {
-        setActive(null);
-      }}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
     >
-      <SortableContext items={items}>
-        <ul className="SortableList" role="application">
-        {items.map((item) => {
-          console.log(item.name);
-          return <React.Fragment key={item.name}>{renderItem(item)}</React.Fragment>
-})}
-        </ul>
+      <SortableContext 
+        items={items}
+        strategy={verticalListSortingStrategy}
+      >
+        {items.map(id => {
+          console.log(id);
+          return <SortableItem key={id} id={id} />;
+          })}
       </SortableContext>
-      <SortableOverlay>
-        {activeItem ? renderItem(activeItem) : null}
-      </SortableOverlay>
     </DndContext>
   );
-}
+  
+  function handleDragEnd(event: DragEndEvent) {
+    const {active, over} = event;
+    
+    if (active.id !== over?.id) {
+      
+      setItems((items) => {
+        const oldIndex = items.findIndex(item => item === active.id);
+        const newIndex = items.findIndex(item => item === over?.id);
+        
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  }
 
-SortableList.Item = SortableItem;
+
+}
