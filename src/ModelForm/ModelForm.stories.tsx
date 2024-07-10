@@ -22,7 +22,7 @@ const meta = {
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 3000)),
   },
   argTypes: {
-    showActions: {
+    readOnly: {
       control: 'boolean',
     },
     onCreate: { control: false },
@@ -63,9 +63,9 @@ export const UndefinedData: Story = {
   },
 };
 
-export const DisableActions = {
+export const ReadOnly = {
   args: {
-    showActions: false,
+    readOnly: false,
   },
 };
 

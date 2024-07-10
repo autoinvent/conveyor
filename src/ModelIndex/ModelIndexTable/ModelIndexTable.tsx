@@ -39,11 +39,11 @@ export const ModelIndexTable = Object.assign(
       ),
     );
     const data = useModelIndexStore((state) => state.data);
-    const showActions = useModelIndexStore((state) => state.showActions);
+    const readOnly = useModelIndexStore((state) => state.readOnly);
 
     if (
       fieldNames.length > 0 &&
-      showActions &&
+      readOnly &&
       data &&
       data.length > 0 &&
       !fieldNames.includes(ACTION_COLUMN)

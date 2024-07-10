@@ -6,16 +6,6 @@ export interface NumberInputProps extends InputRenderFnProps {}
 
 export const NumberInput = ({
   inputProps: { value, ...restInputProps },
-  inputState,
-  formState,
-  ...htmlProps
 }: NumberInputProps) => {
-  return (
-    <Input
-      type="number"
-      value={value ?? 0}
-      {...restInputProps}
-      {...htmlProps}
-    />
-  );
+  return <Input type="number" value={value ?? 0} {...restInputProps} />;
 };

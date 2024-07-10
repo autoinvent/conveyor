@@ -30,7 +30,7 @@ export const ModelForm = Object.assign(
     title,
     fields,
     data,
-    showActions = true,
+    readOnly = true,
     onCreate,
     onUpdate,
     onDelete,
@@ -51,7 +51,7 @@ export const ModelForm = Object.assign(
         title={title}
         fields={fields.map(toField)}
         data={data}
-        showActions={showActions}
+        readOnly={readOnly}
         onCreate={onCreate}
         onUpdate={onUpdate}
         onDelete={onDelete}

@@ -1,4 +1,4 @@
-import { Input } from '@/lib/components/ui/input';
+import { Textarea } from '@/lib/components/ui/textarea';
 
 import type { InputRenderFnProps } from '@/Form';
 
@@ -6,16 +6,12 @@ export interface StringInputProps extends InputRenderFnProps {}
 
 export const StringInput = ({
   inputProps: { value, ...restInputProps },
-  inputState,
-  formState,
-  ...htmlProps
 }: StringInputProps) => {
   return (
-    <Input
-      type="text"
+    <Textarea
       value={value ?? ''}
       {...restInputProps}
-      {...htmlProps}
+      rows={1}
       autoComplete="off"
     />
   );

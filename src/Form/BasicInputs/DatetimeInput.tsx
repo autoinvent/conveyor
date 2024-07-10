@@ -6,10 +6,9 @@ import type { InputRenderFnProps } from '@/Form';
 export interface DatetimeInputProps extends InputRenderFnProps {}
 
 export const DatetimeInput = ({
-  inputProps: { value, ...restInputProps },
+  inputProps: { value, className, ...restInputProps },
   inputState,
   formState,
-  className,
   ...htmlProps
 }: DatetimeInputProps) => {
   return (

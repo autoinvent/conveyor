@@ -25,7 +25,7 @@ export const ModelIndex = Object.assign(
     title,
     fields,
     data,
-    showActions,
+    readOnly,
     onUpdate,
     onDelete,
     tableView,
@@ -41,7 +41,7 @@ export const ModelIndex = Object.assign(
           title={title}
           fields={fields.map(toField)}
           data={data}
-          showActions={showActions}
+          readOnly={readOnly}
           onUpdate={onUpdate}
           onDelete={onDelete}
           tableView={tableView}

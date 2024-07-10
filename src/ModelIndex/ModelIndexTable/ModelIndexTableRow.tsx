@@ -25,7 +25,7 @@ export const ModelIndexTableRow = ({
   ...props
 }: ModelIndexTableRowProps) => {
   const fieldNames = useTableStore((state) => state.columnIds);
-  const showActions = useModelIndexStore((state) => state.showActions);
+  const readOnly = useModelIndexStore((state) => state.readOnly);
   const data = useDataStore();
   const formProps = Object.assign(
     { mode: 'onChange', values: data },
@@ -41,7 +41,7 @@ export const ModelIndexTableRow = ({
               <>
                 {fieldNames.map((fieldName) => {
                   return fieldName === ACTION_COLUMN ? (
-                    showActions && <ModelIndexTableActionCell key={fieldName} />
+                    readOnly && <ModelIndexTableActionCell key={fieldName} />
                   ) : (
                     <ModelIndexTableCell
                       key={fieldName}

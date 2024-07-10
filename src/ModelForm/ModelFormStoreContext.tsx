@@ -15,7 +15,7 @@ export interface ModelFormState<D extends DataType> {
   title?: ReactNode;
   fields: Field[];
   data: D;
-  showActions?: boolean;
+  readOnly?: boolean;
   onCreate?: OnCreate<D>;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;

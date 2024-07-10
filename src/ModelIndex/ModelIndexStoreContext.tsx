@@ -19,7 +19,7 @@ export interface ModelIndexState<D extends DataType> {
   title?: ReactNode;
   fields: Field[];
   data?: D[];
-  showActions?: boolean;
+  readOnly?: boolean;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;
   tableView?: TableView;

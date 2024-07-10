@@ -17,10 +17,7 @@ export interface SelectInputProps extends InputRenderFnProps {
 export const SelectInput = ({
   options = [],
   placeHolder = 'Select...',
-  inputProps: { onChange, value, name },
-  disabled,
-  required,
-  className,
+  inputProps: { onChange, value, name, disabled, required, className },
 }: SelectInputProps) => {
   const stringifiedValue = value !== '' ? JSON.stringify(value) : value;
   const stringifiedOptions = options.map(({ label, value }) => {

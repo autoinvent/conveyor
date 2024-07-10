@@ -64,12 +64,12 @@ const meta = {
     paginationOptions: {
       totalDataLength: 514,
     },
-    showActions: true,
+    readOnly: true,
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 3000)),
   },
   argTypes: {
-    showActions: {
+    readOnly: {
       control: 'boolean',
     },
     onUpdate: { control: false },
@@ -150,8 +150,8 @@ export const UndefinedData: Story = {
   },
 };
 
-export const DisableActions = {
+export const ReadOnly = {
   args: {
-    showActions: false,
+    readOnly: false,
   },
 };

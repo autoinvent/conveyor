@@ -799,6 +799,10 @@ body {
   max-height: 24rem;
 }
 
+.min-h-10 {
+  min-height: 2.5rem;
+}
+
 .w-0 {
   width: 0px;
 }
@@ -847,12 +851,21 @@ body {
   min-width: 12rem;
 }
 
+.min-w-64 {
+  min-width: 16rem;
+}
+
 .min-w-\[8rem\] {
   min-width: 8rem;
 }
 
 .min-w-\[var\(--radix-select-trigger-width\)\] {
   min-width: var(--radix-select-trigger-width);
+}
+
+.min-w-fit {
+  min-width: -moz-fit-content;
+  min-width: fit-content;
 }
 
 .max-w-fit {
@@ -996,6 +1009,10 @@ body {
 
 .whitespace-nowrap {
   white-space: nowrap;
+}
+
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
 }
 
 .rounded-\[inherit\] {
