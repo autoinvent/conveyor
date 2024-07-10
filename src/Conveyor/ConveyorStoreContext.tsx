@@ -56,6 +56,7 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
         <RawValue
           name={name}
           value={value ? new Date(value).toLocaleString() : 'N/A'}
+          className="min-w-60"
         />
       ),
       inputRenderFn: DatetimeInput,

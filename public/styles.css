@@ -843,6 +843,19 @@ body {
   width: 100%;
 }
 
+.w-56 {
+  width: 14rem;
+}
+
+.w-60 {
+  width: 15rem;
+}
+
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .min-w-20 {
   min-width: 5rem;
 }
@@ -868,6 +881,14 @@ body {
   min-width: fit-content;
 }
 
+.min-w-56 {
+  min-width: 14rem;
+}
+
+.min-w-60 {
+  min-width: 15rem;
+}
+
 .max-w-fit {
   max-width: -moz-fit-content;
   max-width: fit-content;
@@ -875,6 +896,18 @@ body {
 
 .max-w-lg {
   max-width: 32rem;
+}
+
+.max-w-72 {
+  max-width: 18rem;
+}
+
+.max-w-64 {
+  max-width: 16rem;
+}
+
+.max-w-60 {
+  max-width: 15rem;
 }
 
 .flex-1 {

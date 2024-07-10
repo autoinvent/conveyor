@@ -15,7 +15,7 @@ export const DatetimeInput = ({
     <Input
       type="datetime-local"
       value={value?.substring(0, 19) ?? ''}
-      className={cn('dark:[color-scheme:dark]', className)}
+      className={cn('min-w-60 dark:[color-scheme:dark]', className)}
       {...restInputProps}
       {...htmlProps}
     />

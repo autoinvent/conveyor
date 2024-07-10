@@ -1,15 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { RawValue } from '@/Form';
 import { ModelIndex, useTableView } from '@/ModelIndex';
 import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
 import { FieldTypes } from '@/types';
 
 import { Conveyor } from './Conveyor';
 
-const BEARS = [
-  { id: '1', name: 'Winnie The Pooh' },
-  { id: '2', name: 'Baloo' },
-];
+// const BEARS = [
+//   { id: '1', name: 'Winnie The Pooh' },
+//   { id: '2', name: 'Baloo' },
+// ];
 
 const meta = {
   title: 'Model/Conveyor/Conveyor',
@@ -18,11 +19,8 @@ const meta = {
   args: {
     typeOptions: {
       [FieldTypes.STRING]: {
-        valueRenderFn: ({ value }) => <b className="text-green-700">{value}</b>,
-      },
-      DisneyBear: {
-        valueRenderFn: ({ value }) => (
-          <b>{BEARS.find((bear) => bear.id === value?.id)?.name ?? 'none'}</b>
+        valueRenderFn: (props) => (
+          <RawValue className="text-green-700" {...props} />
         ),
       },
     },
