@@ -86,7 +86,9 @@ export const ModelIndexSortSetting = () => {
             NON-SORTED
           </SortableContainer>
           {createPortal(
-            <DragOverlay>
+            <DragOverlay
+              wrapperElement="ul"
+            >
               {isDragging && activeItem ? <Item>{activeItem}</Item> : null}
             </DragOverlay>,
             document.body
