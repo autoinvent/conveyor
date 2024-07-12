@@ -612,14 +612,6 @@ body {
   --tw-contain-style:  ;
 }
 
-.\!container {
-  width: 100% !important;
-  margin-right: auto !important;
-  margin-left: auto !important;
-  padding-right: 2rem !important;
-  padding-left: 2rem !important;
-}
-
 .container {
   width: 100%;
   margin-right: auto;
@@ -629,10 +621,6 @@ body {
 }
 
 @media (min-width: 1400px) {
-  .\!container {
-    max-width: 1400px !important;
-  }
-
   .container {
     max-width: 1400px;
   }
@@ -760,10 +748,6 @@ body {
 
 .grid {
   display: grid;
-}
-
-.inline-grid {
-  display: inline-grid;
 }
 
 .contents {
@@ -1417,12 +1401,6 @@ body {
 .shadow-sm {
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.shadow {
-  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
