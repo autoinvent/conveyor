@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import { DragOverlay, defaultDropAnimationSideEffects } from "@dnd-kit/core";
 import type { DropAnimation } from "@dnd-kit/core";
 
@@ -12,8 +12,9 @@ const dropAnimationConfig: DropAnimation = {
   })
 };
 
-// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
-interface Props {}
+interface Props {
+  children: ReactNode
+}
 
 export function SortableOverlay({ children }: PropsWithChildren<Props>) {
   return (

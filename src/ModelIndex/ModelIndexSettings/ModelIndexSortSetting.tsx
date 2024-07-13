@@ -29,6 +29,7 @@ import { arrayMove } from "@dnd-kit/sortable";
 import Item from "./Sort/Item";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { createPortal } from "react-dom";
+import { Switch } from "@/lib/components/ui/switch";
 export interface SortedItems {
   sorted: UniqueIdentifier[];
   nonSorted: UniqueIdentifier[];
@@ -56,6 +57,7 @@ export const ModelIndexSortSetting = () => {
   >(null);
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  // const [checked, setChecked] = useState<boolean>(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -69,6 +71,14 @@ export const ModelIndexSortSetting = () => {
       <CardHeader>
         <CardDescription>Sorting order applied:</CardDescription>
         <CardDescription>Sorted in order from top to bottom.</CardDescription>
+      {/* <Switch
+          className="testSwitch"
+          labelLeft="ASC"
+          labelRight="DESC"
+          onClick={() => setChecked(prev => !prev)}
+          checked={checked}
+
+      /> */}
       </CardHeader>
       <CardContent className="space-y-2">
         <DndContext
