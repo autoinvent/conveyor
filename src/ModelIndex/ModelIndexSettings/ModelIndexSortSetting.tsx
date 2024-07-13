@@ -71,14 +71,6 @@ export const ModelIndexSortSetting = () => {
       <CardHeader>
         <CardDescription>Sorting order applied:</CardDescription>
         <CardDescription>Sorted in order from top to bottom.</CardDescription>
-      {/* <Switch
-          className="testSwitch"
-          labelLeft="ASC"
-          labelRight="DESC"
-          onClick={() => setChecked(prev => !prev)}
-          checked={checked}
-
-      /> */}
       </CardHeader>
       <CardContent className="space-y-2">
         <DndContext
