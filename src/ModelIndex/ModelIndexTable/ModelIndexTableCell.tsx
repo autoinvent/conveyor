@@ -61,7 +61,7 @@ export const ModelIndexTableCell = ({
     <TableCell
       columnId={fieldName}
       onDoubleClick={() =>
-        readOnly && activeLens === DataLens.VALUE && setLens(DataLens.INPUT)
+        !readOnly && activeLens === DataLens.VALUE && setLens(DataLens.INPUT)
       }
       onKeyUp={(e) =>
         e.key === 'Escape' &&

@@ -30,7 +30,7 @@ export const ModelForm = Object.assign(
     title,
     fields,
     data,
-    readOnly = true,
+    readOnly,
     onCreate,
     onUpdate,
     onDelete,

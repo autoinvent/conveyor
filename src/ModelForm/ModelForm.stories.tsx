@@ -65,7 +65,7 @@ export const UndefinedData: Story = {
 
 export const ReadOnly = {
   args: {
-    readOnly: false,
+    readOnly: true,
   },
 };
 

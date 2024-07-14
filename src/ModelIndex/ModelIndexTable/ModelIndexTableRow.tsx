@@ -41,7 +41,7 @@ export const ModelIndexTableRow = ({
               <>
                 {fieldNames.map((fieldName) => {
                   return fieldName === ACTION_COLUMN ? (
-                    readOnly && <ModelIndexTableActionCell key={fieldName} />
+                    !readOnly && <ModelIndexTableActionCell key={fieldName} />
                   ) : (
                     <ModelIndexTableCell
                       key={fieldName}

@@ -43,7 +43,7 @@ export const ModelIndexTable = Object.assign(
 
     if (
       fieldNames.length > 0 &&
-      readOnly &&
+      !readOnly &&
       data &&
       data.length > 0 &&
       !fieldNames.includes(ACTION_COLUMN)

@@ -50,7 +50,7 @@ export const ModelIndexTableActionCell = ({
   };
 
   return (
-    readOnly && (
+    !readOnly && (
       <TableCell
         className={cn('w-0', className)}
         columnId={ACTION_COLUMN}
