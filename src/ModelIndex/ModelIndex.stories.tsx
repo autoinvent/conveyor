@@ -6,9 +6,9 @@ import { Button } from '@/lib/components/ui/button';
 import { Separator } from '@/lib/components/ui/separator';
 
 import { type DataType, FieldTypes } from '@/types';
+import { useTableView } from '@/utils';
 
 import { ModelIndex } from './ModelIndex';
-import { useTableView } from './useTableView';
 
 const meta = {
   title: 'Model/ModelIndex/ModelIndex',
@@ -61,6 +61,10 @@ const meta = {
         bestBearFriend: null,
       },
     ],
+    tableViewOptions: {
+      tableView: {},
+      onTableViewChange: () => {},
+    },
     paginationOptions: {
       totalDataLength: 514,
     },
@@ -96,8 +100,7 @@ export const BasicUsage: Story = {
         <Separator className="my-4" />
         <ModelIndex
           data={currData}
-          {...props}
-          {...tableViewOptions}
+          tableViewOptions={tableViewOptions}
           onUpdate={(params) => {
             const id = params?.data?.id;
             if (params?.data) {
@@ -126,6 +129,7 @@ export const BasicUsage: Story = {
               });
             }
           }}
+          {...props}
         />
       </>
     );

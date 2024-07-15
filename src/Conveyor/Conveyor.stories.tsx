@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { RawValue } from '@/Form';
-import { ModelIndex, useTableView } from '@/ModelIndex';
+import { ModelIndex } from '@/ModelIndex';
 import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
 import { FieldTypes } from '@/types';
+import { useTableView } from '@/utils';
 
 import { Conveyor } from './Conveyor';
 
@@ -36,7 +37,10 @@ export const OverridingValue: Story = {
     return (
       <div className="flex flex-col">
         <Conveyor {...args}>
-          <ModelIndex {...ModelIndexStoryMeta.args} {...tableViewOptions} />
+          <ModelIndex
+            {...ModelIndexStoryMeta.args}
+            tableViewOptions={tableViewOptions}
+          />
         </Conveyor>
       </div>
     );

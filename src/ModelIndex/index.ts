@@ -11,7 +11,6 @@ export * from './ModelIndexStoreContext';
 
 // hooks
 export * from './useModelIndexStore';
-export * from './useTableView';
 
 // utils
 export * from './utils';

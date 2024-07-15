@@ -16,7 +16,9 @@ import { useModelIndexStore } from '../useModelIndexStore';
 import { ModelIndexFilterItem } from './ModelIndexFilterItem';
 
 export const ModelIndexFilterSetting = () => {
-  const filter = useModelIndexStore((state) => state.tableView?.filter);
+  const filter = useModelIndexStore(
+    (state) => state.tableViewOptions.tableView.filter,
+  );
   const filterLength = filter?.length ?? 0;
 
   return (

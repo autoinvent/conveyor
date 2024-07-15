@@ -19,14 +19,16 @@ export const ModelIndexTableHeaderCell = ({
     state.fields.find((field) => field.name === fieldName),
   );
 
-  const sort = useModelIndexStore((state) => state.tableView?.sort);
+  const sort = useModelIndexStore(
+    (state) => state.tableViewOptions.tableView.sort,
+  );
   const onTableViewChange = useModelIndexStore(
-    (state) => state.onTableViewChange,
+    (state) => state.tableViewOptions.onTableViewChange,
   );
   const sortDirection = getFieldSortDirection(sort, fieldName);
   const onNextSortDirection = () => {
     const nextSort = getNextSort(sort, fieldName);
-    onTableViewChange?.({ sort: nextSort });
+    onTableViewChange({ sort: nextSort });
   };
 
   if (field === undefined) {

@@ -22,14 +22,13 @@ export interface ModelIndexProps<D extends DataType>
 
 export const ModelIndex = Object.assign(
   <D extends DataType>({
-    title,
     fields,
     data,
+    tableViewOptions,
+    title,
     readOnly,
     onUpdate,
     onDelete,
-    tableView,
-    onTableViewChange,
     paginationOptions,
     children,
     className,
@@ -38,15 +37,13 @@ export const ModelIndex = Object.assign(
     return (
       <div className={cn('space-y-2.5', className)} {...htmlProps}>
         <ModelIndexStoreProvider
-          title={title}
           fields={fields.map(toField)}
           data={data}
+          tableViewOptions={tableViewOptions}
+          title={title}
           readOnly={readOnly}
           onUpdate={onUpdate}
           onDelete={onDelete}
-          tableView={tableView}
-          onTableViewChange={onTableViewChange}
-          paginationOptions={paginationOptions}
         >
           {children === undefined ? (
             <>

@@ -78,9 +78,11 @@ export const ModelIndexFilterItem = ({
   const isValid = useFormStore((state) => state.formState.isValid);
   const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
   const fields = useModelIndexStore((state) => state.fields);
-  const filter = useModelIndexStore((state) => state.tableView?.filter);
+  const filter = useModelIndexStore(
+    (state) => state.tableViewOptions.tableView.filter,
+  );
   const onTableViewChange = useModelIndexStore(
-    (state) => state.onTableViewChange,
+    (state) => state.tableViewOptions.onTableViewChange,
   );
   const path = watch('path');
   const field = fields.find((field) => field.name === path);
@@ -92,7 +94,7 @@ export const ModelIndexFilterItem = ({
     ...filterItem
   }: FilterItemValues) => {
     const newFilter = addFilter(filter, filterItem, group);
-    onTableViewChange?.({ filter: newFilter });
+    onTableViewChange({ filter: newFilter });
     reset();
   };
   const onSaveFilter = ({
@@ -107,7 +109,7 @@ export const ModelIndexFilterItem = ({
       defaultValues.groupIndex,
       group,
     );
-    onTableViewChange?.({ filter: newFilter });
+    onTableViewChange({ filter: newFilter });
     reset();
   };
   const onRemoveFilter = () => {
@@ -116,7 +118,7 @@ export const ModelIndexFilterItem = ({
       defaultValues.group,
       defaultValues.groupIndex,
     );
-    onTableViewChange?.({ filter: newFilter });
+    onTableViewChange({ filter: newFilter });
   };
   return (
     <div className="flex space-x-2">

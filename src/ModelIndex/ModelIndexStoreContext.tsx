@@ -8,7 +8,8 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import type { DataType, Field, OnDelete, OnUpdate, TableView } from '@/types';
+import type { DataType, Field, OnDelete, OnUpdate } from '@/types';
+import type { TableViewOptions } from '@/utils';
 
 export interface PaginationOptions {
   totalDataLength?: number;
@@ -16,14 +17,13 @@ export interface PaginationOptions {
 }
 
 export interface ModelIndexState<D extends DataType> {
-  title?: ReactNode;
   fields: Field[];
   data?: D[];
+  tableViewOptions: TableViewOptions;
+  title?: ReactNode;
   readOnly?: boolean;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;
-  tableView?: TableView;
-  onTableViewChange?: (changedTableView: Partial<TableView>) => void;
   paginationOptions?: PaginationOptions;
 }
 
