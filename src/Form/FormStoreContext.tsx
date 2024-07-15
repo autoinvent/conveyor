@@ -1,26 +1,11 @@
-import type { ReactNode } from 'react';
 import {
   FormProvider,
-  type UseFormProps,
   type UseFormReturn,
-  useForm,
   type FieldValues,
 } from 'react-hook-form';
 
 export interface FormState<D extends FieldValues>
-  extends Omit<UseFormReturn<D>, 'control' | 'formState'> {
-  control: any;
-  formState: any;
-}
+  extends UseFormReturn<D> {
 
-export interface FormStoreProviderProps extends UseFormProps {
-  children?: ReactNode;
 }
-export const FormStoreProvider = ({
-  children,
-  ...formProps
-}: FormStoreProviderProps) => {
-  const methods = useForm(formProps);
-
-  return <FormProvider {...methods}>{children}</FormProvider>;
-};
+export const FormStoreProvider = FormProvider
