@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
-import type { UseFormProps } from 'react-hook-form';
+import type { UseFormReturn } from 'react-hook-form';
 
-import { FormStoreProvider } from '@/Form';
+import { FormStoreProvider, useForm } from '@/Form';
 import { Lenses } from '@/Lenses';
 import { LoadingStoreProvider } from '@/Loading';
 import { DataLens, type DataType, type Field } from '@/types';
@@ -22,7 +22,7 @@ export interface ModelFormProps<D extends DataType>
   extends Omit<ModelFormState<D>, 'fields'>,
     Omit<ComponentProps<'form'>, 'title' | 'onSubmit'> {
   fields: (string | Field)[];
-  formOptions?: UseFormProps;
+  formMethods?: UseFormReturn;
 }
 
 export const ModelForm = Object.assign(
@@ -30,7 +30,7 @@ export const ModelForm = Object.assign(
     title,
     fields,
     data,
-    readOnly = true,
+    readOnly = false,
     onCreate,
     onUpdate,
     onDelete,
@@ -38,14 +38,11 @@ export const ModelForm = Object.assign(
     onCancelEdit,
     initialLens = DataLens.INPUT,
     children,
-    formOptions,
+    formMethods,
     className,
     ...htmlProps
   }: ModelFormProps<D>) => {
-    const formProps = Object.assign(
-      { mode: 'onChange', values: data },
-      formOptions,
-    );
+    const defaultFormMethods = useForm({ mode: 'onChange', values: data });
     return (
       <ModelFormStoreProvider
         title={title}
@@ -59,7 +56,7 @@ export const ModelForm = Object.assign(
         onCancelEdit={onCancelEdit}
         initialLens={initialLens}
       >
-        <FormStoreProvider {...formProps}>
+        <FormStoreProvider {...(formMethods ?? defaultFormMethods)}>
           <LoadingStoreProvider>
             <Form className={cn('space-y-4', className)} {...htmlProps}>
               <Lenses initialLens={initialLens}>

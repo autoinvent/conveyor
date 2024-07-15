@@ -55,7 +55,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
   };
 
   return (
-    readOnly &&
+    !readOnly &&
     fields.length > 0 &&
     data && (
       <div className={cn('flex justify-center', className)}>
