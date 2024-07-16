@@ -60,6 +60,7 @@ export const ModelIndexSortSetting = () => {
   >(null);
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [isDraggingOver, setIsDraggingOver ] = useState<boolean>(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -91,10 +92,10 @@ export const ModelIndexSortSetting = () => {
           onDragEnd={handleDragEnd}
           modifiers={[restrictToVerticalAxis]}
         >
-          <SortableContainer items={sorted} id="sorted">
+          <SortableContainer items={sorted} isDragging={isDraggingOver} activeItem={activeItem} id="sorted">
             SORTED
           </SortableContainer>
-          <SortableContainer items={nonSorted} id="nonSorted">
+          <SortableContainer items={nonSorted} isDragging={isDraggingOver} activeItem={activeItem} id="nonSorted">
             NON-SORTED
           </SortableContainer>
           {createPortal(
@@ -125,6 +126,7 @@ export const ModelIndexSortSetting = () => {
     // see if over is in different container
     const { over } = event;
     isDragging && setOverContainer(over?.data.current?.sortable.containerId);
+    if (overContainer) setIsDraggingOver(true);
   }
 
   function handleDragEnd({ active, over }: DragEndEvent) {
@@ -132,6 +134,7 @@ export const ModelIndexSortSetting = () => {
     // over is the destination
     setIsDragging(false);
     setActiveItem(null);
+    setIsDraggingOver(false);
     const { id: activeId } = active;
     const overId = over?.id;
     const activeContainer = active.data.current?.sortable.containerId;

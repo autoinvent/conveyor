@@ -9,13 +9,15 @@ import { useState } from "react";
 interface Props {
   field: Field;
   containerName: string;
+  isDragging: boolean;
+  activeItem: UniqueIdentifier | null;
   // sort: string[] | undefined;
   // fields: Field[];
 }
 
 export const itemStyle = "list-none space-y-1 flex justify-between";
 
-export function SortableItem({ field, containerName}: Props) {
+export function SortableItem({ field, containerName, isDragging, activeItem }: Props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: field.name });
 
@@ -41,7 +43,7 @@ export function SortableItem({ field, containerName}: Props) {
   }
 
   return (
-    <li ref={setNodeRef} className={`SortableItem${itemStyle}`}>
+    <li ref={setNodeRef} className={`SortableItem${itemStyle}${activeItem === field.name && isDragging ? " invisible" : ""}`}>
       <p style={style} {...attributes} {...listeners}>
         {field.name}
       </p>

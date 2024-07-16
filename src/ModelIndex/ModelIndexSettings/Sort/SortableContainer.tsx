@@ -9,12 +9,14 @@ import type { Field } from "@/types";
 interface SortableContainerProps {
   items: Field[];
   id: string;
+  isDragging: boolean;
+  activeItem: UniqueIdentifier | null;
   // sort: string[] | undefined;
   // fields: Field[];
   children: React.ReactNode;
 }
 
-export function SortableContainer({ items, id, children }: SortableContainerProps){
+export function SortableContainer({ items, id, isDragging, activeItem, children }: SortableContainerProps){
   // items: array of the field names
   // id is name of the container
   // children is the react nodes, in this case just a title
@@ -31,7 +33,7 @@ export function SortableContainer({ items, id, children }: SortableContainerProp
           <ul>
             {items.length > 0 ? items.map((field) => {
               return (
-              <SortableItem key={`${id}-${field.name}`} field={field} containerName={id}>
+              <SortableItem key={`${id}-${field.name}`} field={field} containerName={id} isDragging={isDragging} activeItem={activeItem}>
               </SortableItem>
             )}): null}
           </ul>
