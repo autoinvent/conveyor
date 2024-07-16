@@ -1,7 +1,6 @@
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { SortableItem } from "./SortableItem";
 import { useDroppable } from "@dnd-kit/core";
-import { generateUID } from "@/utils";
 
 import type { UniqueIdentifier } from "@dnd-kit/core";
 import type { Field } from "@/types";
@@ -11,12 +10,12 @@ interface SortableContainerProps {
   id: string;
   isDragging: boolean;
   activeItem: UniqueIdentifier | null;
-  // sort: string[] | undefined;
-  // fields: Field[];
+  sort: string[] | undefined;
+  setSort: React.Dispatch<React.SetStateAction<string[] | undefined>>
   children: React.ReactNode;
 }
 
-export function SortableContainer({ items, id, isDragging, activeItem, children }: SortableContainerProps){
+export function SortableContainer({ items, id, isDragging, activeItem, sort, setSort, children }: SortableContainerProps){
   // items: array of the field names
   // id is name of the container
   // children is the react nodes, in this case just a title
@@ -33,7 +32,7 @@ export function SortableContainer({ items, id, isDragging, activeItem, children 
           <ul>
             {items.length > 0 ? items.map((field) => {
               return (
-              <SortableItem key={`${id}-${field.name}`} field={field} containerName={id} isDragging={isDragging} activeItem={activeItem}>
+              <SortableItem key={`${id}-${field.name}`} field={field} containerName={id} isDragging={isDragging} activeItem={activeItem} sort={sort} setSort={setSort}>
               </SortableItem>
             )}): null}
           </ul>

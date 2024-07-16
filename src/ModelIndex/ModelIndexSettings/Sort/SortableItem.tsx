@@ -2,22 +2,20 @@ import type { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SortWrapper } from "@/ModelIndex/SortWrapper";
-import { useModelIndexStore } from "@/ModelIndex/useModelIndexStore";
 import { getFieldSortDirection, getNextSort } from "@/ModelIndex/utils";
 import type { Field } from "@/types";
-import { useState } from "react";
 interface Props {
   field: Field;
   containerName: string;
   isDragging: boolean;
   activeItem: UniqueIdentifier | null;
-  // sort: string[] | undefined;
-  // fields: Field[];
+  sort: string[] | undefined;
+  setSort: React.Dispatch<React.SetStateAction<string[] | undefined>>
 }
 
 export const itemStyle = "list-none space-y-1 flex justify-between";
 
-export function SortableItem({ field, containerName, isDragging, activeItem }: Props) {
+export function SortableItem({ field, containerName, isDragging, activeItem, sort, setSort }: Props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: field.name });
 
@@ -28,15 +26,12 @@ export function SortableItem({ field, containerName, isDragging, activeItem }: P
     transition,
   };
 
-  const sort = useModelIndexStore((state) => state.tableView?.sort);
-  const onTableViewChange = useModelIndexStore(
-    (state) => state.onTableViewChange,
-  );
   const sortDirection = getFieldSortDirection(sort, field.name);
   const onNextSortDirection = () => {
     const nextSort = getNextSort(sort, field.name);
-    onTableViewChange?.({ sort: nextSort });
+    setSort(nextSort);
   };
+  
 
   if (field === undefined) {
     return null;
@@ -48,12 +43,11 @@ export function SortableItem({ field, containerName, isDragging, activeItem }: P
         {field.name}
       </p>
       {containerName === "sorted" && (
-        // <SortWrapper
-        //   sortDirection={sortDirection}
-        //   onNextSortDirection={onNextSortDirection}
-        //   sortable={field.sortable}
-        // />
-        <p>ASC</p>
+        <SortWrapper
+          sortDirection={sortDirection}
+          onNextSortDirection={onNextSortDirection}
+          sortable={field.sortable}
+        />
       )}
     </li>
   );

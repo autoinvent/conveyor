@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/lib/components/ui/card";
-import { SyntheticEvent, useState } from "react";
+import { useState } from "react";
 import { useModelIndexStore } from "../useModelIndexStore";
 import {
   DndContext,
@@ -43,14 +43,15 @@ export const ModelIndexSortSetting = () => {
   const onTableViewChange = useModelIndexStore(
     (state) => state.onTableViewChange,
   );
-  const sort = useModelIndexStore((state) => state.tableView?.sort); // sort to be passed to magiql endpoint
+  const sortState = useModelIndexStore((state) => state.tableView?.sort); // sort to be passed to magiql endpoint
   const fields = useModelIndexStore((state) => state.fields);
 
 
   const sortedFields = fields.filter((field) => field.sortable);
   
-  const dividedFields = getSortedAndNonSortedFields(sortedFields, sort);
+  const dividedFields = getSortedAndNonSortedFields(sortedFields, sortState);
 
+  const [sort, setSort] = useState<string[] | undefined>(sortState);
   const [sorted, setSorted] = useState<Field[]>(dividedFields.sorted);
   const [nonSorted, setNonSorted] =
     useState<Field[]>(dividedFields.nonSorted);
@@ -71,10 +72,19 @@ export const ModelIndexSortSetting = () => {
 
   const handleApplySort = () => {
 
-     // TODO: feed this array of sorts 
-    onTableViewChange && onTableViewChange({sort: sorted})
-    
+    if (onTableViewChange) {
+      onTableViewChange({sort: sort});
+    }
+  };
 
+  const handleReset = () => {
+    setNonSorted((prev) => [...prev, ...sorted]);
+    setSorted([]);
+  };
+
+  const handleClear = () => {
+    setSorted(dividedFields.sorted);
+    setNonSorted(dividedFields.nonSorted);
   }
 
   return (
@@ -92,10 +102,10 @@ export const ModelIndexSortSetting = () => {
           onDragEnd={handleDragEnd}
           modifiers={[restrictToVerticalAxis]}
         >
-          <SortableContainer items={sorted} isDragging={isDraggingOver} activeItem={activeItem} id="sorted">
+          <SortableContainer items={sorted} isDragging={isDraggingOver} activeItem={activeItem} sort={sort} setSort={setSort} id="sorted">
             SORTED
           </SortableContainer>
-          <SortableContainer items={nonSorted} isDragging={isDraggingOver} activeItem={activeItem} id="nonSorted">
+          <SortableContainer items={nonSorted} isDragging={isDraggingOver} activeItem={activeItem} sort={sort} setSort={setSort} id="nonSorted">
             NON-SORTED
           </SortableContainer>
           {createPortal(
@@ -110,8 +120,8 @@ export const ModelIndexSortSetting = () => {
       </CardContent>
       <CardFooter>
         <Button onClick={handleApplySort}>Apply Sort</Button>
-        <Button variant="outline">Clear Sort</Button>
-        <Button variant="outline">Reset Sort</Button>
+        <Button variant="outline" onClick={handleClear}>Clear Sort</Button>
+        <Button variant="outline" onClick={handleReset}>Reset Sort</Button>
       </CardFooter>
     </Card>
   );

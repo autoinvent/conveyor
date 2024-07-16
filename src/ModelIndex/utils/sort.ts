@@ -30,6 +30,7 @@ export const getNextSort = (
   fieldName: string,
   sortDirectionSequence: SortDirection[] = DEFAULT_SORT_SEQUENCE,
 ) => {
+  // Function to take a field name and it's sequence and insert it into the sort array. 
   const sortDirection = getFieldSortDirection(sort, fieldName);
   const nextSortDirection =
     sortDirectionSequence[

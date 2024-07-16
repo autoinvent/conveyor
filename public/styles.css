@@ -798,14 +798,6 @@ body {
   height: 1px;
 }
 
-.h-1 {
-  height: 0.25rem;
-}
-
-.h-2 {
-  height: 0.5rem;
-}
-
 .max-h-80 {
   max-height: 20rem;
 }
