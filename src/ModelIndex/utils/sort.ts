@@ -1,3 +1,5 @@
+import type { Field } from "@/types";
+
 export enum SortDirection {
   ASC = 'asc',
   DESC = 'desc',
@@ -81,3 +83,26 @@ export const getNextSort = (
 
 //   return newSort;
 // };
+
+export interface DividedFields {
+  sorted: Field[];
+  nonSorted: Field[];
+}
+
+export const getSortedAndNonSortedFields = (sortableFields: Field[], sort: string[] = []): DividedFields => {
+    // @params state.tableView?.sort = sort
+    // return object with sorted and nonSorted fields
+
+    const result: DividedFields = { sorted: [], nonSorted: []};
+
+    for (let i = 0; i < sortableFields.length; i++) {
+      const field = sortableFields[i];
+      if (sort.includes(field.name) || sort.includes(`-${field.name}`)) {
+        result.sorted.push(field);
+      } else result.nonSorted.push(field);
+    }
+  
+    return result;
+
+}
+

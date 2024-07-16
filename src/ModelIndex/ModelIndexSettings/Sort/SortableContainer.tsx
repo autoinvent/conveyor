@@ -1,12 +1,16 @@
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { SortableItem } from "./SortableItem";
 import { useDroppable } from "@dnd-kit/core";
+import { generateUID } from "@/utils";
 
 import type { UniqueIdentifier } from "@dnd-kit/core";
+import type { Field } from "@/types";
 
 interface SortableContainerProps {
-  items: UniqueIdentifier[];
+  items: Field[];
   id: string;
+  // sort: string[] | undefined;
+  // fields: Field[];
   children: React.ReactNode;
 }
 
@@ -17,16 +21,19 @@ export function SortableContainer({ items, id, children }: SortableContainerProp
 
   const {setNodeRef} = useDroppable({ id });
 
+  const itemNames: UniqueIdentifier[] = items.length > 0 ? items.map((item) => item ? item.name : "nothing") : ["empty"];
+
   return (
-    <div ref={setNodeRef}>
-      <SortableContext items={items} id={id} strategy={verticalListSortingStrategy}>
+    <div className="min-h-[40px]" ref={setNodeRef}>
+      <SortableContext items={itemNames} id={id} strategy={verticalListSortingStrategy}>
         <div>
           <h3>{children}</h3>
           <ul>
-            {items.map((item) => (
-              <SortableItem key={item} id={item}>
+            {items.length > 0 ? items.map((field) => {
+              return (
+              <SortableItem key={`${id}-${field.name}`} field={field} containerName={id}>
               </SortableItem>
-            ))}
+            )}): null}
           </ul>
         </div>
       </SortableContext>

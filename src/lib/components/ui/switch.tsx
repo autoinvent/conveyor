@@ -10,9 +10,7 @@ interface SwitchProps extends React.ComponentPropsWithoutRef<typeof SwitchPrimit
 
 const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
   ({ className, labelLeft = '', labelRight = '', ...props }, ref) => { 
-    
-    console.log(props.checked);
-    
+        
     return (
     <SwitchPrimitive.Root
       ref={ref}

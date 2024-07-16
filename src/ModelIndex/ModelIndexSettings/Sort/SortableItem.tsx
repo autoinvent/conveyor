@@ -1,19 +1,23 @@
 import type { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Switch } from "@/lib/components/ui/switch";
+import { SortWrapper } from "@/ModelIndex/SortWrapper";
+import { useModelIndexStore } from "@/ModelIndex/useModelIndexStore";
+import { getFieldSortDirection, getNextSort } from "@/ModelIndex/utils";
+import type { Field } from "@/types";
 import { useState } from "react";
-
 interface Props {
-  id: UniqueIdentifier;
+  field: Field;
+  containerName: string;
+  // sort: string[] | undefined;
+  // fields: Field[];
 }
 
 export const itemStyle = "list-none space-y-1 flex justify-between";
 
-export function SortableItem({ id }: Props) {
-  // TODO: edit naming comnvetion, use fieldName instead of ID
+export function SortableItem({ field, containerName}: Props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+    useSortable({ id: field.name });
 
   // actual item being dragged
 
@@ -22,23 +26,33 @@ export function SortableItem({ id }: Props) {
     transition,
   };
 
-  const [checked, setChecked] = useState<boolean>(true);
+  const sort = useModelIndexStore((state) => state.tableView?.sort);
+  const onTableViewChange = useModelIndexStore(
+    (state) => state.onTableViewChange,
+  );
+  const sortDirection = getFieldSortDirection(sort, field.name);
+  const onNextSortDirection = () => {
+    const nextSort = getNextSort(sort, field.name);
+    onTableViewChange?.({ sort: nextSort });
+  };
+
+  if (field === undefined) {
+    return null;
+  }
 
   return (
-    <li
-      ref={setNodeRef}
-      className={`SortableItem${itemStyle}`}
-    >
+    <li ref={setNodeRef} className={`SortableItem${itemStyle}`}>
       <p style={style} {...attributes} {...listeners}>
-        {id}
+        {field.name}
       </p>
-      <Switch
-        className="testSwitch"
-        labelLeft="ASC"
-        labelRight="DESC"
-        onClick={() => setChecked((prev) => !prev)}
-        checked={checked}
-      />
+      {containerName === "sorted" && (
+        // <SortWrapper
+        //   sortDirection={sortDirection}
+        //   onNextSortDirection={onNextSortDirection}
+        //   sortable={field.sortable}
+        // />
+        <p>ASC</p>
+      )}
     </li>
   );
 }
