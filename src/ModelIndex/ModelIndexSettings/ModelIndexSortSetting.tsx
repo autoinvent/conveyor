@@ -31,7 +31,7 @@ import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { createPortal } from "react-dom";
 import type { Field } from "@/types";
 
-import { getSortedAndNonSortedFields } from "../utils";
+import { changeToNoneDirection, getSortedAndNonSortedFields } from "../utils";
 export interface SortedItems {
   sorted: UniqueIdentifier[];
   nonSorted: UniqueIdentifier[];
@@ -72,6 +72,8 @@ export const ModelIndexSortSetting = () => {
   );
 
   const handleApplySort = () => {
+    // set items in nonSorted category to None for their sort direction before saving!
+    setSort(changeToNoneDirection(nonSorted, sort));
 
     if (onTableViewChange) {
       onTableViewChange({sort: sort});
@@ -80,7 +82,10 @@ export const ModelIndexSortSetting = () => {
   };
 
   const handleReset = () => {
-    setNonSorted((prev) => [...prev, ...sorted]);
+    setNonSorted((prev) => {
+      console.log(prev);
+      return [...prev, ...sorted]
+    });
     setSorted([]);
 
   };

@@ -1,9 +1,9 @@
 import type { Field } from "@/types";
 
 export enum SortDirection {
-  ASC = 'asc',
-  DESC = 'desc',
-  NONE = 'none',
+  ASC = "asc",
+  DESC = "desc",
+  NONE = "none",
 }
 
 export const DEFAULT_SORT_SEQUENCE = [
@@ -14,7 +14,7 @@ export const DEFAULT_SORT_SEQUENCE = [
 
 export const getFieldSortDirection = (
   sort: string[] | undefined,
-  fieldName: string,
+  fieldName: string
 ): SortDirection => {
   if (sort?.find((fieldSort) => fieldSort === fieldName)) {
     return SortDirection.ASC;
@@ -28,9 +28,9 @@ export const getFieldSortDirection = (
 export const getNextSort = (
   sort: string[] | undefined,
   fieldName: string,
-  sortDirectionSequence: SortDirection[] = DEFAULT_SORT_SEQUENCE,
+  sortDirectionSequence: SortDirection[] = DEFAULT_SORT_SEQUENCE
 ) => {
-  // Function that finds new sort direction of an item in the sort array and modifies it to the new direction. 
+  // Function that finds new sort direction of an item in the sort array and modifies it to the new direction.
   const sortDirection = getFieldSortDirection(sort, fieldName);
   const nextSortDirection =
     sortDirectionSequence[
@@ -40,7 +40,7 @@ export const getNextSort = (
     ];
   const newSort = sort ? [...sort] : [];
   const currentFieldSortIndex = newSort.findIndex(
-    (fieldSort) => fieldSort === fieldName || fieldSort === `-${fieldName}`,
+    (fieldSort) => fieldSort === fieldName || fieldSort === `-${fieldName}`
   );
   if (nextSortDirection === SortDirection.ASC) {
     if (currentFieldSortIndex >= 0) {
@@ -85,25 +85,47 @@ export const getNextSort = (
 //   return newSort;
 // };
 
+export const changeToNoneDirection = (
+  nonSorted: Field[],
+  sort: string[] = []
+) => {
+  // Function to remove nonSorted fields from the final sort array before being sent to magiql.
+
+  const result = [...sort];
+
+  for (let i = 0; i < nonSorted.length; i++) {
+    const field = nonSorted[i];
+    if (result.includes(field.name) || result.includes(`-${field.name}`)) {
+      const deleteIndex = result.findIndex(
+        (ele) => field.name === ele || field.name === `-${ele}`
+      );
+      result.splice(deleteIndex, 1);
+    }
+  }
+
+  return result;
+};
+
 export interface DividedFields {
   sorted: Field[];
   nonSorted: Field[];
 }
 
-export const getSortedAndNonSortedFields = (sortableFields: Field[], sort: string[] = []): DividedFields => {
-    // @params state.tableView?.sort = sort
-    // return object with sorted and nonSorted fields
+export const getSortedAndNonSortedFields = (
+  sortableFields: Field[],
+  sort: string[] = []
+): DividedFields => {
+  // @params state.tableView?.sort = sort
+  // return object with sorted and nonSorted fields
 
-    const result: DividedFields = { sorted: [], nonSorted: []};
+  const result: DividedFields = { sorted: [], nonSorted: [] };
 
-    for (let i = 0; i < sortableFields.length; i++) {
-      const field = sortableFields[i];
-      if (sort.includes(field.name) || sort.includes(`-${field.name}`)) {
-        result.sorted.push(field);
-      } else result.nonSorted.push(field);
-    }
-  
-    return result;
+  for (let i = 0; i < sortableFields.length; i++) {
+    const field = sortableFields[i];
+    if (sort.includes(field.name) || sort.includes(`-${field.name}`)) {
+      result.sorted.push(field);
+    } else result.nonSorted.push(field);
+  }
 
-}
-
+  return result;
+};
