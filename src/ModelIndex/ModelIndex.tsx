@@ -44,6 +44,7 @@ export const ModelIndex = Object.assign(
           readOnly={readOnly}
           onUpdate={onUpdate}
           onDelete={onDelete}
+          paginationOptions={paginationOptions}
         >
           {children === undefined ? (
             <>

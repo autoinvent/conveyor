@@ -85,7 +85,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const BasicUsage: Story = {
-  render: ({ data, onUpdate, ...props }: any) => {
+  render: ({
+    data,
+    onUpdate,
+    tableViewOptions: defaultTableViewOptions,
+    ...props
+  }: any) => {
     const tableViewOptions = useTableView();
     const [currData, setCurrData] = useState<undefined | DataType[]>(data);
     return (

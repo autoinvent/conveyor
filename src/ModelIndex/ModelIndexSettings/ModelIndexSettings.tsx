@@ -15,7 +15,7 @@ import {
   TabsTrigger,
 } from '@/lib/components/ui/tabs';
 
-import { ModelIndexFilterSetting } from './ModelIndexFilterSetting';
+// import { ModelIndexFilterSetting } from './ModelIndexFilterSetting';
 import { ModelIndexSortSetting } from './ModelIndexSortSetting';
 import { cn } from '@/lib/utils';
 
@@ -59,7 +59,7 @@ export const ModelIndexSettings = Object.assign(
             {children === undefined ? (
               <>
                 <TabsContent value="Filter">
-                  <ModelIndexFilterSetting />
+                  {/* <ModelIndexFilterSetting /> */}
                 </TabsContent>
                 <TabsContent value="Sort">
                   <ModelIndexSortSetting />
@@ -75,7 +75,7 @@ export const ModelIndexSettings = Object.assign(
     );
   },
   {
-    FilterSetting: ModelIndexFilterSetting,
+    // FilterSetting: ModelIndexFilterSetting,
     SortSetting: ModelIndexSortSetting,
   },
 );
