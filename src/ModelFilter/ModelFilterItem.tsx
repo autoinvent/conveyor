@@ -18,9 +18,10 @@ export const ModelFilterItem = ({
 }: ModelFilterItemProps) => {
   const formMethods = useForm({
     values: {
-      path: filterItem?.path ?? selectOptions.path[0],
-      not: filterItem?.not ?? selectOptions.path[0],
-      op: filterItem?.op ?? selectOptions.path[0],
+      path: filterItem?.path ?? selectOptions.path[0].value,
+      not: filterItem?.not ?? selectOptions.not[0].value,
+      op: filterItem?.op ?? selectOptions.op[0].value,
+      value: filterItem?.value ?? '',
     },
   });
   return (
@@ -28,9 +29,26 @@ export const ModelFilterItem = ({
       <FormStoreProvider {...formMethods}>
         <FormInput
           name="path"
-          render={(props) => (
-            <SelectInput options={selectOptions.path} {...props} />
-          )}
+          render={({ inputProps, ...props }) => {
+            const newInputProps = Object.assign(inputProps, {
+              onChange: (newPath: string) => {
+                const newFilterItem = {
+                  path: newPath,
+                  not: selectOptions.not[0].value as boolean,
+                  op: selectOptions.op[0].value as string,
+                  value: '',
+                };
+                onFilterItemChange(newFilterItem);
+              },
+            });
+            return (
+              <SelectInput
+                options={selectOptions.path}
+                inputProps={newInputProps}
+                {...props}
+              />
+            );
+          }}
         />
         <FormInput
           name="not"

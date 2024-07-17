@@ -9,11 +9,10 @@ import { Button } from '@/lib/components/ui/button';
 import { ScrollArea } from '@/lib/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
-import { FormStoreProvider } from '@/Form';
 import {
   type Field,
   FieldTypes,
-  FilterItem,
+  type FilterItem,
   ScalarTypes,
   type SelectOption,
 } from '@/types';
@@ -63,7 +62,16 @@ export const ModelFilter = ({
     tableView: { filter: tempFilter },
     onTableViewChange: tempTableViewOnChange,
   } = useTableView(tableView);
-  const onFilterItemChange = (currFilterItem: FilterItem) => {};
+  const onFilterItemChange =
+    (group: number, index: number) => (currFilterItem: FilterItem) => {
+      tempTableViewOnChange((oldTempTableView) => {
+        const newTempTableView = { ...oldTempTableView };
+        if (newTempTableView?.filter) {
+          newTempTableView.filter[group][index] = currFilterItem;
+        }
+        return newTempTableView;
+      });
+    };
   return (
     <Card>
       <CardHeader>
@@ -85,7 +93,7 @@ export const ModelFilter = ({
                     <ModelFilterItem
                       key={groupItemkey}
                       filterItem={filterItem}
-                      onFilterItemChange={onFilterItemChange}
+                      onFilterItemChange={onFilterItemChange(i, j)}
                       selectOptions={{
                         path: fields
                           .filter((field) =>
