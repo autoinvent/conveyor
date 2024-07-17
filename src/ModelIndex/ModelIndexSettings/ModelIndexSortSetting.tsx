@@ -41,13 +41,14 @@ export const ModelIndexSortSetting = () => {
   // add changes not saved until hit button
 
   const onTableViewChange = useModelIndexStore(
-    (state) => state.onTableViewChange,
+    (state) => state.tableViewOptions.onTableViewChange,
   );
-  const sortState = useModelIndexStore((state) => state.tableView?.sort); // sort to be passed to magiql endpoint
+  const sortState = useModelIndexStore((state) => state.tableViewOptions.tableView?.sort); // sort to be passed to magiql endpoint
+  
   const fields = useModelIndexStore((state) => state.fields);
 
 
-  const sortedFields = fields.filter((field) => field.sortable);
+  const sortedFields = fields.filter((field) => field.sortable !== false);
   
   const dividedFields = getSortedAndNonSortedFields(sortedFields, sortState);
 
@@ -75,11 +76,13 @@ export const ModelIndexSortSetting = () => {
     if (onTableViewChange) {
       onTableViewChange({sort: sort});
     }
+
   };
 
   const handleReset = () => {
     setNonSorted((prev) => [...prev, ...sorted]);
     setSorted([]);
+
   };
 
   const handleClear = () => {
@@ -121,7 +124,7 @@ export const ModelIndexSortSetting = () => {
       <CardFooter>
         <Button onClick={handleApplySort}>Apply Sort</Button>
         <Button variant="outline" onClick={handleClear}>Clear Sort</Button>
-        <Button variant="outline" onClick={handleReset}>Reset Sort</Button>
+        <Button variant="destructive" onClick={handleReset}>Reset Sort</Button>
       </CardFooter>
     </Card>
   );
@@ -153,7 +156,7 @@ export const ModelIndexSortSetting = () => {
       const overIndex = over.data.current?.sortable.index;
 
       if (activeContainer !== overContainer) {
-        // if the two containers are not the same one, move item to other container
+        // moving items across containers
         if (activeContainer === "sorted") {
           const toMove = sorted[activeIndex];
           setSorted(sorted.toSpliced(activeIndex, 1)); // delete from sorted
@@ -164,13 +167,12 @@ export const ModelIndexSortSetting = () => {
           setSorted(sorted => sorted.toSpliced(overIndex ?? 0, 0, toMove));
 
         }
+        // else, we are moving items within their own containers.
       } else if (activeContainer === "sorted") {
-        // Moving items within the sorted container only
         setSorted((items) => {
           return arrayMove(items, activeIndex, overIndex);
         });
       } else if (activeContainer === "nonSorted") {
-        // Moving items within the nonSorted container only
         setNonSorted((items) => {
           return arrayMove(items, activeIndex, overIndex);
         });
