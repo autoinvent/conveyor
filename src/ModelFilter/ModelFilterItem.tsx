@@ -52,9 +52,26 @@ export const ModelFilterItem = ({
         />
         <FormInput
           name="not"
-          render={(props) => (
-            <SelectInput options={selectOptions.not} {...props} />
-          )}
+          render={({ inputProps, ...props }) => {
+            const newInputProps = Object.assign(inputProps, {
+              onChange: (newNot: boolean) => {
+                const newFilterItem = {
+                  path: filterItem?.path,
+                  not: newNot,
+                  op: selectOptions.op[0].value as string,
+                  value: '',
+                };
+                onFilterItemChange(newFilterItem);
+              },
+            });
+            return (
+              <SelectInput
+                options={selectOptions.path}
+                inputProps={newInputProps}
+                {...props}
+              />
+            );
+          }}
         />
         <FormInput
           name="op"

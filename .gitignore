@@ -30,6 +30,7 @@ dist-ssr
 *.tsbuildinfo
 *storybook.log
 stats.html
+public/styles.css
 
 # vite-react-typescript example
 examples/**/node_modules
