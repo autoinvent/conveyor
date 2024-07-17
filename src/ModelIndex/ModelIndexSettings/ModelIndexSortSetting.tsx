@@ -41,28 +41,28 @@ export const ModelIndexSortSetting = () => {
   // add changes not saved until hit button
 
   const onTableViewChange = useModelIndexStore(
-    (state) => state.tableViewOptions.onTableViewChange,
+    (state) => state.tableViewOptions.onTableViewChange
   );
-  const sortState = useModelIndexStore((state) => state.tableViewOptions.tableView?.sort); // sort to be passed to magiql endpoint
-  
+  const sortState = useModelIndexStore(
+    (state) => state.tableViewOptions.tableView?.sort
+  ); // sort to be passed to magiql endpoint
+
   const fields = useModelIndexStore((state) => state.fields);
 
-
   const sortedFields = fields.filter((field) => field.sortable !== false);
-  
+
   const dividedFields = getSortedAndNonSortedFields(sortedFields, sortState);
 
   const [sort, setSort] = useState<string[] | undefined>(sortState);
   const [sorted, setSorted] = useState<Field[]>(dividedFields.sorted);
-  const [nonSorted, setNonSorted] =
-    useState<Field[]>(dividedFields.nonSorted);
+  const [nonSorted, setNonSorted] = useState<Field[]>(dividedFields.nonSorted);
   const [activeItem, setActiveItem] = useState<UniqueIdentifier | null>(null);
   const [overContainer, setOverContainer] = useState<
     "sorted" | "unsorted" | null
   >(null);
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [isDraggingOver, setIsDraggingOver ] = useState<boolean>(false);
+  const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -76,24 +76,20 @@ export const ModelIndexSortSetting = () => {
     setSort(changeToNoneDirection(nonSorted, sort));
 
     if (onTableViewChange) {
-      onTableViewChange({sort: sort});
+      onTableViewChange({ sort: sort });
     }
-
   };
 
   const handleReset = () => {
-    setNonSorted((prev) => {
-      console.log(prev);
-      return [...prev, ...sorted]
-    });
+    setNonSorted((prev) => [...prev, ...sorted]);
     setSorted([]);
-
+    setSort([]);
   };
 
   const handleClear = () => {
     setSorted(dividedFields.sorted);
     setNonSorted(dividedFields.nonSorted);
-  }
+  };
 
   return (
     <Card>
@@ -110,16 +106,28 @@ export const ModelIndexSortSetting = () => {
           onDragEnd={handleDragEnd}
           modifiers={[restrictToVerticalAxis]}
         >
-          <SortableContainer items={sorted} isDragging={isDraggingOver} activeItem={activeItem} sort={sort} setSort={setSort} id="sorted">
+          <SortableContainer
+            items={sorted}
+            isDragging={isDraggingOver}
+            activeItem={activeItem}
+            sort={sort}
+            setSort={setSort}
+            id="sorted"
+          >
             SORTED
           </SortableContainer>
-          <SortableContainer items={nonSorted} isDragging={isDraggingOver} activeItem={activeItem} sort={sort} setSort={setSort} id="nonSorted">
+          <SortableContainer
+            items={nonSorted}
+            isDragging={isDraggingOver}
+            activeItem={activeItem}
+            sort={sort}
+            setSort={setSort}
+            id="nonSorted"
+          >
             NON-SORTED
           </SortableContainer>
           {createPortal(
-            <DragOverlay
-              wrapperElement="ul"
-            >
+            <DragOverlay wrapperElement="ul">
               {isDragging && activeItem ? <Item>{activeItem}</Item> : null}
             </DragOverlay>,
             document.body
@@ -128,8 +136,12 @@ export const ModelIndexSortSetting = () => {
       </CardContent>
       <CardFooter>
         <Button onClick={handleApplySort}>Apply Sort</Button>
-        <Button variant="outline" onClick={handleClear}>Clear Sort</Button>
-        <Button variant="destructive" onClick={handleReset}>Reset Sort</Button>
+        <Button variant="outline" onClick={handleClear}>
+          Clear Sort
+        </Button>
+        <Button variant="destructive" onClick={handleReset}>
+          Reset Sort
+        </Button>
       </CardFooter>
     </Card>
   );
@@ -168,9 +180,8 @@ export const ModelIndexSortSetting = () => {
           setNonSorted(nonSorted.toSpliced(overIndex ?? 0, 0, toMove)); // add to unsorted
         } else if (activeContainer === "nonSorted") {
           const toMove = nonSorted[activeIndex];
-          setNonSorted(nonSorted => nonSorted.toSpliced(activeIndex, 1));
-          setSorted(sorted => sorted.toSpliced(overIndex ?? 0, 0, toMove));
-
+          setNonSorted((nonSorted) => nonSorted.toSpliced(activeIndex, 1));
+          setSorted((sorted) => sorted.toSpliced(overIndex ?? 0, 0, toMove));
         }
         // else, we are moving items within their own containers.
       } else if (activeContainer === "sorted") {
@@ -184,5 +195,4 @@ export const ModelIndexSortSetting = () => {
       }
     }
   }
-
 };
