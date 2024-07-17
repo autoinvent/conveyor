@@ -19,22 +19,31 @@ import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
 import { ModelIndexTableRow } from './ModelIndexTableRow';
 import { ACTION_COLUMN } from './constants';
+import { ConditionalWrapper } from '@/utils';
 
-export interface ModelIndexTableProps extends ComponentProps<typeof STable> {}
+export interface ModelIndexTableProps extends ComponentProps<typeof STable> {
+  scrollable?: boolean;
+  bordered?: boolean;
+}
 
 export const ModelIndexTable = Object.assign(
-  ({ children, ...props }: ModelIndexTableProps) => {
+  ({
+    scrollable = true,
+    bordered = true,
+    children,
+    ...props
+  }: ModelIndexTableProps) => {
     let fieldNames = useModelIndexStore(
       useShallow<ModelIndexState<DataType>, string[]>((state) =>
         state.fields.map((field) => field.name),
       ),
     );
     const data = useModelIndexStore((state) => state.data);
-    const showActions = useModelIndexStore((state) => state.showActions);
+    const readOnly = useModelIndexStore((state) => state.readOnly);
 
     if (
       fieldNames.length > 0 &&
-      showActions &&
+      !readOnly &&
       data &&
       data.length > 0 &&
       !fieldNames.includes(ACTION_COLUMN)
@@ -43,20 +52,32 @@ export const ModelIndexTable = Object.assign(
     }
 
     return (
-      <ScrollArea>
-        <Table columnIds={fieldNames} data={data} {...props}>
-          {children === undefined ? (
-            <>
-              <ModelIndexTableHead />
-              <ModelIndexTableBody />
-              <Table.Fallback />
-            </>
-          ) : (
-            children
+      <ConditionalWrapper
+        condition={bordered}
+        wrapper={(base) => <div className="rounded-md border">{base}</div>}
+      >
+        <ConditionalWrapper
+          condition={scrollable}
+          wrapper={(base) => (
+            <ScrollArea>
+              {base}
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
           )}
-        </Table>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+        >
+          <Table columnIds={fieldNames} data={data} {...props}>
+            {children === undefined ? (
+              <>
+                <ModelIndexTableHead />
+                <ModelIndexTableBody />
+                <Table.Fallback />
+              </>
+            ) : (
+              children
+            )}
+          </Table>
+        </ConditionalWrapper>
+      </ConditionalWrapper>
     );
   },
   {

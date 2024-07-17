@@ -1,4 +1,4 @@
-import type { ComponentProps, ReactNode } from 'react';
+import type { AriaAttributes, CSSProperties, ReactNode } from 'react';
 import {
   Controller,
   type ControllerFieldState,
@@ -10,12 +10,17 @@ import {
 
 import { useFormStore } from './useFormStore';
 
-export interface InputRenderFnProps
-  extends Omit<
-    ComponentProps<'input'>,
-    'onFocus' | 'onChange' | 'value' | 'name' | 'ref' | 'type'
-  > {
-  inputProps: Omit<ControllerRenderProps<FieldValues, string>, 'disabled'>;
+export interface InputProps
+  extends AriaAttributes,
+    ControllerRenderProps<FieldValues, string> {
+  id?: string;
+  className?: string;
+  style?: CSSProperties;
+  required?: boolean;
+}
+
+export interface InputRenderFnProps {
+  inputProps: InputProps;
   inputState: ControllerFieldState;
   formState: UseFormStateReturn<FieldValues>;
 }

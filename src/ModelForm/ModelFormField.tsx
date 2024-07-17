@@ -9,10 +9,11 @@ import { FormError, FormInput, FormValue, useFormStore } from '@/Form';
 import { Lens } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
 import { Slot } from '@/Slots';
-import { DataLens, FieldTypes } from '@/types';
+import { DataLens, type DataType, type Field, FieldTypes } from '@/types';
 import { humanizeText } from '@/utils';
 
 import { useModelFormStore } from './useModelFormStore';
+import type { ModelFormState } from './ModelFormStoreContext';
 
 export interface ModelFormFieldProps extends ComponentProps<'div'> {
   fieldName: string;
@@ -31,14 +32,19 @@ export const ModelFormField = ({
     (state) => state.formState.errors?.[fieldName],
   );
   const isLoading = useLoadingStore((state) => state.isLoading);
-  const field = useModelFormStore((state) =>
-    state.fields.find((field) => field.name === fieldName),
+  const field = useModelFormStore(
+    useShallow<ModelFormState<DataType>, Field>(
+      (state) =>
+        state.fields.find((field) => field.name === fieldName) ?? {
+          name: fieldName,
+          type: FieldTypes.DEFAULT,
+        },
+    ),
   );
-
   const inputFn = useConveyorStore(
     useShallow(
       (state) =>
-        state.typeOptions?.[field?.type ?? FieldTypes.DEFAULT]?.inputRenderFn ??
+        state.typeOptions?.[field.type]?.inputRenderFn ??
         state.typeOptions?.[FieldTypes.DEFAULT]?.inputRenderFn ??
         (() => null),
     ),
@@ -46,7 +52,7 @@ export const ModelFormField = ({
   const valueFn = useConveyorStore(
     useShallow(
       (state) =>
-        state.typeOptions?.[field?.type ?? FieldTypes.DEFAULT]?.valueRenderFn ??
+        state.typeOptions?.[field.type]?.valueRenderFn ??
         state.typeOptions?.[FieldTypes.DEFAULT]?.valueRenderFn ??
         (() => null),
     ),
@@ -81,18 +87,22 @@ export const ModelFormField = ({
                     <FormInput
                       name={field.name}
                       rules={field.rules}
-                      render={(props) =>
-                        inputFn({
+                      render={({ inputProps, inputState, formState }) => {
+                        const extraInputProps = Object.assign(inputProps, {
                           id: formFieldId,
                           disabled: isLoading,
                           required: !!field.rules?.required,
-                          'aria-describedby': !props.inputState.invalid
+                          'aria-describedby': !inputState.invalid
                             ? `${formFieldId}`
                             : `${formFieldId} ${formErrorMessageId}`,
-                          'aria-invalid': props.inputState.invalid,
-                          ...props,
-                        })
-                      }
+                          'aria-invalid': inputState.invalid,
+                        });
+                        return inputFn({
+                          inputProps: extraInputProps,
+                          inputState,
+                          formState,
+                        });
+                      }}
                     />
                   </Lens>
                 </>

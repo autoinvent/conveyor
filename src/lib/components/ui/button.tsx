@@ -10,20 +10,19 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-primary text-primary-foreground not:disabled:hover:bg-primary/90',
+          'bg-primary text-primary-foreground hover:enabled:bg-primary/90',
         destructive:
-          'bg-destructive text-destructive-foreground not:disabled:hover:bg-destructive/90',
+          'bg-destructive text-destructive-foreground hover:enabled:bg-destructive/90',
         outline:
-          'border border-input bg-background not:disabled:hover:bg-accent not:disabled:hover:text-accent-foreground',
+          'border border-input bg-background hover:enabled:bg-accent hover:enabled:text-accent-foreground',
         'outline-destructive':
-          'text-destructive border border-input bg-background not:disabled:hover:bg-accent not:disabled:hover:text-destructive/90',
+          'text-destructive border border-input bg-background hover:enabled:bg-accent hover:enabled:text-destructive/90',
         'outline-success':
-          'text-success border border-input bg-background not:disabled:hover:bg-accent not:disabled:hover:text-success/90',
+          'text-success border border-input bg-background hover:enabled:bg-accent hover:enabled:text-success/90',
         secondary:
-          'bg-secondary text-secondary-foreground not:disabled:hover:bg-secondary/80',
-        ghost:
-          'not:disabled:hover:bg-accent not:disabled:hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 not:disabled:hover:underline',
+          'bg-secondary text-secondary-foreground hover:enabled:bg-secondary/80',
+        ghost: 'hover:enabled:bg-accent hover:enabled:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:enabled:underline',
       },
       size: {
         default: 'h-10 px-4 py-2',

@@ -18,14 +18,14 @@ export const ModelIndexTableHeaderRow = ({
   ...props
 }: ModelIndexTableHeaderRowProps) => {
   const fieldNames = useTableStore((state) => state.columnIds);
-  const showActions = useModelIndexStore((state) => state.showActions);
+  const readOnly = useModelIndexStore((state) => state.readOnly);
   return (
     <TableHeaderRow prefilled={false} {...props}>
       {children === undefined || prefilled ? (
         <>
           {fieldNames.map((fieldName) => {
             return fieldName === ACTION_COLUMN ? (
-              showActions && <ModelIndexTableActionHeaderCell key={fieldName} />
+              !readOnly && <ModelIndexTableActionHeaderCell key={fieldName} />
             ) : (
               <ModelIndexTableHeaderCell
                 key={fieldName}

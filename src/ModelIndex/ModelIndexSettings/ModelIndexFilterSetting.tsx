@@ -2,8 +2,10 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
 } from '@/lib/components/ui/card';
+import { Button } from '@/lib/components/ui/button';
 import { ScrollArea } from '@/lib/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
@@ -14,19 +16,15 @@ import { useModelIndexStore } from '../useModelIndexStore';
 import { ModelIndexFilterItem } from './ModelIndexFilterItem';
 
 export const ModelIndexFilterSetting = () => {
-  const filter = useModelIndexStore((state) => state.tableView?.filter);
+  const filter = useModelIndexStore(
+    (state) => state.tableViewOptions.tableView.filter,
+  );
   const filterLength = filter?.length ?? 0;
 
   return (
     <Card>
       <CardHeader>
-        <CardDescription>
-          Filtered items may satisfy any filter group.
-        </CardDescription>
-        <CardDescription>
-          A filter group is matched when all filters within the group is
-          satisfied.
-        </CardDescription>
+        <CardDescription>Show records where,</CardDescription>
       </CardHeader>
       <CardContent>
         <ScrollArea className="max-h-80">
@@ -49,6 +47,7 @@ export const ModelIndexFilterSetting = () => {
               </div>
             );
           })}
+          <Button>Add Filt</Button>
         </ScrollArea>
 
         <div className={cn(filter && filter?.length > 0 && 'mt-2', 'p-2')}>
@@ -67,6 +66,11 @@ export const ModelIndexFilterSetting = () => {
           </FormStoreProvider>
         </div>
       </CardContent>
+      <CardFooter>
+        <Button>Apply Filters</Button>
+        <Button>Clear All Filters</Button>
+        <Button>Close</Button>
+      </CardFooter>
     </Card>
   );
 };

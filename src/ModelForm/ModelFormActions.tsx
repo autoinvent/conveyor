@@ -18,7 +18,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
   const handleSubmit = useFormStore((state) => state.handleSubmit);
   const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
   const setLens = useLensesStore((state) => state.setLens);
-  const showActions = useModelFormStore((state) => state.showActions);
+  const readOnly = useModelFormStore((state) => state.readOnly);
   const onCreate = useModelFormStore((state) => state.onCreate);
   const onUpdate = useModelFormStore((state) => state.onUpdate);
   const onDelete = useModelFormStore((state) => state.onDelete);
@@ -51,11 +51,11 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
     onSave && setIsLoading(true);
     await onSave?.({ data: formData, dirtyFields });
     setIsLoading(false);
-    onCancelEditHandler()
+    onCancelEditHandler();
   };
 
   return (
-    showActions &&
+    !readOnly &&
     fields.length > 0 &&
     data && (
       <div className={cn('flex justify-center', className)}>
@@ -79,7 +79,11 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
         </Lens>
         <Lens lens={!isLoading && DataLens.INPUT}>
           {onSave && (
-            <Button type="submit" variant="outline-success" onClick={handleSubmit(onSubmit)}>
+            <Button
+              type="submit"
+              variant="outline-success"
+              onClick={handleSubmit(onSubmit)}
+            >
               {onCreate ? 'Create' : 'Save'}
             </Button>
           )}

@@ -20,7 +20,7 @@ export const ModelIndexPagination = ({
 }: ModelIndexPaginationProps) => {
   const fieldsLength = useModelIndexStore((state) => state.fields.length);
   const onTableViewChange = useModelIndexStore(
-    (state) => state.onTableViewChange,
+    (state) => state.tableViewOptions.onTableViewChange,
   );
   const dataLength = useModelIndexStore((state) => state.data?.length);
   const totalDataLength = useModelIndexStore(
@@ -29,9 +29,11 @@ export const ModelIndexPagination = ({
   const pageButtonLimit =
     useModelIndexStore((state) => state.paginationOptions?.pageButtonLimit) ??
     10;
-  const page = useModelIndexStore((state) => state.tableView?.page) ?? 1;
+  const page =
+    useModelIndexStore((state) => state.tableViewOptions.tableView.page) ?? 1;
   const per_page =
-    useModelIndexStore((state) => state.tableView?.per_page) ?? 10;
+    useModelIndexStore((state) => state.tableViewOptions.tableView.per_page) ??
+    10;
 
   if (totalDataLength && totalDataLength < 0) {
     throw new Error('totalDataLength cannot be negative.');
@@ -72,7 +74,7 @@ export const ModelIndexPagination = ({
           <PaginationItem>
             <PaginationPrevious
               aria-label={`Go to page ${lowerBoundPage - 1}`}
-              onClick={() => onTableViewChange?.({ page: lowerBoundPage - 1 })}
+              onClick={() => onTableViewChange({ page: lowerBoundPage - 1 })}
             />
           </PaginationItem>
         )}
@@ -83,7 +85,7 @@ export const ModelIndexPagination = ({
             <PaginationItem key={index}>
               <PaginationLink
                 isActive={buttonPage === page}
-                onClick={() => onTableViewChange?.({ page: buttonPage })}
+                onClick={() => onTableViewChange({ page: buttonPage })}
               >
                 {buttonPage}
               </PaginationLink>
@@ -99,9 +101,7 @@ export const ModelIndexPagination = ({
             <PaginationItem>
               <PaginationNext
                 aria-label={`Go to page ${upperBoundPage + 1}`}
-                onClick={() =>
-                  onTableViewChange?.({ page: upperBoundPage + 1 })
-                }
+                onClick={() => onTableViewChange({ page: upperBoundPage + 1 })}
               />
             </PaginationItem>
           </>

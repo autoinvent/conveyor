@@ -28,7 +28,7 @@ export const ModelIndexTableActionCell = ({
   const reset = useFormStore((state) => state.reset);
   const handleSubmit = useFormStore((state) => state.handleSubmit);
   const setLens = useLensesStore((state) => state.setLens);
-  const showActions = useModelIndexStore((state) => state.showActions);
+  const readOnly = useModelIndexStore((state) => state.readOnly);
   const onUpdate = useModelIndexStore((state) => state.onUpdate);
   const onDelete = useModelIndexStore((state) => state.onDelete);
 
@@ -50,9 +50,9 @@ export const ModelIndexTableActionCell = ({
   };
 
   return (
-    showActions && (
+    !readOnly && (
       <TableCell
-        className={cn('w-0 p-0', className)}
+        className={cn('w-0', className)}
         columnId={ACTION_COLUMN}
         {...props}
       >

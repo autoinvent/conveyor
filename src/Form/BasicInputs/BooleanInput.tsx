@@ -5,11 +5,7 @@ import type { InputRenderFnProps } from '@/Form';
 export interface BooleanInputProps extends InputRenderFnProps {}
 
 export const BooleanInput = ({
-  inputProps: { value, onChange, ...restInputProps },
-  id,
-  disabled,
-  className,
-  style,
+  inputProps: { value, onChange, id, disabled, className, style },
 }: BooleanInputProps) => {
   return (
     <div className="flex items-center">
@@ -20,7 +16,6 @@ export const BooleanInput = ({
         onCheckedChange={onChange}
         className={className}
         style={style}
-        {...restInputProps}
       />
     </div>
   );

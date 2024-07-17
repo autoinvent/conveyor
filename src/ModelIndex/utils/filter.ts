@@ -1,8 +1,8 @@
-import type { TableViewFilter } from '@/types';
+import type { FilterItem } from '@/types';
 
 export const addFilter = (
-  filter: TableViewFilter[][] | undefined,
-  filterItem: TableViewFilter,
+  filter: FilterItem[][] | undefined,
+  filterItem: FilterItem,
   filterGroup: number,
 ) => {
   const newFilter = filter ? [...filter] : [];
@@ -22,7 +22,7 @@ export const addFilter = (
 };
 
 export const removeFilter = (
-  filter: TableViewFilter[][] | undefined,
+  filter: FilterItem[][] | undefined,
   filterGroup: number,
   filterGroupIndex: number,
 ) => {
@@ -47,8 +47,8 @@ export const removeFilter = (
 };
 
 export const changeFilter = (
-  filter: TableViewFilter[][] | undefined,
-  filterItem: TableViewFilter,
+  filter: FilterItem[][] | undefined,
+  filterItem: FilterItem,
   filterGroup: number,
   filterGroupIndex: number,
   newFilterGroup = filterGroup,
@@ -94,7 +94,7 @@ export const changeFilter = (
 };
 
 export const swapFilter = (
-  filters: TableViewFilter[][] | undefined,
+  filters: FilterItem[][] | undefined,
   filterGroup1: number,
   filterGroupIndex1: number,
   filterGroup2: number,

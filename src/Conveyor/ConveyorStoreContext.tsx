@@ -14,7 +14,6 @@ import {
   BooleanInput,
   BooleanValue,
   DatetimeInput,
-  DatetimeValue,
   DefaultValue,
   type InputRenderFn,
   ModelItemInput,
@@ -38,7 +37,7 @@ export interface ConveyorState {
 export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
   typeOptions: {
     [FieldTypes.ID]: {
-      valueRenderFn: RawValue,
+      valueRenderFn: (props) => <RawValue className="min-w-fit" {...props} />,
     },
     [FieldTypes.STRING]: {
       valueRenderFn: RawValue,
@@ -53,7 +52,13 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
       inputRenderFn: NumberInput,
     },
     [FieldTypes.DATETIME]: {
-      valueRenderFn: DatetimeValue,
+      valueRenderFn: ({ name, value }) => (
+        <RawValue
+          name={name}
+          value={value ? new Date(value).toLocaleString() : 'N/A'}
+          className="min-w-60"
+        />
+      ),
       inputRenderFn: DatetimeInput,
     },
     [FieldTypes.BOOLEAN]: {
@@ -61,11 +66,18 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
       inputRenderFn: BooleanInput,
     },
     [FieldTypes.MODEL_ITEM]: {
+      valueRenderFn: ({ name, value }) => (
+        <RawValue
+          name={name}
+          value={value?.id ?? 'None'}
+          className="min-w-fit"
+        />
+      ),
       inputRenderFn: ModelItemInput,
     },
     [FieldTypes.DEFAULT]: {
       valueRenderFn: DefaultValue,
-      inputRenderFn: ({ inputProps: { value, name } }) => (
+      inputRenderFn: ({ inputProps: { name, value } }) => (
         <DefaultValue name={name} value={value} />
       ),
     },

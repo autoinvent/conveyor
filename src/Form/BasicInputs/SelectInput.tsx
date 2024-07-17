@@ -5,7 +5,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/lib/components/ui/select';
-import { cn } from '@/lib/utils';
 
 import type { InputRenderFnProps } from '@/Form';
 import type { SelectOption } from '@/types';
@@ -18,10 +17,7 @@ export interface SelectInputProps extends InputRenderFnProps {
 export const SelectInput = ({
   options = [],
   placeHolder = 'Select...',
-  inputProps: { onChange, value, name },
-  disabled,
-  required,
-  className,
+  inputProps: { onChange, value, name, disabled, required, className },
 }: SelectInputProps) => {
   const stringifiedValue = value !== '' ? JSON.stringify(value) : value;
   const stringifiedOptions = options.map(({ label, value }) => {

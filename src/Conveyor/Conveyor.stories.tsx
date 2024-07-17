@@ -1,15 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ModelIndex, useTableView } from '@/ModelIndex';
+import { RawValue } from '@/Form';
+import { ModelIndex } from '@/ModelIndex';
 import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
 import { FieldTypes } from '@/types';
+import { useTableView } from '@/utils';
 
 import { Conveyor } from './Conveyor';
 
-const BEARS = [
-  { id: '1', name: 'Winnie The Pooh' },
-  { id: '2', name: 'Baloo' },
-];
+// const BEARS = [
+//   { id: '1', name: 'Winnie The Pooh' },
+//   { id: '2', name: 'Baloo' },
+// ];
 
 const meta = {
   title: 'Model/Conveyor/Conveyor',
@@ -18,11 +20,8 @@ const meta = {
   args: {
     typeOptions: {
       [FieldTypes.STRING]: {
-        valueRenderFn: ({ value }) => <b className="text-green-700">{value}</b>,
-      },
-      DisneyBear: {
-        valueRenderFn: ({ value }) => (
-          <b>{BEARS.find((bear) => bear.id === value?.id)?.name ?? 'none'}</b>
+        valueRenderFn: (props) => (
+          <RawValue className="text-green-700" {...props} />
         ),
       },
     },
@@ -38,7 +37,10 @@ export const OverridingValue: Story = {
     return (
       <div className="flex flex-col">
         <Conveyor {...args}>
-          <ModelIndex {...ModelIndexStoryMeta.args} {...tableViewOptions} />
+          <ModelIndex
+            {...ModelIndexStoryMeta.args}
+            tableViewOptions={tableViewOptions}
+          />
         </Conveyor>
       </div>
     );

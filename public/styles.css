@@ -684,11 +684,6 @@ body {
   margin-bottom: 0.25rem;
 }
 
-.my-2 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -806,8 +801,12 @@ body {
   max-height: 24rem;
 }
 
-.min-h-\[40px\] {
-  min-height: 40px;
+.min-h-10 {
+  min-height: 2.5rem;
+}
+
+.w-0 {
+  width: 0px;
 }
 
 .w-0 {
@@ -858,12 +857,25 @@ body {
   min-width: 12rem;
 }
 
+.min-w-60 {
+  min-width: 15rem;
+}
+
+.min-w-64 {
+  min-width: 16rem;
+}
+
 .min-w-\[8rem\] {
   min-width: 8rem;
 }
 
 .min-w-\[var\(--radix-select-trigger-width\)\] {
   min-width: var(--radix-select-trigger-width);
+}
+
+.min-w-fit {
+  min-width: -moz-fit-content;
+  min-width: fit-content;
 }
 
 .max-w-fit {
@@ -917,10 +929,6 @@ body {
 
 .cursor-default {
   cursor: default;
-}
-
-.cursor-pointer {
-  cursor: pointer;
 }
 
 .touch-none {
@@ -1009,6 +1017,12 @@ body {
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 
+.space-y-2\.5 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.625rem * var(--tw-space-y-reverse));
+}
+
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
@@ -1023,8 +1037,8 @@ body {
   white-space: nowrap;
 }
 
-.rounded-2xl {
-  border-radius: 1rem;
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
 }
 
 .rounded-\[inherit\] {
@@ -1045,16 +1059,6 @@ body {
 
 .rounded-sm {
   border-radius: calc(var(--radius) - 4px);
-}
-
-.rounded-l-2xl {
-  border-top-left-radius: 1rem;
-  border-bottom-left-radius: 1rem;
-}
-
-.rounded-r-2xl {
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 1rem;
 }
 
 .border {
@@ -1089,16 +1093,8 @@ body {
   border-color: hsl(var(--primary));
 }
 
-.border-transparent {
-  border-color: transparent;
-}
-
 .border-l-transparent {
   border-left-color: transparent;
-}
-
-.border-r-border {
-  border-right-color: hsl(var(--border));
 }
 
 .border-t-transparent {
@@ -1604,6 +1600,38 @@ body {
 
 .focus-visible\:ring-offset-2:focus-visible {
   --tw-ring-offset-width: 2px;
+}
+
+.hover\:enabled\:bg-accent:enabled:hover {
+  background-color: hsl(var(--accent));
+}
+
+.hover\:enabled\:bg-destructive\/90:enabled:hover {
+  background-color: hsl(var(--destructive) / 0.9);
+}
+
+.hover\:enabled\:bg-primary\/90:enabled:hover {
+  background-color: hsl(var(--primary) / 0.9);
+}
+
+.hover\:enabled\:bg-secondary\/80:enabled:hover {
+  background-color: hsl(var(--secondary) / 0.8);
+}
+
+.hover\:enabled\:text-accent-foreground:enabled:hover {
+  color: hsl(var(--accent-foreground));
+}
+
+.hover\:enabled\:text-destructive\/90:enabled:hover {
+  color: hsl(var(--destructive) / 0.9);
+}
+
+.hover\:enabled\:text-success\/90:enabled:hover {
+  color: hsl(var(--success) / 0.9);
+}
+
+.hover\:enabled\:underline:enabled:hover {
+  text-decoration-line: underline;
 }
 
 .disabled\:pointer-events-none:disabled {

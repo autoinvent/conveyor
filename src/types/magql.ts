@@ -15,15 +15,15 @@ export interface CheckDeleteResult {
   deleted?: SearchResult[];
 }
 
-export interface TableViewFilter {
+export interface FilterItem {
   path: string;
-  op: string;
   not?: boolean;
+  op: string;
   value: JSONValue;
 }
 
 export interface TableView {
-  filter?: TableViewFilter[][];
+  filter?: FilterItem[][];
   sort?: string[];
   page?: number;
   per_page?: number;

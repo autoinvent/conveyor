@@ -14,10 +14,8 @@ export interface ModelItemInputProps extends InputRenderFnProps {
 }
 
 export const ModelItemInput = ({
-  inputProps: { onChange, value, name },
+  inputProps: { onChange, value, name, disabled, required },
   options = [],
-  disabled,
-  required,
 }: ModelItemInputProps) => {
   const valueStr = JSON.stringify(value?.id ?? null);
   if (options.length === 0) {

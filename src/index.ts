@@ -8,9 +8,10 @@ export * from './Slots';
 export * from './Table';
 
 // model components
+export * from './ModelFilter';
 export * from './ModelForm';
 export * from './ModelIndex';
-export * from './ModelSearch';
+// export * from './ModelSearch';
 
 // types
 export * from './types';
@@ -18,5 +19,5 @@ export * from './types';
 // utils
 export * from './utils';
 
-// shadcn
-export * from './lib';
+// shadcn (don't export to reduce package size since developers may use their own set of shadcn ui)
+// export * from './lib';
