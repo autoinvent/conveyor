@@ -1,35 +1,31 @@
-import { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+import type { ComponentProps } from 'react';
 
-import { useDependencyStore } from '@/hooks';
+import { STable } from '@/lib/components/ui/table';
+import type { DataType } from '@/types';
 
 import { TableBody } from './TableBody';
-import { TableFallback } from './TableFallback';
 import { TableCell } from './TableCell';
+import { TableFallback } from './TableFallback';
 import { TableHead } from './TableHead';
 import { TableHeaderCell } from './TableHeaderCell';
 import { TableHeaderRow } from './TableHeaderRow';
 import { TableRow } from './TableRow';
-import { TableStore, TableStoreContext } from './TableStoreContext';
+import { type TableState, TableStoreProvider } from './TableStoreContext';
 
-export interface TableProps extends TableStore, ComponentProps<'table'> {}
+export interface TableProps<D extends DataType>
+  extends TableState<D>,
+    ComponentProps<typeof STable> {}
 
 export const Table = Object.assign(
-  ({ data, columnIds, children, className, ...props }: TableProps) => {
-    const store = useDependencyStore<TableStore>({
-      data,
-      columnIds,
-    });
-
+  <D extends DataType>({
+    columnIds,
+    data,
+    children,
+    ...htmlProps
+  }: TableProps<D>) => {
     return (
-      <TableStoreContext.Provider value={store}>
-        <table
-          className={twMerge(
-            'h-fit table-auto rounded w-full border-separate border-spacing-0 relative overflow-x-auto mb-2 overflow-hidden border-0',
-            className,
-          )}
-          {...props}
-        >
+      <TableStoreProvider columnIds={columnIds} data={data}>
+        <STable {...htmlProps}>
           {children === undefined ? (
             <>
               <TableHead />
@@ -39,8 +35,8 @@ export const Table = Object.assign(
           ) : (
             children
           )}
-        </table>
-      </TableStoreContext.Provider>
+        </STable>
+      </TableStoreProvider>
     );
   },
   {

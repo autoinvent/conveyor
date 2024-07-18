@@ -1,40 +1,32 @@
-import { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+import type { ComponentProps } from 'react';
 
-import { useTable } from './useTable';
+import { STableBody, STableCell, STableRow } from '@/lib/components/ui/table';
 
-export interface TableFallbackProps extends ComponentProps<'tbody'> {}
+import { Spinner } from '@/Loading';
 
-export const TableFallback = ({
-  className,
-  children,
-  ...props
-}: TableFallbackProps) => {
-  const {
-    selected: { columnIds, data },
-  } = useTable((state) => ({
-    columnIds: state.columnIds,
-    data: state.data,
-  }));
+import { useTableStore } from './useTableStore';
 
-  const cellContent = data ? (
-    'No Records Found.'
-  ) : (
-    <div className="flex justify-center">
-      <div className="animate-spin rounded-[50%] border-[--fg-accent] border-t-[--text-color] border-y-4 border-x-4 h-[30px] w-[30px]"></div>
-    </div>
+export interface TableFallbackProps extends ComponentProps<typeof STableBody> {}
+
+export const TableFallback = ({ children, ...props }: TableFallbackProps) => {
+  const { columnIds, data } = useTableStore();
+
+  return (
+    (!data || data.length === 0) &&
+    columnIds.length > 0 && (
+      <STableBody {...props}>
+        <STableRow>
+          <STableCell colSpan={columnIds.length}>
+            {children === undefined ? (
+              <div className="text-center">
+                {data ? 'No Records Found.' : <Spinner />}
+              </div>
+            ) : (
+              children
+            )}
+          </STableCell>
+        </STableRow>
+      </STableBody>
+    )
   );
-
-  return (!data || data.length === 0) && columnIds.length > 0 ? (
-    <tbody className={twMerge('rounded', className)} {...props}>
-      <tr className="items-center group rounded cursor-default">
-        <td
-          className="text-center bg-[--fg-color] border border-solid group-hover:bg-[--fg-accent] border-[--border-color]"
-          colSpan={columnIds.length}
-        >
-          {children === undefined ? cellContent : children}
-        </td>
-      </tr>
-    </tbody>
-  ) : null;
 };

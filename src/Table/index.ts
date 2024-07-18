@@ -12,4 +12,4 @@ export * from './TableRow';
 export * from './TableStoreContext';
 
 // hooks
-export * from './useTable';
+export * from './useTableStore';

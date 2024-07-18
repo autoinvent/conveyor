@@ -1,4 +1,4 @@
-import { TableHead, TableHeadProps } from '@/Table';
+import { TableHead, type TableHeadProps } from '@/Table';
 
 import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
 

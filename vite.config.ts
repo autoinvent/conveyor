@@ -1,22 +1,19 @@
-/// <reference types="vitest" />
-/// <reference types="vite/client" />
+import { resolve } from 'node:path';
 
-import { resolve } from 'path';
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import svgr from 'vite-plugin-svgr';
+import { visualizer } from 'rollup-plugin-visualizer';
+
+import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // https://github.com/vitejs/vite/pull/8090
+  define: { 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) },
   plugins: [
     react(),
-    dts({
-      insertTypesEntry: true,
-    }),
-    nodePolyfills(),
-    svgr(),
+    dts({ insertTypesEntry: true }),
+    visualizer({ gzipSize: true, brotliSize: true, open: false }),
   ],
   build: {
     sourcemap: true,
@@ -37,7 +34,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': '/src',
+      '@': resolve(__dirname, 'src'),
     },
   },
 });

@@ -1,0 +1,14 @@
+{
+  "name": "@autoinvent/conveyor-cdn-example",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "license": "BlueOak-1.0.0",
+  "author": "Moebius Solutions",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vite": "^5.2.11"
+  }
+}

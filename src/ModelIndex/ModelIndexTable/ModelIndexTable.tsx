@@ -1,53 +1,90 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 
-import { useModelIndex } from '@/ModelIndex';
+import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
+import type { STable } from '@/lib/components/ui/table';
+
 import { Table } from '@/Table';
+import type { DataType } from '@/types';
+
+import type { ModelIndexState } from '../ModelIndexStoreContext';
+import { useModelIndexStore } from '../useModelIndexStore';
 
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
 import { ModelIndexTableBody } from './ModelIndexTableBody';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
-import { ModelIndexTableFallback } from './ModelIndexTableFallback';
 import { ModelIndexTableHead } from './ModelIndexTableHead';
 import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
 import { ModelIndexTableRow } from './ModelIndexTableRow';
-import { ACTION_SLOT } from './constants';
+import { ACTION_COLUMN } from './constants';
+import { ConditionalWrapper } from '@/utils';
 
-export interface ModelIndexTableProps extends ComponentProps<'table'> {}
+export interface ModelIndexTableProps extends ComponentProps<typeof STable> {
+  scrollable?: boolean;
+  bordered?: boolean;
+}
 
 export const ModelIndexTable = Object.assign(
-  ({ children, ...props }: ModelIndexTableProps) => {
-    const { selected } = useModelIndex((state) => {
-      return {
-        fields: state.fields.map((field) => field.name),
-        data: state.data,
-      };
-    });
+  ({
+    scrollable = true,
+    bordered = true,
+    children,
+    ...props
+  }: ModelIndexTableProps) => {
+    let fieldNames = useModelIndexStore(
+      useShallow<ModelIndexState<DataType>, string[]>((state) =>
+        state.fields.map((field) => field.name),
+      ),
+    );
+    const data = useModelIndexStore((state) => state.data);
+    const readOnly = useModelIndexStore((state) => state.readOnly);
 
-    const fields = selected.fields.includes(ACTION_SLOT)
-      ? selected.fields
-      : selected.fields.concat(ACTION_SLOT);
+    if (
+      fieldNames.length > 0 &&
+      !readOnly &&
+      data &&
+      data.length > 0 &&
+      !fieldNames.includes(ACTION_COLUMN)
+    ) {
+      fieldNames = fieldNames.concat([ACTION_COLUMN]);
+    }
 
     return (
-      <Table columnIds={fields} data={selected.data} {...props}>
-        {children === undefined ? (
-          <>
-            <ModelIndexTableHead />
-            <ModelIndexTableBody />
-            <ModelIndexTableFallback />
-          </>
-        ) : (
-          children
-        )}
-      </Table>
+      <ConditionalWrapper
+        condition={bordered}
+        wrapper={(base) => <div className="rounded-md border">{base}</div>}
+      >
+        <ConditionalWrapper
+          condition={scrollable}
+          wrapper={(base) => (
+            <ScrollArea>
+              {base}
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          )}
+        >
+          <Table columnIds={fieldNames} data={data} {...props}>
+            {children === undefined ? (
+              <>
+                <ModelIndexTableHead />
+                <ModelIndexTableBody />
+                <Table.Fallback />
+              </>
+            ) : (
+              children
+            )}
+          </Table>
+        </ConditionalWrapper>
+      </ConditionalWrapper>
     );
   },
   {
     ActionCell: ModelIndexTableActionCell,
     ActionHeaderCell: ModelIndexTableActionHeaderCell,
     Body: ModelIndexTableBody,
-    Fallback: ModelIndexTableFallback,
+    Fallback: Table.Fallback,
     Cell: ModelIndexTableCell,
     Head: ModelIndexTableHead,
     HeaderCell: ModelIndexTableHeaderCell,

@@ -5,10 +5,8 @@ export * from './ModelIndexTableActionHeaderCell';
 export * from './ModelIndexTableBody';
 export * from './ModelIndexTableCell';
 export * from './ModelIndexTableErrorRow';
-export * from './ModelIndexTableFallback';
 export * from './ModelIndexTableHead';
 export * from './ModelIndexTableHeaderCell';
-export * from './ModelIndexTableHeaderCellDefaultContent';
 export * from './ModelIndexTableHeaderRow';
 export * from './ModelIndexTableRow';
 

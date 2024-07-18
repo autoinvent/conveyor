@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+pnpm-lock.yaml
 dist
 dist-ssr
 *.local
@@ -25,4 +26,13 @@ dist-ssr
 *.sw?
 
 # build files
-build
+.build
+*.tgz
+*.tsbuildinfo
+*storybook.log
+stats.html
+public/styles.css
+
+# vite-react-typescript example
+examples/**/node_modules
+examples/**/*.tgz

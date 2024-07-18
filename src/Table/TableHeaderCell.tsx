@@ -1,30 +1,25 @@
-import { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+import type { ComponentProps } from 'react';
+
+import { STableHead } from '@/lib/components/ui/table';
 
 import { Slot } from '@/Slots';
 import { humanizeText } from '@/utils';
 
-export interface TableHeaderCellProps extends ComponentProps<'th'> {
+export interface TableHeaderCellProps
+  extends ComponentProps<typeof STableHead> {
   columnId: string;
 }
 
 export const TableHeaderCell = ({
   columnId,
   children,
-  className,
-  ...props
+  ...htmlProps
 }: TableHeaderCellProps) => {
   return (
-    <Slot slot={columnId}>
-      <th
-        className={twMerge(
-          'text-center bg-[--header-color] border border-solid border-[--border-color]',
-          className,
-        )}
-        {...props}
-      >
+    <Slot slotKey={columnId}>
+      <STableHead {...htmlProps}>
         {children === undefined ? humanizeText(columnId) : children}
-      </th>
+      </STableHead>
     </Slot>
   );
 };

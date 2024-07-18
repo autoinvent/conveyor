@@ -1,28 +1,44 @@
-import { useFormContext } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
+import type { ComponentProps } from 'react';
 
-import { useTable } from '@/Table';
-import { ACTION_SLOT } from './constants';
+import { STableCell, STableRow } from '@/lib/components/ui/table';
+import { cn } from '@/lib/utils';
 
-export const ModelIndexTableErrorRow = () => {
-  const { selected: columnIds } = useTable((state) => state.columnIds);
+import { useTableStore } from '@/Table';
 
-  const {
-    formState: { errors },
-  } = useFormContext();
+import { FormError, useFormStore } from '@/Form';
+import { ACTION_COLUMN } from './constants';
 
-  return Object.keys(errors).length ? (
-    <tr className="danger">
-      {columnIds.map((columnId: string) => {
-        if (columnId === ACTION_SLOT) {
-          return <td key={ACTION_SLOT}></td>;
-        }
-        return (
-          <td key={columnId}>
-            <ErrorMessage errors={errors} name={columnId} />
-          </td>
-        );
-      })}
-    </tr>
-  ) : null;
+export interface ModelIndexTableErrorRowProps extends ComponentProps<'tr'> {}
+
+export const ModelIndexTableErrorRow = ({
+  className,
+  ...htmlProps
+}: ModelIndexTableErrorRowProps) => {
+  const fieldNames = useTableStore((state) => state.columnIds);
+  const errors = useFormStore((state) => state.formState.errors);
+  const hasErrorMessage = Object.keys(errors).some(
+    (fieldName) => errors[fieldName]?.message,
+  );
+  return (
+    hasErrorMessage &&
+    Object.keys(errors).length > 0 && (
+      <STableRow
+        className={cn(
+          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+          className,
+        )}
+        {...htmlProps}
+      >
+        {fieldNames.map((fieldName) => {
+          return fieldName === ACTION_COLUMN ? (
+            <STableCell key={ACTION_COLUMN} />
+          ) : (
+            <STableCell key={fieldName}>
+              <FormError name={fieldName} />
+            </STableCell>
+          );
+        })}
+      </STableRow>
+    )
+  );
 };

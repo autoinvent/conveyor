@@ -1,34 +1,24 @@
-import { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+import type { ComponentProps } from 'react';
+
+import { STableRow } from '@/lib/components/ui/table';
 
 import { Slots } from '@/Slots';
 
 import { TableCell } from './TableCell';
-import { useTable } from './useTable';
+import { useTableStore } from './useTableStore';
 
-export interface TableRowProps extends ComponentProps<'tr'> {
+export interface TableRowProps extends ComponentProps<typeof STableRow> {
   prefilled?: boolean;
 }
 
-export const TableRow = ({
-  prefilled,
-  children,
-  className,
-  ...props
-}: TableRowProps) => {
-  const { selected: columnIds } = useTable((state) => state.columnIds);
+export const TableRow = ({ prefilled, children, ...props }: TableRowProps) => {
+  const columnIds = useTableStore((state) => state.columnIds);
   return (
-    <tr
-      className={twMerge(
-        'items-center group rounded cursor-default h-full',
-        className,
-      )}
-      {...props}
-    >
-      <Slots slotOrder={columnIds}>
+    <STableRow {...props}>
+      <Slots slotKeys={columnIds}>
         {children === undefined || prefilled ? (
           <>
-            {columnIds.map((columnId: string) => {
+            {columnIds.map((columnId) => {
               return <TableCell key={columnId} columnId={columnId} />;
             })}
             {children}
@@ -37,6 +27,6 @@ export const TableRow = ({
           children
         )}
       </Slots>
-    </tr>
+    </STableRow>
   );
 };

@@ -1,56 +1,58 @@
-import { useEffect } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import type { UseFormReturn } from 'react-hook-form';
 
-import { useData } from '@/Data';
-import { useIsFirstRender } from '@/hooks';
-import { Lenses, DataLens } from '@/Lenses';
-import { TableRow, TableRowProps, useTable } from '@/Table';
+import { useDataStore } from '@/Data';
+import { FormStoreProvider, useForm } from '@/Form';
+import { Lenses } from '@/Lenses';
+import { LoadingStoreProvider } from '@/Loading';
+import { TableRow, type TableRowProps, useTableStore } from '@/Table';
+import { DataLens } from '@/types';
 
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableCell } from './ModelIndexTableCell';
 import { ModelIndexTableErrorRow } from './ModelIndexTableErrorRow';
-import { ACTION_SLOT } from './constants';
+import { ACTION_COLUMN } from './constants';
 
-export interface ModelIndexTableRowProps extends TableRowProps {}
+export interface ModelIndexTableRowProps extends TableRowProps {
+  formMethods?: UseFormReturn;
+}
 
 export const ModelIndexTableRow = ({
   prefilled,
+  formMethods,
   children,
   ...props
 }: ModelIndexTableRowProps) => {
-  const { selected: columnIds } = useTable((state) => state.columnIds);
-  const data = useData();
-  const methods = useForm({ mode: 'onChange', defaultValues: data });
-
-  const isFirstRender = useIsFirstRender();
-  useEffect(() => {
-    if (!isFirstRender.current) {
-      methods.reset(data);
-    }
-  }, [data]);
+  const fieldNames = useTableStore((state) => state.columnIds);
+  const data = useDataStore();
+  const defaultFormMethods = useForm({ mode: 'onChange', values: data });
 
   return (
-    <FormProvider {...methods}>
-      <Lenses initialLens={DataLens.DISPLAY}>
-        <TableRow prefilled={false} {...props}>
-          {children === undefined || prefilled ? (
-            <>
-              {columnIds.map((columnId: string) => {
-                if (columnId === ACTION_SLOT) {
-                  return <ModelIndexTableActionCell key={ACTION_SLOT} />;
-                }
-                return (
-                  <ModelIndexTableCell key={columnId} fieldName={columnId} />
-                );
-              })}
-              {children}
-            </>
-          ) : (
-            children
-          )}
-        </TableRow>
-        <ModelIndexTableErrorRow />
-      </Lenses>
-    </FormProvider>
+    <FormStoreProvider {...(formMethods ?? defaultFormMethods)}>
+      <LoadingStoreProvider>
+        <Lenses initialLens={DataLens.VALUE}>
+          <TableRow prefilled={false} {...props}>
+            {children === undefined || prefilled ? (
+              <>
+                {fieldNames.map((fieldName) => {
+                  if (fieldName === ACTION_COLUMN) {
+                    return <ModelIndexTableActionCell key={ACTION_COLUMN} />;
+                  }
+                  return (
+                    <ModelIndexTableCell
+                      key={fieldName}
+                      fieldName={fieldName}
+                    />
+                  );
+                })}
+                {children}
+              </>
+            ) : (
+              children
+            )}
+          </TableRow>
+        </Lenses>
+      </LoadingStoreProvider>
+      <ModelIndexTableErrorRow />
+    </FormStoreProvider>
   );
 };

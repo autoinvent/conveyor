@@ -1,18 +1,15 @@
-import { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+import type { ComponentProps } from 'react';
+
+import { STableHeader } from '@/lib/components/ui/table';
 
 import { TableHeaderRow } from './TableHeaderRow';
 
-export interface TableHeadProps extends ComponentProps<'thead'> {}
+export interface TableHeadProps extends ComponentProps<typeof STableHeader> {}
 
-export const TableHead = ({
-  children,
-  className,
-  ...props
-}: TableHeadProps) => {
+export const TableHead = ({ children, ...htmlProps }: TableHeadProps) => {
   return (
-    <thead className={twMerge('rounded', className)} {...props}>
+    <STableHeader {...htmlProps}>
       {children === undefined ? <TableHeaderRow /> : children}
-    </thead>
+    </STableHeader>
   );
 };

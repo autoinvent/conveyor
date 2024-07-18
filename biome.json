@@ -3,18 +3,11 @@
   "organizeImports": {
     "enabled": true
   },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "suspicious": {
-        "noExplicitAny": "off"
-      }
-    },
-    "ignore": ["/dist", "*.scss", "*.css", "*.md", "/node_modules"]
+  "files": {
+    "ignore": ["dist", "node_modules"],
+    "include": ["src/**/*"]
   },
   "formatter": {
-    "ignore": ["/dist", "*.md"],
     "indentStyle": "space",
     "lineWidth": 80
   },
@@ -22,5 +15,28 @@
     "formatter": {
       "quoteStyle": "single"
     }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noExplicitAny": "off"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "level": "error",
+          "options": {
+            "attributes": ["class", "className"],
+            "functions": ["clsx", "tw", "twMerge"]
+          }
+        }
+      }
+    }
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
   }
 }

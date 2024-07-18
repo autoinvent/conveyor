@@ -1,58 +1,51 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
-import { useDependencyStore } from '@/hooks';
-import { Field } from '@/types';
+import { cn } from '@/lib/utils';
+
+import type { DataType, Field } from '@/types';
 import { toField } from '@/utils';
 
-import { ModelIndexCreateButton } from './ModelIndexCreateButton';
 import { ModelIndexPagination } from './ModelIndexPagination';
-import {
-  ModelIndexStore,
-  ModelIndexStoreContext,
-} from './ModelIndexStoreContext';
 import { ModelIndexSettings } from './ModelIndexSettings';
+import {
+  type ModelIndexState,
+  ModelIndexStoreProvider,
+} from './ModelIndexStoreContext';
 import { ModelIndexTable } from './ModelIndexTable';
 import { ModelIndexTitle } from './ModelIndexTitle';
 
-export interface ModelIndexProps
-  extends Omit<ModelIndexStore, 'fields'>,
-    Omit<ComponentProps<'section'>, 'title'> {
+export interface ModelIndexProps<D extends DataType>
+  extends Omit<ModelIndexState<D>, 'fields'>,
+    Omit<ComponentProps<'div'>, 'title'> {
   fields: (string | Field)[];
 }
 
 export const ModelIndex = Object.assign(
-  ({
+  <D extends DataType>({
     fields,
     data,
-    totalDataLength,
-    tableView,
-    setTableView,
+    tableViewOptions,
     title,
-    onSave,
+    readOnly,
+    onUpdate,
     onDelete,
-    onCreate,
-    onOpenFieldSelect,
-    showActions = true,
+    paginationOptions,
     children,
+    className,
     ...htmlProps
-  }: ModelIndexProps) => {
-    const store = useDependencyStore<ModelIndexStore>({
-      fields: fields.map((field) => toField(field)),
-      data,
-      totalDataLength,
-      tableView,
-      setTableView,
-      title,
-      onSave,
-      onDelete,
-      onCreate,
-      onOpenFieldSelect,
-      showActions,
-    });
-
+  }: ModelIndexProps<D>) => {
     return (
-      <section {...htmlProps}>
-        <ModelIndexStoreContext.Provider value={store}>
+      <div className={cn('space-y-2.5', className)} {...htmlProps}>
+        <ModelIndexStoreProvider
+          fields={fields.map(toField)}
+          data={data}
+          tableViewOptions={tableViewOptions}
+          title={title}
+          readOnly={readOnly}
+          onUpdate={onUpdate}
+          onDelete={onDelete}
+          paginationOptions={paginationOptions}
+        >
           {children === undefined ? (
             <>
               <ModelIndex.Title />
@@ -62,15 +55,14 @@ export const ModelIndex = Object.assign(
           ) : (
             children
           )}
-        </ModelIndexStoreContext.Provider>
-      </section>
+        </ModelIndexStoreProvider>
+      </div>
     );
   },
   {
-    CreateButton: ModelIndexCreateButton,
-    Settings: ModelIndexSettings,
     Title: ModelIndexTitle,
     Table: ModelIndexTable,
     Pagination: ModelIndexPagination,
+    Settings: ModelIndexSettings,
   },
 );

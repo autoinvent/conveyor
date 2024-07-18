@@ -1,24 +1,64 @@
-import { Dispatch, ReactNode, SetStateAction, createContext } from 'react';
-import { Store } from '@tanstack/react-store';
+import {
+  type ReactNode,
+  createContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { type StoreApi, createStore } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 
-import { DataType } from '@/Data';
-import { SelectOption } from '@/ModelForm';
-import { Field, TableView, OnSaveProps, ID } from '@/types';
+import type { DataType, Field, OnDelete, OnUpdate } from '@/types';
+import type { TableViewOptions } from '@/utils';
 
-export interface ModelIndexStore {
+export interface PaginationOptions {
+  totalDataLength?: number;
+  pageButtonLimit?: number; // The max number of page btns to show at a time
+}
+
+export interface ModelIndexState<D extends DataType> {
   fields: Field[];
-  data: DataType[];
-  totalDataLength: number;
-  tableView: TableView;
-  setTableView: Dispatch<SetStateAction<TableView>>;
+  data?: D[];
+  tableViewOptions: TableViewOptions;
   title?: ReactNode;
-  onSave?: ({ data, dirtyFields }: OnSaveProps) => Promise<any>;
-  onDelete?: (id: ID) => Promise<any>;
-  onCreate?: () => void;
-  onOpenFieldSelect?: (fieldName: string) => Promise<SelectOption[]>;
-  showActions?: boolean;
+  readOnly?: boolean;
+  onUpdate?: OnUpdate<D>;
+  onDelete?: OnDelete<D>;
+  paginationOptions?: PaginationOptions;
 }
 
 export const ModelIndexStoreContext = createContext<
-  Store<ModelIndexStore> | undefined
+  StoreApi<ModelIndexState<any>> | undefined
 >(undefined);
+
+export interface ModelIndexStoreProviderProps<D extends DataType>
+  extends ModelIndexState<D> {
+  children?: ReactNode;
+}
+export const ModelIndexStoreProvider = <D extends DataType>({
+  children,
+  ...modelState
+}: ModelIndexStoreProviderProps<D>) => {
+  const [store] = useState(() =>
+    createStore(immer<ModelIndexState<D>>(() => ({ ...modelState }))),
+  );
+
+  const isMounted = useRef(false);
+  /*
+    biome-ignore lint/correctness/useExhaustiveDependencies: 
+      The reference to modelState does not matter, only the contents.
+  */
+  useEffect(() => {
+    if (isMounted.current) store.setState(() => modelState);
+  }, [...Object.values(modelState), store]);
+
+  useEffect(() => {
+    isMounted.current = true;
+  }, []);
+
+  return (
+    <ModelIndexStoreContext.Provider value={store}>
+      {children}
+    </ModelIndexStoreContext.Provider>
+  );
+};

@@ -1,106 +1,97 @@
-import { ComponentProps, ReactNode, useEffect } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { twMerge } from 'tailwind-merge';
+import type { ComponentProps } from 'react';
+import type { UseFormReturn } from 'react-hook-form';
 
-import { DataType } from '@/Data';
-import { Lenses, DataLens } from '@/Lenses';
-import { useDependencyStore, useIsFirstRender } from '@/hooks';
+import { FormStoreProvider, useForm } from '@/Form';
+import { Lenses } from '@/Lenses';
+import { LoadingStoreProvider } from '@/Loading';
+import { DataLens, type DataType, type Field } from '@/types';
 import { toField } from '@/utils';
 
-import { ModelFormStore, ModelFormStoreContext } from './ModelFormStoreContext';
-import { ModelFormTitle } from './ModelFormTitle';
+import { ModelFormActions } from './ModelFormActions';
 import { ModelFormContent } from './ModelFormContent';
-import { ModelFormCreateCrud } from './ModelFormCreateCrud';
-import { ModelFormDetailCrud } from './ModelFormDetailCrud';
+import { ModelFormFallback } from './ModelFormFallback';
+import { ModelFormField } from './ModelFormField';
+import {
+  type ModelFormState,
+  ModelFormStoreProvider,
+} from './ModelFormStoreContext';
+import { ModelFormTitle } from './ModelFormTitle';
+import { cn } from '@/lib/utils';
 
-export interface ModelForm
-  extends ModelFormStore,
-    Omit<ComponentProps<'form'>, 'onSubmit' | 'title'> {
-  children?: ReactNode;
+export interface ModelFormProps<D extends DataType>
+  extends Omit<ModelFormState<D>, 'fields'>,
+    Omit<ComponentProps<'form'>, 'title' | 'onSubmit'> {
+  fields: (string | Field)[];
+  formMethods?: UseFormReturn;
 }
 
 export const ModelForm = Object.assign(
-  ({
-    fields,
-    defaultValues,
+  <D extends DataType>({
     title,
-    onSubmit,
+    fields,
+    data,
+    readOnly = false,
+    onCreate,
+    onUpdate,
     onDelete,
-    onCancel,
-    onOpenFieldSelect,
-    initialLens = DataLens.EDITING,
-    showActions = true,
-    type,
+    onEdit,
+    onCancelEdit,
+    initialLens = DataLens.INPUT,
     children,
+    formMethods,
     className,
-    ...props
-  }: ModelForm) => {
-    const store = useDependencyStore<ModelFormStore>({
-      fields: fields.map((field) => toField(field)),
-      defaultValues,
-      title,
-      onSubmit,
-      onCancel,
-      onDelete,
-      onOpenFieldSelect,
-      initialLens,
-      showActions,
-      type,
-    });
-
-    const methods = useForm({ mode: 'onChange', defaultValues });
-
-    const onSubmitHandler = (formData: DataType) => {
-      onSubmit?.({
-        data: formData,
-        dirtyFields: methods.formState.dirtyFields,
-      });
-    };
-    let CrudComponent = null;
-    switch (type) {
-      case 'create':
-        CrudComponent = <ModelFormCreateCrud />;
-        break;
-      case 'detail':
-        CrudComponent = <ModelFormDetailCrud />;
-        break;
-    }
-
-    const isFirstRender = useIsFirstRender();
-    useEffect(() => {
-      if (!isFirstRender.current) {
-        methods.reset(defaultValues);
-      }
-    }, [defaultValues]);
-
+    ...htmlProps
+  }: ModelFormProps<D>) => {
+    const defaultFormMethods = useForm({ mode: 'onChange', values: data });
     return (
-      <ModelFormStoreContext.Provider value={store}>
-        <Lenses initialLens={initialLens}>
-          <FormProvider {...methods}>
-            <form
-              className={twMerge('whitespace-nowrap', className)}
-              {...props}
-              onSubmit={methods.handleSubmit(onSubmitHandler)}
-            >
-              {children === undefined ? (
-                <>
-                  <ModelFormTitle />
-                  <ModelFormContent />
-                  {CrudComponent}
-                </>
-              ) : (
-                children
-              )}
-            </form>
-          </FormProvider>
-        </Lenses>
-      </ModelFormStoreContext.Provider>
+      <ModelFormStoreProvider
+        title={title}
+        fields={fields.map(toField)}
+        data={data}
+        readOnly={readOnly}
+        onCreate={onCreate}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        onEdit={onEdit}
+        onCancelEdit={onCancelEdit}
+        initialLens={initialLens}
+      >
+        <FormStoreProvider {...(formMethods ?? defaultFormMethods)}>
+          <LoadingStoreProvider>
+            <Form className={cn('space-y-4', className)} {...htmlProps}>
+              <Lenses initialLens={initialLens}>
+                {children === undefined ? (
+                  <>
+                    <ModelForm.Title />
+                    <ModelForm.Content />
+                    <ModelForm.Actions />
+                    <ModelForm.Fallback />
+                  </>
+                ) : (
+                  children
+                )}
+              </Lenses>
+            </Form>
+          </LoadingStoreProvider>
+        </FormStoreProvider>
+      </ModelFormStoreProvider>
     );
   },
   {
+    Actions: ModelFormActions,
     Content: ModelFormContent,
-    CreateCrud: ModelFormCreateCrud,
-    DetailCrud: ModelFormDetailCrud,
+    Fallback: ModelFormFallback,
+    Field: ModelFormField,
     Title: ModelFormTitle,
   },
 );
+
+interface FormProps extends Omit<ComponentProps<'form'>, 'title'> {}
+
+const Form = ({ children, ...htmlProps }: FormProps) => {
+  return (
+    <form onSubmit={(e) => e.preventDefault()} {...htmlProps}>
+      {children}
+    </form>
+  );
+};

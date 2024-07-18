@@ -1,17 +1,33 @@
+import { withThemeByClassName  } from '@storybook/addon-themes';
 import type { Preview } from '@storybook/react';
 
-import '../public/styles/index.css';
+import '../src/styles/tailwind.css';
+
+import {DARK_MODE_BG, LIGHT_MODE_BG, withDocsTheme} from './with-docs-theme'
 
 const preview: Preview = {
+  decorators: [
+    withDocsTheme,
+    withThemeByClassName({
+      themes: {
+        light: 'light',
+        dark: 'dark',
+      },
+      defaultTheme: 'dark',
+    }),
+  ],
   parameters: {
     backgrounds: {
-      default: 'dark',
       values: [
         {
           name: 'dark',
-          value: getComputedStyle(document.body).getPropertyValue('--bg-color'),
+          value: DARK_MODE_BG
         },
-      ],
+        {
+          name: 'light',
+          value: LIGHT_MODE_BG
+        }
+      ]
     },
     controls: {
       matchers: {
@@ -20,6 +36,10 @@ const preview: Preview = {
       },
     },
   },
+  tags: ['autodocs']
 };
 
+
+
 export default preview;
+

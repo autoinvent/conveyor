@@ -1,7 +1,7 @@
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { useModelForm } from './useModelForm';
+import { useModelFormStore } from './useModelFormStore';
 
 export interface ModelFormTitleProps extends ComponentProps<'h2'> {}
 
@@ -10,16 +10,22 @@ export const ModelFormTitle = ({
   className,
   ...props
 }: ModelFormTitleProps) => {
-  const { selected: title } = useModelForm((state) => state.title);
-  return title || children ? (
+  const title = useModelFormStore((state) => state.title);
+  return (
     <h2
       className={twMerge(
-        'flex items-end justify-between w-full text-left font-semibold text-4xl whitespace-nowrap mb-2',
+        'mb-2 flex items-end text-start font-semibold text-4xl',
         className,
       )}
       {...props}
     >
-      {children === undefined ? title : children}
+      {children === undefined ? (
+        <>
+          <span className="grow">{title}</span>
+        </>
+      ) : (
+        children
+      )}
     </h2>
-  ) : null;
+  );
 };
