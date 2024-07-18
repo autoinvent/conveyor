@@ -24,7 +24,7 @@ export const ModelIndexTitle = ({
       {children === undefined ? (
         <>
           <span className="grow">{title}</span>
-          <ModelIndexSettings />
+          {/* <ModelIndexSettings /> */}
         </>
       ) : (
         children

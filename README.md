@@ -25,7 +25,6 @@ or via a CDN with the following link tag:
 - `pnpm build:css` - Run tailwind CLI tool to build the css file.
 - `pnpm dev` - run storybook with tailwindcss watcher
 - `pnpm storybook` - run storybook
-- `pnpm storybook:css` - run storybook with the tailwind watcher
 - `pnpm format` - Format all files with Biome.
 - `pnpm lint` - Scan all files for linting errors with Biome.
 
