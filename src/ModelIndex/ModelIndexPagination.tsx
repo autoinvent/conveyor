@@ -1,118 +1,119 @@
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
+import type { ComponentProps } from 'react';
 
-import { useModelIndex, setPage } from '@/ModelIndex';
-import { useEffect } from 'react';
-import type { TableView } from '@/types';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/lib/components/ui/pagination';
 
-export interface ModelIndexPaginationProps {
-  pageLimit?: number; // The max number of page btns to show at a time
-}
+import { useModelIndexStore } from './useModelIndexStore';
+
+export interface ModelIndexPaginationProps
+  extends ComponentProps<typeof Pagination> {}
 
 export const ModelIndexPagination = ({
-  pageLimit = 10,
+  ...paginationProps
 }: ModelIndexPaginationProps) => {
-  const {
-    selected: { totalDataLength, page, per_page, setTableView },
-  } = useModelIndex((state) => ({
-    totalDataLength: state.totalDataLength,
-    page: state.tableView?.page,
-    per_page: state.tableView?.per_page,
-    setTableView: state.setTableView,
-  }));
+  const fieldsLength = useModelIndexStore((state) => state.fields.length);
+  const onTableViewChange = useModelIndexStore(
+    (state) => state.tableViewOptions.onTableViewChange,
+  );
+  const dataLength = useModelIndexStore((state) => state.data?.length);
+  const totalDataLength = useModelIndexStore(
+    (state) => state.paginationOptions?.totalDataLength,
+  );
+  const pageButtonLimit =
+    useModelIndexStore((state) => state.paginationOptions?.pageButtonLimit) ??
+    10;
+  const page =
+    useModelIndexStore((state) => state.tableViewOptions.tableView.page) ?? 1;
+  const per_page =
+    useModelIndexStore((state) => state.tableViewOptions.tableView.per_page) ??
+    10;
+
+  if (totalDataLength && totalDataLength < 0) {
+    throw new Error('totalDataLength cannot be negative.');
+  }
+  if (pageButtonLimit < 0) {
+    throw new Error('pageButtonLimit cannot be negative.');
+  }
+  if (page < 1) {
+    throw new Error('page must be a positive number.');
+  }
+  if (per_page < 1) {
+    throw new Error('per_page must be a positive number.');
+  }
+
+  if (
+    !fieldsLength ||
+    !totalDataLength ||
+    !dataLength ||
+    pageButtonLimit === 0
+  ) {
+    return null;
+  }
 
   const totalPages = Math.ceil(totalDataLength / per_page);
-  const currentPageSet = Math.ceil(page / pageLimit);
-  const numPageBtnShown =
-    currentPageSet * pageLimit > totalPages
-      ? totalPages % pageLimit
-      : pageLimit;
-  const btns = [];
+  const totalPageSets = Math.ceil(totalPages / pageButtonLimit);
+  const currentPageSet = Math.ceil(page / pageButtonLimit);
+  const lowerBoundPage = (currentPageSet - 1) * pageButtonLimit + 1;
+  const upperBoundPage = Math.min(currentPageSet * pageButtonLimit, totalPages);
+  if (page > totalPages || page < 1) {
+    throw new Error(`Page must be between 1 and ${totalPages}`);
+  }
 
-  if (currentPageSet > 1) {
-    btns.push(
-      <button
-        key={`table-pagination-left-arrow`}
-        type="button"
-        onClick={() => {
-          setPage(setTableView, (currentPageSet - 1) * pageLimit);
-        }}
-      >
-        <FaChevronLeft className="h-8 w-4" />
-      </button>,
-    );
-  }
-  for (let i = 0; i < numPageBtnShown; i++) {
-    const pageNum = (currentPageSet - 1) * pageLimit + i + 1;
-    btns.push(
-      <button
-        key={`table-pagination-${pageNum}`}
-        type="button"
-        className={`min-w-8 w-8 px-1.5 whitespace-nowrap hover:bg-[--border-color] rounded-md m-[2px] ${
-          page === pageNum
-            ? 'bg-[--success] border-[--success] hover:bg-[--success-dark] hover:border-[--success-dark]'
-            : ''
-        }`}
-        onClick={() => {
-          setPage(setTableView, pageNum);
-        }}
-      >
-        {pageNum}
-      </button>,
-    );
-  }
-  if (currentPageSet * pageLimit < totalPages) {
-    btns.push(
-      <button key={`table-pagination-goto`} type="button" disabled>
-        ...
-      </button>,
-    );
-  }
-  if (currentPageSet * pageLimit < totalPages) {
-    btns.push(
-      <button
-        key={`table-pagination-right-arrow`}
-        type="button"
-        onClick={() => {
-          setPage(setTableView, currentPageSet * pageLimit + 1);
-        }}
-      >
-        <FaChevronRight className="h-8 w-4" />
-      </button>,
-    );
-  }
-  btns.push();
-
-  useEffect(() => {
-    if (!per_page) {
-      setTableView((state: TableView) => {
-        return {
-          ...state,
-          per_page: 5,
-        };
-      });
-    }
-    if (!page) {
-      setTableView((state: TableView) => {
-        return {
-          ...state,
-          page: 1,
-        };
-      });
-    }
-  }, [per_page, page]);
-
-  return per_page && page ? (
-    <div className="text-left	 w-full">
-      <span aria-label="pagination" className={'justify-center'}>
-        {btns}
-      </span>
-      <span>
-        {totalDataLength
-          ? ` Showing items ${per_page * (page - 1) + 1}-${
+  return (
+    <Pagination {...paginationProps}>
+      <PaginationContent>
+        {/* Previous Page Set Button */}
+        {page > pageButtonLimit && (
+          <PaginationItem>
+            <PaginationPrevious
+              aria-label={`Go to page ${lowerBoundPage - 1}`}
+              onClick={() => onTableViewChange({ page: lowerBoundPage - 1 })}
+            />
+          </PaginationItem>
+        )}
+        {/* Page buttons */}
+        {[...Array(upperBoundPage - lowerBoundPage + 1).keys()].map((index) => {
+          const buttonPage = index + lowerBoundPage;
+          return (
+            <PaginationItem key={index}>
+              <PaginationLink
+                isActive={buttonPage === page}
+                onClick={() => onTableViewChange({ page: buttonPage })}
+              >
+                {buttonPage}
+              </PaginationLink>
+            </PaginationItem>
+          );
+        })}
+        {/* Next Page Set Button */}
+        {currentPageSet < totalPageSets && (
+          <>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                aria-label={`Go to page ${upperBoundPage + 1}`}
+                onClick={() => onTableViewChange({ page: upperBoundPage + 1 })}
+              />
+            </PaginationItem>
+          </>
+        )}
+        <PaginationItem>
+          <span className="whitespace-nowrap">
+            {` Showing items ${per_page * (page - 1) + 1} - ${
               totalPages === page ? totalDataLength : per_page * page
-            } of ${totalDataLength}`
-          : null}
-      </span>
-    </div>
-  ) : null;
+            } of ${totalDataLength}`}
+          </span>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  );
 };

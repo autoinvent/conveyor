@@ -1,0 +1,32 @@
+{
+  "name": "@autoinvent/conveyor-admin-vite-react-ts-example",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Vite-React-TS Example",
+  "license": "BlueOak-1.0.0",
+  "author": "Moebius Solutions",
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@autoinvent/conveyor": "file:autoinvent-conveyor-1.0.2.tgz",
+    "react-helmet": "^6.1.0"
+  },
+  "peerDependencies": {
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.6",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@types/react-helmet": "^6.1.11",
+    "@vitejs/plugin-react": "^4.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "5.1.6",
+    "vite": "^5.2.11"
+  }
+}

@@ -1,22 +1,91 @@
-import { type ReactNode, createContext } from 'react';
-import type { Store } from '@tanstack/react-store';
+import {
+  Fragment,
+  type ReactNode,
+  createContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { type StoreApi, createStore, useStore } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 
-export interface SlotType {
+export interface SlotNode {
+  id: string;
   node: ReactNode;
-  /* 
-      List of component reference ID's to cross reference
-      which components have attempted to fill the specified slot';
-      The front (index 0) of the list will contain the latest component used
-      and older components as you go down the list. 
-    */
-  refIds: string[];
+  expiredIds: string[];
 }
 
-export interface SlotsStore {
-  slotOrder: string[];
-  slots: Record<string, SlotType>;
+export interface SlotsState {
+  slotKeys: string[];
+  slotNodes: Record<string, SlotNode>;
+  setSlotNode: (slotKey: string, newId: string, newNode: ReactNode) => void;
 }
 
-export const SlotsStoreContext = createContext<Store<SlotsStore> | undefined>(
-  undefined,
-);
+export const SlotsStoreContext = createContext<
+  StoreApi<SlotsState> | undefined
+>(undefined);
+
+export interface SlotsProps {
+  slotKeys: string[];
+  children?: ReactNode;
+}
+export const Slots = ({ slotKeys, children }: SlotsProps) => {
+  const [store] = useState(() =>
+    createStore(
+      immer<SlotsState>((set) => ({
+        slotKeys,
+        slotNodes: {},
+        setSlotNode: (slotKey, newId, newNode) =>
+          set((state) => {
+            const slotNode = state.slotNodes[slotKey];
+            if (slotNode) {
+              if (slotNode.id === newId) {
+                if (slotNode.id) {
+                  state.slotNodes[slotKey].expiredIds.push(slotNode.id);
+                }
+                state.slotNodes[slotKey].id = newId;
+                state.slotNodes[slotKey].node = newNode;
+              } else if (!slotNode.expiredIds.includes(newId)) {
+                if (slotNode.id) {
+                  state.slotNodes[slotKey].expiredIds.push(slotNode.id);
+                }
+                state.slotNodes[slotKey].id = newId;
+                state.slotNodes[slotKey].node = newNode;
+              }
+            } else {
+              state.slotNodes[slotKey] = {
+                id: newId,
+                node: newNode,
+                expiredIds: [],
+              };
+            }
+          }),
+      })),
+    ),
+  );
+
+  const slotNodes = useStore(store, (state) => state.slotNodes);
+
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      store.setState((state) => {
+        state.slotKeys = slotKeys;
+      });
+    }
+  }, [slotKeys, store]);
+
+  useEffect(() => {
+    isMounted.current = true;
+  }, []);
+
+  return (
+    <SlotsStoreContext.Provider value={store}>
+      {slotKeys.map((slotKey) => (
+        <Fragment key={slotKey}>{slotNodes?.[slotKey]?.node ?? null}</Fragment>
+      ))}
+      {children}
+    </SlotsStoreContext.Provider>
+  );
+};

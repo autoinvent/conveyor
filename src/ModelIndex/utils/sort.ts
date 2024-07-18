@@ -10,86 +10,74 @@ export const DEFAULT_SORT_SEQUENCE = [
   SortDirection.NONE,
 ];
 
-export const getCurrentSortDirection = (
-  sort: string[],
-  field: string,
+export const getFieldSortDirection = (
+  sort: string[] | undefined,
+  fieldName: string,
 ): SortDirection => {
-  let currSort = SortDirection.NONE;
-  sort?.forEach((f: string, index) => {
-    if (f.endsWith(field)) {
-      if (f.length === field.length) {
-        currSort = SortDirection.ASC;
-      } else if (f.length === field.length + 1 && f.charAt(0) === '-') {
-        currSort = SortDirection.DESC;
-      }
-    }
-  });
-  return currSort;
+  if (sort?.find((fieldSort) => fieldSort === fieldName)) {
+    return SortDirection.ASC;
+  }
+  if (sort?.find((fieldSort) => fieldSort === `-${fieldName}`)) {
+    return SortDirection.DESC;
+  }
+  return SortDirection.NONE;
 };
 
-export const nextSort = (
-  sort: string[],
-  field: string,
-  sortSequence = DEFAULT_SORT_SEQUENCE,
+export const getNextSort = (
+  sort: string[] | undefined,
+  fieldName: string,
+  sortDirectionSequence: SortDirection[] = DEFAULT_SORT_SEQUENCE,
 ) => {
-  const sortSequenceMap = Object.fromEntries(
-    sortSequence.map((seq, index) => [seq, index]),
+  const sortDirection = getFieldSortDirection(sort, fieldName);
+  const nextSortDirection =
+    sortDirectionSequence[
+      (sortDirectionSequence.findIndex((sortDir) => sortDir === sortDirection) +
+        1) %
+        sortDirectionSequence.length
+    ];
+  const newSort = sort ? [...sort] : [];
+  const currentFieldSortIndex = newSort.findIndex(
+    (fieldSort) => fieldSort === fieldName || fieldSort === `-${fieldName}`,
   );
-  const nextSortHelper = (
-    sortArray: string[],
-    currIndex: number,
-    currSortDirection: SortDirection,
-  ) => {
-    const nextSortKey =
-      sortSequence[
-        (sortSequenceMap[currSortDirection] + 1) % sortSequence.length
-      ];
-    if (nextSortKey === SortDirection.ASC) {
-      sortArray[currIndex] = field;
-    } else if (nextSortKey === SortDirection.DESC) {
-      sortArray[currIndex] = `-${field}`;
+  if (nextSortDirection === SortDirection.ASC) {
+    if (currentFieldSortIndex >= 0) {
+      newSort[currentFieldSortIndex] = fieldName;
     } else {
-      sortArray.splice(currIndex, 1);
+      newSort.push(fieldName);
     }
-  };
-
-  const newSort = sort ? [...sort] : [];
-  // Keeps track of whether sort already contains field or not
-  let found = false;
-  // Updates the sort value of the field if it exists
-  newSort.forEach((f: string, index) => {
-    if (f.endsWith(field)) {
-      if (f.length === field.length) {
-        found = true;
-        nextSortHelper(newSort, index, SortDirection.ASC);
-      } else if (f.length === field.length + 1 && f.charAt(0) === '-') {
-        found = true;
-        nextSortHelper(newSort, index, SortDirection.DESC);
-      }
+  } else if (nextSortDirection === SortDirection.DESC) {
+    const newFieldSort = `-${fieldName}`;
+    if (currentFieldSortIndex >= 0) {
+      newSort[currentFieldSortIndex] = newFieldSort;
+    } else {
+      newSort.push(newFieldSort);
     }
-  });
-  // Append the new sort field if it didn't exist
-  if (!found) {
-    newSort.push(field);
-    nextSortHelper(newSort, newSort.length - 1, SortDirection.NONE);
+  } else {
+    if (currentFieldSortIndex >= 0) {
+      newSort.splice(currentFieldSortIndex, 1);
+    }
   }
   return newSort;
 };
 
-export const swapSort = (sort: string[], index1: number, index2: number) => {
-  const newSort = sort ? [...sort] : [];
-  if (
-    index1 >= newSort.length ||
-    index2 >= newSort.length ||
-    index1 < 0 ||
-    index2 < 0
-  ) {
-    throw new Error('index1 and index2 must be valid indicies!');
-  }
+// export const swapSort = (
+//   sort: string[] | undefined,
+//   index1: number,
+//   index2: number,
+// ) => {
+//   const newSort = sort ? [...sort] : [];
+//   if (
+//     index1 >= newSort.length ||
+//     index2 >= newSort.length ||
+//     index1 < 0 ||
+//     index2 < 0
+//   ) {
+//     throw new Error('index1 and index2 must be valid indicies!');
+//   }
 
-  const field1Sort = newSort[index1];
-  newSort[index1] = newSort[index2];
-  newSort[index2] = field1Sort;
+//   const field1Sort = newSort[index1];
+//   newSort[index1] = newSort[index2];
+//   newSort[index2] = field1Sort;
 
-  return newSort;
-};
+//   return newSort;
+// };

@@ -1,63 +1,125 @@
-import { useFormContext } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
+import { useId, type ComponentProps } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 
-import { Lens, DataLens } from '@/Lenses';
+import { Label } from '@/lib/components/ui/label';
+import { cn } from '@/lib/utils';
+
+import { useConveyorStore } from '@/Conveyor';
+import { FormError, FormInput, FormValue, useFormStore } from '@/Form';
+import { Lens } from '@/Lenses';
+import { useLoadingStore } from '@/Loading';
 import { Slot } from '@/Slots';
-import type { Field } from '@/types';
+import { DataLens, type DataType, type Field, FieldTypes } from '@/types';
+import { humanizeText } from '@/utils';
 
-import { ModelFormInput } from './ModelFormInput';
-import { ModelFormValue } from './ModelFormValue';
-import { useModelForm } from './useModelForm';
+import { useModelFormStore } from './useModelFormStore';
+import type { ModelFormState } from './ModelFormStoreContext';
 
-export interface ModelFormFieldProps {
+export interface ModelFormFieldProps extends ComponentProps<'div'> {
   fieldName: string;
 }
 
-export const ModelFormField = ({ fieldName }: ModelFormFieldProps) => {
-  const {
-    selected: { fields, onOpenFieldSelect },
-  } = useModelForm((state) => ({
-    fields: state.fields,
-    onOpenFieldSelect: state.onOpenFieldSelect,
-  }));
-  const field: Field = fields.find((field: Field) => field.name === fieldName);
-  const {
-    formState: { errors },
-  } = useFormContext();
+export const ModelFormField = ({
+  fieldName,
+  children,
+  className,
+  ...htmlProps
+}: ModelFormFieldProps) => {
+  const refId = useId();
+  const formFieldId = `${fieldName}-${refId}`;
+  const formErrorMessageId = `${formFieldId}-error-message-${refId}`;
+  const fieldError = useFormStore(
+    (state) => state.formState.errors?.[fieldName],
+  );
+  const isLoading = useLoadingStore((state) => state.isLoading);
+  const field = useModelFormStore(
+    useShallow<ModelFormState<DataType>, Field>(
+      (state) =>
+        state.fields.find((field) => field.name === fieldName) ?? {
+          name: fieldName,
+          type: FieldTypes.DEFAULT,
+        },
+    ),
+  );
+  const inputFn = useConveyorStore(
+    useShallow(
+      (state) =>
+        state.typeOptions?.[field.type]?.inputRenderFn ??
+        state.typeOptions?.[FieldTypes.DEFAULT]?.inputRenderFn ??
+        (() => null),
+    ),
+  );
+  const valueFn = useConveyorStore(
+    useShallow(
+      (state) =>
+        state.typeOptions?.[field.type]?.valueRenderFn ??
+        state.typeOptions?.[FieldTypes.DEFAULT]?.valueRenderFn ??
+        (() => null),
+    ),
+  );
+
+  if (field === undefined) {
+    return null;
+  }
+
   return (
-    <Slot slot={fieldName}>
-      <div className="flex flex-col min-w-[300px] basis-1/2 px-2 my-2">
-        <label
-          key={fieldName}
-          className="flex w-full rounded-md border border-[--border-color] overflow-hidden"
-        >
-          <span className="bg-[--fg-color] py-1.5 px-3 w-[200px] border border-transparent text-[--text-color] text-center rounded-l-md overflow-hidden border-r-[--border-color] border-r">
-            {fieldName}
-          </span>
-          <Lens lens={DataLens.DISPLAY}>
-            <ModelFormValue
-              field={field}
-              className="flex-1 align-middle text-center border border-transparent outline-none rounded-r-md overflow-hidden"
-            />
-          </Lens>
-          <Lens lens={DataLens.EDITING}>
-            {field.editable ? (
-              <ModelFormInput
-                field={field}
-                onOpenFieldSelect={onOpenFieldSelect}
-                className="bg-[--bg-accent] text-[--text-color] border border-transparent outline-none rounded-r-md overflow-hidden"
-              />
-            ) : (
-              <ModelFormValue
-                field={field}
-                className="text-center flex-1 text-[--text-color] border border-transparent outline-none p-1.5 rounded-r-md overflow-hidden"
-              />
-            )}
-          </Lens>
-        </label>
-        <span className="text-[--danger] self-start">
-          <ErrorMessage errors={errors} name={field.name} />
-        </span>
+    <Slot slotKey={fieldName}>
+      <div className={cn('m-2 ml-0 space-y-2', className)} {...htmlProps}>
+        {children === undefined ? (
+          <>
+            <Label
+              htmlFor={formFieldId}
+              className={cn(
+                !!fieldError && 'text-destructive',
+                field.rules?.required && 'after:content-["*"]',
+                'mr-2 whitespace-nowrap after:text-destructive',
+              )}
+            >
+              {humanizeText(fieldName)}
+            </Label>
+            <div>
+              {field.editable ? (
+                <>
+                  <Lens lens={DataLens.VALUE}>
+                    <FormValue name={field.name} render={valueFn} />
+                  </Lens>
+                  <Lens lens={DataLens.INPUT}>
+                    <FormInput
+                      name={field.name}
+                      rules={field.rules}
+                      render={({ inputProps, inputState, formState }) => {
+                        const extraInputProps = Object.assign(inputProps, {
+                          id: formFieldId,
+                          disabled: isLoading,
+                          required: !!field.rules?.required,
+                          'aria-describedby': !inputState.invalid
+                            ? `${formFieldId}`
+                            : `${formFieldId} ${formErrorMessageId}`,
+                          'aria-invalid': inputState.invalid,
+                        });
+                        return inputFn({
+                          inputProps: extraInputProps,
+                          inputState,
+                          formState,
+                        });
+                      }}
+                    />
+                  </Lens>
+                </>
+              ) : (
+                <FormValue name={field.name} render={valueFn} />
+              )}
+            </div>
+            <p
+              id={formErrorMessageId}
+              className="font-medium text-destructive text-sm"
+            >
+              <FormError name={fieldName} />
+            </p>
+          </>
+        ) : (
+          children
+        )}
       </div>
     </Slot>
   );

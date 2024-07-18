@@ -1,12 +1,12 @@
-export type ID = string;
+export type ID = string | number;
 
-export type JSONType = string | number | boolean | null | Object;
+type JSONValue = string;
 
 export interface SearchResult {
   type: string;
   id: ID;
   value: string;
-  extra: JSONType;
+  extra: JSONValue;
 }
 
 export interface CheckDeleteResult {
@@ -15,16 +15,25 @@ export interface CheckDeleteResult {
   deleted?: SearchResult[];
 }
 
-export interface TableViewFilter {
+export interface FilterItem {
   path: string;
-  op: string;
   not?: boolean;
-  value: JSONType;
+  op: string;
+  value: JSONValue;
 }
 
 export interface TableView {
-  filter?: TableViewFilter[][];
+  filter?: FilterItem[][];
   sort?: string[];
   page?: number;
   per_page?: number;
+}
+
+export enum ScalarTypes {
+  ID = 'ID',
+  STRING = 'String',
+  INT = 'Int',
+  FLOAT = 'Float',
+  DATETIME = 'DateTime',
+  BOOLEAN = 'Boolean',
 }

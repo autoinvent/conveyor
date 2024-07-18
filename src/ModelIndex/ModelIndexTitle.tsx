@@ -1,8 +1,9 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
 
-import { ModelIndexCreateButton } from './ModelIndexCreateButton';
-import { useModelIndex } from './useModelIndex';
+import { cn } from '@/lib/utils';
+
+import { ModelIndexSettings } from './ModelIndexSettings';
+import { useModelIndexStore } from './useModelIndexStore';
 
 export interface ModelIndexTitleProps extends ComponentProps<'h2'> {}
 
@@ -11,23 +12,23 @@ export const ModelIndexTitle = ({
   className,
   ...props
 }: ModelIndexTitleProps) => {
-  const { selected: title } = useModelIndex((state) => state.title);
-  return title || children ? (
+  const title = useModelIndexStore((state) => state.title);
+  return (
     <h2
-      className={twMerge(
-        'flex items-end justify-between w-full text-left font-semibold text-4xl whitespace-nowrap mb-2',
+      className={cn(
+        'flex items-end text-start font-semibold text-4xl',
         className,
       )}
       {...props}
     >
       {children === undefined ? (
         <>
-          <span>{title}</span>
-          <ModelIndexCreateButton />
+          <span className="grow">{title}</span>
+          {/* <ModelIndexSettings /> */}
         </>
       ) : (
         children
       )}
     </h2>
-  ) : null;
+  );
 };

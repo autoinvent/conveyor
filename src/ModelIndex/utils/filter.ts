@@ -1,55 +1,100 @@
-import type { TableViewFilter } from '@/types';
+import type { FilterItem } from '@/types';
 
 export const addFilter = (
-  filters: TableViewFilter[][],
-  filter: TableViewFilter,
-  filterGroup = 0,
+  filter: FilterItem[][] | undefined,
+  filterItem: FilterItem,
+  filterGroup: number,
 ) => {
-  const newFilters = filters ? [...filters] : [];
-  if (filterGroup > newFilters.length || filterGroup < 0) {
-    if (newFilters.length === 0) {
+  const newFilter = filter ? [...filter] : [];
+  if (filterGroup > newFilter.length || filterGroup < 0) {
+    if (newFilter.length === 0) {
       throw new Error('filter is empty, try filterGroup = 0 first!');
-    } else {
-      throw new Error(
-        `filterGroup must be between 0 and ${newFilters.length}!`,
-      );
     }
+    throw new Error(`filterGroup must be between 0 and ${newFilter.length}!`);
   }
 
-  if (filterGroup === newFilters.length) {
-    newFilters.push([filter]);
+  if (filterGroup === newFilter.length) {
+    newFilter.push([filterItem]);
   } else {
-    newFilters[filterGroup].push(filter);
+    newFilter[filterGroup] = [...newFilter[filterGroup], filterItem];
   }
-  return newFilters;
+  return newFilter;
 };
 
 export const removeFilter = (
-  filters: TableViewFilter[][],
+  filter: FilterItem[][] | undefined,
   filterGroup: number,
   filterGroupIndex: number,
 ) => {
-  const newFilters = filters ? [...filters] : [];
+  const newFilter = filter ? [...filter] : [];
   if (
-    filterGroup >= newFilters.length ||
+    filterGroup >= newFilter.length ||
     filterGroup < 0 ||
-    filterGroupIndex >= newFilters[filterGroup].length ||
+    filterGroupIndex >= newFilter[filterGroup].length ||
     filterGroupIndex < 0
   ) {
-    throw new Error('filter at the specified location does not exist!');
+    throw new Error('Filter at the specified location does not exist!');
   }
 
-  if (newFilters[filterGroup].length === 1) {
-    newFilters.splice(filterGroup, 1);
+  if (newFilter[filterGroup].length === 1) {
+    newFilter.splice(filterGroup, 1);
   } else {
-    newFilters[filterGroup].splice(filterGroupIndex, 1);
+    newFilter[filterGroup] = [...newFilter[filterGroup]];
+    newFilter[filterGroup].splice(filterGroupIndex, 1);
   }
 
-  return newFilters;
+  return newFilter;
+};
+
+export const changeFilter = (
+  filter: FilterItem[][] | undefined,
+  filterItem: FilterItem,
+  filterGroup: number,
+  filterGroupIndex: number,
+  newFilterGroup = filterGroup,
+) => {
+  let newFilter = filter ? [...filter] : [];
+
+  if (
+    filterGroup >= newFilter.length ||
+    filterGroup < 0 ||
+    filterGroupIndex >= newFilter[filterGroup].length ||
+    filterGroupIndex < 0
+  ) {
+    throw new Error('Filter at the specified location does not exist!');
+  }
+  if (newFilterGroup > newFilter.length || newFilterGroup < 0) {
+    if (newFilter.length === 0) {
+      throw new Error('filter is empty, try newFilterGroup = 0 first!');
+    }
+    throw new Error(
+      `newFilterGroup must be between 0 and ${newFilter.length}!`,
+    );
+  }
+
+  if (filterGroup === newFilterGroup) {
+    newFilter[filterGroup] = [...newFilter[filterGroup]];
+    newFilter[filterGroup][filterGroupIndex] = filterItem;
+  } else {
+    const removedFilter = removeFilter(
+      newFilter,
+      filterGroup,
+      filterGroupIndex,
+    );
+    if (removedFilter.length === newFilter.length) {
+      newFilter = addFilter(removedFilter, filterItem, newFilterGroup);
+    } else if (newFilterGroup > filterGroup) {
+      newFilter = addFilter(removedFilter, filterItem, newFilterGroup - 1);
+    } else {
+      newFilter = addFilter(removedFilter, filterItem, newFilterGroup);
+    }
+  }
+
+  return newFilter;
 };
 
 export const swapFilter = (
-  filters: TableViewFilter[][],
+  filters: FilterItem[][] | undefined,
   filterGroup1: number,
   filterGroupIndex1: number,
   filterGroup2: number,

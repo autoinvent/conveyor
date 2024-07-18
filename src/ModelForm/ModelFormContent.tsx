@@ -1,37 +1,46 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { useShallow } from 'zustand/react/shallow';
 
 import { Slots } from '@/Slots';
-import type { Field } from '@/types';
+import type { DataType } from '@/types';
 
+import { cn } from '@/lib/utils';
 import { ModelFormField } from './ModelFormField';
-import { useModelForm } from './useModelForm';
+import type { ModelFormState } from './ModelFormStoreContext';
+import { useModelFormStore } from './useModelFormStore';
 
 export interface ModelFormContentProps extends ComponentProps<'div'> {
   prefilled?: boolean;
 }
 
-export const ModelFormContent = Object.assign(
-  ({ prefilled, children, className, ...props }: ModelFormContentProps) => {
-    const { selected: fields } = useModelForm((state) => state.fields);
-    const fieldNames: string[] = fields.map((field: Field) => field.name);
-    return (
-      <div className={twMerge('flex flex-wrap', className)} {...props}>
-        <Slots slotOrder={fieldNames}>
+export const ModelFormContent = ({
+  prefilled,
+  children,
+  className,
+  ...htmlProps
+}: ModelFormContentProps) => {
+  const fieldNames = useModelFormStore(
+    useShallow<ModelFormState<DataType>, string[]>((state) =>
+      state.fields.map((field) => field.name),
+    ),
+  );
+  const data = useModelFormStore((state) => state.data);
+  return (
+    data && (
+      <div className={cn('space-y-4', className)} {...htmlProps}>
+        <Slots slotKeys={fieldNames}>
           {children === undefined || prefilled ? (
             <>
-              {fieldNames.map((fieldName) => {
-                return <ModelFormField key={fieldName} fieldName={fieldName} />;
-              })}
+              {fieldNames.map((fieldName) => (
+                <ModelFormField key={fieldName} fieldName={fieldName} />
+              ))}
+              {children}
             </>
           ) : (
             children
           )}
         </Slots>
       </div>
-    );
-  },
-  {
-    Field: ModelFormField,
-  },
-);
+    )
+  );
+};
