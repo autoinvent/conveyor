@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+pnpm-lock.yaml
 dist
 dist-ssr
 *.local
@@ -30,6 +31,7 @@ dist-ssr
 *.tsbuildinfo
 *storybook.log
 stats.html
+public/styles.css
 
 # vite-react-typescript example
 examples/**/node_modules
