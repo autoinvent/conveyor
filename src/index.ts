@@ -8,7 +8,7 @@ export * from './Slots';
 export * from './Table';
 
 // model components
-export * from './ModelFilter';
+// export * from './ModelFilter';
 export * from './ModelForm';
 export * from './ModelIndex';
 // export * from './ModelSearch';
