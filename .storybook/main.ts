@@ -13,6 +13,9 @@ const config: StorybookConfig = {
      name: 'storybook-addon-sass-postcss',
      options: {
       loadSassAfterPostCSS: true,
+       postcssLoaderOptions: {
+         implementation: require('postcss'),
+       },
      },
    },
   ],
