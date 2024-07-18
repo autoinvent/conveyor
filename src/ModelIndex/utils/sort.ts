@@ -106,6 +106,24 @@ export const changeToNoneDirection = (
   return result;
 };
 
+export const sortedToSort = (sorted: Field[], sort: string[] = []): string[] => {
+  // Function to match the sorted array to the sort array (to maintain order)
+  const result = [];
+
+  for (let i = 0; i < sorted.length; i++) {
+    const field = sorted[i];
+    const sortItem = sort.find(
+      (ele) => {
+        return field.name === ele || `-${field.name}` === ele
+      }
+    );
+    if (sortItem) result.push(sortItem);
+    else result.push(field.name);
+    
+  }
+
+  return result;
+}
 export interface DividedFields {
   sorted: Field[];
   nonSorted: Field[];
@@ -120,12 +138,20 @@ export const getSortedAndNonSortedFields = (
 
   const result: DividedFields = { sorted: [], nonSorted: [] };
 
-  for (let i = 0; i < sortableFields.length; i++) {
-    const field = sortableFields[i];
-    if (sort.includes(field.name) || sort.includes(`-${field.name}`)) {
-      result.sorted.push(field);
-    } else result.nonSorted.push(field);
+  const sortableFieldsCopy = [...sortableFields];
+
+  // first add all elements from sort in order to sorted fields
+  for (const ele of sort) {
+        const idx = sortableFieldsCopy.findIndex((field) => ele === field.name || ele === `-${field.name}` );
+        result.sorted.push(sortableFieldsCopy[idx]);
+        sortableFieldsCopy.splice(idx, 1);
   }
 
-  return result;
+  // then add remainder of elements to nonsorted fields
+  for (let i = 0; i < sortableFieldsCopy.length; i++) {
+    const field = sortableFieldsCopy[i];
+    result.nonSorted.push(field);
+  }
+
+   return result;
 };

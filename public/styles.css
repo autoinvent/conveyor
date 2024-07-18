@@ -1468,6 +1468,10 @@ body {
   animation-duration: 200ms;
 }
 
+.running {
+  animation-play-state: running;
+}
+
 .file\:border-0::file-selector-button {
   border-width: 0px;
 }

@@ -30,8 +30,9 @@ import Item from "./Sort/Item";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { createPortal } from "react-dom";
 import type { Field } from "@/types";
+import { useEffect } from "react";
 
-import { changeToNoneDirection, getSortedAndNonSortedFields } from "../utils";
+import { changeToNoneDirection, getSortedAndNonSortedFields, sortedToSort } from "../utils";
 export interface SortedItems {
   sorted: UniqueIdentifier[];
   nonSorted: UniqueIdentifier[];
@@ -53,13 +54,13 @@ export const ModelIndexSortSetting = () => {
 
   const dividedFields = getSortedAndNonSortedFields(sortedFields, sortState);
 
-  const [sort, setSort] = useState<string[] | undefined>(sortState);
-  const [sorted, setSorted] = useState<Field[]>(dividedFields.sorted);
-  const [nonSorted, setNonSorted] = useState<Field[]>(dividedFields.nonSorted);
-  const [activeItem, setActiveItem] = useState<UniqueIdentifier | null>(null);
+  const [sort, setSort] = useState<string[] | undefined>(sortState); // our copy of the sort state
+  const [sorted, setSorted] = useState<Field[]>(dividedFields.sorted); // sorted fields to render as items (UI)
+  const [nonSorted, setNonSorted] = useState<Field[]>(dividedFields.nonSorted); // nonSorted fields (UI)
+  const [activeItem, setActiveItem] = useState<UniqueIdentifier | null>(null); // item being clicked and dragged by user
   const [overContainer, setOverContainer] = useState<
     "sorted" | "unsorted" | null
-  >(null);
+  >(null); // the container being dragged to
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
@@ -70,6 +71,11 @@ export const ModelIndexSortSetting = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  useEffect(() => {
+    // update value of sort every time nonSorted changes
+    setSort((prev) => sortedToSort(sorted, prev));
+  }, [sorted])
 
   const handleApplySort = () => {
     // set items in nonSorted category to None for their sort direction before saving!
@@ -188,6 +194,7 @@ export const ModelIndexSortSetting = () => {
         setSorted((items) => {
           return arrayMove(items, activeIndex, overIndex);
         });
+
       } else if (activeContainer === "nonSorted") {
         setNonSorted((items) => {
           return arrayMove(items, activeIndex, overIndex);
