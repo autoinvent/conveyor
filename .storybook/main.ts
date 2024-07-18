@@ -8,8 +8,13 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-links',
-    '@storybook/addon-postcss',
     '@storybook/addon-themes',
+    {
+     name: 'storybook-addon-sass-postcss',
+     options: {
+      loadSassAfterPostCSS: true,
+     },
+   },
   ],
   framework: {
     name: '@storybook/react-vite',
