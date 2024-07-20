@@ -6,14 +6,14 @@ const dropAnimationConfig: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
     styles: {
       active: {
-        opacity: "0.4"
-      }
-    }
-  })
+        opacity: "0.4",
+      },
+    },
+  }),
 };
 
 interface Props {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function SortableOverlay({ children }: PropsWithChildren<Props>) {

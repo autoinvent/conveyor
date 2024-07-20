@@ -97,11 +97,13 @@ export const ModelIndexSortSetting = () => {
     setNonSorted(dividedFields.nonSorted);
   };
 
+  const h2Styles = "text-muted-foreground text-center";
+
   return (
     <Card>
       <CardHeader>
-        <CardDescription>Sorting order applied:</CardDescription>
-        <CardDescription>Sorted in order from top to bottom.</CardDescription>
+        <CardDescription>Sorting is ordered in priority from top to bottom.</CardDescription>
+
       </CardHeader>
       <CardContent className="space-y-2">
         <DndContext
@@ -120,7 +122,7 @@ export const ModelIndexSortSetting = () => {
             setSort={setSort}
             id="sorted"
           >
-            SORTED
+            <h2 className={h2Styles}>SORTED</h2>
           </SortableContainer>
           <SortableContainer
             items={nonSorted}
@@ -130,7 +132,7 @@ export const ModelIndexSortSetting = () => {
             setSort={setSort}
             id="nonSorted"
           >
-            NON-SORTED
+            <h2 className={h2Styles}>NON-SORTED</h2>
           </SortableContainer>
           {createPortal(
             <DragOverlay wrapperElement="ul">
@@ -140,14 +142,14 @@ export const ModelIndexSortSetting = () => {
           )}
         </DndContext>
       </CardContent>
-      <CardFooter>
-        <Button onClick={handleApplySort}>Apply Sort</Button>
-        <Button variant="outline" onClick={handleClear}>
-          Clear Sort
+      <CardFooter className="gap-2">
+        <Button variant="ghost" onClick={handleClear}>
+          Restore Sort
         </Button>
-        <Button variant="destructive" onClick={handleReset}>
-          Reset Sort
+        <Button variant="secondary" onClick={handleReset}>
+          Clear All
         </Button>
+        <Button onClick={handleApplySort}>Apply Changes</Button>
       </CardFooter>
     </Card>
   );
