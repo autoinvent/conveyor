@@ -1,9 +1,17 @@
 import { Button } from '@/lib/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/lib/components/ui/card';
+import { Card, CardContent, CardTitle, CardFooter, CardHeader } from '@/lib/components/ui/card';
 import { ScrollArea } from '@/lib/components/ui/scroll-area';
 import type { CheckDeleteResult } from '@/types';
+import { cn } from '@/lib/utils';
+import type { ComponentProps } from 'react';
 
-export const ModelDelete = ({ affected, prevented, deleted }: CheckDeleteResult) => {
+export interface ModelCheckDeleteProps extends CheckDeleteResult, 
+    ComponentProps<typeof Card> {
+    onDelete: () => void,
+    onCancel: () => void,
+}
+
+export const ModelCheckDelete = ({ affected, prevented, deleted, onDelete, onCancel, className, ...props}: ModelCheckDeleteProps) => {
 
     const message = (prevented && prevented.length > 0) ? 
     <span className="text-red-500">
@@ -18,10 +26,9 @@ export const ModelDelete = ({ affected, prevented, deleted }: CheckDeleteResult)
     && ((deleted === undefined) || deleted.length === 0);
 
     return (
-        <div className='flex h-screen items-center justify-center'>
-            <Card className='max-h-fit max-w-md'>
+            <Card className={cn('max-h-fit max-w-md', className)} {...props}>
                 <CardHeader>
-                    <CardDescription className="text-lg">Deletion Conflicts</CardDescription>
+                    <CardTitle className="text-xl">Deletion Conflicts</CardTitle>
                 </CardHeader>
                 <CardContent>
                     {noEffects && (
@@ -33,10 +40,10 @@ export const ModelDelete = ({ affected, prevented, deleted }: CheckDeleteResult)
                     (<div className="pb-2">
                         The following models will be affected by your deletions:
                         {affected.length > 4 ? (
-                        <ScrollArea className="max-h-20 rounded-sm bg-slate-50">
+                        <ScrollArea className="max-h-20 rounded-sm">
                             <ul>
                                 {affected.map((e) => (
-                                    (<li key={e.value} className="p-1 font-bold">{e.value}</li>)
+                                    (<li key={e.id} className="p-1 font-bold">{e.value}</li>)
                                 ))}
                             </ul>
                         </ScrollArea>
@@ -44,7 +51,7 @@ export const ModelDelete = ({ affected, prevented, deleted }: CheckDeleteResult)
                         (
                         <div>
                             {affected.map((e) => (
-                                (<span key={e.value} className="p-1 px-2 font-bold">{e.value}</span>)
+                                (<span key={e.id} className="p-1 px-2 font-bold">{e.value}</span>)
                             ))}
                         </div>
                         )}
@@ -54,10 +61,10 @@ export const ModelDelete = ({ affected, prevented, deleted }: CheckDeleteResult)
                     (<div className="pb-2">
                         The following models are preventing your deletions:
                         {prevented.length > 4 ? (
-                        <ScrollArea className="max-h-20 rounded-sm bg-slate-50">
+                        <ScrollArea className="max-h-20 rounded-sm">
                             <ul>
                                 {prevented.map((e) => (
-                                    (<li key={e.value} className="p-1 font-bold">{e.value}</li>)
+                                    (<li key={e.id} className="p-1 font-bold">{e.value}</li>)
                                 ))}
                             </ul>
                         </ScrollArea>
@@ -65,7 +72,7 @@ export const ModelDelete = ({ affected, prevented, deleted }: CheckDeleteResult)
                         (
                         <div>
                             {prevented.map((e) => (
-                                (<span key={e.value} className="p-1 px-2 font-bold">{e.value}</span>)
+                                (<span key={e.id} className="p-1 px-2 font-bold">{e.value}</span>)
                             ))}
                         </div>
                         )}
@@ -73,12 +80,12 @@ export const ModelDelete = ({ affected, prevented, deleted }: CheckDeleteResult)
                     )}
                     {(deleted && deleted.length > 0) &&
                     (<div className="pb-2">
-                        The following models will be deleted by your deletions:
+                        The following models will also be deleted as a result of your deletions:
                         {deleted.length > 4 ? (
-                        <ScrollArea className="max-h-20 rounded-sm bg-slate-50">
+                        <ScrollArea className="max-h-20 rounded-sm">
                             <ul>
                                 {deleted.map((e) => (
-                                    (<li key={e.value} className="p-1 font-bold">{e.value}</li>)
+                                    (<li key={e.id} className="p-1 font-bold">{e.value}</li>)
                                 ))}
                             </ul>
                         </ScrollArea>
@@ -86,34 +93,33 @@ export const ModelDelete = ({ affected, prevented, deleted }: CheckDeleteResult)
                         (
                         <div>
                             {deleted.map((e) => (
-                                (<span key={e.value} className="p-1 px-2 font-bold">{e.value}</span>)
+                                (<span key={e.id} className="p-1 px-2 font-bold">{e.value}</span>)
                             ))}
                         </div>
                         )}
                     </div>
                     )}
-                    <div className="py-4">
+                    <div>
                         {message}
                     </div>
+                </CardContent>
+                <CardFooter className="flex justify-between">
                     {(prevented && prevented.length > 0) ? (
-                        <div className="flex justify-end">
-                            <Button variant="ghost">
+                            <Button variant="outline" onClick={() => onCancel()}>
                                 OK
                             </Button>
-                        </div>
                     ) :
                     (
-                        <div className="flex justify-end">
-                            <Button variant="ghost" className="mx-2">
+                        <>
+                            <Button variant="outline" className="mx-2" onClick={() => onCancel()}>
                                 Cancel
                             </Button>
-                            <Button variant="destructive" className="ml-2">
+                            <Button variant="destructive" className="ml-2 place-self-end" onClick={() => onDelete()}>
                                 Confirm
                             </Button>
-                        </div>
+                        </>
                     )}
-                </CardContent>
+                </CardFooter>
             </Card>
-        </div>
     );
 };

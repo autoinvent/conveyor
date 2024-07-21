@@ -1,15 +1,29 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ModelDelete } from './ModelDelete';
+import { ModelCheckDelete } from './ModelCheckDelete';
+
+function sampleOnCancel() {
+    return(console.log('cancelled'));
+}
+
+function sampleOnDelete() {
+    return (console.log('deleted'));
+}
 
 const meta = {
-    title: 'Model/ModelDelete/ModelDelete',
-    component: ModelDelete,
+    title: 'Model/ModelCheckDelete/ModelCheckDelete',
+    component: ModelCheckDelete,
+    parameters: {
+        layout: 'centered'
+    },
     args: {
         affected: [],
         prevented: [],
         deleted: [],
+        onCancel: () => (console.log('cancelled')),
+        onDelete: () => (console.log('deleted')),
+        className: '',
     }
-} satisfies Meta<typeof ModelDelete>
+} satisfies Meta<typeof ModelCheckDelete>;
 export default meta;
 
 type Story = StoryObj<typeof meta>;
@@ -48,6 +62,8 @@ export const Affected: Story = {
         }],
         prevented: [],
         deleted: [],
+        onCancel: sampleOnCancel,
+        onDelete: sampleOnDelete,
     }
 };
 
@@ -124,7 +140,7 @@ export const NoConflicts: Story = {
         prevented: [],
         deleted: [],
     }
-}
+};
 
 export const DataOverload: Story = {
     args: {
@@ -351,4 +367,4 @@ export const DataOverload: Story = {
             }
         ]
     }
-}
+};
