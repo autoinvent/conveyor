@@ -7,7 +7,7 @@ on:
   # Event for the workflow to run on
   push:
     branches:
-      - 'v2' # Replace with the branch you want to deploy from
+      - 'main' # Replace with the branch you want to deploy from
 
 permissions:
   contents: read
