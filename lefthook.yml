@@ -4,6 +4,6 @@ pre-push:
     check:
       run: pnpm exec biome check --no-errors-on-unmatched --files-ignore-unknown=true {push_files}
     lint:
-      run: pnpm exec lint --no-errors-on-unmatched --files-ignore-unknown=true {push_files}
+      run: pnpm exec biome lint --no-errors-on-unmatched --files-ignore-unknown=true {push_files}
     format:
       run: pnpm exec biome format --no-errors-on-unmatched --files-ignore-unknown=true {push_files}

@@ -1,6 +1,6 @@
 import {
-  type ReactNode,
   type Dispatch,
+  type ReactNode,
   type SetStateAction,
   createContext,
   useEffect,
@@ -10,7 +10,7 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import type { TableView, DataType, Field, OnDelete, OnUpdate } from '@/types';
+import type { DataType, Field, OnDelete, OnUpdate, TableView } from '@/types';
 
 export interface TableViewOptions {
   tableView: TableView;
