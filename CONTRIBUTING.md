@@ -6,14 +6,14 @@
    - `bugfix`: PR to fix a bug without changing the underlying feature
    - `cleanup`: PR to cleanup the repo (linting, console log removals, etc... )
    - `docs`: PR to improve documentation
-2. Keep the branch name simple and concise; 3 words max if possible
+2. Keep the branch name simple and concise; 3 words max if possible; lowercase.
 3. Here are some examples of how the branch would be labeled:
    - `feature-modelindex-sort`
    - `feature-modelcheckdelete`
    - `story-table-column-visibility`
    - `docs-branch-name-prefix`
-4. When making a PR the title of your PR should be the same as your branch name separated by space instead of hyphens:
-   - `feature modelindex sort`
+4. When making a PR the title of your PR should be the same as your branch name separated by space instead of hyphens as well as proper casing and a colon after the prefix label:
+   - `Feature: ModelIndex Sort`
 
 ## File Heirarchy: Grouped by feature
 

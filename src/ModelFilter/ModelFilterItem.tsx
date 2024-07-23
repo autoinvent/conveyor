@@ -1,4 +1,6 @@
-import { FormInput, FormStoreProvider, SelectInput, useForm } from '@/Form';
+import type { ChangeEvent } from 'react';
+
+import { SelectInput, StringInput } from '@/Form';
 import type { FilterItem, SelectOption } from '@/types';
 
 export interface ModelFilterItemProps {
@@ -16,82 +18,71 @@ export const ModelFilterItem = ({
   onFilterItemChange,
   selectOptions,
 }: ModelFilterItemProps) => {
-  const formMethods = useForm({
-    values: filterItem,
-  });
   return (
     <>
-      <FormStoreProvider {...formMethods}>
-        <FormInput
-          name="path"
-          render={({ inputProps, ...props }) => {
-            const newInputProps = Object.assign(inputProps, {
-              onChange: (newPath: string) => {
-                const newFilterItem = {
-                  path: newPath,
-                  not: selectOptions.not[0].value as boolean,
-                  op: selectOptions.op[0].value as string,
-                  value: '',
-                };
-                onFilterItemChange(newFilterItem);
-              },
-            });
-            return (
-              <SelectInput
-                options={selectOptions.path}
-                inputProps={newInputProps}
-                {...props}
-              />
-            );
-          }}
-        />
-        <FormInput
-          name="not"
-          render={({ inputProps, ...props }) => {
-            const newInputProps = Object.assign(inputProps, {
-              onChange: (newNot: boolean) => {
-                const newFilterItem = {
-                  path: filterItem.path,
-                  not: newNot,
-                  op: filterItem.op,
-                  value: filterItem.value,
-                };
-                onFilterItemChange(newFilterItem);
-              },
-            });
-            return (
-              <SelectInput
-                options={selectOptions.not}
-                inputProps={newInputProps}
-                {...props}
-              />
-            );
-          }}
-        />
-        <FormInput
-          name="op"
-          render={({ inputProps, ...props }) => {
-            const newInputProps = Object.assign(inputProps, {
-              onChange: (newOp: string) => {
-                const newFilterItem = {
-                  path: filterItem.path,
-                  not: filterItem.not,
-                  op: newOp,
-                  value: filterItem.value,
-                };
-                onFilterItemChange(newFilterItem);
-              },
-            });
-            return (
-              <SelectInput
-                options={selectOptions.op}
-                inputProps={newInputProps}
-                {...props}
-              />
-            );
-          }}
-        />
-      </FormStoreProvider>
+      <SelectInput
+        options={selectOptions.path}
+        inputProps={{
+          value: filterItem.path,
+          className: 'min-w-fit',
+          onChange: (newPath: string) => {
+            const newFilterItem = {
+              path: newPath,
+              not: selectOptions.not[0].value as boolean,
+              op: selectOptions.op[0].value as string,
+              value: '',
+            };
+            onFilterItemChange(newFilterItem);
+          },
+        }}
+      />
+      <SelectInput
+        options={selectOptions.not}
+        inputProps={{
+          value: filterItem.not,
+          className: 'min-w-fit',
+          onChange: (newNot: boolean) => {
+            const newFilterItem = {
+              path: filterItem.path,
+              not: newNot,
+              op: filterItem.op,
+              value: filterItem.value,
+            };
+            onFilterItemChange(newFilterItem);
+          },
+        }}
+      />
+      <SelectInput
+        options={selectOptions.op}
+        inputProps={{
+          value: filterItem.op,
+          className: 'min-w-fit',
+          onChange: (newOp: string) => {
+            const newFilterItem = {
+              path: filterItem.path,
+              not: filterItem.not,
+              op: newOp,
+              value: filterItem.value,
+            };
+            onFilterItemChange(newFilterItem);
+          },
+        }}
+      />
+      <StringInput
+        inputProps={{
+          value: filterItem.value,
+          className: 'min-w-20',
+          onChange: (e: ChangeEvent<HTMLInputElement>) => {
+            const newFilterItem = {
+              path: filterItem.path,
+              not: filterItem.not,
+              op: filterItem.op,
+              value: e.target.value,
+            };
+            onFilterItemChange(newFilterItem);
+          },
+        }}
+      />
     </>
   );
 };
