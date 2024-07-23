@@ -7,6 +7,7 @@ import { LoadingStoreProvider } from '@/Loading';
 import { DataLens, type DataType, type Field } from '@/types';
 import { toField } from '@/utils';
 
+import { cn } from '@/lib/utils';
 import { ModelFormActions } from './ModelFormActions';
 import { ModelFormContent } from './ModelFormContent';
 import { ModelFormFallback } from './ModelFormFallback';
@@ -16,7 +17,6 @@ import {
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
 import { ModelFormTitle } from './ModelFormTitle';
-import { cn } from '@/lib/utils';
 
 export interface ModelFormProps<D extends DataType>
   extends Omit<ModelFormState<D>, 'fields'>,

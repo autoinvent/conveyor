@@ -1,6 +1,7 @@
-import type { ComponentProps } from 'react';
 import { CircleX } from 'lucide-react';
+import type { ComponentProps } from 'react';
 
+import { Button } from '@/lib/components/ui/button';
 import {
   Card,
   CardContent,
@@ -8,7 +9,6 @@ import {
   CardFooter,
   CardHeader,
 } from '@/lib/components/ui/card';
-import { Button } from '@/lib/components/ui/button';
 import { ScrollArea } from '@/lib/components/ui/scroll-area';
 
 import {
@@ -18,7 +18,7 @@ import {
   ScalarTypes,
   type SelectOption,
 } from '@/types';
-import { humanizeText, useTableView, type TableViewOptions } from '@/utils';
+import { type TableViewOptions, humanizeText, useTableView } from '@/utils';
 import { ModelFilterItem } from './ModelFilterItem';
 import { addFilter, changeFilter, removeFilter } from './utils';
 
@@ -55,11 +55,15 @@ export const FILTER_OPERATIONS: Record<string, SelectOption[]> = {
 export interface ModelFilterProps extends ComponentProps<typeof Card> {
   fields: Field[];
   tableViewOptions: TableViewOptions;
+  handleOnSave?: (onSave: () => void) => void;
+  handleOnClear?: (onClear: () => void) => void;
 }
 
 export const ModelFilter = ({
   fields,
   tableViewOptions: { tableView, onTableViewChange },
+  handleOnSave = (onSave) => onSave(),
+  handleOnClear = (onClear) => onClear(),
   ...cardProps
 }: ModelFilterProps) => {
   const {
@@ -96,7 +100,6 @@ export const ModelFilter = ({
       );
       onTempTableViewChange({ filter: newFilter });
     };
-  console.log(tempFilter);
   return (
     <Card {...cardProps}>
       <CardHeader className="p-2">
@@ -204,13 +207,17 @@ export const ModelFilter = ({
       <CardFooter className="justify-between">
         <Button
           variant="ghost"
-          onClick={() => {
-            onTempTableViewChange({ filter: [] });
-          }}
+          onClick={() =>
+            handleOnClear(() => onTempTableViewChange({ filter: [] }))
+          }
         >
           Clear
         </Button>
-        <Button onClick={() => onTableViewChange({ filter: tempFilter })}>
+        <Button
+          onClick={() =>
+            handleOnSave(() => onTableViewChange({ filter: tempFilter }))
+          }
+        >
           Save
         </Button>
       </CardFooter>

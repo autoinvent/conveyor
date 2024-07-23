@@ -1,4 +1,4 @@
-import { useId, type ComponentProps } from 'react';
+import { type ComponentProps, useId } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { Label } from '@/lib/components/ui/label';
@@ -12,8 +12,8 @@ import { Slot } from '@/Slots';
 import { DataLens, type DataType, type Field, FieldTypes } from '@/types';
 import { humanizeText } from '@/utils';
 
-import { useModelFormStore } from './useModelFormStore';
 import type { ModelFormState } from './ModelFormStoreContext';
+import { useModelFormStore } from './useModelFormStore';
 
 export interface ModelFormFieldProps extends ComponentProps<'div'> {
   fieldName: string;

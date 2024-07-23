@@ -8,8 +8,8 @@ import { useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type DataType, type Field, FieldTypes } from '@/types';
 
-import { useModelIndexStore } from '../useModelIndexStore';
 import type { ModelIndexState } from '../ModelIndexStoreContext';
+import { useModelIndexStore } from '../useModelIndexStore';
 
 export interface ModelIndexTableCellProps
   extends Omit<TableCellProps, 'columnId'> {
