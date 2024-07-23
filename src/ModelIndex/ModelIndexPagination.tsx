@@ -74,7 +74,11 @@ export const ModelIndexPagination = ({
           <PaginationItem>
             <PaginationPrevious
               aria-label={`Go to page ${lowerBoundPage - 1}`}
-              onClick={() => onTableViewChange({ page: lowerBoundPage - 1 })}
+              onClick={() =>
+                onTableViewChange((oldTableView) =>
+                  Object.assign({}, oldTableView, { page: lowerBoundPage - 1 }),
+                )
+              }
             />
           </PaginationItem>
         )}
@@ -85,7 +89,11 @@ export const ModelIndexPagination = ({
             <PaginationItem key={index}>
               <PaginationLink
                 isActive={buttonPage === page}
-                onClick={() => onTableViewChange({ page: buttonPage })}
+                onClick={() =>
+                  onTableViewChange((oldTableView) =>
+                    Object.assign({}, oldTableView, { page: buttonPage }),
+                  )
+                }
               >
                 {buttonPage}
               </PaginationLink>
@@ -101,7 +109,13 @@ export const ModelIndexPagination = ({
             <PaginationItem>
               <PaginationNext
                 aria-label={`Go to page ${upperBoundPage + 1}`}
-                onClick={() => onTableViewChange({ page: upperBoundPage + 1 })}
+                onClick={() =>
+                  onTableViewChange((oldTableView) =>
+                    Object.assign({}, oldTableView, {
+                      page: upperBoundPage + 1,
+                    }),
+                  )
+                }
               />
             </PaginationItem>
           </>

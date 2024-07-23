@@ -1,5 +1,5 @@
 import { CircleX } from 'lucide-react';
-import type { ComponentProps } from 'react';
+import { type ComponentProps, useState } from 'react';
 
 import { Button } from '@/lib/components/ui/button';
 import {
@@ -11,6 +11,8 @@ import {
 } from '@/lib/components/ui/card';
 import { ScrollArea } from '@/lib/components/ui/scroll-area';
 
+import type { TableViewOptions } from '@/ModelIndex';
+
 import {
   type Field,
   FieldTypes,
@@ -18,7 +20,7 @@ import {
   ScalarTypes,
   type SelectOption,
 } from '@/types';
-import { type TableViewOptions, humanizeText, useTableView } from '@/utils';
+import { humanizeText } from '@/utils';
 import { ModelFilterItem } from './ModelFilterItem';
 import { addFilter, changeFilter, removeFilter } from './utils';
 
@@ -66,10 +68,7 @@ export const ModelFilter = ({
   handleOnClear = (onClear) => onClear(),
   ...cardProps
 }: ModelFilterProps) => {
-  const {
-    tableView: { filter: tempFilter },
-    onTableViewChange: onTempTableViewChange,
-  } = useTableView(tableView);
+  const [{ filter: tempFilter }, onTempTableViewChange] = useState(tableView);
   const filterableFields = fields.filter((field) =>
     Object.values(ScalarTypes as Record<string, string>).includes(field.type),
   );
@@ -98,7 +97,9 @@ export const ModelFilter = ({
         group,
         index,
       );
-      onTempTableViewChange({ filter: newFilter });
+      onTempTableViewChange((oldTableView) =>
+        Object.assign({}, oldTableView, { filter: newFilter }),
+      );
     };
   return (
     <Card {...cardProps}>
@@ -149,7 +150,11 @@ export const ModelFilter = ({
                                   i,
                                   j,
                                 );
-                                onTempTableViewChange({ filter: newFilter });
+                                onTempTableViewChange((oldTableView) =>
+                                  Object.assign({}, oldTableView, {
+                                    filter: newFilter,
+                                  }),
+                                );
                               }}
                             >
                               <CircleX />
@@ -168,7 +173,11 @@ export const ModelFilter = ({
                             defaultFilterItem,
                             i,
                           );
-                          onTempTableViewChange({ filter: newFilter });
+                          onTempTableViewChange((oldTableView) =>
+                            Object.assign({}, oldTableView, {
+                              filter: newFilter,
+                            }),
+                          );
                         }}
                       >
                         Add Filter . . .
@@ -192,7 +201,9 @@ export const ModelFilter = ({
                       defaultFilterItem,
                       tempFilter?.length ?? 0,
                     );
-                    onTempTableViewChange({ filter: newFilter });
+                    onTempTableViewChange((oldTableView) =>
+                      Object.assign({}, oldTableView, { filter: newFilter }),
+                    );
                   }
                 }}
               >
@@ -206,16 +217,24 @@ export const ModelFilter = ({
       </CardContent>
       <CardFooter className="justify-between">
         <Button
-          variant="ghost"
+          variant="outline"
           onClick={() =>
-            handleOnClear(() => onTempTableViewChange({ filter: [] }))
+            handleOnClear(() =>
+              onTempTableViewChange((oldTableView) =>
+                Object.assign({}, oldTableView, { filter: [] }),
+              ),
+            )
           }
         >
           Clear
         </Button>
         <Button
           onClick={() =>
-            handleOnSave(() => onTableViewChange({ filter: tempFilter }))
+            handleOnSave(() =>
+              onTableViewChange((oldTableView) =>
+                Object.assign({}, oldTableView, { filter: tempFilter }),
+              ),
+            )
           }
         >
           Save

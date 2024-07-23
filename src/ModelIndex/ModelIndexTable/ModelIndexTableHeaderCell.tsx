@@ -28,7 +28,9 @@ export const ModelIndexTableHeaderCell = ({
   const sortDirection = getFieldSortDirection(sort, fieldName);
   const onNextSortDirection = () => {
     const nextSort = getNextSort(sort, fieldName);
-    onTableViewChange({ sort: nextSort });
+    onTableViewChange((oldTableView) =>
+      Object.assign({}, oldTableView, { sort: nextSort }),
+    );
   };
 
   if (field === undefined) {
