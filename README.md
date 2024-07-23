@@ -29,3 +29,15 @@ or via a CDN with the following link tag:
 
 ## Useful commands
 - `pnpm pack` will package the files from `pnpm build` into a tarball for install.
+
+
+## Development
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for PR conventions.
+
+Then do the following to set up your development environment. 
+```bash
+  git clone "[YOUR-FORKED-CONVEYOR-REPO]"
+  git checkout dev
+  pnpm install
+  git checkout -b "[NEW-DEV-BRANCH-NAME]"
+```

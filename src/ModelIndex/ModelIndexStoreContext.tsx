@@ -1,5 +1,7 @@
 import {
   type ReactNode,
+  type Dispatch,
+  type SetStateAction,
   createContext,
   useEffect,
   useRef,
@@ -8,8 +10,12 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import type { DataType, Field, OnDelete, OnUpdate } from '@/types';
-import type { TableViewOptions } from '@/utils';
+import type { TableView, DataType, Field, OnDelete, OnUpdate } from '@/types';
+
+export interface TableViewOptions {
+  tableView: TableView;
+  onTableViewChange: Dispatch<SetStateAction<TableView>>;
+}
 
 export interface PaginationOptions {
   totalDataLength?: number;

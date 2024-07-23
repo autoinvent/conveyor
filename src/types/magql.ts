@@ -1,6 +1,6 @@
 export type ID = string | number;
 
-type JSONValue = string;
+type JSONValue = any;
 
 export interface SearchResult {
   type: string;
