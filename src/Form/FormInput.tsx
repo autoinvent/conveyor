@@ -12,7 +12,10 @@ import { useFormStore } from './useFormStore';
 
 export interface InputProps
   extends AriaAttributes,
-    ControllerRenderProps<FieldValues, string> {
+    Partial<
+      Omit<ControllerRenderProps<FieldValues, string>, 'value' | 'onChange'>
+    >,
+    Pick<ControllerRenderProps<FieldValues, string>, 'value' | 'onChange'> {
   id?: string;
   className?: string;
   style?: CSSProperties;
@@ -21,8 +24,8 @@ export interface InputProps
 
 export interface InputRenderFnProps {
   inputProps: InputProps;
-  inputState: ControllerFieldState;
-  formState: UseFormStateReturn<FieldValues>;
+  inputState?: ControllerFieldState;
+  formState?: UseFormStateReturn<FieldValues>;
 }
 export type InputRenderFn = (props: InputRenderFnProps) => ReactNode;
 
