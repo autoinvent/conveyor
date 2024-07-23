@@ -9,5 +9,5 @@ export * from './FormValue';
 export * from './FormStoreContext';
 
 //hooks
-export * from './useForm'
+export * from './useForm';
 export * from './useFormStore';

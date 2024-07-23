@@ -23,10 +23,21 @@ or via a CDN with the following link tag:
 
 - `pnpm build` - Build library for production; The generated files will be on the `dist` folder. 
 - `pnpm build:css` - Run tailwind CLI tool to build the css file.
-- `pnpm dev` - run storybook with tailwindcss watcher
 - `pnpm storybook` - run storybook
 - `pnpm format` - Format all files with Biome.
 - `pnpm lint` - Scan all files for linting errors with Biome.
 
 ## Useful commands
 - `pnpm pack` will package the files from `pnpm build` into a tarball for install.
+
+
+## Development
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for PR conventions.
+
+Then do the following to set up your development environment. 
+```bash
+  git clone "[YOUR-FORKED-CONVEYOR-REPO]"
+  git checkout dev
+  pnpm install
+  git checkout -b "[NEW-DEV-BRANCH-NAME]"
+```

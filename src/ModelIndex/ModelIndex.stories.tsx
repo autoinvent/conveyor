@@ -5,8 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@/lib/components/ui/button';
 import { Separator } from '@/lib/components/ui/separator';
 
-import { type DataType, FieldTypes } from '@/types';
-import { useTableView } from '@/utils';
+import { type DataType, FieldTypes, type TableView } from '@/types';
 
 import { ModelIndex } from './ModelIndex';
 
@@ -91,7 +90,7 @@ export const BasicUsage: Story = {
     tableViewOptions: defaultTableViewOptions,
     ...props
   }: any) => {
-    const tableViewOptions = useTableView();
+    const [tableView, onTableViewChange] = useState<TableView>({});
     const [currData, setCurrData] = useState<undefined | DataType[]>(data);
     return (
       <>
@@ -105,7 +104,10 @@ export const BasicUsage: Story = {
         <Separator className="my-4" />
         <ModelIndex
           data={currData}
-          tableViewOptions={tableViewOptions}
+          tableViewOptions={{
+            tableView,
+            onTableViewChange,
+          }}
           onUpdate={(params) => {
             const id = params?.data?.id;
             if (params?.data) {

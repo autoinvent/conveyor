@@ -1,4 +1,4 @@
-import { SquarePen, Save, Trash2, X } from 'lucide-react';
+import { Save, SquarePen, Trash2, X } from 'lucide-react';
 
 import { Button } from '@/lib/components/ui/button';
 import { cn } from '@/lib/utils';
