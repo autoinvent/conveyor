@@ -56,9 +56,9 @@ export const ModelIndexSettings = ({
             <TabsTrigger value="Filters" className="flex-1">
               Filters
             </TabsTrigger>
-            <TabsTrigger value="Sort" className="flex-1">
+            {/* <TabsTrigger value="Sort" className="flex-1">
               Sort
-            </TabsTrigger>
+            </TabsTrigger> */}
           </TabsList>
 
           {children === undefined ? (
@@ -69,7 +69,7 @@ export const ModelIndexSettings = ({
                   tableViewOptions={tableViewOptions}
                 />
               </TabsContent>
-              <TabsContent value="Sort">world</TabsContent>
+              {/* <TabsContent value="Sort">world</TabsContent> */}
             </>
           ) : (
             children
