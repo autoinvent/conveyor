@@ -92,10 +92,10 @@ export const ModelFormField = ({
                           id: formFieldId,
                           disabled: isLoading,
                           required: !!field.rules?.required,
-                          'aria-describedby': !inputState.invalid
+                          'aria-describedby': !inputState?.invalid
                             ? `${formFieldId}`
                             : `${formFieldId} ${formErrorMessageId}`,
-                          'aria-invalid': inputState.invalid,
+                          'aria-invalid': inputState?.invalid,
                         });
                         return inputFn({
                           inputProps: extraInputProps,
