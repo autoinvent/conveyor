@@ -5,7 +5,7 @@ import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 interface ItemProps extends React.HTMLAttributes<HTMLLIElement> {
   children: React.ReactNode;
 }
-// item to be dragged by DragOverlay (purely visual)
+// item to be dragged by DragOverlay (purely visual component)
 
 const Item: ForwardRefRenderFunction<HTMLLIElement, ItemProps> = (
   { children, ...props },

@@ -6,31 +6,29 @@ import {
   CardFooter,
   CardHeader,
 } from "@/lib/components/ui/card";
-import { useState } from "react";
-import { useModelIndexStore } from "../useModelIndexStore";
 import {
   DndContext,
+  type DragEndEvent,
   type DragOverEvent,
   DragOverlay,
   type DragStartEvent,
   KeyboardSensor,
   PointerSensor,
+  type UniqueIdentifier,
   closestCenter,
   useSensor,
   useSensors,
-  type UniqueIdentifier,
 } from "@dnd-kit/core";
-
-import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-
-import type { DragEndEvent } from "@dnd-kit/core";
-import { SortableContainer } from "./Sort/SortableContainer";
-import { arrayMove } from "@dnd-kit/sortable";
-import Item from "./Sort/Item";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useModelIndexStore } from "../useModelIndexStore";
+
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+
 import type { Field } from "@/types";
-import { useEffect } from "react";
+import Item from "./Sort/Item";
+import { SortableContainer } from "./Sort/SortableContainer";
 
 import { changeToNoneDirection, getSortedAndNonSortedFields, sortedToSort } from "../utils";
 export interface SortedItems {
@@ -73,12 +71,12 @@ export const ModelIndexSortSetting = () => {
   );
 
   useEffect(() => {
-    // update value of sort every time nonSorted changes
+    // keep value of sort in sync with sorted
     setSort((prev) => sortedToSort(sorted, prev));
   }, [sorted])
 
   const handleApplySort = () => {
-    // set items in nonSorted category to None for their sort direction before saving!
+    // ensure items in the nonsorted category's directions are set to None before saving
     setSort(changeToNoneDirection(nonSorted, sort));
 
     if (onTableViewChange) {
@@ -120,7 +118,7 @@ export const ModelIndexSortSetting = () => {
             activeItem={activeItem}
             sort={sort}
             setSort={setSort}
-            id="sorted"
+            containerName="sorted"
           >
             <h2 className={h2Styles}>SORTED</h2>
           </SortableContainer>
@@ -130,7 +128,7 @@ export const ModelIndexSortSetting = () => {
             activeItem={activeItem}
             sort={sort}
             setSort={setSort}
-            id="nonSorted"
+            containerName="nonSorted"
           >
             <h2 className={h2Styles}>NON-SORTED</h2>
           </SortableContainer>

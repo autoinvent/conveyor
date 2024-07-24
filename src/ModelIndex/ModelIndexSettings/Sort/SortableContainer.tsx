@@ -1,43 +1,63 @@
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { SortableItem } from "./SortableItem";
-import { useDroppable } from "@dnd-kit/core";
+import { useDroppable, type UniqueIdentifier } from "@dnd-kit/core";
 
-import type { UniqueIdentifier } from "@dnd-kit/core";
 import type { Field } from "@/types";
 
 interface SortableContainerProps {
   items: Field[];
-  id: string;
+  containerName: string;
   isDragging: boolean;
-  activeItem: UniqueIdentifier | null;
+  activeItem: UniqueIdentifier | null; // item being clicked
   sort: string[] | undefined;
-  setSort: React.Dispatch<React.SetStateAction<string[] | undefined>>
+  setSort: React.Dispatch<React.SetStateAction<string[] | undefined>>;
   children: React.ReactNode;
 }
 
-export function SortableContainer({ items, id, isDragging, activeItem, sort, setSort, children }: SortableContainerProps){
-  // items: array of the field names
-  // id is name of the container
-  // children is the react nodes, in this case just a title
+export function SortableContainer({
+  items,
+  containerName,
+  isDragging,
+  activeItem,
+  sort,
+  setSort,
+  children,
+}: SortableContainerProps) {
+  const { setNodeRef } = useDroppable({ id: containerName });
 
-  const {setNodeRef} = useDroppable({ id });
-
-  const itemNames: UniqueIdentifier[] = items.length > 0 ? items.map((item) => item ? item.name : "nothing") : ["empty"];
+  const itemNames: UniqueIdentifier[] = items.map((item) => item.name);
 
   return (
     <div className="min-h-[40px]" ref={setNodeRef}>
-      <SortableContext items={itemNames} id={id} strategy={verticalListSortingStrategy}>
+      <SortableContext
+        items={itemNames}
+        id={containerName}
+        strategy={verticalListSortingStrategy}
+      >
         <div>
           <h3>{children}</h3>
           <ul>
-            {items.length > 0 ? items.map((field) => {
-              return (
-              <SortableItem key={`${id}-${field.name}`} field={field} containerName={id} isDragging={isDragging} activeItem={activeItem} sort={sort} setSort={setSort}>
-              </SortableItem>
-            )}): null}
+            {items.length > 0
+              ? items.map((field) => {
+                  return (
+                    <SortableItem
+                      key={`${containerName}-${field.name}`}
+                      field={field}
+                      containerName={containerName}
+                      isDragging={isDragging}
+                      activeItem={activeItem}
+                      sort={sort}
+                      setSort={setSort}
+                    />
+                  );
+                })
+              : null}
           </ul>
         </div>
       </SortableContext>
     </div>
   );
-};
+}
