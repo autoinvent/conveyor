@@ -4,8 +4,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from '@/lib/components/ui/button';
 
-import { Table } from './Table';
-import TableStoryMeta from './Table.stories';
 import {
   Card,
   CardContent,
@@ -15,6 +13,8 @@ import {
 import { Checkbox } from '@/lib/components/ui/checkbox';
 import { Label } from '@/lib/components/ui/label';
 import { Separator } from '@/lib/components/ui/separator';
+import { Table } from './Table';
+import TableStoryMeta from './Table.stories';
 
 const meta = {
   title: 'Commons/Table/TableGuide',
