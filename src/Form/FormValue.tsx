@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { useFormStore } from './useFormStore';
 
 export interface ValueRenderFnProps {
-  name: string;
+  name?: string;
   value: any;
 }
 export type ValueRenderFn = (props: ValueRenderFnProps) => ReactNode;
