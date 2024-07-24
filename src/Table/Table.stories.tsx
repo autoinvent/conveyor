@@ -9,9 +9,11 @@ const meta = {
   args: {
     columnIds: ['firstname', 'lastname', 'username'],
     data: [
-      { firstname: 'Robert', lastname: 'Hernandez' },
-      { firstname: 'Jeffrey', lastname: 'Davis' },
-      { firstname: 'Aidan', lastname: 'Glenister' },
+      { firstname: 'Robert', lastname: 'Hernandez', username: 'robxbob' },
+      { firstname: 'Jeffrey', lastname: 'Davis', username: 'itechify' },
+      { firstname: 'Aidan', lastname: 'Glenister', username: 'apglenister' },
+      { firstname: 'Conner', lastname: 'MacGray', username: 'cmacgray14' },
+      { firstname: 'Krista', lastname: 'Strucke', username: 'kurikurichan' },
     ],
   },
 } satisfies Meta<typeof Table>;
