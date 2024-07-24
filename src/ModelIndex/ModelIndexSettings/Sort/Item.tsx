@@ -1,7 +1,7 @@
-import type React from "react";
-import { forwardRef, type ForwardRefRenderFunction } from "react";
-import { spanStyle, itemStyle, dragHandleStyle } from "./SortableItem";
-import { DragHandleDots2Icon } from "@radix-ui/react-icons";
+import { DragHandleDots2Icon } from '@radix-ui/react-icons';
+import type React from 'react';
+import { type ForwardRefRenderFunction, forwardRef } from 'react';
+import { dragHandleStyle, itemStyle, spanStyle } from './SortableItem';
 interface ItemProps extends React.HTMLAttributes<HTMLLIElement> {
   children: React.ReactNode;
 }
@@ -9,7 +9,7 @@ interface ItemProps extends React.HTMLAttributes<HTMLLIElement> {
 
 const Item: ForwardRefRenderFunction<HTMLLIElement, ItemProps> = (
   { children, ...props },
-  ref
+  ref,
 ) => {
   return (
     <li {...props} ref={ref} className={itemStyle}>

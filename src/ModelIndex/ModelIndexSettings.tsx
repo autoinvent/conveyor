@@ -22,8 +22,8 @@ import {
 
 import { ModelFilter } from '@/ModelFilter';
 
-import { useModelIndexStore } from './useModelIndexStore';
 import { ModelIndexSortSetting } from './ModelIndexSettings/Sort/ModelIndexSortSetting';
+import { useModelIndexStore } from './useModelIndexStore';
 
 export interface ModelIndexSettingsProps
   extends ComponentProps<typeof Dialog> {}

@@ -1,10 +1,10 @@
-import type { UniqueIdentifier } from "@dnd-kit/core";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { SortWrapper } from "@/ModelIndex/SortWrapper";
-import { getFieldSortDirection, getNextSort } from "@/ModelIndex/utils";
-import type { Field } from "@/types";
-import { DragHandleDots2Icon } from "@radix-ui/react-icons";
+import { SortWrapper } from '@/ModelIndex/SortWrapper';
+import { getFieldSortDirection, getNextSort } from '@/ModelIndex/utils';
+import type { Field } from '@/types';
+import type { UniqueIdentifier } from '@dnd-kit/core';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { DragHandleDots2Icon } from '@radix-ui/react-icons';
 interface Props {
   field: Field;
   containerName: string;
@@ -15,9 +15,9 @@ interface Props {
 }
 
 export const itemStyle =
-  "list-none space-y-1 flex justify-between items-center";
-export const dragHandleStyle = "mr-2 h-8";
-export const spanStyle = "flex items-center justify-center";
+  'list-none space-y-1 flex justify-between items-center';
+export const dragHandleStyle = 'mr-2 h-8';
+export const spanStyle = 'flex items-center justify-center';
 
 export function SortableItem({
   field,
@@ -50,13 +50,13 @@ export function SortableItem({
   return (
     <li
       ref={setNodeRef}
-      className={`SortableItem${itemStyle}${activeItem === field.name && isDragging ? " invisible" : ""}`}
+      className={`SortableItem${itemStyle}${activeItem === field.name && isDragging ? ' invisible' : ''}`}
     >
       <span style={style} {...attributes} {...listeners} className={spanStyle}>
         <DragHandleDots2Icon className={dragHandleStyle} />
         <p>{field.name}</p>
       </span>
-      {containerName === "sorted" && (
+      {containerName === 'sorted' && (
         <SortWrapper
           sortDirection={sortDirection}
           onNextSortDirection={onNextSortDirection}

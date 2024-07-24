@@ -1,15 +1,15 @@
-import type { PropsWithChildren, ReactNode } from "react";
 import {
   DragOverlay,
-  defaultDropAnimationSideEffects,
   type DropAnimation,
-} from "@dnd-kit/core";
+  defaultDropAnimationSideEffects,
+} from '@dnd-kit/core';
+import type { PropsWithChildren, ReactNode } from 'react';
 
 const dropAnimationConfig: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
     styles: {
       active: {
-        opacity: "0.4",
+        opacity: '0.4',
       },
     },
   }),

@@ -1,11 +1,11 @@
+import { type UniqueIdentifier, useDroppable } from '@dnd-kit/core';
 import {
   SortableContext,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { SortableItem } from "./SortableItem";
-import { useDroppable, type UniqueIdentifier } from "@dnd-kit/core";
+} from '@dnd-kit/sortable';
+import { SortableItem } from './SortableItem';
 
-import type { Field } from "@/types";
+import type { Field } from '@/types';
 
 interface SortableContainerProps {
   items: Field[];
