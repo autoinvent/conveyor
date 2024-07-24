@@ -1,11 +1,14 @@
-import { Button } from "@/lib/components/ui/button";
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+
+import { Button } from '@/lib/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-} from "@/lib/components/ui/card";
+} from '@/lib/components/ui/card';
 import {
   DndContext,
   type DragEndEvent,
@@ -18,19 +21,22 @@ import {
   closestCenter,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import { useModelIndexStore } from "../useModelIndexStore";
+} from '@dnd-kit/core';
 
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { useModelIndexStore } from '@/ModelIndex/useModelIndexStore';
 
-import type { Field } from "@/types";
-import Item from "./Sort/Item";
-import { SortableContainer } from "./Sort/SortableContainer";
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 
-import { changeToNoneDirection, getSortedAndNonSortedFields, sortedToSort } from "../utils";
+import type { Field } from '@/types';
+import Item from './Item';
+import { SortableContainer } from './SortableContainer';
+
+import {
+  changeToNoneDirection,
+  getSortedAndNonSortedFields,
+  sortedToSort,
+} from '@/ModelIndex/utils';
 export interface SortedItems {
   sorted: UniqueIdentifier[];
   nonSorted: UniqueIdentifier[];
@@ -40,10 +46,10 @@ export const ModelIndexSortSetting = () => {
   // add changes not saved until hit button
 
   const onTableViewChange = useModelIndexStore(
-    (state) => state.tableViewOptions.onTableViewChange
+    (state) => state.tableViewOptions.onTableViewChange,
   );
   const sortState = useModelIndexStore(
-    (state) => state.tableViewOptions.tableView?.sort
+    (state) => state.tableViewOptions.tableView?.sort,
   ); // sort to be passed to magiql endpoint
 
   const fields = useModelIndexStore((state) => state.fields);
@@ -57,7 +63,7 @@ export const ModelIndexSortSetting = () => {
   const [nonSorted, setNonSorted] = useState<Field[]>(dividedFields.nonSorted); // nonSorted fields (UI)
   const [activeItem, setActiveItem] = useState<UniqueIdentifier | null>(null); // item being clicked and dragged by user
   const [overContainer, setOverContainer] = useState<
-    "sorted" | "unsorted" | null
+    'sorted' | 'unsorted' | null
   >(null); // the container being dragged to
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -67,13 +73,13 @@ export const ModelIndexSortSetting = () => {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   useEffect(() => {
     // keep value of sort in sync with sorted
     setSort((prev) => sortedToSort(sorted, prev));
-  }, [sorted])
+  }, [sorted]);
 
   const handleApplySort = () => {
     // ensure items in the nonsorted category's directions are set to None before saving
@@ -95,13 +101,14 @@ export const ModelIndexSortSetting = () => {
     setNonSorted(dividedFields.nonSorted);
   };
 
-  const h2Styles = "text-muted-foreground text-center";
+  const h2Styles = 'text-muted-foreground text-center';
 
   return (
     <Card>
       <CardHeader>
-        <CardDescription>Sorting is ordered in priority from top to bottom.</CardDescription>
-
+        <CardDescription>
+          Sorting is ordered in priority from top to bottom.
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-2">
         <DndContext
@@ -136,7 +143,7 @@ export const ModelIndexSortSetting = () => {
             <DragOverlay wrapperElement="ul">
               {isDragging && activeItem ? <Item>{activeItem}</Item> : null}
             </DragOverlay>,
-            document.body
+            document.body,
           )}
         </DndContext>
       </CardContent>
@@ -180,22 +187,21 @@ export const ModelIndexSortSetting = () => {
 
       if (activeContainer !== overContainer) {
         // moving items across containers
-        if (activeContainer === "sorted") {
+        if (activeContainer === 'sorted') {
           const toMove = sorted[activeIndex];
           setSorted(sorted.toSpliced(activeIndex, 1)); // delete from sorted
           setNonSorted(nonSorted.toSpliced(overIndex ?? 0, 0, toMove)); // add to unsorted
-        } else if (activeContainer === "nonSorted") {
+        } else if (activeContainer === 'nonSorted') {
           const toMove = nonSorted[activeIndex];
           setNonSorted((nonSorted) => nonSorted.toSpliced(activeIndex, 1));
           setSorted((sorted) => sorted.toSpliced(overIndex ?? 0, 0, toMove));
         }
         // else, we are moving items within their own containers.
-      } else if (activeContainer === "sorted") {
+      } else if (activeContainer === 'sorted') {
         setSorted((items) => {
           return arrayMove(items, activeIndex, overIndex);
         });
-
-      } else if (activeContainer === "nonSorted") {
+      } else if (activeContainer === 'nonSorted') {
         setNonSorted((items) => {
           return arrayMove(items, activeIndex, overIndex);
         });

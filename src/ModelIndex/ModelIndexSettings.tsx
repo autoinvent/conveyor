@@ -23,6 +23,7 @@ import {
 import { ModelFilter } from '@/ModelFilter';
 
 import { useModelIndexStore } from './useModelIndexStore';
+import { ModelIndexSortSetting } from './ModelIndexSettings/Sort/ModelIndexSortSetting';
 
 export interface ModelIndexSettingsProps
   extends ComponentProps<typeof Dialog> {}
@@ -69,7 +70,9 @@ export const ModelIndexSettings = ({
                   tableViewOptions={tableViewOptions}
                 />
               </TabsContent>
-              {/* <TabsContent value="Sort">world</TabsContent> */}
+              {/* <TabsContent value="Sort">
+                <ModelIndexSortSetting />
+              </TabsContent> */}
             </>
           ) : (
             children
