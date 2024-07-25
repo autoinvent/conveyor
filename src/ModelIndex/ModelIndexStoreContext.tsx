@@ -22,14 +22,18 @@ export interface PaginationOptions {
   pageButtonLimit?: number; // The max number of page btns to show at a time
 }
 
-export interface ModelIndexState<D extends DataType> {
+export interface ModelIndexState<
+  Data extends DataType,
+  UpdateData extends DataType = Data,
+  DeleteData extends DataType = Data,
+> {
   fields: Field[];
-  data?: D[];
+  data?: Data[];
   tableViewOptions: TableViewOptions;
   title?: ReactNode;
   readOnly?: boolean;
-  onUpdate?: OnUpdate<D>;
-  onDelete?: OnDelete<D>;
+  onUpdate?: OnUpdate<UpdateData>;
+  onDelete?: OnDelete<DeleteData>;
   paginationOptions?: PaginationOptions;
 }
 
