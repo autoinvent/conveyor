@@ -26,18 +26,17 @@ const ResizableWrapper = ({ content, resizeFunction, index, enable } : {
   enable: boolean
 }) => {
   return (
-    <div className='flex h-full flex-start'>
+    <div className='relative flex h-full flex-start items-center py-2'>
       {content}
       <div className="flex-grow"/>
       {
         enable ? 
         <div 
-          className='h-full w-1/5 cursor-ew-resize'
+          className='absolute right-0 h-full w-4 cursor-ew-resize bg-red-200'
           onMouseDown={e => resizeFunction(e,index)}
         /> :
         null
       }
-      
     </div>
   )
 }
@@ -50,7 +49,7 @@ const ResizableHeaderCell = ({resizeFunction, index, width, columnId, enable } :
   enable: boolean
 }) => {
   return (
-    <Table.HeaderCell columnId={columnId} style={{width: width}} className="border pr-0">
+    <Table.HeaderCell columnId={columnId} style={{width: width}} className='py-0 pr-0'>
       <ResizableWrapper
         content={columnId}
         index={index}
@@ -75,7 +74,7 @@ const ResizableRowCell = ({resizeFunction, index, width, columnId, enable} : {
   }
 
   return (
-    <Table.Cell columnId={columnId} style={{width: width}} className='border pr-0'>
+    <Table.Cell columnId={columnId} style={{width: width}} className='py-0 pr-0'>
       <ResizableWrapper
         content={data}
         index={index}
@@ -89,9 +88,10 @@ const ResizableRowCell = ({resizeFunction, index, width, columnId, enable} : {
 export const CustomTableCells: Story = {
   render: (props) => {
     const columnIds = props.columnIds;
+    const defaultWidth = 200;
 
     const [resizableColumns, setResizableColumns] = useState<boolean[]>(Array(columnIds.length).fill(true))
-    const [widths, setWidths] = useState<number[]>(Array(columnIds.length).fill(300));
+    const [widths, setWidths] = useState<number[]>(Array(columnIds.length).fill(defaultWidth));
     const [resizingColumnI, setColumnResizingI] = useState<number|null>(null);
     const [startX, setStartX] = useState<number>();
     const [startWidth, setStartWidth] = useState<number>();
@@ -122,7 +122,7 @@ export const CustomTableCells: Story = {
     const stopResize = () => {
       setColumnResizingI(null);
       document.removeEventListener("mousemove",doResize);
-      document.removeEventListener("mouseup",stopResize)
+      document.removeEventListener("mouseup",stopResize);
     }
 
     const changeColumnResizability = (index : number) => {
@@ -132,7 +132,7 @@ export const CustomTableCells: Story = {
     }
 
     const resetLayout = () => {
-      setWidths(Array(columnIds.length).fill(200))
+      setWidths(Array(columnIds.length).fill(defaultWidth))
     }
 
     const enableAllResizability = () => {
@@ -172,7 +172,7 @@ export const CustomTableCells: Story = {
         </Card>
         <Table {...props}>
           <Table.Head>
-            <Table.HeaderRow className=''>
+            <Table.HeaderRow>
               {columnIds.map( (val,index) => (
                 <ResizableHeaderCell
                   key={`headercell-${val}`}
