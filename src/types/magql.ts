@@ -6,7 +6,7 @@ export interface SearchResult {
   type: string;
   id: ID;
   value: string;
-  extra: JSONValue;
+  extra?: JSONValue;
 }
 
 export interface CheckDeleteResult {
