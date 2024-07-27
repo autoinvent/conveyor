@@ -8,6 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/lib/components/ui/ca
 import { Checkbox } from '@/lib/components/ui/checkbox';
 import { Label } from '@/lib/components/ui/label';
 import { Button } from '@/lib/components/ui/button';
+import { ConditionalWrapper } from '@/utils';
+import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
 
 const meta = {
   title: 'Commons/Table/ResizingColumn',
@@ -19,11 +22,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const ResizableWrapper = ({ content, resizeFunction, index, enable } : {
+const ResizableWrapper = ({ content, resizeFunction, index, enable, showGrabber } : {
   content : any
   resizeFunction : any
   index: number
   enable: boolean
+  showGrabber: boolean
 }) => {
   return (
     <div className='relative flex h-full flex-start items-center py-2'>
@@ -32,7 +36,10 @@ const ResizableWrapper = ({ content, resizeFunction, index, enable } : {
       {
         enable ? 
         <div 
-          className='absolute right-0 h-full w-4 cursor-ew-resize bg-red-200'
+          className={cn(
+            showGrabber ? "bg-red-200" : "",
+            'absolute right-0 h-full w-4 cursor-ew-resize select-none'
+          )}
           onMouseDown={e => resizeFunction(e,index)}
         /> :
         null
@@ -41,12 +48,13 @@ const ResizableWrapper = ({ content, resizeFunction, index, enable } : {
   )
 }
 
-const ResizableHeaderCell = ({resizeFunction, index, width, columnId, enable } : {
+const ResizableHeaderCell = ({resizeFunction, index, width, columnId, enable, showGrabber } : {
   columnId: string
   index : number
   width: number
   resizeFunction: (e : React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   enable: boolean
+  showGrabber: boolean
 }) => {
   return (
     <Table.HeaderCell columnId={columnId} style={{width: width}} className='py-0 pr-0'>
@@ -55,17 +63,19 @@ const ResizableHeaderCell = ({resizeFunction, index, width, columnId, enable } :
         index={index}
         resizeFunction={resizeFunction}
         enable={enable}
+        showGrabber={showGrabber}
       />
     </Table.HeaderCell>
   )
 }
 
-const ResizableRowCell = ({resizeFunction, index, width, columnId, enable} : {
-  columnId: string,
-  index : number,
-  width: number, 
+const ResizableRowCell = ({resizeFunction, index, width, columnId, enable, showGrabber} : {
+  columnId: string
+  index : number
+  width: number
   resizeFunction: (e : React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   enable: boolean
+  showGrabber: boolean
 }) => {
   let data = useDataStore((state) => state[columnId]);
   if (!data) {
@@ -80,6 +90,7 @@ const ResizableRowCell = ({resizeFunction, index, width, columnId, enable} : {
         index={index}
         resizeFunction={resizeFunction}
         enable={enable}
+        showGrabber={showGrabber}
       />
     </Table.Cell>
   )
@@ -90,6 +101,7 @@ export const CustomTableCells: Story = {
     const columnIds = props.columnIds;
     const defaultWidth = 200;
 
+    const [showGrabber, setShowGrabber] = useState<boolean>(true);
     const [resizableColumns, setResizableColumns] = useState<boolean[]>(Array(columnIds.length).fill(true))
     const [widths, setWidths] = useState<number[]>(Array(columnIds.length).fill(defaultWidth));
     const [resizingColumnI, setColumnResizingI] = useState<number|null>(null);
@@ -143,6 +155,10 @@ export const CustomTableCells: Story = {
       setResizableColumns(Array(columnIds.length).fill(false))
     }
 
+    const changeGrabberVisibility = () => {
+      setShowGrabber(!showGrabber)
+    }
+
     return (
       <>
         <Card className='my-2 w-1/2'>
@@ -159,6 +175,13 @@ export const CustomTableCells: Story = {
                 <Label>{val}</Label>
               </div>
             ))}
+            <div className='flex flex-row gap-2'>
+              <Checkbox
+                  checked={showGrabber}
+                  onCheckedChange={changeGrabberVisibility}
+                />
+                <Label>Grabber Visibility</Label>
+            </div>
             <Button onClick={disableAllResizability}>
               Disable All Column Resizability
             </Button>
@@ -170,36 +193,49 @@ export const CustomTableCells: Story = {
             </Button>
           </CardContent>
         </Card>
-        <Table {...props}>
-          <Table.Head>
-            <Table.HeaderRow>
-              {columnIds.map( (val,index) => (
-                <ResizableHeaderCell
-                  key={`headercell-${val}`}
-                  columnId={val}
-                  index={index}
-                  width={widths[index]}                
-                  resizeFunction={(e) => startResizing(e,index)}
-                  enable={resizableColumns[index]}
-                />
-              ))}
-            </Table.HeaderRow>
-          </Table.Head>
-          <Table.Body>
-            <Table.Row>
-              {columnIds.map( (val,index) => (
-                <ResizableRowCell
-                  key={`bodycell-${val}`}
-                  columnId={val}
-                  index={index}
-                  width={widths[index]}
-                  resizeFunction={(e) => startResizing(e,index)}
-                  enable={resizableColumns[index]}
-                />
-              ))}
-            </Table.Row>
-          </Table.Body>
-        </Table>
+        <ConditionalWrapper
+          condition={true}
+          wrapper={(base) => (
+            <ScrollArea>
+              {base}
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          )}
+        >
+          <Table {...props} className='w-auto '>
+            <Table.Head>
+              <Table.HeaderRow>
+                {columnIds.map( (val,index) => (
+                  <ResizableHeaderCell
+                    key={`headercell-${val}`}
+                    columnId={val}
+                    index={index}
+                    width={widths[index]}                
+                    resizeFunction={(e) => startResizing(e,index)}
+                    enable={resizableColumns[index]}
+                    showGrabber={showGrabber}
+                  />
+                ))}
+              </Table.HeaderRow>
+            </Table.Head>
+            <Table.Body>
+              <Table.Row>
+                {columnIds.map( (val,index) => (
+                  <ResizableRowCell
+                    key={`bodycell-${val}`}
+                    columnId={val}
+                    index={index}
+                    width={widths[index]}
+                    resizeFunction={(e) => startResizing(e,index)}
+                    enable={resizableColumns[index]}
+                    showGrabber={showGrabber}
+                  />
+                ))}
+              </Table.Row>
+            </Table.Body>
+          </Table>
+        </ConditionalWrapper>
+        
       </>
     )
   }
