@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/lib/components/ui/ca
 import { Checkbox } from '@/lib/components/ui/checkbox';
 import { Label } from '@/lib/components/ui/label';
 import { Button } from '@/lib/components/ui/button';
-import { ConditionalWrapper } from '@/utils';
 import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
@@ -101,7 +100,7 @@ export const CustomTableCells: Story = {
     const columnIds = props.columnIds;
     const defaultWidth = 200;
 
-    const [showGrabber, setShowGrabber] = useState<boolean>(true);
+    const [showGrabber, setShowGrabber] = useState<boolean>(false);
     const [resizableColumns, setResizableColumns] = useState<boolean[]>(Array(columnIds.length).fill(true))
     const [widths, setWidths] = useState<number[]>(Array(columnIds.length).fill(defaultWidth));
     const [resizingColumnI, setColumnResizingI] = useState<number|null>(null);
@@ -161,7 +160,7 @@ export const CustomTableCells: Story = {
 
     return (
       <>
-        <Card className='my-2 w-1/2'>
+        <Card className='my-2 w-1/2 min-w-[400px]'>
           <CardHeader>
             <CardTitle className="text-center">Enabled Column Resizing</CardTitle>
           </CardHeader>
@@ -182,27 +181,19 @@ export const CustomTableCells: Story = {
                 />
                 <Label>Grabber Visibility</Label>
             </div>
-            <Button onClick={disableAllResizability}>
+            <Button onClick={disableAllResizability} className="max-w-[300px]">
               Disable All Column Resizability
             </Button>
-            <Button onClick={enableAllResizability}>
+            <Button onClick={enableAllResizability} className="max-w-[300px]">
               Enable All Column Resizability
             </Button>
-            <Button onClick={resetLayout}>
+            <Button onClick={resetLayout} className="max-w-[300px]">
               Reset Column Widths
             </Button>
           </CardContent>
         </Card>
-        <ConditionalWrapper
-          condition={true}
-          wrapper={(base) => (
-            <ScrollArea>
-              {base}
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          )}
-        >
-          <Table {...props} className='w-auto '>
+        <ScrollArea>
+          <Table {...props} className='w-auto min-w-max'>
             <Table.Head>
               <Table.HeaderRow>
                 {columnIds.map( (val,index) => (
@@ -234,8 +225,8 @@ export const CustomTableCells: Story = {
               </Table.Row>
             </Table.Body>
           </Table>
-        </ConditionalWrapper>
-        
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </>
     )
   }
