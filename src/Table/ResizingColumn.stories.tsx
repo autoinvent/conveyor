@@ -21,10 +21,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const ResizableWrapper = ({ content, resizeFunction, columnId, enable, showGrabber } : {
+const ResizableWrapper = ({ content, resizeFunction, enable, showGrabber } : {
   content : any
   resizeFunction : any
-  columnId: string
   enable: boolean
   showGrabber: boolean
 }) => {
@@ -39,7 +38,7 @@ const ResizableWrapper = ({ content, resizeFunction, columnId, enable, showGrabb
             showGrabber ? "bg-red-200" : "",
             'absolute right-0 h-full w-4 cursor-ew-resize select-none'
           )}
-          onMouseDown={e => resizeFunction(e,columnId)}
+          onMouseDown={resizeFunction}
         /> :
         null
       }
@@ -58,7 +57,6 @@ const ResizableHeaderCell = ({resizeFunction, width, columnId, enable, showGrabb
     <Table.HeaderCell columnId={columnId} style={{width: width}} className='py-0 pr-0'>
       <ResizableWrapper
         content={columnId}
-        columnId={columnId}
         resizeFunction={resizeFunction}
         enable={enable}
         showGrabber={showGrabber}
@@ -84,7 +82,6 @@ const ResizableRowCell = ({resizeFunction, width, columnId, enable, showGrabber}
     <Table.Cell columnId={columnId} style={{width: width}} className='py-0 pr-0'>
       <ResizableWrapper
         content={data}
-        columnId={columnId}
         resizeFunction={resizeFunction}
         enable={enable}
         showGrabber={showGrabber}
@@ -204,7 +201,7 @@ export const CustomTableCells: Story = {
           <Table {...props} className='w-auto min-w-max'>
             <Table.Head>
               <Table.HeaderRow>
-                {columnIds.map( (val,index) => (
+                {columnIds.map( val => (
                   <ResizableHeaderCell
                     key={`headercell-${val}`}
                     columnId={val}
@@ -218,7 +215,7 @@ export const CustomTableCells: Story = {
             </Table.Head>
             <Table.Body>
               <Table.Row>
-                {columnIds.map( (val,index) => (
+                {columnIds.map( val => (
                   <ResizableRowCell
                     key={`bodycell-${val}`}
                     columnId={val}
