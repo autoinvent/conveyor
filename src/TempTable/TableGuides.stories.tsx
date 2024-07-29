@@ -17,7 +17,7 @@ import { Table } from './Table';
 import TableStoryMeta from './Table.stories';
 
 const meta = {
-  title: 'Commons/Table/TableGuide',
+  title: 'Temp/Table/TableGuide',
   component: Table,
   tags: ['autodocs'],
   args: { ...TableStoryMeta.args },

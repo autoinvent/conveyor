@@ -22,7 +22,6 @@ import {
 
 import { ModelFilter } from '@/ModelFilter';
 
-import { ModelIndexSortSetting } from './ModelIndexSettings/Sort/ModelIndexSortSetting';
 import { useModelIndexStore } from './useModelIndexStore';
 
 export interface ModelIndexSettingsProps

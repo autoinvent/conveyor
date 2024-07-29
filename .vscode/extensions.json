@@ -1,7 +1,6 @@
 {
   "recommendations": [
     // git extensions
-    "eamodio.gitlens",
     "mhutchie.git-graph",
     // linting
     "biomejs.biome",
