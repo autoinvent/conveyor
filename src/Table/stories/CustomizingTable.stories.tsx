@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { useDataStore } from '@/Data';
 
-import { Table } from './Table';
+import { Table } from '../Table';
 import TableStoryMeta from './Table.stories';
 
 const meta = {
