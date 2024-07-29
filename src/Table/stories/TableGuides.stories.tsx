@@ -118,26 +118,26 @@ export const ColumnVisibility: Story = {
 // needed for table body level scope DnD setup
 import {
   DndContext,
+  type DragEndEvent,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
   closestCenter,
-  type DragEndEvent,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
 import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
 import {
-  arrayMove,
   SortableContext,
+  arrayMove,
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
-import type { CSSProperties } from 'react';
+import { cn } from '@/lib/utils';
 // needed for row & cell level scope DnD setup
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { cn } from '@/lib/utils';
+import type { CSSProperties } from 'react';
 
 const DraggableTableHeader = ({ columnId }: { columnId: string }) => {
   const { attributes, isDragging, listeners, setNodeRef, transform } =
