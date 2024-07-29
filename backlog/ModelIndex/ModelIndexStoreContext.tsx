@@ -1,7 +1,5 @@
 import {
-  type Dispatch,
   type ReactNode,
-  type SetStateAction,
   createContext,
   useEffect,
   useRef,
@@ -10,27 +8,41 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import type { DataType, Field, OnDelete, OnUpdate, TableView } from '@/types';
+import type {
+  DataType,
+  FieldOptions,
+  OnDelete,
+  OnUpdate,
+  TableView,
+} from '@/types';
+
+export interface ColumnOptions extends FieldOptions {
+  editable?: boolean;
+  sortable?: boolean;
+  hidable?: boolean;
+  draggable?: boolean;
+}
 
 export interface TableViewOptions {
   tableView: TableView;
-  onTableViewChange: Dispatch<SetStateAction<TableView>>;
+  onTableViewChange: (newTableView: TableView) => void;
 }
 
 export interface PaginationOptions {
-  totalDataLength?: number;
-  pageButtonLimit?: number; // The max number of page btns to show at a time
+  totalDataLength: number;
 }
 
 export interface ModelIndexState<D extends DataType> {
-  fields: Field[];
   data?: D[];
+  fields: string[];
+  onFieldsChange: (newFields: string[]) => void;
+  columnOptions?: Record<string, ColumnOptions>;
   tableViewOptions: TableViewOptions;
+  paginationOptions: PaginationOptions;
   title?: ReactNode;
   readOnly?: boolean;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;
-  paginationOptions?: PaginationOptions;
 }
 
 export const ModelIndexStoreContext = createContext<

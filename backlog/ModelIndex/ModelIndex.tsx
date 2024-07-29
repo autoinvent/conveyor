@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import type { DataType, Field } from '@/types';
+import type { DataType } from '@/types';
 import { toField } from '@/utils';
 
 import { ModelIndexPagination } from './ModelIndexPagination';
@@ -15,10 +15,8 @@ import { ModelIndexTable } from './ModelIndexTable';
 import { ModelIndexTitle } from './ModelIndexTitle';
 
 export interface ModelIndexProps<D extends DataType>
-  extends Omit<ModelIndexState<D>, 'fields'>,
-    Omit<ComponentProps<'div'>, 'title'> {
-  fields: (string | Field)[];
-}
+  extends ModelIndexState<D>,
+    Omit<ComponentProps<'div'>, 'title'> {}
 
 export const ModelIndex = Object.assign(
   <D extends DataType>({

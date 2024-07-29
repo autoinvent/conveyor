@@ -2,15 +2,13 @@ import type { RegisterOptions } from 'react-hook-form';
 
 import { ScalarTypes } from './magql';
 
-export interface Field {
-  name: string;
-  type: string;
+export interface FieldOptions {
+  label?: string;
+  type?: string;
   rules?: Omit<
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
-  sortable?: boolean;
-  editable?: boolean;
 }
 
 export enum NonScalarTypes {
@@ -20,4 +18,3 @@ export enum NonScalarTypes {
 }
 
 export const FieldTypes = { ...ScalarTypes, ...NonScalarTypes };
-export type FieldTypes = typeof FieldTypes;
