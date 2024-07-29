@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Table } from './Table';
+import { Table } from '../Table';
 import TableStoryMeta from './Table.stories';
 import { useEffect, useState } from 'react';
 import { useDataStore } from '@/Data';
@@ -21,7 +21,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const ResizableWrapper = ({ content, resizeFunction, enable, showGrabber } : {
+const ResizableCellWrapper = ({ content, resizeFunction, enable, showGrabber } : {
   content : any
   resizeFunction : any
   enable: boolean
@@ -35,7 +35,7 @@ const ResizableWrapper = ({ content, resizeFunction, enable, showGrabber } : {
         enable ? 
         <div 
           className={cn(
-            showGrabber ? "bg-red-200" : "",
+            showGrabber ? "bg-border" : "",
             'absolute right-0 h-full w-4 cursor-ew-resize select-none'
           )}
           onMouseDown={resizeFunction}
@@ -43,25 +43,6 @@ const ResizableWrapper = ({ content, resizeFunction, enable, showGrabber } : {
         null
       }
     </div>
-  )
-}
-
-const ResizableHeaderCell = ({resizeFunction, width, columnId, enable, showGrabber } : {
-  columnId: string
-  width: number
-  resizeFunction: (e : React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-  enable: boolean
-  showGrabber: boolean
-}) => {
-  return (
-    <Table.HeaderCell columnId={columnId} style={{width: width}} className='py-0 pr-0'>
-      <ResizableWrapper
-        content={columnId}
-        resizeFunction={resizeFunction}
-        enable={enable}
-        showGrabber={showGrabber}
-      />
-    </Table.HeaderCell>
   )
 }
 
@@ -80,7 +61,7 @@ const ResizableRowCell = ({resizeFunction, width, columnId, enable, showGrabber}
 
   return (
     <Table.Cell columnId={columnId} style={{width: width}} className='py-0 pr-0'>
-      <ResizableWrapper
+      <ResizableCellWrapper
         content={data}
         resizeFunction={resizeFunction}
         enable={enable}
@@ -201,27 +182,34 @@ export const CustomTableCells: Story = {
           <Table {...props} className='w-auto min-w-max'>
             <Table.Head>
               <Table.HeaderRow>
-                {columnIds.map( val => (
-                  <ResizableHeaderCell
-                    key={`headercell-${val}`}
-                    columnId={val}
-                    width={widths[val]}                
-                    resizeFunction={(e) => startResizing(e,val)}
-                    enable={resizableColumns[val]}
-                    showGrabber={showGrabber}
-                  />
+                {columnIds.map( columnId => (
+                  <Table.HeaderCell 
+                    key={`headercell-${columnId}`}
+                    columnId={columnId} 
+                    style={{width: widths[columnId]}} 
+                    className='py-0 pr-0'
+                  >
+                    <ResizableCellWrapper
+                      content={columnId}
+                      resizeFunction={(e : React.MouseEvent<HTMLDivElement, MouseEvent>) => 
+                        startResizing(e,columnId)
+                      }
+                      enable={resizableColumns[columnId]}
+                      showGrabber={showGrabber}
+                    />
+                  </Table.HeaderCell>
                 ))}
               </Table.HeaderRow>
             </Table.Head>
             <Table.Body>
               <Table.Row>
-                {columnIds.map( val => (
+                {columnIds.map( columnId => (
                   <ResizableRowCell
-                    key={`bodycell-${val}`}
-                    columnId={val}
-                    width={widths[val]}
-                    resizeFunction={(e) => startResizing(e,val)}
-                    enable={resizableColumns[val]}
+                    key={`bodycell-${columnId}`}
+                    columnId={columnId}
+                    width={widths[columnId]}
+                    resizeFunction={(e) => startResizing(e,columnId)}
+                    enable={resizableColumns[columnId]}
                     showGrabber={showGrabber}
                   />
                 ))}
