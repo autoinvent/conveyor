@@ -1,4 +1,5 @@
 ## 1.3.0
+- `story`: Table column DnD story added under Table > TableGuide 
 - `bufix`: `SearchResult.extra` was supposed to be optional per magql-sqlalchemy docs
 - `backlog`: `ModelIndexSortSetting` is backlogged until it becomes more customizable. 
 
