@@ -1,11 +1,8 @@
 import {
+  type FieldValues,
   FormProvider,
   type UseFormReturn,
-  type FieldValues,
 } from 'react-hook-form';
 
-export interface FormState<D extends FieldValues>
-  extends UseFormReturn<D> {
-
-}
-export const FormStoreProvider = FormProvider
+export interface FormState<D extends FieldValues> extends UseFormReturn<D> {}
+export const FormStoreProvider = FormProvider;

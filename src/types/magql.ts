@@ -1,12 +1,12 @@
 export type ID = string | number;
 
-type JSONValue = string;
+type JSONValue = any;
 
 export interface SearchResult {
   type: string;
   id: ID;
   value: string;
-  extra: JSONValue;
+  extra?: JSONValue;
 }
 
 export interface CheckDeleteResult {

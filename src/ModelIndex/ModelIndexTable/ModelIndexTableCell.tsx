@@ -8,8 +8,8 @@ import { useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type DataType, type Field, FieldTypes } from '@/types';
 
-import { useModelIndexStore } from '../useModelIndexStore';
 import type { ModelIndexState } from '../ModelIndexStoreContext';
+import { useModelIndexStore } from '../useModelIndexStore';
 
 export interface ModelIndexTableCellProps
   extends Omit<TableCellProps, 'columnId'> {
@@ -85,10 +85,10 @@ export const ModelIndexTableCell = ({
                     id: formFieldId,
                     disabled: isLoading,
                     required: !!field.rules?.required,
-                    'aria-describedby': !inputState.invalid
+                    'aria-describedby': !inputState?.invalid
                       ? `${formFieldId}`
                       : `${formFieldId} ${formErrorMessageId}`,
-                    'aria-invalid': inputState.invalid,
+                    'aria-invalid': inputState?.invalid,
                   });
                   return inputFn({
                     inputProps: extraInputProps,

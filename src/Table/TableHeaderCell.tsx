@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react';
+import { type ComponentProps, forwardRef } from 'react';
 
 import { STableHead } from '@/lib/components/ui/table';
 
@@ -10,16 +10,15 @@ export interface TableHeaderCellProps
   columnId: string;
 }
 
-export const TableHeaderCell = ({
-  columnId,
-  children,
-  ...htmlProps
-}: TableHeaderCellProps) => {
+export const TableHeaderCell = forwardRef<
+  HTMLTableCellElement,
+  TableHeaderCellProps
+>(({ columnId, children, ...htmlProps }, ref) => {
   return (
     <Slot slotKey={columnId}>
-      <STableHead {...htmlProps}>
+      <STableHead ref={ref} {...htmlProps}>
         {children === undefined ? humanizeText(columnId) : children}
       </STableHead>
     </Slot>
   );
-};
+});

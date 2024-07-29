@@ -23,7 +23,6 @@ or via a CDN with the following link tag:
 
 - `pnpm build` - Build library for production; The generated files will be on the `dist` folder. 
 - `pnpm build:css` - Run tailwind CLI tool to build the css file.
-- `pnpm dev` - run storybook with tailwindcss watcher
 - `pnpm storybook` - run storybook
 - `pnpm format` - Format all files with Biome.
 - `pnpm lint` - Scan all files for linting errors with Biome.

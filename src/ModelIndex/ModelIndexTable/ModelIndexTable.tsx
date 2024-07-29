@@ -10,6 +10,7 @@ import type { DataType } from '@/types';
 import type { ModelIndexState } from '../ModelIndexStoreContext';
 import { useModelIndexStore } from '../useModelIndexStore';
 
+import { ConditionalWrapper } from '@/utils';
 import { ModelIndexTableActionCell } from './ModelIndexTableActionCell';
 import { ModelIndexTableActionHeaderCell } from './ModelIndexTableActionHeaderCell';
 import { ModelIndexTableBody } from './ModelIndexTableBody';
@@ -19,7 +20,6 @@ import { ModelIndexTableHeaderCell } from './ModelIndexTableHeaderCell';
 import { ModelIndexTableHeaderRow } from './ModelIndexTableHeaderRow';
 import { ModelIndexTableRow } from './ModelIndexTableRow';
 import { ACTION_COLUMN } from './constants';
-import { ConditionalWrapper } from '@/utils';
 
 export interface ModelIndexTableProps extends ComponentProps<typeof STable> {
   scrollable?: boolean;

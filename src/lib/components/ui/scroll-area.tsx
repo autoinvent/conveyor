@@ -1,5 +1,5 @@
-import * as React from 'react';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
+import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -13,7 +13,10 @@ const ScrollArea = React.forwardRef<
     {...props}
   >
     <ScrollAreaPrimitive.Viewport
-      className={cn('h-full w-full rounded-[inherit]', className)}
+      className={cn(
+        '[&>div]:!block h-full w-full rounded-[inherit]',
+        className,
+      )}
     >
       {children}
     </ScrollAreaPrimitive.Viewport>

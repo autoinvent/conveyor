@@ -1,7 +1,7 @@
 // components
 export * from './ModelIndex';
 export * from './ModelIndexPagination';
-// export * from './ModelIndexSettings';
+export * from './ModelIndexSettings';
 export * from './ModelIndexTable';
 export * from './ModelIndexTitle';
 export * from './SortWrapper';

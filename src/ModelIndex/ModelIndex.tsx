@@ -6,7 +6,7 @@ import type { DataType, Field } from '@/types';
 import { toField } from '@/utils';
 
 import { ModelIndexPagination } from './ModelIndexPagination';
-// import { ModelIndexSettings } from './ModelIndexSettings';
+import { ModelIndexSettings } from './ModelIndexSettings';
 import {
   type ModelIndexState,
   ModelIndexStoreProvider,
@@ -63,6 +63,6 @@ export const ModelIndex = Object.assign(
     Title: ModelIndexTitle,
     Table: ModelIndexTable,
     Pagination: ModelIndexPagination,
-    // Settings: ModelIndexSettings,
+    Settings: ModelIndexSettings,
   },
 );

@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import ConveyorLogo from '@autoinvent/conveyor/logo.svg';
-import { Conveyor, ModelIndex, ScalarTypes, useTableView } from '@autoinvent/conveyor';
+import { Conveyor, ModelIndex, ScalarTypes, type TableView } from '@autoinvent/conveyor';
 
 const App = () => {
-  const tableViewOptions = useTableView();
+  const [tableView, onTableViewChange] = useState<TableView>({});
   return (
     <>
       <Helmet>
@@ -81,7 +82,10 @@ const App = () => {
                 paginationOptions={{
                   totalDataLength: 514,
                 }}
-                {...tableViewOptions}
+                tableViewOptions={{
+                  tableView,
+                  onTableViewChange
+                }}
           />
         </Conveyor>
       </div>

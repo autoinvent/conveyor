@@ -1,7 +1,7 @@
 {
   "name": "@autoinvent/conveyor",
   "type": "module",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "UI component library for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
@@ -37,6 +37,9 @@
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/modifiers": "^7.0.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@hookform/error-message": "^2.0.1",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-checkbox": "^1.1.1",
@@ -49,6 +52,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
+    "@radix-ui/react-visually-hidden": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "immer": "^10.1.1",
@@ -89,7 +93,7 @@
     "react-dom": "^18.3.1",
     "rollup-plugin-visualizer": "^5.12.0",
     "storybook": "^8.2.4",
-    "tailwindcss": "3.4.4",
+    "tailwindcss": "^3.4.4",
     "typescript": "^5.5.3",
     "vite": "^5.3.4",
     "vite-plugin-dts": "3.9.1"
