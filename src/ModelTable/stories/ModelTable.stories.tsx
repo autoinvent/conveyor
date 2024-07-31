@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import type { TableView } from '@/types';
 
+import type { TableOptions } from '../ModelTableStoreContext';
 import { ModelTable } from '../ModelTable';
 
 const meta = {
@@ -36,10 +37,19 @@ const meta = {
   render: ({ tableOptions, ...args }) => {
     const [sortOrder, onSortOrderChange] =
       useState<TableView['sort']>(undefined);
+    const [fieldOrder, onFieldOrderChange] = useState<string[] | undefined>(
+      undefined,
+    );
     return (
       <ModelTable
         {...args}
-        tableOptions={{ ...tableOptions, sortOrder, onSortOrderChange }}
+        tableOptions={{
+          ...tableOptions,
+          sortOrder,
+          onSortOrderChange,
+          fieldOrder,
+          onFieldOrderChange,
+        }}
       />
     );
   },

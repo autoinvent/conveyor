@@ -17,7 +17,12 @@ import {
   DropdownMenuTrigger,
 } from '@/lib/components/ui/dropdown-menu';
 import { Lenses, Lens } from '@/Lenses';
-import { SortDirection, getFieldSortDirection, setFieldSort } from '@/utils';
+import {
+  SortDirection,
+  getFieldSortDirection,
+  setFieldSort,
+  toggleFieldVisibility,
+} from '@/utils';
 
 import { useModelTableStore } from './useModelTableStore';
 
@@ -39,9 +44,16 @@ export const ModelTableHeadOptions = ({
   const sortOrder = useModelTableStore(
     (state) => state.tableOptions?.sortOrder,
   );
+  const fieldOrder = useModelTableStore(
+    (state) => state.tableOptions?.fieldOrder ?? state.fields,
+  );
   const onSortOrderChange = useModelTableStore(
     (state) => state.tableOptions?.onSortOrderChange,
   );
+  const onFieldOrderChange = useModelTableStore(
+    (state) => state.tableOptions?.onFieldOrderChange,
+  );
+
   const currentSortDirection = getFieldSortDirection({ sortOrder, field });
   const onFieldSortChange = (newSortDir: string) => {
     let newSortDirection = newSortDir as SortDirection;
@@ -51,7 +63,10 @@ export const ModelTableHeadOptions = ({
     const newSortOrder = setFieldSort({ sortOrder, field, newSortDirection });
     onSortOrderChange?.(newSortOrder);
   };
-
+  const hideField = () => {
+    const newFieldOrder = toggleFieldVisibility({ fieldOrder, field });
+    onFieldOrderChange?.(newFieldOrder);
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -99,7 +114,7 @@ export const ModelTableHeadOptions = ({
         </Lenses>
         <Lenses activeLens={hidable}>
           <Lens lens={true}>
-            <DropdownMenuItem onClick={() => {}}>
+            <DropdownMenuItem onClick={hideField}>
               <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
               Hide
             </DropdownMenuItem>

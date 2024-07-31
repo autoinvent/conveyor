@@ -10,7 +10,9 @@ export const ModelTableHeaderRow = ({
   children,
   ...tableHeaderRowProps
 }: ModelTableHeaderRowProps) => {
+  // TODO: investigate if better to choose fieldOrder
   const fields = useModelTableStore((state) => state.fields);
+  console.log(fields);
   return (
     <TableHeaderRow prefilled={prefilled} {...tableHeaderRowProps}>
       {children === undefined ? (

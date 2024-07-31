@@ -22,6 +22,7 @@ export const ModelTable = Object.assign(
     children,
     ...tableProps
   }: ModelTableProps<D, F>) => {
+    const renderedFields = tableOptions?.fieldOrder ?? fields;
     return (
       <ModelTableStoreProvider
         fields={fields}
@@ -29,7 +30,7 @@ export const ModelTable = Object.assign(
         onUpdate={onUpdate}
         onDelete={onDelete}
       >
-        <Table columnIds={fields} {...tableProps}>
+        <Table columnIds={renderedFields} {...tableProps}>
           {children === undefined ? (
             <>
               <ModelTable.Header />
