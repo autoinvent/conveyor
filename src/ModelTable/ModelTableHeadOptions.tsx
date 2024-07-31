@@ -1,11 +1,12 @@
-import type { ReactNode } from 'react';
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   CaretSortIcon,
   EyeNoneIcon,
 } from '@radix-ui/react-icons';
+import type { ReactNode } from 'react';
 
+import { Lens, Lenses } from '@/Lenses';
 import { Button } from '@/lib/components/ui/button';
 import {
   DropdownMenu,
@@ -16,7 +17,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/lib/components/ui/dropdown-menu';
-import { Lenses, Lens } from '@/Lenses';
 import {
   SortDirection,
   getFieldSortDirection,

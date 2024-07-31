@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 
 import type { TableView } from '@/types';
 
-import type { TableOptions } from '../ModelTableStoreContext';
 import { ModelTable } from '../ModelTable';
+import type { TableOptions } from '../ModelTableStoreContext';
 
 const meta = {
   title: 'Models/ModelTable',

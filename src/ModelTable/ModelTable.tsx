@@ -5,8 +5,8 @@ import { ModelTableBody } from './ModelTableBody';
 import { ModelTableFallback } from './ModelTableFallback';
 import { ModelTableHeader } from './ModelTableHeader';
 import {
-  ModelTableStoreProvider,
   type ModelTableState,
+  ModelTableStoreProvider,
 } from './ModelTableStoreContext';
 
 export interface ModelTableProps<D extends DataType, F extends string>

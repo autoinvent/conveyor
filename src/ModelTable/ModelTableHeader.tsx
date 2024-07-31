@@ -1,5 +1,5 @@
-import * as Shadcn from '@/lib/components/ui/table';
 import type { TableHeaderProps } from '@/Table';
+import * as Shadcn from '@/lib/components/ui/table';
 
 import { ModelTableHeaderRow } from './ModelTableHeaderRow';
 
