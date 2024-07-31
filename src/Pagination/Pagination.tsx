@@ -1,33 +1,25 @@
 import type { ComponentProps } from 'react';
 
-import {
-  SPagination,
-  SPaginationContent,
-  SPaginationEllipsis,
-  SPaginationItem,
-  SPaginationLink,
-  SPaginationNext,
-  SPaginationPrevious,
-} from '@/lib/components/ui/pagination';
-
+import * as Shadcn from '@/lib/components/ui/pagination';
 import type { TableView } from '@/types';
 
 export interface PaginationProps
-  extends ComponentProps<typeof SPagination>,
-    Pick<TableView, 'page' | 'per_page'> {
+  extends ComponentProps<typeof Shadcn.Pagination>,
+    Pick<TableView, 'page'> {
   totalDataLength?: number;
+  perPage?: TableView['per_page'];
+  maxPageButtonLimit?: number; // The max number of page btns to show at a time
   onPageChange: (newPage: TableView['page']) => void;
   onPerPageChange: (newPerPage: TableView['per_page']) => void;
-  maxPageButtonLimit?: number; // The max number of page btns to show at a time
 }
 
 export const Pagination = ({
   totalDataLength = 0,
   page = 1,
-  onPageChange,
-  per_page = 10,
-  onPerPageChange,
+  perPage = 10,
   maxPageButtonLimit = 10,
+  onPageChange,
+  onPerPageChange,
   ...paginationProps
 }: PaginationProps) => {
   if (totalDataLength < 0) {
@@ -37,8 +29,8 @@ export const Pagination = ({
   if (page < 1) {
     throw new Error('page must be a positive number.');
   }
-  if (per_page < 1) {
-    throw new Error('per_page must be a positive number.');
+  if (perPage < 1) {
+    throw new Error('perPage must be a positive number.');
   }
   if (maxPageButtonLimit < 1) {
     throw new Error('maxPageButtonLimit must be a positive number.');
@@ -48,7 +40,7 @@ export const Pagination = ({
     return null;
   }
 
-  const totalPages = Math.ceil(totalDataLength / per_page);
+  const totalPages = Math.ceil(totalDataLength / perPage);
   const totalPageSets = Math.ceil(totalPages / maxPageButtonLimit);
   const currentPageSet = Math.ceil(page / maxPageButtonLimit);
   const lowerBoundPage = (currentPageSet - 1) * maxPageButtonLimit + 1;
@@ -61,53 +53,53 @@ export const Pagination = ({
   }
 
   return (
-    <SPagination {...paginationProps}>
-      <SPaginationContent>
+    <Shadcn.Pagination {...paginationProps}>
+      <Shadcn.PaginationContent>
         {/* Previous Page Set Button */}
         {page > maxPageButtonLimit && (
-          <SPaginationItem>
-            <SPaginationPrevious
+          <Shadcn.PaginationItem>
+            <Shadcn.PaginationPrevious
               aria-label={`Go to page ${lowerBoundPage - 1}`}
               onClick={() => onPageChange(lowerBoundPage - 1)}
             />
-          </SPaginationItem>
+          </Shadcn.PaginationItem>
         )}
         {/* Page buttons */}
         {[...Array(upperBoundPage - lowerBoundPage + 1).keys()].map((index) => {
           const buttonPage = index + lowerBoundPage;
           return (
-            <SPaginationItem key={index}>
-              <SPaginationLink
+            <Shadcn.PaginationItem key={index}>
+              <Shadcn.PaginationLink
                 isActive={buttonPage === page}
                 onClick={() => onPageChange(buttonPage)}
               >
                 {buttonPage}
-              </SPaginationLink>
-            </SPaginationItem>
+              </Shadcn.PaginationLink>
+            </Shadcn.PaginationItem>
           );
         })}
         {/* Next Page Set Button */}
         {currentPageSet < totalPageSets && (
           <>
-            <SPaginationItem>
-              <SPaginationEllipsis />
-            </SPaginationItem>
-            <SPaginationItem>
-              <SPaginationNext
+            <Shadcn.PaginationItem>
+              <Shadcn.PaginationEllipsis />
+            </Shadcn.PaginationItem>
+            <Shadcn.PaginationItem>
+              <Shadcn.PaginationNext
                 aria-label={`Go to page ${upperBoundPage + 1}`}
                 onClick={() => onPageChange(upperBoundPage + 1)}
               />
-            </SPaginationItem>
+            </Shadcn.PaginationItem>
           </>
         )}
-        <SPaginationItem>
+        <Shadcn.PaginationItem>
           <span className="whitespace-nowrap">
-            {` Showing items ${per_page * (page - 1) + 1} - ${
-              totalPages === page ? totalDataLength : per_page * page
+            {` Showing items ${perPage * (page - 1) + 1} - ${
+              totalPages === page ? totalDataLength : perPage * page
             } of ${totalDataLength}`}
           </span>
-        </SPaginationItem>
-      </SPaginationContent>
-    </SPagination>
+        </Shadcn.PaginationItem>
+      </Shadcn.PaginationContent>
+    </Shadcn.Pagination>
   );
 };

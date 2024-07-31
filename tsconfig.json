@@ -28,6 +28,6 @@
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "backlog/conveyor.ts"],
   "exclude": ["node_modules", "dist"]
 }

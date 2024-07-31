@@ -150,7 +150,7 @@ const DraggableTableHeader = ({ columnId }: { columnId: string }) => {
   };
 
   return (
-    <Table.HeaderCell
+    <Table.Head
       className={cn(isDragging && 'z-10 opacity-80')}
       columnId={columnId}
       ref={setNodeRef}
@@ -160,7 +160,7 @@ const DraggableTableHeader = ({ columnId }: { columnId: string }) => {
       <button {...attributes} {...listeners}>
         🟰
       </button>
-    </Table.HeaderCell>
+    </Table.Head>
   );
 };
 
@@ -214,7 +214,7 @@ export const ColumnDnD: Story = {
         sensors={sensors}
       >
         <Table {...rest} columnIds={columnIds}>
-          <Table.Head>
+          <Table.Header>
             <Table.HeaderRow>
               <SortableContext
                 items={columnIds}
@@ -225,7 +225,7 @@ export const ColumnDnD: Story = {
                 ))}
               </SortableContext>
             </Table.HeaderRow>
-          </Table.Head>
+          </Table.Header>
           <Table.Body>
             <Table.Row>
               <SortableContext

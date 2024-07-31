@@ -1,0 +1,111 @@
+import type { ReactNode } from 'react';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CaretSortIcon,
+  EyeNoneIcon,
+} from '@radix-ui/react-icons';
+
+import { Button } from '@/lib/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/lib/components/ui/dropdown-menu';
+import { Lenses, Lens } from '@/Lenses';
+import { SortDirection, getFieldSortDirection, setFieldSort } from '@/utils';
+
+import { useModelTableStore } from './useModelTableStore';
+
+export interface ModelTableHeadOptions {
+  field: string;
+  children?: ReactNode;
+}
+
+export const ModelTableHeadOptions = ({
+  field,
+  children,
+}: ModelTableHeadOptions) => {
+  const sortable = useModelTableStore(
+    (state) => state.tableOptions?.columnOptions?.[field]?.sortable ?? true,
+  );
+  const hidable = useModelTableStore(
+    (state) => state.tableOptions?.columnOptions?.[field]?.hidable ?? true,
+  );
+  const sortOrder = useModelTableStore(
+    (state) => state.tableOptions?.sortOrder,
+  );
+  const onSortOrderChange = useModelTableStore(
+    (state) => state.tableOptions?.onSortOrderChange,
+  );
+  const currentSortDirection = getFieldSortDirection({ sortOrder, field });
+  const onFieldSortChange = (newSortDir: string) => {
+    let newSortDirection = newSortDir as SortDirection;
+    if (newSortDirection === currentSortDirection) {
+      newSortDirection = SortDirection.NONE;
+    }
+    const newSortOrder = setFieldSort({ sortOrder, field, newSortDirection });
+    onSortOrderChange?.(newSortOrder);
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="-ml-3 h-8 data-[state=open]:bg-accent"
+        >
+          {children}
+          <Lenses activeLens={sortable && currentSortDirection}>
+            <Lens lens={SortDirection.ASC}>
+              <ArrowUpIcon className="ml-2 h-4 w-4" />
+            </Lens>
+            <Lens lens={SortDirection.DESC}>
+              <ArrowDownIcon className="ml-2 h-4 w-4" />
+            </Lens>
+            <Lens lens={SortDirection.NONE}>
+              <CaretSortIcon className="ml-2 h-4 w-4" />
+            </Lens>
+          </Lenses>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <Lenses activeLens={sortable}>
+          <Lens lens={true}>
+            <DropdownMenuRadioGroup
+              value={currentSortDirection}
+              onValueChange={onFieldSortChange}
+            >
+              <DropdownMenuRadioItem value={SortDirection.ASC}>
+                <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                Asc
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value={SortDirection.DESC}>
+                <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                Desc
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </Lens>
+        </Lenses>
+        <Lenses activeLens={sortable && hidable}>
+          <Lens lens={true}>
+            <DropdownMenuSeparator />
+          </Lens>
+        </Lenses>
+        <Lenses activeLens={hidable}>
+          <Lens lens={true}>
+            <DropdownMenuItem onClick={() => {}}>
+              <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              Hide
+            </DropdownMenuItem>
+          </Lens>
+        </Lenses>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};

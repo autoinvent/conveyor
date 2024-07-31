@@ -6,11 +6,11 @@ import type { DataType, StoreSelector } from '@/types';
 import { type TableState, TableStoreContext } from './TableStoreContext';
 
 export function useTableStore<D extends DataType>(): TableState<D>;
-export function useTableStore<T, D extends DataType>(
+export function useTableStore<D extends DataType, T>(
   selector: StoreSelector<TableState<D>, T>,
 ): T;
 
-export function useTableStore<T, D extends DataType>(
+export function useTableStore<D extends DataType, T>(
   selector?: StoreSelector<TableState<D>, T>,
 ) {
   const tableStore = useContext(TableStoreContext);

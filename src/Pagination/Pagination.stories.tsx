@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 
 import { Pagination } from './Pagination';
 
@@ -10,10 +10,10 @@ const meta = {
   argTypes: {
     totalDataLength: { control: { type: 'number', min: 0 } },
     page: { control: { type: 'number', min: 1 } },
-    onPageChange: { control: false },
-    per_page: { control: { type: 'number', min: 1 } },
-    onPerPageChange: { control: false },
+    perPage: { control: { type: 'number', min: 1 } },
     maxPageButtonLimit: { control: { type: 'number', min: 1 } },
+    onPageChange: { control: false },
+    onPerPageChange: { control: false },
   },
   args: {
     onPageChange: () => {},
@@ -21,20 +21,20 @@ const meta = {
   },
   render: ({
     page: defaultPage,
-    per_page: defaultPerPage,
+    perPage: defaultPerPage,
     onPageChange,
     onPerPageChange,
     ...args
   }) => {
     const [page, setPage] = useState(defaultPage);
-    const [per_page, setPerPage] = useState(defaultPerPage);
+    const [perPage, setPerPage] = useState(defaultPerPage);
 
     return (
       <div className="flex flex-col">
         <Pagination
           page={page}
           onPageChange={setPage}
-          per_page={per_page}
+          perPage={perPage}
           onPerPageChange={setPerPage}
           {...args}
         />
@@ -50,7 +50,7 @@ export const BasicUsage: Story = {
   args: {
     totalDataLength: 200,
     page: 3,
-    per_page: 5,
+    perPage: 5,
     maxPageButtonLimit: 5,
   },
 };

@@ -112,11 +112,11 @@ const PaginationEllipsis = ({
 PaginationEllipsis.displayName = 'PaginationEllipsis';
 
 export {
-  Pagination as SPagination,
-  PaginationContent as SPaginationContent,
-  PaginationEllipsis as SPaginationEllipsis,
-  PaginationItem as SPaginationItem,
-  PaginationLink as SPaginationLink,
-  PaginationNext as SPaginationNext,
-  PaginationPrevious as SPaginationPrevious,
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 };
