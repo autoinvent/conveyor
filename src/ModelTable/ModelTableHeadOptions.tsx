@@ -114,7 +114,7 @@ export const ModelTableHeadOptions = ({
         </Lenses>
         <Lenses activeLens={hidable}>
           <Lens lens={true}>
-            <DropdownMenuItem onClick={hideField}>
+            <DropdownMenuItem onSelect={hideField}>
               <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
               Hide
             </DropdownMenuItem>

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import type { TableView } from '@/types';
 
 import { ModelTable } from '../ModelTable';
-import type { TableOptions } from '../ModelTableStoreContext';
 
 const meta = {
   title: 'Models/ModelTable',

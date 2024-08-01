@@ -188,8 +188,7 @@ export const ColumnDnD: Story = {
     const [columnIds, setColumnIds] = useState(argsColumnIds);
 
     // reorder columns after drag & drop
-    function handleDragEnd(event: DragEndEvent) {
-      const { active, over } = event;
+    const handleDragEnd = ({ active, over }: DragEndEvent) => {
       if (active && over && active.id !== over.id) {
         setColumnIds((columnOrder) => {
           const oldIndex = columnOrder.indexOf(active.id as string);
@@ -197,7 +196,7 @@ export const ColumnDnD: Story = {
           return arrayMove(columnOrder, oldIndex, newIndex);
         });
       }
-    }
+    };
 
     const sensors = useSensors(
       useSensor(MouseSensor, {}),

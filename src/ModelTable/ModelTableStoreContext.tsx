@@ -27,7 +27,9 @@ export interface TableOptions<F extends string> {
   fieldOrder?: F[]; // Order + value of the field visibility
   sortOrder?: TableView['sort']; // Order + value of the field sort
   readOnly?: boolean;
-  scrollable?: boolean;
+  scrollable?: boolean; // Wraps the table with ScrollArea
+  draggable?: boolean; // Wraps the table with DnDContext
+  bordered?: boolean; // Wraps the table with div to add bordered styles
   onFieldOrderChange?: (newFieldOrder: F[]) => void;
   onSortOrderChange?: (newSortOrder: TableView['sort']) => void;
   columnOptions?: Partial<Record<F, ColumnOptions>>;
@@ -41,8 +43,14 @@ export interface ModelTableState<D extends DataType, F extends string> {
   onDelete?: OnDelete<D>;
 }
 
+/**
+ * https://github.com/pmndrs/zustand/discussions/1281#discussioncomment-10206641
+ */
+type ModelTableStore = ReturnType<
+  typeof createStore<ModelTableState<any, any>, [['zustand/immer', never]]>
+>;
 export const ModelTableStoreContext = createContext<
-  StoreApi<ModelTableState<any, any>> | undefined
+  ModelTableStore | undefined
 >(undefined);
 
 export interface ModelTableStoreProviderProps<
@@ -67,12 +75,6 @@ export const ModelTableStoreProvider = <D extends DataType, F extends string>({
   }, [...Object.values(modelTableState), store]);
 
   return (
-    /**
-     * Typescript error occurs due to TableOptions.columnOptions having
-     * a generic type as a key for Record. WithImmer type may need to be
-     * exposed. Check out for latest:
-     * https://github.com/pmndrs/zustand/discussions/1281#discussioncomment-10196893
-     * @ts-ignore  */
     <ModelTableStoreContext.Provider value={store}>
       {children}
     </ModelTableStoreContext.Provider>

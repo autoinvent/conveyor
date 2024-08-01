@@ -40,4 +40,5 @@ Group imports where:
   - scoped packages below non-scroped packages
 - Any project src code starting with '@/' as it is a named alias for 'src/'
 - Lastly files that exists within the current directory
+- `pnpm check` will sort the imports files accordingly
 

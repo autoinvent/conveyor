@@ -8,6 +8,11 @@ import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
+import {
+  BorderWrapper,
+  DnDContextWrapper,
+  ScrollAreaWrapper,
+} from './Wrappers';
 
 export interface ModelTableProps<D extends DataType, F extends string>
   extends ModelTableState<D, F>,
@@ -16,6 +21,7 @@ export interface ModelTableProps<D extends DataType, F extends string>
 export const ModelTable = Object.assign(
   <D extends DataType, F extends string>({
     fields,
+    data,
     tableOptions,
     onUpdate,
     onDelete,
@@ -23,24 +29,38 @@ export const ModelTable = Object.assign(
     ...tableProps
   }: ModelTableProps<D, F>) => {
     const renderedFields = tableOptions?.fieldOrder ?? fields;
+    const onFieldOrderChange = tableOptions?.onFieldOrderChange;
     return (
       <ModelTableStoreProvider
         fields={fields}
+        data={data}
         tableOptions={tableOptions}
         onUpdate={onUpdate}
         onDelete={onDelete}
       >
-        <Table columnIds={renderedFields} {...tableProps}>
-          {children === undefined ? (
-            <>
-              <ModelTable.Header />
-              {/* <ModelTable.Body />
+        <BorderWrapper bordered={tableOptions?.bordered ?? true}>
+          <DnDContextWrapper
+            draggable={tableOptions?.draggable ?? true}
+            dndList={renderedFields}
+            onDnDListChange={
+              onFieldOrderChange as (newFieldOrder: string[]) => void
+            }
+          >
+            <ScrollAreaWrapper scrollable={tableOptions?.scrollable ?? true}>
+              <Table columnIds={renderedFields} {...tableProps}>
+                {children === undefined ? (
+                  <>
+                    <ModelTable.Header />
+                    {/* <ModelTable.Body />
             <ModelTable.Fallback /> */}
-            </>
-          ) : (
-            children
-          )}
-        </Table>
+                  </>
+                ) : (
+                  children
+                )}
+              </Table>
+            </ScrollAreaWrapper>
+          </DnDContextWrapper>
+        </BorderWrapper>
       </ModelTableStoreProvider>
     );
   },

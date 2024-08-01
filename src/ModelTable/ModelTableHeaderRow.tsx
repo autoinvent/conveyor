@@ -2,6 +2,7 @@ import { TableHeaderRow, type TableHeaderRowProps } from '@/Table';
 
 import { ModelTableHead } from './ModelTableHead';
 import { useModelTableStore } from './useModelTableStore';
+import { DnDSortableContextWrapper } from './Wrappers/DnDSortableContextWrapper';
 
 export interface ModelTableHeaderRowProps extends TableHeaderRowProps {}
 
@@ -10,20 +11,25 @@ export const ModelTableHeaderRow = ({
   children,
   ...tableHeaderRowProps
 }: ModelTableHeaderRowProps) => {
-  // TODO: investigate if better to choose fieldOrder
-  const fields = useModelTableStore((state) => state.fields);
-  console.log(fields);
+  const renderedFields = useModelTableStore(
+    (state) => state.tableOptions?.fieldOrder ?? state.fields,
+  );
+  const draggable = useModelTableStore(
+    (state) => state.tableOptions?.draggable ?? true,
+  );
   return (
-    <TableHeaderRow prefilled={prefilled} {...tableHeaderRowProps}>
-      {children === undefined ? (
-        <>
-          {fields.map((field) => (
-            <ModelTableHead key={field} field={field} />
-          ))}
-        </>
-      ) : (
-        children
-      )}
-    </TableHeaderRow>
+    <DnDSortableContextWrapper draggable={draggable} dndList={renderedFields}>
+      <TableHeaderRow prefilled={prefilled} {...tableHeaderRowProps}>
+        {children === undefined ? (
+          <>
+            {renderedFields.map((field) => (
+              <ModelTableHead key={field} field={field} />
+            ))}
+          </>
+        ) : (
+          children
+        )}
+      </TableHeaderRow>
+    </DnDSortableContextWrapper>
   );
 };

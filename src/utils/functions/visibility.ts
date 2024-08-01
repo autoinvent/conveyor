@@ -7,9 +7,7 @@ export const toggleFieldVisibility = ({
   field,
 }: FieldVisibilityProps) => {
   const newFieldOrder = [...fieldOrder];
-  const fieldIndex = newFieldOrder.findIndex(
-    (visibleField) => visibleField === field,
-  );
+  const fieldIndex = newFieldOrder.indexOf(field);
   if (fieldIndex >= 0) {
     newFieldOrder.splice(fieldIndex, 1);
   } else {
