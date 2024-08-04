@@ -205,7 +205,6 @@ export const ColumnDnD: Story = {
     );
 
     return (
-      // NOTE: This provider creates div elements, so don't nest inside of <table> elements
       <DndContext
         collisionDetection={closestCenter}
         modifiers={[restrictToHorizontalAxis]}

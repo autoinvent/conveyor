@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Slot, Slottable } from '@radix-ui/react-slot';
+import { Slot } from '@radix-ui/react-slot';
 
 import { cn } from '@/lib/utils';
 
@@ -31,7 +31,7 @@ export const DndSortableWrapper = ({
       {...attributes}
       {...listeners}
     >
-      <Slottable>{children}</Slottable>
+      {children}
     </Slot>
   ) : (
     children

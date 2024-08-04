@@ -1,18 +1,15 @@
 import { Table, type TableProps } from '@/Table';
 import type { DataType } from '@/types';
+import { BorderWrapper, DnDContextWrapper, ScrollAreaWrapper } from '@/utils';
 
 import { ModelTableBody } from './ModelTableBody';
-import { ModelTableFallback } from './ModelTableFallback';
 import { ModelTableHeader } from './ModelTableHeader';
 import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
-import {
-  BorderWrapper,
-  DnDContextWrapper,
-  ScrollAreaWrapper,
-} from './Wrappers';
+import { ModelTableHead } from './ModelTableHead';
+import { ModelTableHeaderRow } from './ModelTableHeaderRow';
 
 export interface ModelTableProps<D extends DataType, F extends string>
   extends ModelTableState<D, F>,
@@ -51,8 +48,8 @@ export const ModelTable = Object.assign(
                 {children === undefined ? (
                   <>
                     <ModelTable.Header />
-                    {/* <ModelTable.Body />
-            <ModelTable.Fallback /> */}
+                    {/* <ModelTable.Body /> */}
+                    <ModelTable.Fallback />
                   </>
                 ) : (
                   children
@@ -65,8 +62,10 @@ export const ModelTable = Object.assign(
     );
   },
   {
+    Head: ModelTableHead,
     Header: ModelTableHeader,
+    HeaderRow: ModelTableHeaderRow,
     Body: ModelTableBody,
-    Fallback: ModelTableFallback,
+    Fallback: Table.Fallback,
   },
 );

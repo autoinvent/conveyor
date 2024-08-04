@@ -1,10 +1,11 @@
+import { forwardRef, useState, type ReactNode } from 'react';
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   CaretSortIcon,
   EyeNoneIcon,
 } from '@radix-ui/react-icons';
-import type { ReactNode } from 'react';
+import { Slot } from '@radix-ui/react-slot';
 
 import { Lens, Lenses } from '@/Lenses';
 import { Button } from '@/lib/components/ui/button';
@@ -26,15 +27,15 @@ import {
 
 import { useModelTableStore } from './useModelTableStore';
 
-export interface ModelTableHeadOptions {
+export interface ModelTableHeadMenuProps {
   field: string;
   children?: ReactNode;
 }
 
-export const ModelTableHeadOptions = ({
+export const ModelTableHeadMenu = ({
   field,
   children,
-}: ModelTableHeadOptions) => {
+}: ModelTableHeadMenuProps) => {
   const sortable = useModelTableStore(
     (state) => state.tableOptions?.columnOptions?.[field]?.sortable ?? true,
   );
@@ -53,7 +54,6 @@ export const ModelTableHeadOptions = ({
   const onFieldOrderChange = useModelTableStore(
     (state) => state.tableOptions?.onFieldOrderChange,
   );
-
   const currentSortDirection = getFieldSortDirection({ sortOrder, field });
   const onFieldSortChange = (newSortDir: string) => {
     let newSortDirection = newSortDir as SortDirection;
@@ -67,27 +67,40 @@ export const ModelTableHeadOptions = ({
     const newFieldOrder = toggleFieldVisibility({ fieldOrder, field });
     onFieldOrderChange?.(newFieldOrder);
   };
+
+  const [openMenu, setOpenMenu] = useState(false);
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="-ml-3 h-8 data-[state=open]:bg-accent"
-        >
-          {children}
-          <Lenses activeLens={sortable && currentSortDirection}>
-            <Lens lens={SortDirection.ASC}>
-              <ArrowUpIcon className="ml-2 h-4 w-4" />
-            </Lens>
-            <Lens lens={SortDirection.DESC}>
-              <ArrowDownIcon className="ml-2 h-4 w-4" />
-            </Lens>
-            <Lens lens={SortDirection.NONE}>
-              <CaretSortIcon className="ml-2 h-4 w-4" />
-            </Lens>
-          </Lenses>
-        </Button>
+    <DropdownMenu open={openMenu} onOpenChange={setOpenMenu}>
+      <DropdownMenuTrigger
+        onPointerDown={(e) => {
+          e.preventDefault();
+        }}
+        asChild
+      >
+        <DropdownMenuTriggerWithoutListener>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="-ml-3 h-8 data-[state=open]:bg-accent"
+            onClick={() => {
+              setOpenMenu(!openMenu);
+            }}
+          >
+            {children}
+            <Lenses activeLens={sortable && currentSortDirection}>
+              <Lens lens={SortDirection.ASC}>
+                <ArrowUpIcon className="ml-2 h-4 w-4" />
+              </Lens>
+              <Lens lens={SortDirection.DESC}>
+                <ArrowDownIcon className="ml-2 h-4 w-4" />
+              </Lens>
+              <Lens lens={SortDirection.NONE}>
+                <CaretSortIcon className="ml-2 h-4 w-4" />
+              </Lens>
+            </Lenses>
+          </Button>
+        </DropdownMenuTriggerWithoutListener>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <Lenses activeLens={sortable}>
@@ -124,3 +137,14 @@ export const ModelTableHeadOptions = ({
     </DropdownMenu>
   );
 };
+
+const DropdownMenuTriggerWithoutListener = forwardRef<
+  React.ElementRef<typeof DropdownMenuTrigger>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger>
+>(({ onPointerDown, ...props }, ref) => {
+  return (
+    <Slot {...props} ref={ref}>
+      {props.children}
+    </Slot>
+  );
+});

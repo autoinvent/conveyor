@@ -9,6 +9,10 @@ const meta = {
   title: 'Models/ModelTable',
   component: ModelTable,
   tags: ['autodocs'],
+  argTypes: {
+    onUpdate: { control: false },
+    onDelete: { control: false },
+  },
   args: {
     fields: ['title', 'author', 'published', 'rating', 'genre'],
     data: [
@@ -27,6 +31,9 @@ const meta = {
         },
         author: {
           sortable: false,
+        },
+        rating: {
+          label: 'Rating ⭐',
         },
       },
     },

@@ -1,9 +1,8 @@
 import { TableHead, type TableHeadProps } from '@/Table';
-import { humanizeText } from '@/utils';
+import { DndSortableWrapper, humanizeText } from '@/utils';
 
-import { ModelTableHeadOptions } from './ModelTableHeadOptions';
+import { ModelTableHeadMenu } from './ModelTableHeadMenu';
 import { useModelTableStore } from './useModelTableStore';
-import { DndSortableWrapper } from './Wrappers/DnDSortableWrapper';
 
 export interface ModelTableHeadProps extends Omit<TableHeadProps, 'columnId'> {
   field: string;
@@ -15,6 +14,10 @@ export const ModelTableHead = ({
   children,
   ...tableHeadProps
 }: ModelTableHeadProps) => {
+  const label = useModelTableStore(
+    (state) =>
+      state.tableOptions?.columnOptions?.[field]?.label ?? humanizeText(field),
+  );
   const draggable = useModelTableStore(
     (state) => state.tableOptions?.draggable ?? true,
   );
@@ -23,9 +26,7 @@ export const ModelTableHead = ({
     <DndSortableWrapper draggable={draggable} dndId={field}>
       <TableHead columnId={field} {...tableHeadProps}>
         {children === undefined ? (
-          <ModelTableHeadOptions field={field}>
-            {humanizeText(field)}
-          </ModelTableHeadOptions>
+          <ModelTableHeadMenu field={field}>{label}</ModelTableHeadMenu>
         ) : (
           children
         )}
