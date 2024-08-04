@@ -28,6 +28,7 @@ const meta = {
       columnOptions: {
         title: {
           hidable: false,
+          rules: { required: 'Title is required!' },
         },
         author: {
           sortable: false,

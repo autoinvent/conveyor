@@ -10,6 +10,9 @@ import {
 } from './ModelTableStoreContext';
 import { ModelTableHead } from './ModelTableHead';
 import { ModelTableHeaderRow } from './ModelTableHeaderRow';
+import { ModelTableCell } from './ModelTableCell';
+import { ModelTableErrorRow } from './ModelTableErrorRow';
+import { ModelTableRow } from './ModelTableRow';
 
 export interface ModelTableProps<D extends DataType, F extends string>
   extends ModelTableState<D, F>,
@@ -44,11 +47,11 @@ export const ModelTable = Object.assign(
             }
           >
             <ScrollAreaWrapper scrollable={tableOptions?.scrollable ?? true}>
-              <Table columnIds={renderedFields} {...tableProps}>
+              <Table columnIds={renderedFields} data={data} {...tableProps}>
                 {children === undefined ? (
                   <>
                     <ModelTable.Header />
-                    {/* <ModelTable.Body /> */}
+                    <ModelTable.Body />
                     <ModelTable.Fallback />
                   </>
                 ) : (
@@ -62,10 +65,13 @@ export const ModelTable = Object.assign(
     );
   },
   {
+    Body: ModelTableBody,
+    Cell: ModelTableCell,
+    ErrorRow: ModelTableErrorRow,
+    Fallback: Table.Fallback,
     Head: ModelTableHead,
     Header: ModelTableHeader,
     HeaderRow: ModelTableHeaderRow,
-    Body: ModelTableBody,
-    Fallback: Table.Fallback,
+    Row: ModelTableRow,
   },
 );

@@ -67,7 +67,6 @@ export const ModelTableHeadMenu = ({
     const newFieldOrder = toggleFieldVisibility({ fieldOrder, field });
     onFieldOrderChange?.(newFieldOrder);
   };
-
   const [openMenu, setOpenMenu] = useState(false);
 
   return (

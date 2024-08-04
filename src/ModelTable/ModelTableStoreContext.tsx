@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { type StoreApi, createStore } from 'zustand';
+import { createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
 import type {
