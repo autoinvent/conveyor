@@ -29,6 +29,9 @@ export const ModelFormField = ({
   const formErrorMessageId = `${formFieldId}-error-message-${dataId}`;
   const fieldError = useFormStore((state) => state.formState.errors?.[field]);
   const isLoading = useLoadingStore((state) => state.isLoading);
+  const fieldLabel = useModelFormStore(
+    (state) => state.fieldOptions?.[field]?.label ?? humanizeText(field),
+  );
   const fieldType = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.type ?? ScalarType.STRING,
   );
@@ -62,7 +65,7 @@ export const ModelFormField = ({
                 'mr-2 whitespace-nowrap after:text-destructive',
               )}
             >
-              {humanizeText(field)}
+              {fieldLabel}
             </Label>
             <div>
               {fieldEditable ? (
