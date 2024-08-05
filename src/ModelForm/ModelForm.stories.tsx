@@ -16,6 +16,7 @@ const meta = {
   args: {
     fields: ModelTableStoryMeta.args.fields,
     data: ModelTableStoryMeta.args.data[0],
+    fieldOptions: ModelTableStoryMeta.args.tableOptions.columnOptions,
     onCreate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 3000)),

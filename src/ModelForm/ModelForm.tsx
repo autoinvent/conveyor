@@ -26,6 +26,7 @@ export const ModelForm = Object.assign(
   <D extends DataType, F extends string>({
     fields,
     data,
+    fieldOptions,
     readOnly = false,
     onCreate,
     onUpdate,
@@ -43,6 +44,7 @@ export const ModelForm = Object.assign(
       <ModelFormStoreProvider
         fields={fields}
         data={data}
+        fieldOptions={fieldOptions}
         readOnly={readOnly}
         onCreate={onCreate}
         onUpdate={onUpdate}

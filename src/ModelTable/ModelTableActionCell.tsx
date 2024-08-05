@@ -58,42 +58,44 @@ export const ModelTableActionCell = ({
           className="flex h-full items-center justify-center whitespace-nowrap"
           onSubmit={handleSubmit(onSave)}
         >
-          <Lens lens={!isLoading && DataLens.VALUE}>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={onEdit}
-              onKeyUp={(e) => e.key === 'Enter' && onEdit()}
-            >
-              <SquarePen className="h-4 w-4" />
-            </Button>
-            {onDelete && (
+          <div className="space-x-1">
+            <Lens lens={!isLoading && DataLens.VALUE}>
               <Button
-                variant="outline-destructive"
+                variant="ghost"
                 size="icon"
-                onClick={onDeleteHandler}
-                onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
+                onClick={onEdit}
+                onKeyUp={(e) => e.key === 'Enter' && onEdit()}
               >
-                <Trash2 className="h-4 w-4" />
+                <SquarePen className="h-4 w-4" />
               </Button>
-            )}
-          </Lens>
-          <Lens lens={!isLoading && DataLens.INPUT}>
-            {onUpdate && (
-              <Button type="submit" variant="outline-success" size="icon">
-                <Save className="h-4 w-4" />
+              {onDelete && (
+                <Button
+                  variant="ghost-destructive"
+                  size="icon"
+                  onClick={onDeleteHandler}
+                  onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              )}
+            </Lens>
+            <Lens lens={!isLoading && DataLens.INPUT}>
+              {onUpdate && (
+                <Button type="submit" variant="ghost-success" size="icon">
+                  <Save className="h-4 w-4" />
+                </Button>
+              )}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onCancelEdit}
+                onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
+              >
+                <X className="h-4 w-4" />
               </Button>
-            )}
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={onCancelEdit}
-              onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </Lens>
-          {isLoading && <Spinner />}
+            </Lens>
+            {isLoading && <Spinner />}
+          </div>
         </form>
       ) : (
         children

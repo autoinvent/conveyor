@@ -1,11 +1,7 @@
-export interface FieldVisibilityProps {
-  fieldOrder: string[];
-  field: string;
-}
 export const toggleFieldVisibility = ({
   fieldOrder,
   field,
-}: FieldVisibilityProps) => {
+}: { fieldOrder: string[]; field: string }) => {
   const newFieldOrder = [...fieldOrder];
   const fieldIndex = newFieldOrder.indexOf(field);
   if (fieldIndex >= 0) {

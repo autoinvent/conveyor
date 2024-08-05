@@ -9,12 +9,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/lib/components/ui/dropdown-menu';
+import { humanizeText, toggleFieldVisibility } from '@/utils';
+
+import type { ColumnOptions } from './ModelTableStoreContext';
 
 export interface FieldVisibilityProps<F extends string> {
   fields: F[];
   fieldOrder: F[];
   onFieldOrderChange: (newFieldOrder: F[]) => void;
-  options?: Partial<Record<F, { hidable?: boolean }>>;
+  options?: Partial<Record<F, ColumnOptions>>;
 }
 
 export const FieldVisibility = <F extends string>({
@@ -32,7 +35,7 @@ export const FieldVisibility = <F extends string>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-fit">
-        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+        <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {fields
           .filter((field) => options?.[field]?.hidable ?? true)
@@ -42,17 +45,16 @@ export const FieldVisibility = <F extends string>({
                 key={field}
                 className="capitalize"
                 checked={fieldOrder.includes(field)}
-                onCheckedChange={(checked) => {
-                  if (checked) {
-                    onFieldOrderChange(fieldOrder.concat(field));
-                  } else {
-                    const fieldIdx = fieldOrder.indexOf(field);
-                    onFieldOrderChange(fieldOrder.toSpliced(fieldIdx, 1));
-                  }
+                onCheckedChange={() => {
+                  const newFieldOrder = toggleFieldVisibility({
+                    fieldOrder,
+                    field,
+                  });
+                  onFieldOrderChange(newFieldOrder as F[]);
                 }}
                 onSelect={(e) => e.preventDefault()}
               >
-                {field}
+                {options?.[field]?.label ?? humanizeText(field)}
               </DropdownMenuCheckboxItem>
             );
           })}
