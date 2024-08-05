@@ -1,4 +1,4 @@
-import { type ComponentProps, useId } from 'react';
+import type { ComponentProps } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { Label } from '@/lib/components/ui/label';
@@ -9,61 +9,48 @@ import { FormError, FormInput, FormValue, useFormStore } from '@/Form';
 import { Lens } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
 import { Slot } from '@/Slots';
-import { DataLens, type DataType, type Field, FieldTypes } from '@/types';
+import { DataLens, type ID, ScalarTypes } from '@/types';
 import { humanizeText } from '@/utils';
 
-import type { ModelFormState } from './ModelFormStoreContext';
 import { useModelFormStore } from './useModelFormStore';
 
 export interface ModelFormFieldProps extends ComponentProps<'div'> {
-  fieldName: string;
+  field: string;
 }
 
 export const ModelFormField = ({
-  fieldName,
+  field,
   children,
   className,
   ...htmlProps
 }: ModelFormFieldProps) => {
-  const refId = useId();
-  const formFieldId = `${fieldName}-${refId}`;
-  const formErrorMessageId = `${formFieldId}-error-message-${refId}`;
-  const fieldError = useFormStore(
-    (state) => state.formState.errors?.[fieldName],
-  );
+  const dataId: ID = useModelFormStore((state) => state.data.id);
+  const formFieldId = `${field}-${dataId}`;
+  const formErrorMessageId = `${formFieldId}-error-message-${dataId}`;
+  const fieldError = useFormStore((state) => state.formState.errors?.[field]);
   const isLoading = useLoadingStore((state) => state.isLoading);
-  const field = useModelFormStore(
-    useShallow<ModelFormState<DataType>, Field>(
-      (state) =>
-        state.fields.find((field) => field.name === fieldName) ?? {
-          name: fieldName,
-          type: FieldTypes.DEFAULT,
-        },
-    ),
+  const fieldType = useModelFormStore(
+    (state) => state.fieldOptions?.[field]?.type ?? ScalarTypes.STRING,
+  );
+  const fieldEditable = useModelFormStore(
+    (state) => state.fieldOptions?.[field]?.editable ?? true,
+  );
+  const fieldRules = useModelFormStore(
+    (state) => state.fieldOptions?.[field]?.rules,
   );
   const inputFn = useConveyorStore(
     useShallow(
-      (state) =>
-        state.typeOptions?.[field.type]?.inputRenderFn ??
-        state.typeOptions?.[FieldTypes.DEFAULT]?.inputRenderFn ??
-        (() => null),
+      (state) => state.typeOptions?.[fieldType]?.inputRenderFn ?? (() => null),
     ),
   );
   const valueFn = useConveyorStore(
     useShallow(
-      (state) =>
-        state.typeOptions?.[field.type]?.valueRenderFn ??
-        state.typeOptions?.[FieldTypes.DEFAULT]?.valueRenderFn ??
-        (() => null),
+      (state) => state.typeOptions?.[fieldType]?.valueRenderFn ?? (() => null),
     ),
   );
 
-  if (field === undefined) {
-    return null;
-  }
-
   return (
-    <Slot slotKey={fieldName}>
+    <Slot slotKey={field}>
       <div className={cn('m-2 ml-0 space-y-2', className)} {...htmlProps}>
         {children === undefined ? (
           <>
@@ -71,27 +58,27 @@ export const ModelFormField = ({
               htmlFor={formFieldId}
               className={cn(
                 !!fieldError && 'text-destructive',
-                field.rules?.required && 'after:content-["*"]',
+                fieldRules?.required && 'after:content-["*"]',
                 'mr-2 whitespace-nowrap after:text-destructive',
               )}
             >
-              {humanizeText(fieldName)}
+              {humanizeText(field)}
             </Label>
             <div>
-              {field.editable ? (
+              {fieldEditable ? (
                 <>
                   <Lens lens={DataLens.VALUE}>
-                    <FormValue name={field.name} render={valueFn} />
+                    <FormValue name={field} render={valueFn} />
                   </Lens>
                   <Lens lens={DataLens.INPUT}>
                     <FormInput
-                      name={field.name}
-                      rules={field.rules}
+                      name={field}
+                      rules={fieldRules}
                       render={({ inputProps, inputState, formState }) => {
                         const extraInputProps = Object.assign(inputProps, {
                           id: formFieldId,
                           disabled: isLoading,
-                          required: !!field.rules?.required,
+                          required: !!fieldRules?.required,
                           'aria-describedby': !inputState?.invalid
                             ? `${formFieldId}`
                             : `${formFieldId} ${formErrorMessageId}`,
@@ -107,14 +94,14 @@ export const ModelFormField = ({
                   </Lens>
                 </>
               ) : (
-                <FormValue name={field.name} render={valueFn} />
+                <FormValue name={field} render={valueFn} />
               )}
             </div>
             <p
               id={formErrorMessageId}
               className="font-medium text-destructive text-sm"
             >
-              <FormError name={fieldName} />
+              <FormError name={field} />
             </p>
           </>
         ) : (

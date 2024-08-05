@@ -17,7 +17,6 @@ import type {
 } from '@/types';
 
 export interface ColumnOptions extends FieldOptions {
-  editable?: boolean;
   sortable?: boolean;
   hidable?: boolean;
   draggable?: boolean;

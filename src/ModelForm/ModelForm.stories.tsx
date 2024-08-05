@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from '@/lib/components/ui/button';
 
-import ModelIndexStoryMeta from '@/ModelIndex/ModelIndex.stories';
+import ModelTableStoryMeta from '@/ModelTable/stories/ModelTable.stories';
 import type { DataType } from '@/types';
 
 import { ModelForm } from './ModelForm';
@@ -15,8 +15,8 @@ const meta = {
   tags: ['autodocs'],
   args: {
     title: 'Disney Cat',
-    fields: ModelIndexStoryMeta.args.fields,
-    data: ModelIndexStoryMeta.args.data[0],
+    fields: ModelTableStoryMeta.args.fields,
+    data: ModelTableStoryMeta.args.data[0],
     onCreate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 3000)),
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 3000)),
