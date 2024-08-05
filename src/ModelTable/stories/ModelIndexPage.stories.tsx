@@ -4,12 +4,12 @@ import { useState } from 'react';
 import ModelTableStoryMeta from '@/ModelTable/stories/ModelTable.stories';
 import type { ActionParams, DataType, TableView } from '@/types';
 
-import { ModelTable } from '../ModelTable';
 import { Header } from '@/Header';
+import { Pagination } from '@/Pagination';
 import { Button } from '@/lib/components/ui/button';
 import { Plus } from 'lucide-react';
-import { Pagination } from '@/Pagination';
 import { FieldVisibility } from '../FieldVisibility';
+import { ModelTable } from '../ModelTable';
 
 const meta = {
   title: 'Models/ModelTable/ModelIndexPage',

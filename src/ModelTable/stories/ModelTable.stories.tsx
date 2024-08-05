@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import {
-  FieldTypes,
-  ScalarType,
   type ActionParams,
   type DataType,
+  FieldTypes,
+  ScalarType,
   type TableView,
 } from '@/types';
 

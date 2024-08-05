@@ -1,14 +1,14 @@
 import { Eye } from 'lucide-react';
 
+import { Button } from '@/lib/components/ui/button';
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuCheckboxItem,
 } from '@/lib/components/ui/dropdown-menu';
-import { Button } from '@/lib/components/ui/button';
 
 export interface FieldVisibilityProps<F extends string> {
   fields: F[];
