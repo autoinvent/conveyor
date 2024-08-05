@@ -18,4 +18,4 @@ export enum NonScalarType {
   MODEL_LIST = '__MODEL_LIST__',
 }
 
-export const FieldTypes = { ...ScalarType, ...NonScalarType };
+export const FieldType = { ...ScalarType, ...NonScalarType };

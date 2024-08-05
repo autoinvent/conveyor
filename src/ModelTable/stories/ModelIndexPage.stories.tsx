@@ -2,7 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import ModelTableStoryMeta from '@/ModelTable/stories/ModelTable.stories';
-import type { ActionParams, DataType, TableView } from '@/types';
+import {
+  ScalarType,
+  type ActionParams,
+  type DataType,
+  type TableView,
+} from '@/types';
 
 import { Header } from '@/Header';
 import { Pagination } from '@/Pagination';
@@ -10,6 +15,8 @@ import { Button } from '@/lib/components/ui/button';
 import { Plus } from 'lucide-react';
 import { FieldVisibility } from '../FieldVisibility';
 import { ModelTable } from '../ModelTable';
+import { Conveyor } from '@/Conveyor';
+import { useDataStore } from '@/Data';
 
 const meta = {
   title: 'Models/ModelTable/ModelIndexPage',
@@ -55,7 +62,15 @@ const meta = {
     };
 
     return (
-      <div>
+      <Conveyor
+        typeOptions={{
+          [ScalarType.STRING]: {
+            valueRenderFn: (props) => (
+              <span className="text-cyan-400">{props.value}</span>
+            ),
+          },
+        }}
+      >
         <Header>
           <Header.Title>Task List</Header.Title>
           <Header.Actions>
@@ -88,7 +103,16 @@ const meta = {
           onUpdate={onUpdateHandler}
           onDelete={onDeleteHandler}
           {...args}
-        />
+        >
+          <ModelTable.Header />
+          <ModelTable.Body>
+            <ModelTable.Row prefilled>
+              <ModelTable.Cell field="points">
+                <CustomCell />
+              </ModelTable.Cell>
+            </ModelTable.Row>
+          </ModelTable.Body>
+        </ModelTable>
         <Pagination
           totalDataLength={500}
           page={tableView.page}
@@ -99,11 +123,16 @@ const meta = {
             }));
           }}
         />
-      </div>
+      </Conveyor>
     );
   },
 } satisfies Meta<typeof ModelTable>;
 export default meta;
+
+const CustomCell = () => {
+  const points = useDataStore((state) => state.points);
+  return <span className="text-yellow-300">{points}</span>;
+};
 
 type Story = StoryObj<typeof meta>;
 

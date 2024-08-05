@@ -6,6 +6,7 @@ import { Button } from '@/lib/components/ui/button';
 
 import { Slot } from '../Slot';
 import { Slots } from '../SlotsStoreContext';
+import { Separator } from '@/lib/components/ui/separator';
 
 const meta = {
   title: 'Commons/Slots',
@@ -78,6 +79,40 @@ export const DuplicateSlots: Story = {
           <Slot slotKey="beefpatty">
             <div className="text-lime-400">PICKLES</div>
           </Slot>
+          <Slot slotKey="beefpatty">
+            <div className="text-yellow-200">CHEESE</div>
+          </Slot>
+          <Slot slotKey="beefpatty">
+            <div className="text-rose-900">BEEF PATTY</div>
+          </Slot>
+          <Slot slotKey="bottom-bun">
+            <div className="text-orange-400">BOTTOM BUN</div>
+          </Slot>
+        </Slots>
+      </div>
+    );
+  },
+};
+
+export const DynamicDuplicateSlots: Story = {
+  render: (args) => {
+    const [withPickles, setWithPickles] = useState(true);
+
+    return (
+      <div className="flex flex-col text-center">
+        <Button onClick={() => setWithPickles(!withPickles)}>
+          Toggle Pickles
+        </Button>
+        <Separator />
+        <Slots {...args}>
+          <Slot slotKey="top-bun">
+            <div className="text-orange-300">TOP BUN</div>
+          </Slot>
+          {withPickles ? (
+            <Slot slotKey="beefpatty">
+              <div className="text-lime-400">PICKLES</div>
+            </Slot>
+          ) : null}
           <Slot slotKey="beefpatty">
             <div className="text-yellow-200">CHEESE</div>
           </Slot>

@@ -24,6 +24,8 @@ export const ModelTableRow = ({
   children,
   ...props
 }: ModelTableRowProps) => {
+  const fields = useModelTableStore((state) => state.fields);
+  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
   const renderedFields = useModelTableStore(
     (state) => state.tableOptions?.fieldOrder ?? state.fields,
   );
@@ -44,12 +46,11 @@ export const ModelTableRow = ({
             >
               {children === undefined || prefilled ? (
                 <>
-                  {renderedFields.map((field) => {
-                    if (field === ACTION_COLUMN)
-                      return <ModelTableActionCell key={ACTION_COLUMN} />;
-                    return <ModelTableCell key={field} field={field} />;
-                  })}
+                  {fields.map((field) => (
+                    <ModelTableCell key={field} field={field} />
+                  ))}
                   {children}
+                  {!readOnly && <ModelTableActionCell />}
                 </>
               ) : (
                 children

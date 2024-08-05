@@ -11,3 +11,5 @@ export * from './ModelTableHeadMenu';
 export * from './ModelTableRow';
 export * from './ModelTableStoreContext';
 export * from './FieldVisibility';
+
+export * from './useModelTableStore';

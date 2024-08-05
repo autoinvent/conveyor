@@ -12,6 +12,7 @@ import {
 import { humanizeText, toggleFieldVisibility } from '@/utils';
 
 import type { ColumnOptions } from './ModelTableStoreContext';
+import { ACTION_COLUMN } from './ModelTable';
 
 export interface FieldVisibilityProps<F extends string> {
   fields: F[];
@@ -50,6 +51,13 @@ export const FieldVisibility = <F extends string>({
                     fieldOrder,
                     field,
                   });
+                  if (newFieldOrder.includes(ACTION_COLUMN)) {
+                    newFieldOrder.splice(
+                      newFieldOrder.indexOf(ACTION_COLUMN),
+                      1,
+                    );
+                    newFieldOrder.push(ACTION_COLUMN);
+                  }
                   onFieldOrderChange(newFieldOrder as F[]);
                 }}
                 onSelect={(e) => e.preventDefault()}

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {
   type ActionParams,
   type DataType,
-  FieldTypes,
+  FieldType,
   ScalarType,
   type TableView,
 } from '@/types';
@@ -55,10 +55,9 @@ const meta = {
           hidable: false,
         },
         user: {
-          type: FieldTypes.MODEL_ITEM,
+          type: FieldType.MODEL_ITEM,
         },
         message: {
-          hidable: false,
           rules: { required: 'Message is required!' },
         },
         created_at: {
@@ -71,6 +70,7 @@ const meta = {
         done: {
           label: 'FINISHED 🏁',
           type: ScalarType.BOOLEAN,
+          hidable: false,
         },
       },
     },
