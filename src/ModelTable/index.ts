@@ -1,4 +1,6 @@
 export * from './ModelTable';
+export * from './ModelTableActionCell';
+export * from './ModelTableActionHead';
 export * from './ModelTableBody';
 export * from './ModelTableCell';
 export * from './ModelTableErrorRow';

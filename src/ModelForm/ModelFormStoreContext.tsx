@@ -9,11 +9,11 @@ import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
 import type { LensType } from '@/Lenses';
-import type { DataType, Field, OnCreate, OnDelete, OnUpdate } from '@/types';
+import type { DataType, OnCreate, OnDelete, OnUpdate } from '@/types';
 
 export interface ModelFormState<D extends DataType> {
   title?: ReactNode;
-  fields: Field[];
+  fields: F[];
   data: D;
   readOnly?: boolean;
   onCreate?: OnCreate<D>;

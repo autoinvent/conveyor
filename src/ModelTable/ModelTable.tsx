@@ -13,6 +13,10 @@ import { ModelTableHeaderRow } from './ModelTableHeaderRow';
 import { ModelTableCell } from './ModelTableCell';
 import { ModelTableErrorRow } from './ModelTableErrorRow';
 import { ModelTableRow } from './ModelTableRow';
+import { ModelTableActionCell } from './ModelTableActionCell';
+import { ModelTableActionHead } from './ModelTableActionHead';
+
+export const ACTION_COLUMN = '__ACTION_COLUMN__';
 
 export interface ModelTableProps<D extends DataType, F extends string>
   extends ModelTableState<D, F>,
@@ -28,13 +32,35 @@ export const ModelTable = Object.assign(
     children,
     ...tableProps
   }: ModelTableProps<D, F>) => {
-    const renderedFields = tableOptions?.fieldOrder ?? fields;
+    let renderedFields = tableOptions?.fieldOrder ?? fields;
     const onFieldOrderChange = tableOptions?.onFieldOrderChange;
+    const newTableOptions = { ...tableOptions };
+
+    // Action Columnn
+    const readOnly = tableOptions?.readOnly;
+    if (
+      renderedFields.length > 0 &&
+      !readOnly &&
+      data &&
+      data.length > 0 &&
+      !renderedFields.includes(ACTION_COLUMN as F)
+    ) {
+      renderedFields = renderedFields.concat([ACTION_COLUMN as F]);
+      newTableOptions.fieldOrder = renderedFields;
+    }
+    if (
+      renderedFields.includes(ACTION_COLUMN as F) &&
+      renderedFields.length === 1
+    ) {
+      renderedFields = [];
+      newTableOptions.fieldOrder = renderedFields;
+    }
+
     return (
       <ModelTableStoreProvider
         fields={fields}
         data={data}
-        tableOptions={tableOptions}
+        tableOptions={newTableOptions}
         onUpdate={onUpdate}
         onDelete={onDelete}
       >
@@ -50,9 +76,9 @@ export const ModelTable = Object.assign(
               <Table columnIds={renderedFields} data={data} {...tableProps}>
                 {children === undefined ? (
                   <>
-                    <ModelTable.Header />
-                    <ModelTable.Body />
-                    <ModelTable.Fallback />
+                    <ModelTableHeader />
+                    <ModelTableBody />
+                    <Table.Fallback />
                   </>
                 ) : (
                   children
@@ -65,6 +91,8 @@ export const ModelTable = Object.assign(
     );
   },
   {
+    ActionCell: ModelTableActionCell,
+    ActionHead: ModelTableActionHead,
     Body: ModelTableBody,
     Cell: ModelTableCell,
     ErrorRow: ModelTableErrorRow,

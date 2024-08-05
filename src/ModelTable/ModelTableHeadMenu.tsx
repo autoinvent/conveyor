@@ -69,7 +69,7 @@ export const ModelTableHeadMenu = ({
   };
   const [openMenu, setOpenMenu] = useState(false);
 
-  return (
+  return sortable || hidable ? (
     <DropdownMenu open={openMenu} onOpenChange={setOpenMenu}>
       <DropdownMenuTrigger
         onPointerDown={(e) => {
@@ -134,6 +134,8 @@ export const ModelTableHeadMenu = ({
         </Lenses>
       </DropdownMenuContent>
     </DropdownMenu>
+  ) : (
+    children
   );
 };
 

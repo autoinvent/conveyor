@@ -8,12 +8,14 @@ import { cn } from '@/lib/utils';
 export interface DndSortableWrapperProps {
   draggable: boolean;
   dndId: string;
+  disabled?: boolean;
   children?: ReactNode;
 }
 
 export const DndSortableWrapper = ({
   draggable,
   dndId,
+  disabled = false,
   children,
 }: DndSortableWrapperProps) => {
   const { attributes, isDragging, listeners, setNodeRef, transform } =
@@ -23,13 +25,18 @@ export const DndSortableWrapper = ({
   const style: CSSProperties = {
     transform: CSS.Translate.toString(transform),
   };
+  const draggableProps = disabled
+    ? {}
+    : {
+        ...attributes,
+        ...listeners,
+      };
   return draggable ? (
     <Slot
       className={cn(isDragging && 'z-10 opacity-80')}
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
+      {...draggableProps}
     >
       {children}
     </Slot>

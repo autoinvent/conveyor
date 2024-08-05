@@ -53,7 +53,7 @@ export const ModelTableCell = ({
   );
 
   return (
-    <DndSortableWrapper draggable={draggable} dndId={field}>
+    <DndSortableWrapper draggable={draggable} dndId={field} disabled>
       <TableCell
         columnId={field}
         onDoubleClick={(e) =>

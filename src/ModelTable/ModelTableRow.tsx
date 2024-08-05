@@ -8,9 +8,11 @@ import { TableRow, type TableRowProps } from '@/Table';
 import { DataLens } from '@/types';
 import { DnDSortableContextWrapper } from '@/utils';
 
+import { ACTION_COLUMN } from './ModelTable';
 import { ModelTableCell } from './ModelTableCell';
 import { ModelTableErrorRow } from './ModelTableErrorRow';
 import { useModelTableStore } from './useModelTableStore';
+import { ModelTableActionCell } from './ModelTableActionCell';
 
 export interface ModelTableRowProps extends TableRowProps {
   formMethods?: UseFormReturn;
@@ -35,17 +37,16 @@ export const ModelTableRow = ({
     <FormStoreProvider {...(formMethods ?? defaultFormMethods)}>
       <LoadingStoreProvider>
         <Lenses initialLens={DataLens.VALUE}>
-          <DnDSortableContextWrapper
-            draggable={draggable}
-            dndList={renderedFields}
-          >
-            <TableRow prefilled={false} {...props}>
+          <TableRow prefilled={false} {...props}>
+            <DnDSortableContextWrapper
+              draggable={draggable}
+              dndList={renderedFields}
+            >
               {children === undefined || prefilled ? (
                 <>
                   {renderedFields.map((field) => {
-                    // if (fieldName === ACTION_COLUMN) {
-                    //   return <ModelTableActionCell key={ACTION_COLUMN} />;
-                    // }
+                    if (field === ACTION_COLUMN)
+                      return <ModelTableActionCell key={ACTION_COLUMN} />;
                     return <ModelTableCell key={field} field={field} />;
                   })}
                   {children}
@@ -53,8 +54,8 @@ export const ModelTableRow = ({
               ) : (
                 children
               )}
-            </TableRow>
-          </DnDSortableContextWrapper>
+            </DnDSortableContextWrapper>
+          </TableRow>
         </Lenses>
       </LoadingStoreProvider>
       <ModelTableErrorRow />
