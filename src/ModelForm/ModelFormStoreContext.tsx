@@ -5,16 +5,22 @@ import {
   useRef,
   useState,
 } from 'react';
-import { type StoreApi, createStore } from 'zustand';
+import { createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
 import type { LensType } from '@/Lenses';
-import type { DataType, Field, OnCreate, OnDelete, OnUpdate } from '@/types';
+import type {
+  DataType,
+  FieldOptions,
+  OnCreate,
+  OnDelete,
+  OnUpdate,
+} from '@/types';
 
-export interface ModelFormState<D extends DataType> {
-  title?: ReactNode;
-  fields: Field[];
+export interface ModelFormState<D extends DataType, F extends string> {
+  fields: F[];
   data: D;
+  fieldOptions?: Partial<Record<F, FieldOptions>>;
   readOnly?: boolean;
   onCreate?: OnCreate<D>;
   onUpdate?: OnUpdate<D>;
@@ -24,20 +30,28 @@ export interface ModelFormState<D extends DataType> {
   initialLens?: LensType;
 }
 
-export const ModelFormStoreContext = createContext<
-  StoreApi<ModelFormState<any>> | undefined
->(undefined);
+/**
+ * https://github.com/pmndrs/zustand/discussions/1281#discussioncomment-10206641
+ */
+type ModelFormStore = ReturnType<
+  typeof createStore<ModelFormState<any, any>, [['zustand/immer', never]]>
+>;
+export const ModelFormStoreContext = createContext<ModelFormStore | undefined>(
+  undefined,
+);
 
-export interface ModelFormStoreProviderProps<D extends DataType>
-  extends ModelFormState<D> {
+export interface ModelFormStoreProviderProps<
+  D extends DataType,
+  F extends string,
+> extends ModelFormState<D, F> {
   children?: ReactNode;
 }
-export const ModelFormStoreProvider = <D extends DataType>({
+export const ModelFormStoreProvider = <D extends DataType, F extends string>({
   children,
   ...modelState
-}: ModelFormStoreProviderProps<D>) => {
+}: ModelFormStoreProviderProps<D, F>) => {
   const [store] = useState(() =>
-    createStore(immer<ModelFormState<D>>(() => ({ ...modelState }))),
+    createStore(immer<ModelFormState<D, F>>(() => ({ ...modelState }))),
   );
 
   const isMounted = useRef(false);

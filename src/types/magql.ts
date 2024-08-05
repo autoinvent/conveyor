@@ -29,7 +29,7 @@ export interface TableView {
   per_page?: number;
 }
 
-export enum ScalarTypes {
+export enum ScalarType {
   ID = 'ID',
   STRING = 'String',
   INT = 'Int',

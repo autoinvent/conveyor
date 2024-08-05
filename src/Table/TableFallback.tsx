@@ -1,8 +1,11 @@
 import type { ComponentProps } from 'react';
 
-import { STableBody, STableCell, STableRow } from '@/lib/components/ui/table';
-
 import { Spinner } from '@/Loading';
+import {
+  TableBody as STableBody,
+  TableCell as STableCell,
+  TableRow as STableRow,
+} from '@/lib/components/ui/table';
 
 import { useTableStore } from './useTableStore';
 

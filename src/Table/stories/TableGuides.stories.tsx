@@ -150,7 +150,7 @@ const DraggableTableHeader = ({ columnId }: { columnId: string }) => {
   };
 
   return (
-    <Table.HeaderCell
+    <Table.Head
       className={cn(isDragging && 'z-10 opacity-80')}
       columnId={columnId}
       ref={setNodeRef}
@@ -160,7 +160,7 @@ const DraggableTableHeader = ({ columnId }: { columnId: string }) => {
       <button {...attributes} {...listeners}>
         🟰
       </button>
-    </Table.HeaderCell>
+    </Table.Head>
   );
 };
 
@@ -188,8 +188,7 @@ export const ColumnDnD: Story = {
     const [columnIds, setColumnIds] = useState(argsColumnIds);
 
     // reorder columns after drag & drop
-    function handleDragEnd(event: DragEndEvent) {
-      const { active, over } = event;
+    const handleDragEnd = ({ active, over }: DragEndEvent) => {
       if (active && over && active.id !== over.id) {
         setColumnIds((columnOrder) => {
           const oldIndex = columnOrder.indexOf(active.id as string);
@@ -197,7 +196,7 @@ export const ColumnDnD: Story = {
           return arrayMove(columnOrder, oldIndex, newIndex);
         });
       }
-    }
+    };
 
     const sensors = useSensors(
       useSensor(MouseSensor, {}),
@@ -206,7 +205,6 @@ export const ColumnDnD: Story = {
     );
 
     return (
-      // NOTE: This provider creates div elements, so don't nest inside of <table> elements
       <DndContext
         collisionDetection={closestCenter}
         modifiers={[restrictToHorizontalAxis]}
@@ -214,7 +212,7 @@ export const ColumnDnD: Story = {
         sensors={sensors}
       >
         <Table {...rest} columnIds={columnIds}>
-          <Table.Head>
+          <Table.Header>
             <Table.HeaderRow>
               <SortableContext
                 items={columnIds}
@@ -225,7 +223,7 @@ export const ColumnDnD: Story = {
                 ))}
               </SortableContext>
             </Table.HeaderRow>
-          </Table.Head>
+          </Table.Header>
           <Table.Body>
             <Table.Row>
               <SortableContext

@@ -4,8 +4,7 @@ import type { UseFormReturn } from 'react-hook-form';
 import { FormStoreProvider, useForm } from '@/Form';
 import { Lenses } from '@/Lenses';
 import { LoadingStoreProvider } from '@/Loading';
-import { DataLens, type DataType, type Field } from '@/types';
-import { toField } from '@/utils';
+import { DataLens, type DataType } from '@/types';
 
 import { cn } from '@/lib/utils';
 import { ModelFormActions } from './ModelFormActions';
@@ -16,20 +15,18 @@ import {
   type ModelFormState,
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
-import { ModelFormTitle } from './ModelFormTitle';
 
-export interface ModelFormProps<D extends DataType>
-  extends Omit<ModelFormState<D>, 'fields'>,
-    Omit<ComponentProps<'form'>, 'title' | 'onSubmit'> {
-  fields: (string | Field)[];
+export interface ModelFormProps<D extends DataType, F extends string>
+  extends ModelFormState<D, F>,
+    Omit<ComponentProps<'form'>, 'onSubmit'> {
   formMethods?: UseFormReturn;
 }
 
 export const ModelForm = Object.assign(
-  <D extends DataType>({
-    title,
+  <D extends DataType, F extends string>({
     fields,
     data,
+    fieldOptions,
     readOnly = false,
     onCreate,
     onUpdate,
@@ -41,13 +38,13 @@ export const ModelForm = Object.assign(
     formMethods,
     className,
     ...htmlProps
-  }: ModelFormProps<D>) => {
+  }: ModelFormProps<D, F>) => {
     const defaultFormMethods = useForm({ mode: 'onChange', values: data });
     return (
       <ModelFormStoreProvider
-        title={title}
-        fields={fields.map(toField)}
+        fields={fields}
         data={data}
+        fieldOptions={fieldOptions}
         readOnly={readOnly}
         onCreate={onCreate}
         onUpdate={onUpdate}
@@ -62,10 +59,9 @@ export const ModelForm = Object.assign(
               <Lenses initialLens={initialLens}>
                 {children === undefined ? (
                   <>
-                    <ModelForm.Title />
-                    <ModelForm.Content />
-                    <ModelForm.Actions />
-                    <ModelForm.Fallback />
+                    <ModelFormContent />
+                    <ModelFormActions />
+                    <ModelFormFallback />
                   </>
                 ) : (
                   children
@@ -82,11 +78,10 @@ export const ModelForm = Object.assign(
     Content: ModelFormContent,
     Fallback: ModelFormFallback,
     Field: ModelFormField,
-    Title: ModelFormTitle,
   },
 );
 
-interface FormProps extends Omit<ComponentProps<'form'>, 'title'> {}
+interface FormProps extends ComponentProps<'form'> {}
 
 const Form = ({ children, ...htmlProps }: FormProps) => {
   return (
