@@ -1,8 +1,7 @@
 import type { ComponentProps } from 'react';
 
-import { STableBody } from '@/lib/components/ui/table';
-
 import { DataStoreProvider } from '@/Data';
+import { TableBody as STableBody } from '@/lib/components/ui/table';
 import type { DataType } from '@/types';
 
 import { TableRow } from './TableRow';

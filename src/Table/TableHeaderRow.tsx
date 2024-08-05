@@ -1,10 +1,9 @@
 import type { ComponentProps } from 'react';
 
-import { STableRow } from '@/lib/components/ui/table';
-
 import { Slots } from '@/Slots';
+import { TableRow as STableRow } from '@/lib/components/ui/table';
 
-import { TableHeaderCell } from './TableHeaderCell';
+import { TableHead } from './TableHead';
 import { useTableStore } from './useTableStore';
 
 export interface TableHeaderRowProps extends ComponentProps<typeof STableRow> {
@@ -23,7 +22,7 @@ export const TableHeaderRow = ({
         {children === undefined || prefilled ? (
           <>
             {columnIds.map((columnId) => {
-              return <TableHeaderCell key={columnId} columnId={columnId} />;
+              return <TableHead key={columnId} columnId={columnId} />;
             })}
             {children}
           </>

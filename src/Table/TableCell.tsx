@@ -1,9 +1,8 @@
 import { type ComponentProps, forwardRef } from 'react';
 
-import { STableCell } from '@/lib/components/ui/table';
-
 import { useDataStore } from '@/Data';
 import { Slot } from '@/Slots';
+import { TableCell as STableCell } from '@/lib/components/ui/table';
 
 export interface TableCellProps extends ComponentProps<typeof STableCell> {
   columnId: string;

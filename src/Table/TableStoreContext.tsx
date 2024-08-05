@@ -27,22 +27,16 @@ export const TableStoreProvider = <D extends DataType>({
   children,
   ...tableState
 }: TableStoreProviderProps<D>) => {
-  const [store] = useState(() =>
-    createStore(immer<TableState<D>>(() => ({ ...tableState }))),
-  );
-
   const isMounted = useRef(false);
+  const [store] = useState(() => createStore(immer(() => tableState)));
   /* 
     biome-ignore lint/correctness/useExhaustiveDependencies:
       The reference to tableState does not matter, only the contents.
   */
   useEffect(() => {
     if (isMounted.current) store.setState(() => tableState);
+    else isMounted.current = true;
   }, [...Object.values(tableState), store]);
-
-  useEffect(() => {
-    isMounted.current = true;
-  }, []);
 
   return (
     <TableStoreContext.Provider value={store}>

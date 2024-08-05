@@ -58,12 +58,12 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
     !readOnly &&
     fields.length > 0 &&
     data && (
-      <div className={cn('flex justify-center', className)}>
+      <div className={cn('flex gap-4', className)}>
         <Lens lens={!isLoading && DataLens.VALUE}>
           <Button
             onClick={onEditHandler}
             onKeyUp={(e) => e.key === 'Enter' && onEditHandler()}
-            variant="outline"
+            variant={onCreate ? 'default' : 'outline'}
           >
             Edit
           </Button>
@@ -71,7 +71,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
             <Button
               onClick={onDeleteHandler}
               onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
-              variant="outline-destructive"
+              variant="destructive"
             >
               Delete
             </Button>
@@ -79,11 +79,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
         </Lens>
         <Lens lens={!isLoading && DataLens.INPUT}>
           {onSave && (
-            <Button
-              type="submit"
-              variant="outline-success"
-              onClick={handleSubmit(onSubmit)}
-            >
+            <Button type="submit" onClick={handleSubmit(onSubmit)}>
               {onCreate ? 'Create' : 'Save'}
             </Button>
           )}

@@ -22,7 +22,7 @@ import {
   StringInput,
   type ValueRenderFn,
 } from '@/Form';
-import { FieldTypes } from '@/types';
+import { FieldType } from '@/types';
 import { deepObjectMerge } from '@/utils';
 
 export interface ConveyorState {
@@ -36,22 +36,22 @@ export interface ConveyorState {
 
 export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
   typeOptions: {
-    [FieldTypes.ID]: {
+    [FieldType.ID]: {
       valueRenderFn: (props) => <RawValue className="min-w-fit" {...props} />,
     },
-    [FieldTypes.STRING]: {
+    [FieldType.STRING]: {
       valueRenderFn: RawValue,
       inputRenderFn: StringInput,
     },
-    [FieldTypes.INT]: {
+    [FieldType.INT]: {
       valueRenderFn: RawValue,
       inputRenderFn: NumberInput,
     },
-    [FieldTypes.FLOAT]: {
+    [FieldType.FLOAT]: {
       valueRenderFn: RawValue,
       inputRenderFn: NumberInput,
     },
-    [FieldTypes.DATETIME]: {
+    [FieldType.DATETIME]: {
       valueRenderFn: ({ name, value }) => (
         <RawValue
           name={name}
@@ -61,11 +61,11 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
       ),
       inputRenderFn: DatetimeInput,
     },
-    [FieldTypes.BOOLEAN]: {
+    [FieldType.BOOLEAN]: {
       valueRenderFn: BooleanValue,
       inputRenderFn: BooleanInput,
     },
-    [FieldTypes.MODEL_ITEM]: {
+    [FieldType.MODEL_ITEM]: {
       valueRenderFn: ({ name, value }) => (
         <RawValue
           name={name}
@@ -75,7 +75,7 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
       ),
       inputRenderFn: ModelItemInput,
     },
-    [FieldTypes.DEFAULT]: {
+    [FieldType.DEFAULT]: {
       valueRenderFn: DefaultValue,
       inputRenderFn: ({ inputProps: { name, value } }) => (
         <DefaultValue name={name} value={value} />

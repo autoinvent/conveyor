@@ -24,13 +24,11 @@ export const CustomTableCells: Story = {
   render: (props) => {
     return (
       <Table {...props}>
-        <Table.Head>
+        <Table.Header>
           <Table.HeaderRow prefilled>
-            <Table.HeaderCell columnId="username">
-              Username (f.l)
-            </Table.HeaderCell>
+            <Table.Head columnId="username">Username (f.l)</Table.Head>
           </Table.HeaderRow>
-        </Table.Head>
+        </Table.Header>
         <Table.Body>
           <Table.Row prefilled>
             <Table.Cell columnId="username">

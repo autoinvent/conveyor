@@ -35,5 +35,10 @@ Do the following to set up your development environment.
 
 ## Imports: Libraries/API > src code > Feature Directory
 
-- Group imports where Libraries start at the top, project src code starting with '@/' as it is a named alias for 'src/', and lastly files that exists within the current directory
-- Alphabetize named imports and import location per group.
+Group imports where:
+- 3rd party libraries/packages start at the top
+  - scoped packages below non-scroped packages
+- Any project src code starting with '@/' as it is a named alias for 'src/'
+- Lastly files that exists within the current directory
+- `pnpm check` will sort the imports files accordingly
+
