@@ -29,12 +29,12 @@ export const ModelTableHeaderRow = ({
               <ModelTableHead key={field} field={field} />
             ))}
             {children}
-            {!readOnly && <ModelTableActionHead />}
           </>
         ) : (
           children
         )}
       </DnDSortableContextWrapper>
+      {!readOnly && <ModelTableActionHead />}
     </TableHeaderRow>
   );
 };

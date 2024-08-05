@@ -49,12 +49,12 @@ export const ModelTableRow = ({
                     <ModelTableCell key={field} field={field} />
                   ))}
                   {children}
-                  {!readOnly && <ModelTableActionCell />}
                 </>
               ) : (
                 children
               )}
             </DnDSortableContextWrapper>
+            {!readOnly && <ModelTableActionCell />}
           </TableRow>
         </Lenses>
       </LoadingStoreProvider>

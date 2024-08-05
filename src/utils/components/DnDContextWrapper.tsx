@@ -8,7 +8,10 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
+import {
+  restrictToHorizontalAxis,
+  restrictToParentElement,
+} from '@dnd-kit/modifiers';
 import { arrayMove } from '@dnd-kit/sortable';
 import type { ReactNode } from 'react';
 
@@ -48,7 +51,7 @@ export const DnDContextWrapper = ({
   return draggable ? (
     <DndContext
       collisionDetection={closestCenter}
-      modifiers={[restrictToHorizontalAxis]}
+      modifiers={[restrictToHorizontalAxis, restrictToParentElement]}
       onDragEnd={handleDragEnd}
       sensors={sensors}
     >
