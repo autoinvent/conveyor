@@ -5,7 +5,7 @@ import { FormInput, FormValue } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
-import { DataLens, type ID, ScalarTypes } from '@/types';
+import { DataLens, type ID, ScalarType } from '@/types';
 import { DndSortableWrapper } from '@/utils';
 
 import { useDataStore } from '@/Data';
@@ -33,7 +33,7 @@ export const ModelTableCell = ({
   );
   const fieldType = useModelTableStore(
     (state) =>
-      state.tableOptions?.columnOptions?.[field]?.type ?? ScalarTypes.STRING,
+      state.tableOptions?.columnOptions?.[field]?.type ?? ScalarType.STRING,
   );
   const fieldEditable = useModelTableStore(
     (state) => state.tableOptions?.columnOptions?.[field]?.editable ?? true,

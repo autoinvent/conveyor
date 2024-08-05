@@ -7,5 +7,7 @@ export * from './ModelTableErrorRow';
 export * from './ModelTableHead';
 export * from './ModelTableHeader';
 export * from './ModelTableHeaderRow';
+export * from './ModelTableHeadMenu';
 export * from './ModelTableRow';
 export * from './ModelTableStoreContext';
+export * from './FieldVisibility';

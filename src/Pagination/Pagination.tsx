@@ -10,7 +10,7 @@ export interface PaginationProps
   perPage?: TableView['per_page'];
   maxPageButtonLimit?: number; // The max number of page btns to show at a time
   onPageChange: (newPage: TableView['page']) => void;
-  onPerPageChange: (newPerPage: TableView['per_page']) => void;
+  onPerPageChange?: (newPerPage: TableView['per_page']) => void;
 }
 
 export const Pagination = ({

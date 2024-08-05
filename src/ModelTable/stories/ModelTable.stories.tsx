@@ -1,12 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import type { ActionParams, DataType, TableView } from '@/types';
+import {
+  FieldTypes,
+  ScalarType,
+  type ActionParams,
+  type DataType,
+  type TableView,
+} from '@/types';
 
 import { ModelTable } from '../ModelTable';
 
 const meta = {
-  title: 'Models/ModelTable',
+  title: 'Models/ModelTable/General',
   component: ModelTable,
   tags: ['autodocs'],
   argTypes: {
@@ -14,15 +20,31 @@ const meta = {
     onDelete: { control: false },
   },
   args: {
-    fields: ['id', 'title', 'author', 'published', 'rating', 'genre'],
+    fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
     data: [
       {
         id: '1',
-        title: 'The House of the Scorpion',
-        author: 'Nancy Farmer',
-        published: '2002-01-01T01:56:34.926365',
-        rating: 4.1,
-        genre: 'fiction',
+        message: 'Make Table Scrollable',
+        user: { id: '1' },
+        created_at: '2024-07-10T01:56:34.926365',
+        points: 1,
+        done: true,
+      },
+      {
+        id: '2',
+        message: 'Resizable Columns',
+        user: { id: '3' },
+        created_at: '2024-08-01T01:56:34.926365',
+        points: 3,
+        done: false,
+      },
+      {
+        id: '3',
+        message: 'Feature: Column DnD',
+        user: { id: '2' },
+        created_at: '2024-07-29T01:56:34.926365',
+        points: 4,
+        done: true,
       },
     ],
     tableOptions: {
@@ -32,15 +54,23 @@ const meta = {
           sortable: false,
           hidable: false,
         },
-        title: {
+        user: {
+          type: FieldTypes.MODEL_ITEM,
+        },
+        message: {
           hidable: false,
-          rules: { required: 'Title is required!' },
+          rules: { required: 'Message is required!' },
         },
-        author: {
+        created_at: {
           sortable: false,
+          type: ScalarType.DATETIME,
         },
-        rating: {
-          label: 'Rating ⭐',
+        points: {
+          type: ScalarType.INT,
+        },
+        done: {
+          label: 'FINISHED 🏁',
+          type: ScalarType.BOOLEAN,
         },
       },
     },

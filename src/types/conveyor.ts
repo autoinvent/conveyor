@@ -1,6 +1,6 @@
 import type { RegisterOptions } from 'react-hook-form';
 
-import { ScalarTypes } from './magql';
+import { ScalarType } from './magql';
 
 export interface FieldOptions {
   label?: string;
@@ -12,10 +12,10 @@ export interface FieldOptions {
   >;
 }
 
-export enum NonScalarTypes {
+export enum NonScalarType {
   DEFAULT = '__DEFAULT__',
   MODEL_ITEM = '__MODEL_ITEM__',
   MODEL_LIST = '__MODEL_LIST__',
 }
 
-export const FieldTypes = { ...ScalarTypes, ...NonScalarTypes };
+export const FieldTypes = { ...ScalarType, ...NonScalarType };

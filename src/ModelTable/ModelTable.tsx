@@ -15,6 +15,8 @@ import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
+import { useState } from 'react';
+import { ModelTableHeadMenu } from './ModelTableHeadMenu';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 
@@ -32,9 +34,17 @@ export const ModelTable = Object.assign(
     children,
     ...tableProps
   }: ModelTableProps<D, F>) => {
-    let renderedFields = tableOptions?.fieldOrder ?? fields;
-    const onFieldOrderChange = tableOptions?.onFieldOrderChange;
+    const [internalFieldOrder, setInternalFieldOrder] = useState(fields);
+    let renderedFields = tableOptions?.fieldOrder ?? internalFieldOrder;
+    const onFieldOrderChange =
+      tableOptions?.onFieldOrderChange ?? setInternalFieldOrder;
     const newTableOptions = { ...tableOptions };
+
+    // internal fieldOrder
+    if (!tableOptions?.onFieldOrderChange) {
+      newTableOptions.onFieldOrderChange = setInternalFieldOrder;
+      newTableOptions.fieldOrder = internalFieldOrder;
+    }
 
     // Action Columnn
     const readOnly = tableOptions?.readOnly;
@@ -100,6 +110,7 @@ export const ModelTable = Object.assign(
     Head: ModelTableHead,
     Header: ModelTableHeader,
     HeaderRow: ModelTableHeaderRow,
+    HeadMenu: ModelTableHeadMenu,
     Row: ModelTableRow,
   },
 );

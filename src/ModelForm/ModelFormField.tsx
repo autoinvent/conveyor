@@ -9,7 +9,7 @@ import { FormError, FormInput, FormValue, useFormStore } from '@/Form';
 import { Lens } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
 import { Slot } from '@/Slots';
-import { DataLens, type ID, ScalarTypes } from '@/types';
+import { DataLens, type ID, ScalarType } from '@/types';
 import { humanizeText } from '@/utils';
 
 import { useModelFormStore } from './useModelFormStore';
@@ -30,7 +30,7 @@ export const ModelFormField = ({
   const fieldError = useFormStore((state) => state.formState.errors?.[field]);
   const isLoading = useLoadingStore((state) => state.isLoading);
   const fieldType = useModelFormStore(
-    (state) => state.fieldOptions?.[field]?.type ?? ScalarTypes.STRING,
+    (state) => state.fieldOptions?.[field]?.type ?? ScalarType.STRING,
   );
   const fieldEditable = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.editable ?? true,

@@ -14,7 +14,6 @@ const meta = {
   component: ModelForm,
   tags: ['autodocs'],
   args: {
-    title: 'Disney Cat',
     fields: ModelTableStoryMeta.args.fields,
     data: ModelTableStoryMeta.args.data[0],
     onCreate: () => new Promise((resolve) => setTimeout(resolve, 3000)),

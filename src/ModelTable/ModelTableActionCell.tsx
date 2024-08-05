@@ -27,7 +27,6 @@ export const ModelTableActionCell = ({
   const reset = useFormStore((state) => state.reset);
   const handleSubmit = useFormStore((state) => state.handleSubmit);
   const setLens = useLensesStore((state) => state.setLens);
-  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
   const onUpdate = useModelTableStore((state) => state.onUpdate);
   const onDelete = useModelTableStore((state) => state.onDelete);
 
