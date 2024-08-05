@@ -1,7 +1,6 @@
 import { TableHeaderRow, type TableHeaderRowProps } from '@/Table';
 import { DnDSortableContextWrapper } from '@/utils';
 
-import { ACTION_COLUMN } from './ModelTable';
 import { ModelTableActionHead } from './ModelTableActionHead';
 import { ModelTableHead } from './ModelTableHead';
 import { useModelTableStore } from './useModelTableStore';
@@ -29,6 +28,7 @@ export const ModelTableHeaderRow = ({
             {fields.map((field) => (
               <ModelTableHead key={field} field={field} />
             ))}
+            {children}
             {!readOnly && <ModelTableActionHead />}
           </>
         ) : (
