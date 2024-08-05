@@ -1,7 +1,7 @@
 import { useShallow } from 'zustand/react/shallow';
 
 import { useConveyorStore } from '@/Conveyor';
-import { FormInput, FormValue } from '@/Form';
+import { FormInput, FormValue, useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
@@ -51,6 +51,7 @@ export const ModelTableCell = ({
       (state) => state.typeOptions?.[fieldType]?.valueRenderFn ?? (() => null),
     ),
   );
+  const reset = useFormStore((state) => state.reset);
 
   return (
     <DndSortableWrapper draggable={draggable} dndId={field} disabled>
@@ -64,13 +65,14 @@ export const ModelTableCell = ({
               activeLens === DataLens.VALUE &&
               setLens(DataLens.INPUT)
         }
-        onKeyUp={(e) =>
-          onKeyUp
-            ? onKeyUp(e)
-            : e.key === 'Escape' &&
-              activeLens === DataLens.INPUT &&
-              setLens(DataLens.VALUE)
-        }
+        onKeyUp={(e) => {
+          if (onKeyUp) {
+            onKeyUp(e);
+          } else if (e.key === 'Escape' && activeLens === DataLens.INPUT) {
+            setLens(DataLens.VALUE);
+            reset();
+          }
+        }}
         {...tableCellProps}
       >
         {children === undefined ? (
