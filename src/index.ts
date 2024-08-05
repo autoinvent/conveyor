@@ -12,9 +12,8 @@ export * from './Table';
 export * from './Conveyor';
 export * from './ModelCheckDelete';
 export * from './ModelFilter';
-// export * from './ModelForm';
+export * from './ModelForm';
 export * from './ModelTable';
-// export * from './ModelIndex';
 // export * from './ModelSearch';
 
 // types
