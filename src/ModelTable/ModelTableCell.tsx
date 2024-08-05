@@ -8,8 +8,8 @@ import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type ID, ScalarTypes } from '@/types';
 import { DndSortableWrapper } from '@/utils';
 
-import { useModelTableStore } from './useModelTableStore';
 import { useDataStore } from '@/Data';
+import { useModelTableStore } from './useModelTableStore';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
   field: string;

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import type { TableView, DataType, ActionParams } from '@/types';
+import type { ActionParams, DataType, TableView } from '@/types';
 
 import { ModelTable } from '../ModelTable';
 

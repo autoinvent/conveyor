@@ -9,10 +9,10 @@ import { DataLens } from '@/types';
 import { DnDSortableContextWrapper } from '@/utils';
 
 import { ACTION_COLUMN } from './ModelTable';
+import { ModelTableActionCell } from './ModelTableActionCell';
 import { ModelTableCell } from './ModelTableCell';
 import { ModelTableErrorRow } from './ModelTableErrorRow';
 import { useModelTableStore } from './useModelTableStore';
-import { ModelTableActionCell } from './ModelTableActionCell';
 
 export interface ModelTableRowProps extends TableRowProps {
   formMethods?: UseFormReturn;

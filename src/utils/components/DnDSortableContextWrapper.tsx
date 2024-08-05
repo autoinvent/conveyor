@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react';
 import {
   SortableContext,
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import type { ReactNode } from 'react';
 
 export interface DnDSortableContextWrapperProps {
   draggable: boolean;
