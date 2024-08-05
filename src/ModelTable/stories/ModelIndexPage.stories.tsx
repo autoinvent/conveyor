@@ -3,20 +3,20 @@ import { useState } from 'react';
 
 import ModelTableStoryMeta from '@/ModelTable/stories/ModelTable.stories';
 import {
-  ScalarType,
   type ActionParams,
   type DataType,
+  ScalarType,
   type TableView,
 } from '@/types';
 
+import { Conveyor } from '@/Conveyor';
+import { useDataStore } from '@/Data';
 import { Header } from '@/Header';
 import { Pagination } from '@/Pagination';
 import { Button } from '@/lib/components/ui/button';
 import { Plus } from 'lucide-react';
 import { FieldVisibility } from '../FieldVisibility';
 import { ModelTable } from '../ModelTable';
-import { Conveyor } from '@/Conveyor';
-import { useDataStore } from '@/Data';
 
 const meta = {
   title: 'Models/ModelTable/ModelIndexPage',

@@ -11,8 +11,8 @@ import {
 } from '@/lib/components/ui/dropdown-menu';
 import { humanizeText, toggleFieldVisibility } from '@/utils';
 
-import type { ColumnOptions } from './ModelTableStoreContext';
 import { ACTION_COLUMN } from './ModelTable';
+import type { ColumnOptions } from './ModelTableStoreContext';
 
 export interface FieldVisibilityProps<F extends string> {
   fields: F[];
