@@ -8,9 +8,9 @@ const Table = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <table
     ref={ref}
-    className={cn('w-full caption-bottom', className)}
+    className={cn('h-full w-full caption-bottom', className)}
     {...props}
-  />
+  />    
 ));
 Table.displayName = 'Table';
 
@@ -85,7 +85,7 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn('px-4 py-2 align-middle', className)}
+    className={cn('relative h-full w-full px-4 py-2',className)}
     {...props}
   />
 ));

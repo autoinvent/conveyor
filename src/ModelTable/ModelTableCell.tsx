@@ -110,6 +110,7 @@ export const ModelTableCell = ({
         ) : (
           children
         )}
+        <div className='-right-4 absolute top-0 z-10 h-full w-8 cursor-ew-resize select-none'/>
       </TableCell>
     </DndSortableWrapper>
   );
