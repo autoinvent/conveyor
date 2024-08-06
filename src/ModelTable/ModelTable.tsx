@@ -29,6 +29,7 @@ export const ModelTable = Object.assign(
     fields,
     data,
     tableOptions,
+    formOptions,
     onUpdate,
     onDelete,
     children,
@@ -71,6 +72,7 @@ export const ModelTable = Object.assign(
         fields={fields}
         data={data}
         tableOptions={newTableOptions}
+        formOptions={formOptions}
         onUpdate={onUpdate}
         onDelete={onDelete}
       >

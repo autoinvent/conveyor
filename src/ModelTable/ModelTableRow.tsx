@@ -23,6 +23,7 @@ export const ModelTableRow = ({
   children,
   ...props
 }: ModelTableRowProps) => {
+  const resolver = useModelTableStore((state) => state.formOptions?.resolver);
   const fields = useModelTableStore((state) => state.fields);
   const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
   const renderedFields = useModelTableStore(
@@ -32,7 +33,11 @@ export const ModelTableRow = ({
     (state) => state.tableOptions?.draggable ?? true,
   );
   const data = useDataStore();
-  const defaultFormMethods = useForm({ mode: 'onChange', values: data });
+  const defaultFormMethods = useForm({
+    mode: 'onChange',
+    values: data,
+    resolver,
+  });
 
   return (
     <FormStoreProvider {...(formMethods ?? defaultFormMethods)}>

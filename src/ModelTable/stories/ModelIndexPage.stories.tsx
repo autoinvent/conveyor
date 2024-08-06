@@ -110,6 +110,9 @@ const meta = {
               <ModelTable.Cell field="points">
                 <CustomCell />
               </ModelTable.Cell>
+              <ModelTable.ActionCell onClick={(e) => console.log('here')}>
+                Hello
+              </ModelTable.ActionCell>
             </ModelTable.Row>
           </ModelTable.Body>
         </ModelTable>

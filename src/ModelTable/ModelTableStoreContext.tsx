@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import type { UseFormProps } from 'react-hook-form';
 import { createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
@@ -19,7 +20,6 @@ import type {
 export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
   hidable?: boolean;
-  draggable?: boolean;
 }
 
 export interface TableOptions<F extends string> {
@@ -34,10 +34,15 @@ export interface TableOptions<F extends string> {
   columnOptions?: Partial<Record<F, ColumnOptions>>;
 }
 
+export interface FormOptions {
+  resolver: UseFormProps['resolver'];
+}
+
 export interface ModelTableState<D extends DataType, F extends string> {
   fields: F[];
   data?: D[];
   tableOptions?: TableOptions<F>;
+  formOptions?: FormOptions;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;
 }
