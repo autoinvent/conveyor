@@ -180,10 +180,10 @@ export const CustomTableCells: Story = {
         </Card>
         <ScrollArea>
           <Table {...props} className='w-auto min-w-max'>
-            <Table.Head>
+            <Table.Header>
               <Table.HeaderRow>
                 {columnIds.map( columnId => (
-                  <Table.HeaderCell 
+                  <Table.Head 
                     key={`headercell-${columnId}`}
                     columnId={columnId} 
                     style={{width: widths[columnId]}} 
@@ -197,10 +197,10 @@ export const CustomTableCells: Story = {
                       enable={resizableColumns[columnId]}
                       showGrabber={showGrabber}
                     />
-                  </Table.HeaderCell>
+                  </Table.Head>
                 ))}
               </Table.HeaderRow>
-            </Table.Head>
+            </Table.Header>
             <Table.Body>
               <Table.Row>
                 {columnIds.map( columnId => (
