@@ -5,7 +5,6 @@ import {
   type ActionParams,
   type DataType,
   FieldType,
-  ScalarType,
   type TableView,
 } from '@/types';
 
@@ -48,11 +47,13 @@ const meta = {
       },
     ],
     tableOptions: {
+      fieldOrder: [], // dummy
+      onFieldOrderChange: () => null, // dummy
       columnOptions: {
         id: {
           editable: false,
           sortable: false,
-          hidable: false,
+          hidden: true,
         },
         user: {
           type: FieldType.MODEL_ITEM,
@@ -62,14 +63,14 @@ const meta = {
         },
         created_at: {
           sortable: false,
-          type: ScalarType.DATETIME,
+          type: FieldType.DATETIME,
         },
         points: {
-          type: ScalarType.INT,
+          type: FieldType.INT,
         },
         done: {
           label: 'FINISHED 🏁',
-          type: ScalarType.BOOLEAN,
+          type: FieldType.BOOLEAN,
           hidable: false,
         },
       },
@@ -77,13 +78,11 @@ const meta = {
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 2000)),
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 2000)),
   },
-  render: ({ tableOptions, data, onUpdate, onDelete, ...args }) => {
+  render: ({ fields, tableOptions, data, onUpdate, onDelete, ...args }) => {
     const [currData, setCurrData] = useState<undefined | DataType[]>(data);
     const [sortOrder, onSortOrderChange] =
       useState<TableView['sort']>(undefined);
-    const [fieldOrder, onFieldOrderChange] = useState<string[] | undefined>(
-      undefined,
-    );
+    const [fieldOrder, onFieldOrderChange] = useState([...fields]);
 
     const onUpdateHandler = async (params: ActionParams<DataType>) => {
       await onUpdate?.(params);
@@ -119,6 +118,7 @@ const meta = {
 
     return (
       <ModelTable
+        fields={fields}
         data={currData}
         tableOptions={{
           ...tableOptions,
@@ -162,23 +162,7 @@ export const ReadOnly = {
   args: {
     tableOptions: {
       readOnly: true,
-      columnOptions: {
-        id: {
-          editable: false,
-          sortable: false,
-          hidable: false,
-        },
-        title: {
-          hidable: false,
-          rules: { required: 'Title is required!' },
-        },
-        author: {
-          sortable: false,
-        },
-        rating: {
-          label: 'Rating ⭐',
-        },
-      },
+      columnOptions: meta.args.tableOptions.columnOptions,
     },
   },
 };

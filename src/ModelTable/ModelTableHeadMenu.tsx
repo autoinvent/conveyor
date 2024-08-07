@@ -37,22 +37,20 @@ export const ModelTableHeadMenu = ({
   children,
 }: ModelTableHeadMenuProps) => {
   const sortable = useModelTableStore(
-    (state) => state.tableOptions?.columnOptions?.[field]?.sortable ?? true,
+    (state) => state.tableOptions.columnOptions?.[field]?.sortable ?? true,
   );
   const hidable = useModelTableStore(
-    (state) => state.tableOptions?.columnOptions?.[field]?.hidable ?? true,
+    (state) => state.tableOptions.columnOptions?.[field]?.hidable ?? true,
   );
-  const sortOrder = useModelTableStore(
-    (state) => state.tableOptions?.sortOrder,
-  );
+  const sortOrder = useModelTableStore((state) => state.tableOptions.sortOrder);
   const fieldOrder = useModelTableStore(
-    (state) => state.tableOptions?.fieldOrder ?? state.fields,
+    (state) => state.tableOptions.fieldOrder,
   );
   const onSortOrderChange = useModelTableStore(
-    (state) => state.tableOptions?.onSortOrderChange,
+    (state) => state.tableOptions.onSortOrderChange,
   );
   const onFieldOrderChange = useModelTableStore(
-    (state) => state.tableOptions?.onFieldOrderChange,
+    (state) => state.tableOptions.onFieldOrderChange,
   );
   const currentSortDirection = getFieldSortDirection({ sortOrder, field });
   const onFieldSortChange = (newSortDir: string) => {
@@ -64,7 +62,10 @@ export const ModelTableHeadMenu = ({
     onSortOrderChange?.(newSortOrder);
   };
   const hideField = () => {
-    const newFieldOrder = toggleFieldVisibility({ fieldOrder, field });
+    const newFieldOrder = toggleFieldVisibility({
+      fieldOrder,
+      field,
+    });
     onFieldOrderChange?.(newFieldOrder);
   };
   const [openMenu, setOpenMenu] = useState(false);

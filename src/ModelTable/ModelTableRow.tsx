@@ -25,13 +25,11 @@ export const ModelTableRow = ({
 }: ModelTableRowProps) => {
   const resolver = useModelTableStore((state) => state.formOptions?.resolver);
   const fields = useModelTableStore((state) => state.fields);
-  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
-  const renderedFields = useModelTableStore(
-    (state) => state.tableOptions?.fieldOrder ?? state.fields,
+  const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
+  const fieldOrder = useModelTableStore(
+    (state) => state.tableOptions.fieldOrder,
   );
-  const draggable = useModelTableStore(
-    (state) => state.tableOptions?.draggable ?? true,
-  );
+  const draggable = useModelTableStore((state) => state.tableOptions.draggable);
   const data = useDataStore();
   const defaultFormMethods = useForm({
     mode: 'onChange',
@@ -45,8 +43,8 @@ export const ModelTableRow = ({
         <Lenses initialLens={DataLens.VALUE}>
           <TableRow prefilled={false} {...props}>
             <DnDSortableContextWrapper
-              draggable={draggable}
-              dndList={renderedFields}
+              draggable={draggable ?? true}
+              dndList={fieldOrder}
             >
               {children === undefined || prefilled ? (
                 <>
@@ -54,12 +52,12 @@ export const ModelTableRow = ({
                     <ModelTableCell key={field} field={field} />
                   ))}
                   {children}
+                  {!readOnly && <ModelTableActionCell />}
                 </>
               ) : (
                 children
               )}
             </DnDSortableContextWrapper>
-            {!readOnly && <ModelTableActionCell />}
           </TableRow>
         </Lenses>
       </LoadingStoreProvider>

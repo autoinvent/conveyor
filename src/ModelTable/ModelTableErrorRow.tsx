@@ -1,10 +1,9 @@
 import type { ComponentProps } from 'react';
 
 import { FormError, useFormStore } from '@/Form';
+import { useTableStore } from '@/Table';
 import { TableCell, TableRow } from '@/lib/components/ui/table';
 import { cn } from '@/lib/utils';
-
-import { useModelTableStore } from './useModelTableStore';
 
 export interface ModelTableErrorRowProps
   extends ComponentProps<typeof TableRow> {}
@@ -13,9 +12,7 @@ export const ModelTableErrorRow = ({
   className,
   ...tableRowProps
 }: ModelTableErrorRowProps) => {
-  const renderedFields = useModelTableStore(
-    (state) => state.tableOptions?.fieldOrder ?? state.fields,
-  );
+  const fields = useTableStore((state) => state.columnIds);
   const errors = useFormStore((state) => state.formState.errors);
   const hasErrorMessage = Object.keys(errors).some(
     (fieldName) => errors[fieldName]?.message,
@@ -29,10 +26,7 @@ export const ModelTableErrorRow = ({
         )}
         {...tableRowProps}
       >
-        {renderedFields.map((field) => {
-          // return fieldName === ACTION_COLUMN ? (
-          //   <TableCell key={ACTION_COLUMN} />
-          // ) : (
+        {fields.map((field) => {
           return (
             <TableCell key={field}>
               <FormError name={field} />
