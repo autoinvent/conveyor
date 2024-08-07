@@ -54,7 +54,7 @@ const meta = {
           sortable: false,
           hidable: false,
           resizable: true,
-          width: 200,
+          width: 50,
         },
         user: {
           type: FieldType.MODEL_ITEM,
