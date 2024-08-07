@@ -20,6 +20,8 @@ export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
   hidable?: boolean;
   draggable?: boolean;
+  resizable?: boolean;
+  width?: number;
 }
 
 export interface TableOptions<F extends string> {

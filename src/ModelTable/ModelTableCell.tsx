@@ -10,6 +10,7 @@ import { DndSortableWrapper } from '@/utils';
 
 import { useDataStore } from '@/Data';
 import { useModelTableStore } from './useModelTableStore';
+import { useEffect, useRef, useState } from 'react';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
   field: string;
@@ -41,6 +42,12 @@ export const ModelTableCell = ({
   const fieldRules = useModelTableStore(
     (state) => state.tableOptions?.columnOptions?.[field]?.rules,
   );
+  const resizable = useModelTableStore(
+    (state) => state.tableOptions?.columnOptions?.[field]?.resizable
+  )
+  const fieldWidth = useModelTableStore(
+    (state) => state.tableOptions?.columnOptions?.[field]?.width
+  )
   const inputFn = useConveyorStore(
     useShallow(
       (state) => state.typeOptions?.[fieldType]?.inputRenderFn ?? (() => null),
@@ -53,9 +60,55 @@ export const ModelTableCell = ({
   );
   const reset = useFormStore((state) => state.reset);
 
+  // resizing logic
+
+  const cellRef = useRef<HTMLTableCellElement>(null);
+  const [width, setWidth] = useState<number|undefined>(fieldWidth);
+  const [startX, setStartX] = useState<number>();
+  const [startWidth, setStartWidth] = useState<number>();
+  const [finishedResize, setFinishedResize] = useState<boolean>(false);
+
+  if (cellRef.current && !width) {
+    setWidth(cellRef.current.offsetWidth)
+  }
+
+  useEffect( () => {
+    if (startX && startWidth) {
+      document.addEventListener("mousemove", doResize);
+      document.addEventListener("mouseup", stopResize);
+    }
+  }, [startX, startWidth])
+
+  useEffect( () => {
+    if (finishedResize && cellRef?.current && width) {
+      setFinishedResize(false);
+      setWidth(Math.max(cellRef.current?.offsetWidth, width))
+    }
+  }, [finishedResize, width])
+
+  const startResizing = (
+    e : React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    setStartX(e.clientX);
+    setStartWidth(width);
+  }
+
+  const doResize = (e : MouseEvent) => {
+    if (startWidth && startX) {
+      setWidth(startWidth + (e.clientX - startX))
+    }
+  }
+
+  const stopResize = () => {
+    document.removeEventListener("mousemove",doResize);
+    document.removeEventListener("mouseup",stopResize);
+    setFinishedResize(true);
+  }
+
   return (
     <DndSortableWrapper draggable={draggable} dndId={field} disabled>
       <TableCell
+        ref={cellRef}
         columnId={field}
         onDoubleClick={(e) =>
           onDoubleClick
@@ -73,6 +126,7 @@ export const ModelTableCell = ({
             reset();
           }
         }}
+        style={{ width: width}}
         {...tableCellProps}
       >
         {children === undefined ? (
@@ -110,7 +164,15 @@ export const ModelTableCell = ({
         ) : (
           children
         )}
-        <div className='-right-4 absolute top-0 z-10 h-full w-8 cursor-ew-resize select-none'/>
+        {
+          resizable === true ? 
+          <div 
+            className='-right-4 absolute top-0 z-10 h-full w-8 cursor-ew-resize select-none'
+            onMouseDown={e => startResizing(e)}
+          /> :
+          null
+        }
+        
       </TableCell>
     </DndSortableWrapper>
   );
