@@ -6,6 +6,7 @@ import { Button } from '@/lib/components/ui/button';
 import { Separator } from '@/lib/components/ui/separator';
 
 import { type DataType, FieldTypes, type TableView } from '@/types';
+import { SelectInput } from '@/Form/BasicInputs/SelectInput';
 
 import { ModelIndex } from './ModelIndex';
 
@@ -41,7 +42,10 @@ const meta = {
         name: 'Tigger',
         isHappy: false,
         released: null,
-        bestBearFriend: { id: '1' },
+        bestBearFriend: { 
+          id: '1',
+          name: 'friend'
+         },
       },
       {
         id: '2',
@@ -49,7 +53,10 @@ const meta = {
         name: 'Duchess',
         isHappy: true,
         released: '1994-06-24T01:56:34.926365',
-        bestBearFriend: null,
+        bestBearFriend: { 
+          id: '6',
+          name: 'acquaintance'
+         },
       },
       {
         id: '3',
@@ -57,7 +64,10 @@ const meta = {
         name: 'Simba',
         isHappy: true,
         released: '1970-12-24T01:56:34.926365',
-        bestBearFriend: null,
+        bestBearFriend: { 
+          id: '8',
+          name: 'boss'
+         },
       },
     ],
     tableViewOptions: {
@@ -164,5 +174,111 @@ export const UndefinedData: Story = {
 export const ReadOnly = {
   args: {
     readOnly: true,
+  },
+};
+
+export const basicSelectInput: Story = {
+  args: {
+    data: [
+      ...meta.args.data,
+      {
+        id: '5',
+        type: 'Lynx',
+        name: 'Benjamin',
+        isHappy: false,
+        released: '1970-12-24T01:56:34.926365',
+        bestBearFriend: { 
+          id: 'D43DSF430FG',
+          name: 'beast'
+        },
+      }
+    ]
+  },
+  render: ({
+    data,
+    onUpdate,
+    tableViewOptions: defaultTableViewOptions,
+    ...props
+  }: any) => {
+    const [tableView, onTableViewChange] = useState<TableView>({});
+    const [currData, setCurrData] = useState<undefined | DataType[]>(data);
+
+    const sampleOptions: Array<{label: string, value: string}> = [
+      {
+        label: 'hello',
+        value: 'hellovalue',
+      },
+      {
+        label: 'whats up',
+        value: 'whatsupvalue',
+      },
+      {
+        label: 'yo',
+        value: 'yovalue',
+      },
+    ];
+
+    const bearOptions = data.map((datum: any) => ({value: datum.bestBearFriend.id, label: datum.bestBearFriend.name}));
+
+    return (
+      <>
+        <h2 className="ml-4">Data Actions</h2>
+        <Button variant="outline" onClick={() => setCurrData(data)}>
+          Get Data
+        </Button>
+        <Button variant="outline" onClick={() => setCurrData(undefined)}>
+          Load Data
+        </Button>
+        <Separator className="my-4" />
+        <ModelIndex
+          data={currData}
+          tableViewOptions={{
+            tableView,
+            onTableViewChange,
+          }}
+          onUpdate={(params) => {
+            const id = params?.data?.id;
+            if (params?.data) {
+              setCurrData((oldData) => {
+                const idx = oldData?.findIndex((d: DataType) => d.id === id);
+                if (idx !== undefined && idx >= 0 && oldData) {
+                  const newData = [...oldData];
+                  newData[idx] = params.data;
+                  return newData;
+                }
+                return oldData;
+              });
+            }
+          }}
+          onDelete={(data) => {
+            const id = data?.id;
+            if (data?.id) {
+              setCurrData((oldData) => {
+                const idx = oldData?.findIndex((d: DataType) => d.id === id);
+                if (idx !== undefined && idx >= 0 && oldData) {
+                  const newData = [...oldData];
+                  newData.splice(idx, 1);
+                  return newData;
+                }
+                return oldData;
+              });
+            }
+          }}
+          {...props}
+        >
+          <ModelIndex.Table>
+            <ModelIndex.Table.Head />
+            <ModelIndex.Table.Body>
+              <ModelIndex.Table.Row prefilled>
+                <ModelIndex.Table.Cell className="text-nowrap" fieldName="bestBearFriend">
+                  <SelectInput isMulti options={bearOptions}/>
+                </ModelIndex.Table.Cell>
+              </ModelIndex.Table.Row>
+            </ModelIndex.Table.Body>
+            <ModelIndex.Table.Fallback />
+          </ModelIndex.Table>
+        </ModelIndex>
+      </>
+    );
   },
 };

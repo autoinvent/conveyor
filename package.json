@@ -58,6 +58,7 @@
     "immer": "^10.1.1",
     "lucide-react": "^0.408.0",
     "react-hook-form": "^7.52.1",
+    "react-select": "^5.8.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.4"
