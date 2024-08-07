@@ -5,8 +5,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@/lib/components/ui/button';
 import { Separator } from '@/lib/components/ui/separator';
 
-import { type DataType, FieldTypes, type TableView } from '@/types';
 import { SelectInput } from '@/Form/BasicInputs/SelectInput';
+import { type DataType, FieldTypes, type TableView } from '@/types';
 
 import { ModelIndex } from './ModelIndex';
 
@@ -42,10 +42,10 @@ const meta = {
         name: 'Tigger',
         isHappy: false,
         released: null,
-        bestBearFriend: { 
+        bestBearFriend: {
           id: '1',
-          name: 'friend'
-         },
+          name: 'friend',
+        },
       },
       {
         id: '2',
@@ -53,10 +53,10 @@ const meta = {
         name: 'Duchess',
         isHappy: true,
         released: '1994-06-24T01:56:34.926365',
-        bestBearFriend: { 
+        bestBearFriend: {
           id: '6',
-          name: 'acquaintance'
-         },
+          name: 'acquaintance',
+        },
       },
       {
         id: '3',
@@ -64,10 +64,10 @@ const meta = {
         name: 'Simba',
         isHappy: true,
         released: '1970-12-24T01:56:34.926365',
-        bestBearFriend: { 
+        bestBearFriend: {
           id: '8',
-          name: 'boss'
-         },
+          name: 'boss',
+        },
       },
     ],
     tableViewOptions: {
@@ -187,12 +187,12 @@ export const basicSelectInput: Story = {
         name: 'Benjamin',
         isHappy: false,
         released: '1970-12-24T01:56:34.926365',
-        bestBearFriend: { 
+        bestBearFriend: {
           id: 'D43DSF430FG',
-          name: 'beast'
+          name: 'beast',
         },
-      }
-    ]
+      },
+    ],
   },
   render: ({
     data,
@@ -203,7 +203,7 @@ export const basicSelectInput: Story = {
     const [tableView, onTableViewChange] = useState<TableView>({});
     const [currData, setCurrData] = useState<undefined | DataType[]>(data);
 
-    const sampleOptions: Array<{label: string, value: string}> = [
+    const sampleOptions: Array<{ label: string; value: string }> = [
       {
         label: 'hello',
         value: 'hellovalue',
@@ -218,7 +218,10 @@ export const basicSelectInput: Story = {
       },
     ];
 
-    const bearOptions = data.map((datum: any) => ({value: datum.bestBearFriend.id, label: datum.bestBearFriend.name}));
+    const bearOptions = data.map((datum: any) => ({
+      value: datum.bestBearFriend.id,
+      label: datum.bestBearFriend.name,
+    }));
 
     return (
       <>
@@ -270,8 +273,11 @@ export const basicSelectInput: Story = {
             <ModelIndex.Table.Head />
             <ModelIndex.Table.Body>
               <ModelIndex.Table.Row prefilled>
-                <ModelIndex.Table.Cell className="text-nowrap" fieldName="bestBearFriend">
-                  <SelectInput isMulti options={bearOptions}/>
+                <ModelIndex.Table.Cell
+                  className="text-nowrap"
+                  fieldName="bestBearFriend"
+                >
+                  <SelectInput isMulti options={bearOptions} />
                 </ModelIndex.Table.Cell>
               </ModelIndex.Table.Row>
             </ModelIndex.Table.Body>

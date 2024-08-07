@@ -5,21 +5,20 @@ import Select from 'react-select';
 import { cn } from '@/lib/utils';
 
 interface SelectStyleProps {
-  isDisabled?: boolean,
-  isFocused?: boolean,
-  isSelected?: boolean,
+  isDisabled?: boolean;
+  isFocused?: boolean;
+  isSelected?: boolean;
 }
 
 export type SelectInputProps = ComponentProps<typeof Select>;
 
-export const SelectInput = ({options, ...props}: SelectInputProps) => {
-
+export const SelectInput = ({ options, ...props }: SelectInputProps) => {
   const defaultStyling = {
     clearIndicator: ({ isFocused }: SelectStyleProps) =>
       cn(
         isFocused ? 'text-neutral-600' : 'text-neutral-200',
         'p-2',
-        isFocused ? 'hover:text-neutral-800' : 'hover:text-neutral-400'
+        isFocused ? 'hover:text-neutral-800' : 'hover:text-neutral-400',
       ),
     //use 'container' key for selectContainer component!!
     //container: () => cn(),
@@ -30,14 +29,14 @@ export const SelectInput = ({options, ...props}: SelectInputProps) => {
         'border-solid',
         'border',
         'rounded-md',
-        '!flex-nowrap', 
+        '!flex-nowrap',
         'items-center',
       ),
     dropdownIndicator: ({ isFocused }: SelectStyleProps) =>
       cn(
         isFocused ? 'text-neutral-600' : 'text-neutral-200',
         'p-2',
-        isFocused ? 'hover:text-neutral-800' : 'hover:text-neutral-400'
+        isFocused ? 'hover:text-neutral-800' : 'hover:text-neutral-400',
       ),
     group: () => cn('py-2'),
     groupHeading: () =>
@@ -47,20 +46,14 @@ export const SelectInput = ({options, ...props}: SelectInputProps) => {
         'font-medium',
         'mb-1',
         'px-3',
-        'uppercase'
+        'uppercase',
       ),
     indicatorsContainer: () => cn('inline-block'),
     indicatorSeparator: ({ isDisabled }: SelectStyleProps) =>
-      cn(
-        isDisabled ? 'bg-neutral-100' : 'bg-neutral-200',
-        'my-2'
-      ),
+      cn(isDisabled ? 'bg-neutral-100' : 'bg-neutral-200', 'my-2'),
     input: () => cn('m-0.5', 'py-0.5', 'text-neutral-800'),
     loadingIndicator: ({ isFocused }: SelectStyleProps) =>
-      cn(
-        isFocused ? 'text-neutral-600' : 'text-neutral-200',
-        'p-2'
-      ),
+      cn(isFocused ? 'text-neutral-600' : 'text-neutral-200', 'p-2'),
     loadingMessage: () => cn('text-neutral-400', 'py-2', 'px-3'),
     menu: () =>
       cn(
@@ -73,11 +66,12 @@ export const SelectInput = ({options, ...props}: SelectInputProps) => {
         'px-1',
         'border',
         'border-neutral-50',
-        'dark:border-slate-700'
+        'dark:border-slate-700',
       ),
     menuList: () => cn('py-1'),
     // menuPortal: () => cn(),
-    multiValue: () => cn('bg-slate-200', 'dark:bg-slate-800', 'rounded-md', 'm-0.5'),
+    multiValue: () =>
+      cn('bg-slate-200', 'dark:bg-slate-800', 'rounded-md', 'm-0.5'),
     multiValueLabel: () =>
       cn(
         'rounded-md',
@@ -93,21 +87,16 @@ export const SelectInput = ({options, ...props}: SelectInputProps) => {
         'px-1',
         'hover:bg-red-500',
         'hover:text-red-800',
-        'dark:bg-slate-800'
+        'dark:bg-slate-800',
       ),
-    noOptionsMessage: () =>
-      cn('text-neutral-400', 'py-2', 'px-3'),
+    noOptionsMessage: () => cn('text-neutral-400', 'py-2', 'px-3'),
     option: ({ isDisabled, isFocused, isSelected }: SelectStyleProps) =>
       cn(
-        isFocused
-          ? 'bg-slate-200 dark:bg-slate-800'
-          : 'bg-transparent',
-        isSelected
-          ? 'font-bold'
-          : 'text-inherit',
+        isFocused ? 'bg-slate-200 dark:bg-slate-800' : 'bg-transparent',
+        isSelected ? 'font-bold' : 'text-inherit',
         'py-2',
         'px-3',
-        'rounded-md'
+        'rounded-md',
       ),
     placeholder: () => cn('text-neutral-500', 'mx-0.5'),
     singleValue: ({ isDisabled }: SelectStyleProps) =>
@@ -116,12 +105,19 @@ export const SelectInput = ({options, ...props}: SelectInputProps) => {
         'text-inherit',
         'mx-0.5',
       ),
-    valueContainer: () => cn('py-0.5', 'px-2', '!overflow-visible', 'inline-block'),
+    valueContainer: () =>
+      cn('py-0.5', 'px-2', '!overflow-visible', 'inline-block'),
   };
 
   return (
-    <div className='rounded-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-2'>
-      <Select {...props} unstyled classNames={defaultStyling} menuPortalTarget={document.body} options={options} />
+    <div className="rounded-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-2">
+      <Select
+        {...props}
+        unstyled
+        classNames={defaultStyling}
+        menuPortalTarget={document.body}
+        options={options}
+      />
     </div>
   );
 };
