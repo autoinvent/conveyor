@@ -1,10 +1,4 @@
-import {
-  useLayoutEffect,
-  useState,
-  useRef,
-  type ReactNode,
-  useEffect,
-} from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
 import { cn } from '@/lib/utils';

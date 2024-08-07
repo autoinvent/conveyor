@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react';
 
 import * as Shadcn from '@/lib/components/ui/pagination';
-import type { TableView } from '@/types';
 import { cn } from '@/lib/utils';
+import type { TableView } from '@/types';
 
 export interface PaginationProps
   extends ComponentProps<typeof Shadcn.Pagination>,
