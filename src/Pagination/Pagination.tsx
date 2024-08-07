@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import type { TableView } from '@/types';
 
 export interface PaginationProps
-  extends ComponentProps<typeof Shadcn.Pagination>,
+  extends ComponentProps<'nav'>,
     Pick<TableView, 'page'> {
   totalDataLength?: number;
   perPage?: TableView['per_page'];
