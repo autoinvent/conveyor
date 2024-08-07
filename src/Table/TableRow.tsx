@@ -1,8 +1,7 @@
 import type { ComponentProps } from 'react';
 
-import { STableRow } from '@/lib/components/ui/table';
-
 import { Slots } from '@/Slots';
+import { TableRow as STableRow } from '@/lib/components/ui/table';
 
 import { TableCell } from './TableCell';
 import { useTableStore } from './useTableStore';

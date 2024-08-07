@@ -1,13 +1,13 @@
 import type { ComponentProps } from 'react';
 
-import { STable } from '@/lib/components/ui/table';
+import { Table as STable } from '@/lib/components/ui/table';
 import type { DataType } from '@/types';
 
 import { TableBody } from './TableBody';
 import { TableCell } from './TableCell';
 import { TableFallback } from './TableFallback';
 import { TableHead } from './TableHead';
-import { TableHeaderCell } from './TableHeaderCell';
+import { TableHeader } from './TableHeader';
 import { TableHeaderRow } from './TableHeaderRow';
 import { TableRow } from './TableRow';
 import { type TableState, TableStoreProvider } from './TableStoreContext';
@@ -21,14 +21,14 @@ export const Table = Object.assign(
     columnIds,
     data,
     children,
-    ...htmlProps
+    ...tableProps
   }: TableProps<D>) => {
     return (
       <TableStoreProvider columnIds={columnIds} data={data}>
-        <STable {...htmlProps}>
+        <STable {...tableProps}>
           {children === undefined ? (
             <>
-              <TableHead />
+              <TableHeader />
               <TableBody />
               <TableFallback />
             </>
@@ -44,7 +44,7 @@ export const Table = Object.assign(
     Fallback: TableFallback,
     Cell: TableCell,
     Head: TableHead,
-    HeaderCell: TableHeaderCell,
+    Header: TableHeader,
     HeaderRow: TableHeaderRow,
     Row: TableRow,
   },

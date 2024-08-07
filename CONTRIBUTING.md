@@ -1,3 +1,12 @@
+## Development Environment
+Do the following to set up your development environment. 
+```bash
+  git clone "[YOUR-FORKED-CONVEYOR-REPO]"
+  git checkout dev
+  pnpm install
+  git checkout -b "[NEW-DEV-BRANCH-NAME]"
+```
+
 ## Naming the branch
 1. Prefix the branch with one of the labels below; if your PR does not fit any of the following, feel free to make an PR:
    - `feature`: PR to add a new feature (can include bugfixes as a side effect)
@@ -26,5 +35,10 @@
 
 ## Imports: Libraries/API > src code > Feature Directory
 
-- Group imports where Libraries start at the top, project src code starting with '@/' as it is a named alias for 'src/', and lastly files that exists within the current directory
-- Alphabetize named imports and import location per group.
+Group imports where:
+- 3rd party libraries/packages start at the top
+  - scoped packages below non-scroped packages
+- Any project src code starting with '@/' as it is a named alias for 'src/'
+- Lastly files that exists within the current directory
+- `pnpm check` will sort the imports files accordingly
+

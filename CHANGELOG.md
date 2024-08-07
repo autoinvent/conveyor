@@ -1,8 +1,9 @@
-## 1.2.0
-- `ModelFilter`: A basic filters UI for ModelIndex that can be customized.
-- `ModelCheckDelete`: A basic delete confirmation UI. [#5](https://github.com/autoinvent/conveyor/issues/5)
-- `useTableView`: Removed due to just being a useState for tableView.
+## 1.3.0
+- `story`: Table column DnD story added under Table > TableGuide 
+- `bufix`: `SearchResult.extra` was supposed to be optional per magql-sqlalchemy docs
+- `backlog`: `ModelIndexSortSetting` is backlogged until it becomes more customizable. 
 
-## 1.1.0 🎉
-- 1.0.x was released prematurely, and such, 1.1.0 will be noted as the first official release.
-- Lots of changes have been made, some have been listed in [#54](https://github.com/autoinvent/conveyor/pull/54) 
+## 1.2.0 🎉
+- `feature`: Added `ModelFilter`; A basic filters UI for ModelIndex that can be customized.
+- `feature`: Added `ModelCheckDelete`; A basic delete confirmation UI. [#5](https://github.com/autoinvent/conveyor/issues/5)
+- `cleanup`: Removed `useTableView` due to just being a useState for tableView with minor functionality. (reduces the amount to know about this repo)

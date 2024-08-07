@@ -6,7 +6,7 @@ export interface SearchResult {
   type: string;
   id: ID;
   value: string;
-  extra: JSONValue;
+  extra?: JSONValue;
 }
 
 export interface CheckDeleteResult {
@@ -29,7 +29,7 @@ export interface TableView {
   per_page?: number;
 }
 
-export enum ScalarTypes {
+export enum ScalarType {
   ID = 'ID',
   STRING = 'String',
   INT = 'Int',

@@ -1,15 +1,21 @@
-import type { ComponentProps } from 'react';
+import { type ComponentProps, forwardRef } from 'react';
 
-import { STableHeader } from '@/lib/components/ui/table';
+import { Slot } from '@/Slots';
+import { TableHead as STableHead } from '@/lib/components/ui/table';
+import { humanizeText } from '@/utils';
 
-import { TableHeaderRow } from './TableHeaderRow';
+export interface TableHeadProps extends ComponentProps<typeof STableHead> {
+  columnId: string;
+}
 
-export interface TableHeadProps extends ComponentProps<typeof STableHeader> {}
-
-export const TableHead = ({ children, ...htmlProps }: TableHeadProps) => {
-  return (
-    <STableHeader {...htmlProps}>
-      {children === undefined ? <TableHeaderRow /> : children}
-    </STableHeader>
-  );
-};
+export const TableHead = forwardRef<HTMLTableCellElement, TableHeadProps>(
+  ({ columnId, children, ...htmlProps }, ref) => {
+    return (
+      <Slot slotKey={columnId}>
+        <STableHead ref={ref} {...htmlProps}>
+          {children === undefined ? humanizeText(columnId) : children}
+        </STableHead>
+      </Slot>
+    );
+  },
+);
