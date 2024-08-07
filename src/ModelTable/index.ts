@@ -13,5 +13,3 @@ export * from './ModelTableStoreContext';
 export * from './FieldVisibility';
 
 export * from './useModelTableStore';
-
-export * from './constants';
