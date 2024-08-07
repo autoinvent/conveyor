@@ -1,11 +1,12 @@
 import type { ComponentProps } from 'react';
 
-import * as Shadcn from '@/lib/components/ui/pagination';
 import { cn } from '@/lib/utils';
 import type { TableView } from '@/types';
 
+import * as Shadcn from '../lib/components/ui/pagination';
+
 export interface PaginationProps
-  extends ComponentProps<'nav'>,
+  extends ComponentProps<typeof Shadcn.Pagination>,
     Pick<TableView, 'page'> {
   totalDataLength?: number;
   perPage?: TableView['per_page'];
