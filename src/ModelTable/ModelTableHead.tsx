@@ -15,18 +15,19 @@ export const ModelTableHead = ({
   ...tableHeadProps
 }: ModelTableHeadProps) => {
   const label = useModelTableStore(
-    (state) =>
-      state.tableOptions?.columnOptions?.[field]?.label ?? humanizeText(field),
+    (state) => state.tableOptions.columnOptions?.[field]?.label,
   );
   const draggable = useModelTableStore(
-    (state) => state.tableOptions?.draggable ?? true,
+    (state) => state.tableOptions.draggable ?? true,
   );
 
   return (
     <DndSortableWrapper draggable={draggable} dndId={field}>
       <TableHead columnId={field} {...tableHeadProps}>
         {children === undefined ? (
-          <ModelTableHeadMenu field={field}>{label}</ModelTableHeadMenu>
+          <ModelTableHeadMenu field={field}>
+            {label ?? humanizeText(field)}
+          </ModelTableHeadMenu>
         ) : (
           children
         )}

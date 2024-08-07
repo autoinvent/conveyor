@@ -24,10 +24,10 @@ const meta = {
   tags: ['autodocs'],
   argTypes: ModelTableStoryMeta.argTypes,
   args: ModelTableStoryMeta.args,
-  render: ({ tableOptions, data, onUpdate, onDelete, ...args }) => {
+  render: ({ fields, tableOptions, data, onUpdate, onDelete, ...args }) => {
     const [tableView, setTableView] = useState<TableView>({});
     const [currData, setCurrData] = useState<undefined | DataType[]>(data);
-    const [fieldOrder, onFieldOrderChange] = useState(args.fields);
+    const [fieldOrder, onFieldOrderChange] = useState([...fields]);
 
     const onUpdateHandler = async (params: ActionParams<DataType>) => {
       await onUpdate?.(params);
@@ -60,7 +60,6 @@ const meta = {
         });
       }
     };
-
     return (
       <Conveyor
         typeOptions={{
@@ -75,10 +74,10 @@ const meta = {
           <Header.Title>Task List</Header.Title>
           <Header.Actions>
             <FieldVisibility
-              fields={args.fields}
+              fields={fields}
               fieldOrder={fieldOrder}
               onFieldOrderChange={onFieldOrderChange}
-              options={tableOptions?.columnOptions}
+              options={tableOptions.columnOptions}
             />
             <Button variant="outline" size="sm" className="h-8">
               <Plus className="mr-2 h-4 w-4" />
@@ -87,6 +86,7 @@ const meta = {
           </Header.Actions>
         </Header>
         <ModelTable
+          fields={fields}
           data={currData}
           tableOptions={{
             ...tableOptions,

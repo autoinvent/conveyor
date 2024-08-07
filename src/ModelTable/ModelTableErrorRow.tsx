@@ -13,9 +13,10 @@ export const ModelTableErrorRow = ({
   className,
   ...tableRowProps
 }: ModelTableErrorRowProps) => {
-  const renderedFields = useModelTableStore(
-    (state) => state.tableOptions?.fieldOrder ?? state.fields,
+  const fieldOrder = useModelTableStore(
+    (state) => state.tableOptions.fieldOrder,
   );
+  const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
   const errors = useFormStore((state) => state.formState.errors);
   const hasErrorMessage = Object.keys(errors).some(
     (fieldName) => errors[fieldName]?.message,
@@ -29,16 +30,14 @@ export const ModelTableErrorRow = ({
         )}
         {...tableRowProps}
       >
-        {renderedFields.map((field) => {
-          // return fieldName === ACTION_COLUMN ? (
-          //   <TableCell key={ACTION_COLUMN} />
-          // ) : (
+        {fieldOrder.map((field) => {
           return (
             <TableCell key={field}>
               <FormError name={field} />
             </TableCell>
           );
         })}
+        {!readOnly && <TableCell />}
       </TableRow>
     )
   );

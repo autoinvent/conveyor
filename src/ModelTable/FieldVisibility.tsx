@@ -14,19 +14,19 @@ import { humanizeText, toggleFieldVisibility } from '@/utils';
 import { ACTION_COLUMN } from './ModelTable';
 import type { ColumnOptions } from './ModelTableStoreContext';
 
-export interface FieldVisibilityProps<F extends string> {
-  fields: F[];
-  fieldOrder: F[];
-  onFieldOrderChange: (newFieldOrder: F[]) => void;
-  options?: Partial<Record<F, ColumnOptions>>;
+export interface FieldVisibilityProps<F extends string, T extends F> {
+  fields: readonly F[];
+  fieldOrder: T[];
+  onFieldOrderChange: (newFieldOrder: T[]) => void;
+  options?: Partial<Record<T, ColumnOptions>>;
 }
 
-export const FieldVisibility = <F extends string>({
+export const FieldVisibility = <F extends string, T extends F>({
   fields,
   fieldOrder,
   onFieldOrderChange,
   options,
-}: FieldVisibilityProps<F>) => {
+}: FieldVisibilityProps<F, T>) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -39,13 +39,16 @@ export const FieldVisibility = <F extends string>({
         <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {fields
-          .filter((field) => options?.[field]?.hidable ?? true)
+          .filter(
+            (field) =>
+              (options?.[field]?.hidable ?? true) && !options?.[field]?.hidden,
+          )
           .map((field) => {
             return (
               <DropdownMenuCheckboxItem
                 key={field}
                 className="capitalize"
-                checked={fieldOrder.includes(field)}
+                checked={fieldOrder.includes(field as T)}
                 onCheckedChange={() => {
                   const newFieldOrder = toggleFieldVisibility({
                     fieldOrder,
@@ -58,7 +61,7 @@ export const FieldVisibility = <F extends string>({
                     );
                     newFieldOrder.push(ACTION_COLUMN);
                   }
-                  onFieldOrderChange(newFieldOrder as F[]);
+                  onFieldOrderChange(newFieldOrder as T[]);
                 }}
                 onSelect={(e) => e.preventDefault()}
               >

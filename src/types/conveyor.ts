@@ -5,6 +5,7 @@ import { ScalarType } from './magql';
 export interface FieldOptions {
   label?: string;
   type?: string;
+  hidden?: boolean;
   editable?: boolean;
   rules?: Omit<
     RegisterOptions,
