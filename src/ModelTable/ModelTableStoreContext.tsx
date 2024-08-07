@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import type { UseFormProps } from 'react-hook-form';
 import { createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
@@ -19,27 +20,35 @@ import type {
 export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
   hidable?: boolean;
-  draggable?: boolean;
   resizable?: boolean;
   width?: number;
 }
 
 export interface TableOptions<F extends string> {
-  fieldOrder?: F[]; // Order + value of the field visibility
+  fieldOrder: F[]; // Order + value of the field visibility
   sortOrder?: TableView['sort']; // Order + value of the field sort
   readOnly?: boolean;
   scrollable?: boolean; // Wraps the table with ScrollArea
   draggable?: boolean; // Wraps the table with DnDContext
   bordered?: boolean; // Wraps the table with div to add bordered styles
-  onFieldOrderChange?: (newFieldOrder: F[]) => void;
+  onFieldOrderChange: (newFieldOrder: F[]) => void;
   onSortOrderChange?: (newSortOrder: TableView['sort']) => void;
   columnOptions?: Partial<Record<F, ColumnOptions>>;
 }
 
-export interface ModelTableState<D extends DataType, F extends string> {
-  fields: F[];
+export interface FormOptions {
+  resolver: UseFormProps['resolver'];
+}
+
+export interface ModelTableState<
+  D extends DataType,
+  F extends string,
+  T extends F,
+> {
+  fields: readonly F[];
   data?: D[];
-  tableOptions?: TableOptions<F>;
+  tableOptions: TableOptions<T>;
+  formOptions?: FormOptions;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;
 }
@@ -48,7 +57,7 @@ export interface ModelTableState<D extends DataType, F extends string> {
  * https://github.com/pmndrs/zustand/discussions/1281#discussioncomment-10206641
  */
 type ModelTableStore = ReturnType<
-  typeof createStore<ModelTableState<any, any>, [['zustand/immer', never]]>
+  typeof createStore<ModelTableState<any, any, any>, [['zustand/immer', never]]>
 >;
 export const ModelTableStoreContext = createContext<
   ModelTableStore | undefined
@@ -57,13 +66,18 @@ export const ModelTableStoreContext = createContext<
 export interface ModelTableStoreProviderProps<
   D extends DataType,
   F extends string,
-> extends ModelTableState<D, F> {
+  T extends F,
+> extends ModelTableState<D, F, T> {
   children?: ReactNode;
 }
-export const ModelTableStoreProvider = <D extends DataType, F extends string>({
+export const ModelTableStoreProvider = <
+  D extends DataType,
+  F extends string,
+  T extends F,
+>({
   children,
   ...modelTableState
-}: ModelTableStoreProviderProps<D, F>) => {
+}: ModelTableStoreProviderProps<D, F, T>) => {
   const isMounted = useRef(false);
   const [store] = useState(() => createStore(immer(() => modelTableState)));
   /* 

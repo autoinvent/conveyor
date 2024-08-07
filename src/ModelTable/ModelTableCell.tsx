@@ -1,6 +1,5 @@
-import { useShallow } from 'zustand/react/shallow';
-
 import { useConveyorStore } from '@/Conveyor';
+import { useDataStore } from '@/Data';
 import { FormInput, FormValue, useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
@@ -8,7 +7,6 @@ import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type ID, ScalarType } from '@/types';
 import { DndSortableWrapper } from '@/utils';
 
-import { useDataStore } from '@/Data';
 import { useModelTableStore } from './useModelTableStore';
 import { useEffect, useRef, useState } from 'react';
 
@@ -28,19 +26,19 @@ export const ModelTableCell = ({
   const formErrorMessageId = `${formFieldId}-error-message-${dataId}`;
   const isLoading = useLoadingStore((state) => state.isLoading);
   const { setLens, activeLens } = useLensesStore();
-  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
+  const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
   const draggable = useModelTableStore(
-    (state) => state.tableOptions?.draggable ?? true,
+    (state) => state.tableOptions.draggable ?? true,
   );
   const fieldType = useModelTableStore(
     (state) =>
-      state.tableOptions?.columnOptions?.[field]?.type ?? ScalarType.STRING,
+      state.tableOptions.columnOptions?.[field]?.type ?? ScalarType.STRING,
   );
   const fieldEditable = useModelTableStore(
-    (state) => state.tableOptions?.columnOptions?.[field]?.editable ?? true,
+    (state) => state.tableOptions.columnOptions?.[field]?.editable ?? true,
   );
   const fieldRules = useModelTableStore(
-    (state) => state.tableOptions?.columnOptions?.[field]?.rules,
+    (state) => state.tableOptions.columnOptions?.[field]?.rules,
   );
   const resizable = useModelTableStore(
     (state) => state.tableOptions?.columnOptions?.[field]?.resizable
@@ -49,14 +47,10 @@ export const ModelTableCell = ({
     (state) => state.tableOptions?.columnOptions?.[field]?.width
   )
   const inputFn = useConveyorStore(
-    useShallow(
-      (state) => state.typeOptions?.[fieldType]?.inputRenderFn ?? (() => null),
-    ),
+    (state) => state.typeOptions?.[fieldType]?.inputRenderFn,
   );
   const valueFn = useConveyorStore(
-    useShallow(
-      (state) => state.typeOptions?.[fieldType]?.valueRenderFn ?? (() => null),
-    ),
+    (state) => state.typeOptions?.[fieldType]?.valueRenderFn,
   );
   const reset = useFormStore((state) => state.reset);
 
@@ -133,7 +127,7 @@ export const ModelTableCell = ({
           fieldEditable ? (
             <>
               <Lens lens={DataLens.VALUE}>
-                <FormValue name={field} render={valueFn} />
+                <FormValue name={field} render={valueFn ?? (() => null)} />
               </Lens>
               <Lens lens={DataLens.INPUT}>
                 <FormInput
@@ -149,7 +143,7 @@ export const ModelTableCell = ({
                         : `${formFieldId} ${formErrorMessageId}`,
                       'aria-invalid': inputState?.invalid,
                     });
-                    return inputFn({
+                    return inputFn?.({
                       inputProps: extraInputProps,
                       inputState,
                       formState,
@@ -159,7 +153,7 @@ export const ModelTableCell = ({
               </Lens>
             </>
           ) : (
-            <FormValue name={field} render={valueFn} />
+            <FormValue name={field} render={valueFn ?? (() => null)} />
           )
         ) : (
           children

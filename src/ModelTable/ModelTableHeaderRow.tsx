@@ -13,28 +13,28 @@ export const ModelTableHeaderRow = ({
   ...tableHeaderRowProps
 }: ModelTableHeaderRowProps) => {
   const fields = useModelTableStore((state) => state.fields);
-  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
-  const renderedFields = useModelTableStore(
-    (state) => state.tableOptions?.fieldOrder ?? state.fields,
+  const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
+  const fieldOrder = useModelTableStore(
+    (state) => state.tableOptions.fieldOrder,
   );
   const draggable = useModelTableStore(
-    (state) => state.tableOptions?.draggable ?? true,
+    (state) => state.tableOptions.draggable ?? true,
   );
   return (
     <TableHeaderRow prefilled={prefilled} {...tableHeaderRowProps}>
-      <DnDSortableContextWrapper draggable={draggable} dndList={renderedFields}>
+      <DnDSortableContextWrapper draggable={draggable} dndList={fieldOrder}>
         {children === undefined ? (
           <>
             {fields.map((field) => (
               <ModelTableHead key={field} field={field} />
             ))}
+            {!readOnly && <ModelTableActionHead />}
             {children}
           </>
         ) : (
           children
         )}
       </DnDSortableContextWrapper>
-      {!readOnly && <ModelTableActionHead />}
     </TableHeaderRow>
   );
 };

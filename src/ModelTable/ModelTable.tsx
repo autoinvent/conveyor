@@ -2,7 +2,6 @@ import { Table, type TableProps } from '@/Table';
 import type { DataType } from '@/types';
 import { BorderWrapper, DnDContextWrapper, ScrollAreaWrapper } from '@/utils';
 
-import { useState } from 'react';
 import { ModelTableActionCell } from './ModelTableActionCell';
 import { ModelTableActionHead } from './ModelTableActionHead';
 import { ModelTableBody } from './ModelTableBody';
@@ -20,70 +19,61 @@ import {
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 
-export interface ModelTableProps<D extends DataType, F extends string>
-  extends ModelTableState<D, F>,
+export interface ModelTableProps<
+  D extends DataType,
+  F extends string,
+  T extends F,
+> extends ModelTableState<D, F, T>,
     Omit<TableProps<D>, 'columnIds' | 'data'> {}
 
 export const ModelTable = Object.assign(
-  <D extends DataType, F extends string>({
+  <D extends DataType, F extends string, T extends F>({
     fields,
     data,
     tableOptions,
+    formOptions,
     onUpdate,
     onDelete,
     children,
     ...tableProps
-  }: ModelTableProps<D, F>) => {
-    const [internalFieldOrder, setInternalFieldOrder] = useState(fields);
-    let renderedFields = tableOptions?.fieldOrder ?? internalFieldOrder;
-    const onFieldOrderChange =
-      tableOptions?.onFieldOrderChange ?? setInternalFieldOrder;
-    const newTableOptions = { ...tableOptions };
+  }: ModelTableProps<D, F, T>) => {
+    const {
+      fieldOrder,
+      onFieldOrderChange,
+      readOnly,
+      draggable,
+      bordered,
+      scrollable,
+      columnOptions,
+    } = tableOptions;
 
-    // internal fieldOrder
-    if (!tableOptions?.onFieldOrderChange) {
-      newTableOptions.onFieldOrderChange = setInternalFieldOrder;
-      newTableOptions.fieldOrder = internalFieldOrder;
-    }
-
+    const tableColumns = [...fieldOrder].filter(
+      (field) => !columnOptions?.[field]?.hidden,
+    );
     // Action Columnn
-    const readOnly = tableOptions?.readOnly;
-    if (
-      renderedFields.length > 0 &&
-      !readOnly &&
-      data &&
-      data.length > 0 &&
-      !renderedFields.includes(ACTION_COLUMN as F)
-    ) {
-      renderedFields = renderedFields.concat([ACTION_COLUMN as F]);
-      newTableOptions.fieldOrder = renderedFields;
-    }
-    if (
-      renderedFields.includes(ACTION_COLUMN as F) &&
-      renderedFields.length === 1
-    ) {
-      renderedFields = [];
-      newTableOptions.fieldOrder = renderedFields;
+    if (fieldOrder.length > 0 && !readOnly && data && data.length > 0) {
+      tableColumns.push(ACTION_COLUMN as T);
     }
 
     return (
       <ModelTableStoreProvider
         fields={fields}
         data={data}
-        tableOptions={newTableOptions}
+        tableOptions={tableOptions}
+        formOptions={formOptions}
         onUpdate={onUpdate}
         onDelete={onDelete}
       >
-        <BorderWrapper bordered={tableOptions?.bordered ?? true}>
+        <BorderWrapper bordered={bordered ?? true}>
           <DnDContextWrapper
-            draggable={tableOptions?.draggable ?? true}
-            dndList={renderedFields}
+            draggable={draggable ?? true}
+            dndList={fieldOrder}
             onDnDListChange={
               onFieldOrderChange as (newFieldOrder: string[]) => void
             }
           >
-            <ScrollAreaWrapper scrollable={tableOptions?.scrollable ?? true}>
-              <Table columnIds={renderedFields} data={data} {...tableProps}>
+            <ScrollAreaWrapper scrollable={scrollable ?? true}>
+              <Table columnIds={tableColumns} data={data} {...tableProps}>
                 {children === undefined ? (
                   <>
                     <ModelTableHeader />
