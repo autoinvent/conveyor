@@ -54,32 +54,25 @@ const meta = {
           editable: false,
           sortable: false,
           hidable: false,
-          resizable: true,
-          width: 50,
           hidden: true,
         },
         user: {
           type: FieldType.MODEL_ITEM,
-          resizable: true,
         },
         message: {
           rules: { required: 'Message is required!' },
-          resizable: true,
         },
         created_at: {
           sortable: false,
           type: FieldType.DATETIME,
-          resizable: true
         },
         points: {
           type: FieldType.INT,
-          resizable: true
         },
         done: {
           label: 'FINISHED 🏁',
           type: FieldType.BOOLEAN,
           hidable: false,
-          resizable: true,
         },
       },
     },

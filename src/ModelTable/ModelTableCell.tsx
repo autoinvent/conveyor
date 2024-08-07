@@ -41,7 +41,7 @@ export const ModelTableCell = ({
     (state) => state.tableOptions.columnOptions?.[field]?.rules,
   );
   const resizable = useModelTableStore(
-    (state) => state.tableOptions?.columnOptions?.[field]?.resizable
+    (state) => state.tableOptions?.columnOptions?.[field]?.resizable ?? true
   )
   const fieldWidth = useModelTableStore(
     (state) => state.tableOptions?.columnOptions?.[field]?.width
