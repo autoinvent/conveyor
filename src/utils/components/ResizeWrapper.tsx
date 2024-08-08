@@ -3,7 +3,7 @@ import { useEffect, useState, type ReactNode } from "react"
 export interface ResizeWrapperProps {
   children: ReactNode
   cellRef: React.RefObject<HTMLTableCellElement>
-  width: number
+  width: number|undefined
   setWidth: (width : number) => void
   resizable: boolean
 }
@@ -13,16 +13,18 @@ export const ResizeWrapper = ({ children, cellRef, width, setWidth, resizable } 
   const [startWidth, setStartWidth] = useState<number>();
   const [finishedResize, setFinishedResize] = useState<boolean>(false);
 
-  if (!width && cellRef.current) {
-    setWidth(cellRef.current.offsetWidth)
-  }
-
   useEffect( () => {
     if (startX && startWidth) {
       document.addEventListener("mousemove", doResize);
       document.addEventListener("mouseup", stopResize);
     }
   }, [startX, startWidth])
+
+  useEffect( () => {
+    if (cellRef.current) {
+      setWidth(cellRef.current?.offsetWidth)
+    }
+  }, [cellRef.current, setWidth])
 
   useEffect( () => {
     if (finishedResize && cellRef?.current && width) {
@@ -34,14 +36,12 @@ export const ResizeWrapper = ({ children, cellRef, width, setWidth, resizable } 
   const startResizing = (
     e : React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    console.log(cellRef,width,setWidth)
     setStartX(e.clientX);
     setStartWidth(width);
   }
 
   const doResize = (e : MouseEvent) => {
     if (startWidth && startX) {
-      console.log(startWidth + (e.clientX - startX))
       setWidth(startWidth + (e.clientX - startX))
     }
   }

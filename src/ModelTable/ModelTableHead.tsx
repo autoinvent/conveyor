@@ -26,11 +26,11 @@ export const ModelTableHead = ({
     (state) => state.tableOptions?.columnOptions?.[field]?.resizable ?? true
   )
   const fieldWidth = useModelTableStore(
-    (state) => state.tableOptions?.columnOptions?.[field]?.width ?? 0
+    (state) => state.tableOptions?.columnOptions?.[field]?.width
   )
 
   const cellRef = useRef<HTMLTableCellElement>(null);
-  const [width, setWidth] = useState<number>(fieldWidth);
+  const [width, setWidth] = useState<number|undefined>(fieldWidth);
 
   return (
     <DndSortableWrapper draggable={draggable} dndId={field}>
