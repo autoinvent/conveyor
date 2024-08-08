@@ -1,11 +1,6 @@
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  CaretSortIcon,
-  EyeNoneIcon,
-} from '@radix-ui/react-icons';
-import { Slot } from '@radix-ui/react-slot';
 import { type ReactNode, forwardRef, useState } from 'react';
+import { EyeOff, ArrowUp, ArrowDown } from 'lucide-react';
+import { Slot } from '@radix-ui/react-slot';
 
 import { Lens, Lenses } from '@/Lenses';
 import { Button } from '@/lib/components/ui/button';
@@ -90,13 +85,10 @@ export const ModelTableHeadMenu = ({
             {children}
             <Lenses activeLens={sortable && currentSortDirection}>
               <Lens lens={SortDirection.ASC}>
-                <ArrowUpIcon className="ml-2 h-4 w-4" />
+                <ArrowUp className="ml-2 h-4 w-4" />
               </Lens>
               <Lens lens={SortDirection.DESC}>
-                <ArrowDownIcon className="ml-2 h-4 w-4" />
-              </Lens>
-              <Lens lens={SortDirection.NONE}>
-                <CaretSortIcon className="ml-2 h-4 w-4" />
+                <ArrowDown className="ml-2 h-4 w-4" />
               </Lens>
             </Lenses>
           </Button>
@@ -110,11 +102,11 @@ export const ModelTableHeadMenu = ({
               onValueChange={onFieldSortChange}
             >
               <DropdownMenuRadioItem value={SortDirection.ASC}>
-                <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                <ArrowUp className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                 Asc
               </DropdownMenuRadioItem>
               <DropdownMenuRadioItem value={SortDirection.DESC}>
-                <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                <ArrowDown className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                 Desc
               </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
@@ -128,7 +120,7 @@ export const ModelTableHeadMenu = ({
         <Lenses activeLens={hidable}>
           <Lens lens={true}>
             <DropdownMenuItem onSelect={hideField}>
-              <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              <EyeOff className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
               Hide
             </DropdownMenuItem>
           </Lens>
