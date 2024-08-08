@@ -1,6 +1,5 @@
 import type { TableHeaderProps } from '@/Table';
-
-import * as Shadcn from '../lib/components/ui/table';
+import { TableHeader as STableHeader } from '@/lib/components/ui/table';
 
 import { ModelTableHeaderRow } from './ModelTableHeaderRow';
 
@@ -11,8 +10,8 @@ export const ModelTableHeader = ({
   ...tableHeaderProps
 }: ModelTableHeaderProps) => {
   return (
-    <Shadcn.TableHeader {...tableHeaderProps}>
+    <STableHeader {...tableHeaderProps}>
       {children === undefined ? <ModelTableHeaderRow /> : children}
-    </Shadcn.TableHeader>
+    </STableHeader>
   );
 };
