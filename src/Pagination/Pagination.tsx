@@ -1,7 +1,9 @@
 import type { ComponentProps } from 'react';
 
-import * as Shadcn from '@/lib/components/ui/pagination';
+import { cn } from '@/lib/utils';
 import type { TableView } from '@/types';
+
+import * as Shadcn from '../lib/components/ui/pagination';
 
 export interface PaginationProps
   extends ComponentProps<typeof Shadcn.Pagination>,
@@ -20,6 +22,7 @@ export const Pagination = ({
   maxPageButtonLimit = 10,
   onPageChange,
   onPerPageChange,
+  className,
   ...paginationProps
 }: PaginationProps) => {
   if (totalDataLength < 0) {
@@ -53,7 +56,7 @@ export const Pagination = ({
   }
 
   return (
-    <Shadcn.Pagination {...paginationProps}>
+    <Shadcn.Pagination className={cn('py-2', className)} {...paginationProps}>
       <Shadcn.PaginationContent>
         {/* Previous Page Set Button */}
         {page > maxPageButtonLimit && (
