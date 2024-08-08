@@ -1,6 +1,6 @@
-import { type ReactNode, forwardRef, useState } from 'react';
-import { EyeOff, ArrowUp, ArrowDown } from 'lucide-react';
 import { Slot } from '@radix-ui/react-slot';
+import { ArrowDown, ArrowUp, EyeOff } from 'lucide-react';
+import { type ReactNode, forwardRef, useState } from 'react';
 
 import { Lens, Lenses } from '@/Lenses';
 import { Button } from '@/lib/components/ui/button';
