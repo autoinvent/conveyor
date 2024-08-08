@@ -58,6 +58,7 @@ const meta = {
         },
         user: {
           type: FieldType.MODEL_ITEM,
+          width: 200
         },
         message: {
           rules: { required: 'Message is required!' },
