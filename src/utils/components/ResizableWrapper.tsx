@@ -52,12 +52,15 @@ export const ResizableWrapper = ({
       {
         resizable ? 
           <div 
-            className='z-50 h-full w-1 cursor-ew-resize select-none rounded bg-border' 
+            className='flex h-full w-2 cursor-ew-resize select-none items-center justify-center'
             onMouseDown={(e) => {
               startResizing(e)
               e.stopPropagation()
             }}
-          /> :
+          >
+            <div className='h-1/2 w-1/4 rounded bg-border'/>
+          </div>
+           :
           null
       }
     </div>
