@@ -4,9 +4,8 @@ import { Button } from '@/lib/components/ui/button';
 import { cn } from '@/lib/utils';
 
 import { useDataStore } from '@/Data';
-import { useFormStore } from '@/Form';
+import { useFormStore } from '@/Form2';
 import { Lens, useLensesStore } from '@/Lenses';
-import { Spinner, useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type DataType } from '@/types';
 
@@ -21,7 +20,6 @@ export const ModelTableActionCell = ({
   className,
   ...tableCellProps
 }: ModelTableActionCellProps) => {
-  const { isLoading, setIsLoading } = useLoadingStore();
   const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
   const data = useDataStore();
   const reset = useFormStore((state) => state.reset);
@@ -36,15 +34,15 @@ export const ModelTableActionCell = ({
     reset();
   };
   const onSave = async (formData: DataType) => {
-    onUpdate && setIsLoading(true);
+    // onUpdate && setIsLoading(true);
     await onUpdate?.({ data: formData, dirtyFields });
-    setIsLoading(false);
+    // setIsLoading(false);
     onCancelEdit();
   };
   const onDeleteHandler = async () => {
-    onDelete && setIsLoading(true);
+    // onDelete && setIsLoading(true);
     await onDelete?.(data);
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   return (
@@ -59,7 +57,7 @@ export const ModelTableActionCell = ({
           onSubmit={handleSubmit(onSave)}
         >
           <div className="space-x-1">
-            <Lens lens={!isLoading && DataLens.VALUE}>
+            <Lens lens={DataLens.VALUE}>
               <Button
                 variant="ghost"
                 size="icon"
@@ -79,7 +77,7 @@ export const ModelTableActionCell = ({
                 </Button>
               )}
             </Lens>
-            <Lens lens={!isLoading && DataLens.INPUT}>
+            <Lens lens={DataLens.INPUT}>
               {onUpdate && (
                 <Button type="submit" variant="ghost-success" size="icon">
                   <Save className="h-4 w-4" />
@@ -94,7 +92,7 @@ export const ModelTableActionCell = ({
                 <X className="h-4 w-4" />
               </Button>
             </Lens>
-            {isLoading && <Spinner />}
+            {/* {isLoading && <Spinner />} */}
           </div>
         </form>
       ) : (

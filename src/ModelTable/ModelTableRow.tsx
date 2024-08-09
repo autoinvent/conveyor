@@ -1,9 +1,8 @@
-import type { UseFormReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { useDataStore } from '@/Data';
-import { FormStoreProvider, useForm } from '@/Form';
+import { FormStoreProvider } from '@/Form2';
 import { Lenses } from '@/Lenses';
-import { LoadingStoreProvider } from '@/Loading';
 import { TableRow, type TableRowProps } from '@/Table';
 import { DataLens } from '@/types';
 import { DnDSortableContextWrapper } from '@/utils';
@@ -13,13 +12,10 @@ import { ModelTableCell } from './ModelTableCell';
 import { ModelTableErrorRow } from './ModelTableErrorRow';
 import { useModelTableStore } from './useModelTableStore';
 
-export interface ModelTableRowProps extends TableRowProps {
-  formMethods?: UseFormReturn;
-}
+export interface ModelTableRowProps extends TableRowProps {}
 
 export const ModelTableRow = ({
   prefilled,
-  formMethods,
   children,
   ...props
 }: ModelTableRowProps) => {
@@ -31,37 +27,34 @@ export const ModelTableRow = ({
   );
   const draggable = useModelTableStore((state) => state.tableOptions.draggable);
   const data = useDataStore();
-  const defaultFormMethods = useForm({
+  const formMethods = useForm({
     mode: 'onChange',
     values: data,
     resolver,
   });
-
   return (
-    <FormStoreProvider {...(formMethods ?? defaultFormMethods)}>
-      <LoadingStoreProvider>
-        <Lenses initialLens={DataLens.VALUE}>
-          <TableRow prefilled={false} {...props}>
-            <DnDSortableContextWrapper
-              draggable={draggable ?? true}
-              dndList={fieldOrder}
-            >
-              {children === undefined || prefilled ? (
-                <>
-                  {fields.map((field) => (
-                    <ModelTableCell key={field} field={field} />
-                  ))}
-                  {children}
-                  {!readOnly && <ModelTableActionCell />}
-                </>
-              ) : (
-                children
-              )}
-            </DnDSortableContextWrapper>
-          </TableRow>
-        </Lenses>
-      </LoadingStoreProvider>
-      <ModelTableErrorRow />
+    <FormStoreProvider id={data.id} {...formMethods}>
+      <Lenses initialLens={DataLens.VALUE}>
+        <TableRow prefilled={false} {...props}>
+          <DnDSortableContextWrapper
+            draggable={draggable ?? true}
+            dndList={fieldOrder}
+          >
+            {children === undefined || prefilled ? (
+              <>
+                {fields.map((field) => (
+                  <ModelTableCell key={field} field={field} />
+                ))}
+                {children}
+                {!readOnly && <ModelTableActionCell />}
+              </>
+            ) : (
+              children
+            )}
+          </DnDSortableContextWrapper>
+        </TableRow>
+      </Lenses>
+      {/* <ModelTableErrorRow /> */}
     </FormStoreProvider>
   );
 };

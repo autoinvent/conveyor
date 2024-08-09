@@ -1,33 +1,35 @@
-// import { forwardRef, useId, type ComponentProps } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
+import { Slot } from '@radix-ui/react-slot';
 
-// import { FormControl as SFormControl } from '@/lib/components/ui/form';
-// import { Slot } from '@radix-ui/react-slot';
+import { useFormStore } from './useFormStore';
+import { useController, type UseControllerProps } from 'react-hook-form';
 
-// import { useFormStore } from './useFormStore';
+export interface FormControlProps extends Omit<UseControllerProps, 'control'> {
+  children: ReactNode;
+}
 
-// export interface FormControlProps {
-//   field: string
-// }
+export const FormControl = ({ name, ...controllerProps }: FormControlProps) => {
+  const id = useFormStore((state) => state.id);
+  const control = useFormStore((state) => state.control);
+  const {
+    field,
+    fieldState: { error },
+    formState: { isSubmitting },
+  } = useController({ name, control, ...controllerProps });
+  const formControlId = `${id}-${name}-form-control`;
+  const formDescriptionId = `${formControlId}-description`;
+  const formMessageId = `${formControlId}-message`;
 
-// export const FormControl = forwardRef(({ field }: FormControlProps, ref) => {
-//   const id = useFormStore(state => state.id)
-//   const formState = useFormStore(state => state.formState)
-//   const
-//   const formControlId =  `${id}-${field}-form-control`
-//   const formDescriptionId = `${formControlId}-description`
-//   const formMessageId =  `${formControlId}-message`
-
-//   return (
-//     <Slot
-//       ref={ref}
-//       id={formControlId}
-//       aria-describedby={
-//         !error
-//           ? `${formDescriptionId}`
-//           : `${formDescriptionId} ${formMessageId}`
-//       }
-//       aria-invalid={!!error}
-//       {...props}
-//     />
-//   )
-// })
+  return (
+    <Slot
+      id={formControlId}
+      aria-describedby={
+        !error
+          ? `${formDescriptionId}`
+          : `${formDescriptionId} ${formMessageId}`
+      }
+      aria-invalid={!!error}
+      {...{ ...field }}
+    />
+  );
+};

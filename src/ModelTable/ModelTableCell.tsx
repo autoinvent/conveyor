@@ -1,6 +1,7 @@
 import { useConveyorStore } from '@/Conveyor';
 import { useDataStore } from '@/Data';
-import { FormInput, FormValue, useFormStore } from '@/Form';
+import { useFormStore } from '@/Form2';
+import { FormInput, FormValue } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
@@ -8,6 +9,7 @@ import { DataLens, type ID, ScalarType } from '@/types';
 import { DndSortableWrapper } from '@/utils';
 
 import { useModelTableStore } from './useModelTableStore';
+import { FormControl } from '@/Form2/FormControl';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
   field: string;
@@ -23,7 +25,6 @@ export const ModelTableCell = ({
   const dataId: ID = useDataStore((state) => state.id);
   const formFieldId = `${field}-${dataId}`;
   const formErrorMessageId = `${formFieldId}-error-message-${dataId}`;
-  const isLoading = useLoadingStore((state) => state.isLoading);
   const { setLens, activeLens } = useLensesStore();
   const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
   const draggable = useModelTableStore(
@@ -73,10 +74,14 @@ export const ModelTableCell = ({
           fieldEditable ? (
             <>
               <Lens lens={DataLens.VALUE}>
-                <FormValue name={field} render={valueFn ?? (() => null)} />
+                hello
+                {/* <FormValue name={field} render={valueFn ?? (() => null)} /> */}
               </Lens>
               <Lens lens={DataLens.INPUT}>
-                <FormInput
+                <FormControl name={field}>
+                  <input />
+                </FormControl>
+                {/* <FormInput
                   name={field}
                   rules={fieldRules}
                   render={({ inputProps, inputState, formState }) => {
@@ -95,7 +100,7 @@ export const ModelTableCell = ({
                       formState,
                     });
                   }}
-                />
+                /> */}
               </Lens>
             </>
           ) : (

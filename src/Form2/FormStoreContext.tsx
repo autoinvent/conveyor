@@ -5,13 +5,8 @@ import {
   useRef,
   useState,
 } from 'react';
-import {
-  type FieldValues,
-  FormProvider,
-  type UseFormReturn,
-} from 'react-hook-form';
-import { type StoreApi, createStore } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
+import type { FieldValues, UseFormReturn } from 'react-hook-form';
+import { createStore, type StoreApi } from 'zustand';
 
 export interface FormState<D extends FieldValues> extends UseFormReturn<D> {
   id: string;
@@ -31,13 +26,19 @@ export const FormStoreProvider = <D extends FieldValues>({
   ...formStateProps
 }: FormStoreProviderProps<D>) => {
   const isMounted = useRef(false);
-  const [store] = useState(() => createStore(immer(() => formStateProps)));
+  const [store] = useState(() => createStore(() => formStateProps));
   /* 
     biome-ignore lint/correctness/useExhaustiveDependencies:
       The reference to tableState does not matter, only the contents.
   */
   useEffect(() => {
-    if (isMounted.current) store.setState(() => formStateProps);
+    if (isMounted.current) store.setState(() => ({ ...formStateProps }));
     else isMounted.current = true;
   }, [...Object.values(formStateProps), store]);
+
+  return (
+    <FormStoreContext.Provider value={store}>
+      {children}
+    </FormStoreContext.Provider>
+  );
 };
