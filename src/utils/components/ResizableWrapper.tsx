@@ -13,7 +13,6 @@ export const ResizableWrapper = ({
 } : ResizableWrapperProps) => {
   const [startX, setStartX] = useState<number>();
   const [startWidth, setStartWidth] = useState<number>();
-  const [finishedResize, setFinishedResize] = useState<boolean>(false);
 
   useEffect( () => {
     if (startX && startWidth) {
@@ -27,13 +26,6 @@ export const ResizableWrapper = ({
       setWidth(cellRef.current?.offsetWidth)
     }
   }, [cellRef.current, setWidth])
-
-  useEffect( () => {
-    if (finishedResize && cellRef?.current && width) {
-      setFinishedResize(false);
-      setWidth(Math.max(cellRef.current?.offsetWidth, width))
-    }
-  }, [finishedResize, cellRef, width, setWidth])
 
   const startResizing = (
     e : React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -51,7 +43,6 @@ export const ResizableWrapper = ({
   const stopResize = () => {
     document.removeEventListener("mousemove",doResize);
     document.removeEventListener("mouseup",stopResize);
-    setFinishedResize(true);
   }
 
   return (
