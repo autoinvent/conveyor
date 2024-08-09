@@ -1,15 +1,15 @@
 import { useConveyorStore } from '@/Conveyor';
 import { useDataStore } from '@/Data';
-import { useFormStore } from '@/Form2';
 import { FormInput, FormValue } from '@/Form';
+import { useFormStore } from '@/Form2';
 import { Lens, useLensesStore } from '@/Lenses';
 import { useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type ID, ScalarType } from '@/types';
 import { DndSortableWrapper } from '@/utils';
 
-import { useModelTableStore } from './useModelTableStore';
 import { FormControl } from '@/Form2/FormControl';
+import { useModelTableStore } from './useModelTableStore';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
   field: string;

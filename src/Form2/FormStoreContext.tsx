@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 import type { FieldValues, UseFormReturn } from 'react-hook-form';
-import { createStore, type StoreApi } from 'zustand';
+import { type StoreApi, createStore } from 'zustand';
 
 export interface FormState<D extends FieldValues> extends UseFormReturn<D> {
   id: string;

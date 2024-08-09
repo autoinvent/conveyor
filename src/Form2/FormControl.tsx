@@ -1,8 +1,8 @@
-import type { ComponentProps, ReactNode } from 'react';
 import { Slot } from '@radix-ui/react-slot';
+import type { ComponentProps, ReactNode } from 'react';
 
+import { type UseControllerProps, useController } from 'react-hook-form';
 import { useFormStore } from './useFormStore';
-import { useController, type UseControllerProps } from 'react-hook-form';
 
 export interface FormControlProps extends Omit<UseControllerProps, 'control'> {
   children: ReactNode;
