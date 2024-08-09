@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react"
 
-export interface ResizeWrapperProps {
+export interface ResizableWrapperProps {
   children: ReactNode
   cellRef: React.RefObject<HTMLTableCellElement>
   width: number|undefined
@@ -8,7 +8,9 @@ export interface ResizeWrapperProps {
   resizable: boolean
 }
 
-export const ResizeWrapper = ({ children, cellRef, width, setWidth, resizable } : ResizeWrapperProps) => {
+export const ResizableWrapper = ({ 
+  children, cellRef, width, setWidth, resizable 
+} : ResizableWrapperProps) => {
   const [startX, setStartX] = useState<number>();
   const [startWidth, setStartWidth] = useState<number>();
   const [finishedResize, setFinishedResize] = useState<boolean>(false);
@@ -58,10 +60,13 @@ export const ResizeWrapper = ({ children, cellRef, width, setWidth, resizable } 
       <div className="flex-grow"/>
       {
         resizable ? 
-          <div className='z-50 h-full w-1 cursor-ew-resize select-none rounded bg-border' onMouseDown={(e) => {
-            startResizing(e)
-            e.stopPropagation()
-          }}/> :
+          <div 
+            className='z-50 h-full w-1 cursor-ew-resize select-none rounded bg-border' 
+            onMouseDown={(e) => {
+              startResizing(e)
+              e.stopPropagation()
+            }}
+          /> :
           null
       }
     </div>

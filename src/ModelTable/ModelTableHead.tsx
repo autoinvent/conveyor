@@ -4,7 +4,7 @@ import { DndSortableWrapper, humanizeText } from '@/utils';
 import { ModelTableHeadMenu } from './ModelTableHeadMenu';
 import { useModelTableStore } from './useModelTableStore';
 import { useRef, useState } from 'react';
-import { ResizeWrapper } from '@/utils/components/ResizeWrapper';
+import { ResizableWrapper } from '@/utils/components/ResizableWrapper';
 
 export interface ModelTableHeadProps extends Omit<TableHeadProps, 'columnId'> {
   field: string;
@@ -35,7 +35,7 @@ export const ModelTableHead = ({
   return (
     <DndSortableWrapper draggable={draggable} dndId={field}>
       <TableHead columnId={field} {...tableHeadProps} ref={cellRef} style={{ width: width }}>
-        <ResizeWrapper cellRef={cellRef} width={width} setWidth={setWidth} resizable={resizable}>
+        <ResizableWrapper cellRef={cellRef} width={width} setWidth={setWidth} resizable={resizable}>
           {children === undefined ? (
             <ModelTableHeadMenu field={field}>
               {label ?? humanizeText(field)}
@@ -43,7 +43,7 @@ export const ModelTableHead = ({
           ) : (
             children
           )}
-        </ResizeWrapper>
+        </ResizableWrapper>
       </TableHead>
     </DndSortableWrapper>
   );

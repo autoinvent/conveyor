@@ -8,7 +8,6 @@ import { DataLens, type ID, ScalarType } from '@/types';
 import { DndSortableWrapper } from '@/utils';
 
 import { useModelTableStore } from './useModelTableStore';
-import { useEffect, useRef, useState } from 'react';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
   field: string;
