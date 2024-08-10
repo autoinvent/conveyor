@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 
 import { useDataStore } from '@/Data';
 import { useFormStore } from '@/Form2';
+import { Spinner } from '@/Loading';
 import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type DataType } from '@/types';
@@ -20,11 +21,12 @@ export const ModelTableActionCell = ({
   className,
   ...tableCellProps
 }: ModelTableActionCellProps) => {
-  const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
   const data = useDataStore();
+  const setLens = useLensesStore((state) => state.setLens);
+  const isSubmitting = useFormStore((state) => state.formState.isSubmitting);
+  const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
   const reset = useFormStore((state) => state.reset);
   const handleSubmit = useFormStore((state) => state.handleSubmit);
-  const setLens = useLensesStore((state) => state.setLens);
   const onUpdate = useModelTableStore((state) => state.onUpdate);
   const onDelete = useModelTableStore((state) => state.onDelete);
 
@@ -34,15 +36,11 @@ export const ModelTableActionCell = ({
     reset();
   };
   const onSave = async (formData: DataType) => {
-    // onUpdate && setIsLoading(true);
     await onUpdate?.({ data: formData, dirtyFields });
-    // setIsLoading(false);
     onCancelEdit();
   };
   const onDeleteHandler = async () => {
-    // onDelete && setIsLoading(true);
     await onDelete?.(data);
-    // setIsLoading(false);
   };
 
   return (
@@ -77,7 +75,7 @@ export const ModelTableActionCell = ({
                 </Button>
               )}
             </Lens>
-            <Lens lens={DataLens.INPUT}>
+            <Lens lens={!isSubmitting && DataLens.INPUT}>
               {onUpdate && (
                 <Button type="submit" variant="ghost-success" size="icon">
                   <Save className="h-4 w-4" />
@@ -92,7 +90,7 @@ export const ModelTableActionCell = ({
                 <X className="h-4 w-4" />
               </Button>
             </Lens>
-            {/* {isLoading && <Spinner />} */}
+            {isSubmitting && <Spinner />}
           </div>
         </form>
       ) : (
