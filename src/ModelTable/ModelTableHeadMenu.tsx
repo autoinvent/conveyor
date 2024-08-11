@@ -1,6 +1,12 @@
 import { Slot } from '@radix-ui/react-slot';
 import { ArrowDown, ArrowUp, EyeOff } from 'lucide-react';
-import { type ReactNode, forwardRef, useState } from 'react';
+import {
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  type ReactNode,
+  forwardRef,
+  useState,
+} from 'react';
 
 import { Lens, Lenses } from '@/Lenses';
 import { Button } from '@/lib/components/ui/button';
@@ -133,8 +139,8 @@ export const ModelTableHeadMenu = ({
 };
 
 const DropdownMenuTriggerWithoutListener = forwardRef<
-  React.ElementRef<typeof DropdownMenuTrigger>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger>
+  ElementRef<typeof DropdownMenuTrigger>,
+  ComponentPropsWithoutRef<typeof DropdownMenuTrigger>
 >(({ onPointerDown, ...props }, ref) => {
   return (
     <Slot {...props} ref={ref}>

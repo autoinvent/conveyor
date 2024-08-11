@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { PropsWithoutRef, ReactNode } from 'react';
 import {
   type ControllerRenderProps,
   type UseControllerProps,
@@ -12,11 +12,12 @@ export interface FormControlProps extends Omit<UseControllerProps, 'control'> {
   children: ReactNode;
 }
 
-export interface FormControlSlotProps extends ControllerRenderProps {
-  id: string;
-  'aria-describedby': string;
-  'aria-invalid': boolean;
-  'aria-disabled': boolean;
+export interface FormControlChildProps
+  extends Partial<PropsWithoutRef<ControllerRenderProps>> {
+  id?: string;
+  'aria-describedby'?: string;
+  'aria-invalid'?: boolean;
+  'aria-disabled'?: boolean;
 }
 
 export const FormControl = ({

@@ -70,7 +70,7 @@ export const ModelFormField = ({
             <div>
               {fieldEditable ? (
                 <>
-                  <Lens lens={DataLens.VALUE}>
+                  <Lens lens={DataLens.DISPLAY}>
                     <FormValue name={field} render={valueFn} />
                   </Lens>
                   <Lens lens={DataLens.INPUT}>

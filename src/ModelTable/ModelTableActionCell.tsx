@@ -3,8 +3,7 @@ import { Save, SquarePen, Trash2, X } from 'lucide-react';
 import { Button } from '@/lib/components/ui/button';
 import { cn } from '@/lib/utils';
 
-import { useDataStore } from '@/Data';
-import { useFormStore } from '@/Form2';
+import { useFormStore } from '@/Form';
 import { Spinner } from '@/Loading';
 import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
@@ -21,8 +20,8 @@ export const ModelTableActionCell = ({
   className,
   ...tableCellProps
 }: ModelTableActionCellProps) => {
-  const data = useDataStore();
   const setLens = useLensesStore((state) => state.setLens);
+  const data = useFormStore((state) => state.formState.defaultValues);
   const isSubmitting = useFormStore((state) => state.formState.isSubmitting);
   const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
   const reset = useFormStore((state) => state.reset);
@@ -32,7 +31,7 @@ export const ModelTableActionCell = ({
 
   const onEdit = () => setLens(DataLens.INPUT);
   const onCancelEdit = () => {
-    setLens(DataLens.VALUE);
+    setLens(DataLens.DISPLAY);
     reset();
   };
   const onSave = async (formData: DataType) => {
@@ -40,7 +39,7 @@ export const ModelTableActionCell = ({
     onCancelEdit();
   };
   const onDeleteHandler = async () => {
-    await onDelete?.(data);
+    await onDelete?.({ ...data });
   };
 
   return (
@@ -55,7 +54,7 @@ export const ModelTableActionCell = ({
           onSubmit={handleSubmit(onSave)}
         >
           <div className="space-x-1">
-            <Lens lens={DataLens.VALUE}>
+            <Lens lens={DataLens.DISPLAY}>
               <Button
                 variant="ghost"
                 size="icon"

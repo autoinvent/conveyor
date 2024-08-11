@@ -1,4 +1,6 @@
 // common components
+export * from './BasicInputs';
+export * from './BasicInputs';
 export * from './Data';
 export * from './Form';
 export * from './Header';
@@ -12,7 +14,7 @@ export * from './Table';
 export * from './Conveyor';
 export * from './ModelCheckDelete';
 export * from './ModelFilter';
-export * from './ModelForm';
+// export * from './ModelForm';
 export * from './ModelTable';
 // export * from './ModelSearch';
 

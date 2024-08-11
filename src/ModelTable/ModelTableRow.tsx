@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 
 import { useDataStore } from '@/Data';
-import { FormStoreProvider } from '@/Form2';
+import { FormStoreProvider } from '@/Form';
 import { Lenses } from '@/Lenses';
 import { TableRow, type TableRowProps } from '@/Table';
 import { DataLens } from '@/types';
@@ -34,7 +34,7 @@ export const ModelTableRow = ({
   });
   return (
     <FormStoreProvider id={data.id} {...formMethods}>
-      <Lenses initialLens={DataLens.VALUE}>
+      <Lenses initialLens={DataLens.DISPLAY}>
         <TableRow prefilled={false} {...props}>
           <DnDSortableContextWrapper
             draggable={draggable ?? true}
@@ -54,7 +54,7 @@ export const ModelTableRow = ({
           </DnDSortableContextWrapper>
         </TableRow>
       </Lenses>
-      {/* <ModelTableErrorRow /> */}
+      <ModelTableErrorRow />
     </FormStoreProvider>
   );
 };

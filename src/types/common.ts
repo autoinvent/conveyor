@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 export type DataType = Record<string, any>;
 
 export enum DataLens {
-  VALUE = 'value',
+  DISPLAY = 'DISPLAY',
   INPUT = 'input',
 }
 

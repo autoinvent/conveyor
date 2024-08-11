@@ -14,7 +14,6 @@ export interface FieldOptions {
 }
 
 export enum NonScalarType {
-  DEFAULT = '__DEFAULT__',
   MODEL_ITEM = '__MODEL_ITEM__',
   MODEL_LIST = '__MODEL_LIST__',
 }

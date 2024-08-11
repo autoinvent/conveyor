@@ -1,14 +1,11 @@
 import { useConveyorStore } from '@/Conveyor';
-import { useDataStore } from '@/Data';
-import { FormInput, FormValue } from '@/Form';
-import { useFormStore } from '@/Form2';
+import { FormDisplay, useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
-import { useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
-import { DataLens, type ID, ScalarType } from '@/types';
+import { DataLens, ScalarType } from '@/types';
 import { DndSortableWrapper } from '@/utils';
 
-import { FormControl } from '@/Form2/FormControl';
+import { FormControl } from '@/Form/FormControl';
 import { useModelTableStore } from './useModelTableStore';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
@@ -18,13 +15,8 @@ export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
 export const ModelTableCell = ({
   field,
   children,
-  onKeyUp,
-  onDoubleClick,
   ...tableCellProps
 }: ModelTableCellProps) => {
-  const dataId: ID = useDataStore((state) => state.id);
-  const formFieldId = `${field}-${dataId}`;
-  const formErrorMessageId = `${formFieldId}-error-message-${dataId}`;
   const { setLens, activeLens } = useLensesStore();
   const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
   const draggable = useModelTableStore(
@@ -37,14 +29,11 @@ export const ModelTableCell = ({
   const fieldEditable = useModelTableStore(
     (state) => state.tableOptions.columnOptions?.[field]?.editable ?? true,
   );
-  const fieldRules = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.rules,
+  const DisplayComponent = useConveyorStore(
+    (state) => state.typeOptions?.[fieldType]?.DisplayComponent ?? (() => null),
   );
-  const inputFn = useConveyorStore(
-    (state) => state.typeOptions?.[fieldType]?.inputRenderFn,
-  );
-  const valueFn = useConveyorStore(
-    (state) => state.typeOptions?.[fieldType]?.valueRenderFn,
+  const InputComponent = useConveyorStore(
+    (state) => state.typeOptions?.[fieldType]?.InputComponent ?? (() => null),
   );
   const reset = useFormStore((state) => state.reset);
 
@@ -52,19 +41,14 @@ export const ModelTableCell = ({
     <DndSortableWrapper draggable={draggable} dndId={field} disabled>
       <TableCell
         columnId={field}
-        onDoubleClick={(e) =>
-          onDoubleClick
-            ? onDoubleClick(e)
-            : !readOnly &&
-              fieldEditable &&
-              activeLens === DataLens.VALUE &&
-              setLens(DataLens.INPUT)
-        }
+        onDoubleClick={(e) => {
+          if (!readOnly && fieldEditable && activeLens === DataLens.DISPLAY) {
+            setLens(DataLens.INPUT);
+          }
+        }}
         onKeyUp={(e) => {
-          if (onKeyUp) {
-            onKeyUp(e);
-          } else if (e.key === 'Escape' && activeLens === DataLens.INPUT) {
-            setLens(DataLens.VALUE);
+          if (e.key === 'Escape' && activeLens === DataLens.INPUT) {
+            setLens(DataLens.DISPLAY);
             reset();
           }
         }}
@@ -73,38 +57,21 @@ export const ModelTableCell = ({
         {children === undefined ? (
           fieldEditable ? (
             <>
-              <Lens lens={DataLens.VALUE}>
-                hello
-                {/* <FormValue name={field} render={valueFn ?? (() => null)} /> */}
+              <Lens lens={DataLens.DISPLAY}>
+                <FormDisplay name={field}>
+                  <DisplayComponent />
+                </FormDisplay>
               </Lens>
               <Lens lens={DataLens.INPUT}>
                 <FormControl name={field}>
-                  <input />
+                  <InputComponent />
                 </FormControl>
-                {/* <FormInput
-                  name={field}
-                  rules={fieldRules}
-                  render={({ inputProps, inputState, formState }) => {
-                    const extraInputProps = Object.assign(inputProps, {
-                      id: formFieldId,
-                      disabled: isLoading,
-                      required: !!fieldRules?.required,
-                      'aria-describedby': !inputState?.invalid
-                        ? `${formFieldId}`
-                        : `${formFieldId} ${formErrorMessageId}`,
-                      'aria-invalid': inputState?.invalid,
-                    });
-                    return inputFn?.({
-                      inputProps: extraInputProps,
-                      inputState,
-                      formState,
-                    });
-                  }}
-                /> */}
               </Lens>
             </>
           ) : (
-            <FormValue name={field} render={valueFn ?? (() => null)} />
+            <FormDisplay name={field}>
+              <DisplayComponent />
+            </FormDisplay>
           )
         ) : (
           children
