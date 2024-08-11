@@ -6,7 +6,7 @@ export interface BorderWrapperProps {
 }
 export const BorderWrapper = ({ bordered, children }: BorderWrapperProps) => {
   return bordered ? (
-    <div className="rounded-md border">{children}</div>
+    <div className="min-w-80 rounded-md border">{children}</div>
   ) : (
     children
   );

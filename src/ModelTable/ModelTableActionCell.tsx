@@ -4,8 +4,8 @@ import { Button } from '@/lib/components/ui/button';
 import { cn } from '@/lib/utils';
 
 import { useFormStore } from '@/Form';
-import { Spinner } from '@/Loading';
 import { Lens, useLensesStore } from '@/Lenses';
+import { Spinner } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type DataType } from '@/types';
 

@@ -1,12 +1,12 @@
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  forwardRef,
   type PropsWithoutRef,
+  forwardRef,
 } from 'react';
 
-import { Checkbox } from '@/lib/components/ui/checkbox';
 import type { FormControlChildProps } from '@/Form';
+import { Checkbox } from '@/lib/components/ui/checkbox';
 
 export const BooleanInput = forwardRef<
   ElementRef<typeof Checkbox>,

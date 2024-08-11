@@ -19,7 +19,7 @@ export const DatetimeInput = forwardRef<
     <Input
       type="datetime-local"
       value={value?.substring(0, 19) ?? ''}
-      className={cn('min-w-60 dark:[color-scheme:dark]', className)}
+      className={cn('dark:[color-scheme:dark]', className)}
       ref={ref}
       {...inputProps}
     />

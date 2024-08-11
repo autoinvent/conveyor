@@ -64,7 +64,7 @@ const meta = {
       <Conveyor
         typeOptions={{
           [ScalarType.STRING]: {
-            valueRenderFn: (props) => (
+            DisplayComponent: (props) => (
               <span className="text-cyan-400">{props.value}</span>
             ),
           },
@@ -110,9 +110,6 @@ const meta = {
               <ModelTable.Cell field="points">
                 <CustomCell />
               </ModelTable.Cell>
-              <ModelTable.ActionCell onClick={(e) => console.log('here')}>
-                Hello
-              </ModelTable.ActionCell>
             </ModelTable.Row>
           </ModelTable.Body>
         </ModelTable>

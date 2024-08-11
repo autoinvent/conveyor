@@ -45,8 +45,8 @@ export const ModelTableRow = ({
                 {fields.map((field) => (
                   <ModelTableCell key={field} field={field} />
                 ))}
-                {children}
                 {!readOnly && <ModelTableActionCell />}
+                {children}
               </>
             ) : (
               children

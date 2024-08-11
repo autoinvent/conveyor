@@ -19,7 +19,7 @@ const meta = {
     onDelete: { control: false },
   },
   args: {
-    fields: ['id', 'message'],
+    fields: ['id', 'message', 'created_at', 'points', 'done'],
     // fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
     data: [
       {
