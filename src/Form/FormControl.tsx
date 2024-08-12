@@ -6,6 +6,8 @@ import {
   useController,
 } from 'react-hook-form';
 
+import type { SelectOption } from '@/types';
+
 import { useFormStore } from './useFormStore';
 
 export interface FormControlProps extends Omit<UseControllerProps, 'control'> {
@@ -18,6 +20,7 @@ export interface FormControlChildProps
   'aria-describedby'?: string;
   'aria-invalid'?: boolean;
   'aria-disabled'?: boolean;
+  options?: SelectOption[];
 }
 
 export const FormControl = ({

@@ -11,11 +11,17 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import { BooleanDisplay, DatetimeDisplay, RawDisplay } from '@/BasicDisplays';
+import {
+  BooleanDisplay,
+  DatetimeDisplay,
+  ModelItemDisplay,
+  RawDisplay,
+} from '@/BasicDisplays';
 import {
   BooleanInput,
   DatetimeInput,
   NumberInput,
+  ModelItemInput,
   StringInput,
 } from '@/BasicInputs';
 import type { FormControlChildProps, FormDisplayChildProps } from '@/Form';
@@ -56,16 +62,10 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
       DisplayComponent: BooleanDisplay,
       InputComponent: BooleanInput,
     },
-    // [FieldType.MODEL_ITEM]: {
-    //   displayRenderFn: ({ name, value }) => (
-    //     <RawValue
-    //       name={name}
-    //       value={value?.id ?? 'None'}
-    //       className="min-w-fit"
-    //     />
-    //   ),
-    //   inputRenderFn: ModelItemInput,
-    // },
+    [FieldType.MODEL_ITEM]: {
+      DisplayComponent: ModelItemDisplay,
+      InputComponent: ModelItemInput,
+    },
   },
 };
 

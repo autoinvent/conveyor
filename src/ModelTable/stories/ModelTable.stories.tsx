@@ -19,13 +19,12 @@ const meta = {
     onDelete: { control: false },
   },
   args: {
-    fields: ['id', 'message', 'created_at', 'points', 'done'],
-    // fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
+    fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
     data: [
       {
         id: '1',
         message: 'Make Table Scrollable',
-        user: { id: '1' },
+        user: { id: '00000001', _display_value: 'robxbob' },
         created_at: '2024-07-10T01:56:34.926365',
         points: 1,
         done: true,
@@ -33,7 +32,7 @@ const meta = {
       {
         id: '2',
         message: 'Resizable Columns',
-        user: { id: '3' },
+        user: { id: '00000002', _display_value: 'nicklitvin' },
         created_at: '2024-08-01T01:56:34.926365',
         points: 3,
         done: false,
@@ -41,7 +40,7 @@ const meta = {
       {
         id: '3',
         message: 'Feature: Column DnD',
-        user: { id: '2' },
+        user: { id: '00000001', _display_value: 'robxbob' },
         created_at: '2024-07-29T01:56:34.926365',
         points: 4,
         done: true,
@@ -58,6 +57,11 @@ const meta = {
         },
         user: {
           type: FieldType.MODEL_ITEM,
+          valueOptions: [
+            { label: 'robxbob', value: '00000001' },
+            { label: 'nicklitvin', value: '00000002' },
+            { label: 'None', value: null },
+          ],
         },
         message: {
           rules: { required: 'Message is required!' },
