@@ -53,6 +53,7 @@ const meta = {
         id: {
           editable: false,
           sortable: false,
+          hidable: false,
           hidden: true,
         },
         user: {

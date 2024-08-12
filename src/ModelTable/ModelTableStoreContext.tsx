@@ -20,6 +20,8 @@ import type {
 export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
   hidable?: boolean;
+  resizable?: boolean;
+  width?: number;
 }
 
 export interface TableOptions<F extends string> {
