@@ -10,7 +10,6 @@ export const ModelItemInput = forwardRef<
   ElementRef<typeof SelectInput>,
   ComponentPropsWithoutRef<typeof SelectInput>
 >(({ value, onChange, ...selectInputProps }, ref) => {
-  console.log(value, selectInputProps.options);
   return (
     <SelectInput
       ref={ref}
