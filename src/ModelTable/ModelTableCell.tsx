@@ -22,21 +22,21 @@ export const ModelTableCell = ({
   const draggable = useModelTableStore(
     (state) => state.tableOptions.draggable ?? true,
   );
-  const fieldType = useModelTableStore(
+  const type = useModelTableStore(
     (state) =>
       state.tableOptions.columnOptions?.[field]?.type ?? ScalarType.STRING,
   );
-  const fieldEditable = useModelTableStore(
+  const editable = useModelTableStore(
     (state) => state.tableOptions.columnOptions?.[field]?.editable ?? true,
   );
-  const fieldValueOptions = useModelTableStore(
+  const valueOptions = useModelTableStore(
     (state) => state.tableOptions.columnOptions?.[field]?.valueOptions ?? [],
   );
   const DisplayComponent = useConveyorStore(
-    (state) => state.typeOptions?.[fieldType]?.DisplayComponent ?? (() => null),
+    (state) => state.typeOptions?.[type]?.DisplayComponent ?? (() => null),
   );
   const InputComponent = useConveyorStore(
-    (state) => state.typeOptions?.[fieldType]?.InputComponent ?? (() => null),
+    (state) => state.typeOptions?.[type]?.InputComponent ?? (() => null),
   );
   const reset = useFormStore((state) => state.reset);
 
@@ -45,7 +45,7 @@ export const ModelTableCell = ({
       <TableCell
         columnId={field}
         onDoubleClick={(e) => {
-          if (!readOnly && fieldEditable && activeLens === DataLens.DISPLAY) {
+          if (!readOnly && editable && activeLens === DataLens.DISPLAY) {
             setLens(DataLens.INPUT);
           }
         }}
@@ -58,7 +58,7 @@ export const ModelTableCell = ({
         {...tableCellProps}
       >
         {children === undefined ? (
-          fieldEditable ? (
+          editable ? (
             <>
               <Lens lens={DataLens.DISPLAY}>
                 <FormDisplay name={field}>
@@ -67,7 +67,7 @@ export const ModelTableCell = ({
               </Lens>
               <Lens lens={DataLens.INPUT}>
                 <FormControl name={field}>
-                  <InputComponent options={fieldValueOptions} />
+                  <InputComponent options={valueOptions} />
                 </FormControl>
               </Lens>
             </>

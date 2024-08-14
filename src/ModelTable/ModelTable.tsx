@@ -18,6 +18,7 @@ import {
 } from './ModelTableStoreContext';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
+export const DEFAULT_COLUMN_WIDTH = 200; // in pixels
 
 export interface ModelTableProps<
   D extends DataType,
@@ -46,10 +47,10 @@ export const ModelTable = Object.assign(
       scrollable,
       columnOptions,
     } = tableOptions;
-
     const tableColumns = [...fieldOrder].filter(
       (field) => !columnOptions?.[field]?.hidden,
     );
+    // const tableWidth = columnOptions ? Object.values(columnOptions) : fieldOrder.length * DEFAULT_COLUMN_WIDTH
     // Action Columnn
     if (fieldOrder.length > 0 && !readOnly && data && data.length > 0) {
       tableColumns.push(ACTION_COLUMN as T);

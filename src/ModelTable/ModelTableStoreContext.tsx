@@ -21,7 +21,7 @@ export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
   hidable?: boolean;
   resizable?: boolean;
-  width?: number;
+  initialWidth?: number;
 }
 
 export interface TableOptions<F extends string> {
@@ -33,6 +33,7 @@ export interface TableOptions<F extends string> {
   bordered?: boolean; // Wraps the table with div to add bordered styles
   onFieldOrderChange: (newFieldOrder: F[]) => void;
   onSortOrderChange?: (newSortOrder: TableView['sort']) => void;
+  onWidthChange?: ({ field, width }: { field: F; width: number }) => void;
   columnOptions?: Partial<Record<F, ColumnOptions>>;
 }
 
