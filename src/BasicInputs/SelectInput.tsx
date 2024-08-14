@@ -1,9 +1,9 @@
 import {
+  type ComponentProps,
   type ComponentPropsWithoutRef,
   type ElementRef,
   type PropsWithoutRef,
   forwardRef,
-  type ComponentProps,
 } from 'react';
 import Select from 'react-select';
 

@@ -1,10 +1,10 @@
 import { TableHead, type TableHeadProps } from '@/Table';
 import { DndSortableWrapper, humanizeText } from '@/utils';
 
+import { ResizableWrapper } from '@/utils';
+import { useRef, useState } from 'react';
 import { ModelTableHeadMenu } from './ModelTableHeadMenu';
 import { useModelTableStore } from './useModelTableStore';
-import { useRef, useState } from 'react';
-import { ResizableWrapper } from '@/utils';
 
 export interface ModelTableHeadProps extends Omit<TableHeadProps, 'columnId'> {
   field: string;

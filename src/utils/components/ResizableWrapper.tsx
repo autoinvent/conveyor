@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode, useState, useRef } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface ResizableWrapperProps {
   resizable: boolean;

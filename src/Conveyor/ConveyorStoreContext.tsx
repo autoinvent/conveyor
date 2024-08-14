@@ -20,8 +20,8 @@ import {
 import {
   BooleanInput,
   DatetimeInput,
-  NumberInput,
   ModelItemInput,
+  NumberInput,
   StringInput,
 } from '@/BasicInputs';
 import type { FormControlChildProps, FormDisplayChildProps } from '@/Form';
