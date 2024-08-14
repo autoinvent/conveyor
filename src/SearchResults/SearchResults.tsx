@@ -1,29 +1,34 @@
+import type { SearchResult } from '@/types'
 import * as Accordion from '@radix-ui/react-accordion'
 
-export const SearchResults = () => {
+export interface SearchResultsProps {
+  data: SearchResult[]
+}
+
+export const SearchResults = ({ data } : SearchResultsProps) => {
+  const categorizedResults : {[type : string]: SearchResult[]} = {};
+
+  for (const item of data) {
+    if (!categorizedResults[item.type]) {
+      categorizedResults[item.type] = [];
+    }
+    categorizedResults[item.type].push(item)
+  }
+
   return (
     <Accordion.Root type='multiple'>
-      <AccordionItem val='item-1'/>
-      <AccordionItem val='item-2'/>
+      {Object.entries(categorizedResults).map( ([type, searchResults]) => (
+        <Accordion.Item key={`item-${type}`} value={type}>
+          <Accordion.Header>
+            <Accordion.Trigger>
+              {type}
+            </Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Content>
+            {searchResults.map( val => val.value)}
+          </Accordion.Content>
+        </Accordion.Item>
+      ))}
     </Accordion.Root>
-  )
-}
-
-interface AccordionItemProps {
-  val : string
-}
-
-const AccordionItem = ({ val } : AccordionItemProps) => {
-  return (
-    <Accordion.Item value={val}>
-      <Accordion.Header className="bg-red-200">
-        <Accordion.Trigger className="bg-green-200">
-          {`trigger-${val}`}
-        </Accordion.Trigger>
-      </Accordion.Header>
-      <Accordion.Content className="bg-blue-200">
-        content
-      </Accordion.Content>
-    </Accordion.Item>
   )
 }
