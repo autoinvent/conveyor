@@ -21,7 +21,7 @@ export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
   hidable?: boolean;
   resizable?: boolean;
-  initialWidth?: number;
+  width?: number; // content width of the cell
 }
 
 export interface TableOptions<F extends string> {

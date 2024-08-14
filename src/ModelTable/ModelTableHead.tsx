@@ -28,8 +28,8 @@ export const ModelTableHead = ({
   const label = useModelTableStore(
     (state) => state.tableOptions.columnOptions?.[field]?.label,
   );
-  const initialWidth = useModelTableStore(
-    (state) => state.tableOptions?.columnOptions?.[field]?.initialWidth ?? 100,
+  const width = useModelTableStore(
+    (state) => state.tableOptions?.columnOptions?.[field]?.width ?? 100,
   );
 
   return (
@@ -37,7 +37,7 @@ export const ModelTableHead = ({
       <TableHead columnId={field} {...tableHeadProps}>
         <ResizableWrapper
           resizable={resizable}
-          initalWidth={initialWidth}
+          width={width}
           onWidthChange={(width) => onWidthChange?.({ field, width })}
         >
           {children === undefined ? (

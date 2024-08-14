@@ -1,52 +1,61 @@
-import {
-  type ElementRef,
-  forwardRef,
-  useEffect,
-  useRef,
-  type ReactNode,
-  useState,
-} from 'react';
+import { useEffect, type ReactNode, useState, useRef } from 'react';
 
 export interface ResizableWrapperProps {
   resizable: boolean;
-  initalWidth: number;
+  width: number;
   onWidthChange?: (width: number) => void;
   children: ReactNode;
 }
 
 export const ResizableWrapper = ({
   resizable,
-  initalWidth,
+  width,
   onWidthChange,
   children,
 }: ResizableWrapperProps) => {
   const [isResizing, setIsResizing] = useState(false);
   const [clientX, setClientX] = useState(0);
-  const [width, setWidth] = useState(initalWidth);
+  const [deltaX, setDeltaX] = useState(0);
+  const [currentWidth, setCurrentWidth] = useState(width);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
-      setWidth(initalWidth + e.clientX - clientX);
+      setDeltaX(e.clientX - clientX);
     };
     const onMouseUp = () => {
       setIsResizing(false);
+      let newWidth = currentWidth + deltaX;
+      setDeltaX(0);
+      const scrollWidth = ref.current?.scrollWidth;
+      if (scrollWidth && scrollWidth !== newWidth) {
+        newWidth = ref.current?.scrollWidth;
+      }
+      setCurrentWidth(newWidth);
+      onWidthChange?.(newWidth);
     };
     if (isResizing) {
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-    } else {
-      onWidthChange?.(width);
     }
     return () => {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-  }, [isResizing, initalWidth, onWidthChange, clientX, width]);
+  }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (!isResizing && ref.current) {
+      console.log(currentWidth, ref.current.scrollWidth);
+    }
+  }, [isResizing, currentWidth]);
 
   return resizable ? (
-    <div className="h-full" style={{ width: `${width}px` }}>
+    <div
+      className="h-full"
+      style={{ width: `${currentWidth + deltaX}px` }}
+      ref={ref}
+    >
       {children}
       <div
         className="absolute top-0 right-0 bottom-0 w-2 cursor-ew-resize select-none bg-blue-400"
