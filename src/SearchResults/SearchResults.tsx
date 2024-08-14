@@ -4,13 +4,18 @@ import * as Accordion from '@radix-ui/react-accordion'
 export interface SearchResultsProps {
   data: SearchResult[]
   groupBy?: (data : SearchResult) => string
+  getDisplay?: (data : SearchResult) => any
 }
 
-export const SearchResults = ({ data, groupBy } : SearchResultsProps) => {
+export const SearchResults = ({ 
+  data, 
+  groupBy = (item) => item.type, 
+  getDisplay = (item) => item.value
+} : SearchResultsProps) => {
   const categorizedResults : {[type : string]: SearchResult[]} = {};
 
   for (const item of data) {
-    const category = groupBy ? groupBy(item) : item.type
+    const category = groupBy(item)
 
     if (!categorizedResults[category]) {
       categorizedResults[category] = [];
@@ -28,7 +33,7 @@ export const SearchResults = ({ data, groupBy } : SearchResultsProps) => {
             </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Content>
-            {searchResults.map( val => val.value)}
+            { searchResults.map( val => getDisplay(val))}
           </Accordion.Content>
         </Accordion.Item>
       ))}

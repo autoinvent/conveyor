@@ -56,7 +56,14 @@ export const Results : Story = {
 export const Grouped : Story = {
   args: {
     data: data,
-    groupBy: (item : SearchResult) => item.value.at(-1) ?? "undefined"
+    groupBy: (item) => item.value.at(-1) ?? "undefined"
+  }
+}
+
+export const Display : Story = {
+  args: {
+    data: data,
+    getDisplay: (item) => item.id
   }
 }
 
