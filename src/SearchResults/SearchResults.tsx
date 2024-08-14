@@ -3,16 +3,19 @@ import * as Accordion from '@radix-ui/react-accordion'
 
 export interface SearchResultsProps {
   data: SearchResult[]
+  groupBy?: (data : SearchResult) => string
 }
 
-export const SearchResults = ({ data } : SearchResultsProps) => {
+export const SearchResults = ({ data, groupBy } : SearchResultsProps) => {
   const categorizedResults : {[type : string]: SearchResult[]} = {};
 
   for (const item of data) {
-    if (!categorizedResults[item.type]) {
-      categorizedResults[item.type] = [];
+    const category = groupBy ? groupBy(item) : item.type
+
+    if (!categorizedResults[category]) {
+      categorizedResults[category] = [];
     }
-    categorizedResults[item.type].push(item)
+    categorizedResults[category].push(item)
   }
 
   return (
