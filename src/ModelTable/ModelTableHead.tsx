@@ -29,7 +29,7 @@ export const ModelTableHead = ({
     (state) => state.tableOptions.columnOptions?.[field]?.label,
   );
   const width = useModelTableStore(
-    (state) => state.tableOptions?.columnOptions?.[field]?.width ?? 100,
+    (state) => state.tableOptions?.columnOptions?.[field]?.width ?? 200,
   );
 
   return (

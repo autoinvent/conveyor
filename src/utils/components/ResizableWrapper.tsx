@@ -21,7 +21,18 @@ export const ResizableWrapper = ({
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
-      setDeltaX(e.clientX - clientX);
+      let newDelta = e.clientX - clientX;
+      if (ref?.current && ref.current.scrollWidth !== ref.current.clientWidth) {
+        console.log(
+          newDelta,
+          e.clientX,
+          clientX,
+          ref.current.scrollWidth,
+          ref.current.clientWidth,
+        );
+        newDelta = ref.current.scrollWidth - clientX;
+      }
+      setDeltaX(newDelta);
     };
     const onMouseUp = () => {
       setIsResizing(false);
@@ -43,12 +54,6 @@ export const ResizableWrapper = ({
       document.removeEventListener('mouseup', onMouseUp);
     };
   }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
-
-  useEffect(() => {
-    if (!isResizing && ref.current) {
-      console.log(currentWidth, ref.current.scrollWidth);
-    }
-  }, [isResizing, currentWidth]);
 
   return resizable ? (
     <div
