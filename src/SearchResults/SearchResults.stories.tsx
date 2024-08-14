@@ -51,7 +51,14 @@ export const Results : Story = {
   args: {
     data: data,
   }
-} 
+}
+
+export const DotSeparated : Story = {
+  args: {
+    data: data,
+    dotSeparated: true
+  }
+}
 
 export const Grouped : Story = {
   args: {
