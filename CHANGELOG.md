@@ -1,4 +1,5 @@
 ## 1.4.0
+- `feature`: **react-select** now used under the hood for select components.
 - `feature`: `ModelTable` can now be resized. 
 - `feature`: `ModelTable`'s internal `ScrollAreaWrapper` and `BorderWrapper` classNames can now be accessed from `scrollable/bordered` props in  `tableOptions`
 - `refactor`: `LoadingProvider` removed in usage of `isSubmitting` which can be accessed from react-hook-form. 
