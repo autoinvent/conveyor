@@ -4,16 +4,14 @@ import { ChevronDown } from 'lucide-react'
 
 export interface SearchResultsProps {
   data: SearchResult[]
-  dotSeparated?: boolean
-  groupBy?: (data : SearchResult) => string
-  getDisplay?: (data : SearchResult) => any
+  groupBy?: (item : SearchResult) => string
+  displayItem?: (item : SearchResult) => JSX.Element
 }
 
 export const SearchResults = ({ 
   data, 
-  dotSeparated,
   groupBy = (item) => item.type, 
-  getDisplay = (item) => item.value
+  displayItem = (item) => <p className="w-full">{item.value}</p>
 } : SearchResultsProps) => {
   const categorizedResults : {[type : string]: SearchResult[]} = {};
 
@@ -38,20 +36,8 @@ export const SearchResults = ({
             </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Content className="data-[state=open]:animate-accordion-down">
-            <div className='flex w-full px-6'>
-              {
-                dotSeparated ? 
-                <div className="flex w-full flex-start py-2">
-                  {searchResults.map( item => getDisplay(item)).join(" ⸱ ")}
-                </div> :
-                <div className="w-full">
-                  {searchResults.map( item => (
-                    <p key={`value-${item.id}`} className="w-full py-2">
-                      {getDisplay(item)}
-                    </p>
-                  ))}
-                </div>
-              }
+            <div className='flex w-full flex-row flex-wrap gap-2 px-6 py-2'>
+              { searchResults.map( item => displayItem(item)) }
             </div>
           </Accordion.Content>
         </Accordion.Item>
