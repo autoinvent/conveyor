@@ -65,7 +65,10 @@ export const ModelTable = Object.assign(
         onUpdate={onUpdate}
         onDelete={onDelete}
       >
-        <BorderWrapper bordered={bordered ?? true}>
+        <BorderWrapper
+          bordered={typeof bordered === 'object' ? true : bordered ?? true}
+          className={typeof bordered === 'object' ? bordered?.className : ''}
+        >
           <DnDContextWrapper
             draggable={draggable ?? true}
             dndList={fieldOrder}
@@ -73,7 +76,14 @@ export const ModelTable = Object.assign(
               onFieldOrderChange as (newFieldOrder: string[]) => void
             }
           >
-            <ScrollAreaWrapper scrollable={scrollable ?? true}>
+            <ScrollAreaWrapper
+              scrollable={
+                typeof scrollable === 'object' ? true : scrollable ?? true
+              }
+              className={
+                typeof scrollable === 'object' ? scrollable?.className : ''
+              }
+            >
               <Table columnIds={tableColumns} data={data} {...tableProps}>
                 {children === undefined ? (
                   <>

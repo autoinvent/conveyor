@@ -45,6 +45,14 @@ const meta = {
         points: 4,
         done: true,
       },
+      {
+        id: '4',
+        message: 'Feature: React Select',
+        user: { id: '00000003', _display_value: 'cmacgray14' },
+        created_at: '2024-08-14T01:56:34.926365',
+        points: 2,
+        done: false,
+      },
     ],
     tableOptions: {
       fieldOrder: [], // dummy
@@ -61,6 +69,7 @@ const meta = {
           valueOptions: [
             { label: 'robxbob', value: '00000001' },
             { label: 'nicklitvin', value: '00000002' },
+            { label: 'cmacgray14', value: '00000003' },
             { label: 'None', value: null },
           ],
         },

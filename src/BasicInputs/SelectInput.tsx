@@ -18,16 +18,16 @@ export const SelectInput = forwardRef<
   const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
-        isFocused ? 'text-neutral-600' : 'text-neutral-200',
+        isFocused ? 'text-muted-foreground' : 'text-foreground',
         'p-2',
-        isFocused ? 'hover:text-neutral-800' : 'hover:text-neutral-400',
+        isFocused ? 'hover:text-foreground' : 'hover:text-muted-foreground',
       ),
     //use 'container' key for selectContainer component!!
     //container: () => cn(),
     control: ({ isDisabled, isFocused }) =>
       cn(
-        isDisabled ? 'bg-neutral-50' : 'bg-white',
-        'dark:bg-black',
+        'bg-background',
+        isDisabled && 'bg-secondary',
         'border-solid',
         'border',
         'rounded-md',
@@ -36,14 +36,15 @@ export const SelectInput = forwardRef<
       ),
     dropdownIndicator: ({ isFocused }) =>
       cn(
-        isFocused ? 'text-neutral-600' : 'text-neutral-200',
         'p-2',
-        isFocused ? 'hover:text-neutral-800' : 'hover:text-neutral-400',
+        isFocused 
+        ? 'text-muted-foreground hover:text-foreground' 
+        : 'text-foreground hover:text-muted-foreground',
       ),
     group: () => cn('py-2'),
     groupHeading: () =>
       cn(
-        'text-neutral-400',
+        'text-muted-foreground',
         'text-xs',
         'font-medium',
         'mb-1',
@@ -51,58 +52,53 @@ export const SelectInput = forwardRef<
         'uppercase',
       ),
     indicatorsContainer: () => cn('inline-block'),
-    indicatorSeparator: ({ isDisabled }) =>
-      cn(isDisabled ? 'bg-neutral-100' : 'bg-neutral-200', 'my-2'),
-    input: () => cn('m-0.5', 'py-0.5', 'text-neutral-800'),
+    indicatorSeparator: () =>
+      cn('bg-foreground', 'my-2'),
+    input: () => cn('m-0.5', 'py-0.5', 'text-muted-foreground'),
     loadingIndicator: ({ isFocused }) =>
       cn(isFocused ? 'text-neutral-600' : 'text-neutral-200', 'p-2'),
     loadingMessage: () => cn('text-neutral-400', 'py-2', 'px-3'),
     menu: () =>
       cn(
-        'bg-white',
-        'dark:bg-black',
+        'bg-background',
         'rounded-md',
-        'shadow-[0_0_0_1px_rgba(0,0,0,0.1)]',
         'my-1',
         'mt-2',
         'px-1',
         'border',
-        'border-neutral-50',
-        'dark:border-slate-700',
+        'border-secondary',
         'min-w-fit',
       ),
     menuList: () => cn('py-1'),
     // menuPortal: () => cn(),
     multiValue: () =>
-      cn('bg-slate-200', 'dark:bg-slate-800', 'rounded-md', 'm-0.5'),
+      cn('bg-secondary', 'rounded-md', 'm-0.5'),
     multiValueLabel: () =>
       cn(
         'rounded-md',
-        'text-neutral-800',
+        'text-foreground',
         'text-sm',
         'px-1',
-        'dark:text-white',
       ),
-    multiValueRemove: ({ isFocused }) =>
+    multiValueRemove: () =>
       cn(
         'rounded-md',
-        isFocused && 'bg-red-500',
         'px-1',
-        'hover:bg-red-500',
-        'hover:text-red-800',
-        'dark:bg-slate-800',
+        'hover:bg-destructive',
+        'hover:text-destructive-foreground',
+        'bg-inherit',
       ),
-    noOptionsMessage: () => cn('text-neutral-400', 'py-2', 'px-3'),
-    option: ({ isDisabled, isFocused, isSelected }) =>
+    noOptionsMessage: () => cn('text-muted-foreground', 'py-2', 'px-3'),
+    option: ({ isFocused, isSelected }) =>
       cn(
-        isFocused ? 'bg-slate-200 dark:bg-slate-800' : 'bg-transparent',
+        isFocused ? 'bg-secondary' : 'bg-transparent',
         isSelected ? 'font-bold' : 'text-inherit',
         'py-2',
         'px-3',
         'rounded-md',
       ),
-    placeholder: () => cn('text-neutral-500', 'mx-0.5'),
-    singleValue: ({ isDisabled }) =>
+    placeholder: () => cn('text-muted-foreground', 'mx-0.5'),
+    singleValue: () =>
       cn(
         //isDisabled ? 'text-neutral-400' : 'text-neutral-800',
         'text-inherit',
@@ -117,6 +113,7 @@ export const SelectInput = forwardRef<
       <Select
         ref={ref}
         unstyled
+        isMulti
         classNames={defaultStyling}
         menuPortalTarget={document.body}
         {...props}

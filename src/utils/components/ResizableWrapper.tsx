@@ -21,29 +21,22 @@ export const ResizableWrapper = ({
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
-      let newDelta = e.clientX - clientX;
-      if (ref?.current && ref.current.scrollWidth !== ref.current.clientWidth) {
-        console.log(
-          newDelta,
-          e.clientX,
-          clientX,
-          ref.current.scrollWidth,
-          ref.current.clientWidth,
-        );
-        newDelta = ref.current.scrollWidth - clientX;
-      }
-      setDeltaX(newDelta);
+      setDeltaX(e.clientX - clientX);
     };
     const onMouseUp = () => {
-      setIsResizing(false);
       let newWidth = currentWidth + deltaX;
-      setDeltaX(0);
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
         newWidth = ref.current?.scrollWidth;
       }
+      setIsResizing(false);
       setCurrentWidth(newWidth);
+      setDeltaX(0);
       onWidthChange?.(newWidth);
+      const allElements = document.querySelectorAll('*');
+      for (const element of allElements) {
+        element.classList.remove('resizing');
+      }
     };
     if (isResizing) {
       document.addEventListener('mousemove', onMouseMove);
@@ -63,14 +56,18 @@ export const ResizableWrapper = ({
     >
       {children}
       <div
-        className="absolute top-0 right-0 bottom-0 w-2 cursor-ew-resize select-none bg-blue-400"
+        className="-right-1 absolute inset-y-0 w-2 cursor-ew-resize select-none"
         onMouseDown={(e) => {
           e.stopPropagation();
           setIsResizing(true);
           setClientX(e.clientX);
+          const allElements = document.querySelectorAll('*');
+          for (const element of allElements) {
+            element.classList.add('resizing');
+          }
         }}
       >
-        <span className="h-1/2 w-1/4 rounded bg-border" />
+        <div className="absolute inset-x-1/3 inset-y-1/4 rounded bg-border" />
       </div>
     </div>
   ) : (
