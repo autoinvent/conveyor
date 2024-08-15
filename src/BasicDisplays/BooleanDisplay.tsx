@@ -1,8 +1,8 @@
 import { Checkbox } from '@/lib/components/ui/checkbox';
 
-import type { ValueRenderFnProps } from '@/Form';
+import type { FormDisplayChildProps } from '@/Form';
 
-export const BooleanValue = ({ value }: ValueRenderFnProps) => {
+export const BooleanDisplay = ({ value }: FormDisplayChildProps) => {
   return (
     <div className="flex items-center">
       <Checkbox checked={value} value={value} disabled={true} />

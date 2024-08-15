@@ -1,5 +1,6 @@
 import type { RegisterOptions } from 'react-hook-form';
 
+import type { SelectOption } from './common';
 import { ScalarType } from './magql';
 
 export interface FieldOptions {
@@ -11,10 +12,10 @@ export interface FieldOptions {
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
+  valueOptions?: SelectOption[];
 }
 
 export enum NonScalarType {
-  DEFAULT = '__DEFAULT__',
   MODEL_ITEM = '__MODEL_ITEM__',
   MODEL_LIST = '__MODEL_LIST__',
 }

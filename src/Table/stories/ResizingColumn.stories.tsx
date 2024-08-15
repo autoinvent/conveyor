@@ -1,15 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Table } from '../Table';
-import TableStoryMeta from './Table.stories';
-import { useEffect, useState } from 'react';
 import { useDataStore } from '@/Data';
-import { Card, CardContent, CardHeader, CardTitle } from '@/lib/components/ui/card';
+import { Button } from '@/lib/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/lib/components/ui/card';
 import { Checkbox } from '@/lib/components/ui/checkbox';
 import { Label } from '@/lib/components/ui/label';
-import { Button } from '@/lib/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
+import { Table } from '../Table';
+import TableStoryMeta from './Table.stories';
 
 const meta = {
   title: 'Commons/Table/ResizingColumn',
@@ -21,46 +26,59 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const ResizableCellWrapper = ({ content, resizeFunction, enable, showGrabber } : {
-  content : any
-  resizeFunction : any
-  enable: boolean
-  showGrabber: boolean
+const ResizableCellWrapper = ({
+  content,
+  resizeFunction,
+  enable,
+  showGrabber,
+}: {
+  content: any;
+  resizeFunction: any;
+  enable: boolean;
+  showGrabber: boolean;
 }) => {
   return (
-    <div className='relative flex h-full flex-start items-center py-2'>
+    <div className="relative flex h-full flex-start items-center py-2">
       {content}
-      <div className="flex-grow"/>
-      {
-        enable ? 
-        <div 
+      <div className="flex-grow" />
+      {enable ? (
+        <div
           className={cn(
-            showGrabber ? "bg-border" : "",
-            'absolute right-0 h-full w-4 cursor-ew-resize select-none'
+            showGrabber ? 'bg-border' : '',
+            'absolute right-0 h-full w-4 cursor-ew-resize select-none',
           )}
           onMouseDown={resizeFunction}
-        /> :
-        null
-      }
+        />
+      ) : null}
     </div>
-  )
-}
+  );
+};
 
-const ResizableRowCell = ({resizeFunction, width, columnId, enable, showGrabber} : {
-  columnId: string
-  width: number
-  resizeFunction: (e : React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-  enable: boolean
-  showGrabber: boolean
+const ResizableRowCell = ({
+  resizeFunction,
+  width,
+  columnId,
+  enable,
+  showGrabber,
+}: {
+  columnId: string;
+  width: number;
+  resizeFunction: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  enable: boolean;
+  showGrabber: boolean;
 }) => {
   let data = useDataStore((state) => state[columnId]);
   if (!data) {
     const allData = useDataStore();
-    data = `${allData.firstname}.${allData.lastname}`
+    data = `${allData.firstname}.${allData.lastname}`;
   }
 
   return (
-    <Table.Cell columnId={columnId} style={{width: width}} className='py-0 pr-0'>
+    <Table.Cell
+      columnId={columnId}
+      style={{ width: width }}
+      className="py-0 pr-0"
+    >
       <ResizableCellWrapper
         content={data}
         resizeFunction={resizeFunction}
@@ -68,8 +86,8 @@ const ResizableRowCell = ({resizeFunction, width, columnId, enable, showGrabber}
         showGrabber={showGrabber}
       />
     </Table.Cell>
-  )
-}
+  );
+};
 
 export const CustomTableCells: Story = {
   render: (props) => {
@@ -77,82 +95,99 @@ export const CustomTableCells: Story = {
     const defaultWidth = 200;
 
     const [showGrabber, setShowGrabber] = useState<boolean>(false);
-    const [resizableColumns, setResizableColumns] = useState<{[columnID: string] : boolean}>(
-      Object.assign({}, ...columnIds.map( columnId => ({[columnId]: true})))
+    const [resizableColumns, setResizableColumns] = useState<{
+      [columnID: string]: boolean;
+    }>(
+      Object.assign({}, ...columnIds.map((columnId) => ({ [columnId]: true }))),
     );
-    const [widths, setWidths] = useState<{[columnID : string]: number}>(
-      Object.assign({}, ...columnIds.map( columnId => ({[columnId]: defaultWidth})))
-    )
-    const [resizingColumnId, setColumnResizingId] = useState<string|null>(null);
+    const [widths, setWidths] = useState<{ [columnID: string]: number }>(
+      Object.assign(
+        {},
+        ...columnIds.map((columnId) => ({ [columnId]: defaultWidth })),
+      ),
+    );
+    const [resizingColumnId, setColumnResizingId] = useState<string | null>(
+      null,
+    );
     const [startX, setStartX] = useState<number>();
     const [startWidth, setStartWidth] = useState<number>();
 
-    useEffect( () => {
+    useEffect(() => {
       if (resizingColumnId !== null && startX && startWidth) {
-        document.addEventListener("mousemove", doResize);
-        document.addEventListener("mouseup", stopResize);
+        document.addEventListener('mousemove', doResize);
+        document.addEventListener('mouseup', stopResize);
       }
-    }, [resizingColumnId, startX, startWidth])
+    }, [resizingColumnId, startX, startWidth]);
 
     const startResizing = (
-      e : React.MouseEvent<HTMLDivElement, MouseEvent>, columnId : string
+      e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+      columnId: string,
     ) => {
       setColumnResizingId(columnId);
       setStartX(e.clientX);
       setStartWidth(widths[columnId]);
-    }
+    };
 
-    const doResize = (e : MouseEvent) => {
+    const doResize = (e: MouseEvent) => {
       if (resizingColumnId !== null && startWidth && startX) {
-        const copy = {...widths}
-        copy[resizingColumnId] = startWidth + (e.clientX - startX)
+        const copy = { ...widths };
+        copy[resizingColumnId] = startWidth + (e.clientX - startX);
         setWidths(copy);
       }
-    }
+    };
 
     const stopResize = () => {
       setColumnResizingId(null);
-      document.removeEventListener("mousemove",doResize);
-      document.removeEventListener("mouseup",stopResize);
-    }
+      document.removeEventListener('mousemove', doResize);
+      document.removeEventListener('mouseup', stopResize);
+    };
 
-    const changeColumnResizability = (index : string) => {
-      const copy = {...resizableColumns};
-      copy[index] = !copy[index]
-      setResizableColumns(copy)
-    }
+    const changeColumnResizability = (index: string) => {
+      const copy = { ...resizableColumns };
+      copy[index] = !copy[index];
+      setResizableColumns(copy);
+    };
 
     const resetLayout = () => {
       setWidths(
-        Object.assign({}, ...columnIds.map( columnId => ({[columnId]: defaultWidth})))
-      )
-    }
+        Object.assign(
+          {},
+          ...columnIds.map((columnId) => ({ [columnId]: defaultWidth })),
+        ),
+      );
+    };
 
     const enableAllResizability = () => {
       setResizableColumns(
-        Object.assign({}, ...columnIds.map( columnId => ({[columnId]: true})))
-      )
-    }
+        Object.assign(
+          {},
+          ...columnIds.map((columnId) => ({ [columnId]: true })),
+        ),
+      );
+    };
 
     const disableAllResizability = () => {
       setResizableColumns(
-        Object.assign({}, ...columnIds.map( columnId => ({[columnId]: false})))
-      )
-    }
+        Object.assign(
+          {},
+          ...columnIds.map((columnId) => ({ [columnId]: false })),
+        ),
+      );
+    };
 
     const changeGrabberVisibility = () => {
-      setShowGrabber(!showGrabber)
-    }
+      setShowGrabber(!showGrabber);
+    };
 
     return (
       <>
-        <Card className='my-2 w-1/2 min-w-[400px]'>
+        <Card className="my-2 w-1/2 min-w-[400px]">
           <CardHeader>
             <CardTitle className="text-center">Column Resizing</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            {columnIds.map( (val,index) => (
-              <div key={`checkbox-${val}`} className='flex flex-row gap-2'>
+            {columnIds.map((val, index) => (
+              <div key={`checkbox-${val}`} className="flex flex-row gap-2">
                 <Checkbox
                   checked={resizableColumns[val]}
                   onCheckedChange={() => changeColumnResizability(val)}
@@ -160,12 +195,12 @@ export const CustomTableCells: Story = {
                 <Label>{val}</Label>
               </div>
             ))}
-            <div className='flex flex-row gap-2'>
+            <div className="flex flex-row gap-2">
               <Checkbox
-                  checked={showGrabber}
-                  onCheckedChange={changeGrabberVisibility}
-                />
-                <Label>Grabber Visibility (not a column)</Label>
+                checked={showGrabber}
+                onCheckedChange={changeGrabberVisibility}
+              />
+              <Label>Grabber Visibility (not a column)</Label>
             </div>
             <Button onClick={disableAllResizability} className="max-w-[300px]">
               Disable All Column Resizability
@@ -179,21 +214,21 @@ export const CustomTableCells: Story = {
           </CardContent>
         </Card>
         <ScrollArea>
-          <Table {...props} className='w-auto min-w-max'>
+          <Table {...props} className="w-auto min-w-max">
             <Table.Header>
               <Table.HeaderRow>
-                {columnIds.map( columnId => (
-                  <Table.Head 
+                {columnIds.map((columnId) => (
+                  <Table.Head
                     key={`headercell-${columnId}`}
-                    columnId={columnId} 
-                    style={{width: widths[columnId]}} 
-                    className='py-0 pr-0'
+                    columnId={columnId}
+                    style={{ width: widths[columnId] }}
+                    className="py-0 pr-0"
                   >
                     <ResizableCellWrapper
                       content={columnId}
-                      resizeFunction={(e : React.MouseEvent<HTMLDivElement, MouseEvent>) => 
-                        startResizing(e,columnId)
-                      }
+                      resizeFunction={(
+                        e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+                      ) => startResizing(e, columnId)}
                       enable={resizableColumns[columnId]}
                       showGrabber={showGrabber}
                     />
@@ -203,12 +238,12 @@ export const CustomTableCells: Story = {
             </Table.Header>
             <Table.Body>
               <Table.Row>
-                {columnIds.map( columnId => (
+                {columnIds.map((columnId) => (
                   <ResizableRowCell
                     key={`bodycell-${columnId}`}
                     columnId={columnId}
                     width={widths[columnId]}
-                    resizeFunction={(e) => startResizing(e,columnId)}
+                    resizeFunction={(e) => startResizing(e, columnId)}
                     enable={resizableColumns[columnId]}
                     showGrabber={showGrabber}
                   />
@@ -219,11 +254,9 @@ export const CustomTableCells: Story = {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </>
-    )
-  }
-}
-
-
+    );
+  },
+};
 
 export const NoColumns: Story = {
   args: {

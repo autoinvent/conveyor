@@ -80,3 +80,9 @@
       @apply bg-background text-foreground;
     }
   }
+
+  @layer utilities {
+    .resizing {
+      @apply cursor-ew-resize;
+    }
+  }

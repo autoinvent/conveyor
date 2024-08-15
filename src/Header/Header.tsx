@@ -11,7 +11,10 @@ export const Header = Object.assign(
   ({ className, ...props }: HeaderProps) => {
     return (
       <div
-        className={cn('flex items-end justify-between py-2', className)}
+        className={cn(
+          'flex items-end justify-between gap-2 whitespace-nowrap py-2',
+          className,
+        )}
         {...props}
       />
     );

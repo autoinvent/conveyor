@@ -1,9 +1,7 @@
-import type { ReactNode } from 'react';
-
 export type DataType = Record<string, any>;
 
 export enum DataLens {
-  VALUE = 'value',
+  DISPLAY = 'DISPLAY',
   INPUT = 'input',
 }
 
@@ -26,6 +24,6 @@ export type OnDelete<D extends DataType> =
 export type StoreSelector<TState, T> = (state: TState) => T;
 
 export type SelectOption = {
-  value: number | string | boolean | null;
-  label: ReactNode;
+  label: string;
+  value: any;
 };

@@ -34,7 +34,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
   };
   const onCancelEditHandler = () => {
     const onCancelEditMiddleware = () => {
-      setLens(DataLens.VALUE);
+      setLens(DataLens.DISPLAY);
       reset();
     };
     onCancelEdit
@@ -59,7 +59,7 @@ export const ModelFormActions = ({ className }: ModelFormActionsProps) => {
     fields.length > 0 &&
     data && (
       <div className={cn('flex gap-4', className)}>
-        <Lens lens={!isLoading && DataLens.VALUE}>
+        <Lens lens={!isLoading && DataLens.DISPLAY}>
           <Button
             onClick={onEditHandler}
             onKeyUp={(e) => e.key === 'Enter' && onEditHandler()}
