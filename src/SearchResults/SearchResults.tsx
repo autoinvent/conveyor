@@ -1,5 +1,6 @@
 import type { SearchResult } from '@/types'
 import * as Accordion from '@radix-ui/react-accordion'
+import { ChevronDown } from 'lucide-react'
 
 export interface SearchResultsProps {
   data: SearchResult[]
@@ -27,16 +28,16 @@ export const SearchResults = ({
 
   return (
     <Accordion.Root type='multiple' className='rounded-lg border'>
-      {Object.entries(categorizedResults).map( ([type, searchResults]) => (
-        <Accordion.Item key={`item-${type}`} value={type} className='border-b'>
-          <Accordion.Header className="w-full">
-            <Accordion.Trigger className="w-full">
-              <div className='flex w-full flex-start bg-red-200 px-6 py-4'>
-                <h1 className="font-bold text-xl">{type}</h1>
-              </div>
+      {Object.entries(categorizedResults).map( ([category, searchResults]) => (
+        <Accordion.Item key={`item-${category}`} value={category} className='border-b'>
+          <Accordion.Header className='w-full'>
+            <Accordion.Trigger className='flex w-full flex-start bg-red-200 px-6 py-4'>
+              <h1 className="font-bold text-xl">{category}</h1>
+              <div className="flex-grow"/>
+              <ChevronDown />
             </Accordion.Trigger>
           </Accordion.Header>
-          <Accordion.Content>
+          <Accordion.Content className="data-[state=open]:animate-accordion-down">
             <div className='flex w-full px-6'>
               {
                 dotSeparated ? 
