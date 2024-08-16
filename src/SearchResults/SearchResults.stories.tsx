@@ -1,5 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react';
-import { SearchResults } from "./SearchResults"
+import { type RowComponentProps, SearchResults } from "./SearchResults"
 import { Button } from '@/lib/components/ui/button';
 
 const meta = {
@@ -47,13 +47,15 @@ type Story = StoryObj<typeof meta>;
 
 export const NoExtras : Story = {}
 
+const MyRowComponent = ({ item } : RowComponentProps) => (
+  <Button className='max-w-40' key={item.value}>
+      {item.value}
+  </Button>
+)
+
 export const Display : Story = {
   args: {
-    displayItem: (item) => (
-      <Button className='max-w-40' key={item.value}>
-        {item.value}
-      </Button>
-    )
+    RowComponent: MyRowComponent
   }
 }
 
