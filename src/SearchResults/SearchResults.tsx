@@ -27,6 +27,15 @@ export const SearchResults = ({
     }
     categorizedResults[category].push(item)
   }
+  if (data.length === 0) {
+    return (
+      <div className='w-full rounded-lg border py-2'>
+        <h1 className="w-full text-center font-bold">
+          No Results
+        </h1>
+      </div>
+    )
+  } 
 
   return (
     <>
