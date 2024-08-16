@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import type { SearchResult } from '@/types'
 import * as Accordion from '@radix-ui/react-accordion'
 import { ChevronDown } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export interface SearchResultsProps {
   data: SearchResult[]
@@ -14,7 +14,7 @@ export interface SearchResultsProps {
 export const SearchResults = ({ 
   data, 
   groupBy = (item) => item.type, 
-  displayItem = (item) => <p className="w-full">{item.value}</p>
+  displayItem = (item) => <p key={item.value} className="w-full">{item.value}</p>
 } : SearchResultsProps) => {
   const [open, setOpen] = useState<string[]>([]);
   const categorizedResults : {[type : string]: SearchResult[]} = {};

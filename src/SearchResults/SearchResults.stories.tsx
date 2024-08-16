@@ -11,32 +11,32 @@ const meta = {
       {
         id: "1",
         type: "type-1",
-        value: "value-1",
+        value: "value-1-1",
       },
       {
         id: "2",
         type: "type-1",
-        value: "value-2",
+        value: "value-1-2",
       },
       {
         id: "3",
         type: "type-2",
-        value: "value-1",
+        value: "value-2-1",
       },
       {
         id: "4",
         type: "type-2",
-        value: "value-2",
+        value: "value-2-2",
       },
       {
         id: "5",
         type: "type-2",
-        value: "value-3",
+        value: "value-2-3",
       },
       {
         id: "6",
         type: "type-3",
-        value: "value-1",
+        value: "value-3-1",
       }
     ]
   }
@@ -50,7 +50,7 @@ export const NoExtras : Story = {}
 export const Display : Story = {
   args: {
     displayItem: (item) => (
-      <Button className='max-w-40'>
+      <Button className='max-w-40' key={item.value}>
         {item.value}
       </Button>
     )
