@@ -1,5 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react';
-import { type RowComponentProps, SearchResults } from "./SearchResults"
+import { type HeaderComponentProps, type RowComponentProps, SearchResults } from "./SearchResults"
 import { Button } from '@/lib/components/ui/button';
 
 const meta = {
@@ -52,9 +52,17 @@ const MyRowComponent = ({ item } : RowComponentProps) => (
       {item.value}
   </Button>
 )
+const MyHeaderComponent = ({ category } : HeaderComponentProps) => (
+  <div className='flex w-full flex-wrap'>
+    <h1 className='bg-gray-200 text-start italic'>
+      {`This is a stylized header component for the category: ${category}`}
+    </h1>
+  </div>
+)
 
-export const Display : Story = {
+export const Stylized : Story = {
   args: {
+    HeaderComponent: MyHeaderComponent,
     RowComponent: MyRowComponent
   }
 }

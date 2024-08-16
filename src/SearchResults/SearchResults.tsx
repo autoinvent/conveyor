@@ -8,18 +8,36 @@ import { type ComponentType, useState } from 'react'
 export interface RowComponentProps {
   item: SearchResult
 }
+const DefaultRowComponent = ({ item } : RowComponentProps) => (
+  <p className="w-full">{item.value}</p>
+) 
+
+export interface HeaderComponentProps {
+  category: string
+  openCategories: string[]
+}
+const DefaultHeaderComponent = ({ category, openCategories } : HeaderComponentProps) => (
+  <>
+    <h1 className="font-bold text-xl">{category}</h1>
+    <div className="flex-grow"/>
+    <ChevronDown className={cn(
+      'transition-transform duration-500 ease-out',
+      openCategories.includes(category) ? "rotate-180" : ""
+    )}/>
+  </>
+)
+
 export interface SearchResultsProps {
   data: SearchResult[]
   groupBy?: (item : SearchResult) => string
-  displayItem?: (item : SearchResult) => JSX.Element
-  RowComponent?: ComponentType<{ item : SearchResult}>
+  RowComponent?: ComponentType<RowComponentProps>
+  HeaderComponent?: ComponentType<HeaderComponentProps>
 }
-
 export const SearchResults = ({ 
   data, 
   groupBy = (item) => item.type, 
-  // displayItem = (item) => <p key={item.value} className="w-full">{item.value}</p>,
-  RowComponent = ({ item }) => <p key={item.value} className="w-full">{item.value}</p>
+  HeaderComponent = DefaultHeaderComponent,
+  RowComponent = DefaultRowComponent
 } : SearchResultsProps) => {
   const [open, setOpen] = useState<string[]>([]);
   const categorizedResults : {[type : string]: SearchResult[]} = {};
@@ -53,13 +71,8 @@ export const SearchResults = ({
         {Object.entries(categorizedResults).map( ([category, searchResults]) => (
           <Accordion.Item key={`item-${category}`} value={category} className='border-b'>
             <Accordion.Header className='w-full'>
-              <Accordion.Trigger className='flex w-full flex-start bg-red-200 px-6 py-4'>
-                <h1 className="font-bold text-xl">{category}</h1>
-                <div className="flex-grow"/>
-                <ChevronDown className={cn(
-                  'transition-transform duration-500 ease-out',
-                  open.includes(category) ? "rotate-180" : ""
-                )}/>
+              <Accordion.Trigger className='flex w-full flex-start px-6 py-4'>
+                <HeaderComponent category={category} openCategories={open}/>
               </Accordion.Trigger>
             </Accordion.Header>
             <Accordion.Content className='data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down'>
