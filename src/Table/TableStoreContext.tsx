@@ -33,7 +33,7 @@ export const TableStoreProvider = <D extends DataType>({
       The reference to tableState does not matter, only the contents.
   */
   useEffect(() => {
-    if (isMounted.current) store.setState(() => tableState);
+    if (isMounted.current) store.setState(tableState);
     else isMounted.current = true;
   }, [...Object.values(tableState), store]);
 

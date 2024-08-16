@@ -98,7 +98,7 @@ export const ConveyorStoreProvider = ({
 
   const isMounted = useRef(false);
   useEffect(() => {
-    if (isMounted.current) store.setState(() => storeState);
+    if (isMounted.current) store.setState(storeState);
   }, [storeState, store]);
 
   useEffect(() => {

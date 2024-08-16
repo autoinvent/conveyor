@@ -6,8 +6,7 @@ import {
   useState,
 } from 'react';
 import type { UseFormProps } from 'react-hook-form';
-import { createStore } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
+import { createStore, type StoreApi } from 'zustand';
 
 import type {
   DataType,
@@ -54,14 +53,8 @@ export interface ModelTableState<
   onDelete?: OnDelete<D>;
 }
 
-/**
- * https://github.com/pmndrs/zustand/discussions/1281#discussioncomment-10206641
- */
-type ModelTableStore = ReturnType<
-  typeof createStore<ModelTableState<any, any, any>, [['zustand/immer', never]]>
->;
 export const ModelTableStoreContext = createContext<
-  ModelTableStore | undefined
+  StoreApi<ModelTableState<any, any, any>> | undefined
 >(undefined);
 
 export interface ModelTableStoreProviderProps<
@@ -80,13 +73,13 @@ export const ModelTableStoreProvider = <
   ...modelTableState
 }: ModelTableStoreProviderProps<D, F, T>) => {
   const isMounted = useRef(false);
-  const [store] = useState(() => createStore(immer(() => modelTableState)));
+  const [store] = useState(() => createStore(() => modelTableState));
   /* 
     biome-ignore lint/correctness/useExhaustiveDependencies:
       The reference to tableState does not matter, only the contents.
   */
   useEffect(() => {
-    if (isMounted.current) store.setState(() => modelTableState);
+    if (isMounted.current) store.setState(modelTableState);
     else isMounted.current = true;
   }, [...Object.values(modelTableState), store]);
 

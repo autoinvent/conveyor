@@ -40,9 +40,7 @@ export const Lenses = ({
 
   useEffect(() => {
     if (isMounted.current)
-      store.setState((state) => {
-        state.activeLens = activeLens ?? initLens;
-      });
+      store.setState({ activeLens: activeLens ?? initLens });
   }, [activeLens, initLens, store]);
 
   useEffect(() => {
