@@ -6,7 +6,6 @@ import {
   useState,
 } from 'react';
 import { type StoreApi, createStore } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
 
 import type { DataType } from '@/types';
 
@@ -28,7 +27,7 @@ export const TableStoreProvider = <D extends DataType>({
   ...tableState
 }: TableStoreProviderProps<D>) => {
   const isMounted = useRef(false);
-  const [store] = useState(() => createStore(immer(() => tableState)));
+  const [store] = useState(() => createStore(() => tableState));
   /* 
     biome-ignore lint/correctness/useExhaustiveDependencies:
       The reference to tableState does not matter, only the contents.
