@@ -1,9 +1,12 @@
 import {
-  type CollisionDescriptor,
+  closestCenter,
+  type Collision,
+  CollisionDescriptor,
   type CollisionDetection,
   DndContext,
   type DragEndEvent,
   MouseSensor,
+  rectIntersection,
   TouchSensor,
   useSensor,
   useSensors,
@@ -19,39 +22,41 @@ const customCollisionAlgorithm: CollisionDetection = ({
   collisionRect,
   droppableRects,
   droppableContainers,
+  active,
+  ...rest
 }) => {
-  const collisions: CollisionDescriptor[] = [];
+  const draggableWidth = active.rect.current.translated?.width ?? 0;
+  const x = rectIntersection({
+    collisionRect,
+    droppableRects,
+    droppableContainers,
+    active,
+    ...rest,
+  });
 
-  for (let i = 0; i < droppableContainers.length; i++) {
-    const { id } = droppableContainers[i];
-    const rect = droppableRects.get(id);
+  const y = x.sort((a, b) => {
+    // compute percentage of `a` and `b`, which is the proportion of the droppable component that is covered by the draggable component.
 
-    if (!rect) continue;
+    const shadowCastedOnA = a.data?.value * draggableWidth;
+    const shadowCastedOnB = b.data?.value * draggableWidth;
 
-    const collision: CollisionDescriptor = {
-      id,
-      data: {
-        droppableContainer: droppableContainers[i],
-        value: Math.abs(rect.left - collisionRect.left),
-      },
-    };
+    const percentA = Math.min(
+      shadowCastedOnA / a.data?.droppableContainer.rect.current.width,
+      1,
+    );
+    const percentB = Math.min(
+      shadowCastedOnB / b.data?.droppableContainer.rect.current.width,
+      1,
+    );
 
-    // edge case: when first is smaller than half the width of the dragged column,
-    // the collision must happen if the dragged column enters the first or last.
-    // Without this, the dragged column will never be considered "over" the smaller column.
-    if (i === 0 && collisionRect.width > rect.width / 2) {
-      const isOverLeftEdge = collisionRect.left < rect.left + rect.width * 0.5;
-      const isOverRightEdge =
-        collisionRect.right > rect.right - rect.width * 0.5;
-
-      if (isOverLeftEdge || isOverRightEdge) {
-        collisions.push(collision);
-      }
-    } else {
-      collisions.push(collision);
+    if (percentB === percentA) {
+      return -1;
     }
-  }
-  return collisions.sort((a, b) => a.data.value - b.data.value);
+
+    return percentB - percentA;
+  });
+
+  return y;
 };
 
 export interface DnDContextWrapperProps {
