@@ -49,7 +49,6 @@ const DefaultContentWrapper = ({ children, isLast } : ContentWrapperProps) => {
 export interface SearchResultsProps {
   data: SearchResult[]
   groupBy?: (item : SearchResult) => string
-  reverseOrder?: boolean
   className?: string
   RowComponent?: ComponentType<RowComponentProps>
   HeaderComponent?: ComponentType<HeaderComponentProps>
@@ -58,7 +57,6 @@ export interface SearchResultsProps {
 export const SearchResults = ({ 
   data, 
   groupBy = (item) => item.type, 
-  reverseOrder = false,
   className = "rounded-lg border w-full",
   HeaderComponent = DefaultHeaderComponent,
   RowComponent = DefaultRowComponent,
@@ -95,7 +93,7 @@ export const SearchResults = ({
       </div>
       <Accordion.Root type='multiple' className={className} value={open} onValueChange={setOpen}>
         {Object.entries(categorizedResults)
-          .sort( (a,b) => (reverseOrder ? -1 : 1) * a[0].localeCompare(b[0]))
+          .sort( (a,b) => a[0].localeCompare(b[0]))
           .map( ([category, searchResults], index) => (
           <Accordion.Item key={`item-${category}`} value={category}>
             <Accordion.Header className='w-full'>

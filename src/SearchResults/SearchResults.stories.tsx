@@ -83,12 +83,6 @@ export const Grouped : Story = {
   }
 }
 
-export const ReverseOrder : Story = {
-  args: {
-    reverseOrder: true
-  }
-}
-
 export const NoResults : Story = {
   args: {
     data: []
