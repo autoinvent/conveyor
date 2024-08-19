@@ -73,7 +73,8 @@ export const Stylized : Story = {
   args: {
     HeaderComponent: MyHeaderComponent,
     RowComponent: MyRowComponent,
-    ContentWrapper: MyContentWrapper
+    ContentWrapper: MyContentWrapper,
+    className: "p-2 bg-black"
   }
 }
 
