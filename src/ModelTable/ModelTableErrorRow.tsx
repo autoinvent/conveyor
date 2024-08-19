@@ -1,7 +1,6 @@
-import { ErrorMessage } from '@hookform/error-message';
 import type { ComponentProps } from 'react';
 
-import { useFormStore } from '@/Form';
+import { useFormStore, FormError } from '@/Form';
 import { useTableStore } from '@/Table';
 import { TableCell, TableRow } from '@/lib/components/ui/table';
 import { cn } from '@/lib/utils';
@@ -21,16 +20,16 @@ export const ModelTableErrorRow = ({
   return (
     hasErrorMessage && (
       <TableRow
-        className={cn(
-          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-          className,
-        )}
+        className={cn('bg-destructive hover:bg-destructive/90', className)}
         {...tableRowProps}
       >
         {fields.map((field) => {
           return (
             <TableCell key={field}>
-              <ErrorMessage name={field} />
+              <FormError
+                name={field}
+                className="text-destructive-foreground "
+              />
             </TableCell>
           );
         })}

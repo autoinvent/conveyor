@@ -29,6 +29,9 @@ export const ModelTableCell = ({
   const editable = useModelTableStore(
     (state) => state.tableOptions.columnOptions?.[field]?.editable ?? true,
   );
+  const rules = useModelTableStore(
+    (state) => state.tableOptions.columnOptions?.[field]?.rules,
+  );
   const valueOptions = useModelTableStore(
     (state) => state.tableOptions.columnOptions?.[field]?.valueOptions ?? [],
   );
@@ -66,8 +69,8 @@ export const ModelTableCell = ({
                 </FormDisplay>
               </Lens>
               <Lens lens={DataLens.INPUT}>
-                <FormControl name={field}>
-                  <InputComponent options={valueOptions} />
+                <FormControl name={field} options={valueOptions} rules={rules}>
+                  <InputComponent />
                 </FormControl>
               </Lens>
             </>

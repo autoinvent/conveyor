@@ -74,7 +74,17 @@ const meta = {
           ],
         },
         message: {
-          rules: { required: 'Message is required!' },
+          rules: {
+            required: 'Message is required!',
+            pattern: {
+              value: /\d+/,
+              message: 'This input is number only.',
+            },
+            minLength: {
+              value: 11,
+              message: 'This input must exceed 10 characters',
+            },
+          },
         },
         created_at: {
           sortable: false,
