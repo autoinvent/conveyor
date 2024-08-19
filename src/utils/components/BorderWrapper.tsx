@@ -1,12 +1,18 @@
+import { cn } from '@/lib/utils';
 import type { ReactNode } from 'react';
 
 export interface BorderWrapperProps {
   bordered: boolean;
+  className?: string;
   children?: ReactNode;
 }
-export const BorderWrapper = ({ bordered, children }: BorderWrapperProps) => {
+export const BorderWrapper = ({
+  bordered,
+  className,
+  children,
+}: BorderWrapperProps) => {
   return bordered ? (
-    <div className="rounded-md border">{children}</div>
+    <div className={cn('rounded-md border', className)}>{children}</div>
   ) : (
     children
   );

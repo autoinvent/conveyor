@@ -21,18 +21,19 @@ export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
   hidable?: boolean;
   resizable?: boolean;
-  width?: number;
+  width?: number; // content width of the cell
 }
 
 export interface TableOptions<F extends string> {
   fieldOrder: F[]; // Order + value of the field visibility
   sortOrder?: TableView['sort']; // Order + value of the field sort
   readOnly?: boolean;
-  scrollable?: boolean; // Wraps the table with ScrollArea
+  scrollable?: boolean | { className: string }; // Wraps the table with ScrollArea
   draggable?: boolean; // Wraps the table with DnDContext
-  bordered?: boolean; // Wraps the table with div to add bordered styles
+  bordered?: boolean | { className: string }; // Wraps the table with div to add bordered styles
   onFieldOrderChange: (newFieldOrder: F[]) => void;
   onSortOrderChange?: (newSortOrder: TableView['sort']) => void;
+  onWidthChange?: ({ field, width }: { field: F; width: number }) => void;
   columnOptions?: Partial<Record<F, ColumnOptions>>;
 }
 

@@ -18,6 +18,7 @@ import {
 } from './ModelTableStoreContext';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
+export const DEFAULT_COLUMN_WIDTH = 200; // in pixels
 
 export interface ModelTableProps<
   D extends DataType,
@@ -46,10 +47,10 @@ export const ModelTable = Object.assign(
       scrollable,
       columnOptions,
     } = tableOptions;
-
     const tableColumns = [...fieldOrder].filter(
       (field) => !columnOptions?.[field]?.hidden,
     );
+    // const tableWidth = columnOptions ? Object.values(columnOptions) : fieldOrder.length * DEFAULT_COLUMN_WIDTH
     // Action Columnn
     if (fieldOrder.length > 0 && !readOnly && data && data.length > 0) {
       tableColumns.push(ACTION_COLUMN as T);
@@ -64,7 +65,10 @@ export const ModelTable = Object.assign(
         onUpdate={onUpdate}
         onDelete={onDelete}
       >
-        <BorderWrapper bordered={bordered ?? true}>
+        <BorderWrapper
+          bordered={typeof bordered === 'object' ? true : bordered ?? true}
+          className={typeof bordered === 'object' ? bordered?.className : ''}
+        >
           <DnDContextWrapper
             draggable={draggable ?? true}
             dndList={fieldOrder}
@@ -72,7 +76,14 @@ export const ModelTable = Object.assign(
               onFieldOrderChange as (newFieldOrder: string[]) => void
             }
           >
-            <ScrollAreaWrapper scrollable={scrollable ?? true}>
+            <ScrollAreaWrapper
+              scrollable={
+                typeof scrollable === 'object' ? true : scrollable ?? true
+              }
+              className={
+                typeof scrollable === 'object' ? scrollable?.className : ''
+              }
+            >
               <Table columnIds={tableColumns} data={data} {...tableProps}>
                 {children === undefined ? (
                   <>

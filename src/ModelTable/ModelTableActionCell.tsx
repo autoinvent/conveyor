@@ -3,10 +3,9 @@ import { Save, SquarePen, Trash2, X } from 'lucide-react';
 import { Button } from '@/lib/components/ui/button';
 import { cn } from '@/lib/utils';
 
-import { useDataStore } from '@/Data';
 import { useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
-import { Spinner, useLoadingStore } from '@/Loading';
+import { Spinner } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type DataType } from '@/types';
 
@@ -21,30 +20,26 @@ export const ModelTableActionCell = ({
   className,
   ...tableCellProps
 }: ModelTableActionCellProps) => {
-  const { isLoading, setIsLoading } = useLoadingStore();
+  const setLens = useLensesStore((state) => state.setLens);
+  const data = useFormStore((state) => state.formState.defaultValues);
+  const isSubmitting = useFormStore((state) => state.formState.isSubmitting);
   const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
-  const data = useDataStore();
   const reset = useFormStore((state) => state.reset);
   const handleSubmit = useFormStore((state) => state.handleSubmit);
-  const setLens = useLensesStore((state) => state.setLens);
   const onUpdate = useModelTableStore((state) => state.onUpdate);
   const onDelete = useModelTableStore((state) => state.onDelete);
 
   const onEdit = () => setLens(DataLens.INPUT);
   const onCancelEdit = () => {
-    setLens(DataLens.VALUE);
+    setLens(DataLens.DISPLAY);
     reset();
   };
   const onSave = async (formData: DataType) => {
-    onUpdate && setIsLoading(true);
     await onUpdate?.({ data: formData, dirtyFields });
-    setIsLoading(false);
     onCancelEdit();
   };
   const onDeleteHandler = async () => {
-    onDelete && setIsLoading(true);
-    await onDelete?.(data);
-    setIsLoading(false);
+    await onDelete?.({ ...data });
   };
 
   return (
@@ -59,7 +54,7 @@ export const ModelTableActionCell = ({
           onSubmit={handleSubmit(onSave)}
         >
           <div className="space-x-1">
-            <Lens lens={!isLoading && DataLens.VALUE}>
+            <Lens lens={DataLens.DISPLAY}>
               <Button
                 variant="ghost"
                 size="icon"
@@ -79,7 +74,7 @@ export const ModelTableActionCell = ({
                 </Button>
               )}
             </Lens>
-            <Lens lens={!isLoading && DataLens.INPUT}>
+            <Lens lens={!isSubmitting && DataLens.INPUT}>
               {onUpdate && (
                 <Button type="submit" variant="ghost-success" size="icon">
                   <Save className="h-4 w-4" />
@@ -94,7 +89,7 @@ export const ModelTableActionCell = ({
                 <X className="h-4 w-4" />
               </Button>
             </Lens>
-            {isLoading && <Spinner />}
+            {isSubmitting && <Spinner />}
           </div>
         </form>
       ) : (

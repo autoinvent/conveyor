@@ -1,6 +1,7 @@
+import { ErrorMessage } from '@hookform/error-message';
 import type { ComponentProps } from 'react';
 
-import { FormError, useFormStore } from '@/Form';
+import { useFormStore } from '@/Form';
 import { useTableStore } from '@/Table';
 import { TableCell, TableRow } from '@/lib/components/ui/table';
 import { cn } from '@/lib/utils';
@@ -29,7 +30,7 @@ export const ModelTableErrorRow = ({
         {fields.map((field) => {
           return (
             <TableCell key={field}>
-              <FormError name={field} />
+              <ErrorMessage name={field} />
             </TableCell>
           );
         })}

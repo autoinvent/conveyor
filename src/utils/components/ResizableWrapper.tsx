@@ -1,68 +1,76 @@
-import { useEffect, useState, type ReactNode } from "react"
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface ResizableWrapperProps {
-  children: ReactNode
-  cellRef: React.RefObject<HTMLTableCellElement>
-  width: number|undefined
-  setWidth: (width : number) => void
-  resizable: boolean
+  resizable: boolean;
+  width: number;
+  onWidthChange?: (width: number) => void;
+  children: ReactNode;
 }
 
-export const ResizableWrapper = ({ 
-  children, cellRef, width, setWidth, resizable 
-} : ResizableWrapperProps) => {
-  const [startX, setStartX] = useState<number>();
-  const [startWidth, setStartWidth] = useState<number>();
+export const ResizableWrapper = ({
+  resizable,
+  width,
+  onWidthChange,
+  children,
+}: ResizableWrapperProps) => {
+  const [isResizing, setIsResizing] = useState(false);
+  const [clientX, setClientX] = useState(0);
+  const [deltaX, setDeltaX] = useState(0);
+  const [currentWidth, setCurrentWidth] = useState(width);
+  const ref = useRef<HTMLDivElement>(null);
 
-  useEffect( () => {
-    if (startX && startWidth) {
-      document.addEventListener("mousemove", doResize);
-      document.addEventListener("mouseup", stopResize);
-    }
-  }, [startX, startWidth])
-
-  useEffect( () => {
-    if (cellRef.current) {
-      setWidth(cellRef.current?.offsetWidth)
-    }
-  }, [cellRef.current, setWidth])
-
-  const startResizing = (
-    e : React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    setStartX(e.clientX);
-    setStartWidth(width);
-  }
-
-  const doResize = (e : MouseEvent) => {
-    if (startWidth && startX) {
-      setWidth(startWidth + (e.clientX - startX))
-    }
-  }
-
-  const stopResize = () => {
-    document.removeEventListener("mousemove",doResize);
-    document.removeEventListener("mouseup",stopResize);
-  }
-
-  return (
-    <div className='flex h-full flex-row'>
-      {children}
-      <div className="flex-grow"/>
-      {
-        resizable ? 
-          <div 
-            className='flex h-full w-2 cursor-ew-resize select-none items-center justify-center'
-            onMouseDown={(e) => {
-              startResizing(e)
-              e.stopPropagation()
-            }}
-          >
-            <div className='h-1/2 w-1/4 rounded bg-border'/>
-          </div>
-           :
-          null
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      setDeltaX(e.clientX - clientX);
+    };
+    const onMouseUp = () => {
+      let newWidth = currentWidth + deltaX;
+      const scrollWidth = ref.current?.scrollWidth;
+      if (scrollWidth && scrollWidth !== newWidth) {
+        newWidth = ref.current?.scrollWidth;
       }
+      setIsResizing(false);
+      setCurrentWidth(newWidth);
+      setDeltaX(0);
+      onWidthChange?.(newWidth);
+      const allElements = document.querySelectorAll('*');
+      for (const element of allElements) {
+        element.classList.remove('resizing');
+      }
+    };
+    if (isResizing) {
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    }
+    return () => {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+  }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
+
+  return resizable ? (
+    <div
+      className="h-full"
+      style={{ width: `${currentWidth + deltaX}px` }}
+      ref={ref}
+    >
+      {children}
+      <div
+        className="-right-1 absolute inset-y-0 w-2 cursor-ew-resize select-none"
+        onMouseDown={(e) => {
+          e.stopPropagation();
+          setIsResizing(true);
+          setClientX(e.clientX);
+          const allElements = document.querySelectorAll('*');
+          for (const element of allElements) {
+            element.classList.add('resizing');
+          }
+        }}
+      >
+        <div className="absolute inset-x-1/3 inset-y-1/4 rounded bg-border" />
+      </div>
     </div>
-  )
-}
+  ) : (
+    children
+  );
+};
