@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import type { SearchResult } from '@/types'
 import * as Accordion from '@radix-ui/react-accordion'
 import { ChevronDown } from 'lucide-react'
-import { type ComponentType, useState } from 'react'
+import { type ComponentType, type ReactNode, useState } from 'react'
 
 export interface RowComponentProps {
   item: SearchResult
@@ -17,27 +17,41 @@ export interface HeaderComponentProps {
   openCategories: string[]
 }
 const DefaultHeaderComponent = ({ category, openCategories } : HeaderComponentProps) => (
-  <>
+  <div className='flex flex-start border-b px-6 py-4'>
     <h1 className="font-bold text-xl">{category}</h1>
     <div className="flex-grow"/>
     <ChevronDown className={cn(
       'transition-transform duration-500 ease-out',
       openCategories.includes(category) ? "rotate-180" : ""
     )}/>
-  </>
+  </div>
 )
+
+export interface ContentWrapperProps {
+  children: ReactNode
+}
+
+const DefaultContentWrapper = ({ children } : ContentWrapperProps) => {
+  return (
+    <div className='flex w-full flex-row flex-wrap gap-2 px-6 py-2'>
+      {children}
+    </div>
+  )
+}
 
 export interface SearchResultsProps {
   data: SearchResult[]
   groupBy?: (item : SearchResult) => string
   RowComponent?: ComponentType<RowComponentProps>
   HeaderComponent?: ComponentType<HeaderComponentProps>
+  ContentWrapper?: ComponentType<ContentWrapperProps>
 }
 export const SearchResults = ({ 
   data, 
   groupBy = (item) => item.type, 
   HeaderComponent = DefaultHeaderComponent,
-  RowComponent = DefaultRowComponent
+  RowComponent = DefaultRowComponent,
+  ContentWrapper = DefaultContentWrapper
 } : SearchResultsProps) => {
   const [open, setOpen] = useState<string[]>([]);
   const categorizedResults : {[type : string]: SearchResult[]} = {};
@@ -69,19 +83,18 @@ export const SearchResults = ({
       </div>
       <Accordion.Root type='multiple' className='rounded-lg border' value={open} onValueChange={setOpen}>
         {Object.entries(categorizedResults).map( ([category, searchResults]) => (
-          <Accordion.Item key={`item-${category}`} value={category} className='border-b'>
+          <Accordion.Item key={`item-${category}`} value={category}>
             <Accordion.Header className='w-full'>
-              <Accordion.Trigger className='flex w-full flex-start px-6 py-4'>
+              <Accordion.Trigger className='w-full'>
                 <HeaderComponent category={category} openCategories={open}/>
               </Accordion.Trigger>
             </Accordion.Header>
             <Accordion.Content className='data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down'>
-              <div className='flex w-full flex-row flex-wrap gap-2 px-6 py-2'>
+              <ContentWrapper>
                 { searchResults.map( item => (
                   <RowComponent item={item} key={item.value}/>
                 ))}
-
-              </div>
+              </ContentWrapper>
             </Accordion.Content>
           </Accordion.Item>
         ))}
