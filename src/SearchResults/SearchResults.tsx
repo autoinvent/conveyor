@@ -15,9 +15,13 @@ const DefaultRowComponent = ({ item } : RowComponentProps) => (
 export interface HeaderComponentProps {
   category: string
   openCategories: string[]
+  isLast: boolean
 }
-const DefaultHeaderComponent = ({ category, openCategories } : HeaderComponentProps) => (
-  <div className='flex flex-start border-b px-6 py-4'>
+const DefaultHeaderComponent = ({ category, openCategories, isLast } : HeaderComponentProps) => (
+  <div className={cn(
+    'flex flex-start px-6 py-4',
+    isLast && !openCategories.includes(category) ? "" : "border-b"
+  )}>
     <h1 className="font-bold text-xl">{category}</h1>
     <div className="flex-grow"/>
     <ChevronDown className={cn(
@@ -29,11 +33,14 @@ const DefaultHeaderComponent = ({ category, openCategories } : HeaderComponentPr
 
 export interface ContentWrapperProps {
   children: ReactNode
+  isLast: boolean
 }
-
-const DefaultContentWrapper = ({ children } : ContentWrapperProps) => {
+const DefaultContentWrapper = ({ children, isLast } : ContentWrapperProps) => {
   return (
-    <div className='flex w-full flex-row flex-wrap gap-2 px-6 py-2'>
+    <div className={cn(
+      'flex w-full flex-row flex-wrap gap-2 px-6 py-2',
+      !isLast ? "border-b" : ""
+    )}>
       {children}
     </div>
   )
@@ -42,6 +49,8 @@ const DefaultContentWrapper = ({ children } : ContentWrapperProps) => {
 export interface SearchResultsProps {
   data: SearchResult[]
   groupBy?: (item : SearchResult) => string
+  reverseOrder?: boolean
+  className?: string
   RowComponent?: ComponentType<RowComponentProps>
   HeaderComponent?: ComponentType<HeaderComponentProps>
   ContentWrapper?: ComponentType<ContentWrapperProps>
@@ -49,6 +58,8 @@ export interface SearchResultsProps {
 export const SearchResults = ({ 
   data, 
   groupBy = (item) => item.type, 
+  reverseOrder = false,
+  className = "rounded-lg border w-full",
   HeaderComponent = DefaultHeaderComponent,
   RowComponent = DefaultRowComponent,
   ContentWrapper = DefaultContentWrapper
@@ -64,9 +75,10 @@ export const SearchResults = ({
     }
     categorizedResults[category].push(item)
   }
+
   if (data.length === 0) {
     return (
-      <div className='w-full rounded-lg border py-2'>
+      <div className={className}>
         <h1 className="w-full text-center font-bold">
           No Results
         </h1>
@@ -81,16 +93,22 @@ export const SearchResults = ({
           Collapse All
         </Button>
       </div>
-      <Accordion.Root type='multiple' className='rounded-lg border' value={open} onValueChange={setOpen}>
-        {Object.entries(categorizedResults).map( ([category, searchResults]) => (
+      <Accordion.Root type='multiple' className={className} value={open} onValueChange={setOpen}>
+        {Object.entries(categorizedResults)
+          .sort( (a,b) => (reverseOrder ? -1 : 1) * a[0].localeCompare(b[0]))
+          .map( ([category, searchResults], index) => (
           <Accordion.Item key={`item-${category}`} value={category}>
             <Accordion.Header className='w-full'>
               <Accordion.Trigger className='w-full'>
-                <HeaderComponent category={category} openCategories={open}/>
+                <HeaderComponent 
+                  category={category} 
+                  openCategories={open} 
+                  isLast={index === Object.keys(categorizedResults).length - 1}
+                />
               </Accordion.Trigger>
             </Accordion.Header>
             <Accordion.Content className='data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down'>
-              <ContentWrapper>
+              <ContentWrapper isLast={index === Object.keys(categorizedResults).length - 1}>
                 { searchResults.map( item => (
                   <RowComponent item={item} key={item.value}/>
                 ))}

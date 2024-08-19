@@ -1,6 +1,7 @@
 import type { StoryObj, Meta } from '@storybook/react';
 import { type HeaderComponentProps, type RowComponentProps, type ContentWrapperProps, SearchResults } from "./SearchResults"
 import { Button } from '@/lib/components/ui/button';
+import { cn } from '@/lib/utils';
 
 const meta = {
   title: 'Commons/SearchResults',
@@ -8,6 +9,16 @@ const meta = {
   tags: ['autodocs'],
   args: {
     data: [
+      {
+        id: "6",
+        type: "type-3",
+        value: "value-3-1",
+      },
+      {
+        id: "4",
+        type: "type-2",
+        value: "value-2-2",
+      },
       {
         id: "1",
         type: "type-1",
@@ -24,20 +35,10 @@ const meta = {
         value: "value-2-1",
       },
       {
-        id: "4",
-        type: "type-2",
-        value: "value-2-2",
-      },
-      {
         id: "5",
         type: "type-2",
         value: "value-2-3",
       },
-      {
-        id: "6",
-        type: "type-3",
-        value: "value-3-1",
-      }
     ]
   }
 } satisfies Meta<typeof SearchResults>;
@@ -59,8 +60,11 @@ const MyHeaderComponent = ({ category } : HeaderComponentProps) => (
     </h1>
   </div>
 )
-const MyContentWrapper = ({ children } : ContentWrapperProps) => (
-  <div className='flex w-full flex-row gap-2 bg-gray-400 p-2'>
+const MyContentWrapper = ({ children, isLast } : ContentWrapperProps) => (
+  <div className={cn(
+    'flex w-full flex-row gap-2 p-2',
+    isLast ? 'bg-gray-600' : 'bg-gray-400'
+  )}>
     {children}
   </div>
 )
@@ -76,6 +80,12 @@ export const Stylized : Story = {
 export const Grouped : Story = {
   args: {
     groupBy: (item) => item.value.at(-1) ?? "undefined"
+  }
+}
+
+export const ReverseOrder : Story = {
+  args: {
+    reverseOrder: true
   }
 }
 
