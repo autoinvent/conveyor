@@ -26,7 +26,7 @@ export const FormError = ({ name, className, render }: FormErrorProps) => {
             <ul
               id={formMessageId}
               className={cn(
-                'list-disc pl-3 font-medium text-destructive text-sm',
+                'list-disc pl-5 font-medium text-destructive text-sm',
                 className,
               )}
             >

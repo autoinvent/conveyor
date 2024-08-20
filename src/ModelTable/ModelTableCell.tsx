@@ -42,18 +42,28 @@ export const ModelTableCell = ({
     (state) => state.typeOptions?.[type]?.InputComponent ?? (() => null),
   );
   const reset = useFormStore((state) => state.reset);
+  const isSubmitting = useFormStore((state) => state.formState.isSubmitting);
 
   return (
     <DndSortableWrapper draggable={draggable} dndId={field} disabled>
       <TableCell
         columnId={field}
-        onDoubleClick={(e) => {
-          if (!readOnly && editable && activeLens === DataLens.DISPLAY) {
+        onDoubleClick={() => {
+          if (
+            !readOnly &&
+            editable &&
+            activeLens === DataLens.DISPLAY &&
+            !isSubmitting
+          ) {
             setLens(DataLens.INPUT);
           }
         }}
         onKeyUp={(e) => {
-          if (e.key === 'Escape' && activeLens === DataLens.INPUT) {
+          if (
+            e.key === 'Escape' &&
+            activeLens === DataLens.INPUT &&
+            !isSubmitting
+          ) {
             setLens(DataLens.DISPLAY);
             reset();
           }

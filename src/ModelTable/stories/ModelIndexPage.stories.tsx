@@ -26,7 +26,7 @@ const meta = {
   args: ModelTableStoryMeta.args,
   render: ({ fields, tableOptions, data, onUpdate, onDelete, ...args }) => {
     const [tableView, setTableView] = useState<TableView>({});
-    const [currData, setCurrData] = useState<undefined | DataType[]>(data);
+    const [currData, setCurrData] = useState<DataType[]>(data);
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
 
     const onUpdateHandler = async (params: ActionParams<DataType>) => {
@@ -42,12 +42,13 @@ const meta = {
           }
           return oldData;
         });
+        params.onCancelEdit();
       }
     };
 
-    const onDeleteHandler = async (d: DataType) => {
-      await onDelete?.(d);
-      const id = d?.id;
+    const onDeleteHandler = async (params: ActionParams<DataType>) => {
+      await onDelete?.(params);
+      const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
           const idx = oldData?.findIndex((d: DataType) => d.id === id);
@@ -58,6 +59,7 @@ const meta = {
           }
           return oldData;
         });
+        params.onCancelEdit();
       }
     };
     return (
@@ -113,6 +115,7 @@ const meta = {
               </ModelTable.Cell>
             </ModelTable.Row>
           </ModelTable.Body>
+          <ModelTable.Fallback />
         </ModelTable>
         <Pagination
           totalDataLength={500}

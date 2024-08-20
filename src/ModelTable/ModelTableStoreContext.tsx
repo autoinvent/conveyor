@@ -11,8 +11,7 @@ import { createStore, type StoreApi } from 'zustand';
 import type {
   DataType,
   FieldOptions,
-  OnDelete,
-  OnUpdate,
+  OnActionTrigger,
   TableView,
 } from '@/types';
 
@@ -46,11 +45,11 @@ export interface ModelTableState<
   T extends F,
 > {
   fields: readonly F[];
-  data?: D[];
+  data: D[];
   tableOptions: TableOptions<T>;
   formOptions?: FormOptions;
-  onUpdate?: OnUpdate<D>;
-  onDelete?: OnDelete<D>;
+  onUpdate?: OnActionTrigger<D>;
+  onDelete?: OnActionTrigger<D>;
 }
 
 export const ModelTableStoreContext = createContext<

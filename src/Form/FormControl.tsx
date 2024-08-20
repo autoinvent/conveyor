@@ -42,6 +42,7 @@ export const FormControl = ({
   const formMessageId = `${formControlId}-message`;
   const slotProps = {
     ...field,
+    disabled: isSubmitting,
     options,
   };
   return (
@@ -54,7 +55,6 @@ export const FormControl = ({
       }
       aria-invalid={!!error}
       aria-disabled={isSubmitting}
-      disabled={isSubmitting}
       {...slotProps}
     >
       {children}

@@ -51,7 +51,7 @@ export const ModelTable = Object.assign(
       (field) => !columnOptions?.[field]?.hidden,
     );
     // Action Columnn
-    if (fieldOrder.length > 0 && !readOnly && data && data.length > 0) {
+    if (fieldOrder.length > 0 && !readOnly && data.length > 0) {
       tableColumns.push(ACTION_COLUMN as T);
     }
 

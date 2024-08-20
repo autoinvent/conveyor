@@ -75,7 +75,14 @@ export const ModelForm = Object.assign(
         <form id={id} className={cn('space-y-4', className)} {...formProps}>
           <Lenses initialLens={initialLens}>
             <FormStoreProvider id={id} {...formMethods}>
-              {children === undefined ? <ModelFormContent /> : children}
+              {children === undefined ? (
+                <>
+                  <ModelFormContent />
+                  <ModelFormActions />
+                </>
+              ) : (
+                children
+              )}
             </FormStoreProvider>
           </Lenses>
         </form>

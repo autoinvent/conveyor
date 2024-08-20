@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ModelTableStoryMeta from '@/ModelTable/stories/ModelTable.stories';
 import { type ActionParams, DataLens, type DataType, FieldType } from '@/types';
 
 import { ModelForm } from '../ModelForm';
@@ -29,20 +28,12 @@ const meta = {
           { label: 'robxbob', value: '00000001' },
           { label: 'nicklitvin', value: '00000002' },
           { label: 'cmacgray14', value: '00000003' },
-          { label: 'None', value: null },
+          { label: 'None', value: '' },
         ],
       },
       message: {
         rules: {
           required: 'Message is required!',
-          pattern: {
-            value: /\d+/,
-            message: 'This input is number only.',
-          },
-          minLength: {
-            value: 11,
-            message: 'This input must exceed 10 characters',
-          },
         },
       },
       created_at: {

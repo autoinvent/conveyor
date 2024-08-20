@@ -11,7 +11,7 @@ import type { DataType } from '@/types';
 
 export interface TableState<D extends DataType> {
   columnIds: string[];
-  data?: D[];
+  data: D[];
 }
 
 export const TableStoreContext = createContext<

@@ -1,11 +1,9 @@
-import { Save, SquarePen, Trash2, X } from 'lucide-react';
+import { Save, SquarePen, Trash2, X, LoaderCircle } from 'lucide-react';
 
 import { Button } from '@/lib/components/ui/button';
 import { cn } from '@/lib/utils';
-
 import { useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
-import { Spinner } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, type DataType } from '@/types';
 
@@ -29,18 +27,27 @@ export const ModelTableActionCell = ({
   const onUpdate = useModelTableStore((state) => state.onUpdate);
   const onDelete = useModelTableStore((state) => state.onDelete);
 
-  const onEdit = () => setLens(DataLens.INPUT);
-  const onCancelEdit = () => {
+  const onEditHandler = () => setLens(DataLens.INPUT);
+  const onCancelEditHandler = () => {
     setLens(DataLens.DISPLAY);
     reset();
   };
-  const onSave = async (formData: DataType) => {
-    await onUpdate?.({ data: formData, dirtyFields });
-    onCancelEdit();
-  };
-  const onDeleteHandler = async () => {
-    await onDelete?.({ ...data });
-  };
+  const onSaveHandler = handleSubmit(async (formData: DataType) => {
+    await onUpdate?.({
+      data: formData,
+      dirtyFields,
+      onEdit: onEditHandler,
+      onCancelEdit: onCancelEditHandler,
+    });
+  });
+  const onDeleteHandler = handleSubmit(async () => {
+    await onDelete?.({
+      data: { ...data },
+      dirtyFields,
+      onEdit: onEditHandler,
+      onCancelEdit: onCancelEditHandler,
+    });
+  });
 
   return (
     <TableCell
@@ -49,49 +56,53 @@ export const ModelTableActionCell = ({
       {...tableCellProps}
     >
       {children === undefined ? (
-        <form
-          className="flex h-full items-center justify-center whitespace-nowrap"
-          onSubmit={handleSubmit(onSave)}
-        >
-          <div className="space-x-1">
-            <Lens lens={DataLens.DISPLAY}>
+        <div className="space-x-1 whitespace-nowrap">
+          <Lens lens={!isSubmitting && DataLens.DISPLAY}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onEditHandler}
+              onKeyUp={(e) => e.key === 'Enter' && onEditHandler()}
+            >
+              <SquarePen className="h-4 w-4" />
+            </Button>
+            {onDelete && (
               <Button
-                variant="ghost"
+                variant="ghost-destructive"
                 size="icon"
-                onClick={onEdit}
-                onKeyUp={(e) => e.key === 'Enter' && onEdit()}
+                onClick={onDeleteHandler}
+                onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
               >
-                <SquarePen className="h-4 w-4" />
+                <Trash2 className="h-4 w-4" />
               </Button>
-              {onDelete && (
-                <Button
-                  variant="ghost-destructive"
-                  size="icon"
-                  onClick={onDeleteHandler}
-                  onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              )}
-            </Lens>
-            <Lens lens={!isSubmitting && DataLens.INPUT}>
-              {onUpdate && (
-                <Button type="submit" variant="ghost-success" size="icon">
-                  <Save className="h-4 w-4" />
-                </Button>
-              )}
+            )}
+          </Lens>
+          <Lens lens={!isSubmitting && DataLens.INPUT}>
+            {onUpdate && (
               <Button
-                variant="ghost"
+                variant="ghost-success"
                 size="icon"
-                onClick={onCancelEdit}
-                onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
+                onClick={onSaveHandler}
+                onKeyUp={(e) => e.key === 'Enter' && onSaveHandler()}
               >
-                <X className="h-4 w-4" />
+                <Save className="h-4 w-4" />
               </Button>
-            </Lens>
-            {isSubmitting && <Spinner />}
-          </div>
-        </form>
+            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onCancelEditHandler}
+              onKeyUp={(e) => e.key === 'Enter' && onCancelEditHandler()}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </Lens>
+          {isSubmitting && (
+            <Button variant="ghost" size="icon" className="w-full">
+              <LoaderCircle className="h-4 w-4 animate-spin" />
+            </Button>
+          )}
+        </div>
       ) : (
         children
       )}

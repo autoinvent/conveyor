@@ -1,1 +1,107 @@
-export const ModelFormActions = () => {};
+import type { ComponentProps, ReactNode } from 'react';
+import { LoaderCircle } from 'lucide-react';
+
+import { Button } from '@/lib/components/ui/button';
+import { cn } from '@/lib/utils';
+import { useFormStore } from '@/Form';
+import { Lens, useLensesStore } from '@/Lenses';
+import { DataLens, type DataType } from '@/types';
+
+import { useModelFormStore } from './useModelFormStore';
+
+export interface ModelFormActionsProps extends ComponentProps<'div'> {
+  children?: ReactNode;
+}
+
+export const ModelFormActions = ({
+  className,
+  children,
+}: ModelFormActionsProps) => {
+  const setLens = useLensesStore((state) => state.setLens);
+  const data = useFormStore((state) => state.formState.defaultValues);
+  const isSubmitting = useFormStore((state) => state.formState.isSubmitting);
+  const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
+  const reset = useFormStore((state) => state.reset);
+  const handleSubmit = useFormStore((state) => state.handleSubmit);
+  const fieldOrder = useModelFormStore((state) => state.fieldOrder);
+  const readOnly = useModelFormStore((state) => state.readOnly);
+  const onCreate = useModelFormStore((state) => state.onCreate);
+  const onUpdate = useModelFormStore((state) => state.onUpdate);
+  const onDelete = useModelFormStore((state) => state.onDelete);
+  const onSave = onCreate ?? onUpdate;
+
+  const onEditHandler = () => setLens(DataLens.INPUT);
+  const onCancelEditHandler = () => {
+    setLens(DataLens.DISPLAY);
+    reset();
+  };
+  const onSaveHandler = handleSubmit(async (formData: DataType) => {
+    await onSave?.({
+      data: formData,
+      dirtyFields,
+      onEdit: onEditHandler,
+      onCancelEdit: onCancelEditHandler,
+    });
+  });
+  const onDeleteHandler = handleSubmit(async () => {
+    await onDelete?.({
+      data: { ...data },
+      dirtyFields,
+      onEdit: onEditHandler,
+      onCancelEdit: onCancelEditHandler,
+    });
+  });
+
+  return (
+    !readOnly &&
+    fieldOrder.length > 0 && (
+      <div className={cn('space-x-4 whitespace-nowrap', className)}>
+        {children === undefined ? (
+          <>
+            <Lens lens={!isSubmitting && DataLens.DISPLAY}>
+              <Button
+                onClick={onEditHandler}
+                onKeyUp={(e) => e.key === 'Enter' && onEditHandler()}
+              >
+                Edit
+              </Button>
+              {onDelete && (
+                <Button
+                  variant="destructive"
+                  onClick={onDeleteHandler}
+                  onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
+                >
+                  Delete
+                </Button>
+              )}
+            </Lens>
+            <Lens lens={!isSubmitting && DataLens.INPUT}>
+              {onUpdate && (
+                <Button
+                  onClick={onSaveHandler}
+                  onKeyUp={(e) => e.key === 'Enter' && onSaveHandler()}
+                >
+                  {onCreate ? 'Create' : 'Save'}
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                onClick={onCancelEditHandler}
+                onKeyUp={(e) => e.key === 'Enter' && onCancelEditHandler()}
+              >
+                Cancel
+              </Button>
+            </Lens>
+            {isSubmitting && (
+              <Button variant="ghost" className="w-36">
+                <LoaderCircle className="h-4 w-4 animate-spin" />
+              </Button>
+            )}
+          </>
+        ) : (
+          children
+        )}
+      </div>
+    )
+  );
+};

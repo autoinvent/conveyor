@@ -76,14 +76,6 @@ const meta = {
         message: {
           rules: {
             required: 'Message is required!',
-            pattern: {
-              value: /\d+/,
-              message: 'This input is number only.',
-            },
-            minLength: {
-              value: 11,
-              message: 'This input must exceed 10 characters',
-            },
           },
         },
         created_at: {
@@ -104,7 +96,7 @@ const meta = {
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 2000)),
   },
   render: ({ fields, tableOptions, data, onUpdate, onDelete, ...args }) => {
-    const [currData, setCurrData] = useState<undefined | DataType[]>(data);
+    const [currData, setCurrData] = useState<DataType[]>(data);
     const [sortOrder, onSortOrderChange] =
       useState<TableView['sort']>(undefined);
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
@@ -122,12 +114,13 @@ const meta = {
           }
           return oldData;
         });
+        params.onCancelEdit();
       }
     };
 
-    const onDeleteHandler = async (d: DataType) => {
-      await onDelete?.(d);
-      const id = d?.id;
+    const onDeleteHandler = async (params: ActionParams<DataType>) => {
+      await onDelete?.(params);
+      const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
           const idx = oldData?.findIndex((d: DataType) => d.id === id);
@@ -138,6 +131,7 @@ const meta = {
           }
           return oldData;
         });
+        params.onCancelEdit();
       }
     };
 
