@@ -37,22 +37,23 @@ export const ModelTableHeadMenu = ({
   field,
   children,
 }: ModelTableHeadMenuProps) => {
-  const sortable = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.sortable ?? true,
+  const fieldOrder = useModelTableStore((state) => state.fieldOrder);
+  const onFieldOrderChange = useModelTableStore(
+    (state) => state.onFieldOrderChange,
   );
-  const hidable = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.hidable ?? true,
-  );
-  const sortOrder = useModelTableStore((state) => state.tableOptions.sortOrder);
-  const fieldOrder = useModelTableStore(
-    (state) => state.tableOptions.fieldOrder,
+  const sortOrder = useModelTableStore(
+    (state) => state.tableOptions?.sortOrder,
   );
   const onSortOrderChange = useModelTableStore(
-    (state) => state.tableOptions.onSortOrderChange,
+    (state) => state.tableOptions?.onSortOrderChange,
   );
-  const onFieldOrderChange = useModelTableStore(
-    (state) => state.tableOptions.onFieldOrderChange,
+  const sortable = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.sortable ?? true,
   );
+  const hidable = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.hidable ?? true,
+  );
+
   const currentSortDirection = getFieldSortDirection({ sortOrder, field });
   const onFieldSortChange = (newSortDir: string) => {
     let newSortDirection = newSortDir as SortDirection;

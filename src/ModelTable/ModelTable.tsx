@@ -30,23 +30,18 @@ export interface ModelTableProps<
 export const ModelTable = Object.assign(
   <D extends DataType, F extends string, T extends F>({
     fields,
+    fieldOrder,
+    onFieldOrderChange,
     data,
     tableOptions,
+    columnOptions,
     formOptions,
     onUpdate,
     onDelete,
     children,
     ...tableProps
   }: ModelTableProps<D, F, T>) => {
-    const {
-      fieldOrder,
-      onFieldOrderChange,
-      readOnly,
-      draggable,
-      bordered,
-      scrollable,
-      columnOptions,
-    } = tableOptions;
+    const { readOnly, draggable, bordered, scrollable } = tableOptions ?? {};
     const tableColumns = [...fieldOrder].filter(
       (field) => !columnOptions?.[field]?.hidden,
     );
@@ -58,8 +53,11 @@ export const ModelTable = Object.assign(
     return (
       <ModelTableStoreProvider
         fields={fields}
+        fieldOrder={fieldOrder}
+        onFieldOrderChange={onFieldOrderChange}
         data={data}
         tableOptions={tableOptions}
+        columnOptions={columnOptions}
         formOptions={formOptions}
         onUpdate={onUpdate}
         onDelete={onDelete}

@@ -18,22 +18,21 @@ export const ModelTableCell = ({
   ...tableCellProps
 }: ModelTableCellProps) => {
   const { setLens, activeLens } = useLensesStore();
-  const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
+  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
   const draggable = useModelTableStore(
-    (state) => state.tableOptions.draggable ?? true,
+    (state) => state.tableOptions?.draggable ?? true,
   );
   const type = useModelTableStore(
-    (state) =>
-      state.tableOptions.columnOptions?.[field]?.type ?? ScalarType.STRING,
+    (state) => state.columnOptions?.[field]?.type ?? ScalarType.STRING,
   );
   const editable = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.editable ?? true,
+    (state) => state.columnOptions?.[field]?.editable ?? true,
   );
   const rules = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.rules,
+    (state) => state.columnOptions?.[field]?.rules,
   );
   const valueOptions = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.valueOptions ?? [],
+    (state) => state.columnOptions?.[field]?.valueOptions ?? [],
   );
   const DisplayComponent = useConveyorStore(
     (state) => state.typeOptions?.[type]?.DisplayComponent ?? (() => null),

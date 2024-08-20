@@ -24,7 +24,17 @@ const meta = {
   tags: ['autodocs'],
   argTypes: ModelTableStoryMeta.argTypes,
   args: ModelTableStoryMeta.args,
-  render: ({ fields, tableOptions, data, onUpdate, onDelete, ...args }) => {
+  render: ({
+    fields,
+    fieldOrder: dummyFieldOrder,
+    onFieldOrderChange: dummyOnFieldOrderChange,
+    tableOptions,
+    data,
+    onUpdate,
+    onDelete,
+    columnOptions,
+    ...args
+  }) => {
     const [tableView, setTableView] = useState<TableView>({});
     const [currData, setCurrData] = useState<DataType[]>(data);
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
@@ -59,7 +69,6 @@ const meta = {
           }
           return oldData;
         });
-        params.onCancelEdit();
       }
     };
     return (
@@ -79,7 +88,7 @@ const meta = {
               fields={fields}
               fieldOrder={fieldOrder}
               onFieldOrderChange={onFieldOrderChange}
-              options={tableOptions.columnOptions}
+              options={columnOptions}
             />
             <Button variant="outline" size="sm" className="h-8">
               <Plus className="mr-2 h-4 w-4" />
@@ -89,6 +98,8 @@ const meta = {
         </Header>
         <ModelTable
           fields={fields}
+          fieldOrder={fieldOrder}
+          onFieldOrderChange={onFieldOrderChange}
           data={currData}
           tableOptions={{
             ...tableOptions,
@@ -100,9 +111,8 @@ const meta = {
                 sort: newSortOrder,
               }));
             },
-            fieldOrder,
-            onFieldOrderChange,
           }}
+          columnOptions={columnOptions}
           onUpdate={onUpdateHandler}
           onDelete={onDeleteHandler}
           {...args}

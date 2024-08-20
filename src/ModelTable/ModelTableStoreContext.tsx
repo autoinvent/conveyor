@@ -23,20 +23,18 @@ export interface ColumnOptions extends FieldOptions {
 }
 
 export interface TableOptions<F extends string> {
-  fieldOrder: F[]; // Order + value of the field visibility
   sortOrder?: TableView['sort']; // Order + value of the field sort
   readOnly?: boolean;
   scrollable?: boolean | { className: string }; // Wraps the table with ScrollArea
   draggable?: boolean; // Wraps the table with DnDContext
   bordered?: boolean | { className: string }; // Wraps the table with div to add bordered styles
-  onFieldOrderChange: (newFieldOrder: F[]) => void;
   onSortOrderChange?: (newSortOrder: TableView['sort']) => void;
   onWidthChange?: ({ field, width }: { field: F; width: number }) => void;
-  columnOptions?: Partial<Record<F, ColumnOptions>>;
 }
 
-export interface FormOptions {
-  resolver: UseFormProps['resolver'];
+export interface FormOptions
+  extends Omit<UseFormProps, 'defaultValues' | 'values' | 'errors'> {
+  errors: Record<string | number, UseFormProps['errors']>;
 }
 
 export interface ModelTableState<
@@ -45,8 +43,11 @@ export interface ModelTableState<
   T extends F,
 > {
   fields: readonly F[];
+  fieldOrder: T[]; // Order + value of the field visibility
+  onFieldOrderChange: (newFieldOrder: F[]) => void;
   data: D[];
-  tableOptions: TableOptions<T>;
+  tableOptions?: TableOptions<T>;
+  columnOptions?: Partial<Record<T, ColumnOptions>>;
   formOptions?: FormOptions;
   onUpdate?: OnActionTrigger<D>;
   onDelete?: OnActionTrigger<D>;
