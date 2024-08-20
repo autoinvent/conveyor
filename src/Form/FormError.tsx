@@ -3,8 +3,8 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { useFormStore } from './useFormStore';
 import { Slot } from '@radix-ui/react-slot';
+import { useFormStore } from './useFormStore';
 
 export interface FormErrorProps
   extends Omit<ComponentProps<typeof ErrorMessage>, 'errors' | 'render'> {
