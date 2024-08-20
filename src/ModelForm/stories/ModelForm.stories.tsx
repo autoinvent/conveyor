@@ -70,7 +70,7 @@ const meta = {
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 2000)),
   },
   render: ({ data, onCreate, onUpdate, onDelete, ...args }) => {
-    const [currData, setCurrData] = useState<undefined | DataType>(data);
+    const [currData, setCurrData] = useState<DataType>(data);
 
     const onUpdateHandler = async (params: ActionParams<DataType>) => {
       await onUpdate?.(params);

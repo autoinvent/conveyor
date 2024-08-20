@@ -1,14 +1,15 @@
 import { useId, type ComponentProps } from 'react';
 import { useForm, type UseFormProps } from 'react-hook-form';
 
+import { FormStoreProvider } from '@/Form';
+import { Lenses } from '@/Lenses';
+import type { DataType } from '@/types';
+import { cn } from '@/lib/utils';
+
 import {
   type ModelFormState,
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
-import { FormStoreProvider } from '@/Form';
-import { Lenses } from '@/Lenses';
-import type { DataType } from '@/types';
-
 import { ModelFormContent } from './ModelFormContent';
 import { ModelFormField } from './ModelFormField';
 import { ModelFormActions } from './ModelFormActions';
@@ -44,6 +45,7 @@ export const ModelForm = Object.assign(
     shouldUseNativeValidation,
     shouldUnregister,
     children,
+    className,
     ...formProps
   }: ModelFormProps<D, F, T>) => {
     const formMethods = useForm({
@@ -70,7 +72,7 @@ export const ModelForm = Object.assign(
         readOnly={readOnly}
         initialLens={initialLens}
       >
-        <form id={id} {...formProps}>
+        <form id={id} className={cn('space-y-4', className)} {...formProps}>
           <Lenses initialLens={initialLens}>
             <FormStoreProvider id={id} {...formMethods}>
               {children === undefined ? <ModelFormContent /> : children}

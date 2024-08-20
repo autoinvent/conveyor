@@ -1,19 +1,25 @@
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 import { useConveyorStore } from '@/Conveyor';
-import { FormControl, FormDisplay, FormError } from '@/Form';
+import { FormControl, FormDisplay, FormError, FormLabel } from '@/Form';
 import { Lens } from '@/Lenses';
 import { Slot } from '@/Slots';
 import { DataLens, ScalarType } from '@/types';
 
 import { useModelFormStore } from './useModelFormStore';
+import { cn } from '@/lib/utils';
 
-export interface ModelFormFieldProps {
+export interface ModelFormFieldProps extends ComponentProps<'div'> {
   field: string;
   children?: ReactNode;
 }
 
-export const ModelFormField = ({ field, children }: ModelFormFieldProps) => {
+export const ModelFormField = ({
+  field,
+  children,
+  className,
+  ...divProps
+}: ModelFormFieldProps) => {
   const type = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.type ?? ScalarType.STRING,
   );
@@ -34,29 +40,38 @@ export const ModelFormField = ({ field, children }: ModelFormFieldProps) => {
   );
   return (
     <Slot slotKey={field}>
-      {children === undefined ? (
-        editable ? (
+      <div className={cn('flex flex-col space-y-2', className)} {...divProps}>
+        {children === undefined ? (
           <>
-            <Lens lens={DataLens.DISPLAY}>
+            <FormLabel name={field} />
+            {editable ? (
+              <>
+                <Lens lens={DataLens.DISPLAY}>
+                  <FormDisplay name={field}>
+                    <DisplayComponent />
+                  </FormDisplay>
+                </Lens>
+                <Lens lens={DataLens.INPUT}>
+                  <FormControl
+                    name={field}
+                    options={valueOptions}
+                    rules={rules}
+                  >
+                    <InputComponent />
+                  </FormControl>
+                  <FormError name={field} />
+                </Lens>
+              </>
+            ) : (
               <FormDisplay name={field}>
                 <DisplayComponent />
               </FormDisplay>
-            </Lens>
-            <Lens lens={DataLens.INPUT}>
-              <FormControl name={field} options={valueOptions} rules={rules}>
-                <InputComponent />
-              </FormControl>
-              <FormError name={field} />
-            </Lens>
+            )}
           </>
         ) : (
-          <FormDisplay name={field}>
-            <DisplayComponent />
-          </FormDisplay>
-        )
-      ) : (
-        children
-      )}
+          children
+        )}
+      </div>
     </Slot>
   );
 };

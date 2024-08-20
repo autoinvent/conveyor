@@ -23,8 +23,8 @@ export interface ModelFormState<
 > {
   fields: readonly F[];
   fieldOrder: T[];
+  data: D;
   fieldOptions?: Partial<Record<T, FieldOptions>>;
-  data?: D;
   readOnly?: boolean;
   initialLens?: LensType;
   onCreate?: OnCreate<D>;
