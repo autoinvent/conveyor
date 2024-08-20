@@ -50,7 +50,6 @@ export const ModelTable = Object.assign(
     const tableColumns = [...fieldOrder].filter(
       (field) => !columnOptions?.[field]?.hidden,
     );
-    // const tableWidth = columnOptions ? Object.values(columnOptions) : fieldOrder.length * DEFAULT_COLUMN_WIDTH
     // Action Columnn
     if (fieldOrder.length > 0 && !readOnly && data && data.length > 0) {
       tableColumns.push(ACTION_COLUMN as T);

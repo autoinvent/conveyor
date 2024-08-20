@@ -13,7 +13,7 @@ export const ModelItemInput = forwardRef<
   return (
     <SelectInput
       ref={ref}
-      value={{ label: value._display_value, value: value?.id ?? '' }}
+      value={{ label: value?._display_value ?? 'None', value: value?.id ?? '' }}
       onChange={(newValue) =>
         onChange?.({ id: newValue.value, _display_value: newValue.label })
       }

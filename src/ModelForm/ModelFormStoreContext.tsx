@@ -5,7 +5,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import type { UseFormProps } from 'react-hook-form';
 import { createStore, type StoreApi } from 'zustand';
 
 import type { LensType } from '@/Lenses';
@@ -24,15 +23,13 @@ export interface ModelFormState<
 > {
   fields: readonly F[];
   fieldOrder: T[];
-  onFieldOrderChange: (newFieldOrder: T[]) => void;
   fieldOptions?: Partial<Record<T, FieldOptions>>;
   data?: D;
+  readOnly?: boolean;
+  initialLens?: LensType;
   onCreate?: OnCreate<D>;
   onUpdate?: OnUpdate<D>;
   onDelete?: OnDelete<D>;
-  readOnly?: boolean;
-  resolver: UseFormProps['resolver'];
-  initialLens?: LensType;
 }
 
 export const ModelFormStoreContext = createContext<
