@@ -4,9 +4,10 @@ import { useConveyorStore } from '@/Conveyor';
 import { FormControl, FormDisplay, FormError, FormLabel } from '@/Form';
 import { Lens } from '@/Lenses';
 import { Slot } from '@/Slots';
-import { DataLens, ScalarType } from '@/types';
-
 import { cn } from '@/lib/utils';
+import { DataLens, ScalarType } from '@/types';
+import { humanizeText } from '@/utils';
+
 import { useModelFormStore } from './useModelFormStore';
 
 export interface ModelFormFieldProps extends ComponentProps<'div'> {
@@ -29,6 +30,9 @@ export const ModelFormField = ({
   const rules = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.rules,
   );
+  const required = useModelFormStore(
+    (state) => state.fieldOptions?.[field]?.required,
+  );
   const valueOptions = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.valueOptions ?? [],
   );
@@ -43,7 +47,7 @@ export const ModelFormField = ({
       <div className={cn('flex flex-col space-y-2', className)} {...divProps}>
         {children === undefined ? (
           <>
-            <FormLabel name={field} />
+            <FormLabel name={field} required={required} />
             {editable ? (
               <>
                 <Lens lens={DataLens.DISPLAY}>
@@ -55,7 +59,11 @@ export const ModelFormField = ({
                   <FormControl
                     name={field}
                     options={valueOptions}
-                    rules={rules}
+                    rules={{
+                      required:
+                        required && `${humanizeText(field)} is required.`,
+                      ...rules,
+                    }}
                   >
                     <InputComponent />
                   </FormControl>

@@ -73,9 +73,7 @@ const meta = {
         ],
       },
       message: {
-        rules: {
-          required: 'Message is required!',
-        },
+        required: true,
       },
       created_at: {
         sortable: false,

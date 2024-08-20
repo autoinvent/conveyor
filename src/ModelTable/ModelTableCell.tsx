@@ -3,7 +3,7 @@ import { FormDisplay, useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, ScalarType } from '@/types';
-import { DndSortableWrapper } from '@/utils';
+import { DndSortableWrapper, humanizeText } from '@/utils';
 
 import { FormControl } from '@/Form/FormControl';
 import { useModelTableStore } from './useModelTableStore';
@@ -31,6 +31,9 @@ export const ModelTableCell = ({
   const rules = useModelTableStore(
     (state) => state.columnOptions?.[field]?.rules,
   );
+  const required = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.required,
+  );
   const valueOptions = useModelTableStore(
     (state) => state.columnOptions?.[field]?.valueOptions ?? [],
   );
@@ -42,7 +45,6 @@ export const ModelTableCell = ({
   );
   const reset = useFormStore((state) => state.reset);
   const isSubmitting = useFormStore((state) => state.formState.isSubmitting);
-
   return (
     <DndSortableWrapper draggable={draggable} dndId={field} disabled>
       <TableCell
@@ -78,7 +80,14 @@ export const ModelTableCell = ({
                 </FormDisplay>
               </Lens>
               <Lens lens={DataLens.INPUT}>
-                <FormControl name={field} options={valueOptions} rules={rules}>
+                <FormControl
+                  name={field}
+                  options={valueOptions}
+                  rules={{
+                    required: required && `${humanizeText(field)} is required.`,
+                    ...rules,
+                  }}
+                >
                   <InputComponent />
                 </FormControl>
               </Lens>
