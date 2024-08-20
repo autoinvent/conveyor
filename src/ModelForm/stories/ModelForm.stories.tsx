@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 
 import { type ActionParams, DataLens, type DataType, FieldType } from '@/types';
 
@@ -61,38 +61,14 @@ const meta = {
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 2000)),
   },
   render: ({ data, onCreate, onUpdate, onDelete, ...args }) => {
-    const [currData, setCurrData] = useState<DataType>(data);
+    const [currData] = useState<DataType>(data);
 
     const onUpdateHandler = async (params: ActionParams<DataType>) => {
       await onUpdate?.(params);
-      // const id = params?.data?.id;
-      // if (id) {
-      //   setCurrData((oldData) => {
-      //     const idx = oldData?.findIndex((d: DataType) => d.id === id);
-      //     if (idx !== undefined && idx >= 0 && oldData) {
-      //       const newData = [...oldData];
-      //       newData[idx] = params.data;
-      //       return newData;
-      //     }
-      //     return oldData;
-      //   });
-      // }
     };
 
-    const onDeleteHandler = async (d: DataType) => {
-      await onDelete?.(d);
-      // const id = d?.id;
-      // if (id) {
-      //   setCurrData((oldData) => {
-      //     const idx = oldData?.findIndex((d: DataType) => d.id === id);
-      //     if (idx !== undefined && idx >= 0 && oldData) {
-      //       const newData = [...oldData];
-      //       newData.splice(idx, 1);
-      //       return newData;
-      //     }
-      //     return oldData;
-      //   });
-      // }
+    const onDeleteHandler = async (params: ActionParams<DataType>) => {
+      await onUpdate?.(params);
     };
 
     return (

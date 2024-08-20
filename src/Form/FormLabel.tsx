@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react';
 
 import { Label } from '@/lib/components/ui/label';
-import { humanizeText } from '@/utils';
 import { cn } from '@/lib/utils';
+import { humanizeText } from '@/utils';
 
 import { useFormStore } from './useFormStore';
 

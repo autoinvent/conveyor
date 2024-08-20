@@ -1,5 +1,5 @@
-import type { ComponentProps } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
+import type { ComponentProps } from 'react';
 
 import { cn } from '@/lib/utils';
 

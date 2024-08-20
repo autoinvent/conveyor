@@ -1,18 +1,18 @@
-import { useId, type ComponentProps } from 'react';
-import { useForm, type UseFormProps } from 'react-hook-form';
+import { type ComponentProps, useId } from 'react';
+import { type UseFormProps, useForm } from 'react-hook-form';
 
 import { FormStoreProvider } from '@/Form';
 import { Lenses } from '@/Lenses';
-import type { DataType } from '@/types';
 import { cn } from '@/lib/utils';
+import type { DataType } from '@/types';
 
+import { ModelFormActions } from './ModelFormActions';
+import { ModelFormContent } from './ModelFormContent';
+import { ModelFormField } from './ModelFormField';
 import {
   type ModelFormState,
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
-import { ModelFormContent } from './ModelFormContent';
-import { ModelFormField } from './ModelFormField';
-import { ModelFormActions } from './ModelFormActions';
 
 export interface ModelFormProps<
   D extends DataType,

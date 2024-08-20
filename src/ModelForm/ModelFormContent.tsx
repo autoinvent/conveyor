@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 
 import { Slots } from '@/Slots';
 
-import { useModelFormStore } from './useModelFormStore';
 import { ModelFormField } from './ModelFormField';
+import { useModelFormStore } from './useModelFormStore';
 
 export interface ModelFormContentProps {
   prefilled?: boolean;

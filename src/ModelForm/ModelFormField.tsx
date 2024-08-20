@@ -6,8 +6,8 @@ import { Lens } from '@/Lenses';
 import { Slot } from '@/Slots';
 import { DataLens, ScalarType } from '@/types';
 
-import { useModelFormStore } from './useModelFormStore';
 import { cn } from '@/lib/utils';
+import { useModelFormStore } from './useModelFormStore';
 
 export interface ModelFormFieldProps extends ComponentProps<'div'> {
   field: string;

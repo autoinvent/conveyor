@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 
 import ModelTableStoryMeta from '@/ModelTable/stories/ModelTable.stories';
 import {

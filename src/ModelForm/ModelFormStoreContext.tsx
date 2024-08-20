@@ -5,16 +5,10 @@ import {
   useRef,
   useState,
 } from 'react';
-import { createStore, type StoreApi } from 'zustand';
+import { type StoreApi, createStore } from 'zustand';
 
 import type { LensType } from '@/Lenses';
-import type {
-  DataType,
-  FieldOptions,
-  OnCreate,
-  OnDelete,
-  OnUpdate,
-} from '@/types';
+import type { DataType, FieldOptions, OnActionTrigger } from '@/types';
 
 export interface ModelFormState<
   D extends DataType,
@@ -27,9 +21,9 @@ export interface ModelFormState<
   fieldOptions?: Partial<Record<T, FieldOptions>>;
   readOnly?: boolean;
   initialLens?: LensType;
-  onCreate?: OnCreate<D>;
-  onUpdate?: OnUpdate<D>;
-  onDelete?: OnDelete<D>;
+  onCreate?: OnActionTrigger<D>;
+  onUpdate?: OnActionTrigger<D>;
+  onDelete?: OnActionTrigger<D>;
 }
 
 export const ModelFormStoreContext = createContext<
