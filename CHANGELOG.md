@@ -2,8 +2,15 @@
 - `feature`: **react-select** now used under the hood for select components.
 - `feature`: `ModelTable` can now be resized. 
 - `feature`: `ModelTable`'s internal `ScrollAreaWrapper` and `BorderWrapper` classNames can now be accessed from `scrollable/bordered` props in  `tableOptions`
-- `refactor`: `LoadingProvider` removed in usage of `isSubmitting` which can be accessed from react-hook-form. 
+- `feature`: `ModelTable` and `ModelForm` now exposes main `UseFormProps` from **react-hook-form**.
+  - This allows developers to configure the options for the form implemented under the hood for ModelTable and ModelForm. 
+  - Default options are configured to have `mode="onSubmit"` and `criteriaMode="all"`. 
+- `feature`: Action functions passed to ModelTable and ModelForm now contains onEdit and onEditCancel handlers to toggle between input and display modes; onEditCancel resets the form as well.  
+- `removed`: `Loading` directory removed in usage of `isSubmitting` which can be accessed from react-hook-form. Spinner deemed unused and replaced with a lucide spinner icon inside of a button.
 - `refactor`: `Form` no longer supports render functions; instead it utilizes radix UI Slots to pass form props to child input. 
+  - Comes with `FormError`, `FormLabel`, and `FormControl`.
+- `refactor`: `ModelTable` props moved around for ease of use. `data` is required as TableFallback no longer presents a spinner on undefined data. 
+- `refactor`: `ModelForm` has been refactored in its entirety to utilize the new Form components. 
 
 ## 1.3.1
 - `bugfix`: Pagination className typescript error fixed. 

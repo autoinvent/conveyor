@@ -171,12 +171,6 @@ export const NoData: Story = {
   },
 };
 
-export const UndefinedData: Story = {
-  args: {
-    data: undefined,
-  },
-};
-
 export const ReadOnly = {
   args: {
     tableOptions: {

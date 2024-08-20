@@ -12,13 +12,14 @@ import {
 import { humanizeText, toggleFieldVisibility } from '@/utils';
 
 import { ACTION_COLUMN } from './ModelTable';
-import type { ColumnOptions } from './ModelTableStoreContext';
 
 export interface FieldVisibilityProps<F extends string, T extends F> {
   fields: readonly F[];
   fieldOrder: T[];
   onFieldOrderChange: (newFieldOrder: T[]) => void;
-  options?: Partial<Record<T, ColumnOptions>>;
+  options?: Partial<
+    Record<T, { hidable?: boolean; hidden?: boolean; label?: string }>
+  >;
 }
 
 export const FieldVisibility = <F extends string, T extends F>({

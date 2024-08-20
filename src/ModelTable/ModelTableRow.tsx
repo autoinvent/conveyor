@@ -28,7 +28,7 @@ export const ModelTableRow = ({
   const draggable = useModelTableStore((state) => state.tableOptions.draggable);
   const data = useDataStore();
   const formMethods = useForm({
-    mode: 'onChange',
+    mode: 'onSubmit',
     criteriaMode: 'all',
     values: data,
     resolver,

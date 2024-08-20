@@ -35,7 +35,7 @@ export const ModelForm = Object.assign(
     readOnly,
     initialLens,
     resolver,
-    mode = 'onChange',
+    mode = 'onSubmit',
     reValidateMode,
     errors,
     resetOptions,
