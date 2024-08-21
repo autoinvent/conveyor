@@ -12,9 +12,10 @@ export const ModelItemDisplay = ({
   value,
   getDisplayValue = (val) => val?._display_value ?? 'None',
   className,
+  ...props
 }: ModelItemDisplayProps) => {
   return (
-    <span className={cn('whitespace-pre-wrap', className)}>
+    <span className={cn('whitespace-pre-wrap', className)} {...props}>
       {getDisplayValue(value)}
     </span>
   );

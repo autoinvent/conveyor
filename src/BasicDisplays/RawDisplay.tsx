@@ -5,6 +5,10 @@ export interface RawDisplayProps extends FormDisplayChildProps {
   className?: string;
 }
 
-export const RawDisplay = ({ value, className }: RawDisplayProps) => {
-  return <span className={cn('whitespace-pre-wrap', className)}>{value}</span>;
+export const RawDisplay = ({ value, className, ...props }: RawDisplayProps) => {
+  return (
+    <span className={cn('whitespace-pre-wrap', className)} {...props}>
+      {value}
+    </span>
+  );
 };

@@ -1,10 +1,5 @@
 import { Slot } from '@radix-ui/react-slot';
-import type {
-  ComponentProps,
-  HTMLProps,
-  PropsWithoutRef,
-  ReactNode,
-} from 'react';
+import type { HTMLProps, PropsWithoutRef, ReactNode } from 'react';
 import {
   type ControllerRenderProps,
   type UseControllerProps,
