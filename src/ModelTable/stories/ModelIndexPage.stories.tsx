@@ -103,7 +103,7 @@ const meta = {
           data={currData}
           tableOptions={{
             ...tableOptions,
-            scrollable: { className: 'max-h-48' },
+            scrollable: { className: 'max-h-48 max-w-48' },
             sortOrder: tableView.sort,
             onSortOrderChange: (newSortOrder) => {
               setTableView((oldTableView) => ({
