@@ -1,5 +1,10 @@
 import { Slot } from '@radix-ui/react-slot';
-import type { PropsWithoutRef, ReactNode } from 'react';
+import type {
+  ComponentProps,
+  HTMLProps,
+  PropsWithoutRef,
+  ReactNode,
+} from 'react';
 import {
   type ControllerRenderProps,
   type UseControllerProps,
@@ -16,7 +21,8 @@ export interface FormControlProps extends Omit<UseControllerProps, 'control'> {
 }
 
 export interface FormControlChildProps
-  extends Partial<PropsWithoutRef<ControllerRenderProps>> {
+  extends Partial<PropsWithoutRef<ControllerRenderProps>>,
+    Omit<HTMLProps<HTMLElement>, keyof ControllerRenderProps | 'type'> {
   id?: string;
   'aria-describedby'?: string;
   'aria-invalid'?: boolean;

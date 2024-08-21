@@ -9,8 +9,10 @@ import {
   type TableView,
 } from '@/types';
 
+import { RawDisplay } from '@/BasicDisplays';
 import { Conveyor } from '@/Conveyor';
 import { useDataStore } from '@/Data';
+import { FormDisplay } from '@/Form';
 import { Header } from '@/Header';
 import { Pagination } from '@/Pagination';
 import { Button } from '@/lib/components/ui/button';
@@ -122,7 +124,9 @@ const meta = {
             <ModelTable.Body>
               <ModelTable.Row prefilled>
                 <ModelTable.Cell field="points">
-                  <CustomCell />
+                  <FormDisplay name="points">
+                    <RawDisplay className="text-yellow-300" />
+                  </FormDisplay>
                 </ModelTable.Cell>
               </ModelTable.Row>
             </ModelTable.Body>
@@ -144,11 +148,6 @@ const meta = {
   },
 } satisfies Meta<typeof ModelTable>;
 export default meta;
-
-const CustomCell = () => {
-  const points = useDataStore((state) => state.points);
-  return <span className="text-yellow-300">{points}</span>;
-};
 
 type Story = StoryObj<typeof meta>;
 
