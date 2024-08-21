@@ -12,7 +12,7 @@ export const BorderWrapper = ({
   children,
 }: BorderWrapperProps) => {
   return bordered ? (
-    <div className={cn('rounded-md border', className)}>{children}</div>
+    <div className={cn('min-h-0 rounded-md border', className)}>{children}</div>
   ) : (
     children
   );

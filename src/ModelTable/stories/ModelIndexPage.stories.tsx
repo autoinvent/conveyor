@@ -72,72 +72,74 @@ const meta = {
       }
     };
     return (
-      <Conveyor
-        typeOptions={{
-          [ScalarType.STRING]: {
-            DisplayComponent: (props) => (
-              <span className="text-cyan-400">{props.value}</span>
-            ),
-          },
-        }}
-      >
-        <Header>
-          <Header.Title>Task List</Header.Title>
-          <Header.Actions>
-            <FieldVisibility
-              fields={fields}
-              fieldOrder={fieldOrder}
-              onFieldOrderChange={onFieldOrderChange}
-              options={columnOptions}
-            />
-            <Button variant="outline" size="sm" className="h-8">
-              <Plus className="mr-2 h-4 w-4" />
-              Create
-            </Button>
-          </Header.Actions>
-        </Header>
-        <ModelTable
-          fields={fields}
-          fieldOrder={fieldOrder}
-          onFieldOrderChange={onFieldOrderChange}
-          data={currData}
-          tableOptions={{
-            ...tableOptions,
-            scrollable: { className: 'max-h-48 max-w-48' },
-            sortOrder: tableView.sort,
-            onSortOrderChange: (newSortOrder) => {
-              setTableView((oldTableView) => ({
-                ...oldTableView,
-                sort: newSortOrder,
-              }));
+      <div className="flex h-[300px] flex-col">
+        <Conveyor
+          typeOptions={{
+            [ScalarType.STRING]: {
+              DisplayComponent: (props) => (
+                <span className="text-cyan-400">{props.value}</span>
+              ),
             },
           }}
-          columnOptions={columnOptions}
-          onUpdate={onUpdateHandler}
-          onDelete={onDeleteHandler}
-          {...args}
         >
-          <ModelTable.Header />
-          <ModelTable.Body>
-            <ModelTable.Row prefilled>
-              <ModelTable.Cell field="points">
-                <CustomCell />
-              </ModelTable.Cell>
-            </ModelTable.Row>
-          </ModelTable.Body>
-          <ModelTable.Fallback />
-        </ModelTable>
-        <Pagination
-          totalDataLength={500}
-          page={tableView.page}
-          onPageChange={(newPage) => {
-            setTableView((oldTableView) => ({
-              ...oldTableView,
-              page: newPage,
-            }));
-          }}
-        />
-      </Conveyor>
+          <Header>
+            <Header.Title>Task List</Header.Title>
+            <Header.Actions>
+              <FieldVisibility
+                fields={fields}
+                fieldOrder={fieldOrder}
+                onFieldOrderChange={onFieldOrderChange}
+                options={columnOptions}
+              />
+              <Button variant="outline" size="sm" className="h-8">
+                <Plus className="mr-2 h-4 w-4" />
+                Create
+              </Button>
+            </Header.Actions>
+          </Header>
+          <ModelTable
+            className="h-full"
+            fields={fields}
+            fieldOrder={fieldOrder}
+            onFieldOrderChange={onFieldOrderChange}
+            data={currData}
+            tableOptions={{
+              ...tableOptions,
+              sortOrder: tableView.sort,
+              onSortOrderChange: (newSortOrder) => {
+                setTableView((oldTableView) => ({
+                  ...oldTableView,
+                  sort: newSortOrder,
+                }));
+              },
+            }}
+            columnOptions={columnOptions}
+            onUpdate={onUpdateHandler}
+            onDelete={onDeleteHandler}
+            {...args}
+          >
+            <ModelTable.Header />
+            <ModelTable.Body>
+              <ModelTable.Row prefilled>
+                <ModelTable.Cell field="points">
+                  <CustomCell />
+                </ModelTable.Cell>
+              </ModelTable.Row>
+            </ModelTable.Body>
+            <ModelTable.Fallback />
+          </ModelTable>
+          <Pagination
+            totalDataLength={500}
+            page={tableView.page}
+            onPageChange={(newPage) => {
+              setTableView((oldTableView) => ({
+                ...oldTableView,
+                page: newPage,
+              }));
+            }}
+          />
+        </Conveyor>
+      </div>
     );
   },
 } satisfies Meta<typeof ModelTable>;
