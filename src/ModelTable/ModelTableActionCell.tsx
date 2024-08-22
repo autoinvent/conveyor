@@ -19,7 +19,7 @@ export const ModelTableActionCell = ({
   ...tableCellProps
 }: ModelTableActionCellProps) => {
   const setLens = useLensesStore((state) => state.setLens);
-  const data = useFormStore((state) => state.formState.defaultValues);
+  const defaultValues = useFormStore((state) => state.formState.defaultValues);
   const isSubmitting = useFormStore((state) => state.formState.isSubmitting);
   const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
   const reset = useFormStore((state) => state.reset);
@@ -33,17 +33,20 @@ export const ModelTableActionCell = ({
     reset();
   };
   const onSaveHandler = handleSubmit(async (formData: DataType) => {
+    const changedData = Object.fromEntries(
+      Object.entries(formData).filter((entry) => dirtyFields[entry[0]]),
+    );
     await onUpdate?.({
-      data: formData,
-      dirtyFields,
+      data: { ...defaultValues },
+      changedData,
       onEdit: onEditHandler,
       onCancelEdit: onCancelEditHandler,
     });
   });
   const onDeleteHandler = handleSubmit(async () => {
     await onDelete?.({
-      data: { ...data },
-      dirtyFields,
+      data: { ...defaultValues },
+      changedData: {},
       onEdit: onEditHandler,
       onCancelEdit: onCancelEditHandler,
     });

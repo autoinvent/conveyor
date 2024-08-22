@@ -6,8 +6,8 @@ export enum DataLens {
 }
 
 export interface ActionParams<D extends DataType> {
-  data: Exclude<D, undefined>;
-  dirtyFields: Record<string, boolean>;
+  data: D;
+  changedData: D;
   onEdit: () => void;
   onCancelEdit: () => void;
 }
