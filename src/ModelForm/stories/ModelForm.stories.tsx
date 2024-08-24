@@ -16,7 +16,6 @@ const meta = {
   },
   args: {
     fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
-    fieldOrder: ['id', 'message', 'user', 'created_at', 'points', 'done'],
     fieldOptions: {
       id: {
         editable: false,
