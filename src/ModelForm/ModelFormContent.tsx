@@ -14,9 +14,9 @@ export const ModelFormContent = ({
   prefilled,
   children,
 }: ModelFormContentProps) => {
-  const fieldOrder = useModelFormStore((state) => state.fieldOrder);
+  const fields = useModelFormStore((state) => state.fields);
   const fieldOptions = useModelFormStore((state) => state.fieldOptions);
-  const formFields = [...fieldOrder].filter(
+  const formFields = [...fields].filter(
     (field) => !fieldOptions?.[field]?.hidden,
   );
   return (

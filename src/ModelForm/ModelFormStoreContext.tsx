@@ -16,7 +16,6 @@ export interface ModelFormState<
   T extends F,
 > {
   fields: readonly F[];
-  fieldOrder: T[];
   data: D;
   fieldOptions?: Partial<Record<T, FieldOptions>>;
   readOnly?: boolean;

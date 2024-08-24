@@ -23,7 +23,7 @@ export const ModelFormActions = ({
   const dirtyFields = useFormStore((state) => state.formState.dirtyFields);
   const reset = useFormStore((state) => state.reset);
   const handleSubmit = useFormStore((state) => state.handleSubmit);
-  const fieldOrder = useModelFormStore((state) => state.fieldOrder);
+  const fields = useModelFormStore((state) => state.fields);
   const readOnly = useModelFormStore((state) => state.readOnly);
   const onCreate = useModelFormStore((state) => state.onCreate);
   const onUpdate = useModelFormStore((state) => state.onUpdate);
@@ -57,7 +57,7 @@ export const ModelFormActions = ({
 
   return (
     !readOnly &&
-    fieldOrder.length > 0 && (
+    fields.length > 0 && (
       <div className={cn('space-x-4 whitespace-nowrap', className)}>
         {children === undefined ? (
           <>

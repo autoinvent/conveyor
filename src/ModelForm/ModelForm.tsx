@@ -27,7 +27,6 @@ export const ModelForm = Object.assign(
     data,
     id = data?.id || useId(),
     fields,
-    fieldOrder,
     fieldOptions,
     onCreate,
     onDelete,
@@ -63,7 +62,6 @@ export const ModelForm = Object.assign(
     return (
       <ModelFormStoreProvider
         fields={fields}
-        fieldOrder={fieldOrder}
         fieldOptions={fieldOptions}
         data={data}
         onCreate={onCreate}
