@@ -31,6 +31,8 @@ export const ModelForm = Object.assign(
     onCreate,
     onDelete,
     onUpdate,
+    onEdit,
+    onCancelEdit,
     readOnly,
     initialLens,
     resolver,
@@ -67,6 +69,8 @@ export const ModelForm = Object.assign(
         onCreate={onCreate}
         onDelete={onDelete}
         onUpdate={onUpdate}
+        onEdit={onEdit}
+        onCancelEdit={onCancelEdit}
         readOnly={readOnly}
         initialLens={initialLens}
       >

@@ -28,6 +28,8 @@ export const ModelFormActions = ({
   const onCreate = useModelFormStore((state) => state.onCreate);
   const onUpdate = useModelFormStore((state) => state.onUpdate);
   const onDelete = useModelFormStore((state) => state.onDelete);
+  const onEdit = useModelFormStore((state) => state.onEdit);
+  const onCancelEdit = useModelFormStore((state) => state.onCancelEdit);
   const onSave = onCreate ?? onUpdate;
 
   const onEditHandler = () => setLens(DataLens.INPUT);
@@ -63,8 +65,13 @@ export const ModelFormActions = ({
           <>
             <Lens lens={!isSubmitting && DataLens.DISPLAY}>
               <Button
-                onClick={onEditHandler}
-                onKeyUp={(e) => e.key === 'Enter' && onEditHandler()}
+                onClick={() =>
+                  onEdit ? onEdit({ onEdit: onEditHandler }) : onEditHandler()
+                }
+                onKeyUp={(e) =>
+                  e.key === 'Enter' &&
+                  (onEdit ? onEdit({ onEdit: onEditHandler }) : onEditHandler())
+                }
               >
                 Edit
               </Button>
@@ -89,8 +96,17 @@ export const ModelFormActions = ({
               )}
               <Button
                 variant="outline"
-                onClick={onCancelEditHandler}
-                onKeyUp={(e) => e.key === 'Enter' && onCancelEditHandler()}
+                onClick={() =>
+                  onCancelEdit
+                    ? onCancelEdit({ onCancelEdit: onCancelEditHandler })
+                    : onCancelEditHandler()
+                }
+                onKeyUp={(e) =>
+                  e.key === 'Enter' &&
+                  (onCancelEdit
+                    ? onCancelEdit({ onCancelEdit: onCancelEditHandler })
+                    : onCancelEditHandler())
+                }
               >
                 Cancel
               </Button>

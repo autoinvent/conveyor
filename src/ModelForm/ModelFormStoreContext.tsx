@@ -8,7 +8,12 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 
 import type { LensType } from '@/Lenses';
-import type { DataType, FieldOptions, OnActionTrigger } from '@/types';
+import type {
+  ActionParams,
+  DataType,
+  FieldOptions,
+  OnActionTrigger,
+} from '@/types';
 
 export interface ModelFormState<
   D extends DataType,
@@ -23,6 +28,8 @@ export interface ModelFormState<
   onCreate?: OnActionTrigger<D>;
   onUpdate?: OnActionTrigger<D>;
   onDelete?: OnActionTrigger<D>;
+  onEdit?: (params: Pick<ActionParams<D>, 'onEdit'>) => void;
+  onCancelEdit?: (params: Pick<ActionParams<D>, 'onCancelEdit'>) => void;
 }
 
 export const ModelFormStoreContext = createContext<
