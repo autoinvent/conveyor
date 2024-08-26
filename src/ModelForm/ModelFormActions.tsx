@@ -79,7 +79,7 @@ export const ModelFormActions = ({
               )}
             </Lens>
             <Lens lens={!isSubmitting && DataLens.INPUT}>
-              {onUpdate && (
+              {onSave && (
                 <Button
                   onClick={onSaveHandler}
                   onKeyUp={(e) => e.key === 'Enter' && onSaveHandler()}
