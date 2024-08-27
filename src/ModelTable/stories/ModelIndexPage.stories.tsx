@@ -36,7 +36,6 @@ const meta = {
     columnOptions,
     ...args
   }) => {
-    const [errors, setErrors] = useState({});
     const [tableView, setTableView] = useState<TableView>({});
     const [currData, setCurrData] = useState<DataType[]>(data);
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
@@ -115,13 +114,8 @@ const meta = {
                 }));
               },
             }}
-            formOptions={{ errors }}
             columnOptions={columnOptions}
-            onUpdate={({ data }) => {
-              setErrors({
-                [data.id]: { message: { types: { atype: 'hello' } } },
-              });
-            }}
+            onUpdate={onUpdateHandler}
             onDelete={onDeleteHandler}
             {...args}
           >
