@@ -15,8 +15,9 @@ export const ModelTableErrorRow = ({
   const fields = useTableStore((state) => state.columnIds);
   const errors = useFormStore((state) => state.formState.errors);
   const hasErrorMessage = Object.keys(errors).some(
-    (fieldName) => errors[fieldName]?.message,
+    (fieldName) => errors[fieldName],
   );
+  console.log(errors);
   return (
     hasErrorMessage && (
       <TableRow
