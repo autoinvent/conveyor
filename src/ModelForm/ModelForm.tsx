@@ -37,7 +37,7 @@ export const ModelForm = Object.assign(
     initialLens,
     resolver,
     mode = 'onSubmit',
-    reValidateMode,
+    reValidateMode = 'onSubmit',
     errors,
     resetOptions,
     criteriaMode = 'all',

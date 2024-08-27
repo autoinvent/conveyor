@@ -29,6 +29,7 @@ export const ModelTableRow = ({
   const data = useDataStore();
   const formMethods = useForm({
     mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
     criteriaMode: 'all',
     values: data,
     ...formOptions,

@@ -17,7 +17,6 @@ export const ModelTableErrorRow = ({
   const hasErrorMessage = Object.keys(errors).some(
     (fieldName) => errors[fieldName],
   );
-  console.log(errors);
   return (
     hasErrorMessage && (
       <TableRow
