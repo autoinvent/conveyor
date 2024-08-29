@@ -34,45 +34,41 @@ export interface TableOptions<F extends string> {
 
 export interface FormOptions
   extends Omit<UseFormProps, 'defaultValues' | 'values' | 'errors'> {
-  errors: Record<string | number, UseFormProps['errors']>;
+  errors?: Record<string | number, UseFormProps['errors']>;
 }
 
 export interface ModelTableState<
   D extends DataType,
   F extends string,
-  T extends F,
+  DT extends D = D,
+  FT extends F = F,
 > {
   model: string;
   fields: readonly F[];
-  fieldOrder: T[]; // Order + value of the field visibility
+  fieldOrder: FT[]; // Order + value of the field visibility
   onFieldOrderChange: (newFieldOrder: F[]) => void;
   data: D[];
-  tableOptions?: TableOptions<T>;
-  columnOptions?: Partial<Record<T, ColumnOptions>>;
+  tableOptions?: TableOptions<FT>;
+  columnOptions?: Partial<Record<FT, ColumnOptions>>;
   formOptions?: FormOptions;
-  onUpdate?: OnActionTrigger<D>;
-  onDelete?: OnActionTrigger<D>;
+  onUpdate?: OnActionTrigger<DT>;
+  onDelete?: OnActionTrigger<DT>;
 }
 
 export const ModelTableStoreContext = createContext<
-  StoreApi<ModelTableState<any, any, any>> | undefined
+  StoreApi<ModelTableState<any, any>> | undefined
 >(undefined);
 
 export interface ModelTableStoreProviderProps<
   D extends DataType,
   F extends string,
-  T extends F,
-> extends ModelTableState<D, F, T> {
+> extends ModelTableState<D, F> {
   children?: ReactNode;
 }
-export const ModelTableStoreProvider = <
-  D extends DataType,
-  F extends string,
-  T extends F,
->({
+export const ModelTableStoreProvider = <D extends DataType, F extends string>({
   children,
   ...modelTableState
-}: ModelTableStoreProviderProps<D, F, T>) => {
+}: ModelTableStoreProviderProps<D, F>) => {
   const isMounted = useRef(false);
   const [store] = useState(() => createStore(() => modelTableState));
   /* 

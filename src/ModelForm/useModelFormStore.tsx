@@ -11,21 +11,14 @@ import {
 export function useModelFormStore<
   D extends DataType,
   F extends string,
-  T extends F,
->(): ModelFormState<D, F, T>;
-export function useModelFormStore<
-  D extends DataType,
-  F extends string,
-  T extends F,
-  S,
->(selector: StoreSelector<ModelFormState<D, F, T>, S>): S;
+>(): ModelFormState<D, F>;
+export function useModelFormStore<D extends DataType, F extends string, S>(
+  selector: StoreSelector<ModelFormState<D, F>, S>,
+): S;
 
-export function useModelFormStore<
-  D extends DataType,
-  F extends string,
-  T extends F,
-  S,
->(selector?: StoreSelector<ModelFormState<D, F, T>, S>) {
+export function useModelFormStore<D extends DataType, F extends string, S>(
+  selector?: StoreSelector<ModelFormState<D, F>, S>,
+) {
   const modelFormStore = useContext(ModelFormStoreContext);
   if (modelFormStore === undefined) {
     throw new Error(

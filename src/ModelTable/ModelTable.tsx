@@ -20,15 +20,12 @@ import {
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 export const DEFAULT_COLUMN_WIDTH = 200; // in pixels
 
-export interface ModelTableProps<
-  D extends DataType,
-  F extends string,
-  T extends F,
-> extends ModelTableState<D, F, T>,
+export interface ModelTableProps<D extends DataType, F extends string>
+  extends ModelTableState<D, F>,
     Omit<TableProps<D>, 'columnIds' | 'data'> {}
 
 export const ModelTable = Object.assign(
-  <D extends DataType, F extends string, T extends F>({
+  <D extends DataType, F extends string>({
     model,
     fields,
     fieldOrder,
@@ -41,14 +38,14 @@ export const ModelTable = Object.assign(
     onDelete,
     children,
     ...tableProps
-  }: ModelTableProps<D, F, T>) => {
+  }: ModelTableProps<D, F>) => {
     const { readOnly, draggable, bordered, scrollable } = tableOptions ?? {};
     const tableColumns = [...fieldOrder].filter(
       (field) => !columnOptions?.[field]?.hidden,
     );
     // Action Columnn
     if (fieldOrder.length > 0 && !readOnly && data.length > 0) {
-      tableColumns.push(ACTION_COLUMN as T);
+      tableColumns.push(ACTION_COLUMN as F);
     }
 
     return (

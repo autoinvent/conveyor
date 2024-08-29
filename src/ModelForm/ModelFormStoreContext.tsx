@@ -18,40 +18,36 @@ import type {
 export interface ModelFormState<
   D extends DataType,
   F extends string,
-  T extends F,
+  DT extends D = D,
+  FT extends F = F,
 > {
   model: string;
   fields: readonly F[];
   data: D;
-  fieldOptions?: Partial<Record<T, FieldOptions>>;
+  fieldOptions?: Partial<Record<FT, FieldOptions>>;
   readOnly?: boolean;
   initialLens?: LensType;
-  onCreate?: OnActionTrigger<D>;
-  onUpdate?: OnActionTrigger<D>;
-  onDelete?: OnActionTrigger<D>;
-  onEdit?: (params: Pick<ActionParams<D>, 'onEdit'>) => void;
-  onCancelEdit?: (params: Pick<ActionParams<D>, 'onCancelEdit'>) => void;
+  onCreate?: OnActionTrigger<DT>;
+  onUpdate?: OnActionTrigger<DT>;
+  onDelete?: OnActionTrigger<DT>;
+  onEdit?: (params: Pick<ActionParams<DT>, 'onEdit'>) => void;
+  onCancelEdit?: (params: Pick<ActionParams<DT>, 'onCancelEdit'>) => void;
 }
 
 export const ModelFormStoreContext = createContext<
-  StoreApi<ModelFormState<any, any, any>> | undefined
+  StoreApi<ModelFormState<any, any>> | undefined
 >(undefined);
 
 export interface ModelFormStoreProviderProps<
   D extends DataType,
   F extends string,
-  T extends F,
-> extends ModelFormState<D, F, T> {
+> extends ModelFormState<D, F> {
   children?: ReactNode;
 }
-export const ModelFormStoreProvider = <
-  D extends DataType,
-  F extends string,
-  T extends F,
->({
+export const ModelFormStoreProvider = <D extends DataType, F extends string>({
   children,
   ...modelFormState
-}: ModelFormStoreProviderProps<D, F, T>) => {
+}: ModelFormStoreProviderProps<D, F>) => {
   const isMounted = useRef(false);
   const [store] = useState(() => createStore(() => modelFormState));
   /* 
