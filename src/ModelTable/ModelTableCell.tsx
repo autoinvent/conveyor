@@ -22,6 +22,9 @@ export const ModelTableCell = ({
   const draggable = useModelTableStore(
     (state) => state.tableOptions?.draggable ?? true,
   );
+  const label = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.label ?? humanizeText(field),
+  );
   const type = useModelTableStore(
     (state) => state.columnOptions?.[field]?.type ?? ScalarType.STRING,
   );
@@ -84,7 +87,7 @@ export const ModelTableCell = ({
                   name={field}
                   options={valueOptions}
                   rules={{
-                    required: required && `${humanizeText(field)} is required.`,
+                    required: required && `${label} is required.`,
                     ...rules,
                   }}
                 >

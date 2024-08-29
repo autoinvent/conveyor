@@ -21,6 +21,9 @@ export const ModelFormField = ({
   className,
   ...divProps
 }: ModelFormFieldProps) => {
+  const label = useModelFormStore(
+    (state) => state.fieldOptions?.[field]?.label ?? humanizeText(field),
+  );
   const type = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.type ?? ScalarType.STRING,
   );
@@ -60,8 +63,7 @@ export const ModelFormField = ({
                     name={field}
                     options={valueOptions}
                     rules={{
-                      required:
-                        required && `${humanizeText(field)} is required.`,
+                      required: required && `${label} is required.`,
                       ...rules,
                     }}
                   >

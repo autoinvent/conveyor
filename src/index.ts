@@ -1,5 +1,5 @@
 // common components
-export * from './BasicInputs';
+export * from './BasicDisplays';
 export * from './BasicInputs';
 export * from './Data';
 export * from './Form';
