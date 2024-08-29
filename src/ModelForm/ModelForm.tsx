@@ -26,6 +26,7 @@ export const ModelForm = Object.assign(
   <D extends DataType, F extends string, T extends F>({
     data,
     id = data?.id || useId(),
+    model,
     fields,
     fieldOptions,
     onCreate,
@@ -63,6 +64,7 @@ export const ModelForm = Object.assign(
     });
     return (
       <ModelFormStoreProvider
+        model={model}
         fields={fields}
         fieldOptions={fieldOptions}
         data={data}

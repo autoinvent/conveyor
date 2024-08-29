@@ -42,6 +42,7 @@ export interface ModelTableState<
   F extends string,
   T extends F,
 > {
+  model: string;
   fields: readonly F[];
   fieldOrder: T[]; // Order + value of the field visibility
   onFieldOrderChange: (newFieldOrder: F[]) => void;

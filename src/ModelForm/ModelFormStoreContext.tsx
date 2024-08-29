@@ -20,6 +20,7 @@ export interface ModelFormState<
   F extends string,
   T extends F,
 > {
+  model: string;
   fields: readonly F[];
   data: D;
   fieldOptions?: Partial<Record<T, FieldOptions>>;

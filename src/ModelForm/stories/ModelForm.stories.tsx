@@ -15,6 +15,7 @@ const meta = {
     onDelete: { control: false },
   },
   args: {
+    model: 'Task',
     fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
     fieldOptions: {
       id: {

@@ -29,6 +29,7 @@ export interface ModelTableProps<
 
 export const ModelTable = Object.assign(
   <D extends DataType, F extends string, T extends F>({
+    model,
     fields,
     fieldOrder,
     onFieldOrderChange,
@@ -52,6 +53,7 @@ export const ModelTable = Object.assign(
 
     return (
       <ModelTableStoreProvider
+        model={model}
         fields={fields}
         fieldOrder={fieldOrder}
         onFieldOrderChange={onFieldOrderChange}
