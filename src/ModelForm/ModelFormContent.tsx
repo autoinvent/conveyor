@@ -1,39 +1,35 @@
-import type { ComponentProps } from 'react';
+import type { ReactNode } from 'react';
 
 import { Slots } from '@/Slots';
-import { cn } from '@/lib/utils';
 
 import { ModelFormField } from './ModelFormField';
 import { useModelFormStore } from './useModelFormStore';
 
-export interface ModelFormContentProps extends ComponentProps<'div'> {
+export interface ModelFormContentProps {
   prefilled?: boolean;
+  children?: ReactNode;
 }
 
 export const ModelFormContent = ({
   prefilled,
   children,
-  className,
-  ...htmlProps
 }: ModelFormContentProps) => {
   const fields = useModelFormStore((state) => state.fields);
-  const data = useModelFormStore((state) => state.data);
+  const fieldOptions = useModelFormStore((state) => state.fieldOptions);
+  const formFields = [...fields].filter(
+    (field) => !fieldOptions?.[field]?.hidden,
+  );
   return (
-    data && (
-      <div className={cn('space-y-4', className)} {...htmlProps}>
-        <Slots slotKeys={fields}>
-          {children === undefined || prefilled ? (
-            <>
-              {fields.map((field) => (
-                <ModelFormField key={field} field={field} />
-              ))}
-              {children}
-            </>
-          ) : (
-            children
-          )}
-        </Slots>
-      </div>
-    )
+    <Slots slotKeys={formFields}>
+      {children === undefined || prefilled ? (
+        <>
+          {formFields.map((field) => {
+            return <ModelFormField key={field} field={field} />;
+          })}
+        </>
+      ) : (
+        children
+      )}
+    </Slots>
   );
 };

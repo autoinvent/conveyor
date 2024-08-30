@@ -1,12 +1,11 @@
 import { useConveyorStore } from '@/Conveyor';
-import { useDataStore } from '@/Data';
-import { FormInput, FormValue, useFormStore } from '@/Form';
+import { FormDisplay, useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
-import { useLoadingStore } from '@/Loading';
 import { TableCell, type TableCellProps } from '@/Table';
-import { DataLens, type ID, ScalarType } from '@/types';
-import { DndSortableWrapper } from '@/utils';
+import { DataLens, ScalarType } from '@/types';
+import { DndSortableWrapper, humanizeText } from '@/utils';
 
+import { FormControl } from '@/Form/FormControl';
 import { useModelTableStore } from './useModelTableStore';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
@@ -16,90 +15,90 @@ export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
 export const ModelTableCell = ({
   field,
   children,
-  onKeyUp,
-  onDoubleClick,
   ...tableCellProps
 }: ModelTableCellProps) => {
-  const dataId: ID = useDataStore((state) => state.id);
-  const formFieldId = `${field}-${dataId}`;
-  const formErrorMessageId = `${formFieldId}-error-message-${dataId}`;
-  const isLoading = useLoadingStore((state) => state.isLoading);
   const { setLens, activeLens } = useLensesStore();
-  const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
+  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
   const draggable = useModelTableStore(
-    (state) => state.tableOptions.draggable ?? true,
+    (state) => state.tableOptions?.draggable ?? true,
   );
-  const fieldType = useModelTableStore(
-    (state) =>
-      state.tableOptions.columnOptions?.[field]?.type ?? ScalarType.STRING,
+  const label = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.label ?? humanizeText(field),
   );
-  const fieldEditable = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.editable ?? true,
+  const type = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.type ?? ScalarType.STRING,
   );
-  const fieldRules = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.rules,
+  const editable = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.editable ?? true,
   );
-  const inputFn = useConveyorStore(
-    (state) => state.typeOptions?.[fieldType]?.inputRenderFn,
+  const rules = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.rules,
   );
-  const valueFn = useConveyorStore(
-    (state) => state.typeOptions?.[fieldType]?.valueRenderFn,
+  const required = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.required,
+  );
+  const valueOptions = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.valueOptions ?? [],
+  );
+  const DisplayComponent = useConveyorStore(
+    (state) => state.typeOptions?.[type]?.DisplayComponent ?? (() => null),
+  );
+  const InputComponent = useConveyorStore(
+    (state) => state.typeOptions?.[type]?.InputComponent ?? (() => null),
   );
   const reset = useFormStore((state) => state.reset);
-
+  const isSubmitting = useFormStore((state) => state.formState.isSubmitting);
   return (
     <DndSortableWrapper draggable={draggable} dndId={field} disabled>
       <TableCell
         columnId={field}
-        onDoubleClick={(e) =>
-          onDoubleClick
-            ? onDoubleClick(e)
-            : !readOnly &&
-              fieldEditable &&
-              activeLens === DataLens.VALUE &&
-              setLens(DataLens.INPUT)
-        }
+        onDoubleClick={() => {
+          if (
+            !readOnly &&
+            editable &&
+            activeLens === DataLens.DISPLAY &&
+            !isSubmitting
+          ) {
+            setLens(DataLens.INPUT);
+          }
+        }}
         onKeyUp={(e) => {
-          if (onKeyUp) {
-            onKeyUp(e);
-          } else if (e.key === 'Escape' && activeLens === DataLens.INPUT) {
-            setLens(DataLens.VALUE);
+          if (
+            e.key === 'Escape' &&
+            activeLens === DataLens.INPUT &&
+            !isSubmitting
+          ) {
+            setLens(DataLens.DISPLAY);
             reset();
           }
         }}
         {...tableCellProps}
       >
         {children === undefined ? (
-          fieldEditable ? (
+          editable ? (
             <>
-              <Lens lens={DataLens.VALUE}>
-                <FormValue name={field} render={valueFn ?? (() => null)} />
+              <Lens lens={DataLens.DISPLAY}>
+                <FormDisplay name={field}>
+                  <DisplayComponent />
+                </FormDisplay>
               </Lens>
               <Lens lens={DataLens.INPUT}>
-                <FormInput
+                <FormControl
                   name={field}
-                  rules={fieldRules}
-                  render={({ inputProps, inputState, formState }) => {
-                    const extraInputProps = Object.assign(inputProps, {
-                      id: formFieldId,
-                      disabled: isLoading,
-                      required: !!fieldRules?.required,
-                      'aria-describedby': !inputState?.invalid
-                        ? `${formFieldId}`
-                        : `${formFieldId} ${formErrorMessageId}`,
-                      'aria-invalid': inputState?.invalid,
-                    });
-                    return inputFn?.({
-                      inputProps: extraInputProps,
-                      inputState,
-                      formState,
-                    });
+                  options={valueOptions}
+                  rules={{
+                    required: required && `${label} is required.`,
+                    ...rules,
                   }}
-                />
+                >
+                  <InputComponent />
+                </FormControl>
               </Lens>
             </>
           ) : (
-            <FormValue name={field} render={valueFn ?? (() => null)} />
+            <FormDisplay name={field}>
+              <DisplayComponent />
+            </FormDisplay>
           )
         ) : (
           children

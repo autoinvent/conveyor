@@ -1,92 +1,107 @@
-import type { ComponentProps } from 'react';
-import type { UseFormReturn } from 'react-hook-form';
+import { type ComponentProps, useId } from 'react';
+import { type UseFormProps, useForm } from 'react-hook-form';
 
-import { FormStoreProvider, useForm } from '@/Form';
+import { FormStoreProvider } from '@/Form';
 import { Lenses } from '@/Lenses';
-import { LoadingStoreProvider } from '@/Loading';
-import { DataLens, type DataType } from '@/types';
-
 import { cn } from '@/lib/utils';
+import type { DataType } from '@/types';
+
 import { ModelFormActions } from './ModelFormActions';
 import { ModelFormContent } from './ModelFormContent';
-import { ModelFormFallback } from './ModelFormFallback';
 import { ModelFormField } from './ModelFormField';
 import {
   type ModelFormState,
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
 
-export interface ModelFormProps<D extends DataType, F extends string>
-  extends ModelFormState<D, F>,
-    Omit<ComponentProps<'form'>, 'onSubmit'> {
-  formMethods?: UseFormReturn;
-}
+export interface ModelFormProps<
+  D extends DataType,
+  F extends string,
+  DT extends D,
+  FT extends F,
+> extends ModelFormState<D, F, DT, FT>,
+    Omit<ComponentProps<'form'>, 'onSubmit'>,
+    Partial<Omit<UseFormProps, 'deafultValues' | 'values'>> {}
 
 export const ModelForm = Object.assign(
-  <D extends DataType, F extends string>({
-    fields,
+  <D extends DataType, F extends string, DT extends D, FT extends F>({
     data,
+    id = data?.id || useId(),
+    model,
+    fields,
     fieldOptions,
-    readOnly = false,
     onCreate,
-    onUpdate,
     onDelete,
+    onUpdate,
     onEdit,
     onCancelEdit,
-    initialLens = DataLens.INPUT,
+    readOnly,
+    initialLens,
+    resolver,
+    mode = 'onSubmit',
+    reValidateMode = 'onSubmit',
+    errors,
+    resetOptions,
+    criteriaMode = 'all',
+    shouldFocusError,
+    delayError,
+    shouldUseNativeValidation,
+    shouldUnregister,
     children,
-    formMethods,
     className,
-    ...htmlProps
-  }: ModelFormProps<D, F>) => {
-    const defaultFormMethods = useForm({ mode: 'onChange', values: data });
+    ...formProps
+  }: ModelFormProps<D, F, DT, FT>) => {
+    const formMethods = useForm({
+      values: data,
+      mode,
+      reValidateMode,
+      errors,
+      resetOptions,
+      criteriaMode,
+      shouldFocusError,
+      delayError,
+      shouldUseNativeValidation,
+      shouldUnregister,
+    });
     return (
       <ModelFormStoreProvider
+        model={model}
         fields={fields}
-        data={data}
         fieldOptions={fieldOptions}
-        readOnly={readOnly}
+        data={data}
         onCreate={onCreate}
-        onUpdate={onUpdate}
         onDelete={onDelete}
+        onUpdate={onUpdate}
         onEdit={onEdit}
         onCancelEdit={onCancelEdit}
+        readOnly={readOnly}
         initialLens={initialLens}
       >
-        <FormStoreProvider {...(formMethods ?? defaultFormMethods)}>
-          <LoadingStoreProvider>
-            <Form className={cn('space-y-4', className)} {...htmlProps}>
-              <Lenses initialLens={initialLens}>
-                {children === undefined ? (
-                  <>
-                    <ModelFormContent />
-                    <ModelFormActions />
-                    <ModelFormFallback />
-                  </>
-                ) : (
-                  children
-                )}
-              </Lenses>
-            </Form>
-          </LoadingStoreProvider>
-        </FormStoreProvider>
+        <form
+          id={id}
+          className={cn('space-y-4', className)}
+          onSubmit={(e) => e.preventDefault()}
+          {...formProps}
+        >
+          <Lenses initialLens={initialLens}>
+            <FormStoreProvider id={id} {...formMethods}>
+              {children === undefined ? (
+                <>
+                  <ModelFormContent />
+                  <ModelFormActions />
+                </>
+              ) : (
+                children
+              )}
+            </FormStoreProvider>
+          </Lenses>
+        </form>
       </ModelFormStoreProvider>
     );
   },
   {
     Actions: ModelFormActions,
     Content: ModelFormContent,
-    Fallback: ModelFormFallback,
     Field: ModelFormField,
   },
 );
-
-interface FormProps extends ComponentProps<'form'> {}
-
-const Form = ({ children, ...htmlProps }: FormProps) => {
-  return (
-    <form onSubmit={(e) => e.preventDefault()} {...htmlProps}>
-      {children}
-    </form>
-  );
-};

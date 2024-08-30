@@ -6,84 +6,84 @@ import {
   useState,
 } from 'react';
 import type { UseFormProps } from 'react-hook-form';
-import { createStore } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
+import { type StoreApi, createStore } from 'zustand';
 
 import type {
   DataType,
   FieldOptions,
-  OnDelete,
-  OnUpdate,
+  OnActionTrigger,
   TableView,
 } from '@/types';
 
 export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
   hidable?: boolean;
+  resizable?: boolean;
+  width?: number; // content width of the cell
 }
 
 export interface TableOptions<F extends string> {
-  fieldOrder: F[]; // Order + value of the field visibility
   sortOrder?: TableView['sort']; // Order + value of the field sort
   readOnly?: boolean;
-  scrollable?: boolean; // Wraps the table with ScrollArea
+  scrollable?: boolean | { className: string }; // Wraps the table with ScrollArea
   draggable?: boolean; // Wraps the table with DnDContext
-  bordered?: boolean; // Wraps the table with div to add bordered styles
-  onFieldOrderChange: (newFieldOrder: F[]) => void;
+  bordered?: boolean | { className: string }; // Wraps the table with div to add bordered styles
   onSortOrderChange?: (newSortOrder: TableView['sort']) => void;
-  columnOptions?: Partial<Record<F, ColumnOptions>>;
+  onWidthChange?: ({ field, width }: { field: F; width: number }) => void;
 }
 
-export interface FormOptions {
-  resolver: UseFormProps['resolver'];
+export interface FormOptions
+  extends Omit<UseFormProps, 'defaultValues' | 'values' | 'errors'> {
+  errors?: Record<string | number, UseFormProps['errors']>;
 }
 
 export interface ModelTableState<
   D extends DataType,
   F extends string,
-  T extends F,
+  DT extends D,
+  FT extends F,
 > {
+  model: string;
   fields: readonly F[];
-  data?: D[];
-  tableOptions: TableOptions<T>;
+  fieldOrder: FT[]; // Order + value of the field visibility
+  onFieldOrderChange: (newFieldOrder: F[]) => void;
+  data: D[];
+  tableOptions?: TableOptions<FT>;
+  columnOptions?: Partial<Record<FT, ColumnOptions>>;
   formOptions?: FormOptions;
-  onUpdate?: OnUpdate<D>;
-  onDelete?: OnDelete<D>;
+  onUpdate?: OnActionTrigger<DT>;
+  onDelete?: OnActionTrigger<DT>;
 }
 
-/**
- * https://github.com/pmndrs/zustand/discussions/1281#discussioncomment-10206641
- */
-type ModelTableStore = ReturnType<
-  typeof createStore<ModelTableState<any, any, any>, [['zustand/immer', never]]>
->;
 export const ModelTableStoreContext = createContext<
-  ModelTableStore | undefined
+  StoreApi<ModelTableState<any, any, any, any>> | undefined
 >(undefined);
 
 export interface ModelTableStoreProviderProps<
   D extends DataType,
   F extends string,
-  T extends F,
-> extends ModelTableState<D, F, T> {
+  DT extends D,
+  FT extends F,
+> extends ModelTableState<D, F, DT, FT> {
   children?: ReactNode;
 }
 export const ModelTableStoreProvider = <
   D extends DataType,
   F extends string,
-  T extends F,
+  DT extends D,
+  FT extends F,
 >({
   children,
   ...modelTableState
-}: ModelTableStoreProviderProps<D, F, T>) => {
+}: ModelTableStoreProviderProps<D, F, DT, FT>) => {
   const isMounted = useRef(false);
-  const [store] = useState(() => createStore(immer(() => modelTableState)));
+  const [store] = useState(() => createStore(() => modelTableState));
   /* 
     biome-ignore lint/correctness/useExhaustiveDependencies:
       The reference to tableState does not matter, only the contents.
   */
   useEffect(() => {
-    if (isMounted.current) store.setState(() => modelTableState);
+    if (isMounted.current) store.setState(modelTableState);
     else isMounted.current = true;
   }, [...Object.values(modelTableState), store]);
 

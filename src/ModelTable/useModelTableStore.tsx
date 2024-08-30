@@ -11,21 +11,24 @@ import {
 export function useModelTableStore<
   D extends DataType,
   F extends string,
-  T extends F,
->(): ModelTableState<D, F, T>;
+  DT extends D,
+  FT extends F,
+>(): ModelTableState<D, F, DT, FT>;
 export function useModelTableStore<
   D extends DataType,
   F extends string,
-  T extends F,
+  DT extends D,
+  FT extends F,
   S,
->(selector: StoreSelector<ModelTableState<D, F, T>, S>): S;
+>(selector: StoreSelector<ModelTableState<D, F, DT, FT>, S>): S;
 
 export function useModelTableStore<
   D extends DataType,
   F extends string,
-  T extends F,
+  DT extends D,
+  FT extends F,
   S,
->(selector?: StoreSelector<ModelTableState<D, F, T>, S>) {
+>(selector?: StoreSelector<ModelTableState<D, F, DT, FT>, S>) {
   const modelTableStore = useContext(ModelTableStoreContext);
   if (modelTableStore === undefined) {
     throw new Error(

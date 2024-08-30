@@ -1,11 +1,12 @@
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  CaretSortIcon,
-  EyeNoneIcon,
-} from '@radix-ui/react-icons';
 import { Slot } from '@radix-ui/react-slot';
-import { type ReactNode, forwardRef, useState } from 'react';
+import { ArrowDown, ArrowUp, EyeOff } from 'lucide-react';
+import {
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  type ReactNode,
+  forwardRef,
+  useState,
+} from 'react';
 
 import { Lens, Lenses } from '@/Lenses';
 import { Button } from '@/lib/components/ui/button';
@@ -36,22 +37,23 @@ export const ModelTableHeadMenu = ({
   field,
   children,
 }: ModelTableHeadMenuProps) => {
-  const sortable = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.sortable ?? true,
+  const fieldOrder = useModelTableStore((state) => state.fieldOrder);
+  const onFieldOrderChange = useModelTableStore(
+    (state) => state.onFieldOrderChange,
   );
-  const hidable = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.hidable ?? true,
-  );
-  const sortOrder = useModelTableStore((state) => state.tableOptions.sortOrder);
-  const fieldOrder = useModelTableStore(
-    (state) => state.tableOptions.fieldOrder,
+  const sortOrder = useModelTableStore(
+    (state) => state.tableOptions?.sortOrder,
   );
   const onSortOrderChange = useModelTableStore(
-    (state) => state.tableOptions.onSortOrderChange,
+    (state) => state.tableOptions?.onSortOrderChange,
   );
-  const onFieldOrderChange = useModelTableStore(
-    (state) => state.tableOptions.onFieldOrderChange,
+  const sortable = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.sortable ?? true,
   );
+  const hidable = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.hidable ?? true,
+  );
+
   const currentSortDirection = getFieldSortDirection({ sortOrder, field });
   const onFieldSortChange = (newSortDir: string) => {
     let newSortDirection = newSortDir as SortDirection;
@@ -82,7 +84,7 @@ export const ModelTableHeadMenu = ({
           <Button
             variant="ghost"
             size="sm"
-            className="-ml-3 h-8 data-[state=open]:bg-accent"
+            className="h-8 data-[state=open]:bg-accent"
             onClick={() => {
               setOpenMenu(!openMenu);
             }}
@@ -90,13 +92,10 @@ export const ModelTableHeadMenu = ({
             {children}
             <Lenses activeLens={sortable && currentSortDirection}>
               <Lens lens={SortDirection.ASC}>
-                <ArrowUpIcon className="ml-2 h-4 w-4" />
+                <ArrowUp className="ml-2 h-4 w-4" />
               </Lens>
               <Lens lens={SortDirection.DESC}>
-                <ArrowDownIcon className="ml-2 h-4 w-4" />
-              </Lens>
-              <Lens lens={SortDirection.NONE}>
-                <CaretSortIcon className="ml-2 h-4 w-4" />
+                <ArrowDown className="ml-2 h-4 w-4" />
               </Lens>
             </Lenses>
           </Button>
@@ -110,11 +109,11 @@ export const ModelTableHeadMenu = ({
               onValueChange={onFieldSortChange}
             >
               <DropdownMenuRadioItem value={SortDirection.ASC}>
-                <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                <ArrowUp className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                 Asc
               </DropdownMenuRadioItem>
               <DropdownMenuRadioItem value={SortDirection.DESC}>
-                <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                <ArrowDown className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                 Desc
               </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
@@ -128,7 +127,7 @@ export const ModelTableHeadMenu = ({
         <Lenses activeLens={hidable}>
           <Lens lens={true}>
             <DropdownMenuItem onSelect={hideField}>
-              <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              <EyeOff className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
               Hide
             </DropdownMenuItem>
           </Lens>
@@ -141,8 +140,8 @@ export const ModelTableHeadMenu = ({
 };
 
 const DropdownMenuTriggerWithoutListener = forwardRef<
-  React.ElementRef<typeof DropdownMenuTrigger>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger>
+  ElementRef<typeof DropdownMenuTrigger>,
+  ComponentPropsWithoutRef<typeof DropdownMenuTrigger>
 >(({ onPointerDown, ...props }, ref) => {
   return (
     <Slot {...props} ref={ref}>

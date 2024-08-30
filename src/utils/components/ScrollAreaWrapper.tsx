@@ -1,17 +1,25 @@
-import { type ReactNode, useEffect, useRef, useState } from 'react';
+import {
+  type ElementRef,
+  type ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
 export interface ScrollAreaWrapperProps {
   scrollable: boolean;
+  className?: string;
   children?: ReactNode;
 }
 export const ScrollAreaWrapper = ({
   scrollable,
+  className,
   children,
 }: ScrollAreaWrapperProps) => {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<ElementRef<typeof ScrollArea> | null>(null);
 
   const [isOverflow, setIsOverflow] = useState(false);
   useEffect(() => {
@@ -37,7 +45,7 @@ export const ScrollAreaWrapper = ({
   }, [isOverflow]);
 
   return scrollable ? (
-    <ScrollArea className={cn(isOverflow && 'pb-2')} ref={ref}>
+    <ScrollArea className={cn(isOverflow && 'pb-2', className)} ref={ref}>
       {children}
       <ScrollBar orientation="horizontal" />
     </ScrollArea>

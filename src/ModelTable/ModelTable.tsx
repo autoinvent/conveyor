@@ -18,53 +18,57 @@ import {
 } from './ModelTableStoreContext';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
+export const DEFAULT_COLUMN_WIDTH = 200; // in pixels
 
 export interface ModelTableProps<
   D extends DataType,
   F extends string,
-  T extends F,
-> extends ModelTableState<D, F, T>,
+  DT extends D,
+  FT extends F,
+> extends ModelTableState<D, F, DT, FT>,
     Omit<TableProps<D>, 'columnIds' | 'data'> {}
 
 export const ModelTable = Object.assign(
-  <D extends DataType, F extends string, T extends F>({
+  <D extends DataType, F extends string, DT extends D, FT extends F>({
+    model,
     fields,
+    fieldOrder,
+    onFieldOrderChange,
     data,
     tableOptions,
+    columnOptions,
     formOptions,
     onUpdate,
     onDelete,
     children,
     ...tableProps
-  }: ModelTableProps<D, F, T>) => {
-    const {
-      fieldOrder,
-      onFieldOrderChange,
-      readOnly,
-      draggable,
-      bordered,
-      scrollable,
-      columnOptions,
-    } = tableOptions;
-
+  }: ModelTableProps<D, F, DT, FT>) => {
+    const { readOnly, draggable, bordered, scrollable } = tableOptions ?? {};
     const tableColumns = [...fieldOrder].filter(
       (field) => !columnOptions?.[field]?.hidden,
     );
     // Action Columnn
-    if (fieldOrder.length > 0 && !readOnly && data && data.length > 0) {
-      tableColumns.push(ACTION_COLUMN as T);
+    if (fieldOrder.length > 0 && !readOnly && data.length > 0) {
+      tableColumns.push(ACTION_COLUMN as FT);
     }
 
     return (
       <ModelTableStoreProvider
+        model={model}
         fields={fields}
+        fieldOrder={fieldOrder}
+        onFieldOrderChange={onFieldOrderChange}
         data={data}
         tableOptions={tableOptions}
+        columnOptions={columnOptions}
         formOptions={formOptions}
         onUpdate={onUpdate}
         onDelete={onDelete}
       >
-        <BorderWrapper bordered={bordered ?? true}>
+        <BorderWrapper
+          bordered={typeof bordered === 'object' ? true : bordered ?? true}
+          className={typeof bordered === 'object' ? bordered?.className : ''}
+        >
           <DnDContextWrapper
             draggable={draggable ?? true}
             dndList={fieldOrder}
@@ -72,7 +76,14 @@ export const ModelTable = Object.assign(
               onFieldOrderChange as (newFieldOrder: string[]) => void
             }
           >
-            <ScrollAreaWrapper scrollable={scrollable ?? true}>
+            <ScrollAreaWrapper
+              scrollable={
+                typeof scrollable === 'object' ? true : scrollable ?? true
+              }
+              className={
+                typeof scrollable === 'object' ? scrollable?.className : ''
+              }
+            >
               <Table columnIds={tableColumns} data={data} {...tableProps}>
                 {children === undefined ? (
                   <>

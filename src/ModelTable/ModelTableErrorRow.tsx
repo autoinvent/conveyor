@@ -15,21 +15,21 @@ export const ModelTableErrorRow = ({
   const fields = useTableStore((state) => state.columnIds);
   const errors = useFormStore((state) => state.formState.errors);
   const hasErrorMessage = Object.keys(errors).some(
-    (fieldName) => errors[fieldName]?.message,
+    (fieldName) => errors[fieldName],
   );
   return (
     hasErrorMessage && (
       <TableRow
-        className={cn(
-          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-          className,
-        )}
+        className={cn('bg-destructive hover:bg-destructive/90', className)}
         {...tableRowProps}
       >
         {fields.map((field) => {
           return (
             <TableCell key={field}>
-              <FormError name={field} />
+              <FormError
+                name={field}
+                className="text-destructive-foreground "
+              />
             </TableCell>
           );
         })}

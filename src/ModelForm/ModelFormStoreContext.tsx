@@ -5,67 +5,66 @@ import {
   useRef,
   useState,
 } from 'react';
-import { createStore } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
+import { type StoreApi, createStore } from 'zustand';
 
 import type { LensType } from '@/Lenses';
 import type {
+  ActionParams,
   DataType,
   FieldOptions,
-  OnCreate,
-  OnDelete,
-  OnUpdate,
+  OnActionTrigger,
 } from '@/types';
 
-export interface ModelFormState<D extends DataType, F extends string> {
-  fields: F[];
+export interface ModelFormState<
+  D extends DataType,
+  F extends string,
+  DT extends D,
+  FT extends F,
+> {
+  model: string;
+  fields: readonly F[];
   data: D;
-  fieldOptions?: Partial<Record<F, FieldOptions>>;
+  fieldOptions?: Partial<Record<FT, FieldOptions>>;
   readOnly?: boolean;
-  onCreate?: OnCreate<D>;
-  onUpdate?: OnUpdate<D>;
-  onDelete?: OnDelete<D>;
-  onEdit?: (onEdit: () => void) => void;
-  onCancelEdit?: (onCancelEdit: () => void) => void;
   initialLens?: LensType;
+  onCreate?: OnActionTrigger<DT>;
+  onUpdate?: OnActionTrigger<DT>;
+  onDelete?: OnActionTrigger<DT>;
+  onEdit?: (params: Pick<ActionParams<DT>, 'onEdit'>) => void;
+  onCancelEdit?: (params: Pick<ActionParams<DT>, 'onCancelEdit'>) => void;
 }
 
-/**
- * https://github.com/pmndrs/zustand/discussions/1281#discussioncomment-10206641
- */
-type ModelFormStore = ReturnType<
-  typeof createStore<ModelFormState<any, any>, [['zustand/immer', never]]>
->;
-export const ModelFormStoreContext = createContext<ModelFormStore | undefined>(
-  undefined,
-);
+export const ModelFormStoreContext = createContext<
+  StoreApi<ModelFormState<any, any, any, any>> | undefined
+>(undefined);
 
 export interface ModelFormStoreProviderProps<
   D extends DataType,
   F extends string,
-> extends ModelFormState<D, F> {
+  DT extends D,
+  FT extends F,
+> extends ModelFormState<D, F, DT, FT> {
   children?: ReactNode;
 }
-export const ModelFormStoreProvider = <D extends DataType, F extends string>({
+export const ModelFormStoreProvider = <
+  D extends DataType,
+  F extends string,
+  DT extends D,
+  FT extends F,
+>({
   children,
-  ...modelState
-}: ModelFormStoreProviderProps<D, F>) => {
-  const [store] = useState(() =>
-    createStore(immer<ModelFormState<D, F>>(() => ({ ...modelState }))),
-  );
-
+  ...modelFormState
+}: ModelFormStoreProviderProps<D, F, DT, FT>) => {
   const isMounted = useRef(false);
-  /*
-    biome-ignore lint/correctness/useExhaustiveDependencies: 
-      The reference to modelState does not matter, only the contents.
+  const [store] = useState(() => createStore(() => modelFormState));
+  /* 
+    biome-ignore lint/correctness/useExhaustiveDependencies:
+      The reference to tableState does not matter, only the contents.
   */
   useEffect(() => {
-    if (isMounted.current) store.setState(() => modelState);
-  }, [...Object.values(modelState), store]);
-
-  useEffect(() => {
-    isMounted.current = true;
-  }, []);
+    if (isMounted.current) store.setState(modelFormState);
+    else isMounted.current = true;
+  }, [...Object.values(modelFormState), store]);
 
   return (
     <ModelFormStoreContext.Provider value={store}>

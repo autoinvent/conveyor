@@ -6,7 +6,6 @@ import {
   useState,
 } from 'react';
 import { type StoreApi, createStore } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
 
 import type { DataType } from '@/types';
 
@@ -22,7 +21,7 @@ export const DataStoreProvider = <D extends DataType>({
   data,
   children,
 }: DataStoreProviderProps<D>) => {
-  const [store] = useState(() => createStore(immer(() => data)));
+  const [store] = useState(() => createStore(() => data));
   const isMounted = useRef(false);
 
   useEffect(() => {

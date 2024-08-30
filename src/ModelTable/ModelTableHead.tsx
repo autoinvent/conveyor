@@ -1,6 +1,7 @@
 import { TableHead, type TableHeadProps } from '@/Table';
-import { DndSortableWrapper, humanizeText } from '@/utils';
+import { DndSortableWrapper, ResizableWrapper, humanizeText } from '@/utils';
 
+import { DEFAULT_COLUMN_WIDTH } from './ModelTable';
 import { ModelTableHeadMenu } from './ModelTableHeadMenu';
 import { useModelTableStore } from './useModelTableStore';
 
@@ -14,23 +15,38 @@ export const ModelTableHead = ({
   children,
   ...tableHeadProps
 }: ModelTableHeadProps) => {
-  const label = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.label,
-  );
   const draggable = useModelTableStore(
-    (state) => state.tableOptions.draggable ?? true,
+    (state) => state.tableOptions?.draggable ?? true,
+  );
+  const onWidthChange = useModelTableStore(
+    (state) => state.tableOptions?.onWidthChange,
+  );
+  const resizable = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.resizable ?? true,
+  );
+  const label = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.label,
+  );
+  const width = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.width ?? DEFAULT_COLUMN_WIDTH,
   );
 
   return (
     <DndSortableWrapper draggable={draggable} dndId={field}>
       <TableHead columnId={field} {...tableHeadProps}>
-        {children === undefined ? (
-          <ModelTableHeadMenu field={field}>
-            {label ?? humanizeText(field)}
-          </ModelTableHeadMenu>
-        ) : (
-          children
-        )}
+        <ResizableWrapper
+          resizable={resizable}
+          width={width}
+          onWidthChange={(width) => onWidthChange?.({ field, width })}
+        >
+          {children === undefined ? (
+            <ModelTableHeadMenu field={field}>
+              {label ?? humanizeText(field)}
+            </ModelTableHeadMenu>
+          ) : (
+            children
+          )}
+        </ResizableWrapper>
       </TableHead>
     </DndSortableWrapper>
   );

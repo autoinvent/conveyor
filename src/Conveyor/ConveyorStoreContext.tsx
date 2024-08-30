@@ -1,5 +1,6 @@
 import { produce } from 'immer';
 import {
+  type ComponentType,
   type ReactNode,
   createContext,
   useEffect,
@@ -8,28 +9,29 @@ import {
   useState,
 } from 'react';
 import { type StoreApi, createStore } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
 
 import {
+  BooleanDisplay,
+  DatetimeDisplay,
+  ModelItemDisplay,
+  RawDisplay,
+} from '@/BasicDisplays';
+import {
   BooleanInput,
-  BooleanValue,
   DatetimeInput,
-  DefaultValue,
-  type InputRenderFn,
   ModelItemInput,
   NumberInput,
-  RawValue,
   StringInput,
-  type ValueRenderFn,
-} from '@/Form';
+} from '@/BasicInputs';
+import type { FormControlChildProps, FormDisplayChildProps } from '@/Form';
 import { FieldType } from '@/types';
 import { deepObjectMerge } from '@/utils';
 
 export interface ConveyorState {
   typeOptions?: {
     [type: string]: {
-      inputRenderFn?: InputRenderFn;
-      valueRenderFn?: ValueRenderFn;
+      DisplayComponent?: ComponentType<FormDisplayChildProps>;
+      InputComponent?: ComponentType<FormControlChildProps>;
     };
   };
 }
@@ -37,55 +39,37 @@ export interface ConveyorState {
 export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
   typeOptions: {
     [FieldType.ID]: {
-      valueRenderFn: (props) => <RawValue className="min-w-fit" {...props} />,
+      DisplayComponent: RawDisplay,
     },
     [FieldType.STRING]: {
-      valueRenderFn: RawValue,
-      inputRenderFn: StringInput,
+      DisplayComponent: RawDisplay,
+      InputComponent: StringInput,
     },
     [FieldType.INT]: {
-      valueRenderFn: RawValue,
-      inputRenderFn: NumberInput,
+      DisplayComponent: RawDisplay,
+      InputComponent: NumberInput,
     },
     [FieldType.FLOAT]: {
-      valueRenderFn: RawValue,
-      inputRenderFn: NumberInput,
+      DisplayComponent: RawDisplay,
+      InputComponent: NumberInput,
     },
     [FieldType.DATETIME]: {
-      valueRenderFn: ({ name, value }) => (
-        <RawValue
-          name={name}
-          value={value ? new Date(value).toLocaleString() : 'N/A'}
-          className="min-w-60"
-        />
-      ),
-      inputRenderFn: DatetimeInput,
+      DisplayComponent: DatetimeDisplay,
+      InputComponent: DatetimeInput,
     },
     [FieldType.BOOLEAN]: {
-      valueRenderFn: BooleanValue,
-      inputRenderFn: BooleanInput,
+      DisplayComponent: BooleanDisplay,
+      InputComponent: BooleanInput,
     },
     [FieldType.MODEL_ITEM]: {
-      valueRenderFn: ({ name, value }) => (
-        <RawValue
-          name={name}
-          value={value?.id ?? 'None'}
-          className="min-w-fit"
-        />
-      ),
-      inputRenderFn: ModelItemInput,
-    },
-    [FieldType.DEFAULT]: {
-      valueRenderFn: DefaultValue,
-      inputRenderFn: ({ inputProps: { name, value } }) => (
-        <DefaultValue name={name} value={value} />
-      ),
+      DisplayComponent: ModelItemDisplay,
+      InputComponent: ModelItemInput,
     },
   },
 };
 
 export const ConveyorStoreContext = createContext<StoreApi<ConveyorState>>(
-  createStore(immer<ConveyorState>(() => DEFAULT_CONVEYOR_STATE)),
+  createStore(() => DEFAULT_CONVEYOR_STATE),
 );
 
 export interface ConveyorStoreProviderProps extends Partial<ConveyorState> {
@@ -110,13 +94,11 @@ export const ConveyorStoreProvider = ({
     Object.values(conveyorState),
   );
 
-  const [store] = useState(() =>
-    createStore(immer<ConveyorState>(() => storeState)),
-  );
+  const [store] = useState(() => createStore(() => storeState));
 
   const isMounted = useRef(false);
   useEffect(() => {
-    if (isMounted.current) store.setState(() => storeState);
+    if (isMounted.current) store.setState(storeState);
   }, [storeState, store]);
 
   useEffect(() => {

@@ -1,31 +1,23 @@
-import type { ReactNode } from 'react';
-
 export type DataType = Record<string, any>;
 
 export enum DataLens {
-  VALUE = 'value',
+  DISPLAY = 'DISPLAY',
   INPUT = 'input',
 }
 
 export interface ActionParams<D extends DataType> {
-  data: Exclude<D, undefined>;
-  dirtyFields: Record<string, boolean>;
+  data: D;
+  changedData: D;
+  onEdit: () => void;
+  onCancelEdit: () => void;
 }
-export type OnCreate<D extends DataType> =
+export type OnActionTrigger<D extends DataType> =
   | ((params: ActionParams<D>) => Promise<any>)
   | ((params: ActionParams<D>) => void);
-
-export type OnUpdate<D extends DataType> =
-  | ((params: ActionParams<D>) => Promise<any>)
-  | ((params: ActionParams<D>) => void);
-
-export type OnDelete<D extends DataType> =
-  | ((data: D) => Promise<any>)
-  | ((data: D) => void);
 
 export type StoreSelector<TState, T> = (state: TState) => T;
 
 export type SelectOption = {
-  value: number | string | boolean | null;
-  label: ReactNode;
+  label: string;
+  value: any;
 };

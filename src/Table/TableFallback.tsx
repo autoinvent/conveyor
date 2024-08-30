@@ -1,6 +1,5 @@
 import type { ComponentProps } from 'react';
 
-import { Spinner } from '@/Loading';
 import {
   TableBody as STableBody,
   TableCell as STableCell,
@@ -15,15 +14,13 @@ export const TableFallback = ({ children, ...props }: TableFallbackProps) => {
   const { columnIds, data } = useTableStore();
 
   return (
-    (!data || data.length === 0) &&
+    data.length === 0 &&
     columnIds.length > 0 && (
       <STableBody {...props}>
         <STableRow>
           <STableCell colSpan={columnIds.length}>
             {children === undefined ? (
-              <div className="text-center">
-                {data ? 'No Records Found.' : <Spinner />}
-              </div>
+              <div className="text-center">No Records Found.</div>
             ) : (
               children
             )}
