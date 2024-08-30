@@ -77,7 +77,12 @@ export const ModelForm = Object.assign(
         readOnly={readOnly}
         initialLens={initialLens}
       >
-        <form id={id} className={cn('space-y-4', className)} {...formProps}>
+        <form
+          id={id}
+          className={cn('space-y-4', className)}
+          onSubmit={(e) => e.preventDefault()}
+          {...formProps}
+        >
           <Lenses initialLens={initialLens}>
             <FormStoreProvider id={id} {...formMethods}>
               {children === undefined ? (
