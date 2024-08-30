@@ -6,7 +6,6 @@ import {
   useState,
 } from 'react';
 import { type StoreApi, createStore } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
 
 export type LensType = boolean | string | number;
 
@@ -31,24 +30,17 @@ export const Lenses = ({
 }: LensesProps) => {
   const [initLens] = useState(initialLens);
   const [store] = useState(() =>
-    createStore(
-      immer<LensesState>((set) => ({
-        activeLens: activeLens ?? initLens,
-        setLens: (newLens) =>
-          set((state) => {
-            state.activeLens = newLens;
-          }),
-      })),
-    ),
+    createStore<LensesState>((set) => ({
+      activeLens: activeLens ?? initLens,
+      setLens: (newLens) => set({ activeLens: newLens }),
+    })),
   );
 
   const isMounted = useRef(false);
 
   useEffect(() => {
     if (isMounted.current)
-      store.setState((state) => {
-        state.activeLens = activeLens ?? initLens;
-      });
+      store.setState({ activeLens: activeLens ?? initLens });
   }, [activeLens, initLens, store]);
 
   useEffect(() => {

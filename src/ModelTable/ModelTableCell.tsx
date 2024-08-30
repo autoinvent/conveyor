@@ -3,7 +3,7 @@ import { FormDisplay, useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, ScalarType } from '@/types';
-import { DndSortableWrapper } from '@/utils';
+import { DndSortableWrapper, humanizeText } from '@/utils';
 
 import { FormControl } from '@/Form/FormControl';
 import { useModelTableStore } from './useModelTableStore';
@@ -18,19 +18,27 @@ export const ModelTableCell = ({
   ...tableCellProps
 }: ModelTableCellProps) => {
   const { setLens, activeLens } = useLensesStore();
-  const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
+  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
   const draggable = useModelTableStore(
-    (state) => state.tableOptions.draggable ?? true,
+    (state) => state.tableOptions?.draggable ?? true,
+  );
+  const label = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.label ?? humanizeText(field),
   );
   const type = useModelTableStore(
-    (state) =>
-      state.tableOptions.columnOptions?.[field]?.type ?? ScalarType.STRING,
+    (state) => state.columnOptions?.[field]?.type ?? ScalarType.STRING,
   );
   const editable = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.editable ?? true,
+    (state) => state.columnOptions?.[field]?.editable ?? true,
+  );
+  const rules = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.rules,
+  );
+  const required = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.required,
   );
   const valueOptions = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.valueOptions ?? [],
+    (state) => state.columnOptions?.[field]?.valueOptions ?? [],
   );
   const DisplayComponent = useConveyorStore(
     (state) => state.typeOptions?.[type]?.DisplayComponent ?? (() => null),
@@ -39,18 +47,27 @@ export const ModelTableCell = ({
     (state) => state.typeOptions?.[type]?.InputComponent ?? (() => null),
   );
   const reset = useFormStore((state) => state.reset);
-
+  const isSubmitting = useFormStore((state) => state.formState.isSubmitting);
   return (
     <DndSortableWrapper draggable={draggable} dndId={field} disabled>
       <TableCell
         columnId={field}
-        onDoubleClick={(e) => {
-          if (!readOnly && editable && activeLens === DataLens.DISPLAY) {
+        onDoubleClick={() => {
+          if (
+            !readOnly &&
+            editable &&
+            activeLens === DataLens.DISPLAY &&
+            !isSubmitting
+          ) {
             setLens(DataLens.INPUT);
           }
         }}
         onKeyUp={(e) => {
-          if (e.key === 'Escape' && activeLens === DataLens.INPUT) {
+          if (
+            e.key === 'Escape' &&
+            activeLens === DataLens.INPUT &&
+            !isSubmitting
+          ) {
             setLens(DataLens.DISPLAY);
             reset();
           }
@@ -66,8 +83,15 @@ export const ModelTableCell = ({
                 </FormDisplay>
               </Lens>
               <Lens lens={DataLens.INPUT}>
-                <FormControl name={field}>
-                  <InputComponent options={valueOptions} />
+                <FormControl
+                  name={field}
+                  options={valueOptions}
+                  rules={{
+                    required: required && `${label} is required.`,
+                    ...rules,
+                  }}
+                >
+                  <InputComponent />
                 </FormControl>
               </Lens>
             </>

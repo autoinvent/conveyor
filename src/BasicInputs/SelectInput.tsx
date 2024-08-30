@@ -14,7 +14,7 @@ export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
   PropsWithoutRef<FormControlChildProps> &
     ComponentPropsWithoutRef<typeof Select>
->((props, ref) => {
+>(({ disabled, className, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -24,10 +24,10 @@ export const SelectInput = forwardRef<
       ),
     //use 'container' key for selectContainer component!!
     //container: () => cn(),
-    control: ({ isDisabled, isFocused }) =>
+    control: ({ isDisabled }) =>
       cn(
         'bg-background',
-        isDisabled && 'bg-secondary',
+        isDisabled && 'opacity-50',
         'border-solid',
         'border',
         'rounded-md',
@@ -102,12 +102,19 @@ export const SelectInput = forwardRef<
   };
 
   return (
-    <div className="rounded-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-2">
+    <div
+      className={cn(
+        'rounded-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-2',
+        disabled && 'cursor-not-allowed',
+        className,
+      )}
+    >
       <Select
         ref={ref}
         unstyled
         classNames={defaultStyling}
         menuPortalTarget={document.body}
+        isDisabled={disabled}
         {...props}
       />
     </div>

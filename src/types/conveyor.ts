@@ -1,11 +1,13 @@
+import type { ReactNode } from 'react';
 import type { RegisterOptions } from 'react-hook-form';
 
 import type { SelectOption } from './common';
 import { ScalarType } from './magql';
 
 export interface FieldOptions {
-  label?: string;
+  label?: ReactNode;
   type?: string;
+  required?: boolean;
   hidden?: boolean;
   editable?: boolean;
   rules?: Omit<

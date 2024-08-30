@@ -1,5 +1,5 @@
 import { Slot } from '@radix-ui/react-slot';
-import type { PropsWithoutRef, ReactNode } from 'react';
+import type { HTMLProps, PropsWithoutRef, ReactNode } from 'react';
 import {
   type ControllerRenderProps,
   type UseControllerProps,
@@ -11,11 +11,13 @@ import type { SelectOption } from '@/types';
 import { useFormStore } from './useFormStore';
 
 export interface FormControlProps extends Omit<UseControllerProps, 'control'> {
+  options?: SelectOption[];
   children: ReactNode;
 }
 
 export interface FormControlChildProps
-  extends Partial<PropsWithoutRef<ControllerRenderProps>> {
+  extends Partial<PropsWithoutRef<ControllerRenderProps>>,
+    Omit<HTMLProps<HTMLElement>, keyof ControllerRenderProps | 'type'> {
   id?: string;
   'aria-describedby'?: string;
   'aria-invalid'?: boolean;
@@ -25,6 +27,7 @@ export interface FormControlChildProps
 
 export const FormControl = ({
   name,
+  options,
   children,
   ...controllerProps
 }: FormControlProps) => {
@@ -38,7 +41,11 @@ export const FormControl = ({
   const formControlId = `${id}-${name}-form-control`;
   const formDescriptionId = `${formControlId}-description`;
   const formMessageId = `${formControlId}-message`;
-
+  const slotProps = {
+    ...field,
+    disabled: isSubmitting,
+    options,
+  };
   return (
     <Slot
       id={formControlId}
@@ -49,8 +56,7 @@ export const FormControl = ({
       }
       aria-invalid={!!error}
       aria-disabled={isSubmitting}
-      disabled={isSubmitting}
-      {...field}
+      {...slotProps}
     >
       {children}
     </Slot>

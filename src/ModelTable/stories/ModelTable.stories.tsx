@@ -19,7 +19,10 @@ const meta = {
     onDelete: { control: false },
   },
   args: {
+    model: 'Task',
     fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
+    fieldOrder: [], // dummy
+    onFieldOrderChange: () => null, // dummy
     data: [
       {
         id: '1',
@@ -54,47 +57,52 @@ const meta = {
         done: false,
       },
     ],
-    tableOptions: {
-      fieldOrder: [], // dummy
-      onFieldOrderChange: () => null, // dummy
-      columnOptions: {
-        id: {
-          editable: false,
-          sortable: false,
-          hidable: false,
-          hidden: true,
-        },
-        user: {
-          type: FieldType.MODEL_ITEM,
-          valueOptions: [
-            { label: 'robxbob', value: '00000001' },
-            { label: 'nicklitvin', value: '00000002' },
-            { label: 'cmacgray14', value: '00000003' },
-            { label: 'None', value: null },
-          ],
-        },
-        message: {
-          rules: { required: 'Message is required!' },
-        },
-        created_at: {
-          sortable: false,
-          type: FieldType.DATETIME,
-        },
-        points: {
-          type: FieldType.INT,
-        },
-        done: {
-          label: 'FINISHED 🏁',
-          type: FieldType.BOOLEAN,
-          hidable: false,
-        },
+    columnOptions: {
+      id: {
+        editable: false,
+        sortable: false,
+        hidable: false,
+        hidden: true,
+      },
+      user: {
+        type: FieldType.MODEL_ITEM,
+        valueOptions: [
+          { label: 'robxbob', value: '00000001' },
+          { label: 'nicklitvin', value: '00000002' },
+          { label: 'cmacgray14', value: '00000003' },
+          { label: 'None', value: null },
+        ],
+      },
+      message: {
+        required: true,
+      },
+      created_at: {
+        sortable: false,
+        type: FieldType.DATETIME,
+      },
+      points: {
+        type: FieldType.INT,
+      },
+      done: {
+        label: 'FINISHED 🏁',
+        type: FieldType.BOOLEAN,
+        hidable: false,
       },
     },
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 2000)),
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 2000)),
   },
-  render: ({ fields, tableOptions, data, onUpdate, onDelete, ...args }) => {
-    const [currData, setCurrData] = useState<undefined | DataType[]>(data);
+  render: ({
+    fields,
+    fieldOrder: dummyFieldOrder,
+    onFieldOrderChange: dummyOnFieldOrderChange,
+    tableOptions,
+    data,
+    onUpdate,
+    onDelete,
+    ...args
+  }) => {
+    const [currData, setCurrData] = useState<DataType[]>(data);
     const [sortOrder, onSortOrderChange] =
       useState<TableView['sort']>(undefined);
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
@@ -112,12 +120,13 @@ const meta = {
           }
           return oldData;
         });
+        params.onCancelEdit();
       }
     };
 
-    const onDeleteHandler = async (d: DataType) => {
-      await onDelete?.(d);
-      const id = d?.id;
+    const onDeleteHandler = async (params: ActionParams<DataType>) => {
+      await onDelete?.(params);
+      const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
           const idx = oldData?.findIndex((d: DataType) => d.id === id);
@@ -128,19 +137,20 @@ const meta = {
           }
           return oldData;
         });
+        params.onCancelEdit();
       }
     };
 
     return (
       <ModelTable
         fields={fields}
+        fieldOrder={fieldOrder}
+        onFieldOrderChange={onFieldOrderChange}
         data={currData}
         tableOptions={{
           ...tableOptions,
           sortOrder,
           onSortOrderChange,
-          fieldOrder,
-          onFieldOrderChange,
         }}
         onUpdate={onUpdateHandler}
         onDelete={onDeleteHandler}
@@ -167,17 +177,10 @@ export const NoData: Story = {
   },
 };
 
-export const UndefinedData: Story = {
-  args: {
-    data: undefined,
-  },
-};
-
 export const ReadOnly = {
   args: {
     tableOptions: {
       readOnly: true,
-      columnOptions: meta.args.tableOptions.columnOptions,
     },
   },
 };

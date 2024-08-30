@@ -9,7 +9,6 @@ import {
   useState,
 } from 'react';
 import { type StoreApi, createStore } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
 
 import {
   BooleanDisplay,
@@ -70,7 +69,7 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
 };
 
 export const ConveyorStoreContext = createContext<StoreApi<ConveyorState>>(
-  createStore(immer<ConveyorState>(() => DEFAULT_CONVEYOR_STATE)),
+  createStore(() => DEFAULT_CONVEYOR_STATE),
 );
 
 export interface ConveyorStoreProviderProps extends Partial<ConveyorState> {
@@ -95,13 +94,11 @@ export const ConveyorStoreProvider = ({
     Object.values(conveyorState),
   );
 
-  const [store] = useState(() =>
-    createStore(immer<ConveyorState>(() => storeState)),
-  );
+  const [store] = useState(() => createStore(() => storeState));
 
   const isMounted = useRef(false);
   useEffect(() => {
-    if (isMounted.current) store.setState(() => storeState);
+    if (isMounted.current) store.setState(storeState);
   }, [storeState, store]);
 
   useEffect(() => {

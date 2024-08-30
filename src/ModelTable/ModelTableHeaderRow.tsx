@@ -13,12 +13,10 @@ export const ModelTableHeaderRow = ({
   ...tableHeaderRowProps
 }: ModelTableHeaderRowProps) => {
   const fields = useModelTableStore((state) => state.fields);
-  const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
-  const fieldOrder = useModelTableStore(
-    (state) => state.tableOptions.fieldOrder,
-  );
+  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
+  const fieldOrder = useModelTableStore((state) => state.fieldOrder);
   const draggable = useModelTableStore(
-    (state) => state.tableOptions.draggable ?? true,
+    (state) => state.tableOptions?.draggable ?? true,
   );
   return (
     <TableHeaderRow prefilled={prefilled} {...tableHeaderRowProps}>
