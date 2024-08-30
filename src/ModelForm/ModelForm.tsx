@@ -14,13 +14,17 @@ import {
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
 
-export interface ModelFormProps<D extends DataType, F extends string>
-  extends ModelFormState<D, F>,
+export interface ModelFormProps<
+  D extends DataType,
+  F extends string,
+  DT extends D,
+  FT extends F,
+> extends ModelFormState<D, F, DT, FT>,
     Omit<ComponentProps<'form'>, 'onSubmit'>,
     Partial<Omit<UseFormProps, 'deafultValues' | 'values'>> {}
 
 export const ModelForm = Object.assign(
-  <D extends DataType, F extends string>({
+  <D extends DataType, F extends string, DT extends D, FT extends F>({
     data,
     id = data?.id || useId(),
     model,
@@ -46,7 +50,7 @@ export const ModelForm = Object.assign(
     children,
     className,
     ...formProps
-  }: ModelFormProps<D, F>) => {
+  }: ModelFormProps<D, F, DT, FT>) => {
     const formMethods = useForm({
       values: data,
       mode,

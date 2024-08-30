@@ -18,8 +18,8 @@ import type {
 export interface ModelFormState<
   D extends DataType,
   F extends string,
-  DT extends D = D,
-  FT extends F = F,
+  DT extends D,
+  FT extends F,
 > {
   model: string;
   fields: readonly F[];
@@ -35,19 +35,26 @@ export interface ModelFormState<
 }
 
 export const ModelFormStoreContext = createContext<
-  StoreApi<ModelFormState<any, any>> | undefined
+  StoreApi<ModelFormState<any, any, any, any>> | undefined
 >(undefined);
 
 export interface ModelFormStoreProviderProps<
   D extends DataType,
   F extends string,
-> extends ModelFormState<D, F> {
+  DT extends D,
+  FT extends F,
+> extends ModelFormState<D, F, DT, FT> {
   children?: ReactNode;
 }
-export const ModelFormStoreProvider = <D extends DataType, F extends string>({
+export const ModelFormStoreProvider = <
+  D extends DataType,
+  F extends string,
+  DT extends D,
+  FT extends F,
+>({
   children,
   ...modelFormState
-}: ModelFormStoreProviderProps<D, F>) => {
+}: ModelFormStoreProviderProps<D, F, DT, FT>) => {
   const isMounted = useRef(false);
   const [store] = useState(() => createStore(() => modelFormState));
   /* 

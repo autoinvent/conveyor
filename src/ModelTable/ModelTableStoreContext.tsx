@@ -40,8 +40,8 @@ export interface FormOptions
 export interface ModelTableState<
   D extends DataType,
   F extends string,
-  DT extends D = D,
-  FT extends F = F,
+  DT extends D,
+  FT extends F,
 > {
   model: string;
   fields: readonly F[];
@@ -56,19 +56,26 @@ export interface ModelTableState<
 }
 
 export const ModelTableStoreContext = createContext<
-  StoreApi<ModelTableState<any, any>> | undefined
+  StoreApi<ModelTableState<any, any, any, any>> | undefined
 >(undefined);
 
 export interface ModelTableStoreProviderProps<
   D extends DataType,
   F extends string,
-> extends ModelTableState<D, F> {
+  DT extends D,
+  FT extends F,
+> extends ModelTableState<D, F, DT, FT> {
   children?: ReactNode;
 }
-export const ModelTableStoreProvider = <D extends DataType, F extends string>({
+export const ModelTableStoreProvider = <
+  D extends DataType,
+  F extends string,
+  DT extends D,
+  FT extends F,
+>({
   children,
   ...modelTableState
-}: ModelTableStoreProviderProps<D, F>) => {
+}: ModelTableStoreProviderProps<D, F, DT, FT>) => {
   const isMounted = useRef(false);
   const [store] = useState(() => createStore(() => modelTableState));
   /* 
