@@ -15,6 +15,7 @@ export interface FieldOptions {
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
   valueOptions?: SelectOption[];
+  onMenuScrollToBottom?: () => any
 }
 
 export enum NonScalarType {

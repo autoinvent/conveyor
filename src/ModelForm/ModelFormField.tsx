@@ -9,6 +9,7 @@ import { DataLens, ScalarType } from '@/types';
 import { humanizeText } from '@/utils';
 
 import { useModelFormStore } from './useModelFormStore';
+import { ModelItemInput } from '@/BasicInputs';
 
 export interface ModelFormFieldProps extends ComponentProps<'div'> {
   field: string;
@@ -39,12 +40,16 @@ export const ModelFormField = ({
   const valueOptions = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.valueOptions ?? [],
   );
+  const onMenuScrollToBottom = useModelFormStore(
+    (state) => state.fieldOptions?.[field]?.onMenuScrollToBottom
+  )
   const DisplayComponent = useConveyorStore(
     (state) => state.typeOptions?.[type]?.DisplayComponent ?? (() => null),
   );
   const InputComponent = useConveyorStore(
     (state) => state.typeOptions?.[type]?.InputComponent ?? (() => null),
   );
+
   return (
     <Slot slotKey={field}>
       <div className={cn('flex flex-col space-y-2', className)} {...divProps}>
@@ -67,7 +72,11 @@ export const ModelFormField = ({
                       ...rules,
                     }}
                   >
-                    <InputComponent />
+                    {
+                      InputComponent === ModelItemInput ?
+                      <ModelItemInput onMenuScrollToBottom={onMenuScrollToBottom}/> :
+                      <InputComponent />
+                    }
                   </FormControl>
                   <FormError name={field} />
                 </Lens>
