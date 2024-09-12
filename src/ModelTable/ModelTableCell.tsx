@@ -7,6 +7,7 @@ import { DndSortableWrapper, humanizeText } from '@/utils';
 
 import { FormControl } from '@/Form/FormControl';
 import { useModelTableStore } from './useModelTableStore';
+import { ModelItemInput } from '@/BasicInputs';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
   field: string;
@@ -40,6 +41,9 @@ export const ModelTableCell = ({
   const valueOptions = useModelTableStore(
     (state) => state.columnOptions?.[field]?.valueOptions ?? [],
   );
+  const onMenuScrollToBottom = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.onMenuScrollToBottom
+  )
   const DisplayComponent = useConveyorStore(
     (state) => state.typeOptions?.[type]?.DisplayComponent ?? (() => null),
   );
@@ -91,7 +95,11 @@ export const ModelTableCell = ({
                     ...rules,
                   }}
                 >
-                  <InputComponent />
+                  {
+                    InputComponent === ModelItemInput ?
+                    <ModelItemInput onMenuScrollToBottom={onMenuScrollToBottom}/> :
+                    <InputComponent />
+                  }
                 </FormControl>
               </Lens>
             </>

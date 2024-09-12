@@ -70,8 +70,15 @@ const meta = {
           { label: 'robxbob', value: '00000001' },
           { label: 'nicklitvin', value: '00000002' },
           { label: 'cmacgray14', value: '00000003' },
+          { label: '1', value: '00000004' },
+          { label: '2', value: '00000005' },
+          { label: '3', value: '00000006' },
+          { label: '4', value: '00000007' },
+          { label: '5', value: '00000008' },
+          { label: '6', value: '00000009' },
           { label: 'None', value: null },
         ],
+        onMenuScrollToBottom: () => console.log("scrolled to end")
       },
       message: {
         required: true,
