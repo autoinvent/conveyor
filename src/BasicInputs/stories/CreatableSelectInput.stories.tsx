@@ -1,10 +1,10 @@
-import  { CreatableSelectInput } from '../CreatableSelectInput';
 import type { Meta, StoryObj } from '@storybook/react';
+import { CreatableSelectInput } from '../CreatableSelectInput';
 
 const meta = {
-    title: 'Commons/Inputs',
-    component: CreatableSelectInput,
-    tags: ['autodocs'],
+  title: 'Commons/Inputs',
+  component: CreatableSelectInput,
+  tags: ['autodocs'],
 } satisfies Meta<typeof CreatableSelectInput>;
 export default meta;
 
@@ -22,7 +22,7 @@ export const BasicUsage: Story = {
       { value: 'harmony', label: 'Harmony' },
       { value: 'puzzle', label: 'Puzzle' },
       { value: 'symphony', label: 'Symphony' },
-      { value: 'labyrinth', label: 'Labyrinth' }
-    ]
-  }
+      { value: 'labyrinth', label: 'Labyrinth' },
+    ],
+  },
 };
