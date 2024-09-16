@@ -1,21 +1,15 @@
-import {
-  type ComponentProps,
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  type PropsWithoutRef,
-  forwardRef,
-} from 'react';
-import Select from 'react-select';
-
 import type { FormControlChildProps } from '@/Form';
 import { cn } from '@/lib/utils';
+import { type ComponentProps, type ComponentPropsWithoutRef, type ElementRef, forwardRef,  type PropsWithoutRef } from 'react';
+import Creatable from 'react-select/creatable';
 
-export const SelectInput = forwardRef<
-  ElementRef<typeof Select>,
+export const CreatableSelectInput = forwardRef<
+  ElementRef<typeof Creatable>,
   PropsWithoutRef<FormControlChildProps> &
-    ComponentPropsWithoutRef<typeof Select>
+  ComponentPropsWithoutRef<typeof Creatable>
 >(({ disabled, className, ...props }, ref) => {
-  const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
+
+  const defaultStyling: ComponentProps<typeof Creatable>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
         isFocused ? 'text-muted-foreground' : 'text-foreground',
@@ -103,20 +97,17 @@ export const SelectInput = forwardRef<
 
   return (
     <div
-      className={cn(
-        'rounded-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-2',
-        disabled && 'cursor-not-allowed',
-        className,
-      )}
+    className={cn(
+      'rounded-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-2',
+      disabled && 'cursor-not-allowed',
+      className,
+    )}
     >
-      <Select
-        ref={ref}
-        unstyled
+      <Creatable 
+        unstyled 
         classNames={defaultStyling}
-        menuPortalTarget={document.body}
-        isDisabled={disabled}
         {...props}
       />
     </div>
-  );
+  )
 });
