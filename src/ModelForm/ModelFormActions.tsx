@@ -64,17 +64,21 @@ export const ModelFormActions = ({
         {children === undefined ? (
           <>
             <Lens lens={!isSubmitting && DataLens.DISPLAY}>
-              <Button
-                onClick={() =>
-                  onEdit ? onEdit({ onEdit: onEditHandler }) : onEditHandler()
-                }
-                onKeyUp={(e) =>
-                  e.key === 'Enter' &&
-                  (onEdit ? onEdit({ onEdit: onEditHandler }) : onEditHandler())
-                }
-              >
-                Edit
-              </Button>
+              {onUpdate && (
+                <Button
+                  onClick={() =>
+                    onEdit ? onEdit({ onEdit: onEditHandler }) : onEditHandler()
+                  }
+                  onKeyUp={(e) =>
+                    e.key === 'Enter' &&
+                    (onEdit
+                      ? onEdit({ onEdit: onEditHandler })
+                      : onEditHandler())
+                  }
+                >
+                  Edit
+                </Button>
+              )}
               {onDelete && (
                 <Button
                   variant="destructive"
