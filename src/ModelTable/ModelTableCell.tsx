@@ -31,7 +31,7 @@ export const ModelTableCell = ({
   const editable = useModelTableStore(
     (state) => state.columnOptions?.[field]?.editable ?? true,
   );
-  const onUpdateIsDefined = useModelTableStore((state) => state.onUpdate);
+  const onUpdate = useModelTableStore((state) => state.onUpdate);
   const rules = useModelTableStore(
     (state) => state.columnOptions?.[field]?.rules,
   );
@@ -59,7 +59,7 @@ export const ModelTableCell = ({
             editable &&
             activeLens === DataLens.DISPLAY &&
             !isSubmitting &&
-            onUpdateIsDefined
+            onUpdate
           ) {
             setLens(DataLens.INPUT);
           }
