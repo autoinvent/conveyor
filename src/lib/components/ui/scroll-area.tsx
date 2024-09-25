@@ -12,8 +12,8 @@ const ScrollArea = React.forwardRef<
     className={cn('relative h-full w-full overflow-hidden', className)}
     {...props}
   >
-    <ScrollAreaPrimitive.Viewport //Removed !important tag from block to keep scrollbar updating correctly when resizing
-      className={cn('h-full w-full rounded-[inherit] [&>div]:block')}
+    <ScrollAreaPrimitive.Viewport
+      className={cn('h-full w-full rounded-[inherit]')}
     >
       {children}
     </ScrollAreaPrimitive.Viewport>
