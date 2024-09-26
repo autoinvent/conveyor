@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { CreatableSelectInput } from "../CreatableSelectInput";
+import { SelectInput } from "../SelectInput";
 
 const meta = {
-  title: "Commons/BasicInputs/CreatableSelectInput",
-  component: CreatableSelectInput,
+  title: "Commons/BasicInputs/SelectInput",
+  component: SelectInput,
   tags: ["autodocs"],
-} satisfies Meta<typeof CreatableSelectInput>;
+} satisfies Meta<typeof SelectInput>;
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const CreatableSelect: Story = {
+export const Select: Story = {
   args: {
     options: [
       { value: "apple", label: "Apple" },

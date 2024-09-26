@@ -26,14 +26,14 @@ export interface TableView {
   filter?: FilterItem[][];
   sort?: string[];
   page?: number;
-  per_page?: number;
+  perPage?: 5 | 10 | 25 | 50 | 100;
 }
 
 export enum ScalarType {
-  ID = 'ID',
-  STRING = 'String',
-  INT = 'Int',
-  FLOAT = 'Float',
-  DATETIME = 'DateTime',
-  BOOLEAN = 'Boolean',
+  ID = "ID",
+  STRING = "String",
+  INT = "Int",
+  FLOAT = "Float",
+  DATETIME = "DateTime",
+  BOOLEAN = "Boolean",
 }
