@@ -58,7 +58,7 @@ export const Pagination = ({
   const lowerBoundPage = (currentPageSet - 1) * maxPageButtonLimit + 1;
   const upperBoundPage = Math.min(
     currentPageSet * maxPageButtonLimit,
-    totalPages
+    totalPages,
   );
   if (page > totalPages || page < 1) {
     throw new Error(`Page must be between 1 and ${totalPages}`);
