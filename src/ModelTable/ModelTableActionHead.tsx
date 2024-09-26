@@ -13,7 +13,7 @@ export const ModelTableActionHead = ({
 }: ModelTableActionHeadProps) => {
   return (
     <TableHead
-      className={cn('w-0', className)}
+      className={cn('w-[99%]', className)}
       columnId={ACTION_COLUMN}
       {...props}
     >
