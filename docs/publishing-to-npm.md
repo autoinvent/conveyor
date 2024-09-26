@@ -32,3 +32,5 @@
     - Publish with `npm publish`.
 
 10. **Tag the Release**
+    - `git tag v[NEW VERSION]`
+    - `git push --tag`
