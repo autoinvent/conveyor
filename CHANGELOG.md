@@ -1,3 +1,8 @@
+## 1.5.0
+- `feature`: `CreatableSelectInput` exposes the `CreatableSelect` from **react-select**.
+- `bugfix`: Table column resizing no longer affects other columns and work as intended.
+- `bugfix`: When `onUpdate` for `ModelForm` and `ModelTable` is set to be undefined, hide the edit button.  
+
 ## 1.4.0
 - `feature`: **react-select** now used under the hood for select components.
 - `feature`: `ModelTable` can now be resized. 
