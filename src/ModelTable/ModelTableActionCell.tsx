@@ -61,14 +61,16 @@ export const ModelTableActionCell = ({
       {children === undefined ? (
         <div className="space-x-1 whitespace-nowrap">
           <Lens lens={!isSubmitting && DataLens.DISPLAY}>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onEditHandler}
-              onKeyUp={(e) => e.key === 'Enter' && onEditHandler()}
-            >
-              <SquarePen className="h-4 w-4" />
-            </Button>
+            {onUpdate && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onEditHandler}
+                onKeyUp={(e) => e.key === 'Enter' && onEditHandler()}
+              >
+                <SquarePen className="h-4 w-4" />
+              </Button>
+            )}
             {onDelete && (
               <Button
                 variant="ghost-destructive"

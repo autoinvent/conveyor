@@ -86,6 +86,13 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicUsage: Story = {};
 
+export const OnUpdateIsUndefined: Story = {
+  render: ({ data, onCreate, onUpdate, onDelete, ...args }) => {
+    const [currData] = useState<DataType>(data);
+    return <ModelForm onDelete={onDelete} data={currData} {...args} />;
+  },
+};
+
 // export const NoFields: Story = {
 //   args: {
 //     fields: [],
