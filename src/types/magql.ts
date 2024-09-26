@@ -30,10 +30,10 @@ export interface TableView {
 }
 
 export enum ScalarType {
-  ID = "ID",
-  STRING = "String",
-  INT = "Int",
-  FLOAT = "Float",
-  DATETIME = "DateTime",
-  BOOLEAN = "Boolean",
+  ID = 'ID',
+  STRING = 'String',
+  INT = 'Int',
+  FLOAT = 'Float',
+  DATETIME = 'DateTime',
+  BOOLEAN = 'Boolean',
 }

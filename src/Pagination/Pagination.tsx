@@ -1,26 +1,26 @@
-import { useState, type ComponentProps } from "react";
+import { type ComponentProps, useState } from 'react';
 
-import { cn } from "@/lib/utils";
-import type { TableView } from "@/types";
+import { cn } from '@/lib/utils';
+import type { TableView } from '@/types';
 
-import * as Shadcn from "../lib/components/ui/pagination";
-import { SelectInput } from "@/BasicInputs";
+import { SelectInput } from '@/BasicInputs';
+import * as Shadcn from '../lib/components/ui/pagination';
 export interface PaginationProps
   extends ComponentProps<typeof Shadcn.Pagination>,
-    Pick<TableView, "page"> {
+    Pick<TableView, 'page'> {
   totalDataLength?: number;
-  perPage?: TableView["perPage"];
+  perPage?: TableView['perPage'];
   maxPageButtonLimit?: number; // The max number of page btns to show at a time
-  onPageChange: (newPage: TableView["page"]) => void;
-  onPerPageChange?: (newPerPage: TableView["perPage"]) => void;
+  onPageChange: (newPage: TableView['page']) => void;
+  onPerPageChange?: (newPerPage: TableView['perPage']) => void;
 }
 
 const PER_PAGE_VALUES = [
-  { value: 5, label: "5" },
-  { value: 10, label: "10" },
-  { value: 25, label: "25" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
+  { value: 5, label: '5' },
+  { value: 10, label: '10' },
+  { value: 25, label: '25' },
+  { value: 50, label: '50' },
+  { value: 100, label: '100' },
 ];
 
 export const Pagination = ({
@@ -34,17 +34,17 @@ export const Pagination = ({
   ...paginationProps
 }: PaginationProps) => {
   if (totalDataLength < 0) {
-    throw new Error("totalDataLength cannot be a negative number.");
+    throw new Error('totalDataLength cannot be a negative number.');
   }
 
   if (page < 1) {
-    throw new Error("page must be a positive number.");
+    throw new Error('page must be a positive number.');
   }
   if (perPage < 1) {
-    throw new Error("perPage must be a positive number.");
+    throw new Error('perPage must be a positive number.');
   }
   if (maxPageButtonLimit < 1) {
-    throw new Error("maxPageButtonLimit must be a positive number.");
+    throw new Error('maxPageButtonLimit must be a positive number.');
   }
 
   if (!totalDataLength) {
@@ -65,7 +65,7 @@ export const Pagination = ({
   }
 
   return (
-    <Shadcn.Pagination className={cn("py-2", className)} {...paginationProps}>
+    <Shadcn.Pagination className={cn('py-2', className)} {...paginationProps}>
       <Shadcn.PaginationContent>
         {/* Items per page */}
         <Shadcn.PaginationItem>
