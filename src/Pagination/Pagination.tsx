@@ -62,7 +62,7 @@ export const Pagination = ({
   // highest page of the page set we are on
   const upperBoundPage = Math.min(
     currentPageSet * maxPageButtonLimit,
-    totalPages
+    totalPages,
   );
 
   if (page > totalPages || page < 1) {
