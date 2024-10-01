@@ -20,7 +20,7 @@ export const ScrollAreaWrapper = ({
   children,
 }: ScrollAreaWrapperProps) => {
   const ref = useRef<ElementRef<typeof ScrollArea> | null>(null);
-  
+
   const lastElementChild = ref.current?.lastElementChild;
   const scrollWidth = lastElementChild?.scrollWidth;
   const clientWidth = lastElementChild?.clientWidth;
