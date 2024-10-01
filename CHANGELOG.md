@@ -1,3 +1,6 @@
+## 1.5.2 
+- `bugfix`: Fixed `label` in `fieldOptions` not showing up on `ModelForm`.
+
 ## 1.5.1
 - `bugfix`: `SelectInput`'s options now allow any DataType for its options to utilize the `getOptionLabel` and `getOptionValue` props. The options passed into `fieldOptions` for `ModelTable/ModelForm` can be accessed from the form control by `selectoptions`. 
 
