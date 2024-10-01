@@ -9,7 +9,7 @@ import { SelectInput } from './SelectInput';
 export const ModelItemInput = forwardRef<
   ElementRef<typeof SelectInput>,
   ComponentPropsWithoutRef<typeof SelectInput>
->(({ value, onChange, ...selectInputProps }, ref) => {
+>(({ value, onChange, selectoptions, options, ...selectInputProps }, ref) => {
   return (
     <SelectInput
       ref={ref}
@@ -17,6 +17,7 @@ export const ModelItemInput = forwardRef<
       onChange={(newValue) =>
         onChange?.({ id: newValue.value, _display_value: newValue.label })
       }
+      options={options ?? selectoptions}
       {...selectInputProps}
     />
   );

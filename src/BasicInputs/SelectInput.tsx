@@ -14,7 +14,7 @@ export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
   PropsWithoutRef<FormControlChildProps> &
     ComponentPropsWithoutRef<typeof Select>
->(({ disabled, className, ...props }, ref) => {
+>(({ disabled, className, selectoptions, options, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -115,6 +115,7 @@ export const SelectInput = forwardRef<
         classNames={defaultStyling}
         menuPortalTarget={document.body}
         isDisabled={disabled}
+        options={options ?? selectoptions}
         {...props}
       />
     </div>
