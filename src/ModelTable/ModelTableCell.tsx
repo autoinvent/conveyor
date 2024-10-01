@@ -87,7 +87,7 @@ export const ModelTableCell = ({
               <Lens lens={DataLens.INPUT}>
                 <FormControl
                   name={field}
-                  options={valueOptions}
+                  selectoptions={valueOptions}
                   rules={{
                     required: required && `${label} is required.`,
                     ...rules,
