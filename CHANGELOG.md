@@ -1,3 +1,6 @@
+## 1.5.1
+- `bugfix`: `SelectInput`'s options now allow any DataType for its options to utilize the `getOptionLabel` and `getOptionValue` props. The options passed into `fieldOptions` for `ModelTable/ModelForm` can be accessed from the form control by `selectoptions`. 
+
 ## 1.5.0
 - `feature`: `CreatableSelectInput` exposes the `CreatableSelect` from **react-select**.
 - `bugfix`: Table column resizing no longer affects other columns and work as intended.
