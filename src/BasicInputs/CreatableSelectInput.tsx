@@ -108,7 +108,12 @@ export const CreatableSelectInput = forwardRef<
         className,
       )}
     >
-      <Creatable unstyled classNames={defaultStyling} {...props} options={options ?? selectoptions} />
+      <Creatable
+        unstyled
+        classNames={defaultStyling}
+        {...props}
+        options={options ?? selectoptions}
+      />
     </div>
   );
 });
