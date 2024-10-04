@@ -13,9 +13,9 @@ export const ModelItemInput = forwardRef<
   return (
     <SelectInput
       ref={ref}
-      value={{ label: value?._display_value ?? 'None', value: value?.id ?? '' }}
+      value={{ label: value?.displayValue ?? 'None', value: value?.id ?? '' }}
       onChange={(newValue) =>
-        onChange?.({ id: newValue.value, _display_value: newValue.label })
+        onChange?.({ id: newValue.value, displayValue: newValue.label })
       }
       options={options ?? selectoptions}
       {...selectInputProps}

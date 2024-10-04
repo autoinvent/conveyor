@@ -48,7 +48,7 @@ const meta = {
     data: {
       id: '1',
       message: 'Make Table Scrollable',
-      user: { id: '00000001', _display_value: 'robxbob' },
+      user: { id: '00000001', displayValue: 'robxbob' },
       created_at: '2024-07-10T01:56:34.926365',
       points: 1,
       done: true,
