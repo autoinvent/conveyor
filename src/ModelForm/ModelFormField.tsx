@@ -50,7 +50,9 @@ export const ModelFormField = ({
       <div className={cn('flex flex-col space-y-2', className)} {...divProps}>
         {children === undefined ? (
           <>
-            <FormLabel name={field} required={required} />
+            <FormLabel name={field} required={required}>
+              {label}
+            </FormLabel>
             {editable ? (
               <>
                 <Lens lens={DataLens.DISPLAY}>

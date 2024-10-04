@@ -113,7 +113,6 @@ export const SelectInput = forwardRef<
         ref={ref}
         unstyled
         classNames={defaultStyling}
-        menuPortalTarget={document.body}
         isDisabled={disabled}
         options={options ?? selectoptions}
         {...props}
