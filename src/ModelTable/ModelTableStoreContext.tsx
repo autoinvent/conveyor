@@ -20,6 +20,8 @@ export interface ColumnOptions extends FieldOptions {
   hidable?: boolean;
   resizable?: boolean;
   width?: number; // content width of the cell
+  inputProps?: DataType;
+  displayProps?: DataType;
 }
 
 export interface TableOptions<F extends string> {
