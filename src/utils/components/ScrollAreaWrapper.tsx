@@ -20,7 +20,7 @@ export const ScrollAreaWrapper = ({
   children,
 }: ScrollAreaWrapperProps) => {
   const ref = useRef<ElementRef<typeof ScrollArea> | null>(null);
-  
+
   const lastElementChild = ref.current?.lastElementChild;
   const scrollWidth = lastElementChild?.scrollWidth;
   const clientWidth = lastElementChild?.clientWidth;
@@ -30,15 +30,9 @@ export const ScrollAreaWrapper = ({
     if (!lastElementChild || !scrollWidth || !clientWidth) return;
 
     const observer = new ResizeObserver(() => {
-      if (
-        scrollWidth > clientWidth &&
-        !isOverflow 
-      ) {
-        setIsOverflow(true); 
-      } else if (
-        scrollWidth <= clientWidth &&
-        isOverflow
-      ) {
+      if (scrollWidth > clientWidth && !isOverflow) {
+        setIsOverflow(true);
+      } else if (scrollWidth <= clientWidth && isOverflow) {
         setIsOverflow(false);
       }
     });

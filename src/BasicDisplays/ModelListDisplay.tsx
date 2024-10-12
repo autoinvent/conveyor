@@ -16,8 +16,9 @@ export const ModelListDisplay = ({
   className,
   ...props
 }: ModelListDisplayProps) => {
-
-  const modelList = value.map((val: ReactNode) => getDisplayValue(val)).join(', ');
+  const modelList = value
+    .map((val: ReactNode) => getDisplayValue(val))
+    .join(', ');
 
   return (
     <span className={cn('whitespace-pre-wrap', className)} {...props}>
@@ -25,4 +26,3 @@ export const ModelListDisplay = ({
     </span>
   );
 };
-
