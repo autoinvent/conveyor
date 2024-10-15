@@ -50,7 +50,9 @@ export const ModelFormField = ({
       <div className={cn('flex flex-col space-y-2', className)} {...divProps}>
         {children === undefined ? (
           <>
-            <FormLabel name={field} required={required} />
+            <FormLabel name={field} required={required}>
+              {label}
+            </FormLabel>
             {editable ? (
               <>
                 <Lens lens={DataLens.DISPLAY}>
@@ -61,7 +63,7 @@ export const ModelFormField = ({
                 <Lens lens={DataLens.INPUT}>
                   <FormControl
                     name={field}
-                    options={valueOptions}
+                    selectoptions={valueOptions}
                     rules={{
                       required: required && `${label} is required.`,
                       ...rules,

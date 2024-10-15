@@ -48,7 +48,7 @@ const meta = {
     data: {
       id: '1',
       message: 'Make Table Scrollable',
-      user: { id: '00000001', _display_value: 'robxbob' },
+      user: { id: '00000001', displayValue: 'robxbob' },
       created_at: '2024-07-10T01:56:34.926365',
       points: 1,
       done: true,
@@ -85,6 +85,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const BasicUsage: Story = {};
+
+export const OnUpdateIsUndefined: Story = {
+  render: ({ data, onCreate, onUpdate, onDelete, ...args }) => {
+    const [currData] = useState<DataType>(data);
+    return <ModelForm onDelete={onDelete} data={currData} {...args} />;
+  },
+};
 
 // export const NoFields: Story = {
 //   args: {

@@ -9,14 +9,15 @@ import { SelectInput } from './SelectInput';
 export const ModelItemInput = forwardRef<
   ElementRef<typeof SelectInput>,
   ComponentPropsWithoutRef<typeof SelectInput>
->(({ value, onChange, ...selectInputProps }, ref) => {
+>(({ value, onChange, selectoptions, options, ...selectInputProps }, ref) => {
   return (
     <SelectInput
       ref={ref}
-      value={{ label: value?._display_value ?? 'None', value: value?.id ?? '' }}
+      value={{ label: value?.displayValue ?? 'None', value: value?.id ?? '' }}
       onChange={(newValue) =>
-        onChange?.({ id: newValue.value, _display_value: newValue.label })
+        onChange?.({ id: newValue.value, displayValue: newValue.label })
       }
+      options={options ?? selectoptions}
       {...selectInputProps}
     />
   );

@@ -11,7 +11,7 @@ import type { SelectOption } from '@/types';
 import { useFormStore } from './useFormStore';
 
 export interface FormControlProps extends Omit<UseControllerProps, 'control'> {
-  options?: SelectOption[];
+  selectoptions?: SelectOption[];
   children: ReactNode;
 }
 
@@ -22,12 +22,12 @@ export interface FormControlChildProps
   'aria-describedby'?: string;
   'aria-invalid'?: boolean;
   'aria-disabled'?: boolean;
-  options?: SelectOption[];
+  selectoptions?: SelectOption[];
 }
 
 export const FormControl = ({
   name,
-  options,
+  selectoptions,
   children,
   ...controllerProps
 }: FormControlProps) => {
@@ -44,7 +44,7 @@ export const FormControl = ({
   const slotProps = {
     ...field,
     disabled: isSubmitting,
-    options,
+    selectoptions,
   };
   return (
     <Slot
