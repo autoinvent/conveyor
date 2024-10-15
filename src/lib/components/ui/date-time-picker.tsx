@@ -15,11 +15,15 @@ import {
 import { TimePicker12Demo } from "./time-picker-12h";
  
 export interface Props {
-  currentDate?: Date
+  value?: string
 }
 
-export function DateTimePicker({ currentDate } : Props) {
-  const [date, setDate] = React.useState<Date|undefined>(currentDate || undefined);
+export function DateTimePicker({ value } : Props) {
+  const [date, setDate] = React.useState<Date|undefined>( 
+    value && !Number.isNaN(new Date(value)) 
+    ? new Date(value)
+    : undefined
+  );
  
   /**
    * carry over the current time when a user clicks a new day

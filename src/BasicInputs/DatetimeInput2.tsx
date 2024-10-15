@@ -10,9 +10,10 @@ import { DateTimePicker } from '@/lib/components/ui/date-time-picker';
   export const DatetimeInput2 = forwardRef<
     ElementRef<typeof DateTimePicker>,
     FormControlChildProps & ComponentPropsWithoutRef<typeof DateTimePicker>
-  >(({ value, className, ...inputProps }, ref) => {
+  >(({ value, ...inputProps }, ref) => {
+    console.log(value)
     return (
-      <DateTimePicker {...inputProps}/>
+      <DateTimePicker value={value} {...inputProps}/>
     );
   });
   
