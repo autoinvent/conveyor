@@ -1,7 +1,7 @@
 import {
   type ElementRef,
   type ReactNode,
-  useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
@@ -21,15 +21,15 @@ export const ScrollAreaWrapper = ({
 }: ScrollAreaWrapperProps) => {
   const ref = useRef<ElementRef<typeof ScrollArea> | null>(null);
 
-  const lastElementChild = ref.current?.lastElementChild;
-  const scrollWidth = lastElementChild?.scrollWidth;
-  const clientWidth = lastElementChild?.clientWidth;
-
   const [isOverflow, setIsOverflow] = useState(false);
-  useEffect(() => {
-    if (!lastElementChild || !scrollWidth || !clientWidth) return;
+
+  useLayoutEffect(() => {
+    const lastElementChild = ref.current?.lastElementChild;
+    if (!lastElementChild) return;
 
     const observer = new ResizeObserver(() => {
+      const scrollWidth = lastElementChild.scrollWidth;
+      const clientWidth = lastElementChild.clientWidth;
       if (scrollWidth > clientWidth && !isOverflow) {
         setIsOverflow(true);
       } else if (scrollWidth <= clientWidth && isOverflow) {
@@ -37,10 +37,11 @@ export const ScrollAreaWrapper = ({
       }
     });
     observer.observe(lastElementChild);
+
     return () => {
       observer.disconnect();
     };
-  }, [isOverflow, lastElementChild, scrollWidth, clientWidth]);
+  }, [isOverflow]);
 
   return scrollable ? (
     <ScrollArea className={cn(isOverflow && 'pb-2', className)} ref={ref}>
