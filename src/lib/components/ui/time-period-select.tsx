@@ -52,6 +52,7 @@ export const TimePeriodSelect = React.forwardRef<
   return (
     <div className="flex h-10 items-center">
       <Select
+        disabled={!date}
         defaultValue={period}
         onValueChange={(value: Period) => handleValueChange(value)}
       >
