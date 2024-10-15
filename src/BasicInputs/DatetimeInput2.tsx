@@ -11,7 +11,6 @@ import { DateTimePicker } from '@/lib/components/ui/date-time-picker';
     ElementRef<typeof DateTimePicker>,
     FormControlChildProps & ComponentPropsWithoutRef<typeof DateTimePicker>
   >(({ value, ...inputProps }, ref) => {
-    console.log(value)
     return (
       <DateTimePicker value={value} {...inputProps}/>
     );
