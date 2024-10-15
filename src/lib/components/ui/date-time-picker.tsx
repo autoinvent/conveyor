@@ -64,6 +64,15 @@ export function DateTimePicker({ value } : Props) {
         />
         <div className='border-border border-t p-3'>
           <TimePicker12Demo setDate={setDate} date={date} />
+          <div className='flex w-full flex-row pt-3'>
+            <Button onClick={() => setDate(new Date())}>
+              Today
+            </Button>
+            <div className="flex-1"/>
+            <Button onClick={() => setDate(undefined)}>
+              Clear
+            </Button>
+          </div>
         </div>
       </PopoverContent>
     </Popover>
