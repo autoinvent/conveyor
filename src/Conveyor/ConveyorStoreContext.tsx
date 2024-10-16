@@ -26,7 +26,6 @@ import {
 import type { FormControlChildProps, FormDisplayChildProps } from '@/Form';
 import { FieldType } from '@/types';
 import { deepObjectMerge } from '@/utils';
-import { DatetimeInput2 } from '@/BasicInputs/DatetimeInput2';
 
 export interface ConveyorState {
   typeOptions?: {
@@ -56,8 +55,7 @@ export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
     },
     [FieldType.DATETIME]: {
       DisplayComponent: DatetimeDisplay,
-      // InputComponent: DatetimeInput,
-      InputComponent: DatetimeInput2
+      InputComponent: DatetimeInput,
     },
     [FieldType.BOOLEAN]: {
       DisplayComponent: BooleanDisplay,

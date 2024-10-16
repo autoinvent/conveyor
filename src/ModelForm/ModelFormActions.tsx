@@ -41,6 +41,7 @@ export const ModelFormActions = ({
     const changedData = Object.fromEntries(
       Object.entries(formData).filter((entry) => dirtyFields[entry[0]]),
     );
+    console.log(changedData)
     await onSave?.({
       data: { ...defaultValues },
       changedData,
