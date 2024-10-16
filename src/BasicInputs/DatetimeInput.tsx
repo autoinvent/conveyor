@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../lib/components/ui/popover";
-import { type Granularity, TimePicker12Demo } from "../lib/components/ui/time-picker-12h";
+import { type Granularity, TimePicker12h, TimePicker24h } from "../lib/components/ui/time-picker";
 
 type DatetimeInputRef = {
   value?: string;
@@ -22,6 +22,7 @@ export interface DatetimeInputProps {
   value?: string;
   onChange?: (date: string | undefined) => void;
   granularity?: Granularity;
+  hourCycle?: 12 | 24
 }
 
 export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, DatetimeInputProps>(
@@ -30,6 +31,7 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
       value,
       onChange,
       granularity = "Second",
+      hourCycle = 12,
       ...props
     },
     ref
@@ -72,11 +74,13 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
       onChange?.(String(newDay))
     };
 
-    const formatRecord : Record<Granularity,string> = {
-      Day: "PPP",
-      Hour: "PPP hh a",
-      Minute: "PPP hh:mm a",
-      Second: "PPP hh:mm:ss a",
+    const getFormatStyle = () => {
+      switch (granularity) {
+        case "Day": return "PPP";
+        case "Hour": return hourCycle === 12 ? "PPP ha" : "PPP HH:00";
+        case "Minute": return hourCycle === 12 ? "PPP h:mm a": "PPP HH:mm";
+        case "Second": return hourCycle === 12 ? "PPP h:mm:ss a": "PPP HH:mm:ss";
+      }
     }
    
     return (
@@ -91,7 +95,7 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
             ref={buttonRef}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, formatRecord[granularity]) : <span>Pick a date</span>}
+            {date ? format(date, getFormatStyle()) : <span>Pick a date</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
@@ -103,7 +107,11 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
             {...props}
           />
           <div className='border-border border-t p-3'>
-            <TimePicker12Demo setDate={setDate} date={date} granularity={granularity}/>
+            {
+              hourCycle === 12 ?
+              <TimePicker12h setDate={setDate} date={date} granularity={granularity}/> :
+              <TimePicker24h setDate={setDate} date={date} granularity={granularity}/>
+            }
             <div className='flex w-full flex-row pt-3'>
               <Button onClick={() => { 
                 const newDate = new Date();

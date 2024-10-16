@@ -8,14 +8,14 @@ import type { Period } from "./time-picker-utils";
  
 export type Granularity = "Day" | "Hour" | "Minute" | "Second";
 
-export interface TimePickerDemoProps {
+export interface TimePickerProps {
   date: Date | undefined;
   setDate: (date: Date | undefined) => void;
   granularity : Granularity;
 }
 
  
-export function TimePicker12Demo({ date, setDate, granularity }: TimePickerDemoProps) {
+export function TimePicker12h({ date, setDate, granularity }: TimePickerProps) {
   const [period, setPeriod] = React.useState<Period>(date && date?.getHours() >= 12 ? "PM" : "AM");
  
   const minuteRef = React.useRef<HTMLInputElement>(null);
@@ -88,6 +88,60 @@ export function TimePicker12Demo({ date, setDate, granularity }: TimePickerDemoP
           onLeftFocus={() => secondRef.current?.focus()}
         />
       </div>
+    </div>
+  );
+}
+
+export function TimePicker24h({ date, setDate, granularity }: TimePickerProps) {
+  const minuteRef = React.useRef<HTMLInputElement>(null);
+  const hourRef = React.useRef<HTMLInputElement>(null);
+  const secondRef = React.useRef<HTMLInputElement>(null);
+ 
+  return (
+    <div className="flex items-end gap-2">
+      <div className="grid gap-1 text-center">
+        <Label htmlFor="hours" className="text-xs">
+          Hours
+        </Label>
+        <TimePickerInput
+          picker="hours"
+          date={date}
+          setDate={setDate}
+          ref={hourRef}
+          onRightFocus={() => minuteRef.current?.focus()}
+        />
+      </div>
+      {
+        granularity === "Second" || granularity === "Minute" ?
+        <div className="grid gap-1 text-center">
+          <Label htmlFor="minutes" className="text-xs">
+            Minutes
+          </Label>
+          <TimePickerInput
+            picker="minutes"
+            date={date}
+            setDate={setDate}
+            ref={minuteRef}
+            onLeftFocus={() => hourRef.current?.focus()}
+            onRightFocus={() => secondRef.current?.focus()}
+          />
+        </div> : <></>
+      }
+      {
+        granularity === "Second" ?
+        <div className="grid gap-1 text-center">
+          <Label htmlFor="seconds" className="text-xs">
+            Seconds
+          </Label>
+          <TimePickerInput
+            picker="seconds"
+            date={date}
+            setDate={setDate}
+            ref={secondRef}
+            onLeftFocus={() => minuteRef.current?.focus()}
+          />
+        </div> : <></>
+      }
     </div>
   );
 }

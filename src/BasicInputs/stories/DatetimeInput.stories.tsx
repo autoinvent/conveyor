@@ -6,8 +6,9 @@ const meta = {
   tags: ['autodocs'],
   component: DatetimeInput,
   args: {
-    value: '2024-07-10T01:00:00',
-    granularity: "Second"
+    value: '2024-07-10T23:12:34',
+    granularity: "Minute",
+    hourCycle: 12
   }
 } satisfies Meta<typeof DatetimeInput>;
 export default meta;
