@@ -12,15 +12,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../lib/components/ui/popover";
-import { TimePicker12Demo } from "../lib/components/ui/time-picker-12h";
+import { type Granularity, TimePicker12Demo } from "../lib/components/ui/time-picker-12h";
 
 type DatetimeInputRef = {
   value?: string;
 } & Omit<HTMLButtonElement, 'value'>;
 
 export interface DatetimeInputProps {
-  value?: string
+  value?: string;
   onChange?: (date: string | undefined) => void;
+  granularity?: Granularity;
 }
 
 export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, DatetimeInputProps>(
@@ -28,6 +29,7 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
     {
       value,
       onChange,
+      granularity = "Second",
       ...props
     },
     ref
@@ -69,6 +71,13 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
       setDate(newDateFull);
       onChange?.(String(newDay))
     };
+
+    const formatRecord : Record<Granularity,string> = {
+      Day: "PPP",
+      Hour: "PPP hh a",
+      Minute: "PPP hh:mm a",
+      Second: "PPP hh:mm:ss a",
+    }
    
     return (
       <Popover>
@@ -82,7 +91,7 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
             ref={buttonRef}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, "PPP hh:mm:ss a") : <span>Pick a date</span>}
+            {date ? format(date, formatRecord[granularity]) : <span>Pick a date</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
@@ -94,9 +103,13 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
             {...props}
           />
           <div className='border-border border-t p-3'>
-            <TimePicker12Demo setDate={setDate} date={date} />
+            <TimePicker12Demo setDate={setDate} date={date} granularity={granularity}/>
             <div className='flex w-full flex-row pt-3'>
-              <Button onClick={() => handleSelect(new Date())}>
+              <Button onClick={() => { 
+                const newDate = new Date();
+                setDate(newDate); 
+                onChange?.(String(newDate))
+              }}>
                 Today
               </Button>
               <div className="flex-1"/>

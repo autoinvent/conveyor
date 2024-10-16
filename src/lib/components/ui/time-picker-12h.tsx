@@ -6,12 +6,16 @@ import { TimePickerInput } from "./time-picker-input";
 import { TimePeriodSelect } from "./time-period-select";
 import type { Period } from "./time-picker-utils";
  
-interface TimePickerDemoProps {
+export type Granularity = "Day" | "Hour" | "Minute" | "Second";
+
+export interface TimePickerDemoProps {
   date: Date | undefined;
   setDate: (date: Date | undefined) => void;
+  granularity : Granularity;
 }
+
  
-export function TimePicker12Demo({ date, setDate }: TimePickerDemoProps) {
+export function TimePicker12Demo({ date, setDate, granularity }: TimePickerDemoProps) {
   const [period, setPeriod] = React.useState<Period>(date && date?.getHours() >= 12 ? "PM" : "AM");
  
   const minuteRef = React.useRef<HTMLInputElement>(null);
@@ -19,6 +23,8 @@ export function TimePicker12Demo({ date, setDate }: TimePickerDemoProps) {
   const secondRef = React.useRef<HTMLInputElement>(null);
   const periodRef = React.useRef<HTMLButtonElement>(null);
  
+  if (granularity === "Day") return <></>
+
   return (
     <div className="flex items-end gap-2">
       <div className="grid gap-1 text-center">
@@ -34,34 +40,40 @@ export function TimePicker12Demo({ date, setDate }: TimePickerDemoProps) {
           onRightFocus={() => minuteRef.current?.focus()}
         />
       </div>
-      <div className="grid gap-1 text-center">
-        <Label htmlFor="minutes" className="text-xs">
-          Minutes
-        </Label>
-        <TimePickerInput
-          picker="minutes"
-          id="minutes12"
-          date={date}
-          setDate={setDate}
-          ref={minuteRef}
-          onLeftFocus={() => hourRef.current?.focus()}
-          onRightFocus={() => secondRef.current?.focus()}
-        />
-      </div>
-      <div className="grid gap-1 text-center">
-        <Label htmlFor="seconds" className="text-xs">
-          Seconds
-        </Label>
-        <TimePickerInput
-          picker="seconds"
-          id="seconds12"
-          date={date}
-          setDate={setDate}
-          ref={secondRef}
-          onLeftFocus={() => minuteRef.current?.focus()}
-          onRightFocus={() => periodRef.current?.focus()}
-        />
-      </div>
+      {
+        granularity === "Second" || granularity === "Minute" ?
+        <div className="grid gap-1 text-center">
+          <Label htmlFor="minutes" className="text-xs">
+            Minutes
+          </Label>
+          <TimePickerInput
+            picker="minutes"
+            id="minutes12"
+            date={date}
+            setDate={setDate}
+            ref={minuteRef}
+            onLeftFocus={() => hourRef.current?.focus()}
+            onRightFocus={() => secondRef.current?.focus()}
+          />
+        </div> : <></>
+      }
+      {
+        granularity === "Second" ? 
+        <div className="grid gap-1 text-center">
+          <Label htmlFor="seconds" className="text-xs">
+            Seconds
+          </Label>
+          <TimePickerInput
+            picker="seconds"
+            id="seconds12"
+            date={date}
+            setDate={setDate}
+            ref={secondRef}
+            onLeftFocus={() => minuteRef.current?.focus()}
+            onRightFocus={() => periodRef.current?.focus()}
+          />
+        </div> : <></>
+      }
       <div className="flex-1"/>
       <div className="grid gap-1 text-center">
         <Label htmlFor="period" className="text-xs">
