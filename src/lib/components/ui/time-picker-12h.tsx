@@ -62,6 +62,7 @@ export function TimePicker12Demo({ date, setDate }: TimePickerDemoProps) {
           onRightFocus={() => periodRef.current?.focus()}
         />
       </div>
+      <div className="flex-1"/>
       <div className="grid gap-1 text-center">
         <Label htmlFor="period" className="text-xs">
           Period
