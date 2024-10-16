@@ -53,7 +53,11 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
      * instead of resetting to 00:00
      */
     const handleSelect = (newDay: Date | undefined) => {
-      if (!newDay) return;
+      if (!newDay) {
+        setDate(undefined); 
+        onChange?.(undefined);
+        return;
+      }
       if (!date) {
         setDate(newDay);
         onChange?.(String(newDay))
@@ -92,11 +96,11 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
           <div className='border-border border-t p-3'>
             <TimePicker12Demo setDate={setDate} date={date} />
             <div className='flex w-full flex-row pt-3'>
-              <Button onClick={() => setDate(new Date())}>
+              <Button onClick={() => handleSelect(new Date())}>
                 Today
               </Button>
               <div className="flex-1"/>
-              <Button onClick={() => setDate(undefined)}>
+              <Button onClick={() => handleSelect(undefined)}>
                 Clear
               </Button>
             </div>
