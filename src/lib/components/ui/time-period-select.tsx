@@ -50,7 +50,7 @@ export const TimePeriodSelect = React.forwardRef<
   };
 
   return (
-    <div className="flex h-10 items-center">
+    <div className="flex h-full items-center">
       <Select
         disabled={!date}
         defaultValue={period}
@@ -58,7 +58,7 @@ export const TimePeriodSelect = React.forwardRef<
       >
         <SelectTrigger
           ref={ref}
-          className="w-[65px] focus:bg-accent focus:text-accent-foreground"
+          className='h-[42px] w-[65px] focus:bg-accent focus:text-accent-foreground'
           onKeyDown={handleKeyDown}
         >
           <SelectValue />
