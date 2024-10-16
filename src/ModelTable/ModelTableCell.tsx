@@ -42,10 +42,10 @@ export const ModelTableCell = ({
     (state) => state.columnOptions?.[field]?.valueOptions ?? [],
   );
   const inputProps = useModelTableStore(
-    (state) => state.columnOptions?.[field]?.inputProps
+    (state) => state.columnOptions?.[field]?.inputProps,
   );
   const displayProps = useModelTableStore(
-    (state) => state.columnOptions?.[field]?.displayProps
+    (state) => state.columnOptions?.[field]?.displayProps,
   );
   const DisplayComponent = useConveyorStore(
     (state) => state.typeOptions?.[type]?.DisplayComponent ?? (() => null),
@@ -87,7 +87,7 @@ export const ModelTableCell = ({
             <>
               <Lens lens={DataLens.DISPLAY}>
                 <FormDisplay name={field}>
-                  <DisplayComponent {...displayProps}/>
+                  <DisplayComponent {...displayProps} />
                 </FormDisplay>
               </Lens>
               <Lens lens={DataLens.INPUT}>
@@ -99,13 +99,13 @@ export const ModelTableCell = ({
                     ...rules,
                   }}
                 >
-                  <InputComponent {...inputProps}/>
+                  <InputComponent {...inputProps} />
                 </FormControl>
               </Lens>
             </>
           ) : (
             <FormDisplay name={field}>
-              <DisplayComponent {...displayProps}/>
+              <DisplayComponent {...displayProps} />
             </FormDisplay>
           )
         ) : (
