@@ -41,6 +41,9 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
       ? new Date(value)
       : undefined
     );
+    React.useEffect( () => { 
+      onChange?.(date ? String(date) : undefined);
+    }, [date, onChange])
     const buttonRef = React.useRef<HTMLButtonElement>(null);
 
     React.useImperativeHandle(
@@ -57,21 +60,12 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
      * instead of resetting to 00:00
      */
     const handleSelect = (newDay: Date | undefined) => {
-      if (!newDay) {
-        setDate(undefined); 
-        onChange?.(undefined);
-        return;
-      }
-      if (!date) {
-        setDate(newDay);
-        onChange?.(String(newDay))
-        return;
-      }
+      if (!newDay || !date) return setDate(newDay); 
+
       const diff = newDay.getTime() - date.getTime();
       const diffInDays = diff / (1000 * 60 * 60 * 24);
       const newDateFull = add(date, { days: Math.ceil(diffInDays) });
       setDate(newDateFull);
-      onChange?.(String(newDay))
     };
 
     const getFormatStyle = () => {
