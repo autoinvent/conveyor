@@ -107,16 +107,12 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
               <TimePicker24h setDate={setDate} date={date} granularity={granularity}/>
             }
             <div className='flex w-full flex-row pt-3'>
-              <Button onClick={() => { 
-                const newDate = new Date();
-                setDate(newDate); 
-                onChange?.(String(newDate))
-              }}>
-                Today
+              <Button variant="link" onClick={() => setDate(undefined)} className='p-2'>
+                Clear
               </Button>
               <div className="flex-1"/>
-              <Button onClick={() => handleSelect(undefined)}>
-                Clear
+              <Button variant="link" onClick={() => setDate(new Date())} className='p-2'>
+                Today
               </Button>
             </div>
           </div>
