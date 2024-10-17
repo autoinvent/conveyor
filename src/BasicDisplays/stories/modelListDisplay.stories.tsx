@@ -19,3 +19,18 @@ export const BasicUsage: Story = {
     ],
   },
 };
+
+export const getDisplayValue: Story = {
+  args: {
+    getDisplayValue: (value) => (
+      <span key={value._display_value} className="bg-red-200">
+        {value._display_value}
+      </span>
+    ),
+    value: [
+      { _display_value: 'forest' },
+      { _display_value: 'waterfall' },
+      { _display_value: 'boulder' },
+    ],
+  },
+};
