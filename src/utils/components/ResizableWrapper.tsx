@@ -16,7 +16,7 @@ export const ResizableWrapper = ({
   const [isResizing, setIsResizing] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [deltaX, setDeltaX] = useState(0);
-  const [, setlastDeltaX] = useState(0);
+  const [lastDeltaX, setlastDeltaX] = useState(0);
   const [currentWidth, setCurrentWidth] = useState(width);
   const ref = useRef<HTMLDivElement>(null);
   let scrollParent = null
@@ -28,27 +28,23 @@ export const ResizableWrapper = ({
     const onMouseMove = (e: MouseEvent) => {
       setlastDeltaX(deltaX);
       setDeltaX(e.clientX - clientX);
-      // console.log("Event: " + e.clientX);
-      // console.log("client: " + clientX);
-      // console.log("Delta: " + deltaX);
-      
-    };
-    // console.log("lastDelta:" + lastDeltaX)
-    // if(scrollParent){
-    //   //console.log(scrollParent.clientWidth);
-    //   scrollParent.scrollBy({
-    //     left: deltaX,
-    //     behavior: "smooth"
-    //   })
-    // }
-    const onMouseUp = () => {
+      console.log("---------------------")
+      console.log("Event: " + e.clientX);
+      console.log("client: " + clientX);
+      console.log("Delta: " + deltaX);
+      console.log("lastDelta:" + lastDeltaX)
+      console.log("current delta - last delta: " + (deltaX - lastDeltaX))
       if(scrollParent){
         //console.log(scrollParent.clientWidth);
-        scrollParent.scrollBy({
-          left: deltaX,
+        scrollParent.scroll({
+          left: e.pageX,
           behavior: "smooth"
         })
       }
+    };
+    
+    
+    const onMouseUp = () => {
       let newWidth = currentWidth + deltaX;
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
