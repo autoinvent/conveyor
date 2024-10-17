@@ -1,13 +1,13 @@
 import {
-  closestCenter,
   type Collision,
   CollisionDescriptor,
   type CollisionDetection,
   DndContext,
   type DragEndEvent,
   MouseSensor,
-  rectIntersection,
   TouchSensor,
+  closestCenter,
+  rectIntersection,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
