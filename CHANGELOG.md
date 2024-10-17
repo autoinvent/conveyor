@@ -1,3 +1,7 @@
+## 1.6.0
+- `package`: upgraded all packages.
+- `
+
 ## 1.5.2 
 - `bugfix`: Fixed `label` in `fieldOptions` not showing up on `ModelForm`.
 - `enhancement`: Removed default `menuPortalTarget` prop from `SelectInput`.
