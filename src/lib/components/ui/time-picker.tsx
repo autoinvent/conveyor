@@ -1,29 +1,30 @@
-"use client";
- 
-import * as React from "react";
-import { Label } from "./label";
-import { TimePickerInput } from "./time-picker-input";
-import { TimePeriodSelect } from "./time-period-select";
-import type { Period } from "./time-picker-utils";
- 
-export type Granularity = "Day" | "Hour" | "Minute" | "Second";
+'use client';
+
+import * as React from 'react';
+import { Label } from './label';
+import { TimePeriodSelect } from './time-period-select';
+import { TimePickerInput } from './time-picker-input';
+import type { Period } from './time-picker-utils';
+
+export type Granularity = 'Day' | 'Hour' | 'Minute' | 'Second';
 
 export interface TimePickerProps {
   date: Date | undefined;
   setDate: (date: Date | undefined) => void;
-  granularity : Granularity;
+  granularity: Granularity;
 }
 
- 
 export function TimePicker12h({ date, setDate, granularity }: TimePickerProps) {
-  const [period, setPeriod] = React.useState<Period>(date && date?.getHours() >= 12 ? "PM" : "AM");
- 
+  const [period, setPeriod] = React.useState<Period>(
+    date && date?.getHours() >= 12 ? 'PM' : 'AM',
+  );
+
   const minuteRef = React.useRef<HTMLInputElement>(null);
   const hourRef = React.useRef<HTMLInputElement>(null);
   const secondRef = React.useRef<HTMLInputElement>(null);
   const periodRef = React.useRef<HTMLButtonElement>(null);
- 
-  if (granularity === "Day") return <></>
+
+  if (granularity === 'Day') return <></>;
 
   return (
     <div className="flex items-end gap-2">
@@ -40,8 +41,7 @@ export function TimePicker12h({ date, setDate, granularity }: TimePickerProps) {
           onRightFocus={() => minuteRef.current?.focus()}
         />
       </div>
-      {
-        granularity === "Second" || granularity === "Minute" ?
+      {granularity === 'Second' || granularity === 'Minute' ? (
         <div className="grid gap-1 text-center">
           <Label htmlFor="minutes" className="text-xs">
             Minutes
@@ -55,10 +55,11 @@ export function TimePicker12h({ date, setDate, granularity }: TimePickerProps) {
             onLeftFocus={() => hourRef.current?.focus()}
             onRightFocus={() => secondRef.current?.focus()}
           />
-        </div> : <></>
-      }
-      {
-        granularity === "Second" ? 
+        </div>
+      ) : (
+        <></>
+      )}
+      {granularity === 'Second' ? (
         <div className="grid gap-1 text-center">
           <Label htmlFor="seconds" className="text-xs">
             Seconds
@@ -72,9 +73,11 @@ export function TimePicker12h({ date, setDate, granularity }: TimePickerProps) {
             onLeftFocus={() => minuteRef.current?.focus()}
             onRightFocus={() => periodRef.current?.focus()}
           />
-        </div> : <></>
-      }
-      <div className="flex-1"/>
+        </div>
+      ) : (
+        <></>
+      )}
+      <div className="flex-1" />
       <div className="grid gap-1 text-center">
         <Label htmlFor="period" className="text-xs">
           Period
@@ -96,7 +99,7 @@ export function TimePicker24h({ date, setDate, granularity }: TimePickerProps) {
   const minuteRef = React.useRef<HTMLInputElement>(null);
   const hourRef = React.useRef<HTMLInputElement>(null);
   const secondRef = React.useRef<HTMLInputElement>(null);
- 
+
   return (
     <div className="flex items-end gap-2">
       <div className="grid gap-1 text-center">
@@ -111,8 +114,7 @@ export function TimePicker24h({ date, setDate, granularity }: TimePickerProps) {
           onRightFocus={() => minuteRef.current?.focus()}
         />
       </div>
-      {
-        granularity === "Second" || granularity === "Minute" ?
+      {granularity === 'Second' || granularity === 'Minute' ? (
         <div className="grid gap-1 text-center">
           <Label htmlFor="minutes" className="text-xs">
             Minutes
@@ -125,10 +127,11 @@ export function TimePicker24h({ date, setDate, granularity }: TimePickerProps) {
             onLeftFocus={() => hourRef.current?.focus()}
             onRightFocus={() => secondRef.current?.focus()}
           />
-        </div> : <></>
-      }
-      {
-        granularity === "Second" ?
+        </div>
+      ) : (
+        <></>
+      )}
+      {granularity === 'Second' ? (
         <div className="grid gap-1 text-center">
           <Label htmlFor="seconds" className="text-xs">
             Seconds
@@ -140,8 +143,10 @@ export function TimePicker24h({ date, setDate, granularity }: TimePickerProps) {
             ref={secondRef}
             onLeftFocus={() => minuteRef.current?.focus()}
           />
-        </div> : <></>
-      }
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
