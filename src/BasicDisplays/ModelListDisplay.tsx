@@ -16,10 +16,9 @@ export const ModelListDisplay = ({
   className,
   ...props
 }: ModelListDisplayProps) => {
-  const modelList = value.flatMap((val: ReactNode) => [
-    getDisplayValue(val),
-    ', ',
-  ]).slice(0,-1);
+  const modelList = value
+    .flatMap((val: ReactNode) => [getDisplayValue(val), ', '])
+    .slice(0, -1);
 
   return (
     <span className={cn('whitespace-pre-wrap', className)} {...props}>
