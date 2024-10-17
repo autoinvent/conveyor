@@ -10,7 +10,7 @@ export interface ModelItemDisplayProps extends FormDisplayChildProps {
 
 export const ModelItemDisplay = ({
   value,
-  getDisplayValue = (val) => val?._display_value ?? 'None',
+  getDisplayValue = (val) => val?.displayValue ?? 'None',
   className,
   ...props
 }: ModelItemDisplayProps) => {

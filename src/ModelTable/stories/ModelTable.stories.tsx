@@ -27,7 +27,7 @@ const meta = {
       {
         id: '1',
         message: 'Make Table Scrollable',
-        user: { id: '00000001', _display_value: 'robxbob' },
+        user: { id: '00000001', displayValue: 'robxbob' },
         created_at: '2024-07-10T01:56:34.926365',
         points: 1,
         done: true,
@@ -35,7 +35,7 @@ const meta = {
       {
         id: '2',
         message: 'Resizable Columns',
-        user: { id: '00000002', _display_value: 'nicklitvin' },
+        user: { id: '00000002', displayValue: 'nicklitvin' },
         created_at: '2024-08-01T01:56:34.926365',
         points: 3,
         done: false,
@@ -43,7 +43,7 @@ const meta = {
       {
         id: '3',
         message: 'Feature: Column DnD',
-        user: { id: '00000001', _display_value: 'robxbob' },
+        user: { id: '00000001', displayValue: 'robxbob' },
         created_at: '2024-07-29T01:56:34.926365',
         points: 4,
         done: true,
@@ -51,7 +51,7 @@ const meta = {
       {
         id: '4',
         message: 'Feature: React Select',
-        user: { id: '00000003', _display_value: 'cmacgray14' },
+        user: { id: '00000003', displayValue: 'cmacgray14' },
         created_at: '2024-08-14T01:56:34.926365',
         points: 2,
         done: false,

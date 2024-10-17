@@ -13,7 +13,7 @@ export const CreatableSelectInput = forwardRef<
   ElementRef<typeof Creatable>,
   PropsWithoutRef<FormControlChildProps> &
     ComponentPropsWithoutRef<typeof Creatable>
->(({ disabled, className, ...props }, ref) => {
+>(({ disabled, className, selectoptions, options, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Creatable>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -103,12 +103,17 @@ export const CreatableSelectInput = forwardRef<
   return (
     <div
       className={cn(
-        'rounded-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-2',
+        'rounded-md ring-offset-background focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
         disabled && 'cursor-not-allowed',
         className,
       )}
     >
-      <Creatable unstyled classNames={defaultStyling} {...props} />
+      <Creatable
+        unstyled
+        classNames={defaultStyling}
+        {...props}
+        options={options ?? selectoptions}
+      />
     </div>
   );
 });
