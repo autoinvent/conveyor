@@ -39,12 +39,19 @@ export const ModelFormField = ({
   const valueOptions = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.valueOptions ?? [],
   );
+  const inputProps = useModelFormStore(
+    (state) => state.fieldOptions?.[field]?.inputProps,
+  );
+  const displayProps = useModelFormStore(
+    (state) => state.fieldOptions?.[field]?.displayProps,
+  );
   const DisplayComponent = useConveyorStore(
     (state) => state.typeOptions?.[type]?.DisplayComponent ?? (() => null),
   );
   const InputComponent = useConveyorStore(
     (state) => state.typeOptions?.[type]?.InputComponent ?? (() => null),
   );
+
   return (
     <Slot slotKey={field}>
       <div className={cn('flex flex-col space-y-2', className)} {...divProps}>
@@ -57,7 +64,7 @@ export const ModelFormField = ({
               <>
                 <Lens lens={DataLens.DISPLAY}>
                   <FormDisplay name={field}>
-                    <DisplayComponent />
+                    <DisplayComponent {...displayProps} />
                   </FormDisplay>
                 </Lens>
                 <Lens lens={DataLens.INPUT}>
@@ -69,14 +76,14 @@ export const ModelFormField = ({
                       ...rules,
                     }}
                   >
-                    <InputComponent />
+                    <InputComponent {...inputProps} />
                   </FormControl>
                   <FormError name={field} />
                 </Lens>
               </>
             ) : (
               <FormDisplay name={field}>
-                <DisplayComponent />
+                <DisplayComponent {...displayProps} />
               </FormDisplay>
             )}
           </>

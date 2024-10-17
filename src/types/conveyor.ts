@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { RegisterOptions } from 'react-hook-form';
 
-import type { SelectOption } from './common';
+import type { DataType, SelectOption } from './common';
 import { ScalarType } from './magql';
 
 export interface FieldOptions {
@@ -15,6 +15,8 @@ export interface FieldOptions {
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
   valueOptions?: SelectOption[];
+  inputProps?: DataType;
+  displayProps?: DataType;
 }
 
 export enum NonScalarType {
