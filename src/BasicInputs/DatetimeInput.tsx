@@ -1,6 +1,6 @@
 "use client";
  
-import * as React from "react";
+import { useState, useEffect, useImperativeHandle, forwardRef, useRef } from "react"
 import { add, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
  
@@ -25,7 +25,7 @@ export interface DatetimeInputProps {
   hourCycle?: 12 | 24
 }
 
-export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, DatetimeInputProps>(
+export const DatetimeInput = forwardRef<Partial<DatetimeInputRef>, DatetimeInputProps>(
   (
     {
       value,
@@ -36,17 +36,17 @@ export const DatetimeInput = React.forwardRef<Partial<DatetimeInputRef>, Datetim
     },
     ref
   ) => {
-    const [date, setDate] = React.useState<Date|undefined>( 
+    const [date, setDate] = useState<Date|undefined>( 
       value && !Number.isNaN(new Date(value)) 
       ? new Date(value)
       : undefined
     );
-    React.useEffect( () => { 
+    useEffect( () => { 
       onChange?.(date ? String(date) : undefined);
     }, [date, onChange])
-    const buttonRef = React.useRef<HTMLButtonElement>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
-    React.useImperativeHandle(
+    useImperativeHandle(
       ref,
       () => ({
         ...buttonRef.current,
