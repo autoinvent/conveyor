@@ -1,3 +1,6 @@
+## 1.6.1
+`bugfix`: Export `ModelListDisplay` as part of conveyor.
+
 ## 1.6.0
 - `package`: upgraded all packages.
 - `feature`: added `inputProps` and `displayProps` to `FieldOptions` 
