@@ -27,16 +27,19 @@ import type { FormControlChildProps, FormDisplayChildProps } from '@/Form';
 import { FieldType } from '@/types';
 import { deepObjectMerge } from '@/utils';
 
-export interface ConveyorState {
+export interface ConveyorState<
+  DisplayComponentProps extends FormDisplayChildProps = any,
+  InputComponentProps extends FormControlChildProps = any,
+> {
   typeOptions?: {
     [type: string]: {
-      DisplayComponent?: ComponentType<FormDisplayChildProps>;
-      InputComponent?: ComponentType<FormControlChildProps>;
+      DisplayComponent?: ComponentType<DisplayComponentProps>;
+      InputComponent?: ComponentType<InputComponentProps>;
     };
   };
 }
 
-export const DEFAULT_CONVEYOR_STATE: ConveyorState = {
+export const DEFAULT_CONVEYOR_STATE = {
   typeOptions: {
     [FieldType.ID]: {
       DisplayComponent: RawDisplay,
