@@ -16,14 +16,39 @@ export const ResizableWrapper = ({
   const [isResizing, setIsResizing] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [deltaX, setDeltaX] = useState(0);
+  const [, setlastDeltaX] = useState(0);
   const [currentWidth, setCurrentWidth] = useState(width);
   const ref = useRef<HTMLDivElement>(null);
-
+  let scrollParent = null
+  if(ref.current){
+    scrollParent = getScrollParent(ref.current);
+  }
   useEffect(() => {
+    
     const onMouseMove = (e: MouseEvent) => {
+      setlastDeltaX(deltaX);
       setDeltaX(e.clientX - clientX);
+      // console.log("Event: " + e.clientX);
+      // console.log("client: " + clientX);
+      // console.log("Delta: " + deltaX);
+      
     };
+    // console.log("lastDelta:" + lastDeltaX)
+    // if(scrollParent){
+    //   //console.log(scrollParent.clientWidth);
+    //   scrollParent.scrollBy({
+    //     left: deltaX,
+    //     behavior: "smooth"
+    //   })
+    // }
     const onMouseUp = () => {
+      if(scrollParent){
+        //console.log(scrollParent.clientWidth);
+        scrollParent.scrollBy({
+          left: deltaX,
+          behavior: "smooth"
+        })
+      }
       let newWidth = currentWidth + deltaX;
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
@@ -37,6 +62,7 @@ export const ResizableWrapper = ({
       for (const element of allElements) {
         element.classList.remove('resizing');
       }
+      
     };
     if (isResizing) {
       document.addEventListener('mousemove', onMouseMove);
@@ -46,7 +72,21 @@ export const ResizableWrapper = ({
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-  }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
+  }, [isResizing, currentWidth, clientX, deltaX, onWidthChange, scrollParent]);
+
+  function getScrollParent(node: HTMLDivElement) {
+    const isElement = node instanceof HTMLDivElement;
+    const overflowX = isElement && window.getComputedStyle(node).overflowX;
+    const isScrollable = overflowX === 'scroll';
+
+    if (node.parentElement == null) {
+      return null;
+    }
+    if (isScrollable && node.scrollHeight > node.clientHeight) {
+      return node;
+    } 
+    return getScrollParent(node.parentElement as HTMLDivElement);
+  }
 
   return resizable ? (
     <div
