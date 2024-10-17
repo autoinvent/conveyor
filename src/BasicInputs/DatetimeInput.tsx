@@ -93,7 +93,7 @@ export const DatetimeInput = forwardRef<
             variant={'outline'}
             className={cn(
               !date && 'text-muted-foreground',
-              'w-max justify-start text-left font-normal dark:[color-scheme:dark]',
+              'min-w-[280px] justify-start text-left font-normal dark:[color-scheme:dark]',
             )}
             ref={buttonRef}
           >
