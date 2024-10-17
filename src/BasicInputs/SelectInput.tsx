@@ -104,7 +104,7 @@ export const SelectInput = forwardRef<
   return (
     <div
       className={cn(
-        'rounded-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-2',
+        'rounded-md ring-offset-background focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
         disabled && 'cursor-not-allowed',
         className,
       )}
