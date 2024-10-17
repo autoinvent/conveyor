@@ -83,7 +83,7 @@ export const DatetimeInput = forwardRef<Partial<DatetimeInputRef>, DatetimeInput
           <Button
             variant={"outline"}
             className={cn(
-              "w-[280px] justify-start text-left font-normal",
+              "w-max justify-start text-left font-normal",
               !date && "text-muted-foreground"
             )}
             ref={buttonRef}
