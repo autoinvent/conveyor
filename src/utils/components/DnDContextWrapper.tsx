@@ -18,47 +18,47 @@ import {
 import { arrayMove } from '@dnd-kit/sortable';
 import type { ReactNode } from 'react';
 
-const customCollisionAlgorithm: CollisionDetection = ({
-  collisionRect,
-  droppableRects,
-  droppableContainers,
-  active,
-  ...rest
-}) => {
-  const draggableWidth = active.rect.current.translated?.width ?? 0;
-  const x = rectIntersection({
-    collisionRect,
-    droppableRects,
-    droppableContainers,
-    active,
-    ...rest,
-  });
+function sortCollisionsAsc(_ref: any, _ref2: any) {
+  const {
+    data: { value: a },
+  } = _ref;
+  const {
+    data: { value: b },
+  } = _ref2;
+  return a - b;
+}
 
-  const y = x.sort((a, b) => {
-    // compute percentage of `a` and `b`, which is the proportion of the droppable component that is covered by the draggable component.
-    console.log(a);
-    console.log(b);
+function centerOfRectangle(rect: any) {
+  return {
+    x: rect.left + rect.width * 0.5,
+    y: rect.top + rect.height * 0.5,
+  };
+}
 
-    const shadowCastedOnA = a.data?.value * draggableWidth;
-    const shadowCastedOnB = b.data?.value * draggableWidth;
+function distanceBetween(p1: any, p2: any) {
+  return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+}
 
-    const percentA = Math.min(
-      shadowCastedOnA / a.data?.droppableContainer.rect.current.width,
-      1,
-    );
-    const percentB = Math.min(
-      shadowCastedOnB / b.data?.droppableContainer.rect.current.width,
-      1,
-    );
-
-    if (percentB === percentA) {
-      return -1;
+const customCollisionAlgorithm: CollisionDetection = (_ref) => {
+  const { collisionRect, droppableRects, droppableContainers } = _ref;
+  const centerRect = centerOfRectangle(collisionRect);
+  const collisions = [];
+  for (const droppableContainer of droppableContainers) {
+    const { id } = droppableContainer;
+    const rect = droppableRects.get(id);
+    if (rect) {
+      const distBetween = distanceBetween(centerOfRectangle(rect), centerRect);
+      collisions.push({
+        id,
+        data: {
+          droppableContainer,
+          value: distBetween,
+        },
+      });
     }
-
-    return percentB - percentA;
-  });
-
-  return y;
+  }
+  console.log(collisions.sort(sortCollisionsAsc))
+  return collisions.sort(sortCollisionsAsc);
 };
 
 export interface DnDContextWrapperProps {
