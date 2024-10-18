@@ -110,20 +110,20 @@ export const DatetimeInput = forwardRef<
             {...props}
           />
           <div className="border-border border-t p-3">
-            {hourCycle === 12 && granularity !== "Day" ? (
+            {hourCycle === 12 && granularity !== 'Day' ? (
               <TimePicker12h
                 setDate={setDate}
                 date={date}
                 granularity={granularity}
               />
-            ) : hourCycle === 24 && granularity !== "Day" ? 
-                  <TimePicker24h
-                    setDate={setDate}
-                    date={date}
-                    granularity={granularity}
-                  /> : null
-              }
-            
+            ) : hourCycle === 24 && granularity !== 'Day' ? (
+              <TimePicker24h
+                setDate={setDate}
+                date={date}
+                granularity={granularity}
+              />
+            ) : null}
+
             <div className="flex w-full flex-row pt-3">
               <Button
                 variant="link"
