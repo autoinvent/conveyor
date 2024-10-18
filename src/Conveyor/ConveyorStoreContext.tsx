@@ -13,13 +13,13 @@ import { type StoreApi, createStore } from 'zustand';
 import {
   BooleanDisplay,
   DatetimeDisplay,
-  ModelItemDisplay,
+  ModelDisplay,
   RawDisplay,
 } from '@/BasicDisplays';
 import {
   BooleanInput,
   DatetimeInput,
-  ModelItemInput,
+  ModelInput,
   NumberInput,
   StringInput,
 } from '@/BasicInputs';
@@ -64,9 +64,9 @@ export const DEFAULT_CONVEYOR_STATE = {
       DisplayComponent: BooleanDisplay,
       InputComponent: BooleanInput,
     },
-    [FieldType.MODEL_ITEM]: {
-      DisplayComponent: ModelItemDisplay,
-      InputComponent: ModelItemInput,
+    [FieldType.MODEL]: {
+      DisplayComponent: ModelDisplay,
+      InputComponent: ModelInput,
     },
   },
 };

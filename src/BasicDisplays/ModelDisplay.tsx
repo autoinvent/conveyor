@@ -3,20 +3,21 @@ import type { ReactNode } from 'react';
 import type { FormDisplayChildProps } from '@/Form';
 import { cn } from '@/lib/utils';
 
-export interface ModelListDisplayProps extends FormDisplayChildProps {
+export interface ModelDisplayProps extends FormDisplayChildProps {
   className?: string;
   getDisplayValue?: (value: FormDisplayChildProps['value']) => ReactNode;
 }
 
-export const ModelListDisplay = ({
+export const ModelDisplay = ({
   value,
   getDisplayValue = (val) => {
-    return val?._display_value ?? 'None';
+    return val?.displayValue ?? 'None';
   },
   className,
   ...props
-}: ModelListDisplayProps) => {
-  const modelList = value
+}: ModelDisplayProps) => {
+  const parsedValue = Array.isArray(value) ? value : [value];
+  const modelList = parsedValue
     .flatMap((val: ReactNode) => [getDisplayValue(val), ', '])
     .slice(0, -1);
 

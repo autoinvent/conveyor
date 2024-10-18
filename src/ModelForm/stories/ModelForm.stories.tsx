@@ -23,7 +23,7 @@ const meta = {
         hidden: true,
       },
       user: {
-        type: FieldType.MODEL_ITEM,
+        type: FieldType.MODEL,
         valueOptions: [
           { label: 'robxbob', value: '00000001' },
           { label: 'nicklitvin', value: '00000002' },
