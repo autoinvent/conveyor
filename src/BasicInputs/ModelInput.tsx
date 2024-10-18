@@ -6,18 +6,20 @@ import {
 
 import { SelectInput } from './SelectInput';
 
-export const ModelItemInput = forwardRef<
+export const ModelInput = forwardRef<
   ElementRef<typeof SelectInput>,
   ComponentPropsWithoutRef<typeof SelectInput>
 >(({ value, onChange, selectoptions, options, ...selectInputProps }, ref) => {
+  const isArray = Array.isArray(value);
   return (
     <SelectInput
       ref={ref}
-      value={{ label: value?.displayValue ?? 'None', value: value?.id ?? '' }}
-      onChange={(newValue) =>
-        onChange?.({ id: newValue.value, displayValue: newValue.label })
-      }
+      value={value}
+      onChange={onChange}
+      getOptionLabel={(option: typeof value) => option.displayValue}
+      getOptionValue={(option: typeof value) => option.id}
       options={options ?? selectoptions}
+      isMulti={isArray}
       {...selectInputProps}
     />
   );

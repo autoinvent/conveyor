@@ -4,5 +4,4 @@ export * from './NumberInput';
 export * from './SelectInput';
 export * from './StringInput';
 export * from './CreatableSelectInput';
-
-export * from './ModelItemInput';
+export * from './ModelInput';

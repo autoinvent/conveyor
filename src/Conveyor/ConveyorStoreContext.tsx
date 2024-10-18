@@ -19,7 +19,7 @@ import {
 import {
   BooleanInput,
   DatetimeInput,
-  ModelItemInput,
+  ModelInput,
   NumberInput,
   StringInput,
 } from '@/BasicInputs';
@@ -66,7 +66,7 @@ export const DEFAULT_CONVEYOR_STATE = {
     },
     [FieldType.MODEL]: {
       DisplayComponent: ModelDisplay,
-      InputComponent: ModelItemInput,
+      InputComponent: ModelInput,
     },
   },
 };
