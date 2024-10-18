@@ -38,9 +38,6 @@ export const ModelTableCell = ({
   const required = useModelTableStore(
     (state) => state.columnOptions?.[field]?.required,
   );
-  const valueOptions = useModelTableStore(
-    (state) => state.columnOptions?.[field]?.valueOptions ?? [],
-  );
   const inputProps = useModelTableStore(
     (state) => state.columnOptions?.[field]?.inputProps,
   );

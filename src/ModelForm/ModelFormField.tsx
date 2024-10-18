@@ -36,9 +36,6 @@ export const ModelFormField = ({
   const required = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.required,
   );
-  const valueOptions = useModelFormStore(
-    (state) => state.fieldOptions?.[field]?.valueOptions ?? [],
-  );
   const inputProps = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.inputProps,
   );
