@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { type ActionParams, DataLens, type DataType, FieldType } from '@/types';
 

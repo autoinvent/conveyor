@@ -1,6 +1,5 @@
-import { Checkbox } from '@/lib/components/ui/checkbox';
-
 import type { FormDisplayChildProps } from '@/Form';
+import { Checkbox } from '@/lib/components/ui/checkbox';
 
 export const BooleanDisplay = ({ value, ...props }: FormDisplayChildProps) => {
   return (
