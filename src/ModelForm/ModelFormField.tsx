@@ -36,9 +36,6 @@ export const ModelFormField = ({
   const required = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.required,
   );
-  const valueOptions = useModelFormStore(
-    (state) => state.fieldOptions?.[field]?.valueOptions ?? [],
-  );
   const inputProps = useModelFormStore(
     (state) => state.fieldOptions?.[field]?.inputProps,
   );
@@ -70,7 +67,6 @@ export const ModelFormField = ({
                 <Lens lens={DataLens.INPUT}>
                   <FormControl
                     name={field}
-                    selectoptions={valueOptions}
                     rules={{
                       required: required && `${label} is required.`,
                       ...rules,
