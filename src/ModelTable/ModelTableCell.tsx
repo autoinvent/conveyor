@@ -38,9 +38,6 @@ export const ModelTableCell = ({
   const required = useModelTableStore(
     (state) => state.columnOptions?.[field]?.required,
   );
-  const valueOptions = useModelTableStore(
-    (state) => state.columnOptions?.[field]?.valueOptions ?? [],
-  );
   const inputProps = useModelTableStore(
     (state) => state.columnOptions?.[field]?.inputProps,
   );
@@ -93,7 +90,6 @@ export const ModelTableCell = ({
               <Lens lens={DataLens.INPUT}>
                 <FormControl
                   name={field}
-                  selectoptions={valueOptions}
                   rules={{
                     required: required && `${label} is required.`,
                     ...rules,
