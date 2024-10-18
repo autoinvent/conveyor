@@ -9,7 +9,7 @@ import { SelectInput } from './SelectInput';
 export const ModelInput = forwardRef<
   ElementRef<typeof SelectInput>,
   ComponentPropsWithoutRef<typeof SelectInput>
->(({ value, onChange, selectoptions, options, ...selectInputProps }, ref) => {
+>(({ value, onChange, options, ...selectInputProps }, ref) => {
   const isArray = Array.isArray(value);
   return (
     <SelectInput
@@ -18,7 +18,7 @@ export const ModelInput = forwardRef<
       onChange={onChange}
       getOptionLabel={(option: typeof value) => option.displayValue}
       getOptionValue={(option: typeof value) => option.id}
-      options={options ?? selectoptions}
+      options={options}
       isMulti={isArray}
       {...selectInputProps}
     />
