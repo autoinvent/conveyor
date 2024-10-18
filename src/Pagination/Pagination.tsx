@@ -3,17 +3,25 @@ import type { ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
 import type { TableView } from '@/types';
 
+import { SelectInput } from '@/BasicInputs';
 import * as Shadcn from '../lib/components/ui/pagination';
-
 export interface PaginationProps
   extends ComponentProps<typeof Shadcn.Pagination>,
     Pick<TableView, 'page'> {
   totalDataLength?: number;
-  perPage?: TableView['per_page'];
+  perPage?: TableView['perPage'];
   maxPageButtonLimit?: number; // The max number of page btns to show at a time
   onPageChange: (newPage: TableView['page']) => void;
-  onPerPageChange?: (newPerPage: TableView['per_page']) => void;
+  onPerPageChange?: (newPerPage: TableView['perPage']) => void;
 }
+
+const PER_PAGE_VALUES = [
+  { value: 5, label: '5' },
+  { value: 10, label: '10' },
+  { value: 25, label: '25' },
+  { value: 50, label: '50' },
+  { value: 100, label: '100' },
+];
 
 export const Pagination = ({
   totalDataLength = 0,
@@ -43,14 +51,20 @@ export const Pagination = ({
     return null;
   }
 
+  // Total number of pages that can be tabbed through
   const totalPages = Math.ceil(totalDataLength / perPage);
+  // Total number of sets of pages (so how many sets of 5 can you go thru for example)
   const totalPageSets = Math.ceil(totalPages / maxPageButtonLimit);
+  // Which page set we're on
   const currentPageSet = Math.ceil(page / maxPageButtonLimit);
+  // lowest page of the page sets we are on
   const lowerBoundPage = (currentPageSet - 1) * maxPageButtonLimit + 1;
+  // highest page of the page set we are on
   const upperBoundPage = Math.min(
     currentPageSet * maxPageButtonLimit,
     totalPages,
   );
+
   if (page > totalPages || page < 1) {
     throw new Error(`Page must be between 1 and ${totalPages}`);
   }
@@ -58,6 +72,22 @@ export const Pagination = ({
   return (
     <Shadcn.Pagination className={cn('py-2', className)} {...paginationProps}>
       <Shadcn.PaginationContent>
+        {/* Items per page */}
+        {onPerPageChange && (
+          <>
+            <Shadcn.PaginationItem>
+              <span className="pr-1">Items per page:</span>
+            </Shadcn.PaginationItem>
+            <SelectInput
+              options={PER_PAGE_VALUES}
+              value={PER_PAGE_VALUES.filter((obj) => obj.value === perPage)}
+              onChange={(selected) => {
+                onPageChange(1);
+                onPerPageChange(selected.value);
+              }}
+            />
+          </>
+        )}
         {/* Previous Page Set Button */}
         {page > maxPageButtonLimit && (
           <Shadcn.PaginationItem>
