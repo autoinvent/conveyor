@@ -1,5 +1,5 @@
-## 1.6.1
-`bugfix`: Export `ModelListDisplay` as part of conveyor.
+## 1.7.0
+`feature`: Combined `ModelListInput` and `ModelListDisplay` (as well as for the model item counterparts). Removed `selectoption` from `fieldOptions` due to `inputProps` being robust enough to do that and more.
 
 ## 1.6.0
 - `package`: upgraded all packages.
