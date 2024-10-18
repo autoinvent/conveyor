@@ -1,7 +1,9 @@
 import { useState } from 'react';
+
 import { Helmet } from 'react-helmet';
-import ConveyorLogo from '@autoinvent/conveyor/logo.svg';
+
 import { Pagination } from '@autoinvent/conveyor';
+import ConveyorLogo from '@autoinvent/conveyor/logo.svg';
 
 const App = () => {
   return (
@@ -16,7 +18,7 @@ const App = () => {
       </Helmet>
       <div className="flex flex-col">
         <img src={ConveyorLogo} alt="" className="h-8 w-8" />
-        <Pagination className="hello" onPageChange={() => {}}/>
+        <Pagination className="hello" onPageChange={() => {}} />
       </div>
     </>
   );
