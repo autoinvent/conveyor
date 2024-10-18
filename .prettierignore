@@ -1,0 +1,9 @@
+# Ignore everything by default
+/*
+
+# Dont ignore these
+!.storybook
+!src
+!examples
+
+# Ignore these
