@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import {
   DndContext,
   type DragEndEvent,
+  KeyboardSensor,
   MouseSensor,
   TouchSensor,
   closestCenter,
@@ -35,6 +36,7 @@ export const DnDContextWrapper = ({
         distance: 10,
       },
     }),
+    useSensor(KeyboardSensor, {}),
   );
   const handleDragEnd = ({ active, over, collisions, delta }: DragEndEvent) => {
     if (active && over && active.id !== over.id) {
