@@ -5,6 +5,7 @@ import {
   type PropsWithoutRef,
   forwardRef,
 } from 'react';
+
 import Select from 'react-select';
 
 import type { FormControlChildProps } from '@/Form';
@@ -14,7 +15,7 @@ export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
   PropsWithoutRef<FormControlChildProps> &
     ComponentPropsWithoutRef<typeof Select>
->(({ disabled, className, selectoptions, options, ...props }, ref) => {
+>(({ disabled, className, options, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -114,7 +115,7 @@ export const SelectInput = forwardRef<
         unstyled
         classNames={defaultStyling}
         isDisabled={disabled}
-        options={options ?? selectoptions}
+        options={options}
         {...props}
       />
     </div>

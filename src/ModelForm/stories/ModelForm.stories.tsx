@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { type ActionParams, DataLens, type DataType, FieldType } from '@/types';
 
@@ -23,7 +24,7 @@ const meta = {
         hidden: true,
       },
       user: {
-        type: FieldType.MODEL_ITEM,
+        type: FieldType.MODEL,
         valueOptions: [
           { label: 'robxbob', value: '00000001' },
           { label: 'nicklitvin', value: '00000002' },

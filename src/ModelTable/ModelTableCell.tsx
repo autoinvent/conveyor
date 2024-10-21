@@ -1,11 +1,11 @@
 import { useConveyorStore } from '@/Conveyor';
 import { FormDisplay, useFormStore } from '@/Form';
+import { FormControl } from '@/Form/FormControl';
 import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, ScalarType } from '@/types';
 import { DndSortableWrapper, humanizeText } from '@/utils';
 
-import { FormControl } from '@/Form/FormControl';
 import { useModelTableStore } from './useModelTableStore';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
@@ -37,9 +37,6 @@ export const ModelTableCell = ({
   );
   const required = useModelTableStore(
     (state) => state.columnOptions?.[field]?.required,
-  );
-  const valueOptions = useModelTableStore(
-    (state) => state.columnOptions?.[field]?.valueOptions ?? [],
   );
   const inputProps = useModelTableStore(
     (state) => state.columnOptions?.[field]?.inputProps,
@@ -93,7 +90,6 @@ export const ModelTableCell = ({
               <Lens lens={DataLens.INPUT}>
                 <FormControl
                   name={field}
-                  selectoptions={valueOptions}
                   rules={{
                     required: required && `${label} is required.`,
                     ...rules,

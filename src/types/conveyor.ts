@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+
 import type { RegisterOptions } from 'react-hook-form';
 
 import type { DataType, SelectOption } from './common';
@@ -20,8 +21,7 @@ export interface FieldOptions {
 }
 
 export enum NonScalarType {
-  MODEL_ITEM = '__MODEL_ITEM__',
-  MODEL_LIST = '__MODEL_LIST__',
+  MODEL = '__MODEL__',
 }
 
 export const FieldType = { ...ScalarType, ...NonScalarType };
