@@ -38,7 +38,7 @@ export const DnDContextWrapper = ({
     }),
     useSensor(KeyboardSensor, {}),
   );
-  const handleDragEnd = ({ active, over, collisions, delta }: DragEndEvent) => {
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
     if (active && over && active.id !== over.id) {
       const oldIndex = dndList.indexOf(active.id.toString());
       const newIndex = dndList.indexOf(over.id.toString());
