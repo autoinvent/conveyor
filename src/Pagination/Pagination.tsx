@@ -17,8 +17,8 @@ export interface PaginationProps
 }
 
 interface PerPageValueOptions {
-  value: number,
-  label: string,
+  value: number;
+  label: string;
 }
 
 const PER_PAGE_VALUES = [
