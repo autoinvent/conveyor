@@ -3,8 +3,8 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from '@/lib/components/ui/button';
-
 import { Separator } from '@/lib/components/ui/separator';
+
 import { Slot } from '../Slot';
 import { Slots } from '../SlotsStoreContext';
 
