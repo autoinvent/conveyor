@@ -13,6 +13,7 @@ import { humanizeText, toggleFieldVisibility } from '@/utils';
 
 import { ACTION_COLUMN } from './ModelTable';
 import type { ColumnOptions } from './ModelTableStoreContext';
+
 export interface FieldVisibilityProps<F extends string, T extends F> {
   fields: readonly F[];
   fieldOrder: T[];
