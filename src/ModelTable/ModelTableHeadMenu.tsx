@@ -1,5 +1,3 @@
-import { Slot } from '@radix-ui/react-slot';
-import { ArrowDown, ArrowUp, EyeOff } from 'lucide-react';
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
@@ -7,6 +5,10 @@ import {
   forwardRef,
   useState,
 } from 'react';
+
+import { ArrowDown, ArrowUp, EyeOff } from 'lucide-react';
+
+import { Slot } from '@radix-ui/react-slot';
 
 import { Lens, Lenses } from '@/Lenses';
 import { Button } from '@/lib/components/ui/button';

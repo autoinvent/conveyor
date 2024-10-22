@@ -4,6 +4,7 @@ Do the following to set up your development environment.
   git clone "[YOUR-FORKED-CONVEYOR-REPO]"
   git checkout dev
   pnpm install
+  lefthook install
   git checkout -b "[NEW-DEV-BRANCH-NAME]"
 ```
 

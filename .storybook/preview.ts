@@ -1,9 +1,8 @@
-import { withThemeByClassName  } from '@storybook/addon-themes';
+import { withThemeByClassName } from '@storybook/addon-themes';
 import type { Preview } from '@storybook/react';
 
 import '../src/styles/tailwind.css';
-
-import {DARK_MODE_BG, LIGHT_MODE_BG, withDocsTheme} from './with-docs-theme'
+import { DARK_MODE_BG, LIGHT_MODE_BG, withDocsTheme } from './with-docs-theme';
 
 const preview: Preview = {
   decorators: [
@@ -21,13 +20,13 @@ const preview: Preview = {
       values: [
         {
           name: 'dark',
-          value: DARK_MODE_BG
+          value: DARK_MODE_BG,
         },
         {
           name: 'light',
-          value: LIGHT_MODE_BG
-        }
-      ]
+          value: LIGHT_MODE_BG,
+        },
+      ],
     },
     controls: {
       matchers: {
@@ -36,10 +35,7 @@ const preview: Preview = {
       },
     },
   },
-  tags: ['autodocs']
+  tags: ['autodocs'],
 };
 
-
-
 export default preview;
-
