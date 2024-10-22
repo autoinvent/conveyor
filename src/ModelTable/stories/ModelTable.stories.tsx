@@ -65,13 +65,15 @@ const meta = {
         hidden: true,
       },
       user: {
-        type: FieldType.MODEL_ITEM,
-        valueOptions: [
-          { label: 'robxbob', value: '00000001' },
-          { label: 'nicklitvin', value: '00000002' },
-          { label: 'cmacgray14', value: '00000003' },
-          { label: 'None', value: null },
-        ],
+        type: FieldType.MODEL,
+        inputProps: {
+          options: [
+            { displayValue: 'robxbob', id: '00000001' },
+            { displayValue: 'nicklitvin', id: '00000002' },
+            { displayValue: 'cmacgray14', id: '00000003' },
+            { displayValue: 'None', id: null },
+          ],
+        },
       },
       message: {
         required: true,

@@ -1,3 +1,13 @@
+## 1.7.0
+`feature`: Combined `ModelListInput` and `ModelListDisplay` (as well as for the model item counterparts). Removed `selectoption` from `fieldOptions` due to `inputProps` being robust enough to do that and more.
+
+## 1.6.0
+- `package`: upgraded all packages.
+- `feature`: added `inputProps` and `displayProps` to `FieldOptions` 
+- `feature`: added `null/undefined` checks on inputs to default to the primitive type.
+- `feature`: `ModelListDisplay` basic display component added. 
+- `bugfix`: select input's ring color now using the `ring` css variable.
+ 
 ## 1.5.2 
 - `bugfix`: Fixed `label` in `fieldOptions` not showing up on `ModelForm`.
 - `enhancement`: Removed default `menuPortalTarget` prop from `SelectInput`.
