@@ -58,15 +58,15 @@ export const ResizableWrapper = ({
     if (isResizing) {
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-      scrollParent?.addEventListener('mouseenter', onScrollEnter)
-      scrollParent?.addEventListener('mouseleave', onScrollLeave)
+      scrollParent?.addEventListener('mouseenter', onScrollEnter);
+      scrollParent?.addEventListener('mouseleave', onScrollLeave);
 
     }
     return () => {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      scrollParent?.removeEventListener('mouseenter', onScrollEnter)
-      scrollParent?.removeEventListener('mouseleave', onScrollLeave)
+      scrollParent?.removeEventListener('mouseenter', onScrollEnter);
+      scrollParent?.removeEventListener('mouseleave', onScrollLeave);
     };
   }, [isResizing, currentWidth, clientX, deltaX, onWidthChange, scrollParent, exitedScrollParent]);
 
