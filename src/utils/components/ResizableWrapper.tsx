@@ -14,6 +14,7 @@ export const ResizableWrapper = ({
   children,
 }: ResizableWrapperProps) => {
   const [isResizing, setIsResizing] = useState(false);
+  const [exitedScrollParent, setExitedScrollParent] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [deltaX, setDeltaX] = useState(0);
   const [currentWidth, setCurrentWidth] = useState(width);
@@ -23,16 +24,23 @@ export const ResizableWrapper = ({
     scrollParent = getScrollParent(ref.current);
   }
   useEffect(() => {
+    const onScrollEnter = (e: MouseEvent) => {
+      setExitedScrollParent(false);
+    };
+    const onScrollLeave = (e: MouseEvent) => {
+      setExitedScrollParent(true);
+    };
     const onMouseMove = (e: MouseEvent) => {
       setDeltaX(e.clientX - clientX);
     };
     const onMouseUp = () => {
       let newWidth = currentWidth + deltaX;
-      if (scrollParent) {
+      if (scrollParent && exitedScrollParent) {
         scrollParent.scrollBy({
           left: newWidth > 0 ? deltaX : 0,
           behavior: 'smooth',
         });
+        setExitedScrollParent(false);
       }
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
@@ -50,12 +58,17 @@ export const ResizableWrapper = ({
     if (isResizing) {
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
+      scrollParent?.addEventListener('mouseenter', onScrollEnter)
+      scrollParent?.addEventListener('mouseleave', onScrollLeave)
+
     }
     return () => {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+      scrollParent?.removeEventListener('mouseenter', onScrollEnter)
+      scrollParent?.removeEventListener('mouseleave', onScrollLeave)
     };
-  }, [isResizing, currentWidth, clientX, deltaX, onWidthChange, scrollParent]);
+  }, [isResizing, currentWidth, clientX, deltaX, onWidthChange, scrollParent, exitedScrollParent]);
 
   function getScrollParent(node: HTMLDivElement) {
     const isElement = node instanceof HTMLDivElement;
