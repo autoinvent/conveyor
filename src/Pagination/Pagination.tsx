@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
 
 import { cn } from '@/lib/utils';
-import type { TableView } from '@/types';
+import type { SelectOption, TableView } from '@/types';
 
 import { SelectInput } from '@/BasicInputs';
 import * as Shadcn from '../lib/components/ui/pagination';
@@ -13,6 +13,12 @@ export interface PaginationProps
   maxPageButtonLimit?: number; // The max number of page btns to show at a time
   onPageChange: (newPage: TableView['page']) => void;
   onPerPageChange?: (newPerPage: TableView['perPage']) => void;
+  perPageOptions?: PerPageValueOptions[];
+}
+
+interface PerPageValueOptions {
+  value: number,
+  label: string,
 }
 
 const PER_PAGE_VALUES = [
@@ -30,6 +36,7 @@ export const Pagination = ({
   maxPageButtonLimit = 10,
   onPageChange,
   onPerPageChange,
+  perPageOptions = PER_PAGE_VALUES,
   className,
   ...paginationProps
 }: PaginationProps) => {
@@ -79,8 +86,8 @@ export const Pagination = ({
               <span className="pr-1">Items per page:</span>
             </Shadcn.PaginationItem>
             <SelectInput
-              options={PER_PAGE_VALUES}
-              value={PER_PAGE_VALUES.filter((obj) => obj.value === perPage)}
+              options={perPageOptions}
+              value={perPageOptions.filter((obj) => obj.value === perPage)}
               onChange={(selected) => {
                 onPageChange(1);
                 onPerPageChange(selected.value);
