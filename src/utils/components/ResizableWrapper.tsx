@@ -16,36 +16,24 @@ export const ResizableWrapper = ({
   const [isResizing, setIsResizing] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [deltaX, setDeltaX] = useState(0);
-  const [lastDeltaX, setlastDeltaX] = useState(0);
   const [currentWidth, setCurrentWidth] = useState(width);
   const ref = useRef<HTMLDivElement>(null);
-  let scrollParent = null
-  if(ref.current){
+  let scrollParent = null;
+  if (ref.current) {
     scrollParent = getScrollParent(ref.current);
   }
   useEffect(() => {
-    
     const onMouseMove = (e: MouseEvent) => {
-      setlastDeltaX(deltaX);
       setDeltaX(e.clientX - clientX);
-      console.log("---------------------")
-      console.log("Event: " + e.clientX);
-      console.log("client: " + clientX);
-      console.log("Delta: " + deltaX);
-      console.log("lastDelta:" + lastDeltaX)
-      console.log("current delta - last delta: " + (deltaX - lastDeltaX))
-      if(scrollParent){
-        //console.log(scrollParent.clientWidth);
-        scrollParent.scroll({
-          left: e.pageX,
-          behavior: "smooth"
-        })
-      }
     };
-    
-    
     const onMouseUp = () => {
       let newWidth = currentWidth + deltaX;
+      if (scrollParent) {
+        scrollParent.scrollBy({
+          left: newWidth > 0 ? deltaX : 0,
+          behavior: 'smooth',
+        });
+      }
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
         newWidth = ref.current?.scrollWidth;
@@ -58,7 +46,6 @@ export const ResizableWrapper = ({
       for (const element of allElements) {
         element.classList.remove('resizing');
       }
-      
     };
     if (isResizing) {
       document.addEventListener('mousemove', onMouseMove);
@@ -80,14 +67,23 @@ export const ResizableWrapper = ({
     }
     if (isScrollable && node.scrollHeight > node.clientHeight) {
       return node;
-    } 
+    }
     return getScrollParent(node.parentElement as HTMLDivElement);
   }
 
   return resizable ? (
     <div
       className="h-full"
-      style={{ width: `${currentWidth + deltaX}px` }}
+      style={{
+        // Width can't be less than the horizontal space taken up by the title of each column
+        width: `${
+          currentWidth + deltaX >
+          (ref.current?.firstElementChild?.getBoundingClientRect().width ?? 0)
+            ? currentWidth + deltaX
+            : ref.current?.firstElementChild?.getBoundingClientRect().width ??
+              200
+        }px`,
+      }}
       ref={ref}
     >
       {children}
