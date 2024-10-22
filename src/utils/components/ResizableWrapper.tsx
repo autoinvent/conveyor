@@ -60,7 +60,6 @@ export const ResizableWrapper = ({
       document.addEventListener('mouseup', onMouseUp);
       scrollParent?.addEventListener('mouseenter', onScrollEnter);
       scrollParent?.addEventListener('mouseleave', onScrollLeave);
-
     }
     return () => {
       document.removeEventListener('mousemove', onMouseMove);
@@ -68,7 +67,15 @@ export const ResizableWrapper = ({
       scrollParent?.removeEventListener('mouseenter', onScrollEnter);
       scrollParent?.removeEventListener('mouseleave', onScrollLeave);
     };
-  }, [isResizing, currentWidth, clientX, deltaX, onWidthChange, scrollParent, exitedScrollParent]);
+  }, [
+    isResizing,
+    currentWidth,
+    clientX,
+    deltaX,
+    onWidthChange,
+    scrollParent,
+    exitedScrollParent,
+  ]);
 
   function getScrollParent(node: HTMLDivElement) {
     const isElement = node instanceof HTMLDivElement;
