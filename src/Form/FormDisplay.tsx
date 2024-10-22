@@ -1,5 +1,6 @@
-import { Slot } from '@radix-ui/react-slot';
 import type { HTMLProps, ReactNode } from 'react';
+
+import { Slot } from '@radix-ui/react-slot';
 
 import { useFormStore } from './useFormStore';
 

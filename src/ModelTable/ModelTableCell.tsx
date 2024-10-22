@@ -1,11 +1,11 @@
 import { useConveyorStore } from '@/Conveyor';
 import { FormDisplay, useFormStore } from '@/Form';
+import { FormControl } from '@/Form/FormControl';
 import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, ScalarType } from '@/types';
 import { DndSortableWrapper, humanizeText } from '@/utils';
 
-import { FormControl } from '@/Form/FormControl';
 import { useModelTableStore } from './useModelTableStore';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
@@ -38,8 +38,11 @@ export const ModelTableCell = ({
   const required = useModelTableStore(
     (state) => state.columnOptions?.[field]?.required,
   );
-  const valueOptions = useModelTableStore(
-    (state) => state.columnOptions?.[field]?.valueOptions ?? [],
+  const inputProps = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.inputProps,
+  );
+  const displayProps = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.displayProps,
   );
   const DisplayComponent = useConveyorStore(
     (state) => state.typeOptions?.[type]?.DisplayComponent ?? (() => null),
@@ -81,25 +84,24 @@ export const ModelTableCell = ({
             <>
               <Lens lens={DataLens.DISPLAY}>
                 <FormDisplay name={field}>
-                  <DisplayComponent />
+                  <DisplayComponent {...displayProps} />
                 </FormDisplay>
               </Lens>
               <Lens lens={DataLens.INPUT}>
                 <FormControl
                   name={field}
-                  options={valueOptions}
                   rules={{
                     required: required && `${label} is required.`,
                     ...rules,
                   }}
                 >
-                  <InputComponent />
+                  <InputComponent {...inputProps} />
                 </FormControl>
               </Lens>
             </>
           ) : (
             <FormDisplay name={field}>
-              <DisplayComponent />
+              <DisplayComponent {...displayProps} />
             </FormDisplay>
           )
         ) : (

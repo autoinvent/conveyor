@@ -1,3 +1,21 @@
+## 1.7.0
+`feature`: Combined `ModelListInput` and `ModelListDisplay` (as well as for the model item counterparts). Removed `selectoption` from `fieldOptions` due to `inputProps` being robust enough to do that and more.
+
+## 1.6.0
+- `package`: upgraded all packages.
+- `feature`: added `inputProps` and `displayProps` to `FieldOptions` 
+- `feature`: added `null/undefined` checks on inputs to default to the primitive type.
+- `feature`: `ModelListDisplay` basic display component added. 
+- `bugfix`: select input's ring color now using the `ring` css variable.
+ 
+## 1.5.2 
+- `bugfix`: Fixed `label` in `fieldOptions` not showing up on `ModelForm`.
+- `enhancement`: Removed default `menuPortalTarget` prop from `SelectInput`.
+- `enhancement`: Replaced `_display_value` with `displayValue` for consistent naming conventions. 
+
+## 1.5.1
+- `bugfix`: `SelectInput`'s options now allow any DataType for its options to utilize the `getOptionLabel` and `getOptionValue` props. The options passed into `fieldOptions` for `ModelTable/ModelForm` can be accessed from the form control by `selectoptions`. 
+
 ## 1.5.0
 - `feature`: `CreatableSelectInput` exposes the `CreatableSelect` from **react-select**.
 - `bugfix`: Table column resizing no longer affects other columns and work as intended.

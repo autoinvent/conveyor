@@ -5,6 +5,7 @@ import {
   type PropsWithoutRef,
   forwardRef,
 } from 'react';
+
 import Select from 'react-select';
 
 import type { FormControlChildProps } from '@/Form';
@@ -14,7 +15,7 @@ export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
   PropsWithoutRef<FormControlChildProps> &
     ComponentPropsWithoutRef<typeof Select>
->(({ disabled, className, ...props }, ref) => {
+>(({ disabled, className, options, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -104,7 +105,7 @@ export const SelectInput = forwardRef<
   return (
     <div
       className={cn(
-        'rounded-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-2',
+        'rounded-md ring-offset-background focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
         disabled && 'cursor-not-allowed',
         className,
       )}
@@ -113,8 +114,8 @@ export const SelectInput = forwardRef<
         ref={ref}
         unstyled
         classNames={defaultStyling}
-        menuPortalTarget={document.body}
         isDisabled={disabled}
+        options={options}
         {...props}
       />
     </div>

@@ -1,9 +1,10 @@
-import { ErrorMessage } from '@hookform/error-message';
 import type { ComponentProps, ReactNode } from 'react';
+
+import { ErrorMessage } from '@hookform/error-message';
+import { Slot } from '@radix-ui/react-slot';
 
 import { cn } from '@/lib/utils';
 
-import { Slot } from '@radix-ui/react-slot';
 import { useFormStore } from './useFormStore';
 
 export interface FormErrorProps
