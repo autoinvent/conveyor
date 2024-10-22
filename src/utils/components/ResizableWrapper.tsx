@@ -35,7 +35,7 @@ export const ResizableWrapper = ({
     };
     const onMouseUp = () => {
       let newWidth = currentWidth + deltaX;
-      if (scrollParent && exitedScrollParent) {
+      if (scrollParent && exitedScrollParent && deltaX > 0) {
         scrollParent.scrollBy({
           left: newWidth > 0 ? deltaX : 0,
           behavior: 'smooth',
