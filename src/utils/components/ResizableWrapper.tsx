@@ -85,7 +85,7 @@ export const ResizableWrapper = ({
     if (node.parentElement == null) {
       return null;
     }
-    if (isScrollable && node.scrollHeight > node.clientHeight) {
+    if (isScrollable) {
       return node;
     }
     return getScrollParent(node.parentElement as HTMLDivElement);
