@@ -11,11 +11,14 @@ import { cn } from '@/lib/utils';
 
 export interface ScrollAreaWrapperProps {
   scrollable: boolean;
+  fieldOrder: string[];
   className?: string;
   children?: ReactNode;
 }
+
 export const ScrollAreaWrapper = ({
   scrollable,
+  fieldOrder,
   className,
   children,
 }: ScrollAreaWrapperProps) => {
@@ -23,6 +26,7 @@ export const ScrollAreaWrapper = ({
 
   const [isOverflow, setIsOverflow] = useState(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: fieldOrder dependency is required to keep accurate table size reading when columns disappear
   useLayoutEffect(() => {
     const lastElementChild = ref.current?.lastElementChild;
     if (!lastElementChild) return;
@@ -41,10 +45,10 @@ export const ScrollAreaWrapper = ({
     return () => {
       observer.disconnect();
     };
-  }, [isOverflow]);
+  }, [isOverflow, fieldOrder]);
 
   return scrollable ? (
-    <ScrollArea className={cn(isOverflow && 'pb-2', className)} ref={ref}>
+    <ScrollArea className={cn(isOverflow && 'pb-5', className)} ref={ref}>
       {children}
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
