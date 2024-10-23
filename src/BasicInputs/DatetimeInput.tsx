@@ -44,10 +44,11 @@ export const DatetimeInput = forwardRef<
     ref,
   ) => {
     const [date, setDate] = useState<Date | undefined>(
-      value && !Number.isNaN(new Date(value)) ? new Date(value) : undefined,
+      value && !Number.isNaN((new Date(value)).valueOf()) ? new Date(value) : undefined,
     );
     useEffect(() => {
       onChange?.(date ? String(date) : undefined);
+      console.log(date ? String(date) : undefined)
     }, [date, onChange]);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
