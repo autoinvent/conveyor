@@ -1,7 +1,8 @@
-import { Input } from './input';
+import React from 'react';
 
 import { cn } from '@/lib/utils';
-import React from 'react';
+
+import { Input } from './input';
 import {
   type Period,
   type TimePickerType,

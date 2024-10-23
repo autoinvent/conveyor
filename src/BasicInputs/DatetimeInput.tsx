@@ -1,7 +1,5 @@
 'use client';
 
-import { add, format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
 import {
   forwardRef,
   useEffect,
@@ -10,7 +8,11 @@ import {
   useState,
 } from 'react';
 
+import { add, format } from 'date-fns';
+import { Calendar as CalendarIcon } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
+
 import { Button } from '../lib/components/ui/button';
 import { Calendar } from '../lib/components/ui/calendar';
 import {
@@ -44,7 +46,9 @@ export const DatetimeInput = forwardRef<
     ref,
   ) => {
     const [date, setDate] = useState<Date | undefined>(
-      value && !Number.isNaN((new Date(value)).valueOf()) ? new Date(value) : undefined,
+      value && !Number.isNaN(new Date(value).valueOf())
+        ? new Date(value)
+        : undefined,
     );
     useEffect(() => {
       onChange?.(date ? String(date) : undefined);
