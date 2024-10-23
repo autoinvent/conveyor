@@ -1,9 +1,29 @@
 import { useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
 
+// needed for table body level scope DnD setup
+import {
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
+import {
+  SortableContext,
+  arrayMove,
+  horizontalListSortingStrategy,
+} from '@dnd-kit/sortable';
+// needed for row & cell level scope DnD setup
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from '@/lib/components/ui/button';
-
 import {
   Card,
   CardContent,
@@ -13,6 +33,8 @@ import {
 import { Checkbox } from '@/lib/components/ui/checkbox';
 import { Label } from '@/lib/components/ui/label';
 import { Separator } from '@/lib/components/ui/separator';
+import { cn } from '@/lib/utils';
+
 import { Table } from '../Table';
 import TableStoryMeta from './Table.stories';
 
@@ -114,30 +136,6 @@ export const ColumnVisibility: Story = {
     );
   },
 };
-
-// needed for table body level scope DnD setup
-import {
-  DndContext,
-  type DragEndEvent,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
-import {
-  SortableContext,
-  arrayMove,
-  horizontalListSortingStrategy,
-} from '@dnd-kit/sortable';
-
-import { cn } from '@/lib/utils';
-// needed for row & cell level scope DnD setup
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import type { CSSProperties } from 'react';
 
 const DraggableTableHeader = ({ columnId }: { columnId: string }) => {
   const { attributes, isDragging, listeners, setNodeRef, transform } =

@@ -1,4 +1,3 @@
-import { produce } from 'immer';
 import {
   type ComponentType,
   type ReactNode,
@@ -8,6 +7,8 @@ import {
   useRef,
   useState,
 } from 'react';
+
+import { produce } from 'immer';
 import { type StoreApi, createStore } from 'zustand';
 
 import {

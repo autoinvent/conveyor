@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { useDataStore } from '@/Data';
@@ -12,7 +14,7 @@ import { Checkbox } from '@/lib/components/ui/checkbox';
 import { Label } from '@/lib/components/ui/label';
 import { ScrollArea, ScrollBar } from '@/lib/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { useEffect, useState } from 'react';
+
 import { Table } from '../Table';
 import TableStoryMeta from './Table.stories';
 
