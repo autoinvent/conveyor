@@ -44,7 +44,6 @@ const meta = {
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
     const [perPage, setPerPage] = useState<number | undefined>(10);
 
-
     // const onUpdateHandler = async (params: ActionParams<DataType>) => {
     //   await onUpdate?.(params);
     //   const id = params?.data?.id;
