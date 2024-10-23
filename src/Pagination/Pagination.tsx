@@ -74,23 +74,6 @@ export const Pagination = ({
   return (
     <Shadcn.Pagination className={cn('py-2', className)} {...paginationProps}>
       <Shadcn.PaginationContent>
-        {/* Items per page */}
-        {onPerPageChange && (
-          <>
-            <Shadcn.PaginationItem>
-              <span className="pr-1">Rows per page:</span>
-            </Shadcn.PaginationItem>
-            <SelectInput
-              options={perPageOptions}
-              value={perPageOptions.filter((obj) => obj.value === perPage)}
-              onChange={(selected) => {
-                onPageChange(1);
-                onPerPageChange(selected.value);
-              }}
-              className="mr-2"
-            />
-          </>
-        )}
         {/* Previous Page Set Button */}
         {page > maxPageButtonLimit && (
           <Shadcn.PaginationItem>
@@ -126,6 +109,23 @@ export const Pagination = ({
                 onClick={() => onPageChange(upperBoundPage + 1)}
               />
             </Shadcn.PaginationItem>
+          </>
+        )}
+                {/* Items per page */}
+                {onPerPageChange && (
+          <>
+            <Shadcn.PaginationItem>
+              <span className="pr-1">Rows per page:</span>
+            </Shadcn.PaginationItem>
+            <SelectInput
+              options={perPageOptions}
+              value={perPageOptions.filter((obj) => obj.value === perPage)}
+              onChange={(selected) => {
+                onPageChange(1);
+                onPerPageChange(selected.value);
+              }}
+              className="mr-2"
+            />
           </>
         )}
         <Shadcn.PaginationItem>
