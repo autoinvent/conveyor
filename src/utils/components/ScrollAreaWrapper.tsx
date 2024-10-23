@@ -48,7 +48,7 @@ export const ScrollAreaWrapper = ({
   }, [isOverflow, fieldOrder]);
 
   return scrollable ? (
-    <ScrollArea className={cn(isOverflow && 'pb-5', className)} ref={ref}>
+    <ScrollArea className={cn(isOverflow && 'pb-2', className)} ref={ref}>
       {children}
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
