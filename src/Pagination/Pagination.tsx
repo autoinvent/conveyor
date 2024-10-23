@@ -78,7 +78,7 @@ export const Pagination = ({
         {onPerPageChange && (
           <>
             <Shadcn.PaginationItem>
-              <span className="pr-1">Items per page:</span>
+              <span className="pr-1">Rows per page:</span>
             </Shadcn.PaginationItem>
             <SelectInput
               options={perPageOptions}
