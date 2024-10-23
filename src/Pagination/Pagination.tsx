@@ -111,8 +111,8 @@ export const Pagination = ({
             </Shadcn.PaginationItem>
           </>
         )}
-                {/* Items per page */}
-                {onPerPageChange && (
+        {/* Items per page */}
+        {onPerPageChange && (
           <>
             <Shadcn.PaginationItem>
               <span className="pr-1">Rows per page:</span>
