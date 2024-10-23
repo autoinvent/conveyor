@@ -48,7 +48,6 @@ export const DatetimeInput = forwardRef<
     );
     useEffect(() => {
       onChange?.(date ? String(date) : undefined);
-      console.log(date ? String(date) : undefined)
     }, [date, onChange]);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
