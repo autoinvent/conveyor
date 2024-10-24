@@ -37,7 +37,8 @@ const meta = {
         type: "type-2",
         value: "value-2-3",
       },
-    ]
+    ],
+    type: 'single'
   }
 } satisfies Meta<typeof SearchResults>;
 export default meta;
@@ -48,14 +49,14 @@ export const NoExtras : Story = {}
 
 export const Stylized : Story = {
   args: {
-    getLabel: ({ category }) => <h1 className='w-full bg-slate-200 font-4xl font-bold italic'>{category}</h1>,
+    getLabel: ({ category }) => <h1 className='w-full bg-slate-400 font-4xl font-bold italic'>{category}</h1>,
     getContent: ({ results }) => (
       <div className="flex flex-row gap-2">
         { results.map( result => 
-          <p key={result.id} className='rounded-md bg-slate-200 p-2'>{result.value}</p>
+          <p key={result.id} className='rounded-md bg-slate-400 p-2'>{result.value}</p>
         )}
       </div>
-    )
+    ),
   }
 }
 

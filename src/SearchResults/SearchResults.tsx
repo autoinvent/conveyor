@@ -1,8 +1,8 @@
 import type { SearchResult } from '@/types'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/lib/components/ui/accordion'
-import type  { ReactNode } from 'react'
+import  { type ComponentPropsWithoutRef, forwardRef, type ReactElement, type ReactNode } from 'react'
 
-interface SearchResultsProps <Category extends string>{
+interface SearchResultsProps<Category extends string> {
   data: SearchResult[]
   groupBy?: (item : SearchResult) => Category
   getLabel?: ({ category, results } : { category: Category, results: SearchResult[] }) => ReactNode
@@ -10,23 +10,27 @@ interface SearchResultsProps <Category extends string>{
   onNoResults?: () => ReactNode
 }
 
-export const SearchResults = <T extends string>({ 
-  data, 
-  groupBy = (item) => item.type as T, 
-  getLabel = ({ category }) => (
-    <h1 className="font-bold text-xl">{category}</h1>
-  ),
-  getContent = ({ results }) => (
-    <div className="flex flex-wrap">
-      { results.map( result => (
-        <p key={result.id} className="w-full">{result.value}</p>
-      ))}
-    </div>
-  ),
-  onNoResults = () => (
-    <h1 className="w-full text-center font-bold">No results</h1>
-  )
-} : SearchResultsProps<T>) => {
+export const SearchResultsNoForwardRef = <T extends string>(
+  { 
+    data, 
+    groupBy = (item) => item.type as T, 
+    getLabel = ({ category }) => (
+      <h1 className="font-bold text-xl">{category}</h1>
+    ),
+    getContent = ({ results }) => (
+      <div className="flex flex-wrap">
+        { results.map( result => (
+          <p key={result.id} className="w-full">{result.value}</p>
+        ))}
+      </div>
+    ),
+    onNoResults = () => (
+      <h1 className="w-full text-center font-bold">No results</h1>
+    ),
+    ...props
+  } : SearchResultsProps<T> & ComponentPropsWithoutRef<typeof Accordion>,
+  // ref: ElementRef<typeof Accordion>
+) => {
   const categorizedResults : Map<T,SearchResult[]> = new Map();
 
   for (const item of data) {
@@ -41,7 +45,7 @@ export const SearchResults = <T extends string>({
   if (data.length === 0) return onNoResults() 
 
   return (
-    <Accordion type='multiple'>
+    <Accordion {...props}>
       {categorizedResults.entries().toArray()
         .sort( (a,b) => a[0].localeCompare(b[0]))
         .map( ([category, results], index) => (
@@ -58,3 +62,7 @@ export const SearchResults = <T extends string>({
   )
 }
 
+export const SearchResults = forwardRef(SearchResultsNoForwardRef) as <T extends string>(
+  props: SearchResultsProps<T> & ComponentPropsWithoutRef<typeof Accordion>,
+  // ref: ElementRef<typeof Accordion>,
+) => ReactElement
