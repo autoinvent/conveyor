@@ -1,10 +1,11 @@
 import type { ComponentProps } from 'react';
 
+import { SelectInput } from '@/BasicInputs';
 import { cn } from '@/lib/utils';
 import type { TableView } from '@/types';
 
-import { SelectInput } from '@/BasicInputs';
 import * as Shadcn from '../lib/components/ui/pagination';
+
 export interface PaginationProps
   extends ComponentProps<typeof Shadcn.Pagination>,
     Pick<TableView, 'page'> {
