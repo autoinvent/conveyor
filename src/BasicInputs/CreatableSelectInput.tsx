@@ -99,7 +99,7 @@ export const CreatableSelectInput = forwardRef<
         'mx-0.5',
       ),
     valueContainer: () =>
-      cn('py-0.5', 'px-2', 'overflow-visible', 'inline-block'),
+      cn('py-0.5', 'px-3', 'overflow-visible', 'inline-block'),
   };
 
   return (
