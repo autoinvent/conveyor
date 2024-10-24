@@ -40,7 +40,6 @@ export const ScrollAreaWrapper = ({
     lastElementChild = ref.current?.lastElementChild;
     if (!lastElementChild) return;
     observer.observe(lastElementChild);
-    
     return () => {
       observer.disconnect();
     };
