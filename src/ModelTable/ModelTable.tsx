@@ -80,7 +80,6 @@ export const ModelTable = Object.assign(
               scrollable={
                 typeof scrollable === 'object' ? true : scrollable ?? true
               }
-              fieldOrder={fieldOrder}
               className={
                 typeof scrollable === 'object' ? scrollable?.className : ''
               }
