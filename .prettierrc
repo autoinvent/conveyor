@@ -10,5 +10,6 @@
       "^(?:\\./|\\.\\./)"
   ],
   "importOrderSeparation": true,
+  "jsxSingleQuote": true,
   "printWidth": 80
 }
