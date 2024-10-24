@@ -1,4 +1,3 @@
-// https://github.com/openstatusHQ/time-picker/blob/main/src/components/time-picker/time-picker-12hour-demo.tsx
 'use client';
 
 import * as React from 'react';
@@ -7,6 +6,8 @@ import { Label } from './label';
 import { TimePeriodSelect } from './time-period-select';
 import { TimePickerInput } from './time-picker-input';
 import type { Period } from './time-picker-utils';
+
+// https://github.com/openstatusHQ/time-picker/blob/main/src/components/time-picker/time-picker-12hour-demo.tsx
 
 export type Granularity = 'Day' | 'Hour' | 'Minute' | 'Second';
 

@@ -1,22 +1,25 @@
+import { useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { DatetimeInput } from '../DatetimeInput';
-import { useState } from 'react';
 
 const meta = {
   title: 'Commons/DateTime',
   tags: ['autodocs'],
   render: () => {
-    const [date, setDate] = useState<string|undefined|null>('2024-07-10T23:12:34');
+    const [date, setDate] = useState<string | undefined | null>(
+      '2024-07-10T23:12:34',
+    );
     return (
-      <DatetimeInput 
+      <DatetimeInput
         value={date}
         onChange={setDate}
-        granularity='Second'
+        granularity="Second"
         hourCycle={24}
       />
-    )
-  }
+    );
+  },
 } satisfies Meta<typeof DatetimeInput>;
 export default meta;
 

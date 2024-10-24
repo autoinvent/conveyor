@@ -1,4 +1,3 @@
-// https://github.com/openstatusHQ/time-picker/blob/main/src/components/time-picker/period-select.tsx
 'use client';
 
 import * as React from 'react';
@@ -15,6 +14,8 @@ import {
   display12HourValue,
   setDateByType,
 } from './time-picker-utils';
+
+// https://github.com/openstatusHQ/time-picker/blob/main/src/components/time-picker/period-select.tsx
 
 export interface PeriodSelectorProps {
   period: Period;
