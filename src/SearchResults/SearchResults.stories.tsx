@@ -1,5 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react';
-import { type HeaderComponentProps, type RowComponentProps, type ContentWrapperProps, SearchResults } from "./SearchResults"
+import { SearchResults } from "./SearchResults"
 import { Button } from '@/lib/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -48,33 +48,16 @@ type Story = StoryObj<typeof meta>;
 
 export const NoExtras : Story = {}
 
-const MyRowComponent = ({ item } : RowComponentProps) => (
-  <Button className='max-w-40' key={item.value}>
-      {item.value}
-  </Button>
-)
-const MyHeaderComponent = ({ category } : HeaderComponentProps) => (
-  <div className='flex w-full flex-wrap'>
-    <h1 className='w-full bg-gray-200 py-4 text-start italic'>
-      {`This is a stylized header component for the category: ${category}`}
-    </h1>
-  </div>
-)
-const MyContentWrapper = ({ children, isLast } : ContentWrapperProps) => (
-  <div className={cn(
-    'flex w-full flex-row gap-2 p-2',
-    isLast ? 'bg-gray-600' : 'bg-gray-400'
-  )}>
-    {children}
-  </div>
-)
-
 export const Stylized : Story = {
   args: {
-    HeaderComponent: MyHeaderComponent,
-    RowComponent: MyRowComponent,
-    ContentWrapper: MyContentWrapper,
-    className: "p-2 bg-black"
+    getLabel: ({ category }) => <h1 className='w-full bg-slate-200 font-4xl font-bold italic'>{category}</h1>,
+    getContent: ({ results }) => (
+      <div className="flex flex-row gap-2">
+        { results.map( result => 
+          <p key={result.id} className='rounded-md bg-slate-200 p-2'>{result.value}</p>
+        )}
+      </div>
+    )
   }
 }
 
