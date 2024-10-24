@@ -36,7 +36,6 @@ export const ScrollAreaWrapper = ({
       }
     }
   });
-  
   useEffect(() => {
     lastElementChild = ref.current?.lastElementChild;
     if (!lastElementChild) return;
