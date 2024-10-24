@@ -25,7 +25,6 @@ export const ScrollAreaWrapper = ({
   const [isOverflow, setIsOverflow] = useState(false);
 
   let lastElementChild = ref.current?.lastElementChild;
-  
   const observer = new ResizeObserver(() => {
     const scrollWidth = lastElementChild?.scrollWidth;
     const clientWidth = lastElementChild?.clientWidth;
