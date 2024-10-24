@@ -2,12 +2,14 @@ import type { SearchResult } from '@/types'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/lib/components/ui/accordion'
 import type  { ReactNode } from 'react'
 
-export interface SearchResultsProps <Category extends string>{
+interface SearchResultsProps <Category extends string>{
   data: SearchResult[]
   groupBy?: (item : SearchResult) => Category
-  getLabel?: ({ category } : { category: Category }) => ReactNode
-  getContent?: ({ results }: { results : SearchResult[]}) => ReactNode
+  getLabel?: ({ category, results } : { category: Category, results: SearchResult[] }) => ReactNode
+  getContent?: ({ category, results }: { category: Category, results : SearchResult[]}) => ReactNode
+  onNoResults?: () => ReactNode
 }
+
 export const SearchResults = <T extends string>({ 
   data, 
   groupBy = (item) => item.type as T, 
@@ -20,6 +22,9 @@ export const SearchResults = <T extends string>({
         <p key={result.id} className="w-full">{result.value}</p>
       ))}
     </div>
+  ),
+  onNoResults = () => (
+    <h1 className="w-full text-center font-bold">No results</h1>
   )
 } : SearchResultsProps<T>) => {
   const categorizedResults : Map<T,SearchResult[]> = new Map();
@@ -33,15 +38,7 @@ export const SearchResults = <T extends string>({
     categorizedResults.get(category)?.push(item);
   }
 
-  // if (data.length === 0) {
-  //   return (
-  //     <div className={className}>
-  //       <h1 className="w-full text-center font-bold">
-  //         No Results
-  //       </h1>
-  //     </div>
-  //   )
-  // } 
+  if (data.length === 0) return onNoResults() 
 
   return (
     <Accordion type='multiple'>
@@ -50,10 +47,10 @@ export const SearchResults = <T extends string>({
         .map( ([category, results], index) => (
         <AccordionItem key={`item-${category}`} value={category}>
           <AccordionTrigger>
-            {getLabel({category})}
+            {getLabel({category, results})}
           </AccordionTrigger>
           <AccordionContent>
-            {getContent({ results })}
+            {getContent({category, results})}
           </AccordionContent>
         </AccordionItem>
       ))}
