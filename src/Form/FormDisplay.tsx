@@ -1,5 +1,6 @@
+import type { HTMLProps, ReactNode } from 'react';
+
 import { Slot } from '@radix-ui/react-slot';
-import type { ReactNode } from 'react';
 
 import { useFormStore } from './useFormStore';
 
@@ -8,7 +9,8 @@ export interface FormDisplayProps {
   children: ReactNode;
 }
 
-export interface FormDisplayChildProps {
+export interface FormDisplayChildProps
+  extends Omit<HTMLProps<HTMLElement>, 'ref'> {
   name?: string;
   value?: any;
 }

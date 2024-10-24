@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   type ActionParams,
@@ -19,12 +20,15 @@ const meta = {
     onDelete: { control: false },
   },
   args: {
+    model: 'Task',
     fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
+    fieldOrder: [], // dummy
+    onFieldOrderChange: () => null, // dummy
     data: [
       {
         id: '1',
         message: 'Make Table Scrollable',
-        user: { id: '00000001', _display_value: 'robxbob' },
+        user: { id: '00000001', displayValue: 'robxbob' },
         created_at: '2024-07-10T01:56:34.926365',
         points: 1,
         done: true,
@@ -32,7 +36,7 @@ const meta = {
       {
         id: '2',
         message: 'Resizable Columns',
-        user: { id: '00000002', _display_value: 'nicklitvin' },
+        user: { id: '00000002', displayValue: 'nicklitvin' },
         created_at: '2024-08-01T01:56:34.926365',
         points: 3,
         done: false,
@@ -40,7 +44,7 @@ const meta = {
       {
         id: '3',
         message: 'Feature: Column DnD',
-        user: { id: '00000001', _display_value: 'robxbob' },
+        user: { id: '00000001', displayValue: 'robxbob' },
         created_at: '2024-07-29T01:56:34.926365',
         points: 4,
         done: true,
@@ -48,53 +52,60 @@ const meta = {
       {
         id: '4',
         message: 'Feature: React Select',
-        user: { id: '00000003', _display_value: 'cmacgray14' },
+        user: { id: '00000003', displayValue: 'cmacgray14' },
         created_at: '2024-08-14T01:56:34.926365',
         points: 2,
         done: false,
       },
     ],
-    tableOptions: {
-      fieldOrder: [], // dummy
-      onFieldOrderChange: () => null, // dummy
-      columnOptions: {
-        id: {
-          editable: false,
-          sortable: false,
-          hidable: false,
-          hidden: true,
-        },
-        user: {
-          type: FieldType.MODEL_ITEM,
-          valueOptions: [
-            { label: 'robxbob', value: '00000001' },
-            { label: 'nicklitvin', value: '00000002' },
-            { label: 'cmacgray14', value: '00000003' },
-            { label: 'None', value: null },
+    columnOptions: {
+      id: {
+        editable: false,
+        sortable: false,
+        hidable: false,
+        hidden: true,
+      },
+      user: {
+        type: FieldType.MODEL,
+        inputProps: {
+          options: [
+            { displayValue: 'robxbob', id: '00000001' },
+            { displayValue: 'nicklitvin', id: '00000002' },
+            { displayValue: 'cmacgray14', id: '00000003' },
+            { displayValue: 'None', id: null },
           ],
         },
-        message: {
-          rules: { required: 'Message is required!' },
-        },
-        created_at: {
-          sortable: false,
-          type: FieldType.DATETIME,
-        },
-        points: {
-          type: FieldType.INT,
-        },
-        done: {
-          label: 'FINISHED 🏁',
-          type: FieldType.BOOLEAN,
-          hidable: false,
-        },
+      },
+      message: {
+        required: true,
+      },
+      created_at: {
+        sortable: false,
+        type: FieldType.DATETIME,
+      },
+      points: {
+        type: FieldType.INT,
+      },
+      done: {
+        label: 'FINISHED 🏁',
+        type: FieldType.BOOLEAN,
+        hidable: false,
       },
     },
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 2000)),
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 2000)),
   },
-  render: ({ fields, tableOptions, data, onUpdate, onDelete, ...args }) => {
-    const [currData, setCurrData] = useState<undefined | DataType[]>(data);
+  render: ({
+    fields,
+    fieldOrder: dummyFieldOrder,
+    onFieldOrderChange: dummyOnFieldOrderChange,
+    tableOptions,
+    data,
+    onUpdate,
+    onDelete,
+    ...args
+  }) => {
+    const [currData, setCurrData] = useState<DataType[]>(data);
     const [sortOrder, onSortOrderChange] =
       useState<TableView['sort']>(undefined);
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
@@ -112,12 +123,13 @@ const meta = {
           }
           return oldData;
         });
+        params.onCancelEdit();
       }
     };
 
-    const onDeleteHandler = async (d: DataType) => {
-      await onDelete?.(d);
-      const id = d?.id;
+    const onDeleteHandler = async (params: ActionParams<DataType>) => {
+      await onDelete?.(params);
+      const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
           const idx = oldData?.findIndex((d: DataType) => d.id === id);
@@ -128,19 +140,20 @@ const meta = {
           }
           return oldData;
         });
+        params.onCancelEdit();
       }
     };
 
     return (
       <ModelTable
         fields={fields}
+        fieldOrder={fieldOrder}
+        onFieldOrderChange={onFieldOrderChange}
         data={currData}
         tableOptions={{
           ...tableOptions,
           sortOrder,
           onSortOrderChange,
-          fieldOrder,
-          onFieldOrderChange,
         }}
         onUpdate={onUpdateHandler}
         onDelete={onDeleteHandler}
@@ -167,17 +180,61 @@ export const NoData: Story = {
   },
 };
 
-export const UndefinedData: Story = {
-  args: {
-    data: undefined,
-  },
-};
-
 export const ReadOnly = {
   args: {
     tableOptions: {
       readOnly: true,
-      columnOptions: meta.args.tableOptions.columnOptions,
     },
+  },
+};
+
+export const OnUpdateIsUndefined: Story = {
+  render: ({
+    fields,
+    fieldOrder: dummyFieldOrder,
+    onFieldOrderChange: dummyOnFieldOrderChange,
+    tableOptions,
+    data,
+    onUpdate,
+    onDelete,
+    ...args
+  }) => {
+    const [currData, setCurrData] = useState<DataType[]>(data);
+    const [sortOrder, onSortOrderChange] =
+      useState<TableView['sort']>(undefined);
+    const [fieldOrder, onFieldOrderChange] = useState([...fields]);
+
+    const onDeleteHandler = async (params: ActionParams<DataType>) => {
+      await onDelete?.();
+      const id = params?.data?.id;
+      if (id) {
+        setCurrData((oldData) => {
+          const idx = oldData?.findIndex((d: DataType) => d.id === id);
+          if (idx !== undefined && idx >= 0 && oldData) {
+            const newData = [...oldData];
+            newData.splice(idx, 1);
+            return newData;
+          }
+          return oldData;
+        });
+        params.onCancelEdit();
+      }
+    };
+
+    return (
+      <ModelTable
+        fields={fields}
+        fieldOrder={fieldOrder}
+        onFieldOrderChange={onFieldOrderChange}
+        data={currData}
+        tableOptions={{
+          ...tableOptions,
+          sortOrder,
+          onSortOrderChange,
+        }}
+        onDelete={onDeleteHandler}
+        {...args}
+      />
+    );
   },
 };

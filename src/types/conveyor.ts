@@ -1,11 +1,14 @@
+import type { ReactNode } from 'react';
+
 import type { RegisterOptions } from 'react-hook-form';
 
-import type { SelectOption } from './common';
+import type { DataType, SelectOption } from './common';
 import { ScalarType } from './magql';
 
 export interface FieldOptions {
-  label?: string;
+  label?: ReactNode;
   type?: string;
+  required?: boolean;
   hidden?: boolean;
   editable?: boolean;
   rules?: Omit<
@@ -13,11 +16,12 @@ export interface FieldOptions {
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
   valueOptions?: SelectOption[];
+  inputProps?: DataType;
+  displayProps?: DataType;
 }
 
 export enum NonScalarType {
-  MODEL_ITEM = '__MODEL_ITEM__',
-  MODEL_LIST = '__MODEL_LIST__',
+  MODEL = '__MODEL__',
 }
 
 export const FieldType = { ...ScalarType, ...NonScalarType };

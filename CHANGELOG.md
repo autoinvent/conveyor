@@ -1,9 +1,39 @@
+## 1.7.0
+`feature`: Combined `ModelListInput` and `ModelListDisplay` (as well as for the model item counterparts). Removed `selectoption` from `fieldOptions` due to `inputProps` being robust enough to do that and more.
+
+## 1.6.0
+- `package`: upgraded all packages.
+- `feature`: added `inputProps` and `displayProps` to `FieldOptions` 
+- `feature`: added `null/undefined` checks on inputs to default to the primitive type.
+- `feature`: `ModelListDisplay` basic display component added. 
+- `bugfix`: select input's ring color now using the `ring` css variable.
+ 
+## 1.5.2 
+- `bugfix`: Fixed `label` in `fieldOptions` not showing up on `ModelForm`.
+- `enhancement`: Removed default `menuPortalTarget` prop from `SelectInput`.
+- `enhancement`: Replaced `_display_value` with `displayValue` for consistent naming conventions. 
+
+## 1.5.1
+- `bugfix`: `SelectInput`'s options now allow any DataType for its options to utilize the `getOptionLabel` and `getOptionValue` props. The options passed into `fieldOptions` for `ModelTable/ModelForm` can be accessed from the form control by `selectoptions`. 
+
+## 1.5.0
+- `feature`: `CreatableSelectInput` exposes the `CreatableSelect` from **react-select**.
+- `bugfix`: Table column resizing no longer affects other columns and work as intended.
+- `bugfix`: When `onUpdate` for `ModelForm` and `ModelTable` is set to be undefined, hide the edit button.  
+
 ## 1.4.0
 - `feature`: **react-select** now used under the hood for select components.
 - `feature`: `ModelTable` can now be resized. 
 - `feature`: `ModelTable`'s internal `ScrollAreaWrapper` and `BorderWrapper` classNames can now be accessed from `scrollable/bordered` props in  `tableOptions`
-- `refactor`: `LoadingProvider` removed in usage of `isSubmitting` which can be accessed from react-hook-form. 
+- `feature`: `ModelTable` and `ModelForm` now exposes main `UseFormProps` from **react-hook-form**.
+  - This allows developers to configure the options for the form implemented under the hood for ModelTable and ModelForm. 
+  - Default options are configured to have `mode="onSubmit"` and `criteriaMode="all"`. 
+- `feature`: Action functions passed to ModelTable and ModelForm now contains onEdit and onEditCancel handlers to toggle between input and display modes; onEditCancel resets the form as well.  
+- `removed`: `Loading` directory removed in usage of `isSubmitting` which can be accessed from react-hook-form. Spinner deemed unused and replaced with a lucide spinner icon inside of a button.
 - `refactor`: `Form` no longer supports render functions; instead it utilizes radix UI Slots to pass form props to child input. 
+  - Comes with `FormError`, `FormLabel`, and `FormControl`.
+- `refactor`: `ModelTable` props moved around for ease of use. `data` is required as TableFallback no longer presents a spinner on undefined data. 
+- `refactor`: `ModelForm` has been refactored in its entirety to utilize the new Form components. 
 
 ## 1.3.1
 - `bugfix`: Pagination className typescript error fixed. 

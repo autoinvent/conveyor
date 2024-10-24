@@ -18,7 +18,9 @@ export interface FieldVisibilityProps<F extends string, T extends F> {
   fields: readonly F[];
   fieldOrder: T[];
   onFieldOrderChange: (newFieldOrder: T[]) => void;
-  options?: Partial<Record<T, ColumnOptions>>;
+  options?: Partial<
+    Record<T, Pick<ColumnOptions, 'label' | 'hidable' | 'hidden'>>
+  >;
 }
 
 export const FieldVisibility = <F extends string, T extends F>({

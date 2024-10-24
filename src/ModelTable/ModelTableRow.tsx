@@ -19,18 +19,21 @@ export const ModelTableRow = ({
   children,
   ...props
 }: ModelTableRowProps) => {
-  const resolver = useModelTableStore((state) => state.formOptions?.resolver);
   const fields = useModelTableStore((state) => state.fields);
-  const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
-  const fieldOrder = useModelTableStore(
-    (state) => state.tableOptions.fieldOrder,
+  const fieldOrder = useModelTableStore((state) => state.fieldOrder);
+  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
+  const draggable = useModelTableStore(
+    (state) => state.tableOptions?.draggable,
   );
-  const draggable = useModelTableStore((state) => state.tableOptions.draggable);
+  const formOptions = useModelTableStore((state) => state.formOptions);
   const data = useDataStore();
   const formMethods = useForm({
-    mode: 'onChange',
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    criteriaMode: 'all',
     values: data,
-    resolver,
+    ...formOptions,
+    errors: formOptions?.errors?.[data.id],
   });
   return (
     <FormStoreProvider id={data.id} {...formMethods}>

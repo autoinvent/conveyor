@@ -1,11 +1,10 @@
 // common components
-export * from './BasicInputs';
+export * from './BasicDisplays';
 export * from './BasicInputs';
 export * from './Data';
 export * from './Form';
 export * from './Header';
 export * from './Lenses';
-export * from './Loading';
 export * from './Pagination';
 export * from './Slots';
 export * from './Table';
@@ -14,7 +13,7 @@ export * from './Table';
 export * from './Conveyor';
 export * from './ModelCheckDelete';
 // export * from './ModelFilter';
-// export * from './ModelForm';
+export * from './ModelForm';
 export * from './ModelTable';
 // export * from './ModelSearch';
 

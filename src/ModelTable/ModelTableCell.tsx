@@ -1,11 +1,11 @@
 import { useConveyorStore } from '@/Conveyor';
 import { FormDisplay, useFormStore } from '@/Form';
+import { FormControl } from '@/Form/FormControl';
 import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
 import { DataLens, ScalarType } from '@/types';
-import { DndSortableWrapper } from '@/utils';
+import { DndSortableWrapper, humanizeText } from '@/utils';
 
-import { FormControl } from '@/Form/FormControl';
 import { useModelTableStore } from './useModelTableStore';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
@@ -18,19 +18,31 @@ export const ModelTableCell = ({
   ...tableCellProps
 }: ModelTableCellProps) => {
   const { setLens, activeLens } = useLensesStore();
-  const readOnly = useModelTableStore((state) => state.tableOptions.readOnly);
+  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
   const draggable = useModelTableStore(
-    (state) => state.tableOptions.draggable ?? true,
+    (state) => state.tableOptions?.draggable ?? true,
+  );
+  const label = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.label ?? humanizeText(field),
   );
   const type = useModelTableStore(
-    (state) =>
-      state.tableOptions.columnOptions?.[field]?.type ?? ScalarType.STRING,
+    (state) => state.columnOptions?.[field]?.type ?? ScalarType.STRING,
   );
   const editable = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.editable ?? true,
+    (state) => state.columnOptions?.[field]?.editable ?? true,
   );
-  const valueOptions = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.valueOptions ?? [],
+  const onUpdate = useModelTableStore((state) => state.onUpdate);
+  const rules = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.rules,
+  );
+  const required = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.required,
+  );
+  const inputProps = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.inputProps,
+  );
+  const displayProps = useModelTableStore(
+    (state) => state.columnOptions?.[field]?.displayProps,
   );
   const DisplayComponent = useConveyorStore(
     (state) => state.typeOptions?.[type]?.DisplayComponent ?? (() => null),
@@ -39,18 +51,28 @@ export const ModelTableCell = ({
     (state) => state.typeOptions?.[type]?.InputComponent ?? (() => null),
   );
   const reset = useFormStore((state) => state.reset);
-
+  const isSubmitting = useFormStore((state) => state.formState.isSubmitting);
   return (
     <DndSortableWrapper draggable={draggable} dndId={field} disabled>
       <TableCell
         columnId={field}
-        onDoubleClick={(e) => {
-          if (!readOnly && editable && activeLens === DataLens.DISPLAY) {
+        onDoubleClick={() => {
+          if (
+            !readOnly &&
+            editable &&
+            activeLens === DataLens.DISPLAY &&
+            !isSubmitting &&
+            onUpdate
+          ) {
             setLens(DataLens.INPUT);
           }
         }}
         onKeyUp={(e) => {
-          if (e.key === 'Escape' && activeLens === DataLens.INPUT) {
+          if (
+            e.key === 'Escape' &&
+            activeLens === DataLens.INPUT &&
+            !isSubmitting
+          ) {
             setLens(DataLens.DISPLAY);
             reset();
           }
@@ -62,18 +84,24 @@ export const ModelTableCell = ({
             <>
               <Lens lens={DataLens.DISPLAY}>
                 <FormDisplay name={field}>
-                  <DisplayComponent />
+                  <DisplayComponent {...displayProps} />
                 </FormDisplay>
               </Lens>
               <Lens lens={DataLens.INPUT}>
-                <FormControl name={field}>
-                  <InputComponent options={valueOptions} />
+                <FormControl
+                  name={field}
+                  rules={{
+                    required: required && `${label} is required.`,
+                    ...rules,
+                  }}
+                >
+                  <InputComponent {...inputProps} />
                 </FormControl>
               </Lens>
             </>
           ) : (
             <FormDisplay name={field}>
-              <DisplayComponent />
+              <DisplayComponent {...displayProps} />
             </FormDisplay>
           )
         ) : (

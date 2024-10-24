@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+
 import { useStore } from 'zustand';
 
 import type { DataType, StoreSelector } from '@/types';
@@ -11,14 +12,24 @@ import {
 export function useModelFormStore<
   D extends DataType,
   F extends string,
->(): ModelFormState<D, F>;
-export function useModelFormStore<D extends DataType, F extends string, T>(
-  selector: StoreSelector<ModelFormState<D, F>, T>,
-): T;
+  DT extends D,
+  FT extends F,
+>(): ModelFormState<D, F, DT, FT>;
+export function useModelFormStore<
+  D extends DataType,
+  F extends string,
+  DT extends D,
+  FT extends F,
+  S,
+>(selector: StoreSelector<ModelFormState<D, F, DT, FT>, S>): S;
 
-export function useModelFormStore<D extends DataType, F extends string, T>(
-  selector?: StoreSelector<ModelFormState<D, F>, T>,
-) {
+export function useModelFormStore<
+  D extends DataType,
+  F extends string,
+  DT extends D,
+  FT extends F,
+  S,
+>(selector?: StoreSelector<ModelFormState<D, F, DT, FT>, S>) {
   const modelFormStore = useContext(ModelFormStoreContext);
   if (modelFormStore === undefined) {
     throw new Error(

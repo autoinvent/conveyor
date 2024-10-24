@@ -1,12 +1,12 @@
-import { Slot } from '@radix-ui/react-slot';
-import type { PropsWithoutRef, ReactNode } from 'react';
+import type { HTMLProps, PropsWithoutRef, ReactNode } from 'react';
+
 import {
   type ControllerRenderProps,
   type UseControllerProps,
   useController,
 } from 'react-hook-form';
 
-import type { SelectOption } from '@/types';
+import { Slot } from '@radix-ui/react-slot';
 
 import { useFormStore } from './useFormStore';
 
@@ -15,12 +15,12 @@ export interface FormControlProps extends Omit<UseControllerProps, 'control'> {
 }
 
 export interface FormControlChildProps
-  extends Partial<PropsWithoutRef<ControllerRenderProps>> {
+  extends Partial<PropsWithoutRef<ControllerRenderProps>>,
+    Omit<HTMLProps<HTMLElement>, keyof ControllerRenderProps | 'type'> {
   id?: string;
   'aria-describedby'?: string;
   'aria-invalid'?: boolean;
   'aria-disabled'?: boolean;
-  options?: SelectOption[];
 }
 
 export const FormControl = ({
@@ -38,7 +38,10 @@ export const FormControl = ({
   const formControlId = `${id}-${name}-form-control`;
   const formDescriptionId = `${formControlId}-description`;
   const formMessageId = `${formControlId}-message`;
-
+  const slotProps = {
+    ...field,
+    disabled: isSubmitting,
+  };
   return (
     <Slot
       id={formControlId}
@@ -49,8 +52,7 @@ export const FormControl = ({
       }
       aria-invalid={!!error}
       aria-disabled={isSubmitting}
-      disabled={isSubmitting}
-      {...field}
+      {...slotProps}
     >
       {children}
     </Slot>

@@ -1,7 +1,7 @@
 import { TableHead, type TableHeadProps } from '@/Table';
-import { DndSortableWrapper, humanizeText } from '@/utils';
+import { DndSortableWrapper, ResizableWrapper, humanizeText } from '@/utils';
 
-import { ResizableWrapper } from '@/utils';
+import { DEFAULT_COLUMN_WIDTH } from './ModelTable';
 import { ModelTableHeadMenu } from './ModelTableHeadMenu';
 import { useModelTableStore } from './useModelTableStore';
 
@@ -16,19 +16,19 @@ export const ModelTableHead = ({
   ...tableHeadProps
 }: ModelTableHeadProps) => {
   const draggable = useModelTableStore(
-    (state) => state.tableOptions.draggable ?? true,
+    (state) => state.tableOptions?.draggable ?? true,
   );
   const onWidthChange = useModelTableStore(
     (state) => state.tableOptions?.onWidthChange,
   );
   const resizable = useModelTableStore(
-    (state) => state.tableOptions?.columnOptions?.[field]?.resizable ?? true,
+    (state) => state.columnOptions?.[field]?.resizable ?? true,
   );
   const label = useModelTableStore(
-    (state) => state.tableOptions.columnOptions?.[field]?.label,
+    (state) => state.columnOptions?.[field]?.label,
   );
   const width = useModelTableStore(
-    (state) => state.tableOptions?.columnOptions?.[field]?.width ?? 200,
+    (state) => state.columnOptions?.[field]?.width ?? DEFAULT_COLUMN_WIDTH,
   );
 
   return (

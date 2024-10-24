@@ -3,5 +3,5 @@ export * from './DatetimeInput';
 export * from './NumberInput';
 export * from './SelectInput';
 export * from './StringInput';
-
-export * from './ModelItemInput';
+export * from './CreatableSelectInput';
+export * from './ModelInput';
