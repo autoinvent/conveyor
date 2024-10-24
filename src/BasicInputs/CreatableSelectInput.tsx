@@ -86,16 +86,16 @@ export const CreatableSelectInput = forwardRef<
     option: ({ isFocused, isSelected }) =>
       cn(
         isFocused ? 'bg-secondary' : 'bg-transparent',
-        isSelected ? 'font-bold' : 'text-inherit',
+        isSelected ? 'font-bold' : 'text-sm',
         'py-2',
         'px-3',
         'rounded-md',
       ),
-    placeholder: () => cn('text-muted-foreground', 'mx-0.5'),
+    placeholder: () => cn('text-muted-foreground', 'mx-0.5', 'text-sm'),
     singleValue: () =>
       cn(
         //isDisabled ? 'text-neutral-400' : 'text-neutral-800',
-        'text-inherit',
+        'text-sm',
         'mx-0.5',
       ),
     valueContainer: () =>
