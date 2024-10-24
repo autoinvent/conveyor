@@ -1,7 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react';
 import { SearchResults } from "./SearchResults"
-import { Button } from '@/lib/components/ui/button';
-import { cn } from '@/lib/utils';
 
 const meta = {
   title: 'Commons/SearchResults',
