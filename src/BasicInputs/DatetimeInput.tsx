@@ -2,10 +2,6 @@
 
 import {
   forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
 } from 'react';
 
 import { add, format } from 'date-fns';
@@ -31,14 +27,14 @@ type DatetimeInputRef = {
 } & Omit<HTMLButtonElement, 'value'>;
 
 export interface DatetimeInputProps {
-  value?: string;
-  onChange?: (date: string | undefined) => void;
+  value?: string|null;
+  onChange?: (date: string | undefined | null) => void;
   granularity?: Granularity;
   hourCycle?: 12 | 24;
 }
 
 export const DatetimeInput = forwardRef<
-  Partial<DatetimeInputRef>,
+  DatetimeInputRef,
   DatetimeInputProps
 >(
   (
@@ -46,7 +42,6 @@ export const DatetimeInput = forwardRef<
     ref,
   ) => {
     const date : Date|undefined = value ? new Date(value) : undefined;
-    const buttonRef = useRef<HTMLButtonElement>(null);
 
     /**
      * carry over the current time when a user clicks a new day
@@ -61,8 +56,8 @@ export const DatetimeInput = forwardRef<
       onChange?.(newDateFull.toISOString())
     };
 
-    const onDateChange = (date : Date|undefined) => {
-      onChange?.(date ? date.toISOString() : undefined)
+    const onDateChange = (newDate : Date|null|undefined) => {
+      onChange?.(newDate ? newDate.toISOString() : null)
     }
 
     const getFormatStyle = () => {
@@ -87,7 +82,6 @@ export const DatetimeInput = forwardRef<
               !date && 'text-muted-foreground',
               'min-w-[280px] justify-start text-left font-normal dark:[color-scheme:dark]',
             )}
-            ref={buttonRef}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {date ? format(date, getFormatStyle()) : <span>Pick a date</span>}
@@ -119,7 +113,7 @@ export const DatetimeInput = forwardRef<
             <div className="flex w-full flex-row pt-3">
               <Button
                 variant="link"
-                onClick={() => onDateChange(undefined)}
+                onClick={() => onDateChange(null)}
                 className="p-2"
               >
                 Clear
