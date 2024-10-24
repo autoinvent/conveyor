@@ -16,7 +16,8 @@ export const ModelDisplay = ({
   className,
   ...props
 }: ModelDisplayProps) => {
-  const parsedValue = Array.isArray(value) ? value : [value];
+  const parsedValue =
+    Array.isArray(value) && value.length > 0 ? value : [value];
   const modelList = parsedValue
     .flatMap((val: ReactNode) => [getDisplayValue(val), ', '])
     .slice(0, -1);

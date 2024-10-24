@@ -1,10 +1,12 @@
-import { Slot } from '@radix-ui/react-slot';
 import type { HTMLProps, PropsWithoutRef, ReactNode } from 'react';
+
 import {
   type ControllerRenderProps,
   type UseControllerProps,
   useController,
 } from 'react-hook-form';
+
+import { Slot } from '@radix-ui/react-slot';
 
 import { useFormStore } from './useFormStore';
 

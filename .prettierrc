@@ -1,0 +1,15 @@
+{
+  "singleQuote": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": [
+      "index.css",
+      "^react$",
+      "^(?!react$\b)[a-z]",
+      "^@(?!/)",
+      "^@/",
+      "^(?:\\./|\\.\\./)"
+  ],
+  "importOrderSeparation": true,
+  "jsxSingleQuote": true,
+  "printWidth": 80
+}

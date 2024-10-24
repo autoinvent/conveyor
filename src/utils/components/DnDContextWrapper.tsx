@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import {
   DndContext,
   type DragEndEvent,
@@ -13,7 +15,6 @@ import {
   restrictToParentElement,
 } from '@dnd-kit/modifiers';
 import { arrayMove } from '@dnd-kit/sortable';
-import type { ReactNode } from 'react';
 
 export interface DnDContextWrapperProps {
   draggable: boolean;

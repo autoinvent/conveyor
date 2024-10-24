@@ -1,5 +1,3 @@
-import type { FormControlChildProps } from '@/Form';
-import { cn } from '@/lib/utils';
 import {
   type ComponentProps,
   type ComponentPropsWithoutRef,
@@ -7,7 +5,11 @@ import {
   type PropsWithoutRef,
   forwardRef,
 } from 'react';
+
 import Creatable from 'react-select/creatable';
+
+import type { FormControlChildProps } from '@/Form';
+import { cn } from '@/lib/utils';
 
 export const CreatableSelectInput = forwardRef<
   ElementRef<typeof Creatable>,
@@ -84,20 +86,20 @@ export const CreatableSelectInput = forwardRef<
     option: ({ isFocused, isSelected }) =>
       cn(
         isFocused ? 'bg-secondary' : 'bg-transparent',
-        isSelected ? 'font-bold' : 'text-inherit',
+        isSelected ? 'font-bold' : 'text-sm',
         'py-2',
         'px-3',
         'rounded-md',
       ),
-    placeholder: () => cn('text-muted-foreground', 'mx-0.5'),
+    placeholder: () => cn('text-muted-foreground', 'mx-0.5', 'text-sm'),
     singleValue: () =>
       cn(
         //isDisabled ? 'text-neutral-400' : 'text-neutral-800',
-        'text-inherit',
+        'text-sm',
         'mx-0.5',
       ),
     valueContainer: () =>
-      cn('py-0.5', 'px-2', 'overflow-visible', 'inline-block'),
+      cn('py-0.5', 'px-3', 'overflow-visible', 'inline-block'),
   };
 
   return (

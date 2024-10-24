@@ -1,7 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
+import { Plus } from 'lucide-react';
+
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { RawDisplay } from '@/BasicDisplays';
+import { Conveyor } from '@/Conveyor';
+import { FormDisplay } from '@/Form';
+import { Header } from '@/Header';
 import ModelTableStoryMeta from '@/ModelTable/stories/ModelTable.stories';
+import { Pagination } from '@/Pagination';
+import { Button } from '@/lib/components/ui/button';
 import {
   type ActionParams,
   type DataType,
@@ -9,13 +18,6 @@ import {
   type TableView,
 } from '@/types';
 
-import { RawDisplay } from '@/BasicDisplays';
-import { Conveyor } from '@/Conveyor';
-import { FormDisplay } from '@/Form';
-import { Header } from '@/Header';
-import { Pagination } from '@/Pagination';
-import { Button } from '@/lib/components/ui/button';
-import { Plus } from 'lucide-react';
 import { FieldVisibility } from '../FieldVisibility';
 import { ModelTable } from '../ModelTable';
 
@@ -36,27 +38,29 @@ const meta = {
     columnOptions,
     ...args
   }) => {
-    const [errors, setErrors] = useState({});
+    // const [errors, setErrors] = useState({});
     const [tableView, setTableView] = useState<TableView>({});
     const [currData, setCurrData] = useState<DataType[]>(data);
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
+    const [perPage, setPerPage] = useState<number | undefined>(10);
 
-    // const onUpdateHandler = async (params: ActionParams<DataType>) => {
-    //   await onUpdate?.(params);
-    //   const id = params?.data?.id;
-    //   if (id) {
-    //     setCurrData((oldData) => {
-    //       const idx = oldData?.findIndex((d: DataType) => d.id === id);
-    //       if (idx !== undefined && idx >= 0 && oldData) {
-    //         const newData = [...oldData];
-    //         newData[idx] = params.data;
-    //         return newData;
-    //       }
-    //       return oldData;
-    //     });
-    //     params.onCancelEdit();
-    //   }
-    // };
+    const onUpdateHandler = async (params: ActionParams<DataType>) => {
+      await onUpdate?.(params);
+      const id = params?.data?.id;
+      console.log(params);
+      if (id) {
+        setCurrData((oldData) => {
+          const idx = oldData?.findIndex((d: DataType) => d.id === id);
+          if (idx !== undefined && idx >= 0 && oldData) {
+            const newData = [...oldData];
+            newData[idx] = params.data;
+            return newData;
+          }
+          return oldData;
+        });
+        params.onCancelEdit();
+      }
+    };
 
     const onDeleteHandler = async (params: ActionParams<DataType>) => {
       await onDelete?.(params);
@@ -115,13 +119,8 @@ const meta = {
                 }));
               },
             }}
-            formOptions={{ errors }}
             columnOptions={columnOptions}
-            onUpdate={({ data }) => {
-              setErrors({
-                [data.id]: { message: { types: { atype: 'hello' } } },
-              });
-            }}
+            onUpdate={onUpdateHandler}
             onDelete={onDeleteHandler}
             {...args}
           >
@@ -146,6 +145,8 @@ const meta = {
                 page: newPage,
               }));
             }}
+            perPage={perPage}
+            onPerPageChange={setPerPage}
           />
         </Conveyor>
       </div>

@@ -1,3 +1,5 @@
+import type { ComponentProps } from 'react';
+
 import { Button } from '@/lib/components/ui/button';
 import {
   Card,
@@ -9,7 +11,6 @@ import {
 import { ScrollArea } from '@/lib/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import type { CheckDeleteResult } from '@/types';
-import type { ComponentProps } from 'react';
 
 export interface ModelCheckDeleteProps
   extends CheckDeleteResult,

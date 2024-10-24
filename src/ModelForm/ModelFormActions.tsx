@@ -1,5 +1,6 @@
-import { LoaderCircle } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
+
+import { LoaderCircle } from 'lucide-react';
 
 import { useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';

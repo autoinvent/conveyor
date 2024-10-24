@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { Pagination } from './Pagination';
 
@@ -49,7 +50,7 @@ type Story = StoryObj<typeof meta>;
 export const BasicUsage: Story = {
   args: {
     totalDataLength: 200,
-    page: 3,
+    page: 1,
     perPage: 5,
     maxPageButtonLimit: 5,
   },
