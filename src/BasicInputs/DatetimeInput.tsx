@@ -45,37 +45,25 @@ export const DatetimeInput = forwardRef<
     { value, onChange, granularity = 'Second', hourCycle = 12, ...props },
     ref,
   ) => {
-    const [date, setDate] = useState<Date | undefined>(
-      value && !Number.isNaN(new Date(value).valueOf())
-        ? new Date(value)
-        : undefined,
-    );
-    useEffect(() => {
-      onChange?.(date ? date.toISOString() : undefined);
-    }, [date, onChange]);
+    const date : Date|undefined = value ? new Date(value) : undefined;
     const buttonRef = useRef<HTMLButtonElement>(null);
-
-    useImperativeHandle(
-      ref,
-      () => ({
-        ...buttonRef.current,
-        value,
-      }),
-      [value],
-    );
 
     /**
      * carry over the current time when a user clicks a new day
      * instead of resetting to 00:00
      */
     const handleSelect = (newDay: Date | undefined) => {
-      if (!newDay || !date) return setDate(newDay);
+      if (!newDay || !date) return onChange?.(newDay?.toISOString());
 
       const diff = newDay.getTime() - date.getTime();
       const diffInDays = diff / (1000 * 60 * 60 * 24);
       const newDateFull = add(date, { days: Math.ceil(diffInDays) });
-      setDate(newDateFull);
+      onChange?.(newDateFull.toISOString())
     };
+
+    const onDateChange = (date : Date|undefined) => {
+      onChange?.(date ? date.toISOString() : undefined)
+    }
 
     const getFormatStyle = () => {
       switch (granularity) {
@@ -116,13 +104,13 @@ export const DatetimeInput = forwardRef<
           <div className="border-border border-t p-3">
             {hourCycle === 12 && granularity !== 'Day' ? (
               <TimePicker12h
-                setDate={setDate}
+                setDate={onDateChange}
                 date={date}
                 granularity={granularity}
               />
             ) : hourCycle === 24 && granularity !== 'Day' ? (
               <TimePicker24h
-                setDate={setDate}
+                setDate={onDateChange}
                 date={date}
                 granularity={granularity}
               />
@@ -131,7 +119,7 @@ export const DatetimeInput = forwardRef<
             <div className="flex w-full flex-row pt-3">
               <Button
                 variant="link"
-                onClick={() => setDate(undefined)}
+                onClick={() => onDateChange(undefined)}
                 className="p-2"
               >
                 Clear
@@ -139,7 +127,7 @@ export const DatetimeInput = forwardRef<
               <div className="flex-1" />
               <Button
                 variant="link"
-                onClick={() => setDate(new Date())}
+                onClick={() => onDateChange(new Date())}
                 className="p-2"
               >
                 Today
