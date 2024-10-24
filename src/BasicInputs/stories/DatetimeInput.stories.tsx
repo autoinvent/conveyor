@@ -15,7 +15,6 @@ const meta = {
       <DatetimeInput
         value={date}
         onChange={setDate}
-        granularity="Second"
         hourCycle={24}
       />
     );

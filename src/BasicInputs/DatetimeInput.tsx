@@ -26,7 +26,7 @@ type DatetimeInputRef = {
 
 export interface DatetimeInputProps {
   value?: string | null;
-  onChange?: (date: string | undefined | null) => void;
+  onChange?: (date: string | null) => void;
   granularity?: Granularity;
   hourCycle?: 12 | 24;
 }
@@ -36,22 +36,22 @@ export const DatetimeInput = forwardRef<DatetimeInputRef, DatetimeInputProps>(
     { value, onChange, granularity = 'Second', hourCycle = 12, ...props },
     ref,
   ) => {
-    const date: Date | undefined = value ? new Date(value) : undefined;
+    const date: Date | null = value ? new Date(value) : null;
 
     /**
      * carry over the current time when a user clicks a new day
      * instead of resetting to 00:00
      */
     const handleSelect = (newDay: Date | undefined) => {
-      if (!newDay || !date) return onChange?.(newDay?.toISOString());
+      if (!newDay || !date) return onDateChange(newDay);
 
       const diff = newDay.getTime() - date.getTime();
       const diffInDays = diff / (1000 * 60 * 60 * 24);
       const newDateFull = add(date, { days: Math.ceil(diffInDays) });
-      onChange?.(newDateFull.toISOString());
+      onDateChange(newDateFull);
     };
 
-    const onDateChange = (newDate: Date | null | undefined) => {
+    const onDateChange = (newDate: Date | undefined | null) => {
       onChange?.(newDate ? newDate.toISOString() : null);
     };
 
@@ -85,8 +85,8 @@ export const DatetimeInput = forwardRef<DatetimeInputRef, DatetimeInputProps>(
         <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
-            selected={date}
-            onSelect={(d) => handleSelect(d)}
+            selected={date ?? undefined}
+            onSelect={handleSelect}
             initialFocus
             {...props}
           />
@@ -94,13 +94,13 @@ export const DatetimeInput = forwardRef<DatetimeInputRef, DatetimeInputProps>(
             {hourCycle === 12 && granularity !== 'Day' ? (
               <TimePicker12h
                 setDate={onDateChange}
-                date={date}
+                date={date ?? undefined}
                 granularity={granularity}
               />
             ) : hourCycle === 24 && granularity !== 'Day' ? (
               <TimePicker24h
                 setDate={onDateChange}
-                date={date}
+                date={date ?? undefined}
                 granularity={granularity}
               />
             ) : null}
