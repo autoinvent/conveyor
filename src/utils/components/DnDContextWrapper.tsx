@@ -9,26 +9,12 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import type {
-  CollisionDescriptor,
-  CollisionDetection,
-  DragOverEvent,
-} from '@dnd-kit/core';
+import type { CollisionDetection, DragOverEvent } from '@dnd-kit/core';
 import {
   restrictToHorizontalAxis,
   restrictToParentElement,
 } from '@dnd-kit/modifiers';
 import { arrayMove } from '@dnd-kit/sortable';
-
-/**
- * Sort collisions from greatest to smallest value
- */
-export function sortCollisionsDesc(
-  { data: { value: a } }: CollisionDescriptor,
-  { data: { value: b } }: CollisionDescriptor,
-) {
-  return b - a;
-}
 
 const customCollisionAlgorithm: CollisionDetection = ({
   collisionRect,
@@ -96,7 +82,6 @@ export const DnDContextWrapper = ({
     }),
     useSensor(KeyboardSensor, {}),
   );
-
   const handleDragOver = ({ active, over }: DragOverEvent) => {
     if (active && over && active.id !== over.id) {
       const oldIndex = dndList.indexOf(active.id.toString());
