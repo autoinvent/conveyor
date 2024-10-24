@@ -26,7 +26,7 @@ export interface TableView {
   filter?: FilterItem[][];
   sort?: string[];
   page?: number;
-  per_page?: number;
+  perPage?: number;
 }
 
 export enum ScalarType {

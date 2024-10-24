@@ -42,6 +42,7 @@ const meta = {
     const [tableView, setTableView] = useState<TableView>({});
     const [currData, setCurrData] = useState<DataType[]>(data);
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
+    const [perPage, setPerPage] = useState<number | undefined>(10);
 
     const onUpdateHandler = async (params: ActionParams<DataType>) => {
       await onUpdate?.(params);
@@ -144,6 +145,8 @@ const meta = {
                 page: newPage,
               }));
             }}
+            perPage={perPage}
+            onPerPageChange={setPerPage}
           />
         </Conveyor>
       </div>
