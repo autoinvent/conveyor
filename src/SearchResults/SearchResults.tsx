@@ -31,6 +31,7 @@ export interface SearchResultsProps<Category extends string> {
     category: Category;
     results: SearchResult[];
   }) => ReactNode;
+  sortBy?: (a : [Category, SearchResult[]], b: [Category, SearchResult[]]) => number,
   onNoResults?: () => ReactNode;
 }
 
@@ -53,6 +54,7 @@ export const SearchResultsNoForwardRef = <T extends string>(
     onNoResults = () => (
       <h1 className="w-full text-center font-bold">No results</h1>
     ),
+    sortBy = (a, b) => a[0].localeCompare(b[0]),
     ...props
   }: SearchResultsProps<T> & ComponentPropsWithoutRef<typeof Accordion>,
   ref: React.Ref<ElementRef<typeof Accordion>>,
@@ -75,7 +77,7 @@ export const SearchResultsNoForwardRef = <T extends string>(
       {categorizedResults
         .entries()
         .toArray()
-        .sort((a, b) => a[0].localeCompare(b[0]))
+        .sort(sortBy)
         .map(([category, results], index) => (
           <AccordionItem key={`item-${category}`} value={category}>
             <AccordionTrigger>

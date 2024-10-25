@@ -73,6 +73,12 @@ export const Grouped: Story = {
   },
 };
 
+export const Sorted : Story = {
+  args: {
+    sortBy: (a,b) => a[1].length - b[1].length
+  }
+}
+
 export const NoResults: Story = {
   args: {
     data: [],
