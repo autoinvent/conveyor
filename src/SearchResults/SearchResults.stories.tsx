@@ -38,7 +38,7 @@ const meta = {
         value: "value-2-3",
       },
     ],
-    type: 'single'
+    type: 'single',
   }
 } satisfies Meta<typeof SearchResults>;
 export default meta;

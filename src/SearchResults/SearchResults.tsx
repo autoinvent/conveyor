@@ -1,8 +1,8 @@
 import type { SearchResult } from '@/types'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/lib/components/ui/accordion'
-import  { type ComponentPropsWithoutRef, forwardRef, type ReactElement, type ReactNode } from 'react'
+import  { type ComponentPropsWithoutRef, type ElementRef, forwardRef, type ReactElement, type ReactNode } from 'react'
 
-interface SearchResultsProps<Category extends string> {
+export interface SearchResultsProps<Category extends string> {
   data: SearchResult[]
   groupBy?: (item : SearchResult) => Category
   getLabel?: ({ category, results } : { category: Category, results: SearchResult[] }) => ReactNode
@@ -29,7 +29,7 @@ export const SearchResultsNoForwardRef = <T extends string>(
     ),
     ...props
   } : SearchResultsProps<T> & ComponentPropsWithoutRef<typeof Accordion>,
-  // ref: ElementRef<typeof Accordion>
+  ref: React.Ref<ElementRef<typeof Accordion>>
 ) => {
   const categorizedResults : Map<T,SearchResult[]> = new Map();
 
@@ -45,7 +45,7 @@ export const SearchResultsNoForwardRef = <T extends string>(
   if (data.length === 0) return onNoResults() 
 
   return (
-    <Accordion {...props}>
+    <Accordion {...props} ref={ref}>
       {categorizedResults.entries().toArray()
         .sort( (a,b) => a[0].localeCompare(b[0]))
         .map( ([category, results], index) => (
@@ -62,7 +62,7 @@ export const SearchResultsNoForwardRef = <T extends string>(
   )
 }
 
-export const SearchResults = forwardRef(SearchResultsNoForwardRef) as <T extends string>(
-  props: SearchResultsProps<T> & ComponentPropsWithoutRef<typeof Accordion>,
-  // ref: ElementRef<typeof Accordion>,
+export const SearchResults = forwardRef(SearchResultsNoForwardRef) as <Category extends string>(
+  props: SearchResultsProps<Category> & ComponentPropsWithoutRef<typeof Accordion>,
+  ref: ElementRef<typeof Accordion>,
 ) => ReactElement
