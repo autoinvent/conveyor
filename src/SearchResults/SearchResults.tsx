@@ -31,7 +31,10 @@ export interface SearchResultsProps<Category extends string> {
     category: Category;
     results: SearchResult[];
   }) => ReactNode;
-  sortBy?: (a : [Category, SearchResult[]], b: [Category, SearchResult[]]) => number,
+  sortBy?: (
+    a: [Category, SearchResult[]],
+    b: [Category, SearchResult[]],
+  ) => number;
   onNoResults?: () => ReactNode;
 }
 
