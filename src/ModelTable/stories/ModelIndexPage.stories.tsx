@@ -38,28 +38,29 @@ const meta = {
     columnOptions,
     ...args
   }) => {
-    const [errors, setErrors] = useState({});
+    // const [errors, setErrors] = useState({});
     const [tableView, setTableView] = useState<TableView>({});
     const [currData, setCurrData] = useState<DataType[]>(data);
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
     const [perPage, setPerPage] = useState<number | undefined>(10);
 
-    // const onUpdateHandler = async (params: ActionParams<DataType>) => {
-    //   await onUpdate?.(params);
-    //   const id = params?.data?.id;
-    //   if (id) {
-    //     setCurrData((oldData) => {
-    //       const idx = oldData?.findIndex((d: DataType) => d.id === id);
-    //       if (idx !== undefined && idx >= 0 && oldData) {
-    //         const newData = [...oldData];
-    //         newData[idx] = params.data;
-    //         return newData;
-    //       }
-    //       return oldData;
-    //     });
-    //     params.onCancelEdit();
-    //   }
-    // };
+    const onUpdateHandler = async (params: ActionParams<DataType>) => {
+      await onUpdate?.(params);
+      const id = params?.data?.id;
+      console.log(params);
+      if (id) {
+        setCurrData((oldData) => {
+          const idx = oldData?.findIndex((d: DataType) => d.id === id);
+          if (idx !== undefined && idx >= 0 && oldData) {
+            const newData = [...oldData];
+            newData[idx] = params.data;
+            return newData;
+          }
+          return oldData;
+        });
+        params.onCancelEdit();
+      }
+    };
 
     const onDeleteHandler = async (params: ActionParams<DataType>) => {
       await onDelete?.(params);
@@ -118,13 +119,8 @@ const meta = {
                 }));
               },
             }}
-            formOptions={{ errors }}
             columnOptions={columnOptions}
-            onUpdate={({ data }) => {
-              setErrors({
-                [data.id]: { message: { types: { atype: 'hello' } } },
-              });
-            }}
+            onUpdate={onUpdateHandler}
             onDelete={onDeleteHandler}
             {...args}
           >
