@@ -1,12 +1,3 @@
-## 1.8.0
-- `feature`: Shadcn Datetime input. 
-- `feature`: Table now has per page options.
-- `bugfix`: Table pads bottom properly when scrollbar exists.
-- `bugfix`: `ModelDisplay` now shows `None` when it is an empty list.
-- `bugfix`: `SelectInput` now matches rest of basic input's font size.
-- `bugfix`: Now able to override `ModelFormContent`.
-- `enhancement`: Import sorting using prettier.
-
 ## 1.7.0
 `feature`: Combined `ModelListInput` and `ModelListDisplay` (as well as for the model item counterparts). Removed `selectoption` from `fieldOptions` due to `inputProps` being robust enough to do that and more.
 

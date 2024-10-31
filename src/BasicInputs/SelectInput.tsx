@@ -86,20 +86,20 @@ export const SelectInput = forwardRef<
     option: ({ isFocused, isSelected }) =>
       cn(
         isFocused ? 'bg-secondary' : 'bg-transparent',
-        isSelected ? 'font-bold' : 'text-sm',
+        isSelected ? 'font-bold' : 'text-inherit',
         'py-2',
         'px-3',
         'rounded-md',
       ),
-    placeholder: () => cn('text-muted-foreground', 'mx-0.5', 'text-sm'),
+    placeholder: () => cn('text-muted-foreground', 'mx-0.5'),
     singleValue: () =>
       cn(
         //isDisabled ? 'text-neutral-400' : 'text-neutral-800',
-        'text-sm',
+        'text-inherit',
         'mx-0.5',
       ),
     valueContainer: () =>
-      cn('py-0.5', 'px-3', 'overflow-visible', 'inline-block'),
+      cn('py-0.5', 'px-2', 'overflow-visible', 'inline-block'),
   };
 
   return (
