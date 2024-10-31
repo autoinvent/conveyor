@@ -2,6 +2,8 @@ import { Table, type TableProps } from '@/Table';
 import type { DataType } from '@/types';
 import { BorderWrapper, DnDContextWrapper, ScrollAreaWrapper } from '@/utils';
 
+import type { ScrollArea } from '@/lib/components/ui/scroll-area';
+import { type ElementRef, useRef } from 'react';
 import { ModelTableActionCell } from './ModelTableActionCell';
 import { ModelTableActionHead } from './ModelTableActionHead';
 import { ModelTableBody } from './ModelTableBody';
@@ -16,8 +18,6 @@ import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
-import { type ElementRef, useRef } from 'react';
-import type { ScrollArea } from '@/lib/components/ui/scroll-area';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 export const DEFAULT_COLUMN_WIDTH = 200; // in pixels
