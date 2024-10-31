@@ -1,5 +1,6 @@
 import {
   type ElementRef,
+  type MutableRefObject,
   type ReactNode,
   useEffect,
   useRef,
@@ -13,18 +14,19 @@ export interface ScrollAreaWrapperProps {
   scrollable: boolean;
   className?: string;
   children?: ReactNode;
+  scrollAreaRef: MutableRefObject<HTMLDivElement | null>
 }
 
 export const ScrollAreaWrapper = ({
   scrollable,
   className,
   children,
+  scrollAreaRef,
 }: ScrollAreaWrapperProps) => {
-  const ref = useRef<ElementRef<typeof ScrollArea> | null>(null);
-
+  
   const [isOverflow, setIsOverflow] = useState(false);
 
-  let lastElementChild = ref.current?.lastElementChild;
+  let lastElementChild = scrollAreaRef.current?.lastElementChild;
   const observer = new ResizeObserver(() => {
     const scrollWidth = lastElementChild?.scrollWidth;
     const clientWidth = lastElementChild?.clientWidth;
@@ -37,17 +39,17 @@ export const ScrollAreaWrapper = ({
     }
   });
   useEffect(() => {
-    lastElementChild = ref.current?.lastElementChild;
+    lastElementChild = scrollAreaRef.current?.lastElementChild;
     if (lastElementChild) {
       observer.observe(lastElementChild);
     }
     return () => {
       observer.disconnect();
     };
-  }, [observer, lastElementChild]);
+  }, [observer, lastElementChild, scrollAreaRef.current?.lastElementChild]);
 
   return scrollable ? (
-    <ScrollArea className={cn(isOverflow && 'pb-2', className)} ref={ref}>
+    <ScrollArea className={cn(isOverflow && 'pb-2', className)} ref={scrollAreaRef}>
       {children}
       <ScrollBar orientation="horizontal" />
     </ScrollArea>

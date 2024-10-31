@@ -1,4 +1,6 @@
 import {
+  type ElementRef,
+  type MutableRefObject,
   type ReactNode,
   createContext,
   useEffect,
@@ -15,6 +17,7 @@ import type {
   OnActionTrigger,
   TableView,
 } from '@/types';
+import type { ScrollArea } from '@/lib/components/ui/scroll-area';
 
 export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
@@ -54,6 +57,7 @@ export interface ModelTableState<
   formOptions?: FormOptions;
   onUpdate?: OnActionTrigger<DT>;
   onDelete?: OnActionTrigger<DT>;
+  scrollAreaRef?:  MutableRefObject<HTMLDivElement | null>
 }
 
 export const ModelTableStoreContext = createContext<

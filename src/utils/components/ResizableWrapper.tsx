@@ -1,3 +1,4 @@
+import { useModelTableStore } from '@/ModelTable/useModelTableStore';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface ResizableWrapperProps {
@@ -19,11 +20,11 @@ export const ResizableWrapper = ({
   const [deltaX, setDeltaX] = useState(0);
   const [currentWidth, setCurrentWidth] = useState(width);
   const ref = useRef<HTMLDivElement>(null);
-  let scrollParent = null;
-  if (ref.current) {
-    scrollParent = getScrollParent(ref.current);
-  }
+  const scrollAreaRef = useModelTableStore((state) => state.scrollAreaRef);
+  
   useEffect(() => {
+    const scrollAreaRefCurrent = scrollAreaRef?.current;
+    console.log(scrollAreaRefCurrent)
     const onScrollEnter = (e: MouseEvent) => {
       setExitedScrollParent(false);
     };
@@ -35,8 +36,9 @@ export const ResizableWrapper = ({
     };
     const onMouseUp = () => {
       let newWidth = currentWidth + deltaX;
-      if (scrollParent && exitedScrollParent && deltaX > 0) {
-        scrollParent.scrollBy({
+      if (scrollAreaRefCurrent && exitedScrollParent && deltaX > 0) {
+        console.log("entered")
+        scrollAreaRefCurrent.scrollBy({
           left: newWidth > 0 ? deltaX : 0,
           behavior: 'smooth',
         });
@@ -58,14 +60,14 @@ export const ResizableWrapper = ({
     if (isResizing) {
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-      scrollParent?.addEventListener('mouseenter', onScrollEnter);
-      scrollParent?.addEventListener('mouseleave', onScrollLeave);
+      scrollAreaRefCurrent?.addEventListener('mouseenter', onScrollEnter);
+      scrollAreaRefCurrent?.addEventListener('mouseleave', onScrollLeave);
     }
     return () => {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      scrollParent?.removeEventListener('mouseenter', onScrollEnter);
-      scrollParent?.removeEventListener('mouseleave', onScrollLeave);
+      scrollAreaRefCurrent?.removeEventListener('mouseenter', onScrollEnter);
+      scrollAreaRefCurrent?.removeEventListener('mouseleave', onScrollLeave);
     };
   }, [
     isResizing,
@@ -73,23 +75,9 @@ export const ResizableWrapper = ({
     clientX,
     deltaX,
     onWidthChange,
-    scrollParent,
+    scrollAreaRef,
     exitedScrollParent,
   ]);
-
-  function getScrollParent(node: HTMLDivElement) {
-    const isElement = node instanceof HTMLDivElement;
-    const overflowX = isElement && window.getComputedStyle(node).overflowX;
-    const isScrollable = overflowX === 'scroll';
-
-    if (node.parentElement == null) {
-      return null;
-    }
-    if (isScrollable) {
-      return node;
-    }
-    return getScrollParent(node.parentElement as HTMLDivElement);
-  }
 
   return resizable ? (
     <div

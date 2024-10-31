@@ -16,6 +16,8 @@ import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
+import { type ElementRef, useRef } from 'react';
+import type { ScrollArea } from '@/lib/components/ui/scroll-area';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 export const DEFAULT_COLUMN_WIDTH = 200; // in pixels
@@ -44,6 +46,7 @@ export const ModelTable = Object.assign(
     ...tableProps
   }: ModelTableProps<D, F, DT, FT>) => {
     const { readOnly, draggable, bordered, scrollable } = tableOptions ?? {};
+    const scrollAreaRef = useRef<ElementRef<typeof ScrollArea> | null>(null);
     const tableColumns = [...fieldOrder].filter(
       (field) => !columnOptions?.[field]?.hidden,
     );
@@ -64,6 +67,7 @@ export const ModelTable = Object.assign(
         formOptions={formOptions}
         onUpdate={onUpdate}
         onDelete={onDelete}
+        scrollAreaRef={scrollAreaRef}
       >
         <BorderWrapper
           bordered={typeof bordered === 'object' ? true : bordered ?? true}
@@ -83,6 +87,7 @@ export const ModelTable = Object.assign(
               className={
                 typeof scrollable === 'object' ? scrollable?.className : ''
               }
+              scrollAreaRef={scrollAreaRef}
             >
               <Table columnIds={tableColumns} data={data} {...tableProps}>
                 {children === undefined ? (
