@@ -50,7 +50,7 @@ type Story = StoryObj<typeof meta>;
 export const BasicUsage: Story = {
   args: {
     totalDataLength: 200,
-    page: 1,
+    page: 3,
     perPage: 5,
     maxPageButtonLimit: 5,
   },

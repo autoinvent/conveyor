@@ -26,7 +26,6 @@ export const ModelFormContent = ({
           {formFields.map((field) => {
             return <ModelFormField key={field} field={field} />;
           })}
-          {children}
         </>
       ) : (
         children

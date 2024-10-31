@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { CreatableSelectInput } from '../CreatableSelectInput';
 
 const meta = {
-  title: 'Commons/BasicInputs/CreatableSelectInput',
+  title: 'Commons/Inputs',
   component: CreatableSelectInput,
   tags: ['autodocs'],
 } satisfies Meta<typeof CreatableSelectInput>;
@@ -11,7 +11,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const CreatableSelect: Story = {
+export const BasicUsage: Story = {
   args: {
     options: [
       { value: 'apple', label: 'Apple' },
