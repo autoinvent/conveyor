@@ -1,5 +1,4 @@
 import {
-  type ElementRef,
   type MutableRefObject,
   type ReactNode,
   createContext,
@@ -17,7 +16,6 @@ import type {
   OnActionTrigger,
   TableView,
 } from '@/types';
-import type { ScrollArea } from '@/lib/components/ui/scroll-area';
 
 export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;

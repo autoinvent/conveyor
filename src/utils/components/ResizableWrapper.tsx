@@ -21,9 +21,9 @@ export const ResizableWrapper = ({
   const [currentWidth, setCurrentWidth] = useState(width);
   const ref = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useModelTableStore((state) => state.scrollAreaRef);
-  
+  const scrollAreaRefCurrent = scrollAreaRef?.current?.children[1] as HTMLDivElement;
+
   useEffect(() => {
-    const scrollAreaRefCurrent = scrollAreaRef?.current;
     console.log(scrollAreaRefCurrent)
     const onScrollEnter = (e: MouseEvent) => {
       setExitedScrollParent(false);
@@ -38,6 +38,7 @@ export const ResizableWrapper = ({
       let newWidth = currentWidth + deltaX;
       if (scrollAreaRefCurrent && exitedScrollParent && deltaX > 0) {
         console.log("entered")
+        console.log(scrollAreaRefCurrent)
         scrollAreaRefCurrent.scrollBy({
           left: newWidth > 0 ? deltaX : 0,
           behavior: 'smooth',
@@ -75,8 +76,8 @@ export const ResizableWrapper = ({
     clientX,
     deltaX,
     onWidthChange,
-    scrollAreaRef,
     exitedScrollParent,
+    scrollAreaRefCurrent
   ]);
 
   return resizable ? (

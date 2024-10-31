@@ -1,9 +1,7 @@
 import {
-  type ElementRef,
   type MutableRefObject,
   type ReactNode,
   useEffect,
-  useRef,
   useState,
 } from 'react';
 
