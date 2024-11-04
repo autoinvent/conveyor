@@ -25,7 +25,6 @@ export const ResizableWrapper = ({
     ?.children[1] as HTMLDivElement;
 
   useEffect(() => {
-    console.log(scrollAreaRefCurrent);
     const onScrollEnter = (e: MouseEvent) => {
       setExitedScrollParent(false);
     };
@@ -38,8 +37,6 @@ export const ResizableWrapper = ({
     const onMouseUp = () => {
       let newWidth = currentWidth + deltaX;
       if (scrollAreaRefCurrent && exitedScrollParent && deltaX > 0) {
-        console.log('entered');
-        console.log(scrollAreaRefCurrent);
         scrollAreaRefCurrent.scrollBy({
           left: newWidth > 0 ? deltaX : 0,
           behavior: 'smooth',
