@@ -22,8 +22,7 @@ export const ScrollAreaWrapper = ({
   scrollAreaRef,
 }: ScrollAreaWrapperProps) => {
   const [isOverflow, setIsOverflow] = useState(false);
-
-  const lastElementChild = scrollAreaRef.current?.lastElementChild;
+  let lastElementChild = scrollAreaRef.current?.lastElementChild;
   const observer = new ResizeObserver(() => {
     const scrollWidth = lastElementChild?.scrollWidth;
     const clientWidth = lastElementChild?.clientWidth;
@@ -36,13 +35,14 @@ export const ScrollAreaWrapper = ({
     }
   });
   useEffect(() => {
+    lastElementChild = scrollAreaRef.current?.lastElementChild;
     if (lastElementChild) {
       observer.observe(lastElementChild);
     }
     return () => {
       observer.disconnect();
     };
-  }, [observer, lastElementChild]);
+  }, [observer, lastElementChild, scrollAreaRef.current?.lastElementChild]);
 
   return scrollable ? (
     <ScrollArea
