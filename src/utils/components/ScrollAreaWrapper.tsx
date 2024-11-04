@@ -15,6 +15,7 @@ export interface ScrollAreaWrapperProps {
   scrollAreaRef: MutableRefObject<HTMLDivElement | null>;
 }
 
+
 export const ScrollAreaWrapper = ({
   scrollable,
   className,
@@ -23,7 +24,7 @@ export const ScrollAreaWrapper = ({
 }: ScrollAreaWrapperProps) => {
   const [isOverflow, setIsOverflow] = useState(false);
 
-  let lastElementChild = scrollAreaRef.current?.lastElementChild;
+  const lastElementChild = scrollAreaRef.current?.lastElementChild;
   const observer = new ResizeObserver(() => {
     const scrollWidth = lastElementChild?.scrollWidth;
     const clientWidth = lastElementChild?.clientWidth;
@@ -36,14 +37,13 @@ export const ScrollAreaWrapper = ({
     }
   });
   useEffect(() => {
-    lastElementChild = scrollAreaRef.current?.lastElementChild;
     if (lastElementChild) {
       observer.observe(lastElementChild);
     }
     return () => {
       observer.disconnect();
     };
-  }, [observer, lastElementChild, scrollAreaRef.current?.lastElementChild]);
+  }, [observer, lastElementChild]);
 
   return scrollable ? (
     <ScrollArea
