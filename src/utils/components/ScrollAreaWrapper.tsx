@@ -15,7 +15,6 @@ export interface ScrollAreaWrapperProps {
   scrollAreaRef: MutableRefObject<HTMLDivElement | null>;
 }
 
-
 export const ScrollAreaWrapper = ({
   scrollable,
   className,
