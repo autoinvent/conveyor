@@ -15,6 +15,7 @@ export interface PaginationProps
   onPageChange: (newPage: TableView['page']) => void;
   onPerPageChange?: (newPerPage: TableView['perPage']) => void;
   perPageOptions?: typeof PER_PAGE_VALUES;
+  openPerPageUpwards?: boolean;
 }
 
 const PER_PAGE_VALUES = [
@@ -33,6 +34,7 @@ export const Pagination = ({
   onPageChange,
   onPerPageChange,
   perPageOptions = PER_PAGE_VALUES,
+  openPerPageUpwards,
   className,
   ...paginationProps
 }: PaginationProps) => {
@@ -126,6 +128,7 @@ export const Pagination = ({
                 onPerPageChange(selected.value);
               }}
               className="mr-2"
+              menuPlacement={openPerPageUpwards ? 'top' : 'bottom'}
             />
           </>
         )}

@@ -35,12 +35,13 @@ export const SelectInput = forwardRef<
         'flex-nowrap',
         'items-center',
       ),
-    dropdownIndicator: ({ isFocused }) =>
+    dropdownIndicator: ({ isFocused, selectProps }) =>
       cn(
         'p-2',
         isFocused
           ? 'text-muted-foreground hover:text-foreground'
           : 'text-foreground hover:text-muted-foreground',
+        selectProps.menuPlacement === 'top' ? 'rotate-180' : ''
       ),
     group: () => cn('py-2'),
     groupHeading: () =>
