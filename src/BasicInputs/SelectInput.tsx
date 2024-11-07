@@ -41,7 +41,7 @@ export const SelectInput = forwardRef<
         isFocused
           ? 'text-muted-foreground hover:text-foreground'
           : 'text-foreground hover:text-muted-foreground',
-        selectProps.menuPlacement === 'top' ? 'rotate-180' : ''
+        selectProps.menuPlacement === 'top' ? 'rotate-180' : '',
       ),
     group: () => cn('py-2'),
     groupHeading: () =>
