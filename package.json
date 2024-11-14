@@ -61,8 +61,8 @@
     "immer": "^10.1.1",
     "lucide-react": "^0.408.0",
     "react-day-picker": "8.10.1",
-    "react-hook-form": "^7.53.0",
-    "react-select": "^5.8.1",
+    "react-hook-form": "^7.53.2",
+    "react-select": "^5.8.3",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.5"

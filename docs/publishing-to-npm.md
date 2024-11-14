@@ -1,5 +1,5 @@
 ## Publishing to NPM
-
+### Dev Branch
 1. **Update the Code**
    - Ensure all code changes are finalized.
 
@@ -24,6 +24,8 @@
 
 7. **Check for Vulnerabilities**
    - Use `pnpm audit` to identify any known vulnerabilities in dependencies.
+   
+### On the main branch
 
 8. **Login to npm**
     - Authenticate with `npm login` to access your npm account.
