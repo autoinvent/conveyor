@@ -1,6 +1,14 @@
 import type { ComponentProps } from 'react';
 
 import { SelectInput } from '@/BasicInputs';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/lib/components/ui/select';
 import { cn } from '@/lib/utils';
 import type { TableView } from '@/types';
 
@@ -116,21 +124,34 @@ export const Pagination = ({
         {onPerPageChange && (
           <>
             <Shadcn.PaginationItem>
-              <span className="pr-1">Rows per page:</span>
+              <span className="whitespace-nowrap pr-1 font-medium text-sm">
+                Rows per page:
+              </span>
             </Shadcn.PaginationItem>
-            <SelectInput
-              options={perPageOptions}
-              value={perPageOptions.filter((obj) => obj.value === perPage)}
-              onChange={(selected) => {
+            <Select
+              value={String(perPage)}
+              onValueChange={(value) => {
                 onPageChange(1);
-                onPerPageChange(selected.value);
+                onPerPageChange(Number(value));
               }}
-              className="mr-2"
-            />
+            >
+              <SelectTrigger className="mr-2 h-8 w-[4.5rem]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {perPageOptions.map(({ value, label }) => (
+                    <SelectItem key={value} value={String(value)}>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </>
         )}
         <Shadcn.PaginationItem>
-          <span className="whitespace-nowrap">
+          <span className="flex items-center justify-center whitespace-nowrap font-medium text-sm">
             {` Showing items ${perPage * (page - 1) + 1} - ${
               totalPages === page ? totalDataLength : perPage * page
             } of ${totalDataLength}`}
