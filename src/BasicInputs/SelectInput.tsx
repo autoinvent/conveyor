@@ -1,21 +1,32 @@
-import {
-  type ComponentProps,
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  type PropsWithoutRef,
-  forwardRef,
-} from 'react';
+import { type ComponentProps, type ElementRef, forwardRef } from 'react';
 
-import Select from 'react-select';
+import Select, {
+  type GroupBase,
+  type Props as SelectProps,
+} from 'react-select';
+import type {} from 'react-select/base';
 
 import type { FormControlChildProps } from '@/Form';
 import { cn } from '@/lib/utils';
 
+declare module 'react-select/base' {
+  export interface Props<
+    Option,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>,
+  > {
+    clearValue?: () => void;
+  }
+}
+
+export interface SelectInputProps
+  extends SelectProps<any, boolean>,
+    Pick<FormControlChildProps, 'disabled'> {}
+
 export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
-  PropsWithoutRef<FormControlChildProps> &
-    ComponentPropsWithoutRef<typeof Select>
->(({ disabled, className, options, ...props }, ref) => {
+  SelectInputProps
+>(({ id, disabled, className, options, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -116,6 +127,8 @@ export const SelectInput = forwardRef<
         classNames={defaultStyling}
         isDisabled={disabled}
         options={options}
+        inputId={id}
+        menuPlacement="auto"
         {...props}
       />
     </div>

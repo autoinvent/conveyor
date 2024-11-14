@@ -14,7 +14,7 @@ export interface FormErrorProps
 }
 
 export const FormError = ({ name, className, children }: FormErrorProps) => {
-  const errors = useFormStore((state) => state.formState.errors);
+  const errors = useFormStore((state) => state.formState.errors?.[name]);
   const id = useFormStore((state) => state.id);
   const formControlId = `${id}-${name}-form-control`;
   const formMessageId = `${formControlId}-message`;
@@ -25,7 +25,7 @@ export const FormError = ({ name, className, children }: FormErrorProps) => {
   return (
     <ErrorMessage
       name={name}
-      errors={errors}
+      errors={{ [name]: errors }}
       render={({ messages }) => {
         const slotProps = {
           messages,
