@@ -126,6 +126,7 @@ export const Pagination = ({
                 onPerPageChange(selected.value);
               }}
               className="mr-2"
+              isSearchable={false}
             />
           </>
         )}

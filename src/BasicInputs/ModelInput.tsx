@@ -20,6 +20,9 @@ export const ModelInput = forwardRef<
       getOptionValue={(option: typeof value) => option.id}
       options={options}
       isMulti={isArray}
+      clearValue={isArray ? () => [] : undefined}
+      isClearable={!isArray}
+      closeMenuOnSelect={!isArray}
       {...selectInputProps}
     />
   );

@@ -1,3 +1,12 @@
+## 1.8.1
+- `feature`: Pagination per page select in not searchable anymore.
+- `feature`: `ModelInput` now has default props for `clearValue, isClearable, closeMenuOnSelect` for when an array is passed as a value.
+- `feature`: Added forward ref to `ModelDisplay`
+- `ts`: `SelectInput` has correct typescript for its props.
+- `bugfix`: `FormError` didn't appear when there was an error; fixed. 
+- `bugfix`: `id` passed properly to input of `SelectInput`
+- `storybook`: ModelIndexPage's first row bigger than the rest; fixed.
+
 ## 1.8.0
 - `feature`: Shadcn Datetime input. 
 - `feature`: Table now has per page options.

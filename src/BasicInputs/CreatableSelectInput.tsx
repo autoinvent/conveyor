@@ -1,21 +1,29 @@
-import {
-  type ComponentProps,
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  type PropsWithoutRef,
-  forwardRef,
-} from 'react';
+import { type ComponentProps, type ElementRef, forwardRef } from 'react';
 
-import Creatable from 'react-select/creatable';
+import type { GroupBase } from 'react-select';
+import Creatable, { type CreatableProps } from 'react-select/creatable';
 
 import type { FormControlChildProps } from '@/Form';
 import { cn } from '@/lib/utils';
 
+declare module 'react-select/base' {
+  export interface CreatableProps<
+    Option,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>,
+  > {
+    clearValue?: () => void;
+  }
+}
+
+export interface CreatableSelectInputProps
+  extends CreatableProps<any, boolean, GroupBase<any>>,
+    Pick<FormControlChildProps, 'disabled'> {}
+
 export const CreatableSelectInput = forwardRef<
   ElementRef<typeof Creatable>,
-  PropsWithoutRef<FormControlChildProps> &
-    ComponentPropsWithoutRef<typeof Creatable>
->(({ disabled, className, options, ...props }, ref) => {
+  CreatableSelectInputProps
+>(({ id, disabled, className, options, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Creatable>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -111,10 +119,14 @@ export const CreatableSelectInput = forwardRef<
       )}
     >
       <Creatable
+        ref={ref}
         unstyled
         classNames={defaultStyling}
-        {...props}
+        isDisabled={disabled}
         options={options}
+        inputId={id}
+        menuPlacement="auto"
+        {...props}
       />
     </div>
   );
