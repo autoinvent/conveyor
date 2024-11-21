@@ -84,7 +84,7 @@ export const ModelTable = Object.assign(
                 typeof scrollable === 'object' ? scrollable?.className : ''
               }
             >
-              <div className='relative h-full'>
+              <div className="relative h-full">
                 <Table columnIds={tableColumns} data={data} {...tableProps}>
                   {children === undefined ? (
                     <>

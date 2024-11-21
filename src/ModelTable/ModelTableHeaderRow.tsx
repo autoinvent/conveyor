@@ -19,7 +19,11 @@ export const ModelTableHeaderRow = ({
     (state) => state.tableOptions?.draggable ?? true,
   );
   return (
-    <TableHeaderRow prefilled={prefilled} {...tableHeaderRowProps} className='sticky top-0 z-10 bg-white shadow-[0_0px_0.5px_1px_#e2e8f0] hover:bg-muted'>
+    <TableHeaderRow
+      prefilled={prefilled}
+      {...tableHeaderRowProps}
+      className="sticky top-0 z-10 bg-white shadow-[0_0px_0.5px_1px_#e2e8f0] hover:bg-muted"
+    >
       <DnDSortableContextWrapper draggable={draggable} dndList={fieldOrder}>
         {children === undefined ? (
           <>
