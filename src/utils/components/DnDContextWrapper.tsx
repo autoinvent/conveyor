@@ -55,6 +55,7 @@ export const DnDContextWrapper = ({
       modifiers={[restrictToHorizontalAxis, restrictToParentElement]}
       onDragEnd={handleDragEnd}
       sensors={sensors}
+      autoScroll={{threshold: { x: 0.2, y: 0 }}}
     >
       {children}
     </DndContext>
