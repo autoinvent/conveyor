@@ -24,7 +24,6 @@ export const ResizableWrapper = ({
       setDeltaX(e.clientX - clientX);
     };
     const onMouseUp = () => {
-      console.log(currentWidth);
       if (!currentWidth) return;
       
       let newWidth = currentWidth + deltaX;
