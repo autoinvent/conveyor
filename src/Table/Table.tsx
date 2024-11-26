@@ -17,28 +17,28 @@ export interface TableProps<D extends DataType>
     ComponentProps<typeof STable> {}
 
 export const Table = Object.assign(
-  forwardRef(<D extends DataType>({
-    columnIds,
-    data,
-    children,
-    ...tableProps
-  }: TableProps<D>, ref : React.Ref<HTMLTableElement>) => {
-    return (
-      <TableStoreProvider columnIds={columnIds} data={data}>
-        <STable ref={ref} {...tableProps}>
-          {children === undefined ? (
-            <>
-              <TableHeader />
-              <TableBody />
-              <TableFallback />
-            </>
-          ) : (
-            children
-          )}
-        </STable>
-      </TableStoreProvider>
-    );
-  }),
+  forwardRef(
+    <D extends DataType>(
+      { columnIds, data, children, ...tableProps }: TableProps<D>,
+      ref: React.Ref<HTMLTableElement>,
+    ) => {
+      return (
+        <TableStoreProvider columnIds={columnIds} data={data}>
+          <STable ref={ref} {...tableProps}>
+            {children === undefined ? (
+              <>
+                <TableHeader />
+                <TableBody />
+                <TableFallback />
+              </>
+            ) : (
+              children
+            )}
+          </STable>
+        </TableStoreProvider>
+      );
+    },
+  ),
   {
     Body: TableBody,
     Fallback: TableFallback,

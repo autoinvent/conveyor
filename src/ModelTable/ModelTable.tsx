@@ -1,4 +1,7 @@
+import { useEffect, useRef, useState } from 'react';
+
 import { Table, type TableProps } from '@/Table';
+import { cn } from '@/lib/utils';
 import type { DataType } from '@/types';
 import { BorderWrapper, DnDContextWrapper, ScrollAreaWrapper } from '@/utils';
 
@@ -16,8 +19,6 @@ import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
-import { useEffect, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 
@@ -54,9 +55,9 @@ export const ModelTable = Object.assign(
     }
     const [rendered, setRendered] = useState<boolean>(false);
     const ref = useRef<HTMLTableElement>(null);
-    useEffect( () => {
+    useEffect(() => {
       if (ref.current) setRendered(true);
-    }, [])
+    }, []);
 
     return (
       <ModelTableStoreProvider
@@ -90,7 +91,13 @@ export const ModelTable = Object.assign(
                 typeof scrollable === 'object' ? scrollable?.className : ''
               }
             >
-              <Table ref={ref} columnIds={tableColumns} data={data} className={cn(rendered || "w-full")} {...tableProps}>
+              <Table
+                ref={ref}
+                columnIds={tableColumns}
+                data={data}
+                className={cn(rendered || 'w-full')}
+                {...tableProps}
+              >
                 {children === undefined ? (
                   <>
                     <ModelTableHeader />

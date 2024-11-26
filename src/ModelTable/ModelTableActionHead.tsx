@@ -10,10 +10,7 @@ export const ModelTableActionHead = ({
   ...props
 }: ModelTableActionHeadProps) => {
   return (
-    <TableHead
-      columnId={ACTION_COLUMN}
-      {...props}
-    >
+    <TableHead columnId={ACTION_COLUMN} {...props}>
       {children === undefined ? null : children}
     </TableHead>
   );

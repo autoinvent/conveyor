@@ -25,7 +25,7 @@ export const ResizableWrapper = ({
     };
     const onMouseUp = () => {
       if (!currentWidth) return;
-      
+
       let newWidth = currentWidth + deltaX;
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
@@ -50,9 +50,9 @@ export const ResizableWrapper = ({
     };
   }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
 
-  useEffect( () => {
+  useEffect(() => {
     if (ref.current) setCurrentWidth(ref.current.scrollWidth);
-  }, [])
+  }, []);
 
   return resizable ? (
     <div

@@ -1,11 +1,11 @@
 import { useEffect, useRef, type ComponentProps } from 'react';
 
+import { ColumnOptions, useModelTableStore } from '@/ModelTable';
 import { Slots } from '@/Slots';
 import { TableRow as STableRow } from '@/lib/components/ui/table';
 
 import { TableHead } from './TableHead';
 import { useTableStore } from './useTableStore';
-import { ColumnOptions, useModelTableStore } from '@/ModelTable';
 
 export interface TableHeaderRowProps extends ComponentProps<typeof STableRow> {
   prefilled?: boolean;
@@ -31,8 +31,8 @@ export const TableHeaderRow = ({
   //   setTimeout( () => {
   //     if (ref.current && columnOptions) {
   //       const rem = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
-  //       const columnWidth = Object.values(columnOptions).reduce( 
-  //         (prev, curr) => prev + (curr?.hidden ? 0 : (curr?.width || 200) + 2*rem), 
+  //       const columnWidth = Object.values(columnOptions).reduce(
+  //         (prev, curr) => prev + (curr?.hidden ? 0 : (curr?.width || 200) + 2*rem),
   //         0
   //       )
   //       const actionWidth = readOnly ? 0 : [onUpdate, onDelete].filter( val => val).length * 3*rem
@@ -50,7 +50,7 @@ export const TableHeaderRow = ({
 
   //       // const first = Object.entries(columnOptions)[3];
   //       // if (first[1] && diff > 0) {
-  //       //   first[1].width = ( first[1]?.width || 200 ) + diff 
+  //       //   first[1].width = ( first[1]?.width || 200 ) + diff
   //       //   onWidthChange?.({ field: first[0], width : first[1]?.width })
   //       // }
   //     }
@@ -63,7 +63,7 @@ export const TableHeaderRow = ({
         {children === undefined || prefilled ? (
           <>
             {columnIds.map((columnId) => {
-              return <TableHead key={columnId} columnId={columnId}/>;
+              return <TableHead key={columnId} columnId={columnId} />;
             })}
             {children}
           </>
