@@ -1,4 +1,4 @@
-import { forwardRef, type ComponentProps } from 'react';
+import { type ComponentProps, forwardRef } from 'react';
 
 import { Table as STable } from '@/lib/components/ui/table';
 import type { DataType } from '@/types';

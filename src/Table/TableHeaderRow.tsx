@@ -1,4 +1,4 @@
-import { useRef, type ComponentProps } from 'react';
+import { type ComponentProps, useRef } from 'react';
 
 import { Slots } from '@/Slots';
 import { TableRow as STableRow } from '@/lib/components/ui/table';
