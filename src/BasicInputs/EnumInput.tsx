@@ -23,7 +23,9 @@ export const EnumInput = forwardRef<
   return (
     <SelectInput
       ref={ref}
-      value={value && stringToOption(value)}
+      value={
+        value && (isArray ? value.map(stringToOption) : stringToOption(value))
+      }
       onChange={(newVal, actionMeta) => onChange?.(newVal.value, actionMeta)}
       options={options?.map(stringToOption)}
       isMulti={isArray}

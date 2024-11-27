@@ -33,7 +33,7 @@ export interface SelectInputBaseProps<TIsCreatable extends boolean>
   isCreatable?: TIsCreatable;
 }
 
-type SelectInputProps<TIsCreatable extends boolean> =
+export type SelectInputProps<TIsCreatable extends boolean> =
   SelectInputBaseProps<TIsCreatable> &
     (TIsCreatable extends true
       ? CreatableProps<any, boolean, GroupBase<any>>
