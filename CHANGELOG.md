@@ -1,3 +1,6 @@
+## 1.9.1
+- `feature`: `ModelDisplay` now accepts `noneValue` which is the display to show when the value is either an empty array, null, or undefined. 
+
 ## 1.9.0
 - `feature`: `EnumInput` which accepts `options: string[]; value: string` and `EnumDisplay` to display the string[].
 - `feature`: `SelectInput` can turn into a `Creatable` select by passing `isCreatable=true` to its props. 
