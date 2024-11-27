@@ -4,8 +4,8 @@ import Select, {
   type GroupBase,
   type Props as SelectProps,
 } from 'react-select';
-import Creatable, { type CreatableProps } from 'react-select/creatable';
 import type {} from 'react-select/base';
+import Creatable, { type CreatableProps } from 'react-select/creatable';
 
 import type { FormControlChildProps } from '@/Form';
 import { cn } from '@/lib/utils';

@@ -4,8 +4,9 @@ import {
   forwardRef,
 } from 'react';
 
-import { SelectInput } from './SelectInput';
 import { humanizeText } from '@/utils';
+
+import { SelectInput } from './SelectInput';
 
 export const EnumInput = forwardRef<
   ElementRef<typeof SelectInput>,
