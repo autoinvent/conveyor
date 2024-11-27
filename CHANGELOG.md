@@ -1,3 +1,8 @@
+## 1.9.0
+- `feature`: `EnumInput` which accepts `options: string[]; value: string` and `EnumDisplay` to display the string[].
+- `feature`: `SelectInput` can turn into a `Creatable` select by passing `isCreatable=true` to its props. 
+- `feature`: defaults on selects to have `menuShouldBlockScroll` and `menuPortalTarget={document.body}`
+
 ## 1.8.1
 - `feature`: Pagination per page select in not searchable anymore.
 - `feature`: `ModelInput` now has default props for `clearValue, isClearable, closeMenuOnSelect` for when an array is passed as a value.

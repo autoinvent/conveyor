@@ -5,6 +5,7 @@ import Select, {
   type Props as SelectProps,
 } from 'react-select';
 import type {} from 'react-select/base';
+import Creatable, { type CreatableProps } from 'react-select/creatable';
 
 import type { FormControlChildProps } from '@/Form';
 import { cn } from '@/lib/utils';
@@ -17,16 +18,31 @@ declare module 'react-select/base' {
   > {
     clearValue?: () => void;
   }
+
+  export interface CreatableProps<
+    Option,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>,
+  > {
+    clearValue?: () => void;
+  }
 }
 
-export interface SelectInputProps
-  extends SelectProps<any, boolean>,
-    Pick<FormControlChildProps, 'disabled'> {}
+export interface SelectInputBaseProps<TIsCreatable extends boolean>
+  extends Pick<FormControlChildProps, 'disabled'> {
+  isCreatable?: TIsCreatable;
+}
+
+export type SelectInputProps<TIsCreatable extends boolean> =
+  SelectInputBaseProps<TIsCreatable> &
+    (TIsCreatable extends true
+      ? CreatableProps<any, boolean, GroupBase<any>>
+      : SelectProps<any, boolean>);
 
 export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
-  SelectInputProps
->(({ id, disabled, className, options, ...props }, ref) => {
+  SelectInputProps<boolean>
+>(({ id, disabled, className, options, isCreatable, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -121,16 +137,33 @@ export const SelectInput = forwardRef<
         className,
       )}
     >
-      <Select
-        ref={ref}
-        unstyled
-        classNames={defaultStyling}
-        isDisabled={disabled}
-        options={options}
-        inputId={id}
-        menuPlacement="auto"
-        {...props}
-      />
+      {isCreatable ? (
+        <Creatable
+          ref={ref}
+          unstyled
+          classNames={defaultStyling}
+          isDisabled={disabled}
+          options={options}
+          inputId={id}
+          menuPlacement="auto"
+          menuPortalTarget={document.body}
+          menuShouldBlockScroll
+          {...props}
+        />
+      ) : (
+        <Select
+          ref={ref}
+          unstyled
+          classNames={defaultStyling}
+          isDisabled={disabled}
+          options={options}
+          inputId={id}
+          menuPlacement="auto"
+          menuPortalTarget={document.body}
+          menuShouldBlockScroll
+          {...props}
+        />
+      )}
     </div>
   );
 });
