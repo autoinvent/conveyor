@@ -14,12 +14,14 @@ import { type StoreApi, createStore } from 'zustand';
 import {
   BooleanDisplay,
   DatetimeDisplay,
+  EnumDisplay,
   ModelDisplay,
   RawDisplay,
 } from '@/BasicDisplays';
 import {
   BooleanInput,
   DatetimeInput,
+  EnumInput,
   ModelInput,
   NumberInput,
   StringInput,
@@ -68,6 +70,10 @@ export const DEFAULT_CONVEYOR_STATE = {
     [FieldType.MODEL]: {
       DisplayComponent: ModelDisplay,
       InputComponent: ModelInput,
+    },
+    [FieldType.ENUM]: {
+      DisplayComponent: EnumDisplay,
+      InputComponent: EnumInput,
     },
   },
 };

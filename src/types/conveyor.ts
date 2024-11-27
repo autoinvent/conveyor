@@ -22,6 +22,7 @@ export interface FieldOptions {
 
 export enum NonScalarType {
   MODEL = '__MODEL__',
+  ENUM = '__ENUM__',
 }
 
 export const FieldType = { ...ScalarType, ...NonScalarType };

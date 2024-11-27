@@ -6,12 +6,6 @@ const meta = {
   title: 'Commons/BasicInputs/SelectInput',
   component: SelectInput,
   tags: ['autodocs'],
-} satisfies Meta<typeof SelectInput>;
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const Select: Story = {
   args: {
     options: [
       { value: 'apple', label: 'Apple' },
@@ -25,5 +19,16 @@ export const Select: Story = {
       { value: 'symphony', label: 'Symphony' },
       { value: 'labyrinth', label: 'Labyrinth' },
     ],
+  },
+} satisfies Meta<typeof SelectInput>;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Select: Story = {};
+
+export const CreatableSelect: Story = {
+  args: {
+    isCreatable: true,
   },
 };
