@@ -98,20 +98,10 @@ export const SelectInput = forwardRef<
       ),
     menuList: () => cn('py-1'),
     // menuPortal: () => cn(),
-    multiValue: () => cn(
-      'bg-secondary', 
-      'rounded-md', 
-      'm-1',
-      'p-0',
-    ),
+    multiValue: () => cn('bg-secondary', 'rounded-md', 'm-1', 'p-0'),
     multiValueLabel: () =>
       cn('rounded-md', 'text-foreground', 'text-sm', 'px-1'),
-    multiValueRemove: () =>
-      cn(
-        'rounded-md',
-        'px-1',
-        'bg-inherit',
-      ),
+    multiValueRemove: () => cn('rounded-md', 'px-1', 'bg-inherit'),
     noOptionsMessage: () => cn('text-muted-foreground', 'py-2', 'px-3'),
     option: ({ isFocused, isSelected }) =>
       cn(
