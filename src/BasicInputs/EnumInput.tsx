@@ -37,7 +37,6 @@ export const EnumInput = forwardRef<
       options={options?.map(stringToOption)}
       isMulti={isArray}
       clearValue={isArray ? () => [] : undefined}
-      isClearable={isArray}
       isCreatable={isCreatable}
       {...selectInputProps}
     />
