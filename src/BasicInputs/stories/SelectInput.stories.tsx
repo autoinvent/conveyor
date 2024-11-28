@@ -32,3 +32,9 @@ export const CreatableSelect: Story = {
     isCreatable: true,
   },
 };
+
+export const MultiSelect: Story = {
+  args: {
+    isMulti: true,
+  }
+}
