@@ -4,17 +4,17 @@ import {
   forwardRef,
 } from 'react';
 
+import type { SelectOption } from '@/types';
 import { humanizeText } from '@/utils';
 
 import { SelectInput } from './SelectInput';
-import type { SelectOption } from '@/types';
 
 export const EnumInput = forwardRef<
   ElementRef<typeof SelectInput>,
   Omit<ComponentPropsWithoutRef<typeof SelectInput>, 'value' | 'options'> & {
     value?: string | string[];
     options: string[];
-    onChange: (newVals : string | string[]) => void
+    onChange: (newVals: string | string[]) => void;
   }
 >(({ value, onChange, options, isCreatable, ...selectInputProps }, ref) => {
   const isArray = Array.isArray(value);
@@ -28,12 +28,11 @@ export const EnumInput = forwardRef<
       value={
         value && (isArray ? value.map(stringToOption) : stringToOption(value))
       }
-      onChange={(newValue : SelectOption | SelectOption[]) => 
-        newValue && (
-          Array.isArray(newValue) ?
-          onChange?.(newValue.map( val => val.value)) :
-          onChange?.(newValue.value)
-        )
+      onChange={(newValue: SelectOption | SelectOption[]) =>
+        newValue &&
+        (Array.isArray(newValue)
+          ? onChange?.(newValue.map((val) => val.value))
+          : onChange?.(newValue.value))
       }
       options={options?.map(stringToOption)}
       isMulti={isArray}

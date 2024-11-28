@@ -1,7 +1,8 @@
+import { useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { EnumInput } from '../EnumInput';
-import { useState } from 'react';
 
 const meta = {
   title: 'Commons/BasicInputs/EnumInput',
@@ -22,8 +23,8 @@ export const Select: Story = {
         value={value}
         onChange={(newVals) => setValue(newVals)}
       />
-    )
-  }
+    );
+  },
 };
 
 export const CreatableSelect: Story = {
@@ -38,8 +39,8 @@ export const CreatableSelect: Story = {
         value={value}
         onChange={(newVals) => setValue(newVals)}
       />
-    )
-  }
+    );
+  },
 };
 
 export const MultiSelect: Story = {
@@ -54,6 +55,6 @@ export const MultiSelect: Story = {
         value={values}
         onChange={(newVals) => setValues(newVals)}
       />
-    )
-  }
-}
+    );
+  },
+};
