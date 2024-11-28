@@ -147,6 +147,8 @@ export const SelectInput = forwardRef<
           inputId={id}
           menuPlacement="auto"
           menuPortalTarget={document.body}
+          closeMenuOnSelect={!props.isMulti}
+          isClearable
           menuShouldBlockScroll
           {...props}
         />
@@ -160,6 +162,8 @@ export const SelectInput = forwardRef<
           inputId={id}
           menuPlacement="auto"
           menuPortalTarget={document.body}
+          closeMenuOnSelect={!props.isMulti}
+          isClearable
           menuShouldBlockScroll
           {...props}
         />

@@ -7,12 +7,14 @@ import {
 import { humanizeText } from '@/utils';
 
 import { SelectInput } from './SelectInput';
+import type { SelectOption } from '@/types';
 
 export const EnumInput = forwardRef<
   ElementRef<typeof SelectInput>,
   Omit<ComponentPropsWithoutRef<typeof SelectInput>, 'value' | 'options'> & {
-    value: string;
+    value?: string | string[];
     options: string[];
+    onChange: (newVals : string | string[]) => void
   }
 >(({ value, onChange, options, isCreatable, ...selectInputProps }, ref) => {
   const isArray = Array.isArray(value);
@@ -26,21 +28,18 @@ export const EnumInput = forwardRef<
       value={
         value && (isArray ? value.map(stringToOption) : stringToOption(value))
       }
-      onChange={(newVal, actionMeta) => onChange?.(newVal.value, actionMeta)}
+      onChange={(newValue : SelectOption | SelectOption[]) => 
+        newValue && (
+          Array.isArray(newValue) ?
+          onChange?.(newValue.map( val => val.value)) :
+          onChange?.(newValue.value)
+        )
+      }
       options={options?.map(stringToOption)}
       isMulti={isArray}
       clearValue={isArray ? () => [] : undefined}
-      isClearable={!isArray}
-      closeMenuOnSelect={!isArray}
+      isClearable={isArray}
       isCreatable={isCreatable}
-      getNewOptionData={
-        isCreatable
-          ? (inputValue, optionLabel) => ({
-              displayValue: optionLabel,
-              id: inputValue,
-            })
-          : undefined
-      }
       {...selectInputProps}
     />
   );
