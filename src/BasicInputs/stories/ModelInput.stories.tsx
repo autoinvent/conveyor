@@ -19,22 +19,22 @@ const meta = {
       { id: 'labyrinth', displayValue: 'Labyrinth' },
     ],
   },
-  component: ModelInput
+  component: ModelInput,
 } satisfies Meta<typeof ModelInput>;
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Select : Story = {}
+export const Select: Story = {};
 
-export const Creatable : Story = {
+export const Creatable: Story = {
   args: {
     isCreatable: true,
-  }
-} 
+  },
+};
 
-export const Multi : Story = {
+export const Multi: Story = {
   args: {
-    isMulti: true
-  }
-}
+    isMulti: true,
+  },
+};

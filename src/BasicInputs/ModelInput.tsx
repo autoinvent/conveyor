@@ -9,7 +9,7 @@ import { SelectInput } from './SelectInput';
 export const ModelInput = forwardRef<
   ElementRef<typeof SelectInput>,
   ComponentPropsWithoutRef<typeof SelectInput>
->(({ value,  ...selectInputProps }, ref) => {
+>(({ value, ...selectInputProps }, ref) => {
   return (
     <SelectInput
       ref={ref}

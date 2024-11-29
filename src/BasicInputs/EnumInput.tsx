@@ -25,9 +25,12 @@ export const EnumInput = forwardRef<
     <SelectInput
       ref={ref}
       value={
-        value && (Array.isArray(value) ? value.map(stringToOption) : stringToOption(value))
+        value &&
+        (Array.isArray(value)
+          ? value.map(stringToOption)
+          : stringToOption(value))
       }
-      onChange={(newValue: SelectOption | SelectOption[] | null) => 
+      onChange={(newValue: SelectOption | SelectOption[] | null) =>
         Array.isArray(newValue)
           ? onChange?.(newValue.map((val) => val.value))
           : onChange?.(newValue?.value)
