@@ -148,6 +148,29 @@ export const SelectInput = forwardRef<
           menuPlacement="auto"
           menuPortalTarget={document.body}
           menuShouldBlockScroll
+          styles={{
+            menu: (base) => ({
+              ...base,
+              padding: "4px",
+              paddingRight: "2px",
+            }),
+            menuList: (base) => ({
+              ...base,
+              padding: 0,
+              paddingRight: "4px",
+              "::-webkit-scrollbar": {
+                width: "0.5rem"
+              },
+              "::-webkit-scrollbar-track": {
+                background: 'transparent'
+              },
+              "::-webkit-scrollbar-thumb": {
+                background: "hsl(var(--border))",
+                borderRadius: '24px',
+              },
+
+            })
+          }}
           {...props}
         />
       ) : (
@@ -161,6 +184,29 @@ export const SelectInput = forwardRef<
           menuPlacement="auto"
           menuPortalTarget={document.body}
           menuShouldBlockScroll
+          styles={{
+            menu: (base) => ({
+              ...base,
+              padding: "4px",
+              paddingRight: "2px",
+            }),
+            menuList: (base) => ({
+              ...base,
+              padding: 0,
+              paddingRight: "4px",
+              "::-webkit-scrollbar": {
+                width: "0.5rem"
+              },
+              "::-webkit-scrollbar-track": {
+                background: 'transparent'
+              },
+              "::-webkit-scrollbar-thumb": {
+                background: "hsl(var(--border))",
+                borderRadius: '24px',
+              },
+
+            })
+          }}
           {...props}
         />
       )}
