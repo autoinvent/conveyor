@@ -151,25 +151,24 @@ export const SelectInput = forwardRef<
           styles={{
             menu: (base) => ({
               ...base,
-              padding: "4px",
-              paddingRight: "2px",
+              padding: '4px',
+              paddingRight: '2px',
             }),
             menuList: (base) => ({
               ...base,
               padding: 0,
-              paddingRight: "4px",
-              "::-webkit-scrollbar": {
-                width: "0.5rem"
+              paddingRight: '4px',
+              '::-webkit-scrollbar': {
+                width: '0.5rem',
               },
-              "::-webkit-scrollbar-track": {
-                background: 'transparent'
+              '::-webkit-scrollbar-track': {
+                background: 'transparent',
               },
-              "::-webkit-scrollbar-thumb": {
-                background: "hsl(var(--border))",
+              '::-webkit-scrollbar-thumb': {
+                background: 'hsl(var(--border))',
                 borderRadius: '24px',
               },
-
-            })
+            }),
           }}
           {...props}
         />
@@ -187,25 +186,24 @@ export const SelectInput = forwardRef<
           styles={{
             menu: (base) => ({
               ...base,
-              padding: "4px",
-              paddingRight: "2px",
+              padding: '4px',
+              paddingRight: '2px',
             }),
             menuList: (base) => ({
               ...base,
               padding: 0,
-              paddingRight: "4px",
-              "::-webkit-scrollbar": {
-                width: "0.5rem"
+              paddingRight: '4px',
+              '::-webkit-scrollbar': {
+                width: '0.5rem',
               },
-              "::-webkit-scrollbar-track": {
-                background: 'transparent'
+              '::-webkit-scrollbar-track': {
+                background: 'transparent',
               },
-              "::-webkit-scrollbar-thumb": {
-                background: "hsl(var(--border))",
+              '::-webkit-scrollbar-thumb': {
+                background: 'hsl(var(--border))',
                 borderRadius: '24px',
               },
-
-            })
+            }),
           }}
           {...props}
         />
