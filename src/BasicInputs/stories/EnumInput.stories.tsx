@@ -51,6 +51,7 @@ export const MultiSelect: Story = {
     return (
       <EnumInput
         isCreatable
+        isMulti
         options={options}
         value={values}
         onChange={(newVals) => setValues(newVals)}

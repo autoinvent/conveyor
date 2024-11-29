@@ -16,8 +16,7 @@ export const EnumInput = forwardRef<
     options: string[];
     onChange: (newVals: string | string[]) => void;
   }
->(({ value, onChange, options, isCreatable, ...selectInputProps }, ref) => {
-  const isArray = Array.isArray(value);
+>(({ value, onChange, options, ...selectInputProps }, ref) => {
   const stringToOption = (str: string) => ({
     label: humanizeText(str),
     value: str,
@@ -26,18 +25,14 @@ export const EnumInput = forwardRef<
     <SelectInput
       ref={ref}
       value={
-        value && (isArray ? value.map(stringToOption) : stringToOption(value))
+        value && (Array.isArray(value) ? value.map(stringToOption) : stringToOption(value))
       }
-      onChange={(newValue: SelectOption | SelectOption[]) =>
-        newValue &&
-        (Array.isArray(newValue)
+      onChange={(newValue: SelectOption | SelectOption[] | null) => 
+        Array.isArray(newValue)
           ? onChange?.(newValue.map((val) => val.value))
-          : onChange?.(newValue.value))
+          : onChange?.(newValue?.value)
       }
       options={options?.map(stringToOption)}
-      isMulti={isArray}
-      clearValue={isArray ? () => [] : undefined}
-      isCreatable={isCreatable}
       {...selectInputProps}
     />
   );
