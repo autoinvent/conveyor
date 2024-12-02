@@ -11,5 +11,5 @@ export const NumberInput = forwardRef<
   ElementRef<typeof Input>,
   FormControlChildProps & ComponentPropsWithoutRef<typeof Input>
 >(({ value, ...props }, ref) => {
-  return <Input value={value ?? 0} type="number" ref={ref} {...props} />;
+  return <Input value={value ?? ''} type="number" ref={ref} {...props} />;
 });

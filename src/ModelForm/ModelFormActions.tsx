@@ -40,7 +40,9 @@ export const ModelFormActions = ({
   };
   const onSaveHandler = handleSubmit(async (formData: DataType) => {
     const changedData = Object.fromEntries(
-      Object.entries(formData).filter((entry) => dirtyFields[entry[0]]),
+      Object.entries(formData)
+        .filter((entry) => dirtyFields[entry[0]])
+        .map((entry) => [entry[0], entry[1] === '' ? null : entry[1]]),
     );
     await onSave?.({
       data: { ...defaultValues },
