@@ -1,14 +1,10 @@
-import {
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  forwardRef,
-} from 'react';
+import { type ElementRef, forwardRef } from 'react';
 
-import { SelectInput } from './SelectInput';
+import { SelectInput, type SelectInputProps } from './SelectInput';
 
 export const ModelInput = forwardRef<
   ElementRef<typeof SelectInput>,
-  ComponentPropsWithoutRef<typeof SelectInput>
+  SelectInputProps<boolean>
 >(({ value, onChange, options, isCreatable, ...selectInputProps }, ref) => {
   const isArray = Array.isArray(value);
   return (
