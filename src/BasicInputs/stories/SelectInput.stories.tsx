@@ -33,6 +33,12 @@ export const CreatableSelect: Story = {
   },
 };
 
+export const MultiSelect: Story = {
+  args: {
+    isMulti: true,
+  },
+};
+
 export const PortalTarget: Story = {
   render: (props) => {
     return (
