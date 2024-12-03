@@ -23,7 +23,7 @@ export const ModelInput = forwardRef<
       clearValue={isArray ? () => [] : undefined}
       isClearable={!isArray}
       closeMenuOnSelect={!isArray}
-      isCreatable={true}
+      isCreatable={isCreatable}
       getNewOptionData={
         isCreatable
           ? (inputValue, optionLabel) => ({

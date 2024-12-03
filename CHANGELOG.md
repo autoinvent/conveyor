@@ -1,3 +1,6 @@
+## 1.9.2
+- `bugfix`: ModelSelect was always in creatable select mode; fixed.
+
 ## 1.9.1
 - `feature`: `ModelDisplay` now accepts `noneValue` which is the display to show when the value is either an empty array, null, or undefined. 
 

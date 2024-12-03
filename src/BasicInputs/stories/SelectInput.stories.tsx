@@ -32,3 +32,24 @@ export const CreatableSelect: Story = {
     isCreatable: true,
   },
 };
+
+export const PortalTarget: Story = {
+  render: (props) => {
+    return (
+      <div className="flex h-80 items-center justify-center bg-black">
+        <div
+          id="select-portal"
+          className="relative flex h-72 w-full items-end justify-center bg-blue-300"
+        >
+          <div className="absolute h-24 bg-green-300">
+            <SelectInput
+              {...props}
+              maxMenuHeight={100}
+              menuPortalTarget={document.getElementById('select-portal')}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
