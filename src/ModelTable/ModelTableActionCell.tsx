@@ -36,8 +36,8 @@ export const ModelTableActionCell = ({
     const changedData = Object.fromEntries(
       Object.entries(formData)
         .filter((entry) => dirtyFields[entry[0]])
-        .map((entry) => [entry[0], entry[1] === '' ? null : entry[1]]),
     );
+    console.log(changedData);
     await onUpdate?.({
       data: { ...defaultValues },
       changedData,
