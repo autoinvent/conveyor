@@ -11,11 +11,15 @@ export const NumberInput = forwardRef<
   ElementRef<typeof Input>,
   FormControlChildProps & ComponentPropsWithoutRef<typeof Input>
 >(({ value, onChange, ...props }, ref) => {
-  return <Input 
-    value={value ?? ''} 
-    onChange={(e) => onChange?.(e.target.value === '' ? null : e.target.value)} 
-    type="number" 
-    ref={ref} 
-    {...props} 
-  />;
+  return (
+    <Input
+      value={value ?? ''}
+      onChange={(e) =>
+        onChange?.(e.target.value === '' ? null : e.target.value)
+      }
+      type="number"
+      ref={ref}
+      {...props}
+    />
+  );
 });
