@@ -1,5 +1,3 @@
-'use client';
-
 import { forwardRef } from 'react';
 
 import { add, format } from 'date-fns';
