@@ -65,7 +65,7 @@ export const TimePeriodSelect = React.forwardRef<
       >
         <SelectTrigger
           ref={ref}
-          className="h-[42px] w-[65px] focus:bg-accent focus:text-accent-foreground"
+          className="h-10 w-16 focus:bg-accent focus:text-accent-foreground"
           onKeyDown={handleKeyDown}
         >
           <SelectValue />

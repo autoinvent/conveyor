@@ -11,7 +11,7 @@ const meta = {
     const [date, setDate] = useState<string | undefined | null>(
       '2024-07-10T23:12:34',
     );
-    return <DatetimeInput value={date} onChange={setDate} hourCycle={24} />;
+    return <DatetimeInput value={date} onChange={setDate} hourCycle={12} />;
   },
 } satisfies Meta<typeof DatetimeInput>;
 export default meta;
