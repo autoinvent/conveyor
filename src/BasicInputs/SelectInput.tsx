@@ -98,17 +98,10 @@ export const SelectInput = forwardRef<
       ),
     menuList: () => cn('py-1'),
     // menuPortal: () => cn(),
-    multiValue: () => cn('bg-secondary', 'rounded-md', 'm-0.5'),
+    multiValue: () => cn('bg-secondary', 'rounded-md', 'm-1', 'p-0'),
     multiValueLabel: () =>
       cn('rounded-md', 'text-foreground', 'text-sm', 'px-1'),
-    multiValueRemove: () =>
-      cn(
-        'rounded-md',
-        'px-1',
-        'hover:bg-destructive',
-        'hover:text-destructive-foreground',
-        'bg-inherit',
-      ),
+    multiValueRemove: () => cn('rounded-md', 'px-1', 'bg-inherit'),
     noOptionsMessage: () => cn('text-muted-foreground', 'py-2', 'px-3'),
     option: ({ isFocused, isSelected }) =>
       cn(
@@ -140,10 +133,10 @@ export const SelectInput = forwardRef<
       {isCreatable ? (
         <Creatable
           ref={ref}
+          options={options}
           unstyled
           classNames={defaultStyling}
           isDisabled={disabled}
-          options={options}
           inputId={id}
           menuPlacement="auto"
           menuPortalTarget={document.body}
@@ -153,10 +146,10 @@ export const SelectInput = forwardRef<
       ) : (
         <Select
           ref={ref}
+          options={options}
           unstyled
           classNames={defaultStyling}
           isDisabled={disabled}
-          options={options}
           inputId={id}
           menuPlacement="auto"
           menuPortalTarget={document.body}

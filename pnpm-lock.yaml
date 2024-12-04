@@ -78,8 +78,8 @@ importers:
         specifier: ^0.408.0
         version: 0.408.0(react@18.3.1)
       react-day-picker:
-        specifier: 8.10.1
-        version: 8.10.1(date-fns@4.1.0)(react@18.3.1)
+        specifier: 9.3.0
+        version: 9.3.0(react@18.3.1)
       react-hook-form:
         specifier: ^7.53.2
         version: 7.53.2(react@18.3.1)
@@ -448,6 +448,9 @@ packages:
 
   '@codesandbox/sandpack-themes@2.0.21':
     resolution: {integrity: sha512-CMH/MO/dh6foPYb/3eSn2Cu/J3+1+/81Fsaj7VggICkCrmRk0qG5dmgjGAearPTnRkOGORIPHuRqwNXgw0E6YQ==}
+
+  '@date-fns/tz@1.2.0':
+    resolution: {integrity: sha512-LBrd7MiJZ9McsOgxqWX7AaxrDjcFVjWH/tIKJd7pnR7McaslGYOP1QmmiBXdJH/H/yLCT+rcQ7FaPBUxRGUtrg==}
 
   '@dnd-kit/accessibility@3.1.0':
     resolution: {integrity: sha512-ea7IkhKvlJUv9iSHJOnxinBcoOI3ppGnnL+VDJ75O45Nss6HtZd8IdN8touXPDtASfeI2T2LImb8VOZcL47wjQ==}
@@ -1742,8 +1745,8 @@ packages:
   '@types/http-errors@2.0.4':
     resolution: {integrity: sha512-D0CFMMtydbJAegzOyHjtiKPLlvnm3iTZyZRSZoLq2mRhDdmLfIWOCYPfQJ4cu2erKghU++QvjcUjp/5h7hESpA==}
 
-  '@types/lodash@4.17.10':
-    resolution: {integrity: sha512-YpS0zzoduEhuOWjAotS6A5AVCva7X4lVlYLF0FYHAY9sdraBfnatttHItlWeZdGhuEkf+OzMNg2ZYAx8t+52uQ==}
+  '@types/lodash@4.17.13':
+    resolution: {integrity: sha512-lfx+dftrEZcdBPczf9d0Qv0x+j/rfNCMuC6OcfXmO8gkfeNAY88PgKUbvG56whcN23gc27yenwF6oJZXGFpYxg==}
 
   '@types/mdx@2.0.13':
     resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
@@ -3158,11 +3161,11 @@ packages:
     peerDependencies:
       react: ^16.3.0 || ^17.0.1 || ^18.0.0
 
-  react-day-picker@8.10.1:
-    resolution: {integrity: sha512-TMx7fNbhLk15eqcMt+7Z7S2KF7mfTId/XJDjKE8f+IUcFn0l08/kI4FiYTL/0yuOLmEcbR4Fwe3GJf/NiiMnPA==}
+  react-day-picker@9.3.0:
+    resolution: {integrity: sha512-xXgZISTXlwQ1Igt4cBttXF+aK1Xvd00azcGVY74PNCAe8PxtULFVWGT1UfdavFiVScF04dyV8QcybKZAw570QQ==}
+    engines: {node: '>=18'}
     peerDependencies:
-      date-fns: ^2.28.0 || ^3.0.0
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react: '>=16.8.0'
 
   react-devtools-inline@4.4.0:
     resolution: {integrity: sha512-ES0GolSrKO8wsKbsEkVeiR/ZAaHQTY4zDh1UW8DImVmm8oaGLl3ijJDvSGe+qDRKPZdPRnDtWWnSvvrgxXdThQ==}
@@ -4146,6 +4149,8 @@ snapshots:
       - '@lezer/common'
 
   '@codesandbox/sandpack-themes@2.0.21': {}
+
+  '@date-fns/tz@1.2.0': {}
 
   '@dnd-kit/accessibility@3.1.0(react@18.3.1)':
     dependencies:
@@ -5210,7 +5215,7 @@ snapshots:
       '@storybook/csf': 0.1.11
       '@storybook/global': 5.0.0
       '@storybook/icons': 1.2.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@types/lodash': 4.17.10
+      '@types/lodash': 4.17.13
       color-convert: 2.0.1
       dequal: 2.0.3
       lodash: 4.17.21
@@ -5484,7 +5489,7 @@ snapshots:
 
   '@types/http-errors@2.0.4': {}
 
-  '@types/lodash@4.17.10': {}
+  '@types/lodash@4.17.13': {}
 
   '@types/mdx@2.0.13': {}
 
@@ -6855,8 +6860,9 @@ snapshots:
       react: 18.3.1
       tween-functions: 1.2.0
 
-  react-day-picker@8.10.1(date-fns@4.1.0)(react@18.3.1):
+  react-day-picker@9.3.0(react@18.3.1):
     dependencies:
+      '@date-fns/tz': 1.2.0
       date-fns: 4.1.0
       react: 18.3.1
 
