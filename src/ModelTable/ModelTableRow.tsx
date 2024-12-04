@@ -38,7 +38,7 @@ export const ModelTableRow = ({
   return (
     <FormStoreProvider id={data.id} {...formMethods}>
       <Lenses initialLens={DataLens.DISPLAY}>
-        <TableRow prefilled={false} {...props}>
+        <TableRow prefilled={false} {...props} className='bg-red-500' >
           <DnDSortableContextWrapper
             draggable={draggable ?? true}
             dndList={fieldOrder}
@@ -46,9 +46,9 @@ export const ModelTableRow = ({
             {children === undefined || prefilled ? (
               <>
                 {fields.map((field) => (
-                  <ModelTableCell className='bg-red-500'  key={field} field={field} />
+                  <ModelTableCell  key={field} field={field} />
                 ))}
-                {!readOnly && <ModelTableActionCell className='bg-red-500'  />}
+                {!readOnly && <ModelTableActionCell/>}
                 {children}
               </>
             ) : (

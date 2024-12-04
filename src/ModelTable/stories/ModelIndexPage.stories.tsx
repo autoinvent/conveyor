@@ -126,7 +126,7 @@ const meta = {
             <ModelTable.Header />
             <ModelTable.Body>
               <ModelTable.Row prefilled>
-                <ModelTable.Cell field="points" className='bg-red-500'>
+                <ModelTable.Cell field="points">
                   <FormDisplay name="points">
                     <RawDisplay className="text-yellow-300" />
                   </FormDisplay>
