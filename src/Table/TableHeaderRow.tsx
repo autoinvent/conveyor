@@ -1,4 +1,4 @@
-import { type ComponentProps, useRef } from 'react';
+import type { ComponentProps } from 'react';
 
 import { Slots } from '@/Slots';
 import { TableRow as STableRow } from '@/lib/components/ui/table';
@@ -16,10 +16,9 @@ export const TableHeaderRow = ({
   ...htmlProps
 }: TableHeaderRowProps) => {
   const columnIds = useTableStore((state) => state.columnIds);
-  const ref = useRef<HTMLTableRowElement>(null);
 
   return (
-    <STableRow ref={ref} {...htmlProps}>
+    <STableRow {...htmlProps}>
       <Slots slotKeys={columnIds}>
         {children === undefined || prefilled ? (
           <>
