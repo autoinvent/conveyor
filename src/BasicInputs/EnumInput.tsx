@@ -4,7 +4,6 @@ import {
   forwardRef,
 } from 'react';
 
-import type { SelectOption } from '@/types';
 import { humanizeText } from '@/utils';
 
 import { SelectInput } from './SelectInput';
@@ -14,7 +13,6 @@ export const EnumInput = forwardRef<
   Omit<ComponentPropsWithoutRef<typeof SelectInput>, 'value' | 'options'> & {
     value?: string | string[];
     options: string[];
-    onChange: (newVals: string | string[]) => void;
   }
 >(({ value, onChange, options, ...selectInputProps }, ref) => {
   const stringToOption = (str: string) => ({
@@ -30,10 +28,10 @@ export const EnumInput = forwardRef<
           ? value.map(stringToOption)
           : stringToOption(value))
       }
-      onChange={(newValue: SelectOption | SelectOption[] | null) =>
+      onChange={(newValue, actionMeta) =>
         Array.isArray(newValue)
-          ? onChange?.(newValue.map((val) => val.value))
-          : onChange?.(newValue?.value)
+          ? onChange?.(newValue.map((val) => val.value), actionMeta)
+          : onChange?.(newValue?.value, actionMeta)
       }
       options={options?.map(stringToOption)}
       {...selectInputProps}

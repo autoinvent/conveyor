@@ -133,7 +133,6 @@ export const SelectInput = forwardRef<
       {isCreatable ? (
         <Creatable
           ref={ref}
-          options={options}
           unstyled
           classNames={defaultStyling}
           isDisabled={disabled}
@@ -148,7 +147,6 @@ export const SelectInput = forwardRef<
       ) : (
         <Select
           ref={ref}
-          options={options}
           unstyled
           classNames={defaultStyling}
           isDisabled={disabled}
