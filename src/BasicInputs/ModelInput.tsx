@@ -1,4 +1,8 @@
-import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from 'react';
+import {
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  forwardRef,
+} from 'react';
 
 import { SelectInput } from './SelectInput';
 

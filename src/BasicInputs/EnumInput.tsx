@@ -30,7 +30,10 @@ export const EnumInput = forwardRef<
       }
       onChange={(newValue, actionMeta) =>
         Array.isArray(newValue)
-          ? onChange?.(newValue.map((val) => val.value), actionMeta)
+          ? onChange?.(
+              newValue.map((val) => val.value),
+              actionMeta,
+            )
           : onChange?.(newValue?.value, actionMeta)
       }
       options={options?.map(stringToOption)}
