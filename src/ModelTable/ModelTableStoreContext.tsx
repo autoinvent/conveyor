@@ -1,4 +1,5 @@
 import {
+  type MutableRefObject,
   type ReactNode,
   createContext,
   useEffect,
@@ -54,6 +55,7 @@ export interface ModelTableState<
   formOptions?: FormOptions;
   onUpdate?: OnActionTrigger<DT>;
   onDelete?: OnActionTrigger<DT>;
+  scrollAreaRef?: MutableRefObject<HTMLDivElement | null>;
 }
 
 export const ModelTableStoreContext = createContext<
