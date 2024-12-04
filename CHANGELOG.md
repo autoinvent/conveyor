@@ -1,3 +1,10 @@
+## 1.9.2
+- `bugfix`: ModelSelect was always in creatable select mode; fixed. Fixed typings for ModelSelect to support creatable.
+- `css`: Consistent styling for select-inputs
+- `css`: Consistent datetime input dimensions. 
+- `css`: Removed z-index from scrollbar.
+- `packages`: Updated `react-day-picker` and `cross-spawn`
+
 ## 1.9.1
 - `feature`: `ModelDisplay` now accepts `noneValue` which is the display to show when the value is either an empty array, null, or undefined. 
 
