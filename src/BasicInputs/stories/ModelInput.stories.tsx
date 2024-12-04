@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ModelInput } from '../ModelInput';
+import { useState } from 'react';
 
 const meta = {
   title: 'Commons/BasicInputs/ModelInput',
@@ -34,7 +35,23 @@ export const Creatable: Story = {
 };
 
 export const Multi: Story = {
-  args: {
-    isMulti: true,
-  },
+  render: () => {
+    const [value, setValue] = useState<string[]>([]);
+    return <ModelInput
+      value={value}
+      onChange={setValue}
+      options={[
+        { id: 'apple', displayValue: 'Apple' },
+        { id: 'mountain', displayValue: 'Mountain' },
+        { id: 'ocean', displayValue: 'Ocean' },
+        { id: 'whisper', displayValue: 'Whisper' },
+        { id: 'butterfly', displayValue: 'Butterfly' },
+        { id: 'galaxy', displayValue: 'Galaxy' },
+        { id: 'harmony', displayValue: 'Harmony' },
+        { id: 'puzzle', displayValue: 'Puzzle' },
+        { id: 'symphony', displayValue: 'Symphony' },
+        { id: 'labyrinth', displayValue: 'Labyrinth' },
+      ]}
+    />
+  }
 };
