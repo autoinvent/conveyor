@@ -46,9 +46,9 @@ export const ModelTableRow = ({
             {children === undefined || prefilled ? (
               <>
                 {fields.map((field) => (
-                  <ModelTableCell key={field} field={field} />
+                  <ModelTableCell className='bg-red-500'  key={field} field={field} />
                 ))}
-                {!readOnly && <ModelTableActionCell />}
+                {!readOnly && <ModelTableActionCell className='bg-red-500'  />}
                 {children}
               </>
             ) : (
