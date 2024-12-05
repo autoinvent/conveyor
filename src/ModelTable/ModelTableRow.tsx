@@ -12,11 +12,14 @@ import { ModelTableCell } from './ModelTableCell';
 import { ModelTableErrorRow } from './ModelTableErrorRow';
 import { useModelTableStore } from './useModelTableStore';
 
-export interface ModelTableRowProps extends TableRowProps {}
+export interface ModelTableRowProps extends TableRowProps {
+  idToFocus: string
+}
 
 export const ModelTableRow = ({
   prefilled,
   children,
+  idToFocus,
   ...props
 }: ModelTableRowProps) => {
   const fields = useModelTableStore((state) => state.fields);
@@ -38,7 +41,7 @@ export const ModelTableRow = ({
   return (
     <FormStoreProvider id={data.id} {...formMethods}>
       <Lenses initialLens={DataLens.DISPLAY}>
-        <TableRow prefilled={false} onMouseEnter={() => console.log(data)} className={`${data.id === '1' && 'bg-blue-200'}`} {...props} >
+        <TableRow prefilled={false} className={`${data.id === idToFocus && 'bg-blue-200'}`} {...props} >
           <DnDSortableContextWrapper
             draggable={draggable ?? true}
             dndList={fieldOrder}
