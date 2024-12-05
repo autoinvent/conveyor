@@ -54,6 +54,7 @@ export interface ModelTableState<
   formOptions?: FormOptions;
   onUpdate?: OnActionTrigger<DT>;
   onDelete?: OnActionTrigger<DT>;
+  idToFocus?: string;
 }
 
 export const ModelTableStoreContext = createContext<

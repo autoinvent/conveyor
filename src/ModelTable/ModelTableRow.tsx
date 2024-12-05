@@ -12,14 +12,11 @@ import { ModelTableCell } from './ModelTableCell';
 import { ModelTableErrorRow } from './ModelTableErrorRow';
 import { useModelTableStore } from './useModelTableStore';
 
-export interface ModelTableRowProps extends TableRowProps {
-  idToFocus: string
-}
+export interface ModelTableRowProps extends TableRowProps {}
 
 export const ModelTableRow = ({
   prefilled,
   children,
-  idToFocus,
   ...props
 }: ModelTableRowProps) => {
   const fields = useModelTableStore((state) => state.fields);
@@ -29,6 +26,7 @@ export const ModelTableRow = ({
     (state) => state.tableOptions?.draggable,
   );
   const formOptions = useModelTableStore((state) => state.formOptions);
+  const idToFocus = useModelTableStore((state) => state.idToFocus);
   const data = useDataStore();
   const formMethods = useForm({
     mode: 'onSubmit',
