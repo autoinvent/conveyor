@@ -81,22 +81,22 @@ export const ModelTable = Object.assign(
                 typeof scrollable === 'object' ? true : scrollable ?? true
               }
               className={
-                typeof scrollable === 'object' ? scrollable?.className : ''
+                typeof scrollable === 'object'
+                  ? `${scrollable?.className} h-full`
+                  : 'h-full'
               }
             >
-              <div className="h-full">
-                <Table columnIds={tableColumns} data={data} {...tableProps}>
-                  {children === undefined ? (
-                    <>
-                      <ModelTableHeader />
-                      <ModelTableBody />
-                      <Table.Fallback />
-                    </>
-                  ) : (
-                    children
-                  )}
-                </Table>
-              </div>
+              <Table columnIds={tableColumns} data={data} {...tableProps}>
+                {children === undefined ? (
+                  <>
+                    <ModelTableHeader />
+                    <ModelTableBody />
+                    <Table.Fallback />
+                  </>
+                ) : (
+                  children
+                )}
+              </Table>
             </ScrollAreaWrapper>
           </DnDContextWrapper>
         </BorderWrapper>
