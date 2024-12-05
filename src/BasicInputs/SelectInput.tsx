@@ -42,7 +42,7 @@ export type SelectInputProps<TIsCreatable extends boolean> =
 export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
   SelectInputProps<boolean>
->(({ id, disabled, className, options, isCreatable, ...props }, ref) => {
+>(({ id, disabled, className, isMulti, isCreatable, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -131,6 +131,8 @@ export const SelectInput = forwardRef<
       cn('py-0.5', 'px-3', 'overflow-visible', 'inline-block'),
   };
 
+  const isArray = Array.isArray(props.value);
+
   return (
     <div
       className={cn(
@@ -142,26 +144,30 @@ export const SelectInput = forwardRef<
       {isCreatable ? (
         <Creatable
           ref={ref}
-          options={options}
           unstyled
           classNames={defaultStyling}
           isDisabled={disabled}
           inputId={id}
           menuPlacement="auto"
           menuPortalTarget={document.body}
+          isMulti={isArray}
+          closeMenuOnSelect={!isArray}
+          isClearable
           menuShouldBlockScroll
           {...props}
         />
       ) : (
         <Select
           ref={ref}
-          options={options}
           unstyled
           classNames={defaultStyling}
           isDisabled={disabled}
           inputId={id}
           menuPlacement="auto"
           menuPortalTarget={document.body}
+          isMulti={isArray}
+          closeMenuOnSelect={!isArray}
+          isClearable
           menuShouldBlockScroll
           {...props}
         />
