@@ -81,7 +81,9 @@ export const ModelTable = Object.assign(
                 typeof scrollable === 'object' ? true : scrollable ?? true
               }
               className={
-                typeof scrollable === 'object' ? scrollable?.className : ''
+                typeof scrollable === 'object'
+                  ? `${scrollable?.className} h-full`
+                  : 'h-full'
               }
             >
               <Table columnIds={tableColumns} data={data} {...tableProps}>
