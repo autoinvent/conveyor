@@ -38,7 +38,7 @@ export const ModelTableRow = ({
   return (
     <FormStoreProvider id={data.id} {...formMethods}>
       <Lenses initialLens={DataLens.DISPLAY}>
-        <TableRow prefilled={false} {...props} className='bg-red-500' >
+        <TableRow prefilled={false} onMouseEnter={() => console.log(data)} className={`${data.id === '1' && 'bg-blue-200'}`} {...props} >
           <DnDSortableContextWrapper
             draggable={draggable ?? true}
             dndList={fieldOrder}
