@@ -26,6 +26,7 @@ export const ModelTableRow = ({
     (state) => state.tableOptions?.draggable,
   );
   const formOptions = useModelTableStore((state) => state.formOptions);
+  const idToFocus = useModelTableStore((state) => state.idToFocus);
   const data = useDataStore();
   const formMethods = useForm({
     mode: 'onSubmit',
@@ -38,7 +39,11 @@ export const ModelTableRow = ({
   return (
     <FormStoreProvider id={data.id} {...formMethods}>
       <Lenses initialLens={DataLens.DISPLAY}>
-        <TableRow prefilled={false} {...props}>
+        <TableRow
+          prefilled={false}
+          className={`${data.id === idToFocus && 'bg-blue-200'}`}
+          {...props}
+        >
           <DnDSortableContextWrapper
             draggable={draggable ?? true}
             dndList={fieldOrder}
