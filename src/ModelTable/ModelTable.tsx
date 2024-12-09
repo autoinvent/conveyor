@@ -16,6 +16,7 @@ import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
+import { cn } from '@/lib/utils';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 export const DEFAULT_COLUMN_WIDTH = 200; // in pixels
@@ -67,7 +68,7 @@ export const ModelTable = Object.assign(
       >
         <BorderWrapper
           bordered={typeof bordered === 'object' ? true : bordered ?? true}
-          className={typeof bordered === 'object' ? bordered?.className : ''}
+          className={cn(typeof bordered === 'object' && bordered?.className)}
         >
           <DnDContextWrapper
             draggable={draggable ?? true}
@@ -80,11 +81,9 @@ export const ModelTable = Object.assign(
               scrollable={
                 typeof scrollable === 'object' ? true : scrollable ?? true
               }
-              className={
-                typeof scrollable === 'object'
-                  ? `${scrollable?.className} h-full`
-                  : 'h-full'
-              }
+              className={cn(
+                typeof scrollable === 'object' && scrollable?.className,
+              )}
             >
               <Table columnIds={tableColumns} data={data} {...tableProps}>
                 {children === undefined ? (

@@ -4,12 +4,13 @@ import { DnDSortableContextWrapper } from '@/utils';
 import { ModelTableActionHead } from './ModelTableActionHead';
 import { ModelTableHead } from './ModelTableHead';
 import { useModelTableStore } from './useModelTableStore';
+import { cn } from '@/lib/utils';
 
 export interface ModelTableHeaderRowProps extends TableHeaderRowProps {}
 
 export const ModelTableHeaderRow = ({
-  prefilled,
   children,
+  className,
   ...tableHeaderRowProps
 }: ModelTableHeaderRowProps) => {
   const fields = useModelTableStore((state) => state.fields);
@@ -20,9 +21,11 @@ export const ModelTableHeaderRow = ({
   );
   return (
     <TableHeaderRow
-      prefilled={prefilled}
+      className={cn(
+        'sticky top-0 z-10 bg-background drop-shadow-border hover:bg-muted-subtle',
+        className,
+      )}
       {...tableHeaderRowProps}
-      className="sticky top-0 z-10 bg-white shadow-[0_0px_0.5px_1px_#e2e8f0] hover:bg-muted"
     >
       <DnDSortableContextWrapper draggable={draggable} dndList={fieldOrder}>
         {children === undefined ? (
