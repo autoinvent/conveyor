@@ -1,3 +1,6 @@
+## 1.9.3
+- `feature`: Sticky action column + header
+
 ## 1.9.2
 - `bugfix`: ModelSelect was always in creatable select mode; fixed. Fixed typings for ModelSelect to support creatable.
 - `css`: Consistent styling for select-inputs

@@ -22,7 +22,7 @@ export const ModelTableHeaderRow = ({
   return (
     <TableHeaderRow
       className={cn(
-        'sticky top-0 z-10 bg-background drop-shadow-border hover:bg-muted-subtle',
+        'sticky top-0 z-10 bg-background shadow-bottom hover:bg-muted-subtle',
         className,
       )}
       {...tableHeaderRowProps}
