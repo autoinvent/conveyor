@@ -74,9 +74,8 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       boxShadow: {
-        left: "-1px 0 hsl(var(--border))",
+        left: "inset 1px 0 hsl(var(--border))",
         bottom: "0 1px hsl(var(--border))",
-        "bottom-left": "-1px 1px hsl(var(--border))"
       }
     },
   },
