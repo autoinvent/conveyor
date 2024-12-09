@@ -34,7 +34,7 @@ export const DndSortableWrapper = ({
       };
   return draggable ? (
     <Slot
-      className={cn(isDragging && 'z-10 opacity-80')}
+      className={cn(isDragging && 'opacity-80')}
       ref={setNodeRef}
       style={style}
       {...draggableProps}

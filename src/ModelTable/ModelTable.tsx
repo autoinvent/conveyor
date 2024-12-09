@@ -1,4 +1,5 @@
 import { Table, type TableProps } from '@/Table';
+import { cn } from '@/lib/utils';
 import type { DataType } from '@/types';
 import { BorderWrapper, DnDContextWrapper, ScrollAreaWrapper } from '@/utils';
 
@@ -67,7 +68,7 @@ export const ModelTable = Object.assign(
       >
         <BorderWrapper
           bordered={typeof bordered === 'object' ? true : bordered ?? true}
-          className={typeof bordered === 'object' ? bordered?.className : ''}
+          className={cn(typeof bordered === 'object' && bordered?.className)}
         >
           <DnDContextWrapper
             draggable={draggable ?? true}
@@ -80,9 +81,9 @@ export const ModelTable = Object.assign(
               scrollable={
                 typeof scrollable === 'object' ? true : scrollable ?? true
               }
-              className={
-                typeof scrollable === 'object' ? scrollable?.className : ''
-              }
+              className={cn(
+                typeof scrollable === 'object' && scrollable?.className,
+              )}
             >
               <Table columnIds={tableColumns} data={data} {...tableProps}>
                 {children === undefined ? (

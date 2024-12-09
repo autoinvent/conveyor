@@ -39,6 +39,7 @@ module.exports = {
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
+          subtle: "hsl(var(--muted-subtle))",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
@@ -72,6 +73,11 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      boxShadow: {
+        left: "-1px 0 hsl(var(--border))",
+        bottom: "0 1px hsl(var(--border))",
+        "bottom-left": "-1px 1px hsl(var(--border))"
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

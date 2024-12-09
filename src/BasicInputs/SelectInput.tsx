@@ -91,12 +91,21 @@ export const SelectInput = forwardRef<
         'rounded-md',
         'my-1',
         'mt-2',
-        'px-1',
+        'p-1',
+        'pr-0.5',
         'border',
         'border-border',
         'min-w-fit',
       ),
-    menuList: () => cn('py-1'),
+    menuList: () =>
+      cn(
+        'p-0',
+        'pr-1',
+        '[&::-webkit-scrollbar]:w-2',
+        '[&::-webkit-scrollbar-track]:bg-transparent',
+        '[&::-webkit-scrollbar-thumb]:bg-[hsl(var(--border))]',
+        '[&::-webkit-scrollbar-thumb]:rounded-3xl',
+      ),
     // menuPortal: () => cn(),
     multiValue: () => cn('bg-secondary', 'rounded-md', 'm-1', 'p-0'),
     multiValueLabel: () =>
