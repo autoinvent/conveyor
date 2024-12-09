@@ -12,6 +12,7 @@ import { type StoreApi, createStore } from 'zustand';
 import type {
   DataType,
   FieldOptions,
+  ID,
   OnActionTrigger,
   TableView,
 } from '@/types';
@@ -54,7 +55,7 @@ export interface ModelTableState<
   formOptions?: FormOptions;
   onUpdate?: OnActionTrigger<DT>;
   onDelete?: OnActionTrigger<DT>;
-  idToFocus?: string;
+  selectedRows: ID[];
 }
 
 export const ModelTableStoreContext = createContext<
