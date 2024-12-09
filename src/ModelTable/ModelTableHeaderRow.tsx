@@ -1,10 +1,10 @@
 import { TableHeaderRow, type TableHeaderRowProps } from '@/Table';
+import { cn } from '@/lib/utils';
 import { DnDSortableContextWrapper } from '@/utils';
 
 import { ModelTableActionHead } from './ModelTableActionHead';
 import { ModelTableHead } from './ModelTableHead';
 import { useModelTableStore } from './useModelTableStore';
-import { cn } from '@/lib/utils';
 
 export interface ModelTableHeaderRowProps extends TableHeaderRowProps {}
 

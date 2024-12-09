@@ -1,4 +1,5 @@
 import { Table, type TableProps } from '@/Table';
+import { cn } from '@/lib/utils';
 import type { DataType } from '@/types';
 import { BorderWrapper, DnDContextWrapper, ScrollAreaWrapper } from '@/utils';
 
@@ -16,7 +17,6 @@ import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
-import { cn } from '@/lib/utils';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 export const DEFAULT_COLUMN_WIDTH = 200; // in pixels
