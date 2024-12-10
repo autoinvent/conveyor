@@ -106,7 +106,7 @@ export const SelectInput = forwardRef<
         '[&::-webkit-scrollbar-thumb]:bg-[hsl(var(--border))]',
         '[&::-webkit-scrollbar-thumb]:rounded-3xl',
       ),
-    // menuPortal: () => cn(),
+    menuPortal: () => cn('z-20'),
     multiValue: () => cn('bg-secondary', 'rounded-md', 'm-1', 'p-0'),
     multiValueLabel: () =>
       cn('rounded-md', 'text-foreground', 'text-sm', 'px-1'),
