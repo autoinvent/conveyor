@@ -104,7 +104,6 @@ const meta = {
             </Header.Actions>
           </Header>
           <ModelTable
-            className="h-full"
             fields={fields}
             fieldOrder={fieldOrder}
             onFieldOrderChange={onFieldOrderChange}

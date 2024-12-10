@@ -1,3 +1,36 @@
+## 1.9.4
+- `css`: Sticky action column now works on chrome.
+
+## 1.9.3
+- `css`: Sticky action column + header
+- `css`: Scrollbar for select inputs are now consistent with Shadcn
+- `bugfix`: `BooleanDisplay` can now handle null values.
+- `bugfix`: `NumberInputs` can now be empty. 
+
+## 1.9.2
+- `bugfix`: ModelSelect was always in creatable select mode; fixed. Fixed typings for ModelSelect to support creatable.
+- `css`: Consistent styling for select-inputs
+- `css`: Consistent datetime input dimensions. 
+- `css`: Removed z-index from scrollbar.
+- `packages`: Updated `react-day-picker` and `cross-spawn`
+
+## 1.9.1
+- `feature`: `ModelDisplay` now accepts `noneValue` which is the display to show when the value is either an empty array, null, or undefined. 
+
+## 1.9.0
+- `feature`: `EnumInput` which accepts `options: string[]; value: string` and `EnumDisplay` to display the string[].
+- `feature`: `SelectInput` can turn into a `Creatable` select by passing `isCreatable=true` to its props. 
+- `feature`: defaults on selects to have `menuShouldBlockScroll` and `menuPortalTarget={document.body}`
+
+## 1.8.1
+- `feature`: Pagination per page select in not searchable anymore.
+- `feature`: `ModelInput` now has default props for `clearValue, isClearable, closeMenuOnSelect` for when an array is passed as a value.
+- `feature`: Added forward ref to `ModelDisplay`
+- `ts`: `SelectInput` has correct typescript for its props.
+- `bugfix`: `FormError` didn't appear when there was an error; fixed. 
+- `bugfix`: `id` passed properly to input of `SelectInput`
+- `storybook`: ModelIndexPage's first row bigger than the rest; fixed.
+
 ## 1.8.0
 - `feature`: Shadcn Datetime input. 
 - `feature`: Table now has per page options.

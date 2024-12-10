@@ -1,15 +1,11 @@
-import {
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  forwardRef,
-} from 'react';
+import { type ElementRef, forwardRef } from 'react';
 
-import { SelectInput } from './SelectInput';
+import { SelectInput, type SelectInputProps } from './SelectInput';
 
 export const ModelInput = forwardRef<
   ElementRef<typeof SelectInput>,
-  ComponentPropsWithoutRef<typeof SelectInput>
->(({ value, onChange, options, ...selectInputProps }, ref) => {
+  SelectInputProps<boolean>
+>(({ value, onChange, options, isCreatable, ...selectInputProps }, ref) => {
   const isArray = Array.isArray(value);
   return (
     <SelectInput
@@ -20,6 +16,18 @@ export const ModelInput = forwardRef<
       getOptionValue={(option: typeof value) => option.id}
       options={options}
       isMulti={isArray}
+      clearValue={isArray ? () => [] : undefined}
+      isClearable={!isArray}
+      closeMenuOnSelect={!isArray}
+      isCreatable={isCreatable}
+      getNewOptionData={
+        isCreatable
+          ? (inputValue, optionLabel) => ({
+              displayValue: optionLabel,
+              id: inputValue,
+            })
+          : undefined
+      }
       {...selectInputProps}
     />
   );

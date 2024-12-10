@@ -94,6 +94,17 @@ export const OnUpdateIsUndefined: Story = {
   },
 };
 
+export const Expanded: Story = {
+  render: ({ data, onCreate, onUpdate, onDelete, ...args }) => {
+    return (
+      <ModelForm onDelete={onDelete} onCreate={onCreate} data={data} {...args}>
+        <ModelForm.Content />
+        <ModelForm.Actions />
+      </ModelForm>
+    );
+  },
+};
+
 // export const NoFields: Story = {
 //   args: {
 //     fields: [],

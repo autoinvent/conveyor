@@ -6,12 +6,6 @@ const meta = {
   title: 'Commons/BasicInputs/SelectInput',
   component: SelectInput,
   tags: ['autodocs'],
-} satisfies Meta<typeof SelectInput>;
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const Select: Story = {
   args: {
     options: [
       { value: 'apple', label: 'Apple' },
@@ -25,5 +19,43 @@ export const Select: Story = {
       { value: 'symphony', label: 'Symphony' },
       { value: 'labyrinth', label: 'Labyrinth' },
     ],
+  },
+} satisfies Meta<typeof SelectInput>;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Select: Story = {};
+
+export const CreatableSelect: Story = {
+  args: {
+    isCreatable: true,
+  },
+};
+
+export const MultiSelect: Story = {
+  args: {
+    isMulti: true,
+  },
+};
+
+export const PortalTarget: Story = {
+  render: (props) => {
+    return (
+      <div className="flex h-80 items-center justify-center bg-black">
+        <div
+          id="select-portal"
+          className="relative flex h-72 w-full items-end justify-center bg-blue-300"
+        >
+          <div className="absolute h-24 bg-green-300">
+            <SelectInput
+              {...props}
+              maxMenuHeight={100}
+              menuPortalTarget={document.getElementById('select-portal')}
+            />
+          </div>
+        </div>
+      </div>
+    );
   },
 };
