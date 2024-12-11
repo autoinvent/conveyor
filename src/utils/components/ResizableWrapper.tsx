@@ -15,7 +15,6 @@ export const ResizableWrapper = ({
   children,
 }: ResizableWrapperProps) => {
   const [isResizing, setIsResizing] = useState(false);
-  const [exitedScrollParent, setExitedScrollParent] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [deltaX, setDeltaX] = useState(0);
   const [currentWidth, setCurrentWidth] = useState(width);
@@ -25,24 +24,15 @@ export const ResizableWrapper = ({
     ?.children[1] as HTMLDivElement;
 
   useEffect(() => {
-    const onScrollEnter = (e: MouseEvent) => {
-      setExitedScrollParent(false);
-    };
-    const onScrollLeave = (e: MouseEvent) => {
-      setExitedScrollParent(true);
-    };
     const onMouseMove = (e: MouseEvent) => {
       setDeltaX(e.clientX - clientX);
     };
     const onMouseUp = () => {
       let newWidth = currentWidth + deltaX;
-      if (scrollAreaRefCurrent && exitedScrollParent && deltaX > 0) {
-        scrollAreaRefCurrent.scrollBy({
-          left: newWidth > 0 ? deltaX : 0,
-          behavior: 'smooth',
-        });
-        setExitedScrollParent(false);
-      }
+      scrollAreaRefCurrent.scrollBy({
+        left: deltaX,
+        behavior: 'smooth',
+      });
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
         newWidth = ref.current?.scrollWidth;
@@ -59,14 +49,10 @@ export const ResizableWrapper = ({
     if (isResizing) {
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-      scrollAreaRefCurrent?.addEventListener('mouseenter', onScrollEnter);
-      scrollAreaRefCurrent?.addEventListener('mouseleave', onScrollLeave);
     }
     return () => {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      scrollAreaRefCurrent?.removeEventListener('mouseenter', onScrollEnter);
-      scrollAreaRefCurrent?.removeEventListener('mouseleave', onScrollLeave);
     };
   }, [
     isResizing,
@@ -74,7 +60,6 @@ export const ResizableWrapper = ({
     clientX,
     deltaX,
     onWidthChange,
-    exitedScrollParent,
     scrollAreaRefCurrent,
   ]);
 
