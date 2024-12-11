@@ -40,7 +40,7 @@ export const FieldVisibility = <F extends string, T extends F>({
       <DropdownMenuContent align="end" className="w-fit">
         <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <div className="overflow-y-auto p-0 pr-1 [&::-webkit-scrollbar-thumb]:rounded-3xl [&::-webkit-scrollbar-thumb]:bg-[hsl(var(--border))] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:w-2">
+        <div className="overflow-y-auto p-0 pr-1 [&::-webkit-scrollbar-thumb]:rounded-3xl [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:w-2">
           {fields
             .filter(
               (field) =>
