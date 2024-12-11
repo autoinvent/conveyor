@@ -12,6 +12,7 @@ import { type StoreApi, createStore } from 'zustand';
 import type {
   DataType,
   FieldOptions,
+  ID,
   OnActionTrigger,
   TableView,
 } from '@/types';
@@ -31,6 +32,7 @@ export interface TableOptions<F extends string> {
   bordered?: boolean | { className: string }; // Wraps the table with div to add bordered styles
   onSortOrderChange?: (newSortOrder: TableView['sort']) => void;
   onWidthChange?: ({ field, width }: { field: F; width: number }) => void;
+  selectedRows?: ID[];
 }
 
 export interface FormOptions
