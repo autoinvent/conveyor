@@ -94,7 +94,6 @@ const meta = {
     },
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 2000)),
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 2000)),
-    selectedRows: [],
   },
   render: ({
     fields,
@@ -104,7 +103,6 @@ const meta = {
     data,
     onUpdate,
     onDelete,
-    selectedRows,
     ...args
   }) => {
     const [currData, setCurrData] = useState<DataType[]>(data);
@@ -159,7 +157,6 @@ const meta = {
         }}
         onUpdate={onUpdateHandler}
         onDelete={onDeleteHandler}
-        selectedRows={selectedRows}
         {...args}
       />
     );
@@ -193,7 +190,9 @@ export const ReadOnly = {
 
 export const RowsAccented = {
   args: {
-    selectedRows: ['1', '3'],
+    tableOptions: {
+      selectedRows: ['1', '3'],
+    }
   },
 };
 
