@@ -103,7 +103,7 @@ export const SelectInput = forwardRef<
         'pr-1',
         '[&::-webkit-scrollbar]:w-2',
         '[&::-webkit-scrollbar-track]:bg-transparent',
-        '[&::-webkit-scrollbar-thumb]:bg-[hsl(var(--border))]',
+        '[&::-webkit-scrollbar-thumb]:bg-border',
         '[&::-webkit-scrollbar-thumb]:rounded-3xl',
       ),
     menuPortal: () => cn('z-20'),

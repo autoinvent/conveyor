@@ -188,6 +188,14 @@ export const ReadOnly = {
   },
 };
 
+export const RowsAccented = {
+  args: {
+    tableOptions: {
+      selectedRows: ['1', '3'],
+    },
+  },
+};
+
 export const OnUpdateIsUndefined: Story = {
   render: ({
     fields,
