@@ -192,7 +192,7 @@ export const RowsAccented = {
   args: {
     tableOptions: {
       selectedRows: ['1', '3'],
-    }
+    },
   },
 };
 
