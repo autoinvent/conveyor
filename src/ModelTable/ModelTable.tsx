@@ -3,6 +3,8 @@ import { cn } from '@/lib/utils';
 import type { DataType } from '@/types';
 import { BorderWrapper, DnDContextWrapper, ScrollAreaWrapper } from '@/utils';
 
+import type { ScrollArea } from '@/lib/components/ui/scroll-area';
+import { type ElementRef, useRef } from 'react';
 import { ModelTableActionCell } from './ModelTableActionCell';
 import { ModelTableActionHead } from './ModelTableActionHead';
 import { ModelTableBody } from './ModelTableBody';
@@ -45,6 +47,7 @@ export const ModelTable = Object.assign(
     ...tableProps
   }: ModelTableProps<D, F, DT, FT>) => {
     const { readOnly, draggable, bordered, scrollable } = tableOptions ?? {};
+    const scrollAreaRef = useRef<ElementRef<typeof ScrollArea> | null>(null);
     const tableColumns = [...fieldOrder].filter(
       (field) => !columnOptions?.[field]?.hidden,
     );
@@ -65,6 +68,7 @@ export const ModelTable = Object.assign(
         formOptions={formOptions}
         onUpdate={onUpdate}
         onDelete={onDelete}
+        scrollAreaRef={scrollAreaRef}
       >
         <BorderWrapper
           bordered={typeof bordered === 'object' ? true : bordered ?? true}
@@ -84,6 +88,7 @@ export const ModelTable = Object.assign(
               className={cn(
                 typeof scrollable === 'object' && scrollable?.className,
               )}
+              scrollAreaRef={scrollAreaRef}
             >
               <Table columnIds={tableColumns} data={data} {...tableProps}>
                 {children === undefined ? (

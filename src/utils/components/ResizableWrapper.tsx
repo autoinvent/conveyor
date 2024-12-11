@@ -1,3 +1,4 @@
+import { useModelTableStore } from '@/ModelTable/useModelTableStore';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface ResizableWrapperProps {
@@ -18,6 +19,9 @@ export const ResizableWrapper = ({
   const [deltaX, setDeltaX] = useState(0);
   const [currentWidth, setCurrentWidth] = useState(width);
   const ref = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useModelTableStore((state) => state.scrollAreaRef);
+  const scrollAreaRefCurrent = scrollAreaRef?.current
+    ?.children[1] as HTMLDivElement;
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -25,6 +29,10 @@ export const ResizableWrapper = ({
     };
     const onMouseUp = () => {
       let newWidth = currentWidth + deltaX;
+      scrollAreaRefCurrent.scrollBy({
+        left: deltaX,
+        behavior: 'smooth',
+      });
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
         newWidth = ref.current?.scrollWidth;
@@ -46,12 +54,28 @@ export const ResizableWrapper = ({
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-  }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
+  }, [
+    isResizing,
+    currentWidth,
+    clientX,
+    deltaX,
+    onWidthChange,
+    scrollAreaRefCurrent,
+  ]);
 
   return resizable ? (
     <div
       className="h-full"
-      style={{ width: `${currentWidth + deltaX}px` }}
+      style={{
+        // Width can't be less than the horizontal space taken up by the title of each column
+        width: `${
+          currentWidth + deltaX >
+          (ref.current?.firstElementChild?.getBoundingClientRect().width ?? 0)
+            ? currentWidth + deltaX
+            : ref.current?.firstElementChild?.getBoundingClientRect().width ??
+              200
+        }px`,
+      }}
       ref={ref}
     >
       {children}
