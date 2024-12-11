@@ -1,3 +1,11 @@
+## 1.-.-
+- `css`: Set z-index 20 to `SelectInput`.
+- `css`: Add scrollbar to `FieldVisibility`.
+- `bugfix`: Fixed `snakeToCamelCase` to accept numbers.
+- ``
+
+
+
 ## 1.9.4
 - `css`: Sticky action column now works on chrome.
 
