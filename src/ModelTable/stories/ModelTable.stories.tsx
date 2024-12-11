@@ -94,7 +94,7 @@ const meta = {
     },
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 2000)),
     onDelete: () => new Promise((resolve) => setTimeout(resolve, 2000)),
-    selectedRows: []
+    selectedRows: [],
   },
   render: ({
     fields,
@@ -193,7 +193,7 @@ export const ReadOnly = {
 
 export const RowsAccented = {
   args: {
-    selectedRows: ['1', '3']
+    selectedRows: ['1', '3'],
   },
 };
 
