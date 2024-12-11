@@ -29,7 +29,7 @@ export const ResizableWrapper = ({
     };
     const onMouseUp = () => {
       let newWidth = currentWidth + deltaX;
-      const scrollDistance = (deltaX < -currentWidth) ? -(200) : deltaX
+      const scrollDistance = deltaX < -currentWidth ? -200 : deltaX;
       scrollAreaRefCurrent.scrollBy({
         left: scrollDistance,
         behavior: 'smooth',
