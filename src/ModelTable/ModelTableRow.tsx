@@ -26,7 +26,9 @@ export const ModelTableRow = ({
     (state) => state.tableOptions?.draggable,
   );
   const formOptions = useModelTableStore((state) => state.formOptions);
-  const selectedRows = useModelTableStore((state) => state.tableOptions?.selectedRows);
+  const selectedRows = useModelTableStore(
+    (state) => state.tableOptions?.selectedRows,
+  );
   const data = useDataStore();
   const formMethods = useForm({
     mode: 'onSubmit',
