@@ -40,37 +40,40 @@ export const FieldVisibility = <F extends string, T extends F>({
       <DropdownMenuContent align="end" className="w-fit">
         <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {fields
-          .filter(
-            (field) =>
-              (options?.[field]?.hidable ?? true) && !options?.[field]?.hidden,
-          )
-          .map((field) => {
-            return (
-              <DropdownMenuCheckboxItem
-                key={field}
-                className="capitalize"
-                checked={fieldOrder.includes(field as T)}
-                onCheckedChange={() => {
-                  const newFieldOrder = toggleFieldVisibility({
-                    fieldOrder,
-                    field,
-                  });
-                  if (newFieldOrder.includes(ACTION_COLUMN)) {
-                    newFieldOrder.splice(
-                      newFieldOrder.indexOf(ACTION_COLUMN),
-                      1,
-                    );
-                    newFieldOrder.push(ACTION_COLUMN);
-                  }
-                  onFieldOrderChange(newFieldOrder as T[]);
-                }}
-                onSelect={(e) => e.preventDefault()}
-              >
-                {options?.[field]?.label ?? humanizeText(field)}
-              </DropdownMenuCheckboxItem>
-            );
-          })}
+        <div className='overflow-y-auto p-0 pr-1 [&::-webkit-scrollbar-thumb]:rounded-3xl [&::-webkit-scrollbar-thumb]:bg-[hsl(var(--border))] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:w-2'>
+          {fields
+            .filter(
+              (field) =>
+                (options?.[field]?.hidable ?? true) && !options?.[field]?.hidden,
+            )
+            .map((field) => {
+              return (
+                <DropdownMenuCheckboxItem
+                  key={field}
+                  className="capitalize"
+                  checked={fieldOrder.includes(field as T)}
+                  onCheckedChange={() => {
+                    const newFieldOrder = toggleFieldVisibility({
+                      fieldOrder,
+                      field,
+                    });
+                    if (newFieldOrder.includes(ACTION_COLUMN)) {
+                      newFieldOrder.splice(
+                        newFieldOrder.indexOf(ACTION_COLUMN),
+                        1,
+                      );
+                      newFieldOrder.push(ACTION_COLUMN);
+                    }
+                    onFieldOrderChange(newFieldOrder as T[]);
+                  }}
+                  onSelect={(e) => e.preventDefault()}
+                >
+                  {options?.[field]?.label ?? humanizeText(field)}
+                </DropdownMenuCheckboxItem>
+              );
+            })}
+        </div>
+        
       </DropdownMenuContent>
     </DropdownMenu>
   );
