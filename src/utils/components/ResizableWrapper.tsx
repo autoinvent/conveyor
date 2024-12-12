@@ -1,3 +1,4 @@
+import { DEFAULT_COLUMN_WIDTH } from '@/ModelTable';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface ResizableWrapperProps {
@@ -58,7 +59,7 @@ export const ResizableWrapper = ({
           (ref.current?.firstElementChild?.getBoundingClientRect().width ?? 0)
             ? currentWidth + deltaX
             : ref.current?.firstElementChild?.getBoundingClientRect().width ??
-              200
+              DEFAULT_COLUMN_WIDTH
         }px`,
       }}
       ref={ref}
