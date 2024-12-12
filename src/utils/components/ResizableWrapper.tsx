@@ -1,9 +1,8 @@
-import { DEFAULT_COLUMN_WIDTH } from '@/ModelTable';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface ResizableWrapperProps {
   resizable: boolean;
-  width: number;
+  width?: number;
   onWidthChange?: (width: number) => void;
   children: ReactNode;
 }
@@ -25,6 +24,8 @@ export const ResizableWrapper = ({
       setDeltaX(e.clientX - clientX);
     };
     const onMouseUp = () => {
+      if (!currentWidth) return;
+
       let newWidth = currentWidth + deltaX;
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
@@ -49,19 +50,22 @@ export const ResizableWrapper = ({
     };
   }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
 
+  useEffect(() => {
+    if (ref.current) setCurrentWidth(ref.current.scrollWidth);
+  }, []);
+
+  const columnWidth =
+    currentWidth &&
+    ref.current?.firstElementChild?.getBoundingClientRect() &&
+    Math.max(
+      currentWidth + deltaX,
+      ref.current.firstElementChild.getBoundingClientRect().width,
+    );
+
   return resizable ? (
     <div
       className="h-full"
-      style={{
-        // Width can't be less than the horizontal space taken up by the title of each column
-        width: `${
-          currentWidth + deltaX >
-          (ref.current?.firstElementChild?.getBoundingClientRect().width ?? 0)
-            ? currentWidth + deltaX
-            : ref.current?.firstElementChild?.getBoundingClientRect().width ??
-              DEFAULT_COLUMN_WIDTH
-        }px`,
-      }}
+      style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >
       {children}

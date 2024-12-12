@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+
 import { Table, type TableProps } from '@/Table';
 import { cn } from '@/lib/utils';
 import type { DataType } from '@/types';
@@ -19,7 +21,6 @@ import {
 } from './ModelTableStoreContext';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
-export const DEFAULT_COLUMN_WIDTH = 200; // in pixels
 
 export interface ModelTableProps<
   D extends DataType,
@@ -52,6 +53,11 @@ export const ModelTable = Object.assign(
     if (fieldOrder.length > 0 && !readOnly && data.length > 0) {
       tableColumns.push(ACTION_COLUMN as FT);
     }
+    const [rendered, setRendered] = useState<boolean>(false);
+    const ref = useRef<HTMLTableElement>(null);
+    useEffect(() => {
+      if (ref.current) setRendered(true);
+    }, []);
 
     return (
       <ModelTableStoreProvider
@@ -85,7 +91,13 @@ export const ModelTable = Object.assign(
                 typeof scrollable === 'object' && scrollable?.className,
               )}
             >
-              <Table columnIds={tableColumns} data={data} {...tableProps}>
+              <Table
+                ref={ref}
+                columnIds={tableColumns}
+                data={data}
+                className={cn(!rendered && 'w-full')}
+                {...tableProps}
+              >
                 {children === undefined ? (
                   <>
                     <ModelTableHeader />
