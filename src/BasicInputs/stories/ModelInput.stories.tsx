@@ -6,6 +6,7 @@ import { ModelInput } from '../ModelInput';
 
 const meta = {
   title: 'Commons/BasicInputs/ModelInput',
+  component: ModelInput,
   tags: ['autodocs'],
   args: {
     options: [
@@ -21,7 +22,6 @@ const meta = {
       { id: 'labyrinth', displayValue: 'Labyrinth' },
     ],
   },
-  component: ModelInput,
 } satisfies Meta<typeof ModelInput>;
 export default meta;
 

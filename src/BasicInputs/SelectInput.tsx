@@ -42,7 +42,7 @@ export type SelectInputProps<TIsCreatable extends boolean> =
 export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
   SelectInputProps<boolean>
->(({ id, disabled, className, isCreatable, ...props }, ref) => {
+>(({ id, disabled, className, isCreatable, isMulti, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -122,7 +122,21 @@ export const SelectInput = forwardRef<
       cn('py-0.5', 'px-3', 'overflow-visible', 'inline-block'),
   };
 
-  const isArray = Array.isArray(props.value);
+  const isArray = Array.isArray(props.value) || isMulti;
+  const commonProps: ComponentProps<typeof Select> = {
+    ref,
+    unstyled: true,
+    classNames: defaultStyling,
+    isDisabled: disabled,
+    inputId: id,
+    menuPlacement: 'auto',
+    menuPortalTarget: document.body,
+    isMulti: isArray,
+    closeMenuOnSelect: !isArray,
+    isClearable: true,
+    clearValue: () => (isArray ? [] : 'das'),
+    menuShouldBlockScroll: true,
+  };
 
   return (
     <div
@@ -133,35 +147,9 @@ export const SelectInput = forwardRef<
       )}
     >
       {isCreatable ? (
-        <Creatable
-          ref={ref}
-          unstyled
-          classNames={defaultStyling}
-          isDisabled={disabled}
-          inputId={id}
-          menuPlacement="auto"
-          menuPortalTarget={document.body}
-          isMulti={isArray}
-          closeMenuOnSelect={!isArray}
-          isClearable
-          menuShouldBlockScroll
-          {...props}
-        />
+        <Creatable {...commonProps} {...props} />
       ) : (
-        <Select
-          ref={ref}
-          unstyled
-          classNames={defaultStyling}
-          isDisabled={disabled}
-          inputId={id}
-          menuPlacement="auto"
-          menuPortalTarget={document.body}
-          isMulti={isArray}
-          closeMenuOnSelect={!isArray}
-          isClearable
-          menuShouldBlockScroll
-          {...props}
-        />
+        <Select {...commonProps} {...props} />
       )}
     </div>
   );
