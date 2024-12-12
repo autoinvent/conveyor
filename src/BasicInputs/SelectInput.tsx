@@ -43,7 +43,13 @@ export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
   SelectInputProps<boolean>
 >(({ id, disabled, className, isCreatable, isMulti, ...props }, ref) => {
-  const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
+  const defaultStyles: ComponentProps<typeof Select>['styles'] = {
+    menuPortal: (base) => ({
+      ...base,
+      zIndex: 20,
+    }),
+  };
+  const defaultClassNames: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
         isFocused ? 'text-muted-foreground' : 'text-foreground',
@@ -106,7 +112,7 @@ export const SelectInput = forwardRef<
         '[&::-webkit-scrollbar-thumb]:bg-border',
         '[&::-webkit-scrollbar-thumb]:rounded-3xl',
       ),
-    menuPortal: () => cn('z-20'),
+    // menuPortal: () => cn(),
     multiValue: () => cn('bg-secondary', 'rounded-md', 'm-1', 'p-0'),
     multiValueLabel: () =>
       cn('rounded-md', 'text-foreground', 'text-sm', 'px-1'),
@@ -135,7 +141,8 @@ export const SelectInput = forwardRef<
   const commonProps: ComponentProps<typeof Select> = {
     ref,
     unstyled: true,
-    classNames: defaultStyling,
+    styles: defaultStyles,
+    classNames: defaultClassNames,
     isDisabled: disabled,
     inputId: id,
     menuPlacement: 'auto',
