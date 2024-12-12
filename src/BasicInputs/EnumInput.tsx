@@ -11,11 +11,10 @@ import { SelectInput } from './SelectInput';
 export const EnumInput = forwardRef<
   ElementRef<typeof SelectInput>,
   Omit<ComponentPropsWithoutRef<typeof SelectInput>, 'value' | 'options'> & {
-    value: string;
+    value?: string | string[];
     options: string[];
   }
->(({ value, onChange, options, isCreatable, ...selectInputProps }, ref) => {
-  const isArray = Array.isArray(value);
+>(({ value, onChange, options, ...selectInputProps }, ref) => {
   const stringToOption = (str: string) => ({
     label: humanizeText(str),
     value: str,
@@ -24,22 +23,19 @@ export const EnumInput = forwardRef<
     <SelectInput
       ref={ref}
       value={
-        value && (isArray ? value.map(stringToOption) : stringToOption(value))
+        value &&
+        (Array.isArray(value)
+          ? value.map(stringToOption)
+          : stringToOption(value))
       }
-      onChange={(newVal, actionMeta) => onChange?.(newVal.value, actionMeta)}
       options={options?.map(stringToOption)}
-      isMulti={isArray}
-      clearValue={isArray ? () => [] : undefined}
-      isClearable={!isArray}
-      closeMenuOnSelect={!isArray}
-      isCreatable={isCreatable}
-      getNewOptionData={
-        isCreatable
-          ? (inputValue, optionLabel) => ({
-              displayValue: optionLabel,
-              id: inputValue,
-            })
-          : undefined
+      onChange={(newValue, actionMeta) =>
+        onChange?.(
+          Array.isArray(newValue)
+            ? newValue.map((val) => val.value)
+            : newValue?.value ?? null,
+          actionMeta,
+        )
       }
       {...selectInputProps}
     />
