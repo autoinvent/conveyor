@@ -1,7 +1,8 @@
+import { useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { EnumInput } from '../EnumInput';
-import { useState } from 'react';
 
 const meta = {
   title: 'Commons/BasicInputs/EnumInput',
