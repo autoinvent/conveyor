@@ -54,7 +54,7 @@ export const ModelTableActionCell = ({
 
   return (
     <TableCell
-      className={cn('w-0', className)}
+      className={cn('sticky right-0 w-0 bg-inherit shadow-left', className)}
       columnId={ACTION_COLUMN}
       {...tableCellProps}
     >

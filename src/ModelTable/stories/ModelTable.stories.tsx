@@ -39,7 +39,7 @@ const meta = {
         user: { id: '00000002', displayValue: 'nicklitvin' },
         created_at: '2024-08-01T01:56:34.926365',
         points: 3,
-        done: false,
+        done: null,
       },
       {
         id: '3',
@@ -180,10 +180,18 @@ export const NoData: Story = {
   },
 };
 
-export const ReadOnly = {
+export const ReadOnly: Story = {
   args: {
     tableOptions: {
       readOnly: true,
+    },
+  },
+};
+
+export const RowsAccented = {
+  args: {
+    tableOptions: {
+      selectedRows: ['1', '3'],
     },
   },
 };
