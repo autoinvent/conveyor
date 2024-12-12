@@ -1,7 +1,7 @@
 {
   "name": "@autoinvent/conveyor",
   "type": "module",
-  "version": "1.9.4",
+  "version": "1.10.0",
   "description": "UI component library for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
@@ -62,7 +62,7 @@
     "lucide-react": "^0.408.0",
     "react-day-picker": "9.3.0",
     "react-hook-form": "^7.53.2",
-    "react-select": "^5.8.3",
+    "react-select": "^5.9.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.5"

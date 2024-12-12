@@ -1,7 +1,6 @@
 import { TableHead, type TableHeadProps } from '@/Table';
 import { DndSortableWrapper, ResizableWrapper, humanizeText } from '@/utils';
 
-import { DEFAULT_COLUMN_WIDTH } from './ModelTable';
 import { ModelTableHeadMenu } from './ModelTableHeadMenu';
 import { useModelTableStore } from './useModelTableStore';
 
@@ -28,7 +27,7 @@ export const ModelTableHead = ({
     (state) => state.columnOptions?.[field]?.label,
   );
   const width = useModelTableStore(
-    (state) => state.columnOptions?.[field]?.width ?? DEFAULT_COLUMN_WIDTH,
+    (state) => state.columnOptions?.[field]?.width,
   );
 
   return (

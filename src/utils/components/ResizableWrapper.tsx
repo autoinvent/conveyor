@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface ResizableWrapperProps {
   resizable: boolean;
-  width: number;
+  width?: number;
   onWidthChange?: (width: number) => void;
   children: ReactNode;
 }
@@ -24,6 +24,8 @@ export const ResizableWrapper = ({
       setDeltaX(e.clientX - clientX);
     };
     const onMouseUp = () => {
+      if (!currentWidth) return;
+
       let newWidth = currentWidth + deltaX;
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
@@ -48,10 +50,22 @@ export const ResizableWrapper = ({
     };
   }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
 
+  useEffect(() => {
+    if (ref.current) setCurrentWidth(ref.current.scrollWidth);
+  }, []);
+
+  const columnWidth =
+    currentWidth &&
+    ref.current?.firstElementChild?.getBoundingClientRect() &&
+    Math.max(
+      currentWidth + deltaX,
+      ref.current.firstElementChild.getBoundingClientRect().width,
+    );
+
   return resizable ? (
     <div
       className="h-full"
-      style={{ width: `${currentWidth + deltaX}px` }}
+      style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >
       {children}

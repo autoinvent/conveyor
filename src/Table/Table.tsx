@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react';
+import { type ComponentProps, forwardRef } from 'react';
 
 import { Table as STable } from '@/lib/components/ui/table';
 import type { DataType } from '@/types';
@@ -17,28 +17,28 @@ export interface TableProps<D extends DataType>
     ComponentProps<typeof STable> {}
 
 export const Table = Object.assign(
-  <D extends DataType>({
-    columnIds,
-    data,
-    children,
-    ...tableProps
-  }: TableProps<D>) => {
-    return (
-      <TableStoreProvider columnIds={columnIds} data={data}>
-        <STable {...tableProps}>
-          {children === undefined ? (
-            <>
-              <TableHeader />
-              <TableBody />
-              <TableFallback />
-            </>
-          ) : (
-            children
-          )}
-        </STable>
-      </TableStoreProvider>
-    );
-  },
+  forwardRef(
+    <D extends DataType>(
+      { columnIds, data, children, ...tableProps }: TableProps<D>,
+      ref: React.Ref<HTMLTableElement>,
+    ) => {
+      return (
+        <TableStoreProvider columnIds={columnIds} data={data}>
+          <STable ref={ref} {...tableProps}>
+            {children === undefined ? (
+              <>
+                <TableHeader />
+                <TableBody />
+                <TableFallback />
+              </>
+            ) : (
+              children
+            )}
+          </STable>
+        </TableStoreProvider>
+      );
+    },
+  ),
   {
     Body: TableBody,
     Fallback: TableFallback,
