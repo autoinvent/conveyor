@@ -103,7 +103,7 @@ export const ModelTableActionCell = ({
             </Button>
           </Lens>
           {isSubmitting && (
-            <Button variant="ghost" size="icon" className="w-full">
+            <Button variant="ghost" size="icon">
               <LoaderCircle className="h-4 w-4 animate-spin" />
             </Button>
           )}
