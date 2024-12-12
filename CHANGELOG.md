@@ -1,5 +1,7 @@
-## 1.-.-
+## 1.10.0
 - `feature`: Can now set which rows are "selected" to trigger its selected-row background color. 
+- `bugfix`: Table resizing now does not allow you to go less than the content width for a brief moment
+- `bugfix`: No more default widths set, now uses the default behavior of the auto growing behavior of a table column to fit to the width of the table. 
 - `bugfix`: Fixed `snakeToCamelCase` to accept numbers.
 - `bugfix`: `EnumInput` can now support multi values.
 - `cleanup`: Several default props moved to base `SelectInput` component.
