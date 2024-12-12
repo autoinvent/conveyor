@@ -63,7 +63,7 @@ export const ResizableWrapper = ({
 
   return resizable ? (
     <div
-      className="h-full bg-red-300"
+      className="h-full"
       style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >
