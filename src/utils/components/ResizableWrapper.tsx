@@ -54,10 +54,18 @@ export const ResizableWrapper = ({
     if (ref.current) setCurrentWidth(ref.current.scrollWidth);
   }, []);
 
+  const columnWidth =
+    currentWidth &&
+    ref.current?.firstElementChild?.getBoundingClientRect() &&
+    Math.max(
+      currentWidth + deltaX,
+      ref.current.firstElementChild.getBoundingClientRect().width,
+    );
+
   return resizable ? (
     <div
       className="h-full"
-      style={currentWidth ? { width: `${currentWidth + deltaX}px` } : {}}
+      style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >
       {children}
