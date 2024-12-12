@@ -28,6 +28,7 @@ export const EnumInput = forwardRef<
           ? value.map(stringToOption)
           : stringToOption(value))
       }
+      options={options?.map(stringToOption)}
       onChange={(newValue, actionMeta) =>
         Array.isArray(newValue)
           ? onChange?.(
@@ -36,7 +37,6 @@ export const EnumInput = forwardRef<
             )
           : onChange?.(newValue?.value, actionMeta)
       }
-      options={options?.map(stringToOption)}
       {...selectInputProps}
     />
   );

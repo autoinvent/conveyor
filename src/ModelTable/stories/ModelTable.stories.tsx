@@ -180,7 +180,7 @@ export const NoData: Story = {
   },
 };
 
-export const ReadOnly = {
+export const ReadOnly: Story = {
   args: {
     tableOptions: {
       readOnly: true,

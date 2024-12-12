@@ -9,13 +9,12 @@ import { SelectInput } from './SelectInput';
 export const ModelInput = forwardRef<
   ElementRef<typeof SelectInput>,
   ComponentPropsWithoutRef<typeof SelectInput>
->(({ value, ...selectInputProps }, ref) => {
+>(({ ...selectInputProps }, ref) => {
   return (
     <SelectInput
       ref={ref}
-      value={value}
-      getOptionLabel={(option: typeof value) => option.displayValue}
-      getOptionValue={(option: typeof value) => option.id}
+      getOptionLabel={(option) => option.displayValue}
+      getOptionValue={(option) => option.id}
       getNewOptionData={(inputValue, optionLabel) => ({
         displayValue: optionLabel,
         id: inputValue,
