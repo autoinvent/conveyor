@@ -51,7 +51,16 @@ export const ResizableWrapper = ({
   return resizable ? (
     <div
       className="h-full"
-      style={{ width: `${currentWidth + deltaX}px` }}
+      style={{
+        // Width can't be less than the horizontal space taken up by the title of each column
+        width: `${
+          currentWidth + deltaX >
+          (ref.current?.firstElementChild?.getBoundingClientRect().width ?? 0)
+            ? currentWidth + deltaX
+            : ref.current?.firstElementChild?.getBoundingClientRect().width ??
+              200
+        }px`,
+      }}
       ref={ref}
     >
       {children}
