@@ -1,8 +1,8 @@
 ## 1.-.-
+- `feature`: Can now set which rows are "selected" to trigger its selected-row background color. 
+- `bugfix`: Fixed `snakeToCamelCase` to accept numbers.
 - `css`: Set z-index 20 to `SelectInput`.
 - `css`: Add scrollbar to `FieldVisibility`.
-- `bugfix`: Fixed `snakeToCamelCase` to accept numbers.
-- ``
 
 
 
