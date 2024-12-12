@@ -16,6 +16,7 @@ export const TableHeaderRow = ({
   ...htmlProps
 }: TableHeaderRowProps) => {
   const columnIds = useTableStore((state) => state.columnIds);
+
   return (
     <STableRow {...htmlProps}>
       <Slots slotKeys={columnIds}>
