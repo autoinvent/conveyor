@@ -1,8 +1,13 @@
 ## 1.-.-
 - `feature`: Can now set which rows are "selected" to trigger its selected-row background color. 
 - `bugfix`: Fixed `snakeToCamelCase` to accept numbers.
+- `bugfix`: `EnumInput` can now support multi values.
+- `cleanup`: Several default props moved to base `SelectInput` component.
+- `stories`: Added stories for `EnumInput, ModelInput, SelectInput`
+- `typescript`: Fixed typings on `EnumInput.value` and `SelecInput.props`
 - `css`: Set z-index 20 to `SelectInput`.
 - `css`: Add scrollbar to `FieldVisibility`.
+- `packages`: Upgraded `react-select@5.9.0`
 
 
 
