@@ -1,3 +1,12 @@
+## 1.9.4
+- `css`: Sticky action column now works on chrome.
+
+## 1.9.3
+- `css`: Sticky action column + header
+- `css`: Scrollbar for select inputs are now consistent with Shadcn
+- `bugfix`: `BooleanDisplay` can now handle null values.
+- `bugfix`: `NumberInputs` can now be empty. 
+
 ## 1.9.2
 - `bugfix`: ModelSelect was always in creatable select mode; fixed. Fixed typings for ModelSelect to support creatable.
 - `css`: Consistent styling for select-inputs
