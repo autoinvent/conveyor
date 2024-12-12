@@ -1,3 +1,7 @@
+## 1.10.1
+`bugfix`: z-index of select components were using `react-select`'s default z-index and not the override version. 
+
+
 ## 1.10.0
 - `feature`: Can now set which rows are "selected" to trigger its selected-row background color. 
 - `bugfix`: Table resizing now does not allow you to go less than the content width for a brief moment
