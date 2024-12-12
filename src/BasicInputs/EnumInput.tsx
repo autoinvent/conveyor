@@ -33,7 +33,7 @@ export const EnumInput = forwardRef<
         onChange?.(
           Array.isArray(newValue)
             ? newValue.map((val) => val.value)
-            : newValue?.value,
+            : newValue?.value ?? null,
           actionMeta,
         )
       }

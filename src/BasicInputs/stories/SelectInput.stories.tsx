@@ -22,6 +22,15 @@ const meta = {
       { value: 'labyrinth', label: 'Labyrinth' },
     ],
   },
+  render: (props) => {
+    const [values, setValues] = useState<any>(props.value);
+    return (
+      <div className="space-y-2">
+        <div>Value: {JSON.stringify(values)}</div>
+        <SelectInput {...props} value={values} onChange={setValues} />
+      </div>
+    );
+  },
 } satisfies Meta<typeof SelectInput>;
 export default meta;
 
@@ -36,47 +45,20 @@ export const CreatableSelect: Story = {
 };
 
 export const MultiSelect: Story = {
-  render: () => {
-    const [value, setValue] = useState<string[]>([]);
-    return (
-      <SelectInput
-        value={value}
-        onChange={setValue}
-        isCreatable
-        options={[
-          { value: 'apple', label: 'Apple' },
-          { value: 'mountain', label: 'Mountain' },
-          { value: 'ocean', label: 'Ocean' },
-          { value: 'whisper', label: 'Whisper' },
-          { value: 'butterfly', label: 'Butterfly' },
-          { value: 'galaxy', label: 'Galaxy' },
-          { value: 'harmony', label: 'Harmony' },
-          { value: 'puzzle', label: 'Puzzle' },
-          { value: 'symphony', label: 'Symphony' },
-          { value: 'labyrinth', label: 'Labyrinth' },
-        ]}
-      />
-    );
+  args: {
+    isMulti: true,
   },
 };
 
-export const PortalTarget: Story = {
-  render: (props) => {
-    return (
-      <div className="flex h-80 items-center justify-center bg-black">
-        <div
-          id="select-portal"
-          className="relative flex h-72 w-full items-end justify-center bg-blue-300"
-        >
-          <div className="absolute h-24 bg-green-300">
-            <SelectInput
-              {...props}
-              maxMenuHeight={100}
-              menuPortalTarget={document.getElementById('select-portal')}
-            />
-          </div>
-        </div>
-      </div>
-    );
+export const CreatableMultiSelect: Story = {
+  args: {
+    isMulti: true,
+    isCreatable: true,
+  },
+};
+
+export const MultiSelectWithValueInference: Story = {
+  args: {
+    value: [],
   },
 };

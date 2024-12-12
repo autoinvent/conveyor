@@ -143,7 +143,6 @@ export const SelectInput = forwardRef<
     isMulti: isArray,
     closeMenuOnSelect: !isArray,
     isClearable: true,
-    clearValue: () => (isArray ? [] : 'das'),
     menuShouldBlockScroll: true,
   };
 

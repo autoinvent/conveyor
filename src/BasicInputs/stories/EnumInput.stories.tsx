@@ -12,7 +12,6 @@ const meta = {
   },
   render: (props) => {
     const [values, setValues] = useState<any>(props.value);
-    console.log(values);
     return (
       <div className="space-y-2">
         <div>Value: {JSON.stringify(values)}</div>
