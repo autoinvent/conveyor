@@ -5,11 +5,20 @@ import { useState } from 'react';
 
 const meta = {
   title: 'Commons/BasicInputs/EnumInput',
+  component: EnumInput,
   tags: ['autodocs'],
   args: {
     options: ['apple', 'banana', 'orange', 'kiwi', 'lemon'],
   },
-  component: EnumInput,
+  render: (props) => {
+    const [values, setValues] = useState<any>(props.value);
+    return (
+      <div className="space-y-2">
+        <div>Value: {JSON.stringify(values)}</div>
+        <EnumInput {...props} value={values} onChange={setValues} />
+      </div>
+    );
+  },
 } satisfies Meta<typeof EnumInput>;
 export default meta;
 
@@ -29,9 +38,16 @@ export const MultiSelect: Story = {
   },
 };
 
+export const CreatableMultiSelect: Story = {
+  args: {
+    isMulti: true,
+    isCreatable: true,
+  },
+};
+
 export const MultiSelectWithValueInference: Story = {
-  render: (args) => {
+  render: (props) => {
     const [values, setValues] = useState<string[]>([]);
-    return <EnumInput {...args} value={values} onChange={setValues} />;
+    return <EnumInput {...props} value={values} onChange={setValues} />;
   },
 };
