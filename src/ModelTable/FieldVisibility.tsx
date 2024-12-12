@@ -51,7 +51,6 @@ export const FieldVisibility = <F extends string, T extends F>({
               return (
                 <DropdownMenuCheckboxItem
                   key={field}
-                  className="capitalize"
                   checked={fieldOrder.includes(field as T)}
                   onCheckedChange={() => {
                     const newFieldOrder = toggleFieldVisibility({

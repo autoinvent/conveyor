@@ -8,8 +8,8 @@ export const camelToSnakeCase = (str: string) => {
 export const snakeToCamelCase = (str: string) => {
   if (!str) return '';
   return str.replace(
-    /_([a-z])/g,
-    (match, letter) => `${upperCaseFirst(letter)}`,
+    /_([a-z0-9])/g,
+    (match, char) => `${upperCaseFirst(char)}`,
   );
 };
 
@@ -17,7 +17,7 @@ export const humanizeText = (str = '') => {
   if (!str) return '';
   const camelCaseStr = snakeToCamelCase(str);
   const separatedWords = camelCaseStr.replace(
-    /[a-z](?=[A-Z])|[A-Z](?=[A-Z][a-z])/g,
+    /[a-z](?=[A-Z0-9])|[A-Z](?=[A-Z][a-z]|[0-9])|[0-9](?=[a-zA-Z])/g,
     '$& ',
   );
   return upperCaseFirst(separatedWords);
