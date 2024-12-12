@@ -26,6 +26,9 @@ export const ModelTableRow = ({
     (state) => state.tableOptions?.draggable,
   );
   const formOptions = useModelTableStore((state) => state.formOptions);
+  const selectedRows = useModelTableStore(
+    (state) => state.tableOptions?.selectedRows,
+  );
   const data = useDataStore();
   const formMethods = useForm({
     mode: 'onSubmit',
@@ -38,7 +41,11 @@ export const ModelTableRow = ({
   return (
     <FormStoreProvider id={data.id} {...formMethods}>
       <Lenses initialLens={DataLens.DISPLAY}>
-        <TableRow prefilled={false} {...props}>
+        <TableRow
+          prefilled={false}
+          className={`${selectedRows?.includes(data.id) && 'bg-accent'}`}
+          {...props}
+        >
           <DnDSortableContextWrapper
             draggable={draggable ?? true}
             dndList={fieldOrder}

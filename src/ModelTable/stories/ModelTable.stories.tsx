@@ -180,10 +180,18 @@ export const NoData: Story = {
   },
 };
 
-export const ReadOnly = {
+export const ReadOnly: Story = {
   args: {
     tableOptions: {
       readOnly: true,
+    },
+  },
+};
+
+export const RowsAccented = {
+  args: {
+    tableOptions: {
+      selectedRows: ['1', '3'],
     },
   },
 };

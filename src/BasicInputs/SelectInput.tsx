@@ -42,7 +42,7 @@ export type SelectInputProps<TIsCreatable extends boolean> =
 export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
   SelectInputProps<boolean>
->(({ id, disabled, className, options, isCreatable, ...props }, ref) => {
+>(({ id, disabled, className, isCreatable, isMulti, ...props }, ref) => {
   const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
@@ -103,7 +103,7 @@ export const SelectInput = forwardRef<
         'pr-1',
         '[&::-webkit-scrollbar]:w-2',
         '[&::-webkit-scrollbar-track]:bg-transparent',
-        '[&::-webkit-scrollbar-thumb]:bg-[hsl(var(--border))]',
+        '[&::-webkit-scrollbar-thumb]:bg-border',
         '[&::-webkit-scrollbar-thumb]:rounded-3xl',
       ),
     menuPortal: () => cn('z-20'),
@@ -131,6 +131,21 @@ export const SelectInput = forwardRef<
       cn('py-0.5', 'px-3', 'overflow-visible', 'inline-block'),
   };
 
+  const isArray = Array.isArray(props.value) || isMulti;
+  const commonProps: ComponentProps<typeof Select> = {
+    ref,
+    unstyled: true,
+    classNames: defaultStyling,
+    isDisabled: disabled,
+    inputId: id,
+    menuPlacement: 'auto',
+    menuPortalTarget: document.body,
+    isMulti: isArray,
+    closeMenuOnSelect: !isArray,
+    isClearable: true,
+    menuShouldBlockScroll: true,
+  };
+
   return (
     <div
       className={cn(
@@ -140,31 +155,9 @@ export const SelectInput = forwardRef<
       )}
     >
       {isCreatable ? (
-        <Creatable
-          ref={ref}
-          options={options}
-          unstyled
-          classNames={defaultStyling}
-          isDisabled={disabled}
-          inputId={id}
-          menuPlacement="auto"
-          menuPortalTarget={document.body}
-          menuShouldBlockScroll
-          {...props}
-        />
+        <Creatable {...commonProps} {...props} />
       ) : (
-        <Select
-          ref={ref}
-          options={options}
-          unstyled
-          classNames={defaultStyling}
-          isDisabled={disabled}
-          inputId={id}
-          menuPlacement="auto"
-          menuPortalTarget={document.body}
-          menuShouldBlockScroll
-          {...props}
-        />
+        <Select {...commonProps} {...props} />
       )}
     </div>
   );
