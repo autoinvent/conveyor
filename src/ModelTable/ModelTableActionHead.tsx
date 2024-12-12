@@ -1,8 +1,9 @@
+import { useRef } from 'react';
+
 import { TableHead, type TableHeadProps } from '@/Table';
 import { cn } from '@/lib/utils';
 
 import { ACTION_COLUMN } from './ModelTable';
-import { useRef } from 'react';
 
 export interface ModelTableActionHeadProps
   extends Omit<TableHeadProps, 'columnId'> {}
