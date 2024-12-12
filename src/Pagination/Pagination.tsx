@@ -119,13 +119,14 @@ export const Pagination = ({
               <span className="pr-1">Rows per page:</span>
             </Shadcn.PaginationItem>
             <SelectInput
+              className="mr-2"
+              value={perPageOptions.find((obj) => obj.value === perPage)}
               options={perPageOptions}
-              value={perPageOptions.filter((obj) => obj.value === perPage)}
               onChange={(selected) => {
                 onPageChange(1);
                 onPerPageChange(selected.value);
               }}
-              className="mr-2"
+              isClearable={false}
               isSearchable={false}
             />
           </>
