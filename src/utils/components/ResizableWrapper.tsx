@@ -56,15 +56,14 @@ export const ResizableWrapper = ({
 
   const columnWidth =
     currentWidth &&
-    ref.current?.firstElementChild?.getBoundingClientRect() &&
     Math.max(
       currentWidth + deltaX,
-      ref.current.firstElementChild.getBoundingClientRect().width,
+      ref?.current?.firstElementChild?.getBoundingClientRect?.().width ?? 0,
     );
 
   return resizable ? (
     <div
-      className="h-full"
+      className="h-full bg-red-300"
       style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >

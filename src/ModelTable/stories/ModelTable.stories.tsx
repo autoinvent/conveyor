@@ -85,6 +85,7 @@ const meta = {
       },
       points: {
         type: FieldType.INT,
+        width: 500,
       },
       done: {
         label: 'FINISHED 🏁',

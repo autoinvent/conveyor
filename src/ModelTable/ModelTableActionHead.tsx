@@ -13,7 +13,7 @@ export const ModelTableActionHead = ({
 }: ModelTableActionHeadProps) => {
   return (
     <TableHead
-      className={cn('sticky right-0 bg-inherit shadow-left', className)}
+      className={cn('sticky right-0 w-[99%] bg-inherit shadow-left', className)}
       columnId={ACTION_COLUMN}
       {...props}
     >
