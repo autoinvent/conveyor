@@ -2,6 +2,7 @@ import { TableHead, type TableHeadProps } from '@/Table';
 import { cn } from '@/lib/utils';
 
 import { ACTION_COLUMN } from './ModelTable';
+import { useRef } from 'react';
 
 export interface ModelTableActionHeadProps
   extends Omit<TableHeadProps, 'columnId'> {}
@@ -11,9 +12,15 @@ export const ModelTableActionHead = ({
   className,
   ...props
 }: ModelTableActionHeadProps) => {
+  const ref = useRef(null);
   return (
     <TableHead
-      className={cn('sticky right-0 w-[99%] bg-inherit shadow-left', className)}
+      ref={ref}
+      className={cn(
+        'sticky right-0 bg-inherit shadow-left',
+        ref.current ? 'w-[99%]' : 'w-[1%]',
+        className,
+      )}
       columnId={ACTION_COLUMN}
       {...props}
     >
