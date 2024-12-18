@@ -82,7 +82,7 @@ const meta = {
       created_at: {
         sortable: false,
         type: FieldType.DATETIME,
-        // width: 100
+        width: 100
       },
       points: {
         type: FieldType.INT,

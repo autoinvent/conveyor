@@ -67,13 +67,18 @@ export const ResizableWrapper = ({
   if (!isResizing && parentWidth) 
     columnWidth = parentWidth - 32; // -32 for padding
 
+
   // header div width should match table header width
+  const [first, setFirst] = useState<boolean>(true);
   useEffect( () => {
-    const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width;
-    if (parentWidth && currentWidth && parentWidth > currentWidth) {
-      setCurrentWidth(parentWidth - 32) // -32 for padding
+    if (first && currentWidth && !width) {
+      setFirst(false);
+      const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width;
+      if (parentWidth && currentWidth && parentWidth > currentWidth) {
+        setCurrentWidth(parentWidth - 32) // -32 for padding
+      }
     }
-  }, [currentWidth])
+  }, [first, currentWidth, width])
 
   return resizable ? (
     <div
