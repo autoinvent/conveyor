@@ -54,16 +54,30 @@ export const ResizableWrapper = ({
     if (ref.current) setCurrentWidth(ref.current.scrollWidth);
   }, []);
 
-  const columnWidth =
-    currentWidth &&
-    Math.max(
-      currentWidth + deltaX,
-      ref?.current?.firstElementChild?.getBoundingClientRect?.().width ?? 0,
-    );
+  let columnWidth = currentWidth && currentWidth + deltaX;
+  
+  // width cannot be smaller than the clickable text
+  columnWidth = Math.max(
+    columnWidth || 0, 
+    ref.current?.firstElementChild?.getBoundingClientRect().width || 0,
+  ) || undefined
+
+  // width of div in header should be w-full if table cells cannot be made any smaller 
+  const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width
+  if (!isResizing && parentWidth) 
+    columnWidth = parentWidth - 32; // -32 for padding
+
+  // header div width should match table header width
+  useEffect( () => {
+    const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width;
+    if (parentWidth && currentWidth && parentWidth > currentWidth) {
+      setCurrentWidth(parentWidth - 32) // -32 for padding
+    }
+  }, [currentWidth])
 
   return resizable ? (
     <div
-      className="h-full"
+      className="h-full bg-red-200"
       style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >
