@@ -54,7 +54,9 @@ export const ResizableWrapper = ({
   }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
 
   useEffect(() => {
-    if (ref.current) setCurrentWidth(ref.current.scrollWidth);
+    if (ref.current) {
+      setCurrentWidth(ref.current.scrollWidth);
+    }
   }, []);
 
   let columnWidth = currentWidth && currentWidth + deltaX;
@@ -67,8 +69,9 @@ export const ResizableWrapper = ({
 
   // width of div in header should be w-full if table cells cannot be made any smaller 
   const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width
-  if (!isResizing && parentWidth) 
+  if (!isResizing && parentWidth) {
     columnWidth = parentWidth - 32; // -32 for padding
+  }
 
   // header div width should match table header width
   const [first, setFirst] = useState<boolean>(true);
