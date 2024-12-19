@@ -15,9 +15,9 @@ export const ModelTableActionHead = ({
 }: ModelTableActionHeadProps) => {
   const [rendered, setRendered] = useState(false);
 
-  useEffect( () => {
+  useEffect(() => {
     setRendered(true);
-  }, [])
+  }, []);
   return (
     <TableHead
       className={cn(

@@ -34,9 +34,9 @@ export const ResizableWrapper = ({
       }
       setIsResizing(false);
       // div should snap to full width of header cell if cells are wider
-      const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width
-      if (parentWidth)
-        setCurrentWidth(parentWidth - xPadding);
+      const parentWidth =
+        ref.current?.parentElement?.getBoundingClientRect().width;
+      if (parentWidth) setCurrentWidth(parentWidth - xPadding);
       setDeltaX(0);
       onWidthChange?.(newWidth);
       const allElements = document.querySelectorAll('*');
@@ -60,32 +60,33 @@ export const ResizableWrapper = ({
     }
 
     // width of div in header should be w-full if table cells cannot be made any smaller
-    setTimeout( () => {
-      const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width
-      if (parentWidth)
-        setCurrentWidth(parentWidth - xPadding);
-    }, 10)
+    setTimeout(() => {
+      const parentWidth =
+        ref.current?.parentElement?.getBoundingClientRect().width;
+      if (parentWidth) setCurrentWidth(parentWidth - xPadding);
+    }, 10);
   }, []);
 
   let columnWidth = currentWidth && currentWidth + deltaX;
-  const childWidth = ref.current?.firstElementChild?.getBoundingClientRect().width
+  const childWidth =
+    ref.current?.firstElementChild?.getBoundingClientRect().width;
 
   // width cannot be smaller than the clickable text
-  columnWidth = Math.max(columnWidth || 0,childWidth || 0)
+  columnWidth = Math.max(columnWidth || 0, childWidth || 0);
 
   // header div width should match table header width
   const [first, setFirst] = useState<boolean>(true);
-  useEffect( () => {
+  useEffect(() => {
     if (first && currentWidth && !width) {
       setFirst(false);
-      const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width;
+      const parentWidth =
+        ref.current?.parentElement?.getBoundingClientRect().width;
       if (parentWidth && currentWidth && parentWidth > currentWidth) {
-        setCurrentWidth(parentWidth - xPadding)
+        setCurrentWidth(parentWidth - xPadding);
       }
     }
-  }, [first, currentWidth, width])
+  }, [first, currentWidth, width]);
 
-  
   return resizable ? (
     <div
       className="h-full"

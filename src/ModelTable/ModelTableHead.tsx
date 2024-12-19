@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react';
+
 import { TableHead, type TableHeadProps } from '@/Table';
 import { DndSortableWrapper, ResizableWrapper, humanizeText } from '@/utils';
 
 import { ModelTableHeadMenu } from './ModelTableHeadMenu';
 import { useModelTableStore } from './useModelTableStore';
-import { useEffect, useState } from 'react';
 
 export interface ModelTableHeadProps extends Omit<TableHeadProps, 'columnId'> {
   field: string;
@@ -33,13 +34,17 @@ export const ModelTableHead = ({
 
   // set width to apply during initial table render
   const [onLoadWidth, setOnLoadWidth] = useState(width && width + 32);
-  useEffect( () => {
+  useEffect(() => {
     setOnLoadWidth(undefined);
-  }, [])
+  }, []);
 
   return (
     <DndSortableWrapper draggable={draggable} dndId={field}>
-      <TableHead style={{ width: onLoadWidth }} columnId={field} {...tableHeadProps}>
+      <TableHead
+        style={{ width: onLoadWidth }}
+        columnId={field}
+        {...tableHeadProps}
+      >
         <ResizableWrapper
           resizable={resizable}
           width={width}
