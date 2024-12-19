@@ -18,7 +18,7 @@ export const ResizableWrapper = ({
   const [deltaX, setDeltaX] = useState(0);
   const [currentWidth, setCurrentWidth] = useState(width);
   const ref = useRef<HTMLDivElement>(null);
-  const xPadding = 32;
+  const xPadding = 33;
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -58,13 +58,6 @@ export const ResizableWrapper = ({
     if (ref.current) {
       setCurrentWidth(ref.current.scrollWidth);
     }
-
-    // width of div in header should be w-full if table cells cannot be made any smaller
-    setTimeout(() => {
-      const parentWidth =
-        ref.current?.parentElement?.getBoundingClientRect().width;
-      if (parentWidth) setCurrentWidth(parentWidth - xPadding);
-    }, 10);
   }, []);
 
   let columnWidth = currentWidth && currentWidth + deltaX;
@@ -99,6 +92,9 @@ export const ResizableWrapper = ({
         onMouseDown={(e) => {
           e.stopPropagation();
           setIsResizing(true);
+          // width of div in header should be w-full if table cells cannot be made any smaller
+          const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width;
+            if (parentWidth) setCurrentWidth(parentWidth - xPadding);
           setClientX(e.clientX);
           const allElements = document.querySelectorAll('*');
           for (const element of allElements) {
