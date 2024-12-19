@@ -95,7 +95,7 @@ export const ModelTable = Object.assign(
                 ref={ref}
                 columnIds={tableColumns}
                 data={data}
-                className={cn(!rendered && 'w-full table-auto')}
+                className={cn(!rendered && 'w-full table-fixed')}
                 {...tableProps}
               >
                 {children === undefined ? (

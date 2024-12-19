@@ -32,7 +32,10 @@ export const ResizableWrapper = ({
         newWidth = ref.current?.scrollWidth;
       }
       setIsResizing(false);
-      setCurrentWidth(newWidth);
+      // div should snap to full width of header cell if cells are wider
+      const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width
+      if (parentWidth)
+        setCurrentWidth(parentWidth - 32);
       setDeltaX(0);
       onWidthChange?.(newWidth);
       const allElements = document.querySelectorAll('*');
@@ -66,7 +69,6 @@ export const ResizableWrapper = ({
   const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width
   if (!isResizing && parentWidth) 
     columnWidth = parentWidth - 32; // -32 for padding
-
 
   // header div width should match table header width
   const [first, setFirst] = useState<boolean>(true);
