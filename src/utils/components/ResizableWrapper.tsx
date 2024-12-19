@@ -93,8 +93,9 @@ export const ResizableWrapper = ({
           e.stopPropagation();
           setIsResizing(true);
           // width of div in header should be w-full if table cells cannot be made any smaller
-          const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width;
-            if (parentWidth) setCurrentWidth(parentWidth - xPadding);
+          const parentWidth =
+            ref.current?.parentElement?.getBoundingClientRect().width;
+          if (parentWidth) setCurrentWidth(parentWidth - xPadding);
           setClientX(e.clientX);
           const allElements = document.querySelectorAll('*');
           for (const element of allElements) {
