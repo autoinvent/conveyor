@@ -39,7 +39,7 @@ export const ModelTableHead = ({
 
   return (
     <DndSortableWrapper draggable={draggable} dndId={field}>
-      <TableHead style={{ width: onLoadWidth }}columnId={field} {...tableHeadProps}>
+      <TableHead style={{ width: onLoadWidth }} columnId={field} {...tableHeadProps}>
         <ResizableWrapper
           resizable={resizable}
           width={width}

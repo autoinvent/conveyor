@@ -18,6 +18,7 @@ export const ResizableWrapper = ({
   const [deltaX, setDeltaX] = useState(0);
   const [currentWidth, setCurrentWidth] = useState(width);
   const ref = useRef<HTMLDivElement>(null);
+  const xPadding = 32;
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -35,7 +36,7 @@ export const ResizableWrapper = ({
       // div should snap to full width of header cell if cells are wider
       const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width
       if (parentWidth)
-        setCurrentWidth(parentWidth - 32);
+        setCurrentWidth(parentWidth - xPadding);
       setDeltaX(0);
       onWidthChange?.(newWidth);
       const allElements = document.querySelectorAll('*');
@@ -57,11 +58,12 @@ export const ResizableWrapper = ({
     if (ref.current) {
       setCurrentWidth(ref.current.scrollWidth);
     }
+
+    // width of div in header should be w-full if table cells cannot be made any smaller
     setTimeout( () => {
-      // width of div in header should be w-full if table cells cannot be made any smaller
       const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width
       if (parentWidth)
-        setCurrentWidth(parentWidth - 32);
+        setCurrentWidth(parentWidth - xPadding);
     }, 10)
   }, []);
 
@@ -78,10 +80,11 @@ export const ResizableWrapper = ({
       setFirst(false);
       const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width;
       if (parentWidth && currentWidth && parentWidth > currentWidth) {
-        setCurrentWidth(parentWidth - 32) // -32 for padding
+        setCurrentWidth(parentWidth - xPadding)
       }
     }
   }, [first, currentWidth, width])
+
   
   return resizable ? (
     <div
