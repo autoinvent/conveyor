@@ -75,17 +75,17 @@ export const ResizableWrapper = ({
   columnWidth = Math.max(columnWidth || 0, childWidth || 0);
 
   // header div width should match table header width
-  const [first, setFirst] = useState<boolean>(true);
+  const [firstLoad, setFirstLoad] = useState<boolean>(true);
   useEffect(() => {
-    if (first && currentWidth && !width) {
-      setFirst(false);
+    if (firstLoad && currentWidth && !width) {
+      setFirstLoad(false);
       const parentWidth =
         ref.current?.parentElement?.getBoundingClientRect().width;
       if (parentWidth && currentWidth && parentWidth > currentWidth) {
         setCurrentWidth(parentWidth - xPadding);
       }
     }
-  }, [first, currentWidth, width]);
+  }, [firstLoad, currentWidth, width]);
 
   return resizable ? (
     <div
