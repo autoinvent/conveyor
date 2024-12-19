@@ -60,17 +60,15 @@ export const ResizableWrapper = ({
   }, []);
 
   let columnWidth = currentWidth && currentWidth + deltaX;
-  
+  const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width;
+  const childWidth = ref.current?.firstElementChild?.getBoundingClientRect().width
+
   // width cannot be smaller than the clickable text
-  columnWidth = Math.max(
-    columnWidth || 0, 
-    ref.current?.firstElementChild?.getBoundingClientRect().width || 0,
-  ) || undefined
+  columnWidth = Math.max(columnWidth || 0,childWidth || 0)
 
   // width of div in header should be w-full if table cells cannot be made any smaller 
-  const parentWidth = ref.current?.parentElement?.getBoundingClientRect().width
-  if (!isResizing && parentWidth) {
-    columnWidth = parentWidth - 32; // -32 for padding
+  if (!isResizing && parentWidth && childWidth) {
+    columnWidth = Math.max(parentWidth - 32, childWidth); // -32 for padding
   }
 
   // header div width should match table header width
