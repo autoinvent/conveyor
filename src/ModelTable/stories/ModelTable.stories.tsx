@@ -24,6 +24,11 @@ const meta = {
     fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
     fieldOrder: [], // dummy
     onFieldOrderChange: () => null, // dummy
+    contextOptions: [
+      { label: '1', onClick: () => console.log(1) },
+      { label: '2', onClick: () => console.log(2) },
+      { label: '3', onClick: () => console.log(3) },
+    ],
     data: [
       {
         id: '1',

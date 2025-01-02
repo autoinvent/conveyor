@@ -40,6 +40,11 @@ export interface FormOptions
   errors?: Record<string | number, UseFormProps['errors']>;
 }
 
+export interface ContextOptions {
+  label : ReactNode, 
+  onClick : (data : DataType) => void,
+  children?: ContextOptions
+}
 export interface ModelTableState<
   D extends DataType,
   F extends string,
@@ -56,6 +61,7 @@ export interface ModelTableState<
   formOptions?: FormOptions;
   onUpdate?: OnActionTrigger<DT>;
   onDelete?: OnActionTrigger<DT>;
+  contextOptions?: ContextOptions[];
 }
 
 export const ModelTableStoreContext = createContext<

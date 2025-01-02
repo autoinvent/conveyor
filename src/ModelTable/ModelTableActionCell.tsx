@@ -1,4 +1,4 @@
-import { LoaderCircle, Save, SquarePen, Trash2, X } from 'lucide-react';
+import { LoaderCircle, Save, SquarePen, Trash2, X, Zap } from 'lucide-react';
 
 import { useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
@@ -9,6 +9,7 @@ import { DataLens, type DataType } from '@/types';
 
 import { ACTION_COLUMN } from './ModelTable';
 import { useModelTableStore } from './useModelTableStore';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuTrigger } from '@/lib/components/ui/dropdown-menu';
 
 export interface ModelTableActionCellProps
   extends Omit<TableCellProps, 'columnId'> {}
@@ -26,6 +27,7 @@ export const ModelTableActionCell = ({
   const handleSubmit = useFormStore((state) => state.handleSubmit);
   const onUpdate = useModelTableStore((state) => state.onUpdate);
   const onDelete = useModelTableStore((state) => state.onDelete);
+  const contextOptions = useModelTableStore((state) => state.contextOptions);
 
   const onEditHandler = () => setLens(DataLens.INPUT);
   const onCancelEditHandler = () => {
@@ -60,6 +62,27 @@ export const ModelTableActionCell = ({
     >
       {children === undefined ? (
         <div className="space-x-1 whitespace-nowrap">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <div className='flex h-8 w-8 items-center justify-center'>
+                <Zap className="h-4 w-4"/>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="max-w-48">
+                <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
+                <DropdownMenuSeparator/>
+                {
+                  contextOptions?.length ?
+                  contextOptions.map( ({ label, onClick, children }) => 
+                    <DropdownMenuItem key={label?.toString()} onClick={onClick}>
+                      {label}
+                    </DropdownMenuItem>
+                  )
+                  :
+                  <DropdownMenuItem disabled>No Options</DropdownMenuItem>
+                }
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Lens lens={!isSubmitting && DataLens.DISPLAY}>
             {onUpdate && (
               <Button
