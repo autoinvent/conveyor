@@ -10,6 +10,7 @@ import { DataLens, type DataType } from '@/types';
 import { ACTION_COLUMN } from './ModelTable';
 import { useModelTableStore } from './useModelTableStore';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuTrigger } from '@/lib/components/ui/dropdown-menu';
+import { useState } from 'react';
 
 export interface ModelTableActionCellProps
   extends Omit<TableCellProps, 'columnId'> {}
@@ -54,6 +55,8 @@ export const ModelTableActionCell = ({
     });
   });
 
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
     <TableCell
       className={cn('sticky right-0 w-0 bg-inherit shadow-left', className)}
@@ -62,8 +65,8 @@ export const ModelTableActionCell = ({
     >
       {children === undefined ? (
         <div className="space-x-1 whitespace-nowrap">
-          <DropdownMenu>
-            <DropdownMenuTrigger>
+          <DropdownMenu onOpenChange={setOpen}>
+            <DropdownMenuTrigger className={cn('rounded-md hover:bg-accent', open && 'bg-accent')}>
               <div className='flex h-8 w-8 items-center justify-center'>
                 <Zap className="h-4 w-4"/>
               </div>
