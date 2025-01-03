@@ -1,5 +1,14 @@
 import { useState } from 'react';
 
+import {
+  ArrowDown,
+  ArrowUp,
+  Calculator,
+  MoreHorizontal,
+  Undo,
+  User,
+} from 'lucide-react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import {
@@ -10,7 +19,6 @@ import {
 } from '@/types';
 
 import { ModelTable } from '../ModelTable';
-import { ArrowDown, ArrowUp, Calculator, MoreHorizontal, Undo, User } from 'lucide-react';
 
 const meta = {
   title: 'Models/ModelTable/General',
@@ -26,14 +34,38 @@ const meta = {
     fieldOrder: [], // dummy
     onFieldOrderChange: () => null, // dummy
     contextOptions: [
-      { label: 'Set to Finished', icon: <User />, onClick: () => console.log('Set Finished to True') },
-      { label: 'Points', icon: <Calculator />, subOptions: [
-        { label: 'Increment Points', icon: <ArrowUp />, onClick: () => console.log('Increment Points')},
-        { label: 'Decrement Points', icon: <ArrowDown />, onClick: () => console.log('Decrement Points')},
-        { label: 'More Options', icon: <MoreHorizontal />, subOptions: [
-          { label: 'Reset Points', icon: <Undo />, onClick: () => console.log('Reset Points')},
-        ]},
-      ]},
+      {
+        label: 'Set to Finished',
+        icon: <User />,
+        onClick: () => console.log('Set Finished to True'),
+      },
+      {
+        label: 'Points',
+        icon: <Calculator />,
+        subOptions: [
+          {
+            label: 'Increment Points',
+            icon: <ArrowUp />,
+            onClick: () => console.log('Increment Points'),
+          },
+          {
+            label: 'Decrement Points',
+            icon: <ArrowDown />,
+            onClick: () => console.log('Decrement Points'),
+          },
+          {
+            label: 'More Options',
+            icon: <MoreHorizontal />,
+            subOptions: [
+              {
+                label: 'Reset Points',
+                icon: <Undo />,
+                onClick: () => console.log('Reset Points'),
+              },
+            ],
+          },
+        ],
+      },
     ],
     data: [
       {

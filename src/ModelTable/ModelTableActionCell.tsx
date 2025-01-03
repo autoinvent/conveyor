@@ -1,17 +1,29 @@
+import React, { cloneElement, useState } from 'react';
+
 import { LoaderCircle, Save, SquarePen, Trash2, X, Zap } from 'lucide-react';
 
 import { useFormStore } from '@/Form';
 import { Lens, useLensesStore } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
 import { Button } from '@/lib/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@/lib/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { DataLens, type DataType } from '@/types';
 
 import { ACTION_COLUMN } from './ModelTable';
-import { useModelTableStore } from './useModelTableStore';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from '@/lib/components/ui/dropdown-menu';
-import React, { cloneElement, useState } from 'react';
 import type { ContextOptions } from './ModelTableStoreContext';
+import { useModelTableStore } from './useModelTableStore';
 
 export interface ModelTableActionCellProps
   extends Omit<TableCellProps, 'columnId'> {}
@@ -57,32 +69,33 @@ export const ModelTableActionCell = ({
   });
 
   const [open, setOpen] = useState<boolean>(false);
-  const generateItemsRecursively = (options : ContextOptions[], isSubMenu = false) => {
-    return (
-      options.map( ({ label, icon, onClick, subOptions }) => {
-        const menuItem = (
-          <React.Fragment key={label}>
-            <div className='mr-2 flex h-4 w-4 items-center'>
-              {icon}
-            </div>
-            {label}
-          </React.Fragment>
-        )
-        return subOptions ?
-          <DropdownMenuSub key={JSON.stringify(label)}>
-            <DropdownMenuSubTrigger>{menuItem}</DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent className="w-48">
-                {generateItemsRecursively(subOptions, true)}
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub> :
-          <DropdownMenuItem key={JSON.stringify(label)} onClick={onClick}>
-            {menuItem}
-          </DropdownMenuItem>
-      })
-    )
-  }
+  const generateItemsRecursively = (
+    options: ContextOptions[],
+    isSubMenu = false,
+  ) => {
+    return options.map(({ label, icon, onClick, subOptions }) => {
+      const menuItem = (
+        <React.Fragment key={label}>
+          <div className="mr-2 flex h-4 w-4 items-center">{icon}</div>
+          {label}
+        </React.Fragment>
+      );
+      return subOptions ? (
+        <DropdownMenuSub key={JSON.stringify(label)}>
+          <DropdownMenuSubTrigger>{menuItem}</DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent className="w-48">
+              {generateItemsRecursively(subOptions, true)}
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
+      ) : (
+        <DropdownMenuItem key={JSON.stringify(label)} onClick={onClick}>
+          {menuItem}
+        </DropdownMenuItem>
+      );
+    });
+  };
 
   return (
     <TableCell
@@ -93,19 +106,21 @@ export const ModelTableActionCell = ({
       {children === undefined ? (
         <div className="space-x-1 whitespace-nowrap">
           <DropdownMenu onOpenChange={setOpen}>
-            <DropdownMenuTrigger className={cn('rounded-md hover:bg-accent', open && 'bg-accent')}>
-              <div className='flex h-8 w-8 items-center justify-center'>
-                <Zap className="h-4 w-4"/>
+            <DropdownMenuTrigger
+              className={cn('rounded-md hover:bg-accent', open && 'bg-accent')}
+            >
+              <div className="flex h-8 w-8 items-center justify-center">
+                <Zap className="h-4 w-4" />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-48">
-                <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
-                <DropdownMenuSeparator/>
-                {
-                  contextOptions?.length ?
-                  generateItemsRecursively(contextOptions, false) :
-                  <DropdownMenuItem disabled>No Options</DropdownMenuItem>
-                }
+              <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {contextOptions?.length ? (
+                generateItemsRecursively(contextOptions, false)
+              ) : (
+                <DropdownMenuItem disabled>No Options</DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
           <Lens lens={!isSubmitting && DataLens.DISPLAY}>
