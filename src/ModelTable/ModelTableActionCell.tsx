@@ -9,8 +9,9 @@ import { DataLens, type DataType } from '@/types';
 
 import { ACTION_COLUMN } from './ModelTable';
 import { useModelTableStore } from './useModelTableStore';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuTrigger } from '@/lib/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from '@/lib/components/ui/dropdown-menu';
 import { useState } from 'react';
+import type { ContextOptions } from './ModelTableStoreContext';
 
 export interface ModelTableActionCellProps
   extends Omit<TableCellProps, 'columnId'> {}
@@ -56,6 +57,23 @@ export const ModelTableActionCell = ({
   });
 
   const [open, setOpen] = useState<boolean>(false);
+  const generateItemsRecursively = (options : ContextOptions[], isSubMenu = false) => {
+    return (
+      options.map( ({ label, onClick, children }) => children ?
+        <DropdownMenuSub key={label?.toString()}>
+          <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              {generateItemsRecursively(children, true)}
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub> :
+        <DropdownMenuItem key={label?.toString()} onClick={onClick}>
+          {label}
+        </DropdownMenuItem>
+      )
+    )
+  }
 
   return (
     <TableCell
@@ -76,12 +94,7 @@ export const ModelTableActionCell = ({
                 <DropdownMenuSeparator/>
                 {
                   contextOptions?.length ?
-                  contextOptions.map( ({ label, onClick, children }) => 
-                    <DropdownMenuItem key={label?.toString()} onClick={onClick}>
-                      {label}
-                    </DropdownMenuItem>
-                  )
-                  :
+                  generateItemsRecursively(contextOptions, false) :
                   <DropdownMenuItem disabled>No Options</DropdownMenuItem>
                 }
             </DropdownMenuContent>

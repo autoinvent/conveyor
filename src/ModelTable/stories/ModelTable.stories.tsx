@@ -27,7 +27,13 @@ const meta = {
     contextOptions: [
       { label: '1', onClick: () => console.log(1) },
       { label: '2', onClick: () => console.log(2) },
-      { label: '3', onClick: () => console.log(3) },
+      { label: 'more', children: [
+        { label: '3', onClick: () => console.log(3)},
+        { label: 'more', children: [
+          { label: '5', onClick: () => console.log(5)},
+        ]},
+        { label: '4', onClick: () => console.log(4)},
+      ] },
     ],
     data: [
       {
