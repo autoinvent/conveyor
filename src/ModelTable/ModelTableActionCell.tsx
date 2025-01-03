@@ -10,7 +10,7 @@ import { DataLens, type DataType } from '@/types';
 import { ACTION_COLUMN } from './ModelTable';
 import { useModelTableStore } from './useModelTableStore';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from '@/lib/components/ui/dropdown-menu';
-import { useState } from 'react';
+import React, { cloneElement, useState } from 'react';
 import type { ContextOptions } from './ModelTableStoreContext';
 
 export interface ModelTableActionCellProps
@@ -59,19 +59,28 @@ export const ModelTableActionCell = ({
   const [open, setOpen] = useState<boolean>(false);
   const generateItemsRecursively = (options : ContextOptions[], isSubMenu = false) => {
     return (
-      options.map( ({ label, onClick, children }) => children ?
-        <DropdownMenuSub key={label?.toString()}>
-          <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent>
-              {generateItemsRecursively(children, true)}
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub> :
-        <DropdownMenuItem key={label?.toString()} onClick={onClick}>
-          {label}
-        </DropdownMenuItem>
-      )
+      options.map( ({ label, icon, onClick, subOptions }) => {
+        const menuItem = (
+          <React.Fragment key={label}>
+            <div className='mr-2 flex h-4 w-4 items-center'>
+              {icon}
+            </div>
+            {label}
+          </React.Fragment>
+        )
+        return subOptions ?
+          <DropdownMenuSub key={JSON.stringify(label)}>
+            <DropdownMenuSubTrigger>{menuItem}</DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent className="w-48">
+                {generateItemsRecursively(subOptions, true)}
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub> :
+          <DropdownMenuItem key={JSON.stringify(label)} onClick={onClick}>
+            {menuItem}
+          </DropdownMenuItem>
+      })
     )
   }
 
@@ -89,7 +98,7 @@ export const ModelTableActionCell = ({
                 <Zap className="h-4 w-4"/>
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="max-w-48">
+            <DropdownMenuContent className="w-48">
                 <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator/>
                 {

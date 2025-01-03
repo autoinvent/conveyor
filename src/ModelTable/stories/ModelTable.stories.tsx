@@ -10,6 +10,7 @@ import {
 } from '@/types';
 
 import { ModelTable } from '../ModelTable';
+import { ArrowDown, ArrowUp, Calculator, MoreHorizontal, Undo, User } from 'lucide-react';
 
 const meta = {
   title: 'Models/ModelTable/General',
@@ -25,15 +26,14 @@ const meta = {
     fieldOrder: [], // dummy
     onFieldOrderChange: () => null, // dummy
     contextOptions: [
-      { label: '1', onClick: () => console.log(1) },
-      { label: '2', onClick: () => console.log(2) },
-      { label: 'more', children: [
-        { label: '3', onClick: () => console.log(3)},
-        { label: 'more', children: [
-          { label: '5', onClick: () => console.log(5)},
+      { label: 'Set to Finished', icon: <User />, onClick: () => console.log('Set Finished to True') },
+      { label: 'Points', icon: <Calculator />, subOptions: [
+        { label: 'Increment Points', icon: <ArrowUp />, onClick: () => console.log('Increment Points')},
+        { label: 'Decrement Points', icon: <ArrowDown />, onClick: () => console.log('Decrement Points')},
+        { label: 'More Options', icon: <MoreHorizontal />, subOptions: [
+          { label: 'Reset Points', icon: <Undo />, onClick: () => console.log('Reset Points')},
         ]},
-        { label: '4', onClick: () => console.log(4)},
-      ] },
+      ]},
     ],
     data: [
       {

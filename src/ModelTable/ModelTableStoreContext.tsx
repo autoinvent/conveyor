@@ -41,9 +41,10 @@ export interface FormOptions
 }
 
 export interface ContextOptions {
-  label : ReactNode, 
+  label : string,
+  icon?: ReactNode, 
   onClick? : (data : DataType) => void,
-  children?: ContextOptions[]
+  subOptions?: ContextOptions[]
 }
 export interface ModelTableState<
   D extends DataType,
