@@ -52,6 +52,7 @@ const meta = {
             label: 'Decrement Points',
             icon: <ArrowDown />,
             onClick: () => console.log('Decrement Points'),
+            separator: true,
           },
           {
             label: 'More Options',

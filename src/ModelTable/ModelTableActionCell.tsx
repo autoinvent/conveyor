@@ -71,9 +71,8 @@ export const ModelTableActionCell = ({
   const [open, setOpen] = useState<boolean>(false);
   const generateItemsRecursively = (
     options: ContextOptions[],
-    isSubMenu = false,
   ) => {
-    return options.map(({ label, icon, onClick, subOptions }) => {
+    return options.map(({ label, icon, onClick, subOptions, separator }) => {
       const menuItem = (
         <React.Fragment key={label}>
           <div className="mr-2 flex h-4 w-4 items-center">{icon}</div>
@@ -85,15 +84,19 @@ export const ModelTableActionCell = ({
           <DropdownMenuSubTrigger>{menuItem}</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent className="w-48">
-              {generateItemsRecursively(subOptions, true)}
+              {generateItemsRecursively(subOptions)}
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
       ) : (
-        <DropdownMenuItem key={JSON.stringify(label)} onClick={onClick}>
-          {menuItem}
-        </DropdownMenuItem>
+        <>
+          <DropdownMenuItem key={JSON.stringify(label)} className='' onClick={onClick}>
+            {menuItem}
+          </DropdownMenuItem>
+          { separator && <DropdownMenuSeparator key={`${JSON.stringify(label)}-separator`}/> }
+        </>
       );
+
     });
   };
 
@@ -117,7 +120,7 @@ export const ModelTableActionCell = ({
               <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {contextOptions?.length ? (
-                generateItemsRecursively(contextOptions, false)
+                generateItemsRecursively(contextOptions)
               ) : (
                 <DropdownMenuItem disabled>No Options</DropdownMenuItem>
               )}

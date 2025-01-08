@@ -45,6 +45,7 @@ export interface ContextOptions {
   icon?: ReactNode;
   onClick?: (data: DataType) => void;
   subOptions?: ContextOptions[];
+  separator?: boolean;
 }
 export interface ModelTableState<
   D extends DataType,
