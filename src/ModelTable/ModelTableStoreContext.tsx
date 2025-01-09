@@ -42,10 +42,15 @@ export interface FormOptions
 
 export interface ContextOptions {
   label: string;
-  icon?: ReactNode;
+  icon?: () => ReactNode;
   onClick?: (data: DataType) => void;
   subOptions?: ContextOptions[];
   separator?: boolean;
+  checkbox?: {
+    value: boolean,
+    setValue: (val : boolean) => void,
+    disabled?: boolean
+  }
 }
 export interface ModelTableState<
   D extends DataType,

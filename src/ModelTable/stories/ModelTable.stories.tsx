@@ -4,6 +4,7 @@ import {
   ArrowDown,
   ArrowUp,
   Calculator,
+  List,
   MoreHorizontal,
   Undo,
   User,
@@ -19,6 +20,7 @@ import {
 } from '@/types';
 
 import { ModelTable } from '../ModelTable';
+import type { ContextOptions } from '../ModelTableStoreContext';
 
 const meta = {
   title: 'Models/ModelTable/General',
@@ -33,41 +35,6 @@ const meta = {
     fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
     fieldOrder: [], // dummy
     onFieldOrderChange: () => null, // dummy
-    contextOptions: [
-      {
-        label: 'Set to Finished',
-        icon: <User />,
-        onClick: () => console.log('Set Finished to True'),
-      },
-      {
-        label: 'Points',
-        icon: <Calculator />,
-        subOptions: [
-          {
-            label: 'Increment Points',
-            icon: <ArrowUp />,
-            onClick: () => console.log('Increment Points'),
-          },
-          {
-            label: 'Decrement Points',
-            icon: <ArrowDown />,
-            onClick: () => console.log('Decrement Points'),
-            separator: true,
-          },
-          {
-            label: 'More Options',
-            icon: <MoreHorizontal />,
-            subOptions: [
-              {
-                label: 'Reset Points',
-                icon: <Undo />,
-                onClick: () => console.log('Reset Points'),
-              },
-            ],
-          },
-        ],
-      },
-    ],
     data: [
       {
         id: '1',
@@ -188,6 +155,61 @@ const meta = {
       }
     };
 
+    const [check1, setCheck1] = useState<boolean>(true);
+    const [check2, setCheck2] = useState<boolean>(false);
+
+    const quickActions : ContextOptions[] = [
+      {
+        label: 'Set to Finished',
+        icon: () => <User />,
+        onClick: () => console.log('Set Finished to True'),
+      },
+      {
+        label: 'Points',
+        icon: () => <Calculator />,
+        separator: true,
+        subOptions: [
+          {
+            label: 'Increment Points',
+            icon: () => <ArrowUp />,
+            onClick: () => console.log('Increment Points'),
+          },
+          {
+            label: 'Decrement Points',
+            icon: () => <ArrowDown />,
+            onClick: () => console.log('Decrement Points'),
+            separator: true,
+          },
+          {
+            label: 'More Options',
+            icon: () => <MoreHorizontal />,
+            subOptions: [
+              {
+                label: 'Reset Points',
+                icon: () => <Undo />,
+                onClick: () => console.log('Reset Points'),
+              },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Check 1",
+        checkbox: {
+          value: check1,
+          setValue: setCheck1
+        }
+      },
+      {
+        label: "Check 2",
+        checkbox: {
+          value: check2,
+          setValue: setCheck2,
+          disabled: true
+        },
+      },
+    ]
+
     return (
       <ModelTable
         fields={fields}
@@ -201,6 +223,7 @@ const meta = {
         }}
         onUpdate={onUpdateHandler}
         onDelete={onDeleteHandler}
+        contextOptions={quickActions}
         {...args}
       />
     );

@@ -1,4 +1,4 @@
-import React, { cloneElement, useState } from 'react';
+import React, { useState } from 'react';
 
 import { LoaderCircle, Save, SquarePen, Trash2, X, Zap } from 'lucide-react';
 
@@ -8,6 +8,7 @@ import { TableCell, type TableCellProps } from '@/Table';
 import { Button } from '@/lib/components/ui/button';
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -72,31 +73,44 @@ export const ModelTableActionCell = ({
   const generateItemsRecursively = (
     options: ContextOptions[],
   ) => {
-    return options.map(({ label, icon, onClick, subOptions, separator }) => {
+    return options.map(({ label, icon, onClick, subOptions, separator, checkbox }) => {
       const menuItem = (
-        <React.Fragment key={label}>
-          <div className="mr-2 flex h-4 w-4 items-center">{icon}</div>
+        <React.Fragment key={`${label}-label`}>
+          {icon && <div className="mr-2 flex h-4 w-4 items-center">{icon?.()}</div> }
           {label}
         </React.Fragment>
       );
       return subOptions ? (
-        <DropdownMenuSub key={JSON.stringify(label)}>
-          <DropdownMenuSubTrigger>{menuItem}</DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent className="w-48">
-              {generateItemsRecursively(subOptions)}
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub>
+        <React.Fragment key={`${label}-sub`}>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>{menuItem}</DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent className="w-48">
+                {generateItemsRecursively(subOptions)}
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          { separator && <DropdownMenuSeparator /> }
+        </React.Fragment>
       ) : (
-        <>
-          <DropdownMenuItem key={JSON.stringify(label)} className='' onClick={onClick}>
-            {menuItem}
-          </DropdownMenuItem>
-          { separator && <DropdownMenuSeparator key={`${JSON.stringify(label)}-separator`}/> }
-        </>
+        <React.Fragment key={`${label}-item`}>
+          { 
+            checkbox ? 
+            <DropdownMenuCheckboxItem 
+              onClick={onClick} 
+              checked={checkbox.value}
+              onCheckedChange={checkbox.setValue}
+              disabled={checkbox.disabled}
+            >
+              {menuItem}
+            </DropdownMenuCheckboxItem>:
+            <DropdownMenuItem onClick={onClick}>
+              {menuItem}
+            </DropdownMenuItem>
+          }
+          { separator && <DropdownMenuSeparator /> }
+        </React.Fragment>
       );
-
     });
   };
 
