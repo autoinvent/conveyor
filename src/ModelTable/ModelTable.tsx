@@ -42,7 +42,7 @@ export const ModelTable = Object.assign(
     formOptions,
     onUpdate,
     onDelete,
-    contextOptions,
+    quickActions,
     children,
     ...tableProps
   }: ModelTableProps<D, F, DT, FT>) => {
@@ -72,7 +72,7 @@ export const ModelTable = Object.assign(
         formOptions={formOptions}
         onUpdate={onUpdate}
         onDelete={onDelete}
-        contextOptions={contextOptions}
+        quickActions={quickActions}
       >
         <BorderWrapper
           bordered={typeof bordered === 'object' ? true : bordered ?? true}

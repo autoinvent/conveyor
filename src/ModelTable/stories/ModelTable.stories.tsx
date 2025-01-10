@@ -1,17 +1,15 @@
 import { useState } from 'react';
 
-import {
-  ArrowDown,
-  ArrowUp,
-  Calculator,
-  List,
-  MoreHorizontal,
-  Undo,
-  User,
-} from 'lucide-react';
+import { ArrowDown, ArrowUp, Calculator, User } from 'lucide-react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import {
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from '@/lib/components/ui/dropdown-menu';
 import {
   type ActionParams,
   type DataType,
@@ -20,7 +18,6 @@ import {
 } from '@/types';
 
 import { ModelTable } from '../ModelTable';
-import type { ContextOptions } from '../ModelTableStoreContext';
 
 const meta = {
   title: 'Models/ModelTable/General',
@@ -155,61 +152,6 @@ const meta = {
       }
     };
 
-    const [check1, setCheck1] = useState<boolean>(true);
-    const [check2, setCheck2] = useState<boolean>(false);
-
-    const quickActions : ContextOptions[] = [
-      {
-        label: 'Set to Finished',
-        icon: () => <User />,
-        onClick: () => console.log('Set Finished to True'),
-      },
-      {
-        label: 'Points',
-        icon: () => <Calculator />,
-        separator: true,
-        subOptions: [
-          {
-            label: 'Increment Points',
-            icon: () => <ArrowUp />,
-            onClick: () => console.log('Increment Points'),
-          },
-          {
-            label: 'Decrement Points',
-            icon: () => <ArrowDown />,
-            onClick: () => console.log('Decrement Points'),
-            separator: true,
-          },
-          {
-            label: 'More Options',
-            icon: () => <MoreHorizontal />,
-            subOptions: [
-              {
-                label: 'Reset Points',
-                icon: () => <Undo />,
-                onClick: () => console.log('Reset Points'),
-              },
-            ],
-          },
-        ],
-      },
-      {
-        label: "Check 1",
-        checkbox: {
-          value: check1,
-          setValue: setCheck1
-        }
-      },
-      {
-        label: "Check 2",
-        checkbox: {
-          value: check2,
-          setValue: setCheck2,
-          disabled: true
-        },
-      },
-    ]
-
     return (
       <ModelTable
         fields={fields}
@@ -223,7 +165,38 @@ const meta = {
         }}
         onUpdate={onUpdateHandler}
         onDelete={onDeleteHandler}
-        contextOptions={quickActions}
+        quickActions={(rowData: DataType) => (
+          <>
+            <DropdownMenuItem onClick={() => console.log('Set to Finished')}>
+              <User className="mr-2 h-4 w-4" />
+              <span>Set to Finished</span>
+            </DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <Calculator className="mr-2 h-4 w-4" />
+                <span>Points</span>
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem
+                  onClick={() =>
+                    console.log(`Increment Points to ${rowData.points + 1}`)
+                  }
+                >
+                  <ArrowUp className="mr-2 h-4 w-4" />
+                  <span>{`Increment Points to ${rowData.points + 1}`}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() =>
+                    console.log(`Decrement Points to ${rowData.points - 1}`)
+                  }
+                >
+                  <ArrowDown className="mr-2 h-4 w-4" />
+                  <span>{`Decrement Points to ${rowData.points - 1}`}</span>
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+          </>
+        )}
         {...args}
       />
     );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ComponentPropsWithoutRef, useState } from 'react';
 
 import { LoaderCircle, Save, SquarePen, Trash2, X, Zap } from 'lucide-react';
 
@@ -8,22 +8,16 @@ import { TableCell, type TableCellProps } from '@/Table';
 import { Button } from '@/lib/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/lib/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { DataLens, type DataType } from '@/types';
 
 import { ACTION_COLUMN } from './ModelTable';
-import type { ContextOptions } from './ModelTableStoreContext';
 import { useModelTableStore } from './useModelTableStore';
 
 export interface ModelTableActionCellProps
@@ -42,7 +36,7 @@ export const ModelTableActionCell = ({
   const handleSubmit = useFormStore((state) => state.handleSubmit);
   const onUpdate = useModelTableStore((state) => state.onUpdate);
   const onDelete = useModelTableStore((state) => state.onDelete);
-  const contextOptions = useModelTableStore((state) => state.contextOptions);
+  const quickActions = useModelTableStore((state) => state.quickActions);
 
   const onEditHandler = () => setLens(DataLens.INPUT);
   const onCancelEditHandler = () => {
@@ -70,49 +64,6 @@ export const ModelTableActionCell = ({
   });
 
   const [open, setOpen] = useState<boolean>(false);
-  const generateItemsRecursively = (
-    options: ContextOptions[],
-  ) => {
-    return options.map(({ label, icon, onClick, subOptions, separator, checkbox }) => {
-      const menuItem = (
-        <React.Fragment key={`${label}-label`}>
-          {icon && <div className="mr-2 flex h-4 w-4 items-center">{icon?.()}</div> }
-          {label}
-        </React.Fragment>
-      );
-      return subOptions ? (
-        <React.Fragment key={`${label}-sub`}>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>{menuItem}</DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent className="w-48">
-                {generateItemsRecursively(subOptions)}
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          { separator && <DropdownMenuSeparator /> }
-        </React.Fragment>
-      ) : (
-        <React.Fragment key={`${label}-item`}>
-          { 
-            checkbox ? 
-            <DropdownMenuCheckboxItem 
-              onClick={onClick} 
-              checked={checkbox.value}
-              onCheckedChange={checkbox.setValue}
-              disabled={checkbox.disabled}
-            >
-              {menuItem}
-            </DropdownMenuCheckboxItem>:
-            <DropdownMenuItem onClick={onClick}>
-              {menuItem}
-            </DropdownMenuItem>
-          }
-          { separator && <DropdownMenuSeparator /> }
-        </React.Fragment>
-      );
-    });
-  };
 
   return (
     <TableCell
@@ -133,8 +84,8 @@ export const ModelTableActionCell = ({
             <DropdownMenuContent className="w-48">
               <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {contextOptions?.length ? (
-                generateItemsRecursively(contextOptions)
+              {quickActions ? (
+                quickActions(defaultValues ?? {})
               ) : (
                 <DropdownMenuItem disabled>No Options</DropdownMenuItem>
               )}
