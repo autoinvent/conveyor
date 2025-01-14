@@ -1,6 +1,9 @@
+## 1.10.2
+`feature`: `FieldVisibility` now accepts the `children` prop to allow a custom dropdown button.
+`feature`: `EnumInput` can now be passed options/value of type `ReactNode` for more customizability.   
+
 ## 1.10.1
 `bugfix`: z-index of select components were using `react-select`'s default z-index and not the override version. 
-
 
 ## 1.10.0
 - `feature`: Can now set which rows are "selected" to trigger its selected-row background color. 
