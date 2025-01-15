@@ -22,7 +22,7 @@ export const ModelTableActionHead = ({
     <TableHead
       className={cn(
         'sticky right-0 bg-inherit shadow-left',
-        rendered ? 'w-full' : 'w-24',
+        rendered ? 'w-full' : 'w-0',
         className,
       )}
       columnId={ACTION_COLUMN}
