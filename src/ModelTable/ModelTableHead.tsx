@@ -32,11 +32,11 @@ export const ModelTableHead = ({
     (state) => state.columnOptions?.[field]?.width,
   );
 
-  // set width to apply during initial table render
-  const [onLoadWidth, setOnLoadWidth] = useState(width && width + 32);
-  useEffect(() => {
+  // set width for table cell when table-fixed is sizing, then remove
+  const [onLoadWidth, setOnLoadWidth] = useState<number|undefined>(width); 
+  useEffect( () => {
     setOnLoadWidth(undefined);
-  }, []);
+  }, [])
 
   return (
     <DndSortableWrapper draggable={draggable} dndId={field}>

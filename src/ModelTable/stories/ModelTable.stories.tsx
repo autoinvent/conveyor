@@ -24,39 +24,42 @@ const meta = {
     fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
     fieldOrder: [], // dummy
     onFieldOrderChange: () => null, // dummy
+    tableOptions: {
+      readOnly: true
+    },
     data: [
       {
         id: '1',
         message: 'Make Table Scrollable',
-        user: { id: '00000001', displayValue: 'robxbob' },
+        user: { id: '00000001', displayValue: 'robxboasdasdasdasdasdasdb' },
         created_at: '2024-07-10T01:56:34.926365',
         points: 1,
         done: true,
       },
-      {
-        id: '2',
-        message: 'Resizable Columns',
-        user: { id: '00000002', displayValue: 'nicklitvin' },
-        created_at: '2024-08-01T01:56:34.926365',
-        points: 3,
-        done: null,
-      },
-      {
-        id: '3',
-        message: 'Feature: Column DnD',
-        user: { id: '00000001', displayValue: 'robxbob' },
-        created_at: '2024-07-29T01:56:34.926365',
-        points: 4,
-        done: true,
-      },
-      {
-        id: '4',
-        message: 'Feature: React Select',
-        user: { id: '00000003', displayValue: 'cmacgray14' },
-        created_at: '2024-08-14T01:56:34.926365',
-        points: 2,
-        done: false,
-      },
+      // {
+      //   id: '2',
+      //   message: 'Resizable Columns',
+      //   user: { id: '00000002', displayValue: 'nicklitvin' },
+      //   created_at: '2024-08-01T01:56:34.926365',
+      //   points: 3,
+      //   done: null,
+      // },
+      // {
+      //   id: '3',
+      //   message: 'Feature: Column DnD',
+      //   user: { id: '00000001', displayValue: 'robxbob' },
+      //   created_at: '2024-07-29T01:56:34.926365',
+      //   points: 4,
+      //   done: true,
+      // },
+      // {
+      //   id: '4',
+      //   message: 'Feature: React Select',
+      //   user: { id: '00000003', displayValue: 'cmacgray14' },
+      //   created_at: '2024-08-14T01:56:34.926365',
+      //   points: 2,
+      //   done: false,
+      // },
     ],
     columnOptions: {
       id: {
@@ -75,6 +78,7 @@ const meta = {
             { displayValue: 'None', id: null },
           ],
         },
+        width: 200
       },
       message: {
         required: true,
@@ -85,11 +89,13 @@ const meta = {
       },
       points: {
         type: FieldType.INT,
+        hidden: true
       },
       done: {
         label: 'FINISHED 🏁',
         type: FieldType.BOOLEAN,
         hidable: false,
+        hidden: true
       },
     },
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 2000)),

@@ -80,13 +80,14 @@ export const ModelTableHeadMenu = ({
         onPointerDown={(e) => {
           e.preventDefault();
         }}
+        className='bg-red-200'
         asChild
       >
         <DropdownMenuTriggerWithoutListener>
           <Button
             variant="ghost"
             size="sm"
-            className="h-8 data-[state=open]:bg-accent"
+            className='mx-4 my-2 h-8 data-[state=open]:bg-accent'
             onClick={() => {
               setOpenMenu(!openMenu);
             }}
