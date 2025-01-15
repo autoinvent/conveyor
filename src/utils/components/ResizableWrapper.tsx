@@ -32,7 +32,7 @@ export const ResizableWrapper = ({
         newWidth = ref.current?.scrollWidth;
       }
       setIsResizing(false);
-      // div should snap to full width of header cell if cells are wider
+      // div should snap to full width of header cell if resized too small
       const parentWidth =
         ref.current?.parentElement?.getBoundingClientRect().width;
       if (parentWidth) setCurrentWidth(parentWidth);
@@ -60,11 +60,20 @@ export const ResizableWrapper = ({
     }
   }, []);
 
+  // readjust div width if specificied width is impossible (only gets called once)
+  useEffect( () => {
+    const parentCellWidth = ref.current?.parentElement?.getBoundingClientRect().width;
+    if (!width && parentCellWidth && currentWidth && parentCellWidth > currentWidth) {
+      console.log('a')
+      setCurrentWidth(parentCellWidth)
+    }
+  }, [width, currentWidth])
+
   const columnWidth = currentWidth && currentWidth + deltaX;
 
   return resizable ? (
     <div
-      className='relative h-full select-none bg-purple-200'
+      className='relative h-full select-none'
       style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >
@@ -74,10 +83,6 @@ export const ResizableWrapper = ({
         onMouseDown={(e) => {
           e.stopPropagation();
           setIsResizing(true);
-          // width of div in header should be w-full if table cells cannot be made any smaller
-          // const parentWidth =
-          //   ref.current?.parentElement?.getBoundingClientRect().width;
-          // if (parentWidth) setCurrentWidth(parentWidth);
           setClientX(e.clientX);
           const allElements = document.querySelectorAll('*');
           for (const element of allElements) {
@@ -85,7 +90,7 @@ export const ResizableWrapper = ({
           }
         }}
       >
-        <div className="absolute inset-x-1/3 inset-y-1/4 rounded bg-green-200" />
+        <div className="absolute inset-x-1/3 inset-y-1/4 rounded bg-border" />
       </div>
     </div>
   ) : (

@@ -32,7 +32,7 @@ export const ModelTableHead = ({
     (state) => state.columnOptions?.[field]?.width,
   );
 
-  // set width for table cell when table-fixed is sizing, then remove
+  // set width table styles to render columns and for resizable wrapper
   const [onLoadWidth, setOnLoadWidth] = useState<number|undefined>(width); 
   useEffect( () => {
     setOnLoadWidth(undefined);
@@ -47,7 +47,7 @@ export const ModelTableHead = ({
       >
         <ResizableWrapper
           resizable={resizable}
-          width={width}
+          width={onLoadWidth}
           onWidthChange={(width) => onWidthChange?.({ field, width })}
         >
           {children === undefined ? (

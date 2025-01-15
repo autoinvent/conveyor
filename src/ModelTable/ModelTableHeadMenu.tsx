@@ -80,7 +80,6 @@ export const ModelTableHeadMenu = ({
         onPointerDown={(e) => {
           e.preventDefault();
         }}
-        className='bg-red-200'
         asChild
       >
         <DropdownMenuTriggerWithoutListener>

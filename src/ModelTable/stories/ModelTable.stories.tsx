@@ -25,13 +25,13 @@ const meta = {
     fieldOrder: [], // dummy
     onFieldOrderChange: () => null, // dummy
     tableOptions: {
-      readOnly: true
+      // readOnly: true
     },
     data: [
       {
         id: '1',
         message: 'Make Table Scrollable',
-        user: { id: '00000001', displayValue: 'robxboasdasdasdasdasdasdb' },
+        user: { id: '00000001', displayValue: 'robxbob' },
         created_at: '2024-07-10T01:56:34.926365',
         points: 1,
         done: true,
@@ -89,13 +89,11 @@ const meta = {
       },
       points: {
         type: FieldType.INT,
-        hidden: true
       },
       done: {
         label: 'FINISHED 🏁',
         type: FieldType.BOOLEAN,
         hidable: false,
-        hidden: true
       },
     },
     onUpdate: () => new Promise((resolve) => setTimeout(resolve, 2000)),
