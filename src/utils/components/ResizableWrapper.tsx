@@ -32,7 +32,8 @@ export const ResizableWrapper = ({
         newWidth = ref.current?.scrollWidth;
       }
       setIsResizing(false);
-      // div should snap to full width of header cell if resized too small
+
+      // div should snap to max of full width of header cell if resized too small
       const parentWidth =
         ref.current?.parentElement?.getBoundingClientRect().width;
       if (parentWidth) setCurrentWidth(parentWidth);
@@ -64,16 +65,25 @@ export const ResizableWrapper = ({
   useEffect( () => {
     const parentCellWidth = ref.current?.parentElement?.getBoundingClientRect().width;
     if (!width && parentCellWidth && currentWidth && parentCellWidth > currentWidth) {
-      console.log('a')
       setCurrentWidth(parentCellWidth)
     }
   }, [width, currentWidth])
 
-  const columnWidth = currentWidth && currentWidth + deltaX;
+    
+  const columnWidth = Math.max( 
+    currentWidth ? currentWidth + deltaX : 0,
+    ref.current?.firstElementChild?.getBoundingClientRect().width ?? 0,
+    // (
+    //   ref.current?.parentElement?.getBoundingClientRect().width && ref.current?.firstElementChild?.getBoundingClientRect().width &&
+    //   ref.current?.parentElement?.getBoundingClientRect().width < ref.current?.firstElementChild?.getBoundingClientRect().width ?
+    //   ref.current?.parentElement?.getBoundingClientRect().width :
+    //   0
+    // )
+  )
 
   return resizable ? (
     <div
-      className='relative h-full select-none'
+      className='relative h-full select-none bg-red-200'
       style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >
