@@ -33,10 +33,10 @@ export const ModelTableHead = ({
   );
 
   // set width table styles to render columns and for resizable wrapper
-  const [onLoadWidth, setOnLoadWidth] = useState<number|undefined>(width); 
-  useEffect( () => {
+  const [onLoadWidth, setOnLoadWidth] = useState<number | undefined>(width);
+  useEffect(() => {
     setOnLoadWidth(undefined);
-  }, [])
+  }, []);
 
   return (
     <DndSortableWrapper draggable={draggable} dndId={field}>

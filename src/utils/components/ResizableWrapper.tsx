@@ -62,34 +62,33 @@ export const ResizableWrapper = ({
   }, []);
 
   // readjust div width if specificied width is impossible (only gets called once)
-  useEffect( () => {
-    const parentCellWidth = ref.current?.parentElement?.getBoundingClientRect().width;
-    if (!width && parentCellWidth && currentWidth && parentCellWidth > currentWidth) {
-      setCurrentWidth(parentCellWidth)
+  useEffect(() => {
+    const parentCellWidth =
+      ref.current?.parentElement?.getBoundingClientRect().width;
+    if (
+      !width &&
+      parentCellWidth &&
+      currentWidth &&
+      parentCellWidth > currentWidth
+    ) {
+      setCurrentWidth(parentCellWidth);
     }
-  }, [width, currentWidth])
+  }, [width, currentWidth]);
 
-    
-  const columnWidth = Math.max( 
+  const columnWidth = Math.max(
     currentWidth ? currentWidth + deltaX : 0,
     ref.current?.firstElementChild?.getBoundingClientRect().width ?? 0,
-    // (
-    //   ref.current?.parentElement?.getBoundingClientRect().width && ref.current?.firstElementChild?.getBoundingClientRect().width &&
-    //   ref.current?.parentElement?.getBoundingClientRect().width < ref.current?.firstElementChild?.getBoundingClientRect().width ?
-    //   ref.current?.parentElement?.getBoundingClientRect().width :
-    //   0
-    // )
-  )
+  );
 
   return resizable ? (
     <div
-      className='relative h-full select-none bg-red-200'
+      className="relative h-full select-none"
       style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >
       {children}
       <div
-        className='absolute inset-y-0 top-0 right-0 w-2 cursor-ew-resize select-none'
+        className="absolute inset-y-0 top-0 right-0 w-2 cursor-ew-resize select-none"
         onMouseDown={(e) => {
           e.stopPropagation();
           setIsResizing(true);
