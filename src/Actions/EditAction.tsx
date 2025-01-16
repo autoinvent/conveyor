@@ -11,7 +11,9 @@ import { useGetActionParams } from './useGetActionParams';
 export interface EditActionProps extends ComponentProps<typeof Button> {}
 
 export const EditAction = ({
-  children = <SquarePen className="h-4 w-4" />,
+  size,
+  variant = size === 'icon' ? 'ghost' : 'default',
+  children = size === 'icon' ? <SquarePen className="h-4 w-4" /> : 'Edit',
   ...buttonProps
 }: EditActionProps) => {
   const onEditProp = useActionStore((state) => state.actions?.[Action.EDIT]);
@@ -22,12 +24,14 @@ export const EditAction = ({
   return (
     onEditHandler && (
       <Button
-        variant="ghost"
-        size="icon"
+        variant={variant}
+        size={size}
         onClick={onEdit}
         onKeyUp={(e) => e.key === 'Enter' && onEdit()}
         {...buttonProps}
-      />
+      >
+        {children}
+      </Button>
     )
   );
 };

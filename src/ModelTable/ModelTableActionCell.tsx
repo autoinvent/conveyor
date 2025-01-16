@@ -9,7 +9,7 @@ import { DataLens } from '@/types';
 
 import { ACTION_COLUMN } from './ModelTable';
 import { DeleteAction } from '@/Actions/DeleteAction';
-import { UpdateAction } from '@/Actions/UpdateAction';
+import { SubmitAction } from '@/Actions/SubmitAction';
 import { CancelEditAction } from '@/Actions/CancelEditAction';
 import { EditAction } from '@/Actions/EditAction';
 
@@ -32,15 +32,15 @@ export const ModelTableActionCell = ({
       {children === undefined ? (
         <div className="space-x-1 whitespace-nowrap">
           <Lens lens={!isSubmitting && DataLens.DISPLAY}>
-            <EditAction />
-            <DeleteAction />
+            <EditAction size="icon" />
+            <DeleteAction size="icon" />
           </Lens>
           <Lens lens={!isSubmitting && DataLens.INPUT}>
-            <UpdateAction />
-            <CancelEditAction />
+            <SubmitAction size="icon" />
+            <CancelEditAction size="icon" />
           </Lens>
           {isSubmitting && (
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="w-full">
               <LoaderCircle className="h-4 w-4 animate-spin" />
             </Button>
           )}

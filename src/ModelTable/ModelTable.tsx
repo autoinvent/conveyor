@@ -19,7 +19,7 @@ import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
-import { ActionStoreProvider } from '@/Actions/ActionContext';
+import { type ActionState, ActionStoreProvider } from '@/Actions/ActionContext';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 
@@ -28,8 +28,10 @@ export interface ModelTableProps<
   F extends string,
   DT extends D,
   FT extends F,
-> extends ModelTableState<D, F, DT, FT>,
-    Omit<TableProps<D>, 'columnIds' | 'data'> {}
+> extends ModelTableState<D, F, FT>,
+    Omit<TableProps<D>, 'columnIds' | 'data'> {
+  actionOptions?: ActionState<DT>;
+}
 
 export const ModelTable = Object.assign(
   <D extends DataType, F extends string, DT extends D, FT extends F>({

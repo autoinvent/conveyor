@@ -14,29 +14,27 @@ import {
   type ModelFormState,
   ModelFormStoreProvider,
 } from './ModelFormStoreContext';
+import { ActionStoreProvider, type ActionState } from '@/Actions/ActionContext';
 
 export interface ModelFormProps<
   D extends DataType,
   F extends string,
   DT extends D,
   FT extends F,
-> extends ModelFormState<D, F, DT, FT>,
+> extends ModelFormState<D, F, FT>,
     Omit<ComponentProps<'form'>, 'onSubmit'>,
-    Partial<Omit<UseFormProps, 'deafultValues' | 'values'>> {}
+    Partial<Omit<UseFormProps, 'deafultValues' | 'values'>> {
+  actionOptions?: ActionState<DT>;
+}
 
 export const ModelForm = Object.assign(
   <D extends DataType, F extends string, DT extends D, FT extends F>({
     data,
     id = data?.id || useId(),
+    actionOptions,
     model,
     fields,
     fieldOptions,
-    onCreate,
-    onDelete,
-    onUpdate,
-    onEdit,
-    onCancelEdit,
-    readOnly,
     initialLens,
     resolver,
     mode = 'onSubmit',
@@ -70,33 +68,29 @@ export const ModelForm = Object.assign(
         fields={fields}
         fieldOptions={fieldOptions}
         data={data}
-        onCreate={onCreate}
-        onDelete={onDelete}
-        onUpdate={onUpdate}
-        onEdit={onEdit}
-        onCancelEdit={onCancelEdit}
-        readOnly={readOnly}
         initialLens={initialLens}
       >
-        <form
-          id={id}
-          className={cn('space-y-4', className)}
-          onSubmit={(e) => e.preventDefault()}
-          {...formProps}
-        >
-          <Lenses initialLens={initialLens}>
-            <FormStoreProvider id={id} {...formMethods}>
-              {children === undefined ? (
-                <>
-                  <ModelFormContent />
-                  <ModelFormActions />
-                </>
-              ) : (
-                children
-              )}
-            </FormStoreProvider>
-          </Lenses>
-        </form>
+        <ActionStoreProvider {...actionOptions}>
+          <form
+            id={id}
+            className={cn('space-y-4', className)}
+            onSubmit={(e) => e.preventDefault()}
+            {...formProps}
+          >
+            <Lenses initialLens={initialLens}>
+              <FormStoreProvider id={id} {...formMethods}>
+                {children === undefined ? (
+                  <>
+                    <ModelFormContent />
+                    <ModelFormActions />
+                  </>
+                ) : (
+                  children
+                )}
+              </FormStoreProvider>
+            </Lenses>
+          </form>
+        </ActionStoreProvider>
       </ModelFormStoreProvider>
     );
   },

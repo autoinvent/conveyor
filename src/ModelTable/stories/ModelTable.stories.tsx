@@ -86,7 +86,7 @@ const meta = {
     },
     actionOptions: {
       actions: {
-        [Action.UPDATE]: () =>
+        [Action.SUBMIT]: () =>
           new Promise((resolve) => setTimeout(resolve, 2000)),
         [Action.DELETE]: () =>
           new Promise((resolve) => setTimeout(resolve, 2000)),
@@ -107,8 +107,8 @@ const meta = {
       useState<TableView['sort']>(undefined);
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
 
-    const onUpdateHandler = async (params: ActionParams<DataType>) => {
-      await actionOptions?.actions?.[Action.UPDATE]?.(params);
+    const onSubmitHandler = async (params: ActionParams<DataType>) => {
+      await actionOptions?.actions?.[Action.SUBMIT]?.(params);
       const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
@@ -154,7 +154,7 @@ const meta = {
         }}
         actionOptions={{
           actions: {
-            [Action.UPDATE]: onUpdateHandler,
+            [Action.SUBMIT]: onSubmitHandler,
             [Action.DELETE]: onDeleteHandler,
           },
         }}

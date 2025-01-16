@@ -9,12 +9,14 @@ import { useActionStore } from './useActionStore';
 import { Action } from './ActionContext';
 import { useGetActionParams } from './useGetActionParams';
 
-export interface UpdateActionProps extends ComponentProps<typeof Button> {}
+export interface DeleteActionProps extends ComponentProps<typeof Button> {}
 
 export const DeleteAction = ({
-  children = <Trash2 className="h-4 w-4" />,
+  size,
+  variant = size === 'icon' ? 'ghost-destructive' : 'destructive',
+  children = size === 'icon' ? <Trash2 className="h-4 w-4" /> : 'Delete',
   ...buttonProps
-}: UpdateActionProps) => {
+}: DeleteActionProps) => {
   const getActionParams = useGetActionParams();
   const handleSubmit = useFormStore((state) => state.handleSubmit);
   const onDelete = useActionStore((state) => state.actions?.[Action.DELETE]);
@@ -26,12 +28,14 @@ export const DeleteAction = ({
   return (
     onDelete && (
       <Button
-        variant="ghost-destructive"
-        size="icon"
+        variant={variant}
+        size={size}
         onClick={onDeleteHandler}
         onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
         {...buttonProps}
-      />
+      >
+        {children}
+      </Button>
     )
   );
 };

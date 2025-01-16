@@ -1,4 +1,5 @@
 import {
+  type ComponentProps,
   type ReactNode,
   createContext,
   useEffect,
@@ -9,9 +10,10 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 
 import type { DataType } from '@/types';
+import type { Button } from '@/lib/components/ui/button';
 
 export enum Action {
-  UPDATE = 'UPDATE',
+  SUBMIT = 'SUBMIT',
   DELETE = 'DELETE',
   EDIT = 'EDIT',
   CANCEL_EDIT = 'CANCEL_EDIT',
@@ -32,9 +34,14 @@ export type ActionsType<D extends DataType> = Partial<
   Record<Action, OnActionTrigger<ActionParams<D>, void> | null>
 >;
 
+export type ActionsPropsType = Partial<
+  Record<Action, ComponentProps<typeof Button>>
+>;
+
 export interface ActionState<D extends DataType> {
   showActions?: boolean;
   actions?: ActionsType<D>;
+  actionProps?: ActionsPropsType;
 }
 
 export const ActionStoreContext = createContext<

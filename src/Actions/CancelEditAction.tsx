@@ -11,7 +11,9 @@ import { useGetActionParams } from './useGetActionParams';
 export interface CancelEditActionProps extends ComponentProps<typeof Button> {}
 
 export const CancelEditAction = ({
-  children = <X className="h-4 w-4" />,
+  size,
+  variant = size === 'icon' ? 'ghost' : 'outline',
+  children = size === 'icon' ? <X className="h-4 w-4" /> : 'Cancel',
   ...buttonProps
 }: CancelEditActionProps) => {
   const onCancelEditProp = useActionStore(
@@ -25,12 +27,14 @@ export const CancelEditAction = ({
   return (
     onCancelEditHandler && (
       <Button
-        variant="ghost"
-        size="icon"
+        variant={variant}
+        size={size}
         onClick={onCancelEdit}
         onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
         {...buttonProps}
-      />
+      >
+        {children}
+      </Button>
     )
   );
 };

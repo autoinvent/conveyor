@@ -20,7 +20,7 @@ export const ModelTableCell = ({
 }: ModelTableCellProps) => {
   const { setLens, activeLens } = useLensesStore();
   const showActions = useActionStore((state) => state.showActions);
-  const onUpdate = useActionStore((state) => state.actions?.UPDATE);
+  const onSubmit = useActionStore((state) => state.actions?.SUBMIT);
   const draggable = useModelTableStore(
     (state) => state.tableOptions?.draggable ?? true,
   );
@@ -63,7 +63,7 @@ export const ModelTableCell = ({
             editable &&
             activeLens === DataLens.DISPLAY &&
             !isSubmitting &&
-            onUpdate
+            onSubmit
           ) {
             setLens(DataLens.INPUT);
           }
