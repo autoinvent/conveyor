@@ -39,7 +39,7 @@ const meta = {
     const [perPage, setPerPage] = useState<number | undefined>(10);
 
     const onUpdateHandler = async (params: ActionParams<DataType>) => {
-      await actionOptions?.[Action.UPDATE]?.(params);
+      await actionOptions?.actions?.[Action.UPDATE]?.(params);
       const id = params?.data?.id;
       console.log(params);
       if (id) {
@@ -57,7 +57,7 @@ const meta = {
     };
 
     const onDeleteHandler = async (params: ActionParams<DataType>) => {
-      await actionOptions?.[Action.DELETE]?.(params);
+      await actionOptions?.actions?.[Action.DELETE]?.(params);
       const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
@@ -114,8 +114,10 @@ const meta = {
             }}
             columnOptions={columnOptions}
             actionOptions={{
-              [Action.UPDATE]: onUpdateHandler,
-              [Action.DELETE]: onDeleteHandler,
+              actions: {
+                [Action.UPDATE]: onUpdateHandler,
+                [Action.DELETE]: onDeleteHandler,
+              },
             }}
             {...args}
           >

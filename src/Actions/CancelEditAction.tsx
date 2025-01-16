@@ -14,7 +14,9 @@ export const CancelEditAction = ({
   children = <X className="h-4 w-4" />,
   ...buttonProps
 }: CancelEditActionProps) => {
-  const onCancelEditProp = useActionStore((state) => state[Action.CANCEL_EDIT]);
+  const onCancelEditProp = useActionStore(
+    (state) => state.actions?.[Action.CANCEL_EDIT],
+  );
   const getActionParams = useGetActionParams();
   const { onCancelEdit } = getActionParams({});
   const onCancelEditHandler =

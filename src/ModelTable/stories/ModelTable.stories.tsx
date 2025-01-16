@@ -85,10 +85,12 @@ const meta = {
       },
     },
     actionOptions: {
-      [Action.UPDATE]: () =>
-        new Promise((resolve) => setTimeout(resolve, 2000)),
-      [Action.DELETE]: () =>
-        new Promise((resolve) => setTimeout(resolve, 2000)),
+      actions: {
+        [Action.UPDATE]: () =>
+          new Promise((resolve) => setTimeout(resolve, 2000)),
+        [Action.DELETE]: () =>
+          new Promise((resolve) => setTimeout(resolve, 2000)),
+      },
     },
   },
   render: ({
@@ -106,7 +108,7 @@ const meta = {
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
 
     const onUpdateHandler = async (params: ActionParams<DataType>) => {
-      await actionOptions?.[Action.UPDATE]?.(params);
+      await actionOptions?.actions?.[Action.UPDATE]?.(params);
       const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
@@ -123,7 +125,7 @@ const meta = {
     };
 
     const onDeleteHandler = async (params: ActionParams<DataType>) => {
-      await actionOptions?.[Action.DELETE]?.(params);
+      await actionOptions?.actions?.[Action.DELETE]?.(params);
       const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
@@ -151,8 +153,10 @@ const meta = {
           onSortOrderChange,
         }}
         actionOptions={{
-          [Action.UPDATE]: onUpdateHandler,
-          [Action.DELETE]: onDeleteHandler,
+          actions: {
+            [Action.UPDATE]: onUpdateHandler,
+            [Action.DELETE]: onDeleteHandler,
+          },
         }}
         {...args}
       />
@@ -179,8 +183,8 @@ export const NoData: Story = {
 
 export const ReadOnly: Story = {
   args: {
-    tableOptions: {
-      readOnly: true,
+    actionOptions: {
+      showActions: false,
     },
   },
 };
@@ -209,7 +213,7 @@ export const OnUpdateIsUndefined: Story = {
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
 
     const onDeleteHandler = async (params: ActionParams<DataType>) => {
-      await actionOptions?.[Action.DELETE]?.(params);
+      await actionOptions?.actions?.[Action.DELETE]?.(params);
       const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
@@ -237,7 +241,9 @@ export const OnUpdateIsUndefined: Story = {
           onSortOrderChange,
         }}
         actionOptions={{
-          [Action.DELETE]: onDeleteHandler,
+          actions: {
+            [Action.DELETE]: onDeleteHandler,
+          },
         }}
         {...args}
       />

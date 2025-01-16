@@ -17,7 +17,7 @@ export const DeleteAction = ({
 }: UpdateActionProps) => {
   const getActionParams = useGetActionParams();
   const handleSubmit = useFormStore((state) => state.handleSubmit);
-  const onDelete = useActionStore((state) => state[Action.DELETE]);
+  const onDelete = useActionStore((state) => state.actions?.[Action.DELETE]);
 
   const onDeleteHandler = handleSubmit(async () => {
     await onDelete?.(getActionParams({}));

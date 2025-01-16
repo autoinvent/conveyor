@@ -45,12 +45,16 @@ export const ModelTable = Object.assign(
     children,
     ...tableProps
   }: ModelTableProps<D, F, DT, FT>) => {
-    const { readOnly, draggable, bordered, scrollable } = tableOptions ?? {};
+    const { draggable, bordered, scrollable } = tableOptions ?? {};
     const tableColumns = [...fieldOrder].filter(
       (field) => !columnOptions?.[field]?.hidden,
     );
     // Action Columnn
-    if (fieldOrder.length > 0 && !readOnly && data.length > 0) {
+    if (
+      fieldOrder.length > 0 &&
+      actionOptions?.showActions !== false &&
+      data.length > 0
+    ) {
       tableColumns.push(ACTION_COLUMN as FT);
     }
     const [rendered, setRendered] = useState<boolean>(false);

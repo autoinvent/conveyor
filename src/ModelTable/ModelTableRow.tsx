@@ -11,6 +11,7 @@ import { ModelTableActionCell } from './ModelTableActionCell';
 import { ModelTableCell } from './ModelTableCell';
 import { ModelTableErrorRow } from './ModelTableErrorRow';
 import { useModelTableStore } from './useModelTableStore';
+import { useActionStore } from '@/Actions/useActionStore';
 
 export interface ModelTableRowProps extends TableRowProps {}
 
@@ -21,7 +22,7 @@ export const ModelTableRow = ({
 }: ModelTableRowProps) => {
   const fields = useModelTableStore((state) => state.fields);
   const fieldOrder = useModelTableStore((state) => state.fieldOrder);
-  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
+  const showActions = useActionStore((state) => state.showActions);
   const draggable = useModelTableStore(
     (state) => state.tableOptions?.draggable,
   );
@@ -55,7 +56,7 @@ export const ModelTableRow = ({
                 {fields.map((field) => (
                   <ModelTableCell key={field} field={field} />
                 ))}
-                {!readOnly && <ModelTableActionCell />}
+                {showActions !== false && <ModelTableActionCell />}
                 {children}
               </>
             ) : (

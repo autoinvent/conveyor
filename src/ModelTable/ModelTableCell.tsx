@@ -7,6 +7,7 @@ import { DataLens, ScalarType } from '@/types';
 import { DndSortableWrapper, humanizeText } from '@/utils';
 
 import { useModelTableStore } from './useModelTableStore';
+import { useActionStore } from '@/Actions/useActionStore';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
   field: string;
@@ -18,7 +19,8 @@ export const ModelTableCell = ({
   ...tableCellProps
 }: ModelTableCellProps) => {
   const { setLens, activeLens } = useLensesStore();
-  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
+  const showActions = useActionStore((state) => state.showActions);
+  const onUpdate = useActionStore((state) => state.actions?.UPDATE);
   const draggable = useModelTableStore(
     (state) => state.tableOptions?.draggable ?? true,
   );
@@ -31,7 +33,6 @@ export const ModelTableCell = ({
   const editable = useModelTableStore(
     (state) => state.columnOptions?.[field]?.editable ?? true,
   );
-  const onUpdate = useModelTableStore((state) => state.onUpdate);
   const rules = useModelTableStore(
     (state) => state.columnOptions?.[field]?.rules,
   );
@@ -58,7 +59,7 @@ export const ModelTableCell = ({
         columnId={field}
         onDoubleClick={() => {
           if (
-            !readOnly &&
+            showActions !== false &&
             editable &&
             activeLens === DataLens.DISPLAY &&
             !isSubmitting &&

@@ -21,7 +21,6 @@ export interface ColumnOptions extends FieldOptions {
 
 export interface TableOptions<F extends string> {
   sortOrder?: TableView['sort']; // Order + value of the field sort
-  readOnly?: boolean;
   scrollable?: boolean | { className: string }; // Wraps the table with ScrollArea
   draggable?: boolean; // Wraps the table with DnDContext
   bordered?: boolean | { className: string }; // Wraps the table with div to add bordered styles

@@ -18,7 +18,7 @@ export const UpdateAction = ({
 }: UpdateActionProps) => {
   const getActionParams = useGetActionParams();
   const handleSubmit = useFormStore((state) => state.handleSubmit);
-  const onUpdate = useActionStore((state) => state[Action.UPDATE]);
+  const onUpdate = useActionStore((state) => state.actions?.[Action.UPDATE]);
 
   const onUpdateHandler = handleSubmit(async (formData: DataType) => {
     await onUpdate?.(getActionParams(formData));

@@ -14,7 +14,7 @@ export const EditAction = ({
   children = <SquarePen className="h-4 w-4" />,
   ...buttonProps
 }: EditActionProps) => {
-  const onEditProp = useActionStore((state) => state[Action.EDIT]);
+  const onEditProp = useActionStore((state) => state.actions?.[Action.EDIT]);
   const getActionParams = useGetActionParams();
   const { onEdit } = getActionParams({});
   const onEditHandler = onEditProp === undefined ? onEdit : onEditProp;

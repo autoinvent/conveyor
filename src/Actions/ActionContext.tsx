@@ -28,9 +28,14 @@ export interface ActionParams<D extends DataType> {
   onCancelEdit: () => void;
 }
 
-export type ActionState<D extends DataType> = Partial<
+export type ActionsType<D extends DataType> = Partial<
   Record<Action, OnActionTrigger<ActionParams<D>, void> | null>
 >;
+
+export interface ActionState<D extends DataType> {
+  showActions?: boolean;
+  actions?: ActionsType<D>;
+}
 
 export const ActionStoreContext = createContext<
   StoreApi<ActionState<any>> | undefined
