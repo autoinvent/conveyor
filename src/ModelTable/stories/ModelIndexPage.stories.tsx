@@ -4,6 +4,7 @@ import { Plus } from 'lucide-react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Action, type ActionParams } from '@/Actions/ActionContext';
 import { RawDisplay } from '@/BasicDisplays';
 import { Conveyor } from '@/Conveyor';
 import { FormDisplay } from '@/Form';
@@ -15,7 +16,6 @@ import { type DataType, ScalarType, type TableView } from '@/types';
 
 import { FieldVisibility } from '../FieldVisibility';
 import { ModelTable } from '../ModelTable';
-import { Action, type ActionParams } from '@/Actions/ActionContext';
 
 const meta = {
   title: 'Models/ModelTable/ModelIndexPage',

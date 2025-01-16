@@ -9,8 +9,8 @@ import {
 
 import { type StoreApi, createStore } from 'zustand';
 
-import type { DataType } from '@/types';
 import type { Button } from '@/lib/components/ui/button';
+import type { DataType } from '@/types';
 
 export enum Action {
   SUBMIT = 'SUBMIT',

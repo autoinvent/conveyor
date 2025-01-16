@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { type ActionState, ActionStoreProvider } from '@/Actions/ActionContext';
 import { Table, type TableProps } from '@/Table';
 import { cn } from '@/lib/utils';
 import type { DataType } from '@/types';
@@ -19,7 +20,6 @@ import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
-import { type ActionState, ActionStoreProvider } from '@/Actions/ActionContext';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 

@@ -1,5 +1,9 @@
 import { LoaderCircle } from 'lucide-react';
 
+import { CancelEditAction } from '@/Actions/CancelEditAction';
+import { DeleteAction } from '@/Actions/DeleteAction';
+import { EditAction } from '@/Actions/EditAction';
+import { SubmitAction } from '@/Actions/SubmitAction';
 import { useFormStore } from '@/Form';
 import { Lens } from '@/Lenses';
 import { TableCell, type TableCellProps } from '@/Table';
@@ -8,10 +12,6 @@ import { cn } from '@/lib/utils';
 import { DataLens } from '@/types';
 
 import { ACTION_COLUMN } from './ModelTable';
-import { DeleteAction } from '@/Actions/DeleteAction';
-import { SubmitAction } from '@/Actions/SubmitAction';
-import { CancelEditAction } from '@/Actions/CancelEditAction';
-import { EditAction } from '@/Actions/EditAction';
 
 export interface ModelTableActionCellProps
   extends Omit<TableCellProps, 'columnId'> {}

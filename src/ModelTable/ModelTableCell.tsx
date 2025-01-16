@@ -1,3 +1,4 @@
+import { useActionStore } from '@/Actions/useActionStore';
 import { useConveyorStore } from '@/Conveyor';
 import { FormDisplay, useFormStore } from '@/Form';
 import { FormControl } from '@/Form/FormControl';
@@ -7,7 +8,6 @@ import { DataLens, ScalarType } from '@/types';
 import { DndSortableWrapper, humanizeText } from '@/utils';
 
 import { useModelTableStore } from './useModelTableStore';
-import { useActionStore } from '@/Actions/useActionStore';
 
 export interface ModelTableCellProps extends Omit<TableCellProps, 'columnId'> {
   field: string;

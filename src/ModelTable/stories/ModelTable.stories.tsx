@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Action, type ActionParams } from '@/Actions/ActionContext';
 import { type DataType, FieldType, type TableView } from '@/types';
 
 import { ModelTable } from '../ModelTable';
-import { Action, type ActionParams } from '@/Actions/ActionContext';
 
 const meta = {
   title: 'Models/ModelTable/General',

@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Action } from '@/Actions/ActionContext';
 import { DataLens, type DataType, FieldType } from '@/types';
 
 import { ModelForm } from '../ModelForm';
-import { Action } from '@/Actions/ActionContext';
 
 const meta = {
   title: 'Models/ModelForm/General',

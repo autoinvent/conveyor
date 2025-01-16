@@ -1,6 +1,7 @@
 import { useFormStore } from '@/Form';
-import { DataLens, type DataType } from '@/types';
 import { useLensesStore } from '@/Lenses';
+import { DataLens, type DataType } from '@/types';
+
 import type { ActionParams } from './ActionContext';
 
 export const useGetActionParams = <D extends DataType>(): ((
