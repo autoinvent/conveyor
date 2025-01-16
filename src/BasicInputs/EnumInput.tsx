@@ -2,30 +2,35 @@ import {
   type ComponentPropsWithoutRef,
   type ElementRef,
   forwardRef,
-  type ReactNode,
 } from 'react';
+
+import type { SelectOption } from '@/types';
 
 import { SelectInput } from './SelectInput';
 
 export const EnumInput = forwardRef<
   ElementRef<typeof SelectInput>,
   Omit<ComponentPropsWithoutRef<typeof SelectInput>, 'value' | 'options'> & {
-    value?: ReactNode | ReactNode[];
-    options: ReactNode[];
+    value?: string | string[];
+    options: (string | SelectOption)[];
   }
 >(({ value, onChange, options, ...selectInputProps }, ref) => {
-  const nodeToOption = (node: ReactNode) => ({
-    label: node,
-    value: node,
+  const stringToOption = (str: string) => ({
+    label: str,
+    value: str,
   });
   return (
     <SelectInput
       ref={ref}
       value={
         value &&
-        (Array.isArray(value) ? value.map(nodeToOption) : nodeToOption(value))
+        (Array.isArray(value)
+          ? value.map(stringToOption)
+          : stringToOption(value))
       }
-      options={options?.map(nodeToOption)}
+      options={options?.map((option) =>
+        typeof option === 'string' ? stringToOption(option) : option,
+      )}
       onChange={(newValue, actionMeta) =>
         onChange?.(
           Array.isArray(newValue)

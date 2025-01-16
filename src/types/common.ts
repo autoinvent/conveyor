@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type DataType = Record<string, any>;
 
 export enum DataLens {
@@ -8,6 +10,6 @@ export enum DataLens {
 export type StoreSelector<TState, T> = (state: TState) => T;
 
 export type SelectOption = {
-  label: string;
+  label: ReactNode;
   value: any;
 };
