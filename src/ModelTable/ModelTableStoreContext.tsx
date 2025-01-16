@@ -9,13 +9,8 @@ import {
 import type { UseFormProps } from 'react-hook-form';
 import { type StoreApi, createStore } from 'zustand';
 
-import type {
-  DataType,
-  FieldOptions,
-  ID,
-  OnActionTrigger,
-  TableView,
-} from '@/types';
+import type { DataType, FieldOptions, ID, TableView } from '@/types';
+import type { ActionState } from '@/Actions/ActionContext';
 
 export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
@@ -54,8 +49,7 @@ export interface ModelTableState<
   tableOptions?: TableOptions<FT>;
   columnOptions?: Partial<Record<FT, ColumnOptions>>;
   formOptions?: FormOptions;
-  onUpdate?: OnActionTrigger<DT>;
-  onDelete?: OnActionTrigger<DT>;
+  actionOptions?: ActionState<DT>;
 }
 
 export const ModelTableStoreContext = createContext<

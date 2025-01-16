@@ -19,6 +19,7 @@ import {
   type ModelTableState,
   ModelTableStoreProvider,
 } from './ModelTableStoreContext';
+import { ActionStoreProvider } from '@/Actions/ActionContext';
 
 export const ACTION_COLUMN = '__ACTION_COLUMN__';
 
@@ -40,8 +41,7 @@ export const ModelTable = Object.assign(
     tableOptions,
     columnOptions,
     formOptions,
-    onUpdate,
-    onDelete,
+    actionOptions,
     children,
     ...tableProps
   }: ModelTableProps<D, F, DT, FT>) => {
@@ -69,48 +69,48 @@ export const ModelTable = Object.assign(
         tableOptions={tableOptions}
         columnOptions={columnOptions}
         formOptions={formOptions}
-        onUpdate={onUpdate}
-        onDelete={onDelete}
       >
-        <BorderWrapper
-          bordered={typeof bordered === 'object' ? true : bordered ?? true}
-          className={cn(typeof bordered === 'object' && bordered?.className)}
-        >
-          <DnDContextWrapper
-            draggable={draggable ?? true}
-            dndList={fieldOrder}
-            onDnDListChange={
-              onFieldOrderChange as (newFieldOrder: string[]) => void
-            }
+        <ActionStoreProvider {...actionOptions}>
+          <BorderWrapper
+            bordered={typeof bordered === 'object' ? true : bordered ?? true}
+            className={cn(typeof bordered === 'object' && bordered?.className)}
           >
-            <ScrollAreaWrapper
-              scrollable={
-                typeof scrollable === 'object' ? true : scrollable ?? true
+            <DnDContextWrapper
+              draggable={draggable ?? true}
+              dndList={fieldOrder}
+              onDnDListChange={
+                onFieldOrderChange as (newFieldOrder: string[]) => void
               }
-              className={cn(
-                typeof scrollable === 'object' && scrollable?.className,
-              )}
             >
-              <Table
-                ref={ref}
-                columnIds={tableColumns}
-                data={data}
-                className={cn(!rendered && 'w-full')}
-                {...tableProps}
-              >
-                {children === undefined ? (
-                  <>
-                    <ModelTableHeader />
-                    <ModelTableBody />
-                    <Table.Fallback />
-                  </>
-                ) : (
-                  children
+              <ScrollAreaWrapper
+                scrollable={
+                  typeof scrollable === 'object' ? true : scrollable ?? true
+                }
+                className={cn(
+                  typeof scrollable === 'object' && scrollable?.className,
                 )}
-              </Table>
-            </ScrollAreaWrapper>
-          </DnDContextWrapper>
-        </BorderWrapper>
+              >
+                <Table
+                  ref={ref}
+                  columnIds={tableColumns}
+                  data={data}
+                  className={cn(!rendered && 'w-full')}
+                  {...tableProps}
+                >
+                  {children === undefined ? (
+                    <>
+                      <ModelTableHeader />
+                      <ModelTableBody />
+                      <Table.Fallback />
+                    </>
+                  ) : (
+                    children
+                  )}
+                </Table>
+              </ScrollAreaWrapper>
+            </DnDContextWrapper>
+          </BorderWrapper>
+        </ActionStoreProvider>
       </ModelTableStoreProvider>
     );
   },

@@ -11,21 +11,16 @@ import { Header } from '@/Header';
 import ModelTableStoryMeta from '@/ModelTable/stories/ModelTable.stories';
 import { Pagination } from '@/Pagination';
 import { Button } from '@/lib/components/ui/button';
-import {
-  type ActionParams,
-  type DataType,
-  ScalarType,
-  type TableView,
-} from '@/types';
+import { type DataType, ScalarType, type TableView } from '@/types';
 
 import { FieldVisibility } from '../FieldVisibility';
 import { ModelTable } from '../ModelTable';
+import { Action, type ActionParams } from '@/Actions/ActionContext';
 
 const meta = {
   title: 'Models/ModelTable/ModelIndexPage',
   component: ModelTable,
   tags: ['autodocs'],
-  argTypes: ModelTableStoryMeta.argTypes,
   args: ModelTableStoryMeta.args,
   render: ({
     fields,
@@ -33,8 +28,7 @@ const meta = {
     onFieldOrderChange: dummyOnFieldOrderChange,
     tableOptions,
     data,
-    onUpdate,
-    onDelete,
+    actionOptions,
     columnOptions,
     ...args
   }) => {
@@ -45,7 +39,7 @@ const meta = {
     const [perPage, setPerPage] = useState<number | undefined>(10);
 
     const onUpdateHandler = async (params: ActionParams<DataType>) => {
-      await onUpdate?.(params);
+      await actionOptions?.[Action.UPDATE]?.(params);
       const id = params?.data?.id;
       console.log(params);
       if (id) {
@@ -63,7 +57,7 @@ const meta = {
     };
 
     const onDeleteHandler = async (params: ActionParams<DataType>) => {
-      await onDelete?.(params);
+      await actionOptions?.[Action.DELETE]?.(params);
       const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
@@ -119,8 +113,10 @@ const meta = {
               },
             }}
             columnOptions={columnOptions}
-            onUpdate={onUpdateHandler}
-            onDelete={onDeleteHandler}
+            actionOptions={{
+              [Action.UPDATE]: onUpdateHandler,
+              [Action.DELETE]: onDeleteHandler,
+            }}
             {...args}
           >
             <ModelTable.Header />

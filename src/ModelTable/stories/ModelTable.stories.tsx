@@ -2,23 +2,15 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import {
-  type ActionParams,
-  type DataType,
-  FieldType,
-  type TableView,
-} from '@/types';
+import { type DataType, FieldType, type TableView } from '@/types';
 
 import { ModelTable } from '../ModelTable';
+import { Action, type ActionParams } from '@/Actions/ActionContext';
 
 const meta = {
   title: 'Models/ModelTable/General',
   component: ModelTable,
   tags: ['autodocs'],
-  argTypes: {
-    onUpdate: { control: false },
-    onDelete: { control: false },
-  },
   args: {
     model: 'Task',
     fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
@@ -92,8 +84,12 @@ const meta = {
         hidable: false,
       },
     },
-    onUpdate: () => new Promise((resolve) => setTimeout(resolve, 2000)),
-    onDelete: () => new Promise((resolve) => setTimeout(resolve, 2000)),
+    actionOptions: {
+      [Action.UPDATE]: () =>
+        new Promise((resolve) => setTimeout(resolve, 2000)),
+      [Action.DELETE]: () =>
+        new Promise((resolve) => setTimeout(resolve, 2000)),
+    },
   },
   render: ({
     fields,
@@ -101,8 +97,7 @@ const meta = {
     onFieldOrderChange: dummyOnFieldOrderChange,
     tableOptions,
     data,
-    onUpdate,
-    onDelete,
+    actionOptions,
     ...args
   }) => {
     const [currData, setCurrData] = useState<DataType[]>(data);
@@ -111,7 +106,7 @@ const meta = {
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
 
     const onUpdateHandler = async (params: ActionParams<DataType>) => {
-      await onUpdate?.(params);
+      await actionOptions?.[Action.UPDATE]?.(params);
       const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
@@ -128,7 +123,7 @@ const meta = {
     };
 
     const onDeleteHandler = async (params: ActionParams<DataType>) => {
-      await onDelete?.(params);
+      await actionOptions?.[Action.DELETE]?.(params);
       const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
@@ -155,8 +150,10 @@ const meta = {
           sortOrder,
           onSortOrderChange,
         }}
-        onUpdate={onUpdateHandler}
-        onDelete={onDeleteHandler}
+        actionOptions={{
+          [Action.UPDATE]: onUpdateHandler,
+          [Action.DELETE]: onDeleteHandler,
+        }}
         {...args}
       />
     );
@@ -203,8 +200,7 @@ export const OnUpdateIsUndefined: Story = {
     onFieldOrderChange: dummyOnFieldOrderChange,
     tableOptions,
     data,
-    onUpdate,
-    onDelete,
+    actionOptions,
     ...args
   }) => {
     const [currData, setCurrData] = useState<DataType[]>(data);
@@ -213,7 +209,7 @@ export const OnUpdateIsUndefined: Story = {
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
 
     const onDeleteHandler = async (params: ActionParams<DataType>) => {
-      await onDelete?.();
+      await actionOptions?.[Action.DELETE]?.(params);
       const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
@@ -240,7 +236,9 @@ export const OnUpdateIsUndefined: Story = {
           sortOrder,
           onSortOrderChange,
         }}
-        onDelete={onDeleteHandler}
+        actionOptions={{
+          [Action.DELETE]: onDeleteHandler,
+        }}
         {...args}
       />
     );
