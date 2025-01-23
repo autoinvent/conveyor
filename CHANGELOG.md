@@ -1,3 +1,6 @@
+## 1.10.2
+`bugfix`: Fixed delay on form values populating `FormDisplay`.
+
 ## 1.10.1
 `bugfix`: z-index of select components were using `react-select`'s default z-index and not the override version. 
 
