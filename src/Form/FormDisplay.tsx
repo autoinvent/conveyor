@@ -17,7 +17,7 @@ export interface FormDisplayChildProps
 
 export const FormDisplay = ({ name, children }: FormDisplayProps) => {
   // const value = useFormStore((state) => state.formState.defaultValues?.[name]);
-  const getValues = useFormStore((state) => state.getValues);
-  const slotProps = { name, value: getValues(name) };
+  const watch = useFormStore((state) => state.watch);
+  const slotProps = { name, value: watch(name) };
   return <Slot {...slotProps}>{children}</Slot>;
 };
