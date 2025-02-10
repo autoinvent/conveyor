@@ -78,7 +78,7 @@ const meta = {
       }
     };
     return (
-      <div className="flex h-[300px] flex-col">
+      <div className="flex h-[300px] w-full flex-col">
         <Conveyor
           typeOptions={{
             [ScalarType.STRING]: {
