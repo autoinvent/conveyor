@@ -46,7 +46,7 @@ export const SelectInput = forwardRef<
   const defaultStyles: ComponentProps<typeof Select>['styles'] = {
     menuPortal: (base) => ({
       ...base,
-      zIndex: 20,
+      zIndex: 30,
     }),
   };
   const defaultClassNames: ComponentProps<typeof Select>['classNames'] = {
