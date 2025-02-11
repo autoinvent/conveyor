@@ -3,6 +3,10 @@
 `feature`: `EnumInput` can now be passed options of of type `SelectOption | string` for more customizability. 
 `feature`: Enhanced the way to customize actions for `ModelForm` and `ModelTable`. Can alter the underlying button by the `actionOptions.actionProps` prop or by expanding the model component down to its primitive components: `EditAction, CancelEditAction, SubmitAction, DeleteAction`.  
 
+## 1.10.2
+`bugfix`: Fixed delay on form values populating `FormDisplay`.
+`upgrade`: react-hook-form@7.54.2
+
 ## 1.10.1
 `bugfix`: z-index of select components were using `react-select`'s default z-index and not the override version. 
 

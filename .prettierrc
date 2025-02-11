@@ -1,5 +1,4 @@
 {
-  "singleQuote": true,
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
       "index.css",
@@ -10,6 +9,5 @@
       "^(?:\\./|\\.\\./)"
   ],
   "importOrderSeparation": true,
-  "jsxSingleQuote": true,
   "printWidth": 80
 }

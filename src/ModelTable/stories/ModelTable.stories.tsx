@@ -16,10 +16,13 @@ const meta = {
     fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
     fieldOrder: [], // dummy
     onFieldOrderChange: () => null, // dummy
+    tableOptions: {
+      // readOnly: true
+    },
     data: [
       {
         id: '1',
-        message: 'Make Table Scrollable',
+        message: 'Make Table Scroll',
         user: { id: '00000001', displayValue: 'robxbob' },
         created_at: '2024-07-10T01:56:34.926365',
         points: 1,
@@ -74,6 +77,7 @@ const meta = {
       created_at: {
         sortable: false,
         type: FieldType.DATETIME,
+        // width: 100
       },
       points: {
         type: FieldType.INT,

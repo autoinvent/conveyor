@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 import { TableHead, type TableHeadProps } from '@/Table';
 import { cn } from '@/lib/utils';
@@ -13,13 +13,16 @@ export const ModelTableActionHead = ({
   className,
   ...props
 }: ModelTableActionHeadProps) => {
-  const ref = useRef(null);
+  const [rendered, setRendered] = useState(false);
+
+  useEffect(() => {
+    setRendered(true);
+  }, []);
   return (
     <TableHead
-      ref={ref}
       className={cn(
         'sticky right-0 bg-inherit shadow-left',
-        ref.current ? 'w-[99%]' : 'w-[1%]',
+        rendered ? 'w-full' : 'w-0',
         className,
       )}
       columnId={ACTION_COLUMN}

@@ -36,12 +36,12 @@
 
       const { Conveyor, ModelIndex, ScalarTypes, useTableView } =
         window.conveyor;
-      const root = ReactDOM.createRoot(document.getElementById('conveyor'));
+      const root = ReactDOM.createRoot(document.getElementById("conveyor"));
       root.render(
         React.createElement(
-          'div',
+          "div",
           {
-            className: 'flex flex-col',
+            className: "flex flex-col",
           },
           React.createElement(
             Conveyor,
@@ -50,64 +50,64 @@
                 [ScalarTypes.STRING]: {
                   valueRenderFn: ({ value }) =>
                     React.createElement(
-                      'b',
-                      { className: 'text-green-700' },
+                      "b",
+                      { className: "text-green-700" },
                       value,
                     ),
                 },
               },
             },
             React.createElement(ModelIndex, {
-              title: 'Disney Cats',
+              title: "Disney Cats",
               fields: [
-                'id',
-                'type',
+                "id",
+                "type",
                 {
-                  name: 'name',
+                  name: "name",
                   type: ScalarTypes.STRING,
                   editable: true,
-                  rules: { required: 'Name is required.' },
+                  rules: { required: "Name is required." },
                 },
                 {
-                  name: 'isHappy',
+                  name: "isHappy",
                   type: ScalarTypes.BOOLEAN,
                   editable: true,
                 },
                 {
-                  name: 'released',
+                  name: "released",
                   type: ScalarTypes.DATETIME,
                   editable: true,
                 },
                 {
-                  name: 'bestBearFriend',
-                  type: 'DisneyBear',
+                  name: "bestBearFriend",
+                  type: "DisneyBear",
                   editable: true,
                   sortable: false,
                 },
               ],
               data: [
                 {
-                  id: '1',
-                  type: 'Tiger',
-                  name: 'Tigger',
+                  id: "1",
+                  type: "Tiger",
+                  name: "Tigger",
                   isHappy: false,
                   released: null,
-                  bestBearFriend: { id: '1' },
+                  bestBearFriend: { id: "1" },
                 },
                 {
-                  id: '2',
-                  type: 'Cat',
-                  name: 'Duchess',
+                  id: "2",
+                  type: "Cat",
+                  name: "Duchess",
                   isHappy: true,
-                  released: '1994-06-24T01:56:34.926365',
+                  released: "1994-06-24T01:56:34.926365",
                   bestBearFriend: null,
                 },
                 {
-                  id: '3',
-                  type: 'Lion',
-                  name: 'Simba',
+                  id: "3",
+                  type: "Lion",
+                  name: "Simba",
                   isHappy: true,
-                  released: '1970-12-24T01:56:34.926365',
+                  released: "1970-12-24T01:56:34.926365",
                   bestBearFriend: null,
                 },
               ],

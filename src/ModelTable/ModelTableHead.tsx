@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { TableHead, type TableHeadProps } from '@/Table';
 import { DndSortableWrapper, ResizableWrapper, humanizeText } from '@/utils';
 
@@ -30,12 +32,22 @@ export const ModelTableHead = ({
     (state) => state.columnOptions?.[field]?.width,
   );
 
+  // set width table styles to render columns and for resizable wrapper
+  const [onLoadWidth, setOnLoadWidth] = useState<number | undefined>(width);
+  useEffect(() => {
+    setOnLoadWidth(undefined);
+  }, []);
+
   return (
     <DndSortableWrapper draggable={draggable} dndId={field}>
-      <TableHead columnId={field} {...tableHeadProps}>
+      <TableHead
+        style={{ width: onLoadWidth }}
+        columnId={field}
+        {...tableHeadProps}
+      >
         <ResizableWrapper
           resizable={resizable}
-          width={width}
+          width={onLoadWidth}
           onWidthChange={(width) => onWidthChange?.({ field, width })}
         >
           {children === undefined ? (

@@ -32,7 +32,12 @@ export const ResizableWrapper = ({
         newWidth = ref.current?.scrollWidth;
       }
       setIsResizing(false);
-      setCurrentWidth(newWidth);
+
+      // div should snap to max of full width of header cell if resized too small
+      const parentWidth =
+        ref.current?.parentElement?.getBoundingClientRect().width;
+      if (parentWidth) setCurrentWidth(parentWidth);
+
       setDeltaX(0);
       onWidthChange?.(newWidth);
       const allElements = document.querySelectorAll('*');
@@ -51,25 +56,39 @@ export const ResizableWrapper = ({
   }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
 
   useEffect(() => {
-    if (ref.current) setCurrentWidth(ref.current.scrollWidth);
+    if (ref.current) {
+      setCurrentWidth(ref.current.scrollWidth);
+    }
   }, []);
 
-  const columnWidth =
-    currentWidth &&
-    Math.max(
-      currentWidth + deltaX,
-      ref?.current?.firstElementChild?.getBoundingClientRect?.().width ?? 0,
-    );
+  // readjust div width if specificied width is impossible (only gets called once)
+  useEffect(() => {
+    const parentCellWidth =
+      ref.current?.parentElement?.getBoundingClientRect().width;
+    if (
+      !width &&
+      parentCellWidth &&
+      currentWidth &&
+      parentCellWidth > currentWidth
+    ) {
+      setCurrentWidth(parentCellWidth);
+    }
+  }, [width, currentWidth]);
+
+  const columnWidth = Math.max(
+    currentWidth ? currentWidth + deltaX : 0,
+    ref.current?.firstElementChild?.getBoundingClientRect().width ?? 0,
+  );
 
   return resizable ? (
     <div
-      className="h-full"
+      className="relative h-full select-none"
       style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >
       {children}
       <div
-        className="-right-1 absolute inset-y-0 w-2 cursor-ew-resize select-none"
+        className="absolute inset-y-0 top-0 right-0 w-2 cursor-ew-resize select-none"
         onMouseDown={(e) => {
           e.stopPropagation();
           setIsResizing(true);
