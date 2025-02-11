@@ -5,7 +5,7 @@
   },
   "files": {
     "ignore": ["dist", "node_modules"],
-    "include": ["src/**/*"]
+    "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
   },
   "formatter": {
     "indentStyle": "space",

@@ -51,3 +51,12 @@ export const MultiSelectWithValueInference: Story = {
     value: [],
   },
 };
+
+export const CustomOptions: Story = {
+  args: {
+    options: [
+      { label: <span className="bg-red-400">APPLE</span>, value: 'apple' },
+      'banana',
+    ],
+  },
+};

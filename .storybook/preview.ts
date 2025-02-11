@@ -16,6 +16,7 @@ const preview: Preview = {
     }),
   ],
   parameters: {
+    layout: 'fullscreen',
     backgrounds: {
       values: [
         {
