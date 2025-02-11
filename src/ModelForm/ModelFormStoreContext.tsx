@@ -9,53 +9,39 @@ import {
 import { type StoreApi, createStore } from 'zustand';
 
 import type { LensType } from '@/Lenses';
-import type {
-  ActionParams,
-  DataType,
-  FieldOptions,
-  OnActionTrigger,
-} from '@/types';
+import type { DataType, FieldOptions } from '@/types';
 
 export interface ModelFormState<
   D extends DataType,
   F extends string,
-  DT extends D,
   FT extends F,
 > {
   model: string;
   fields: readonly F[];
   data: D;
   fieldOptions?: Partial<Record<FT, FieldOptions>>;
-  readOnly?: boolean;
   initialLens?: LensType;
-  onCreate?: OnActionTrigger<DT>;
-  onUpdate?: OnActionTrigger<DT>;
-  onDelete?: OnActionTrigger<DT>;
-  onEdit?: (params: Pick<ActionParams<DT>, 'onEdit'>) => void;
-  onCancelEdit?: (params: Pick<ActionParams<DT>, 'onCancelEdit'>) => void;
 }
 
 export const ModelFormStoreContext = createContext<
-  StoreApi<ModelFormState<any, any, any, any>> | undefined
+  StoreApi<ModelFormState<any, any, any>> | undefined
 >(undefined);
 
 export interface ModelFormStoreProviderProps<
   D extends DataType,
   F extends string,
-  DT extends D,
   FT extends F,
-> extends ModelFormState<D, F, DT, FT> {
+> extends ModelFormState<D, F, FT> {
   children?: ReactNode;
 }
 export const ModelFormStoreProvider = <
   D extends DataType,
   F extends string,
-  DT extends D,
   FT extends F,
 >({
   children,
   ...modelFormState
-}: ModelFormStoreProviderProps<D, F, DT, FT>) => {
+}: ModelFormStoreProviderProps<D, F, FT>) => {
   const isMounted = useRef(false);
   const [store] = useState(() => createStore(() => modelFormState));
   /* 

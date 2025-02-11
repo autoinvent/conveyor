@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { type ActionState, ActionStoreProvider } from '@/Actions/ActionContext';
 import { Table, type TableProps } from '@/Table';
 import { cn } from '@/lib/utils';
 import type { DataType } from '@/types';
@@ -27,8 +28,10 @@ export interface ModelTableProps<
   F extends string,
   DT extends D,
   FT extends F,
-> extends ModelTableState<D, F, DT, FT>,
-    Omit<TableProps<D>, 'columnIds' | 'data'> {}
+> extends ModelTableState<D, F, FT>,
+    Omit<TableProps<D>, 'columnIds' | 'data'> {
+  actionOptions?: ActionState<DT>;
+}
 
 export const ModelTable = Object.assign(
   <D extends DataType, F extends string, DT extends D, FT extends F>({
@@ -40,17 +43,20 @@ export const ModelTable = Object.assign(
     tableOptions,
     columnOptions,
     formOptions,
-    onUpdate,
-    onDelete,
+    actionOptions,
     children,
     ...tableProps
   }: ModelTableProps<D, F, DT, FT>) => {
-    const { readOnly, draggable, bordered, scrollable } = tableOptions ?? {};
+    const { draggable, bordered, scrollable } = tableOptions ?? {};
     const tableColumns = [...fieldOrder].filter(
       (field) => !columnOptions?.[field]?.hidden,
     );
     // Action Columnn
-    if (fieldOrder.length > 0 && !readOnly && data.length > 0) {
+    if (
+      fieldOrder.length > 0 &&
+      actionOptions?.showActions !== false &&
+      data.length > 0
+    ) {
       tableColumns.push(ACTION_COLUMN as FT);
     }
     const [rendered, setRendered] = useState<boolean>(false);
@@ -69,48 +75,48 @@ export const ModelTable = Object.assign(
         tableOptions={tableOptions}
         columnOptions={columnOptions}
         formOptions={formOptions}
-        onUpdate={onUpdate}
-        onDelete={onDelete}
       >
-        <BorderWrapper
-          bordered={typeof bordered === 'object' ? true : bordered ?? true}
-          className={cn(typeof bordered === 'object' && bordered?.className)}
-        >
-          <DnDContextWrapper
-            draggable={draggable ?? true}
-            dndList={fieldOrder}
-            onDnDListChange={
-              onFieldOrderChange as (newFieldOrder: string[]) => void
-            }
+        <ActionStoreProvider {...actionOptions}>
+          <BorderWrapper
+            bordered={typeof bordered === 'object' ? true : bordered ?? true}
+            className={cn(typeof bordered === 'object' && bordered?.className)}
           >
-            <ScrollAreaWrapper
-              scrollable={
-                typeof scrollable === 'object' ? true : scrollable ?? true
+            <DnDContextWrapper
+              draggable={draggable ?? true}
+              dndList={fieldOrder}
+              onDnDListChange={
+                onFieldOrderChange as (newFieldOrder: string[]) => void
               }
-              className={cn(
-                typeof scrollable === 'object' && scrollable?.className,
-              )}
             >
-              <Table
-                ref={ref}
-                columnIds={tableColumns}
-                data={data}
-                className={cn(!rendered && 'w-full table-fixed')}
-                {...tableProps}
-              >
-                {children === undefined ? (
-                  <>
-                    <ModelTableHeader />
-                    <ModelTableBody />
-                    <Table.Fallback />
-                  </>
-                ) : (
-                  children
+              <ScrollAreaWrapper
+                scrollable={
+                  typeof scrollable === 'object' ? true : scrollable ?? true
+                }
+                className={cn(
+                  typeof scrollable === 'object' && scrollable?.className,
                 )}
-              </Table>
-            </ScrollAreaWrapper>
-          </DnDContextWrapper>
-        </BorderWrapper>
+              >
+                <Table
+                  ref={ref}
+                  columnIds={tableColumns}
+                  data={data}
+                  className={cn(!rendered && 'w-full')}
+                  {...tableProps}
+                >
+                  {children === undefined ? (
+                    <>
+                      <ModelTableHeader />
+                      <ModelTableBody />
+                      <Table.Fallback />
+                    </>
+                  ) : (
+                    children
+                  )}
+                </Table>
+              </ScrollAreaWrapper>
+            </DnDContextWrapper>
+          </BorderWrapper>
+        </ActionStoreProvider>
       </ModelTableStoreProvider>
     );
   },
