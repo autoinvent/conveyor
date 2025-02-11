@@ -32,13 +32,8 @@ export const ModelTableHead = ({
     (state) => state.columnOptions?.[field]?.width,
   );
 
-<<<<<<< HEAD
   // set width table styles to render columns and for resizable wrapper
   const [onLoadWidth, setOnLoadWidth] = useState<number | undefined>(width);
-=======
-  // set width to apply during initial table render
-  const [onLoadWidth, setOnLoadWidth] = useState(width && width + 32);
->>>>>>> 25c5045e (fixed format)
   useEffect(() => {
     setOnLoadWidth(undefined);
   }, []);
