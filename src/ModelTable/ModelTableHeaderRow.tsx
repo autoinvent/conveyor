@@ -1,3 +1,4 @@
+import { useActionStore } from '@/Actions/useActionStore';
 import { TableHeaderRow, type TableHeaderRowProps } from '@/Table';
 import { cn } from '@/lib/utils';
 import { DnDSortableContextWrapper } from '@/utils';
@@ -13,9 +14,7 @@ export const ModelTableHeaderRow = ({
   className,
   ...tableHeaderRowProps
 }: ModelTableHeaderRowProps) => {
-  const showActions = useModelTableStore(
-    (state) => state.actionOptions?.showActions,
-  );
+  const showActions = useActionStore((state) => state.showActions);
   const fields = useModelTableStore((state) => state.fields);
   const fieldOrder = useModelTableStore((state) => state.fieldOrder);
   const draggable = useModelTableStore(

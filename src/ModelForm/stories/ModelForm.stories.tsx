@@ -21,12 +21,14 @@ const meta = {
       },
       user: {
         type: FieldType.MODEL,
-        valueOptions: [
-          { label: 'robxbob', value: '00000001' },
-          { label: 'nicklitvin', value: '00000002' },
-          { label: 'cmacgray14', value: '00000003' },
-          { label: 'None', value: '' },
-        ],
+        inputProps: {
+          options: [
+            { label: 'robxbob', value: '00000001' },
+            { label: 'nicklitvin', value: '00000002' },
+            { label: 'cmacgray14', value: '00000003' },
+            { label: 'None', value: '' },
+          ],
+        },
       },
       message: {
         required: true,
