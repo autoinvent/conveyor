@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { type ActionParams, DataLens, type DataType, FieldType } from '@/types';
+import { Action } from '@/Actions/ActionContext';
+import { DataLens, type DataType, FieldType } from '@/types';
 
 import { ModelForm } from '../ModelForm';
 
@@ -10,11 +11,6 @@ const meta = {
   title: 'Models/ModelForm/General',
   component: ModelForm,
   tags: ['autodocs'],
-  argTypes: {
-    onCreate: { control: false },
-    onUpdate: { control: false },
-    onDelete: { control: false },
-  },
   args: {
     model: 'Task',
     fields: ['id', 'message', 'user', 'created_at', 'points', 'done'],
@@ -55,30 +51,22 @@ const meta = {
       done: true,
     },
     initialLens: DataLens.INPUT,
-    onCreate: () => new Promise((resolve) => setTimeout(resolve, 2000)),
-    onUpdate: () => new Promise((resolve) => setTimeout(resolve, 2000)),
-    onDelete: () => new Promise((resolve) => setTimeout(resolve, 2000)),
+    actionOptions: {
+      actions: {
+        [Action.SUBMIT]: () =>
+          new Promise((resolve) => setTimeout(resolve, 2000)),
+        [Action.DELETE]: () =>
+          new Promise((resolve) => setTimeout(resolve, 2000)),
+      },
+      actionProps: {
+        [Action.SUBMIT]: { children: 'CREATE', variant: 'ghost-success' },
+      },
+    },
   },
-  render: ({ data, onCreate, onUpdate, onDelete, ...args }) => {
+  render: ({ data, ...args }) => {
     const [currData] = useState<DataType>(data);
 
-    const onUpdateHandler = async (params: ActionParams<DataType>) => {
-      await onUpdate?.(params);
-    };
-
-    const onDeleteHandler = async (params: ActionParams<DataType>) => {
-      await onUpdate?.(params);
-    };
-
-    return (
-      <ModelForm
-        data={currData}
-        // onCreate={onCreateHandler}
-        onUpdate={onUpdateHandler}
-        onDelete={onDeleteHandler}
-        {...args}
-      />
-    );
+    return <ModelForm data={currData} {...args} />;
   },
 } satisfies Meta<typeof ModelForm>;
 export default meta;
@@ -86,37 +74,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const BasicUsage: Story = {};
-
-export const OnUpdateIsUndefined: Story = {
-  render: ({ data, onCreate, onUpdate, onDelete, ...args }) => {
-    const [currData] = useState<DataType>(data);
-    return <ModelForm onDelete={onDelete} data={currData} {...args} />;
-  },
-};
-
-// export const NoFields: Story = {
-//   args: {
-//     fields: [],
-//   },
-// };
-
-// export const NoData: Story = {
-//   args: {
-//     data: [],
-//   },
-// };
-
-// export const UndefinedData: Story = {
-//   args: {
-//     data: undefined,
-//   },
-// };
-
-// export const ReadOnly = {
-//   args: {
-//     tableOptions: {
-//       readOnly: true,
-//       columnOptions: meta.args.tableOptions.columnOptions,
-//     },
-//   },
-// };

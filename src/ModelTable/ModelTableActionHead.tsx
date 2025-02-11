@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { TableHead, type TableHeadProps } from '@/Table';
 import { cn } from '@/lib/utils';
 
@@ -11,9 +13,18 @@ export const ModelTableActionHead = ({
   className,
   ...props
 }: ModelTableActionHeadProps) => {
+  const [rendered, setRendered] = useState(false);
+
+  useEffect(() => {
+    setRendered(true);
+  }, []);
   return (
     <TableHead
-      className={cn('w-[99%]', className)}
+      className={cn(
+        'sticky right-0 bg-inherit shadow-left',
+        rendered ? 'w-full' : 'w-0',
+        className,
+      )}
       columnId={ACTION_COLUMN}
       {...props}
     >

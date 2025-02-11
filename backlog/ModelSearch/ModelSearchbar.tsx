@@ -1,5 +1,5 @@
-import { type ComponentProps, useState } from 'react';
 import { Search } from 'lucide-react';
+import { type ComponentProps, useState } from 'react';
 
 import { Button } from '@/lib/components/ui/button';
 

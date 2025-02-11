@@ -1,3 +1,63 @@
+## 1.11.0
+`feature`: `FieldVisibility` now accepts the `children` prop to allow a custom dropdown button.
+`feature`: `EnumInput` can now be passed options of of type `SelectOption | string` for more customizability. 
+`feature`: Enhanced the way to customize actions for `ModelForm` and `ModelTable`. Can alter the underlying button by the `actionOptions.actionProps` prop or by expanding the model component down to its primitive components: `EditAction, CancelEditAction, SubmitAction, DeleteAction`.  
+
+## 1.10.2
+`bugfix`: Fixed delay on form values populating `FormDisplay`.
+`upgrade`: react-hook-form@7.54.2
+
+## 1.10.1
+`bugfix`: z-index of select components were using `react-select`'s default z-index and not the override version. 
+
+## 1.10.0
+- `feature`: Can now set which rows are "selected" to trigger its selected-row background color. 
+- `bugfix`: Table resizing now does not allow you to go less than the content width for a brief moment
+- `bugfix`: No more default widths set, now uses the default behavior of the auto growing behavior of a table column to fit to the width of the table. 
+- `bugfix`: Fixed `snakeToCamelCase` to accept numbers.
+- `bugfix`: `EnumInput` can now support multi values.
+- `cleanup`: Several default props moved to base `SelectInput` component.
+- `stories`: Added stories for `EnumInput, ModelInput, SelectInput`
+- `typescript`: Fixed typings on `EnumInput.value` and `SelecInput.props`
+- `css`: Set z-index 20 to `SelectInput`.
+- `css`: Add scrollbar to `FieldVisibility`.
+- `packages`: Upgraded `react-select@5.9.0`
+
+
+
+## 1.9.4
+- `css`: Sticky action column now works on chrome.
+
+## 1.9.3
+- `css`: Sticky action column + header
+- `css`: Scrollbar for select inputs are now consistent with Shadcn
+- `bugfix`: `BooleanDisplay` can now handle null values.
+- `bugfix`: `NumberInputs` can now be empty. 
+
+## 1.9.2
+- `bugfix`: ModelSelect was always in creatable select mode; fixed. Fixed typings for ModelSelect to support creatable.
+- `css`: Consistent styling for select-inputs
+- `css`: Consistent datetime input dimensions. 
+- `css`: Removed z-index from scrollbar.
+- `packages`: Updated `react-day-picker` and `cross-spawn`
+
+## 1.9.1
+- `feature`: `ModelDisplay` now accepts `noneValue` which is the display to show when the value is either an empty array, null, or undefined. 
+
+## 1.9.0
+- `feature`: `EnumInput` which accepts `options: string[]; value: string` and `EnumDisplay` to display the string[].
+- `feature`: `SelectInput` can turn into a `Creatable` select by passing `isCreatable=true` to its props. 
+- `feature`: defaults on selects to have `menuShouldBlockScroll` and `menuPortalTarget={document.body}`
+
+## 1.8.1
+- `feature`: Pagination per page select in not searchable anymore.
+- `feature`: `ModelInput` now has default props for `clearValue, isClearable, closeMenuOnSelect` for when an array is passed as a value.
+- `feature`: Added forward ref to `ModelDisplay`
+- `ts`: `SelectInput` has correct typescript for its props.
+- `bugfix`: `FormError` didn't appear when there was an error; fixed. 
+- `bugfix`: `id` passed properly to input of `SelectInput`
+- `storybook`: ModelIndexPage's first row bigger than the rest; fixed.
+
 ## 1.8.0
 - `feature`: Shadcn Datetime input. 
 - `feature`: Table now has per page options.

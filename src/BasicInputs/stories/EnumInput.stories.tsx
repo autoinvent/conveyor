@@ -2,36 +2,25 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { SelectInput } from '../SelectInput';
+import { EnumInput } from '../EnumInput';
 
 const meta = {
-  title: 'Commons/BasicInputs/SelectInput',
-  component: SelectInput,
+  title: 'Commons/BasicInputs/EnumInput',
+  component: EnumInput,
   tags: ['autodocs'],
   args: {
-    options: [
-      { value: 'apple', label: 'Apple' },
-      { value: 'mountain', label: 'Mountain' },
-      { value: 'ocean', label: 'Ocean' },
-      { value: 'whisper', label: 'Whisper' },
-      { value: 'butterfly', label: 'Butterfly' },
-      { value: 'galaxy', label: 'Galaxy' },
-      { value: 'harmony', label: 'Harmony' },
-      { value: 'puzzle', label: 'Puzzle' },
-      { value: 'symphony', label: 'Symphony' },
-      { value: 'labyrinth', label: 'Labyrinth' },
-    ],
+    options: ['apple', 'banana', 'orange', 'kiwi', 'lemon'],
   },
   render: (props) => {
     const [values, setValues] = useState<any>(props.value);
     return (
       <div className="space-y-2">
         <div>Value: {JSON.stringify(values)}</div>
-        <SelectInput {...props} value={values} onChange={setValues} />
+        <EnumInput {...props} value={values} onChange={setValues} />
       </div>
     );
   },
-} satisfies Meta<typeof SelectInput>;
+} satisfies Meta<typeof EnumInput>;
 export default meta;
 
 type Story = StoryObj<typeof meta>;
@@ -60,5 +49,14 @@ export const CreatableMultiSelect: Story = {
 export const MultiSelectWithValueInference: Story = {
   args: {
     value: [],
+  },
+};
+
+export const CustomOptions: Story = {
+  args: {
+    options: [
+      { label: <span className="bg-red-400">APPLE</span>, value: 'apple' },
+      'banana',
+    ],
   },
 };

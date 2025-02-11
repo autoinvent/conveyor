@@ -1,22 +1,55 @@
-import {
-  type ComponentProps,
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  type PropsWithoutRef,
-  forwardRef,
-} from 'react';
+import { type ComponentProps, type ElementRef, forwardRef } from 'react';
 
-import Select from 'react-select';
+import Select, {
+  type GroupBase,
+  type Props as SelectProps,
+} from 'react-select';
+import type {} from 'react-select/base';
+import Creatable, { type CreatableProps } from 'react-select/creatable';
 
 import type { FormControlChildProps } from '@/Form';
 import { cn } from '@/lib/utils';
 
+declare module 'react-select/base' {
+  export interface Props<
+    Option,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>,
+  > {
+    clearValue?: () => void;
+  }
+
+  export interface CreatableProps<
+    Option,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>,
+  > {
+    clearValue?: () => void;
+  }
+}
+
+export interface SelectInputBaseProps<TIsCreatable extends boolean>
+  extends Pick<FormControlChildProps, 'disabled'> {
+  isCreatable?: TIsCreatable;
+}
+
+export type SelectInputProps<TIsCreatable extends boolean> =
+  SelectInputBaseProps<TIsCreatable> &
+    (TIsCreatable extends true
+      ? CreatableProps<any, boolean, GroupBase<any>>
+      : SelectProps<any, boolean>);
+
 export const SelectInput = forwardRef<
   ElementRef<typeof Select>,
-  PropsWithoutRef<FormControlChildProps> &
-    ComponentPropsWithoutRef<typeof Select>
->(({ disabled, className, options, ...props }, ref) => {
-  const defaultStyling: ComponentProps<typeof Select>['classNames'] = {
+  SelectInputProps<boolean>
+>(({ id, disabled, className, isCreatable, isMulti, ...props }, ref) => {
+  const defaultStyles: ComponentProps<typeof Select>['styles'] = {
+    menuPortal: (base) => ({
+      ...base,
+      zIndex: 30,
+    }),
+  };
+  const defaultClassNames: ComponentProps<typeof Select>['classNames'] = {
     clearIndicator: ({ isFocused }) =>
       cn(
         isFocused ? 'text-muted-foreground' : 'text-foreground',
@@ -64,24 +97,26 @@ export const SelectInput = forwardRef<
         'rounded-md',
         'my-1',
         'mt-2',
-        'px-1',
+        'p-1',
+        'pr-0.5',
         'border',
         'border-border',
         'min-w-fit',
       ),
-    menuList: () => cn('py-1'),
+    menuList: () =>
+      cn(
+        'p-0',
+        'pr-1',
+        '[&::-webkit-scrollbar]:w-2',
+        '[&::-webkit-scrollbar-track]:bg-transparent',
+        '[&::-webkit-scrollbar-thumb]:bg-border',
+        '[&::-webkit-scrollbar-thumb]:rounded-3xl',
+      ),
     // menuPortal: () => cn(),
-    multiValue: () => cn('bg-secondary', 'rounded-md', 'm-0.5'),
+    multiValue: () => cn('bg-secondary', 'rounded-md', 'm-1', 'p-0'),
     multiValueLabel: () =>
       cn('rounded-md', 'text-foreground', 'text-sm', 'px-1'),
-    multiValueRemove: () =>
-      cn(
-        'rounded-md',
-        'px-1',
-        'hover:bg-destructive',
-        'hover:text-destructive-foreground',
-        'bg-inherit',
-      ),
+    multiValueRemove: () => cn('rounded-md', 'px-1', 'bg-inherit'),
     noOptionsMessage: () => cn('text-muted-foreground', 'py-2', 'px-3'),
     option: ({ isFocused, isSelected }) =>
       cn(
@@ -102,6 +137,22 @@ export const SelectInput = forwardRef<
       cn('py-0.5', 'px-3', 'overflow-visible', 'inline-block'),
   };
 
+  const isArray = Array.isArray(props.value) || isMulti;
+  const commonProps: ComponentProps<typeof Select> = {
+    ref,
+    unstyled: true,
+    styles: defaultStyles,
+    classNames: defaultClassNames,
+    isDisabled: disabled,
+    inputId: id,
+    menuPlacement: 'auto',
+    menuPortalTarget: document.body,
+    isMulti: isArray,
+    closeMenuOnSelect: !isArray,
+    isClearable: true,
+    menuShouldBlockScroll: true,
+  };
+
   return (
     <div
       className={cn(
@@ -110,14 +161,11 @@ export const SelectInput = forwardRef<
         className,
       )}
     >
-      <Select
-        ref={ref}
-        unstyled
-        classNames={defaultStyling}
-        isDisabled={disabled}
-        options={options}
-        {...props}
-      />
+      {isCreatable ? (
+        <Creatable {...commonProps} {...props} />
+      ) : (
+        <Select {...commonProps} {...props} />
+      )}
     </div>
   );
 });

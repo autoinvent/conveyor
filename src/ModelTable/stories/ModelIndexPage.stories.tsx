@@ -4,6 +4,7 @@ import { Plus } from 'lucide-react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Action, type ActionParams } from '@/Actions/ActionContext';
 import { RawDisplay } from '@/BasicDisplays';
 import { Conveyor } from '@/Conveyor';
 import { FormDisplay } from '@/Form';
@@ -11,12 +12,7 @@ import { Header } from '@/Header';
 import ModelTableStoryMeta from '@/ModelTable/stories/ModelTable.stories';
 import { Pagination } from '@/Pagination';
 import { Button } from '@/lib/components/ui/button';
-import {
-  type ActionParams,
-  type DataType,
-  ScalarType,
-  type TableView,
-} from '@/types';
+import { type DataType, ScalarType, type TableView } from '@/types';
 
 import { FieldVisibility } from '../FieldVisibility';
 import { ModelTable } from '../ModelTable';
@@ -25,7 +21,6 @@ const meta = {
   title: 'Models/ModelTable/ModelIndexPage',
   component: ModelTable,
   tags: ['autodocs'],
-  argTypes: ModelTableStoryMeta.argTypes,
   args: ModelTableStoryMeta.args,
   render: ({
     fields,
@@ -33,8 +28,7 @@ const meta = {
     onFieldOrderChange: dummyOnFieldOrderChange,
     tableOptions,
     data,
-    onUpdate,
-    onDelete,
+    actionOptions,
     columnOptions,
     ...args
   }) => {
@@ -44,8 +38,8 @@ const meta = {
     const [fieldOrder, onFieldOrderChange] = useState([...fields]);
     const [perPage, setPerPage] = useState<number | undefined>(10);
 
-    const onUpdateHandler = async (params: ActionParams<DataType>) => {
-      await onUpdate?.(params);
+    const onSubmitHandler = async (params: ActionParams<DataType>) => {
+      await actionOptions?.actions?.[Action.SUBMIT]?.(params);
       const id = params?.data?.id;
       console.log(params);
       if (id) {
@@ -63,7 +57,7 @@ const meta = {
     };
 
     const onDeleteHandler = async (params: ActionParams<DataType>) => {
-      await onDelete?.(params);
+      await actionOptions?.actions?.[Action.DELETE]?.(params);
       const id = params?.data?.id;
       if (id) {
         setCurrData((oldData) => {
@@ -78,7 +72,7 @@ const meta = {
       }
     };
     return (
-      <div className="flex h-[300px] flex-col">
+      <div className="flex h-[300px] w-full flex-col">
         <Conveyor
           typeOptions={{
             [ScalarType.STRING]: {
@@ -104,7 +98,6 @@ const meta = {
             </Header.Actions>
           </Header>
           <ModelTable
-            className="h-full"
             fields={fields}
             fieldOrder={fieldOrder}
             onFieldOrderChange={onFieldOrderChange}
@@ -120,8 +113,12 @@ const meta = {
               },
             }}
             columnOptions={columnOptions}
-            onUpdate={onUpdateHandler}
-            onDelete={onDeleteHandler}
+            actionOptions={{
+              actions: {
+                [Action.SUBMIT]: onSubmitHandler,
+                [Action.DELETE]: onDeleteHandler,
+              },
+            }}
             {...args}
           >
             <ModelTable.Header />

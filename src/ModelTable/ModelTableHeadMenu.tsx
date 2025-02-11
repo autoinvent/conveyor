@@ -83,24 +83,26 @@ export const ModelTableHeadMenu = ({
         asChild
       >
         <DropdownMenuTriggerWithoutListener>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 data-[state=open]:bg-accent"
-            onClick={() => {
-              setOpenMenu(!openMenu);
-            }}
-          >
-            {children}
-            <Lenses activeLens={sortable && currentSortDirection}>
-              <Lens lens={SortDirection.ASC}>
-                <ArrowUp className="ml-2 h-4 w-4" />
-              </Lens>
-              <Lens lens={SortDirection.DESC}>
-                <ArrowDown className="ml-2 h-4 w-4" />
-              </Lens>
-            </Lenses>
-          </Button>
+          <div className="inline-block">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mx-4 my-2 h-8 data-[state=open]:bg-accent"
+              onClick={() => {
+                setOpenMenu(!openMenu);
+              }}
+            >
+              {children}
+              <Lenses activeLens={sortable && currentSortDirection}>
+                <Lens lens={SortDirection.ASC}>
+                  <ArrowUp className="ml-2 h-4 w-4" />
+                </Lens>
+                <Lens lens={SortDirection.DESC}>
+                  <ArrowDown className="ml-2 h-4 w-4" />
+                </Lens>
+              </Lenses>
+            </Button>
+          </div>
         </DropdownMenuTriggerWithoutListener>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">

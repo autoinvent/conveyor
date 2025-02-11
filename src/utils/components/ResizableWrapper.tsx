@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface ResizableWrapperProps {
   resizable: boolean;
-  width: number;
+  width?: number;
   onWidthChange?: (width: number) => void;
   children: ReactNode;
 }
@@ -24,13 +24,20 @@ export const ResizableWrapper = ({
       setDeltaX(e.clientX - clientX);
     };
     const onMouseUp = () => {
+      if (!currentWidth) return;
+
       let newWidth = currentWidth + deltaX;
       const scrollWidth = ref.current?.scrollWidth;
       if (scrollWidth && scrollWidth !== newWidth) {
         newWidth = ref.current?.scrollWidth;
       }
       setIsResizing(false);
-      setCurrentWidth(newWidth);
+
+      // div should snap to max of full width of header cell if resized too small
+      const parentWidth =
+        ref.current?.parentElement?.getBoundingClientRect().width;
+      if (parentWidth) setCurrentWidth(parentWidth);
+
       setDeltaX(0);
       onWidthChange?.(newWidth);
       const allElements = document.querySelectorAll('*');
@@ -48,15 +55,40 @@ export const ResizableWrapper = ({
     };
   }, [isResizing, currentWidth, clientX, deltaX, onWidthChange]);
 
+  useEffect(() => {
+    if (ref.current) {
+      setCurrentWidth(ref.current.scrollWidth);
+    }
+  }, []);
+
+  // readjust div width if specificied width is impossible (only gets called once)
+  useEffect(() => {
+    const parentCellWidth =
+      ref.current?.parentElement?.getBoundingClientRect().width;
+    if (
+      !width &&
+      parentCellWidth &&
+      currentWidth &&
+      parentCellWidth > currentWidth
+    ) {
+      setCurrentWidth(parentCellWidth);
+    }
+  }, [width, currentWidth]);
+
+  const columnWidth = Math.max(
+    currentWidth ? currentWidth + deltaX : 0,
+    ref.current?.firstElementChild?.getBoundingClientRect().width ?? 0,
+  );
+
   return resizable ? (
     <div
-      className="h-full"
-      style={{ width: `${currentWidth + deltaX}px` }}
+      className="relative h-full select-none"
+      style={columnWidth ? { width: `${columnWidth}px` } : {}}
       ref={ref}
     >
       {children}
       <div
-        className="-right-1 absolute inset-y-0 w-2 cursor-ew-resize select-none"
+        className="absolute inset-y-0 top-0 right-0 w-2 cursor-ew-resize select-none"
         onMouseDown={(e) => {
           e.stopPropagation();
           setIsResizing(true);

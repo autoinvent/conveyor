@@ -9,7 +9,7 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@autoinvent/conveyor": "file:autoinvent-conveyor-1.3.0.tgz",
+    "@autoinvent/conveyor": "file:autoinvent-conveyor-1.10.2.tgz",
     "react-helmet": "^6.1.0"
   },
   "peerDependencies": {

@@ -9,12 +9,7 @@ import {
 import type { UseFormProps } from 'react-hook-form';
 import { type StoreApi, createStore } from 'zustand';
 
-import type {
-  DataType,
-  FieldOptions,
-  OnActionTrigger,
-  TableView,
-} from '@/types';
+import type { DataType, FieldOptions, ID, TableView } from '@/types';
 
 export interface ColumnOptions extends FieldOptions {
   sortable?: boolean;
@@ -25,12 +20,12 @@ export interface ColumnOptions extends FieldOptions {
 
 export interface TableOptions<F extends string> {
   sortOrder?: TableView['sort']; // Order + value of the field sort
-  readOnly?: boolean;
   scrollable?: boolean | { className: string }; // Wraps the table with ScrollArea
   draggable?: boolean; // Wraps the table with DnDContext
   bordered?: boolean | { className: string }; // Wraps the table with div to add bordered styles
   onSortOrderChange?: (newSortOrder: TableView['sort']) => void;
   onWidthChange?: ({ field, width }: { field: F; width: number }) => void;
+  selectedRows?: ID[];
 }
 
 export interface FormOptions
@@ -41,7 +36,6 @@ export interface FormOptions
 export interface ModelTableState<
   D extends DataType,
   F extends string,
-  DT extends D,
   FT extends F,
 > {
   model: string;
@@ -52,31 +46,27 @@ export interface ModelTableState<
   tableOptions?: TableOptions<FT>;
   columnOptions?: Partial<Record<FT, ColumnOptions>>;
   formOptions?: FormOptions;
-  onUpdate?: OnActionTrigger<DT>;
-  onDelete?: OnActionTrigger<DT>;
 }
 
 export const ModelTableStoreContext = createContext<
-  StoreApi<ModelTableState<any, any, any, any>> | undefined
+  StoreApi<ModelTableState<any, any, any>> | undefined
 >(undefined);
 
 export interface ModelTableStoreProviderProps<
   D extends DataType,
   F extends string,
-  DT extends D,
   FT extends F,
-> extends ModelTableState<D, F, DT, FT> {
+> extends ModelTableState<D, F, FT> {
   children?: ReactNode;
 }
 export const ModelTableStoreProvider = <
   D extends DataType,
   F extends string,
-  DT extends D,
   FT extends F,
 >({
   children,
   ...modelTableState
-}: ModelTableStoreProviderProps<D, F, DT, FT>) => {
+}: ModelTableStoreProviderProps<D, F, FT>) => {
   const isMounted = useRef(false);
   const [store] = useState(() => createStore(() => modelTableState));
   /* 

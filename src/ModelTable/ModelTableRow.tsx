@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 
+import { useActionStore } from '@/Actions/useActionStore';
 import { useDataStore } from '@/Data';
 import { FormStoreProvider } from '@/Form';
 import { Lenses } from '@/Lenses';
@@ -21,11 +22,14 @@ export const ModelTableRow = ({
 }: ModelTableRowProps) => {
   const fields = useModelTableStore((state) => state.fields);
   const fieldOrder = useModelTableStore((state) => state.fieldOrder);
-  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
+  const showActions = useActionStore((state) => state.showActions);
   const draggable = useModelTableStore(
     (state) => state.tableOptions?.draggable,
   );
   const formOptions = useModelTableStore((state) => state.formOptions);
+  const selectedRows = useModelTableStore(
+    (state) => state.tableOptions?.selectedRows,
+  );
   const data = useDataStore();
   const formMethods = useForm({
     mode: 'onSubmit',
@@ -38,7 +42,11 @@ export const ModelTableRow = ({
   return (
     <FormStoreProvider id={data.id} {...formMethods}>
       <Lenses initialLens={DataLens.DISPLAY}>
-        <TableRow prefilled={false} {...props}>
+        <TableRow
+          prefilled={false}
+          className={`${selectedRows?.includes(data.id) && 'bg-accent'}`}
+          {...props}
+        >
           <DnDSortableContextWrapper
             draggable={draggable ?? true}
             dndList={fieldOrder}
@@ -48,7 +56,7 @@ export const ModelTableRow = ({
                 {fields.map((field) => (
                   <ModelTableCell key={field} field={field} />
                 ))}
-                {!readOnly && <ModelTableActionCell />}
+                {showActions !== false && <ModelTableActionCell />}
                 {children}
               </>
             ) : (

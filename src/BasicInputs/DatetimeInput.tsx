@@ -1,5 +1,3 @@
-'use client';
-
 import { forwardRef } from 'react';
 
 import { add, format } from 'date-fns';
@@ -87,7 +85,6 @@ export const DatetimeInput = forwardRef<DatetimeInputRef, DatetimeInputProps>(
             mode="single"
             selected={date ?? undefined}
             onSelect={handleSelect}
-            initialFocus
             {...props}
           />
           <div className="border-border border-t p-3">
