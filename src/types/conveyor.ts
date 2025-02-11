@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import type { RegisterOptions } from 'react-hook-form';
 
-import type { DataType, SelectOption } from './common';
+import type { DataType } from './common';
 import { ScalarType } from './magql';
 
 export interface FieldOptions {
@@ -15,7 +15,6 @@ export interface FieldOptions {
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
-  valueOptions?: SelectOption[];
   inputProps?: DataType;
   displayProps?: DataType;
 }

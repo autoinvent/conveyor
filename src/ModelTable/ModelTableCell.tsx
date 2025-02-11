@@ -1,3 +1,4 @@
+import { useActionStore } from '@/Actions/useActionStore';
 import { useConveyorStore } from '@/Conveyor';
 import { FormDisplay, useFormStore } from '@/Form';
 import { FormControl } from '@/Form/FormControl';
@@ -18,7 +19,8 @@ export const ModelTableCell = ({
   ...tableCellProps
 }: ModelTableCellProps) => {
   const { setLens, activeLens } = useLensesStore();
-  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
+  const showActions = useActionStore((state) => state.showActions);
+  const onSubmit = useActionStore((state) => state.actions?.SUBMIT);
   const draggable = useModelTableStore(
     (state) => state.tableOptions?.draggable ?? true,
   );
@@ -31,7 +33,6 @@ export const ModelTableCell = ({
   const editable = useModelTableStore(
     (state) => state.columnOptions?.[field]?.editable ?? true,
   );
-  const onUpdate = useModelTableStore((state) => state.onUpdate);
   const rules = useModelTableStore(
     (state) => state.columnOptions?.[field]?.rules,
   );
@@ -58,11 +59,11 @@ export const ModelTableCell = ({
         columnId={field}
         onDoubleClick={() => {
           if (
-            !readOnly &&
+            showActions !== false &&
             editable &&
             activeLens === DataLens.DISPLAY &&
             !isSubmitting &&
-            onUpdate
+            onSubmit
           ) {
             setLens(DataLens.INPUT);
           }

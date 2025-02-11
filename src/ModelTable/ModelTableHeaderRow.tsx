@@ -13,8 +13,10 @@ export const ModelTableHeaderRow = ({
   className,
   ...tableHeaderRowProps
 }: ModelTableHeaderRowProps) => {
+  const showActions = useModelTableStore(
+    (state) => state.actionOptions?.showActions,
+  );
   const fields = useModelTableStore((state) => state.fields);
-  const readOnly = useModelTableStore((state) => state.tableOptions?.readOnly);
   const fieldOrder = useModelTableStore((state) => state.fieldOrder);
   const draggable = useModelTableStore(
     (state) => state.tableOptions?.draggable ?? true,
@@ -33,7 +35,7 @@ export const ModelTableHeaderRow = ({
             {fields.map((field) => (
               <ModelTableHead key={field} field={field} />
             ))}
-            {!readOnly && <ModelTableActionHead />}
+            {showActions !== false && <ModelTableActionHead />}
             {children}
           </>
         ) : (
