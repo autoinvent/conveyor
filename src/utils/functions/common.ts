@@ -52,12 +52,13 @@ export const deepObjectMerge = (
 
   // biome-ignore lint/complexity/noForEach: not a sparse array
   Object.keys(source).forEach((key) => {
-    if (typeof source[key] === 'object') {
-      if (target[key]) {
-        deepObjectMerge(target[key], source[key]);
-      } else {
-        Object.assign(target, { [key]: source[key] });
-      }
+    if (
+      typeof source[key] === 'object' &&
+      typeof target[key] === 'object' &&
+      !Array.isArray(source[key]) &&
+      !Array.isArray(target[key])
+    ) {
+      deepObjectMerge(target[key], source[key]);
     } else {
       Object.assign(target, { [key]: source[key] });
     }

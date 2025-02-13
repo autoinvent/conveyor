@@ -24,10 +24,7 @@
     "tsBuildInfoFile": ".build/tsconfig.tsbuildinfo",
     // Linting
     "strict": true,
-    "allowJs": false,
-    "noUnusedLocals": true,
-    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "backlog/conveyor.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
