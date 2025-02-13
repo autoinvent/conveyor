@@ -1,6 +1,7 @@
 import { deepObjectMerge } from '@/utils/functions/common';
-import type { ConveyorState, Type, Model } from './types';
+
 import { DEFAULT_TYPES } from './defaults';
+import type { ConveyorState, Model, Type } from './types';
 import { useConveyorStore } from './useConveyorStore';
 
 // keepDefaultType: false; types: required

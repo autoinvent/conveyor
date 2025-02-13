@@ -1,4 +1,4 @@
-import type { ReactNode, ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 
 export interface ConveyorState<
   TTypes extends Record<string, Type>,

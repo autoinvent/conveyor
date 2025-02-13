@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import type { ConveyorState, Model, Type } from '../types';
 import { useConveyorStore } from '../useConveyorStore';
-import type { ConveyorState, Type, Model } from '../types';
 
 const Demo = <
   TTypes extends Record<string, Type>,
