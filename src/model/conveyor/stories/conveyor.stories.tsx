@@ -1,12 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import {
-  type ConveyorState,
-  type Type,
-  type Model,
-  setupConveyorStore,
-  useConveyorStore,
-} from '../components/conveyor';
+import { useConveyorStore } from '../useConveyorStore';
+import type { ConveyorState, Type, Model } from '../types';
 
 const Demo = <
   TTypes extends Record<string, Type>,
@@ -31,29 +26,6 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-
-setupConveyorStore(
-  {
-    types: {
-      hello: {},
-      world: {},
-    },
-    models: {
-      Book: {
-        title: {
-          label: 'The Title',
-          type: 'ID',
-        },
-      },
-      Author: {
-        name: {
-          type: 'hello',
-        },
-      },
-    },
-  },
-  true,
-);
 
 export const UseConveyorStore: Story = {
   render: () => {
