@@ -1,7 +1,9 @@
 import { use } from 'react';
+
+import { useStore } from 'zustand';
+
 import { TableContext } from '../contexts/table-context';
 import type { TableState } from '../types';
-import { useStore } from 'zustand';
 
 export const useTableContext = <T>(selector: (state: TableState) => T): T => {
   const store = use(TableContext);

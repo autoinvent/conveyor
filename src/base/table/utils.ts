@@ -1,4 +1,5 @@
 import { createStore } from 'zustand';
+
 import type { TableState } from './types';
 
 export type TableStore = ReturnType<typeof createTableStore>;

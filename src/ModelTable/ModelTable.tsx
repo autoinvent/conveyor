@@ -78,7 +78,7 @@ export const ModelTable = Object.assign(
       >
         <ActionStoreProvider {...actionOptions}>
           <BorderWrapper
-            bordered={typeof bordered === 'object' ? true : bordered ?? true}
+            bordered={typeof bordered === 'object' ? true : (bordered ?? true)}
             className={cn(typeof bordered === 'object' && bordered?.className)}
           >
             <DnDContextWrapper
@@ -90,7 +90,7 @@ export const ModelTable = Object.assign(
             >
               <ScrollAreaWrapper
                 scrollable={
-                  typeof scrollable === 'object' ? true : scrollable ?? true
+                  typeof scrollable === 'object' ? true : (scrollable ?? true)
                 }
                 className={cn(
                   typeof scrollable === 'object' && scrollable?.className,

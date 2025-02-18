@@ -4,8 +4,9 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import { type TableStore, createTableStore } from '../utils';
+
 import type { TableState } from '../types';
+import { type TableStore, createTableStore } from '../utils';
 
 export const TableContext = createContext<TableStore | null>(null);
 

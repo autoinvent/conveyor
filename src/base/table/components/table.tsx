@@ -1,7 +1,9 @@
-import { cn } from '@/base/utils';
 import type { ComponentProps } from 'react';
-import type { TableState } from '../types';
+
+import { cn } from '@/base/utils';
+
 import { TableProvider } from '../contexts/table-context';
+import type { TableState } from '../types';
 
 export interface TableProps extends TableState, ComponentProps<'table'> {}
 
