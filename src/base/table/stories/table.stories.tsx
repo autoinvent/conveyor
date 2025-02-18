@@ -2,7 +2,6 @@ import { memo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Table } from '../components/table';
-import { useTableContext } from '../hooks/use-table-store';
 
 const meta: Meta<typeof Table> = {
   title: 'Base UI/Table',
@@ -19,7 +18,7 @@ const Child = memo(() => {
 });
 
 const Child2 = memo(() => {
-  const x = useTableContext((state) => state.columnIds);
+  // const x = useTableContext((state) => state.columnIds);
   console.log('child2 rendered');
   return <div> Child</div>;
 });
@@ -28,7 +27,7 @@ export const BasicUsage: Story = {
   render: () => {
     const [count, setCount] = useState(0);
     const [x, setX] = useState<string[]>([]);
-    const [y, setY] = useState(['hello']);
+    const [y] = useState(['hello']);
     console.log('App rendered');
     y.push('hello');
     // const data = new Array(30);

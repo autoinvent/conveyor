@@ -7,10 +7,7 @@ export const camelToSnakeCase = (str: string) => {
 
 export const snakeToCamelCase = (str: string) => {
   if (!str) return '';
-  return str.replace(
-    /_([a-z0-9])/g,
-    (match, char) => `${upperCaseFirst(char)}`,
-  );
+  return str.replace(/_([a-z0-9])/g, (_, char) => `${upperCaseFirst(char)}`);
 };
 
 export const humanizeText = (str = '') => {
