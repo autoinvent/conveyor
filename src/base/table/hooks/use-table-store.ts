@@ -1,5 +1,5 @@
 import { use } from 'react';
-import { TableContext } from '../contexts/TableContext';
+import { TableContext } from '../contexts/table-context';
 import type { TableState } from '../types';
 import { useStore } from 'zustand';
 

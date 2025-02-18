@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Table } from '../components/table';
 import { memo, useState } from 'react';
 import { faker } from '@faker-js/faker';
-import { useTableContext } from '../hooks/useTableStore';
+import { useTableContext } from '../hooks/use-table-store';
 
 const meta: Meta<typeof Table> = {
   title: 'Base UI/Table',
