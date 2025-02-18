@@ -1,40 +1,15 @@
-import { withThemeByClassName } from '@storybook/addon-themes';
 import type { Preview } from '@storybook/react';
+import { withBackgroundTheme, withThemeTool } from './decorators/theme';
+import { faker } from '@faker-js/faker';
 
 import '../src/styles/tailwind.css';
-import { DARK_MODE_BG, LIGHT_MODE_BG, withDocsTheme } from './with-docs-theme';
+
+faker.seed(123);
 
 const preview: Preview = {
-  decorators: [
-    withDocsTheme,
-    withThemeByClassName({
-      themes: {
-        light: 'light',
-        dark: 'dark',
-      },
-      defaultTheme: 'light',
-    }),
-  ],
+  decorators: [withThemeTool, withBackgroundTheme],
   parameters: {
-    layout: 'fullscreen',
-    backgrounds: {
-      values: [
-        {
-          name: 'dark',
-          value: DARK_MODE_BG,
-        },
-        {
-          name: 'light',
-          value: LIGHT_MODE_BG,
-        },
-      ],
-    },
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
-      },
-    },
+    backgrounds: { disabled: true },
   },
   tags: ['autodocs'],
 };

@@ -25,6 +25,6 @@
     // Linting
     "strict": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", ".storybook/**/*", "public/**/*"],
   "exclude": ["node_modules", "dist"]
 }

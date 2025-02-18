@@ -18,7 +18,7 @@ const Demo = <
 };
 
 const meta = {
-  title: 'Model Components/Conveyor',
+  title: 'Model UI/Conveyor',
   component: Demo,
   tags: ['autodocs'],
   args: {},
