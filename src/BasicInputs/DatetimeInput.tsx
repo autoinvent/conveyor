@@ -30,10 +30,7 @@ export interface DatetimeInputProps {
 }
 
 export const DatetimeInput = forwardRef<DatetimeInputRef, DatetimeInputProps>(
-  (
-    { value, onChange, granularity = 'Second', hourCycle = 12, ...props },
-    ref,
-  ) => {
+  ({ value, onChange, granularity = 'Second', hourCycle = 12, ...props }) => {
     const date: Date | null = value ? new Date(value) : null;
 
     /**

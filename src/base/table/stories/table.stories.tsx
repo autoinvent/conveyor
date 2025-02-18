@@ -1,4 +1,5 @@
 import { memo, useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Table } from '../components/table';

@@ -81,7 +81,7 @@ export const SearchResultsNoForwardRef = <T extends string>(
         .entries()
         .toArray()
         .sort(sortBy)
-        .map(([category, results], index) => (
+        .map(([category, results]) => (
           <AccordionItem key={`item-${category}`} value={category}>
             <AccordionTrigger>
               {getLabel({ category, results })}

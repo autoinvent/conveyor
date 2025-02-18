@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils';
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
-    role="navigation"
     aria-label="pagination"
     className={cn('flex w-full text-sm', className)}
     {...props}

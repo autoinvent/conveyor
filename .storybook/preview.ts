@@ -1,6 +1,6 @@
+import { faker } from '@faker-js/faker';
 import type { Preview } from '@storybook/react';
 import { withBackgroundTheme, withThemeTool } from './decorators/theme';
-import { faker } from '@faker-js/faker';
 
 import '../src/styles/tailwind.css';
 

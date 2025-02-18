@@ -7,7 +7,7 @@ export interface ModelSearchbarProps extends ComponentProps<'form'> {
   onSearch: (value: string) => void;
 }
 
-export const ModelSearchbar = ({ onSearch, ...props }: ModelSearchbarProps) => {
+export const ModelSearchbar = ({ onSearch }: ModelSearchbarProps) => {
   const [value, setValue] = useState('');
   return (
     <form

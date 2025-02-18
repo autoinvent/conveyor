@@ -1,5 +1,3 @@
-
-
 import { Helmet } from 'react-helmet';
 
 import { Pagination } from '@autoinvent/conveyor';

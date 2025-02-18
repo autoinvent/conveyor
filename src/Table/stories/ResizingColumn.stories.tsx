@@ -188,7 +188,7 @@ export const CustomTableCells: Story = {
             <CardTitle className="text-center">Column Resizing</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            {columnIds.map((val, index) => (
+            {columnIds.map((val) => (
               <div key={`checkbox-${val}`} className="flex flex-row gap-2">
                 <Checkbox
                   checked={resizableColumns[val]}

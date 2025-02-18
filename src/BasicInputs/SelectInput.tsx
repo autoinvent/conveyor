@@ -13,7 +13,9 @@ import { cn } from '@/lib/utils';
 declare module 'react-select/base' {
   export interface Props<
     Option,
+    // biome-ignore lint/correctness/noUnusedVariables: <explanation>
     IsMulti extends boolean,
+    // biome-ignore lint/correctness/noUnusedVariables: <explanation>
     Group extends GroupBase<Option>,
   > {
     clearValue?: () => void;
@@ -21,7 +23,9 @@ declare module 'react-select/base' {
 
   export interface CreatableProps<
     Option,
+    // biome-ignore lint/correctness/noUnusedVariables:TODO
     IsMulti extends boolean,
+    // biome-ignore lint/correctness/noUnusedVariables: TODO
     Group extends GroupBase<Option>,
   > {
     clearValue?: () => void;
