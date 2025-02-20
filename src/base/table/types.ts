@@ -7,3 +7,9 @@ export interface TableState {
 }
 
 export type TableStore = StoreApi<TableState>;
+
+export interface TableRowState {
+  rowIndex: number;
+}
+
+export type TableRowStore = StoreApi<TableRowState>;

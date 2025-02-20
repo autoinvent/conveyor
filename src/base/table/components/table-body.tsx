@@ -1,29 +1,22 @@
-import type { ComponentProps } from 'react';
+import { useMemo, type ComponentProps } from 'react';
 
 import { useTableStore } from '../hooks/use-table-store';
-import { DataProvider } from '@/base/data-store/contexts/data-context';
-import type { Data } from '@/base/types';
+import { TableRowProvider } from '../contexts/table-row-context';
 
-export interface TableBodyProps extends ComponentProps<'tbody'> {
-  getRowId?: (data: Data) => string | number;
-}
+export interface TableBodyProps extends ComponentProps<'tbody'> {}
 
-export const TableBody = ({
-  getRowId = (rowData) => JSON.stringify(rowData),
-  children,
-  ...htmlProps
-}: TableBodyProps) => {
-  const data = useTableStore((state) => state.data);
-
-  return (
-    <tbody {...htmlProps}>
-      {data?.map((rowData) => {
-        return (
-          <DataProvider key={`table-row-${getRowId(rowData)}`} data={rowData}>
-            {children}
-          </DataProvider>
-        );
-      })}
-    </tbody>
-  );
+export const TableBody = ({ children, ...htmlProps }: TableBodyProps) => {
+  const dataLength = useTableStore((state) => state.data?.length ?? 0);
+  const rows = useMemo(() => {
+    console.log(dataLength, 'in body');
+    return Array.from(Array(dataLength), (_, rowIndex) => {
+      const key = `table-row-${rowIndex}`;
+      return (
+        <TableRowProvider key={key} rowIndex={rowIndex}>
+          {children}
+        </TableRowProvider>
+      );
+    });
+  }, [dataLength]);
+  return <tbody {...htmlProps}>{rows}</tbody>;
 };
