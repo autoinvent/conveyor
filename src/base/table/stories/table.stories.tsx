@@ -1,8 +1,10 @@
-import { memo, useState } from 'react';
-
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Table } from '../components/table';
+import { TableBody } from '../components/table-body';
+import { faker } from '@faker-js/faker';
+import { TableRow } from '../components/table-row';
+import { TableCell } from '../components/table-cell';
 
 const meta: Meta<typeof Table> = {
   title: 'Base UI/Table',
@@ -13,45 +15,23 @@ const meta: Meta<typeof Table> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const Child = memo(() => {
-  console.log('child1 rendered');
-  return <div>Child</div>;
-});
-
-const Child2 = memo(() => {
-  // const x = useTableContext((state) => state.columnIds);
-  console.log('child2 rendered');
-  return <div> Child</div>;
-});
-
 export const BasicUsage: Story = {
   render: () => {
-    const [count, setCount] = useState(0);
-    const [x, setX] = useState<string[]>([]);
-    const [y] = useState(['hello']);
-    console.log('App rendered');
-    y.push('hello');
-    // const data = new Array(30);
-    // data.fill({ name: faker.person.firstName() });
-    // console.log(data);
+    const columnIds = ['firstName', 'lastName'];
+    const data = Array.from(Array(5), () => ({
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+    }));
+    console.log(data);
     return (
       <>
-        <Table columnIds={y}>
-          {/* {data.map((d, i) => (
-            <span key={i}>{d.name}</span>
-          ))} */}
-          <Child />
-          <Child2 />
+        <Table columnIds={columnIds} data={data}>
+          <TableBody>
+            <TableRow>
+              <TableCell columnId={'firstName'}>hello</TableCell>
+            </TableRow>
+          </TableBody>
         </Table>
-        <button
-          type="button"
-          onClick={() => {
-            setCount(count + 1);
-            setX(x.concat([`${count}`]));
-          }}
-        >
-          Click
-        </button>
       </>
     );
   },

@@ -5,8 +5,8 @@ import {
   useRef,
 } from 'react';
 
-import type { TableState } from '../types';
-import { type TableStore, createTableStore } from '../utils';
+import type { TableState, TableStore } from '../types';
+import { createStore } from 'zustand';
 
 export const TableContext = createContext<TableStore | null>(null);
 
@@ -19,7 +19,7 @@ export const TableProvider = ({
 }: TableProviderProps) => {
   const storeRef = useRef<TableStore>(null);
   if (!storeRef.current) {
-    storeRef.current = createTableStore({ columnIds, data });
+    storeRef.current = createStore<TableState>()(() => ({ columnIds, data }));
   }
 
   useEffect(() => {

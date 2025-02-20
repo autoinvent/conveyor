@@ -12,14 +12,11 @@ export const Table = ({
   data,
   children,
   className,
-  ...htmlTableProps
+  ...htmlProps
 }: TableProps) => {
   return (
     <TableProvider columnIds={columnIds} data={data}>
-      <table
-        className={cn('w-auto caption-bottom', className)}
-        {...htmlTableProps}
-      >
+      <table className={cn('w-auto caption-bottom', className)} {...htmlProps}>
         {children}
       </table>
     </TableProvider>
