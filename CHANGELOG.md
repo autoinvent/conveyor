@@ -1,3 +1,6 @@
+## 1.11.1
+`bugfix`: Exported Actions module.
+
 ## 1.11.0
 `feature`: `FieldVisibility` now accepts the `children` prop to allow a custom dropdown button.
 `feature`: `EnumInput` can now be passed options of of type `SelectOption | string` for more customizability. 
