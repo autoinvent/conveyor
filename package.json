@@ -1,7 +1,7 @@
 {
   "name": "@autoinvent/conveyor",
   "type": "module",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "description": "UI component library for magql",
   "license": "BlueOak-1.0.0",
   "author": "Moebius Solutions",
