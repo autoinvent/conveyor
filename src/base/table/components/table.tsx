@@ -4,6 +4,7 @@ import { cn } from '@/base/utils';
 
 import { TableProvider } from '../contexts/table-context';
 import type { TableState } from '../types';
+import { TableBody } from './table-body';
 
 export interface TableProps extends TableState, ComponentProps<'table'> {}
 
@@ -17,7 +18,7 @@ export const Table = ({
   return (
     <TableProvider columnIds={columnIds} data={data}>
       <table className={cn('w-auto caption-bottom', className)} {...htmlProps}>
-        {children}
+        {children === undefined ? <TableBody /> : children}
       </table>
     </TableProvider>
   );

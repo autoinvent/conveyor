@@ -4,8 +4,8 @@ import {
   isValidElement,
   type ReactNode,
   type ComponentProps,
-  memo,
   useMemo,
+  memo,
 } from 'react';
 import { useTableStore } from '../hooks/use-table-store';
 import { TableCell, type TableCellProps } from './table-cell';
@@ -15,7 +15,6 @@ export interface TableRowProps extends ComponentProps<'tr'> {}
 export const TableRow = memo(
   ({ children, className, ...htmlProps }: TableRowProps) => {
     const columnIds = useTableStore(useShallow((state) => state.columnIds));
-    console.log('rendered table row');
 
     const renderedChildren = useMemo(() => {
       console.log('rendered table row NO');
@@ -46,6 +45,7 @@ export const TableRow = memo(
         )}
         {...htmlProps}
       >
+        {/* {children} */}
         {renderedChildren}
       </tr>
     );

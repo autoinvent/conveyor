@@ -7,7 +7,7 @@ import { TableBody } from '../components/table-body';
 import { faker } from '@faker-js/faker';
 import { TableRow } from '../components/table-row';
 import { TableCell } from '../components/table-cell';
-import { Profiler, useMemo, useState } from 'react';
+import { Profiler, useEffect, useMemo, useState } from 'react';
 import { id } from 'date-fns/locale';
 
 const meta: Meta<typeof Table> = {
@@ -34,7 +34,7 @@ export const BasicUsage: Story = {
       ],
       [],
     );
-    const data = Array.from(Array(500), () => ({
+    const data = Array.from(Array(100), () => ({
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
       gender: faker.person.gender(),
@@ -44,6 +44,9 @@ export const BasicUsage: Story = {
     }));
 
     const [count, setCount] = useState(0);
+    useEffect(() => {
+      console.log(x / count);
+    }, [count]);
     return (
       <>
         <Profiler
@@ -51,8 +54,6 @@ export const BasicUsage: Story = {
           onRender={(id, phase, actualDuration) => {
             if (phase !== 'mount') {
               x = x + actualDuration;
-              console.log(count, x, actualDuration, phase);
-              console.log(x / count);
             }
           }}
         >
@@ -73,9 +74,16 @@ export const BasicUsage: Story = {
             );
           })} */}
           <Table columnIds={columnIds} data={data}>
-            <TableBody>
-              <TableRow />
-            </TableBody>
+            {/* <TableBody>
+              <TableRow>
+                <TableCell columnId="firstName" />
+                <TableCell columnId="lastName" />
+                <TableCell columnId="gender" />
+                <TableCell columnId="middleName" />
+                <TableCell columnId="sex" />
+                <TableCell columnId="zodiacSign" />
+              </TableRow>
+            </TableBody> */}
           </Table>
           {/* <Table2 columnIds={columnIds} data={data} /> */}
         </Profiler>
