@@ -1,53 +1,38 @@
 import { cn } from '@/base/utils';
-import {
-  Children,
-  isValidElement,
-  type ReactNode,
-  type ComponentProps,
-  useMemo,
-  memo,
-} from 'react';
+import { type ComponentProps, useMemo } from 'react';
 import { useTableStore } from '../hooks/use-table-store';
-import { TableCell, type TableCellProps } from './table-cell';
+import { TableCell } from './table-cell';
 import { useShallow } from 'zustand/shallow';
+import { SlotsProvider } from '@/base/slots/contexts/slots-context';
 export interface TableRowProps extends ComponentProps<'tr'> {}
 
-export const TableRow = memo(
-  ({ children, className, ...htmlProps }: TableRowProps) => {
-    const columnIds = useTableStore(useShallow((state) => state.columnIds));
-
-    const renderedChildren = useMemo(() => {
-      console.log('rendered table row NO');
-      const columns: Record<string, ReactNode> = Object.fromEntries(
+export const TableRow = ({
+  children,
+  className,
+  ...htmlProps
+}: TableRowProps) => {
+  const columnIds = useTableStore(useShallow((state) => state.columnIds));
+  const defaultSlotNodes = useMemo(
+    () =>
+      Object.fromEntries(
         columnIds.map((columnId) => [
           columnId,
           <TableCell key={`table-cell-${columnId}`} columnId={columnId} />,
         ]),
-      );
-      const extraChildren: ReactNode[] = [];
-      Children.forEach(children, (child) => {
-        if (isValidElement(child) && child?.type === TableCell) {
-          const columnId = (child.props as TableCellProps).columnId;
-          columns[columnId] = child;
-        } else {
-          extraChildren.push(child);
-        }
-      });
-      return columnIds
-        .map((columnId) => columns[columnId])
-        .concat(extraChildren);
-    }, [children, columnIds]);
-    return (
-      <tr
-        className={cn(
-          'border-y bg-background transition-colors hover:bg-muted-subtle',
-          className,
-        )}
-        {...htmlProps}
-      >
-        {/* {children} */}
-        {renderedChildren}
-      </tr>
-    );
-  },
-);
+      ),
+    [columnIds],
+  );
+  return (
+    <tr
+      className={cn(
+        'border-y bg-background transition-colors hover:bg-muted-subtle',
+        className,
+      )}
+      {...htmlProps}
+    >
+      <SlotsProvider slotIds={columnIds} defaultSlotNodes={defaultSlotNodes}>
+        {children}
+      </SlotsProvider>
+    </tr>
+  );
+};

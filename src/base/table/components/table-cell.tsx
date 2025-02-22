@@ -1,23 +1,16 @@
-import { cn } from '@/base/utils';
-import { memo, type ComponentProps } from 'react';
-import { useTableRowStore } from '../hooks/use-table-row-store';
-import { useTableStore } from '../hooks/use-table-store';
-import { useShallow } from 'zustand/shallow';
+import { memo } from 'react';
+import { useSlotsStore } from '@/base/slots/hooks/use-slots-store';
+import { DefaultTableCell, DefaultTableCellProps } from './default-table-cell';
 
-export interface TableCellProps extends ComponentProps<'td'> {
+export interface TableCellProps extends DefaultTableCellProps {
   columnId: string;
+  // asChild?:
 }
 
-export const TableCell = memo(
-  ({ columnId, children, className, ...htmlProps }: TableCellProps) => {
-    const rowIndex = useTableRowStore((state) => state.rowIndex);
-    const columnData = useTableStore(
-      useShallow((state) => state.data?.[rowIndex][columnId]),
-    );
-    return (
-      <td className={cn('px-2 py-1', className)} {...htmlProps}>
-        {children === undefined ? columnData : children}
-      </td>
-    );
-  },
-);
+export const TableCell = ({ columnId, ...props }: TableCellProps) => {
+  const setSlot = useSlotsStore((state) => state.setSlot);
+
+  setSlot(columnId, <DefaultTableCell columnId={columnId} {...props} />);
+
+  return null;
+};
