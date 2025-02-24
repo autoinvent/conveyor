@@ -61,7 +61,11 @@ export const BasicUsage: Story = {
       return ({ TableBody }) => {
         return (
           <>
-            <TableBody />
+            <TableBody>
+              <TableRow>
+                <TableCell columnId="firstName">Hello</TableCell>
+              </TableRow>
+            </TableBody>
           </>
         );
       };
