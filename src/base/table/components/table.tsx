@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react';
+import { useMemo, type ComponentProps } from 'react';
 
 import { cn } from '@/base/utils';
 
@@ -17,6 +17,10 @@ export const Table = <TInternals extends TableInternals>({
   className,
   ...htmlProps
 }: TableProps<TInternals>) => {
+  const layout = useMemo(() => {
+    return <Layout {...internals} />;
+  }, [Layout, internals]);
+
   return (
     <TableProvider
       columnIds={columnIds}
@@ -25,7 +29,7 @@ export const Table = <TInternals extends TableInternals>({
       layout={Layout}
     >
       <table className={cn('w-auto caption-bottom', className)} {...htmlProps}>
-        <Layout {...internals} />
+        {layout}
       </table>
     </TableProvider>
   );

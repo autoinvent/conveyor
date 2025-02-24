@@ -1,11 +1,11 @@
-import { memo, type ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
 import { useTableStore } from '../hooks/use-table-store';
 import { TableRowProvider } from '../contexts/table-row-context';
 
 export interface TableBodyProps extends ComponentProps<'tbody'> {}
 
-export const TableBody = memo(({ children, ...htmlProps }: TableBodyProps) => {
+export const TableBody = ({ children, ...htmlProps }: TableBodyProps) => {
   const dataLength = useTableStore((state) => state.data?.length ?? 0);
   const TableRow = useTableStore((state) => state.internals.TableRow);
   return (
@@ -20,4 +20,4 @@ export const TableBody = memo(({ children, ...htmlProps }: TableBodyProps) => {
       })}
     </tbody>
   );
-});
+};
