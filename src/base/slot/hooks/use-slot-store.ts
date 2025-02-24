@@ -2,7 +2,7 @@ import { use } from 'react';
 
 import { useStore } from 'zustand';
 
-import { SlotsContext } from '../contexts/slots-context';
+import { SlotsContext } from '../contexts/slot-context';
 import type { SlotsState } from '../types';
 
 export const useSlotsStore = <T>(selector: (state: SlotsState) => T): T => {

@@ -3,22 +3,29 @@ import type { ComponentProps } from 'react';
 import { cn } from '@/base/utils';
 
 import { TableProvider } from '../contexts/table-context';
-import type { TableState } from '../types';
-import { TableBody } from './table-body';
+import type { TableInternals, TableState } from '../types';
 
-export interface TableProps extends TableState, ComponentProps<'table'> {}
+export interface TableProps<TInternals extends TableInternals>
+  extends TableState<TInternals>,
+    Omit<ComponentProps<'table'>, 'children'> {}
 
-export const Table = ({
+export const Table = <TInternals extends TableInternals>({
   columnIds,
   data,
-  children,
+  internals,
+  layout: Layout,
   className,
   ...htmlProps
-}: TableProps) => {
+}: TableProps<TInternals>) => {
   return (
-    <TableProvider columnIds={columnIds} data={data}>
+    <TableProvider
+      columnIds={columnIds}
+      data={data}
+      internals={internals}
+      layout={Layout}
+    >
       <table className={cn('w-auto caption-bottom', className)} {...htmlProps}>
-        {children === undefined ? <TableBody /> : children}
+        <Layout {...internals} />
       </table>
     </TableProvider>
   );

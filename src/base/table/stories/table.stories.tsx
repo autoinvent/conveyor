@@ -1,17 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { userEvent, within } from '@storybook/test';
 
-import { Table, TableProps } from '../components/table';
-import { Table as Table2 } from '../../../Table';
+import { Table, type TableProps } from '../components/table';
 import { TableBody } from '../components/table-body';
 import { faker } from '@faker-js/faker';
 import { TableRow } from '../components/table-row';
-import { TableCell, TableCellProps } from '../components/table-cell';
-import { memo, Profiler, useEffect, useMemo, useState } from 'react';
-import { id } from 'date-fns/locale';
-import { useTableRowStore } from '../hooks/use-table-row-store';
-import { useTableStore } from '../hooks/use-table-store';
-import { useShallow } from 'zustand/shallow';
+import { TableCell } from '../components/table-cell';
+import { useMemo, useState } from 'react';
+
+import { Table as Table2 } from '@/Table';
+
+import { withProfiler } from '@/../.storybook/decorators/profiler';
 
 const meta: Meta<typeof Table> = {
   title: 'Base UI/Table',
@@ -22,10 +20,11 @@ const meta: Meta<typeof Table> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-let x = 0;
-
 export const BasicUsage: Story = {
+  decorators: [withProfiler],
   render: () => {
+    const [count, setCount] = useState(0);
+
     const columnIds = useMemo(
       () => [
         'firstName',
@@ -37,47 +36,68 @@ export const BasicUsage: Story = {
       ],
       [],
     );
-    const data = Array.from(Array(100), () => ({
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
-      gender: faker.person.gender(),
-      middleName: faker.person.middleName(),
-      sex: faker.person.sex(),
-      zodiacSign: faker.person.zodiacSign(),
-    }));
+    const data = useMemo(
+      () =>
+        Array.from(Array(100), () => ({
+          firstName: faker.person.firstName(),
+          lastName: faker.person.lastName(),
+          gender: faker.person.gender(),
+          middleName: faker.person.middleName(),
+          sex: faker.person.sex(),
+          zodiacSign: faker.person.zodiacSign(),
+        })),
+      [count],
+    );
+    const internals = useMemo(
+      () => ({
+        TableCell,
+        TableRow,
+        TableBody,
+      }),
+      [],
+    );
 
-    const [count, setCount] = useState(0);
-    useEffect(() => {
-      console.log(x / count);
-    }, [count]);
+    const layout: TableProps<typeof internals>['layout'] = useMemo(() => {
+      return ({ TableBody }) => {
+        return (
+          <>
+            <TableBody />
+          </>
+        );
+      };
+    }, []);
+
     return (
       <>
-        <Profiler
-          id="hello"
-          onRender={(id, phase, actualDuration) => {
-            if (phase !== 'mount') {
-              x = x + actualDuration;
-            }
+        <button
+          type="button"
+          onClick={() => {
+            setCount(count + 1);
           }}
         >
-          <button
-            onClick={() => {
-              setCount(count + 1);
-            }}
-          >
-            press
-          </button>
-          {/* {data.map((d, i) => {
-            return (
-              <div key={i}>
-                {Object.keys(d).map((k, j) => {
-                  return <span key={j}>{d[k]}</span>;
-                })}
-              </div>
-            );
-          })} */}
-          <TempTable columnIds={columnIds} data={data} />
-          {/* <Table2 columnIds={columnIds} data={data}>
+          press
+        </button>
+        <Table
+          columnIds={columnIds}
+          data={data}
+          internals={internals}
+          layout={layout}
+        />
+
+        {/* <Table2 columnIds={columnIds} data={data} /> */}
+
+        {/* {data.map((d, i) => {
+          return (
+            <div key={i}>
+              {Object.keys(d).map((k, j) => {
+                return <span key={j}>{d[k]}</span>;
+              })}
+            </div>
+          );
+        })} */}
+
+        {/* <TempTable columnIds={columnIds} data={data} /> */}
+        {/* <Table2 columnIds={columnIds} data={data}>
             <Table2.Body>
               <Table2.Row>
                 <Table2.Cell columnId="firstName">
@@ -101,77 +121,7 @@ export const BasicUsage: Story = {
               </Table2.Row>
             </Table2.Body>
           </Table2> */}
-        </Profiler>
       </>
     );
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const pressBtn = await canvas.getByRole('button');
-    // const x = await canvas.findBy;
-    await userEvent.click(pressBtn);
-  },
 };
-
-const TempTable = ({ columnIds, data }: TableProps) => {
-  const x = useMemo(
-    () => (
-      <TableRow>
-        <TableCell columnId="firstName">
-          <CustomCell columnId="firstName" />
-        </TableCell>
-        <TableCell columnId="lastName">
-          <CustomCell columnId="lastName" />
-        </TableCell>
-        <TableCell columnId="gender">
-          <CustomCell columnId="gender" />
-        </TableCell>
-        <TableCell columnId="middleName">
-          <CustomCell columnId="middleName" />
-        </TableCell>
-        <TableCell columnId="sex">
-          <CustomCell columnId="sex" />
-        </TableCell>
-        <TableCell columnId="zodiacSign">
-          <CustomCell columnId="zodiacSign" />
-        </TableCell>
-      </TableRow>
-    ),
-    [],
-  );
-  return (
-    <Table columnIds={columnIds} data={data}>
-      <TableBody>
-        <TableRow>
-          <TableCell columnId="firstName">
-            <CustomCell columnId="firstName" />
-          </TableCell>
-          <TableCell columnId="lastName">
-            <CustomCell columnId="lastName" />
-          </TableCell>
-          <TableCell columnId="gender">
-            <CustomCell columnId="gender" />
-          </TableCell>
-          <TableCell columnId="middleName">
-            <CustomCell columnId="middleName" />
-          </TableCell>
-          <TableCell columnId="sex">
-            <CustomCell columnId="sex" />
-          </TableCell>
-          <TableCell columnId="zodiacSign">
-            <CustomCell columnId="zodiacSign" />
-          </TableCell>
-        </TableRow>
-        {/* {x} */}
-      </TableBody>
-    </Table>
-  );
-};
-
-const CustomCell = memo(({ columnId }: TableCellProps) => {
-  const rowIndex = useTableRowStore((state) => state.rowIndex);
-  const columnData = useTableStore(
-    useShallow((state) => state.data?.[rowIndex][columnId]),
-  );
-  return <div>hello, {columnData}</div>;
-});

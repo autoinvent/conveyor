@@ -1,7 +1,6 @@
 import {
   Fragment,
   type PropsWithChildren,
-  type ReactNode,
   createContext,
   useEffect,
   useRef,
@@ -13,15 +12,9 @@ import { createStore, useStore } from 'zustand';
 export const SlotsContext = createContext<SlotsStore | null>(null);
 
 export interface SlotsProviderProps
-  extends PropsWithChildren<Pick<SlotsState, 'slotIds'>> {
-  defaultSlotNodes: Record<string, ReactNode>;
-}
+  extends PropsWithChildren<Pick<SlotsState, 'slotIds'>> {}
 
-export const SlotsProvider = ({
-  slotIds,
-  defaultSlotNodes,
-  children,
-}: SlotsProviderProps) => {
+export const SlotProvider = ({ slotIds, children }: SlotsProviderProps) => {
   const storeRef = useRef<SlotsStore>(null);
   if (!storeRef.current) {
     storeRef.current = createStore<SlotsState>()((set) => ({
@@ -44,11 +37,7 @@ export const SlotsProvider = ({
   return (
     <SlotsContext value={storeRef.current}>
       {slotIds.map((slotId) => (
-        <Fragment key={slotId}>
-          {slotNodes[slotId] === undefined
-            ? defaultSlotNodes[slotId]
-            : slotNodes[slotId]}
-        </Fragment>
+        <Fragment key={`slot-${slotId}`}>{slotNodes[slotId]}</Fragment>
       ))}
       {children}
     </SlotsContext>

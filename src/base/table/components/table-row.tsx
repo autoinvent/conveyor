@@ -1,9 +1,9 @@
 import { cn } from '@/base/utils';
-import { type ComponentProps, useMemo } from 'react';
+import type { ComponentProps } from 'react';
 import { useTableStore } from '../hooks/use-table-store';
-import { TableCell } from './table-cell';
 import { useShallow } from 'zustand/shallow';
-import { SlotsProvider } from '@/base/slots/contexts/slots-context';
+import { SlotProvider } from '@/base/slot/contexts/slot-context';
+
 export interface TableRowProps extends ComponentProps<'tr'> {}
 
 export const TableRow = ({
@@ -12,16 +12,8 @@ export const TableRow = ({
   ...htmlProps
 }: TableRowProps) => {
   const columnIds = useTableStore(useShallow((state) => state.columnIds));
-  const defaultSlotNodes = useMemo(
-    () =>
-      Object.fromEntries(
-        columnIds.map((columnId) => [
-          columnId,
-          <TableCell key={`table-cell-${columnId}`} columnId={columnId} />,
-        ]),
-      ),
-    [columnIds],
-  );
+  const TableCell = useTableStore((state) => state.internals.TableCell);
+
   return (
     <tr
       className={cn(
@@ -30,9 +22,12 @@ export const TableRow = ({
       )}
       {...htmlProps}
     >
-      <SlotsProvider slotIds={columnIds} defaultSlotNodes={defaultSlotNodes}>
+      <SlotProvider slotIds={columnIds}>
+        {columnIds.map((columnId) => (
+          <TableCell key={`table-cell-${columnId}`} columnId={columnId} />
+        ))}
         {children}
-      </SlotsProvider>
+      </SlotProvider>
     </tr>
   );
 };
