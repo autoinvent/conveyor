@@ -12,7 +12,6 @@ export interface TableState<TInternals extends TableInternals> {
   layout: FC<NoInfer<TInternals>>;
 }
 
-// export type TableInternals = Record<string, ComponentType>;
 export interface TableInternals extends Record<string, FC<any>> {
   TableBody: FC<TableBodyProps>;
   TableRow: FC<TableRowProps>;

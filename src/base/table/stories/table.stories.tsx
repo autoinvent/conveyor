@@ -7,7 +7,7 @@ import { TableRow } from '../components/table-row';
 import { TableCell } from '../components/table-cell';
 import { useMemo, useState } from 'react';
 
-import { Table as Table2 } from '@/Table';
+// import { Table as Table2 } from '@/Table';
 
 import { withProfiler } from '@/../.storybook/decorators/profiler';
 
@@ -26,50 +26,36 @@ export const BasicUsage: Story = {
     const [count, setCount] = useState(0);
 
     const columnIds = useMemo(
-      () => [
-        'firstName',
-        'middleName',
-        'lastName',
-        'gender',
-        'sex',
-        'zodiacSign',
-      ],
+      () => ['firstName', 'middleName', 'lastName', 'sex', 'zodiacSign'],
       [],
     );
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     const data = useMemo(
       () =>
         Array.from(Array(100), () => ({
           firstName: faker.person.firstName(),
           lastName: faker.person.lastName(),
-          gender: faker.person.gender(),
           middleName: faker.person.middleName(),
           sex: faker.person.sex(),
           zodiacSign: faker.person.zodiacSign(),
         })),
       [count],
     );
-    const internals = useMemo(
-      () => ({
-        TableCell,
-        TableRow,
-        TableBody,
-      }),
-      [],
-    );
+    const internals = useMemo(() => ({ TableCustom: () => null }), []);
 
-    const layout: TableProps<typeof internals>['layout'] = useMemo(() => {
-      return ({ TableBody }) => {
-        return (
-          <>
-            <TableBody>
-              <TableRow>
-                <TableCell columnId="firstName">Hello</TableCell>
-              </TableRow>
-            </TableBody>
-          </>
-        );
-      };
-    }, []);
+    // const layout: TableProps<typeof internals>['layout'] = useMemo(() => {
+    //   return ({ TableBody }) => {
+    //     return (
+    //       <>
+    //         <TableBody>
+    //           <TableRow>
+    //             <TableCell columnId="firstName">Hello</TableCell>
+    //           </TableRow>
+    //         </TableBody>
+    //       </>
+    //     );
+    //   };
+    // }, []);
 
     return (
       <>
@@ -84,8 +70,10 @@ export const BasicUsage: Story = {
         <Table
           columnIds={columnIds}
           data={data}
+          // internals={{ TableCustom: () => null }}
+          // layout={({}) => {}}
           internals={internals}
-          layout={layout}
+          // layout={layout}
         />
 
         {/* <Table2 columnIds={columnIds} data={data} /> */}
