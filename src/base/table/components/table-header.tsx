@@ -1,7 +1,15 @@
 import type { ComponentProps } from 'react';
+import { useTableStore } from '../hooks/use-table-store';
 
-export interface TableBodyProps extends ComponentProps<'tbody'> {}
+export interface TableHeaderProps extends ComponentProps<'thead'> {}
 
-export const TableBody = ({ children, ...htmlProps }: TableBodyProps) => {
-  return <tbody {...htmlProps}>{children}</tbody>;
+export const TableHeader = ({ children, ...htmlProps }: TableHeaderProps) => {
+  const TableHeaderRow = useTableStore(
+    (state) => state.internals.TableHeaderRow,
+  );
+  return (
+    <thead {...htmlProps}>
+      {children === undefined ? <TableHeaderRow /> : children}
+    </thead>
+  );
 };

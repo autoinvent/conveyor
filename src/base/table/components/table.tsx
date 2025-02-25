@@ -8,6 +8,9 @@ import type {
   TableInternals,
   TableState,
 } from '../types';
+import { TableHeader } from './table-header';
+import { TableHeaderRow } from './table-header-row';
+import { TableHead } from './table-head';
 import { TableBody } from './table-body';
 import { TableCell } from './table-cell';
 import { TableRow } from './table-row';
@@ -15,10 +18,18 @@ import { TableRow } from './table-row';
 const DEFAULT_LAYOUT: TableProps<TableInternals>['layout'] = ({
   TableBody,
 }) => {
-  return <TableBody />;
+  return (
+    <>
+      <TableHeader />
+      <TableBody />
+    </>
+  );
 };
 
 const DEFAULT_INTERNALS: TableProps<TableInternals>['internals'] = {
+  TableHeader,
+  TableHeaderRow,
+  TableHead,
   TableBody,
   TableRow,
   TableCell,
@@ -59,7 +70,10 @@ export const Table = <TInternals extends InferredTableInternals>({
       internals={combinedInternals}
       layout={Layout}
     >
-      <table className={cn('w-auto caption-bottom', className)} {...htmlProps}>
+      <table
+        className={cn('w-auto caption-bottom bg-background', className)}
+        {...htmlProps}
+      >
         {layout}
       </table>
     </TableProvider>

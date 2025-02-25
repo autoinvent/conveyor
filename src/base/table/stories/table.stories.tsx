@@ -67,9 +67,9 @@ export const BasicUsage: Story = {
         <Table
           columnIds={columnIds}
           data={data}
+          internals={internals}
           // internals={{ TableCustom: () => null }}
           // layout={({}) => {}}
-          internals={internals}
           // layout={layout}
         />
 

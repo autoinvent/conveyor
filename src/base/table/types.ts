@@ -7,6 +7,9 @@ import type { Data } from '@/base/types';
 import type { TableBodyProps } from './components/table-body';
 import type { TableCellProps } from './components/table-cell';
 import type { TableRowProps } from './components/table-row';
+import type { TableHeaderProps } from './components/table-header';
+import type { TableHeaderRowProps } from './components/table-header-row';
+import type { TableHeadProps } from './components/table-head';
 
 export interface TableState<TInternals extends TableInternals> {
   columnIds: string[];
@@ -20,6 +23,9 @@ export interface TableInternals
     DefaultTableInternals {}
 
 export interface DefaultTableInternals {
+  TableHeader: FC<TableHeaderProps>;
+  TableHeaderRow: FC<TableHeaderRowProps>;
+  TableHead: FC<TableHeadProps>;
   TableBody: FC<TableBodyProps>;
   TableRow: FC<TableRowProps>;
   TableCell: FC<TableCellProps>;

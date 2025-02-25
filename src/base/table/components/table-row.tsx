@@ -20,7 +20,7 @@ export const TableRow = ({
   return (
     <tr
       className={cn(
-        'border-y bg-background transition-colors hover:bg-muted-subtle',
+        'border-y transition-colors hover:bg-muted-subtle',
         className,
       )}
       {...htmlProps}

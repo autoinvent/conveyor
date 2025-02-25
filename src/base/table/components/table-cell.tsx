@@ -11,10 +11,10 @@ import { useTableStore } from '../hooks/use-table-store';
 
 export interface TableCellProps extends ComponentProps<'td'> {
   columnId: string;
-  render?: FC<RenderProps>;
+  render?: FC<TableCellRenderProps>;
 }
 
-export interface RenderProps {
+export interface TableCellRenderProps {
   rowIndex: number;
   rowData?: Data;
   columnId: string;
