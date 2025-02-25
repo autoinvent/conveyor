@@ -12,7 +12,11 @@ export interface TableState<TInternals extends TableInternals> {
   layout: FC<NoInfer<TInternals>>;
 }
 
-export interface TableInternals extends Record<string, FC<any>> {
+export interface TableInternals
+  extends Record<string, FC<any>>,
+    DefaultTableInternals {}
+
+export interface DefaultTableInternals {
   TableBody: FC<TableBodyProps>;
   TableRow: FC<TableRowProps>;
   TableCell: FC<TableCellProps>;

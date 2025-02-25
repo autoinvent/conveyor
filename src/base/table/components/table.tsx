@@ -3,7 +3,11 @@ import { type FC, useMemo, type ComponentProps } from 'react';
 import { cn } from '@/base/utils';
 
 import { TableProvider } from '../contexts/table-context';
-import type { TableInternals, TableState } from '../types';
+import type {
+  DefaultTableInternals,
+  TableInternals,
+  TableState,
+} from '../types';
 import { TableBody } from './table-body';
 import { TableRow } from './table-row';
 import { TableCell } from './table-cell';
@@ -20,18 +24,23 @@ const DEFAULT_INTERNALS: TableProps<TableInternals>['internals'] = {
   TableCell,
 };
 
-export interface TableProps<TInternals extends Partial<TableInternals>>
+export type InferredTableInternals = Record<string, FC<any>> &
+  Partial<DefaultTableInternals>;
+
+export interface TableProps<TInternals extends InferredTableInternals>
   extends Pick<TableState<TableInternals>, 'columnIds' | 'data'>,
     Omit<ComponentProps<'table'>, 'children'> {
-  layout?: FC<NoInfer<TInternals | TableInternals>>;
+  layout?: FC<NoInfer<TInternals> & DefaultTableInternals>;
   internals?: TInternals;
 }
 
-export const Table = <TInternals extends Partial<TableInternals>>({
+export const Table = <TInternals extends InferredTableInternals>({
   columnIds,
   data,
   internals = DEFAULT_INTERNALS as TInternals,
-  layout: Layout = DEFAULT_LAYOUT as FC<NoInfer<TInternals | TableInternals>>,
+  layout: Layout = DEFAULT_LAYOUT as FC<
+    NoInfer<TInternals> & DefaultTableInternals
+  >,
   className,
   ...htmlProps
 }: TableProps<TInternals>) => {
