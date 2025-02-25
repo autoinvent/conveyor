@@ -1,4 +1,5 @@
 import { type ReactNode, useEffect } from 'react';
+
 import { useSlotsStore } from '../hooks/use-slot-store';
 
 export interface SlotProps {

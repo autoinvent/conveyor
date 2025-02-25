@@ -5,8 +5,9 @@ import {
   useRef,
 } from 'react';
 
-import type { TableInternals, TableState, TableStore } from '../types';
 import { createStore } from 'zustand';
+
+import type { TableInternals, TableState, TableStore } from '../types';
 
 export const TableContext = createContext<TableStore<any> | null>(null);
 

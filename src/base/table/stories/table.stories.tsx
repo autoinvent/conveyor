@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react';
-
-import { Table } from '../components/table';
-import { faker } from '@faker-js/faker';
 import { useMemo, useState } from 'react';
 
-// import { Table as Table2 } from '@/Table';
+import { faker } from '@faker-js/faker';
+import type { Meta, StoryObj } from '@storybook/react';
 
+// import { Table as Table2 } from '@/Table';
 import { withProfiler } from '@/../.storybook/decorators/profiler';
+
+import { Table } from '../components/table';
 
 const meta: Meta<typeof Table> = {
   title: 'Base UI/Table',

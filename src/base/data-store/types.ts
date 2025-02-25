@@ -1,5 +1,6 @@
-import type { Data } from '@/base/types';
 import type { StoreApi } from 'zustand';
+
+import type { Data } from '@/base/types';
 
 export interface DataState<
   TData extends Data = Data,

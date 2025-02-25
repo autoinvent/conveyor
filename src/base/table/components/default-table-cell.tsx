@@ -1,8 +1,11 @@
+import type { ComponentProps } from 'react';
+
+import { useShallow } from 'zustand/shallow';
+
 import { cn } from '@/base/utils';
+
 import { useTableRowStore } from '../hooks/use-table-row-store';
 import { useTableStore } from '../hooks/use-table-store';
-import { useShallow } from 'zustand/shallow';
-import type { ComponentProps } from 'react';
 
 export interface DefaultTableCellProps extends ComponentProps<'td'> {
   columnId: string;

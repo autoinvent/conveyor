@@ -5,8 +5,9 @@ import {
   useRef,
 } from 'react';
 
-import type { DataState, DataStore } from '../types';
 import { createStore } from 'zustand';
+
+import type { DataState, DataStore } from '../types';
 
 export const DataContext = createContext<DataStore | null>(null);
 

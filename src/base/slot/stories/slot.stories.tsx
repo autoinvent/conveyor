@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { faker } from '@faker-js/faker';
-
 import { SlotProvider } from '../contexts/slot-context';
 
 const meta: Meta<typeof SlotProvider> = {

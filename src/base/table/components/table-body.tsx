@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
 
-import { useTableStore } from '../hooks/use-table-store';
 import { TableRowProvider } from '../contexts/table-row-context';
+import { useTableStore } from '../hooks/use-table-store';
 
 export interface TableBodyProps extends ComponentProps<'tbody'> {}
 

@@ -6,8 +6,9 @@ import {
   useRef,
 } from 'react';
 
-import type { SlotsState, SlotsStore } from '../types';
 import { createStore, useStore } from 'zustand';
+
+import type { SlotsState, SlotsStore } from '../types';
 
 export const SlotsContext = createContext<SlotsStore | null>(null);
 

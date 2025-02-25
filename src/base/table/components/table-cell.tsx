@@ -1,10 +1,13 @@
 import type { ComponentProps, FC } from 'react';
+
+import { useShallow } from 'zustand/shallow';
+
 import { Slot } from '@/base/slot/component/slot';
+import type { Data } from '@/base/types';
+import { cn } from '@/base/utils';
+
 import { useTableRowStore } from '../hooks/use-table-row-store';
 import { useTableStore } from '../hooks/use-table-store';
-import { useShallow } from 'zustand/shallow';
-import { cn } from '@/base/utils';
-import type { Data } from '@/base/types';
 
 export interface TableCellProps extends ComponentProps<'td'> {
   columnId: string;

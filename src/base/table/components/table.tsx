@@ -1,4 +1,4 @@
-import { type FC, useMemo, type ComponentProps } from 'react';
+import { type ComponentProps, type FC, useMemo } from 'react';
 
 import { cn } from '@/base/utils';
 
@@ -9,8 +9,8 @@ import type {
   TableState,
 } from '../types';
 import { TableBody } from './table-body';
-import { TableRow } from './table-row';
 import { TableCell } from './table-cell';
+import { TableRow } from './table-row';
 
 const DEFAULT_LAYOUT: TableProps<TableInternals>['layout'] = ({
   TableBody,

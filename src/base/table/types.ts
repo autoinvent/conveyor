@@ -1,9 +1,12 @@
-import type { Data } from '@/base/types';
 import type { FC } from 'react';
+
 import type { StoreApi } from 'zustand';
+
+import type { Data } from '@/base/types';
+
+import type { TableBodyProps } from './components/table-body';
 import type { TableCellProps } from './components/table-cell';
 import type { TableRowProps } from './components/table-row';
-import type { TableBodyProps } from './components/table-body';
 
 export interface TableState<TInternals extends TableInternals> {
   columnIds: string[];
