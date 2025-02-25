@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Table, type TableProps } from '../components/table';
-import { TableBody } from '../components/table-body';
+import { Table } from '../components/table';
 import { faker } from '@faker-js/faker';
-import { TableRow } from '../components/table-row';
-import { TableCell } from '../components/table-cell';
 import { useMemo, useState } from 'react';
 
 // import { Table as Table2 } from '@/Table';
