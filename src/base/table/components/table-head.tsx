@@ -1,6 +1,7 @@
+import type { ComponentProps, FC } from 'react';
+
 import { Slot } from '@/base/slot/component/slot';
 import { cn, humanizeText } from '@/base/utils';
-import type { ComponentProps, FC } from 'react';
 
 export interface TableHeadProps extends ComponentProps<'th'> {
   columnId: string;

@@ -8,11 +8,11 @@ import type {
   TableInternals,
   TableState,
 } from '../types';
-import { TableHeader } from './table-header';
-import { TableHeaderRow } from './table-header-row';
-import { TableHead } from './table-head';
 import { TableBody } from './table-body';
 import { TableCell } from './table-cell';
+import { TableHead } from './table-head';
+import { TableHeader } from './table-header';
+import { TableHeaderRow } from './table-header-row';
 import { TableRow } from './table-row';
 
 const DEFAULT_LAYOUT: TableProps<TableInternals>['layout'] = ({

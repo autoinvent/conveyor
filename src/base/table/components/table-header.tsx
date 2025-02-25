@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'react';
+
 import { useTableStore } from '../hooks/use-table-store';
 
 export interface TableHeaderProps extends ComponentProps<'thead'> {}

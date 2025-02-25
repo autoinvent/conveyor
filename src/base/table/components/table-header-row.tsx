@@ -1,8 +1,11 @@
-import { cn } from '@/base/utils';
 import type { ComponentProps } from 'react';
-import { useTableStore } from '../hooks/use-table-store';
+
 import { useShallow } from 'zustand/shallow';
+
 import { SlotProvider } from '@/base/slot/contexts/slot-context';
+import { cn } from '@/base/utils';
+
+import { useTableStore } from '../hooks/use-table-store';
 
 export interface TableHeaderRowProps extends ComponentProps<'tr'> {}
 

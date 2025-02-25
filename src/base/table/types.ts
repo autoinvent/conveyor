@@ -6,10 +6,10 @@ import type { Data } from '@/base/types';
 
 import type { TableBodyProps } from './components/table-body';
 import type { TableCellProps } from './components/table-cell';
-import type { TableRowProps } from './components/table-row';
+import type { TableHeadProps } from './components/table-head';
 import type { TableHeaderProps } from './components/table-header';
 import type { TableHeaderRowProps } from './components/table-header-row';
-import type { TableHeadProps } from './components/table-head';
+import type { TableRowProps } from './components/table-row';
 
 export interface TableState<TInternals extends TableInternals> {
   columnIds: string[];
