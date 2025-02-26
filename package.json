@@ -91,6 +91,7 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.20",
+    "babel-plugin-react-compiler": "19.0.0-beta-e1e972c-20250221",
     "concurrently": "^8.2.2",
     "lefthook": "^1.7.18",
     "msw": "^2.7.0",

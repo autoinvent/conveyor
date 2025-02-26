@@ -9,7 +9,7 @@ import { cn } from '@/base/utils';
 import { useTableRowStore } from '../hooks/use-table-row-store';
 import { useTableStore } from '../hooks/use-table-store';
 
-export interface TableCellProps extends ComponentProps<'td'> {
+export interface TableCellProps extends Omit<ComponentProps<'td'>, 'children'> {
   columnId: string;
   render?: FC<TableCellRenderProps>;
 }
@@ -25,7 +25,6 @@ export const TableCell = ({
   columnId,
   render: Render,
   className,
-  children,
   ...htmlProps
 }: TableCellProps) => {
   const rowIndex = useTableRowStore((state) => state.rowIndex);
@@ -34,18 +33,18 @@ export const TableCell = ({
   const columnData = rowData?.[columnId];
   return (
     <Slot slotId={columnId}>
-      {Render ? (
-        <Render
-          rowIndex={rowIndex}
-          rowData={rowData}
-          columnId={columnId}
-          columnData={columnData}
-        />
-      ) : (
-        <td className={cn('px-2 py-1', className)} {...htmlProps}>
-          {children === undefined ? columnData : children}
-        </td>
-      )}
+      <td className={cn('px-2 py-1', className)} {...htmlProps}>
+        {Render ? (
+          <Render
+            rowIndex={rowIndex}
+            rowData={rowData}
+            columnId={columnId}
+            columnData={columnData}
+          />
+        ) : (
+          columnData
+        )}
+      </td>
     </Slot>
   );
 };

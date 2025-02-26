@@ -3,10 +3,11 @@ import { useMemo, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import type { Meta, StoryObj } from '@storybook/react';
 
-// import { Table as Table2 } from '@/Table';
+import { Table as Table2 } from '@/Table';
 import { withProfiler } from '@/../.storybook/decorators/profiler';
 
-import { Table } from '../components/table';
+import { Table, TableProps } from '../components/table';
+import { TableInternals } from '../types';
 
 const meta: Meta<typeof Table> = {
   title: 'Base UI/Table',
@@ -40,19 +41,20 @@ export const BasicUsage: Story = {
     );
     const internals = useMemo(() => ({ TableCustom: () => null }), []);
 
-    // const layout: TableProps<typeof internals>['layout'] = useMemo(() => {
-    //   return ({ TableBody }) => {
-    //     return (
-    //       <>
-    //         <TableBody>
-    //           <TableRow>
-    //             <TableCell columnId="firstName">Hello</TableCell>
-    //           </TableRow>
-    //         </TableBody>
-    //       </>
-    //     );
-    //   };
-    // }, []);
+    const layout: TableProps<TableInternals>['layout'] = useMemo(() => {
+      return ({ TableHeader, TableBody, TableRow, TableCell }) => {
+        return (
+          <>
+            <TableHeader />
+            <TableBody>
+              <TableRow>
+                <TableCell columnId="firstName" />
+              </TableRow>
+            </TableBody>
+          </>
+        );
+      };
+    }, []);
 
     return (
       <>
@@ -67,13 +69,35 @@ export const BasicUsage: Story = {
         <Table
           columnIds={columnIds}
           data={data}
-          internals={internals}
+          // internals={internals}
           // internals={{ TableCustom: () => null }}
-          // layout={({}) => {}}
-          // layout={layout}
+          layout={layout}
+          // layout={({ TableHeader, TableBody, TableRow, TableCell }) => {
+          //   return (
+          //     <>
+          //       <TableHeader />
+          //       <TableBody>
+          //         <TableRow>
+          //           <TableCell columnId="firstName" />
+          //         </TableRow>
+          //       </TableBody>
+          //     </>
+          //   );
+          // }}
         />
 
+        {/* <Table columnIds={columnIds} data={data} /> */}
+
         {/* <Table2 columnIds={columnIds} data={data} /> */}
+
+        {/* <Table2 columnIds={columnIds} data={data}>
+          <Table2.Header />
+          <Table2.Body>
+            <Table2.Row prefilled>
+              <Table2.Cell columnId="firstName" />
+            </Table2.Row>
+          </Table2.Body>
+        </Table2> */}
 
         {/* {data.map((d, i) => {
           return (
