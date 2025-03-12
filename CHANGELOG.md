@@ -1,3 +1,6 @@
+## 1.11.2
+`bugfix`: Pagination will set the correct page after deletions.
+
 ## 1.11.1
 `bugfix`: Exported Actions module.
 
