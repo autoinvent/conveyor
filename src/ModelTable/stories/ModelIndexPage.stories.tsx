@@ -134,7 +134,7 @@ const meta = {
             <ModelTable.Fallback />
           </ModelTable>
           <Pagination
-            totalDataLength={500}
+            totalDataLength={currData.length}
             page={tableView.page}
             onPageChange={(newPage) => {
               setTableView((oldTableView) => ({

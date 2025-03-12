@@ -68,8 +68,8 @@ export const Pagination = ({
     totalPages,
   );
 
-  if (page > totalPages || page < 1) {
-    throw new Error(`Page must be between 1 and ${totalPages}`);
+  if (page > totalPages) {
+    onPageChange(totalPages);
   }
 
   return (
