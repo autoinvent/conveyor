@@ -3,20 +3,23 @@ import { useMemo, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Table as Table2 } from '@/Table';
 import { withProfiler } from '@/../.storybook/decorators/profiler';
 
-import { Table, TableProps } from '../components/table';
-import { TableInternals } from '../types';
+import { Table as DefaultTable } from '../components/table';
+import { createTableHook } from '../utils/create-table-hook';
+import { TableRow } from '@/Table';
+// import type { TableInternals } from '../types';
 
-const meta: Meta<typeof Table> = {
+const meta: Meta<typeof DefaultTable> = {
   title: 'Base UI/Table',
-  component: Table,
+  component: DefaultTable,
   args: {},
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const useTable = createTableHook({ Table: DefaultTable, Row: TableRow, Monkey: () => 'monkey' });
 
 export const BasicUsage: Story = {
   decorators: [withProfiler],
@@ -39,22 +42,8 @@ export const BasicUsage: Story = {
         })),
       [count],
     );
-    const internals = useMemo(() => ({ TableCustom: () => null }), []);
 
-    const layout: TableProps<TableInternals>['layout'] = useMemo(() => {
-      return ({ TableHeader, TableBody, TableRow, TableCell }) => {
-        return (
-          <>
-            <TableHeader />
-            <TableBody>
-              <TableRow>
-                <TableCell columnId="firstName" />
-              </TableRow>
-            </TableBody>
-          </>
-        );
-      };
-    }, []);
+    const Table = useTable({ columnIds, data, components: {} });
 
     return (
       <>
@@ -66,74 +55,9 @@ export const BasicUsage: Story = {
         >
           press
         </button>
-        <Table
-          columnIds={columnIds}
-          data={data}
-          // internals={internals}
-          // internals={{ TableCustom: () => null }}
-          layout={layout}
-          // layout={({ TableHeader, TableBody, TableRow, TableCell }) => {
-          //   return (
-          //     <>
-          //       <TableHeader />
-          //       <TableBody>
-          //         <TableRow>
-          //           <TableCell columnId="firstName" />
-          //         </TableRow>
-          //       </TableBody>
-          //     </>
-          //   );
-          // }}
-        />
-
-        {/* <Table columnIds={columnIds} data={data} /> */}
-
-        {/* <Table2 columnIds={columnIds} data={data} /> */}
-
-        {/* <Table2 columnIds={columnIds} data={data}>
-          <Table2.Header />
-          <Table2.Body>
-            <Table2.Row prefilled>
-              <Table2.Cell columnId="firstName" />
-            </Table2.Row>
-          </Table2.Body>
-        </Table2> */}
-
-        {/* {data.map((d, i) => {
-          return (
-            <div key={i}>
-              {Object.keys(d).map((k, j) => {
-                return <span key={j}>{d[k]}</span>;
-              })}
-            </div>
-          );
-        })} */}
-
-        {/* <TempTable columnIds={columnIds} data={data} /> */}
-        {/* <Table2 columnIds={columnIds} data={data}>
-            <Table2.Body>
-              <Table2.Row>
-                <Table2.Cell columnId="firstName">
-                  <CustomCell columnId="firstName" />
-                </Table2.Cell>
-                <Table2.Cell columnId="lastName">
-                  <CustomCell columnId="lastName" />
-                </Table2.Cell>
-                <Table2.Cell columnId="gender">
-                  <CustomCell columnId="gender" />
-                </Table2.Cell>
-                <Table2.Cell columnId="middleName">
-                  <CustomCell columnId="middleName" />
-                </Table2.Cell>
-                <Table2.Cell columnId="sex">
-                  <CustomCell columnId="sex" />
-                </Table2.Cell>
-                <Table2.Cell columnId="zodiacSign">
-                  <CustomCell columnId="zodiacSign" />
-                </Table2.Cell>
-              </Table2.Row>
-            </Table2.Body>
-          </Table2> */}
+        <Table>
+          <Table./>
+        </Table>
       </>
     );
   },

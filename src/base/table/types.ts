@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import type { StoreApi } from 'zustand';
 
@@ -11,12 +11,23 @@ import type { TableHeaderProps } from './components/table-header';
 import type { TableHeaderRowProps } from './components/table-header-row';
 import type { TableRowProps } from './components/table-row';
 
-export interface TableState<TInternals extends TableInternals> {
-  columnIds: string[];
-  data?: Data[];
-  internals: TInternals;
-  layout: FC<NoInfer<TInternals>>;
+export interface TableState<TColumnIds extends string, TData extends Data> {
+  columnIds: TColumnIds[];
+  data?: TData[];
+  components: Record<string, TableComponent>;
 }
+
+export type TableStore<
+  TColumnIds extends string,
+  TData extends Data,
+> = StoreApi<TableState<TColumnIds, TData>>;
+
+export type TableComponent = <
+  _TColumnId extends string,
+  _TData extends Record<string, any>,
+>(
+  p: any,
+) => ReactNode;
 
 export interface TableInternals
   extends Record<string, FC<any>>,
@@ -30,10 +41,6 @@ export interface DefaultTableInternals {
   TableRow: FC<TableRowProps>;
   TableCell: FC<TableCellProps>;
 }
-
-export type TableStore<TInternals extends TableInternals> = StoreApi<
-  TableState<TInternals>
->;
 
 export interface TableRowState {
   rowIndex: number;

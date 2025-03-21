@@ -7,33 +7,34 @@ import {
 
 import { createStore } from 'zustand';
 
-import type { TableInternals, TableState, TableStore } from '../types';
+import type { TableState, TableStore } from '../types';
+import type { Data } from '@/base/types';
 
-export const TableContext = createContext<TableStore<any> | null>(null);
+export const TableContext = createContext<TableStore<any, any> | null>(null);
 
-export interface TableProviderProps<TInternals extends TableInternals>
-  extends PropsWithChildren<TableState<TInternals>> {}
+export interface TableProviderProps<
+  TColumnIds extends string,
+  TData extends Data,
+> extends PropsWithChildren<TableState<TColumnIds, TData>> {}
 
-export const TableProvider = <TInternals extends TableInternals>({
+export const TableProvider = <TColumnIds extends string, TData extends Data>({
   columnIds,
   data,
-  internals,
-  layout,
+  components,
   children,
-}: TableProviderProps<TInternals>) => {
-  const storeRef = useRef<TableStore<TInternals>>(null);
+}: TableProviderProps<TColumnIds, TData>) => {
+  const storeRef = useRef<TableStore<TColumnIds, TData>>(null);
   if (!storeRef.current) {
-    storeRef.current = createStore<TableState<TInternals>>()(() => ({
+    storeRef.current = createStore<TableState<TColumnIds, TData>>()(() => ({
       columnIds,
       data,
-      internals,
-      layout,
+      components,
     }));
   }
 
   useEffect(() => {
-    storeRef.current?.setState({ columnIds, data, internals, layout });
-  }, [columnIds, data, internals, layout]);
+    storeRef.current?.setState({ columnIds, data, components });
+  }, [columnIds, data, components]);
 
   return <TableContext value={storeRef.current}>{children}</TableContext>;
 };
