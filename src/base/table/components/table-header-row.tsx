@@ -15,13 +15,13 @@ export const TableHeaderRow = ({
   ...htmlProps
 }: TableHeaderRowProps) => {
   const columnIds = useTableStore(useShallow((state) => state.columnIds));
-  const TableHead = useTableStore((state) => state.internals.TableHead);
+  const Head = useTableStore((state) => state.components.Head);
 
   return (
     <tr className={cn('border-y', className)} {...htmlProps}>
       <SlotProvider slotIds={columnIds}>
         {columnIds.map((columnId) => (
-          <TableHead key={`table-head-${columnId}`} columnId={columnId} />
+          <Head key={`table-head-${columnId}`} columnId={columnId} />
         ))}
         {children}
       </SlotProvider>

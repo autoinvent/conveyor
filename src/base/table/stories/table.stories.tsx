@@ -8,7 +8,6 @@ import { withProfiler } from '@/../.storybook/decorators/profiler';
 import { Table as DefaultTable } from '../components/table';
 import { createTableHook } from '../utils/create-table-hook';
 import { TableRow } from '@/Table';
-// import type { TableInternals } from '../types';
 
 const meta: Meta<typeof DefaultTable> = {
   title: 'Base UI/Table',
@@ -19,7 +18,7 @@ const meta: Meta<typeof DefaultTable> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const useTable = createTableHook({ Table: DefaultTable, Row: TableRow, Monkey: () => 'monkey' });
+const useTable = createTableHook({});
 
 export const BasicUsage: Story = {
   decorators: [withProfiler],
@@ -43,7 +42,7 @@ export const BasicUsage: Story = {
       [count],
     );
 
-    const Table = useTable({ columnIds, data, components: {} });
+    const Table = useTable({ columnIds, data });
 
     return (
       <>
@@ -55,9 +54,7 @@ export const BasicUsage: Story = {
         >
           press
         </button>
-        <Table>
-          <Table./>
-        </Table>
+        <Table />
       </>
     );
   },

@@ -11,7 +11,11 @@ export default defineConfig({
   // https://github.com/vitejs/vite/pull/8090
   define: { 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) },
   plugins: [
-    react(),
+    react({
+      babel: {
+        plugins: [['babel-plugin-react-compiler', {}]],
+      },
+    }),
     dts({ insertTypesEntry: true }),
     visualizer({ gzipSize: true, brotliSize: true, open: false }),
   ],

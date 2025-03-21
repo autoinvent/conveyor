@@ -7,14 +7,14 @@ export interface TableBodyProps extends ComponentProps<'tbody'> {}
 
 export const TableBody = ({ children, ...htmlProps }: TableBodyProps) => {
   const dataLength = useTableStore((state) => state.data?.length ?? 0);
-  const TableRow = useTableStore((state) => state.internals.TableRow);
+  const Row = useTableStore((state) => state.components.Row);
   return (
     <tbody {...htmlProps}>
       {Array.from(Array(dataLength), (_, rowIndex) => {
         const key = `table-row-${rowIndex}`;
         return (
           <TableRowProvider key={key} rowIndex={rowIndex}>
-            {children === undefined ? <TableRow /> : children}
+            {children === undefined ? <Row /> : children}
           </TableRowProvider>
         );
       })}

@@ -5,12 +5,10 @@ import { useTableStore } from '../hooks/use-table-store';
 export interface TableHeaderProps extends ComponentProps<'thead'> {}
 
 export const TableHeader = ({ children, ...htmlProps }: TableHeaderProps) => {
-  const TableHeaderRow = useTableStore(
-    (state) => state.internals.TableHeaderRow,
-  );
+  const HeaderRow = useTableStore((state) => state.components.HeaderRow);
   return (
     <thead {...htmlProps}>
-      {children === undefined ? <TableHeaderRow /> : children}
+      {children === undefined ? <HeaderRow /> : children}
     </thead>
   );
 };

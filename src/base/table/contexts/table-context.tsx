@@ -8,24 +8,20 @@ import {
 import { createStore } from 'zustand';
 
 import type { TableState, TableStore } from '../types';
-import type { Data } from '@/base/types';
 
-export const TableContext = createContext<TableStore<any, any> | null>(null);
+export const TableContext = createContext<TableStore | null>(null);
 
-export interface TableProviderProps<
-  TColumnIds extends string,
-  TData extends Data,
-> extends PropsWithChildren<TableState<TColumnIds, TData>> {}
+export interface TableProviderProps extends PropsWithChildren<TableState> {}
 
-export const TableProvider = <TColumnIds extends string, TData extends Data>({
+export const TableProvider = ({
   columnIds,
   data,
   components,
   children,
-}: TableProviderProps<TColumnIds, TData>) => {
-  const storeRef = useRef<TableStore<TColumnIds, TData>>(null);
+}: TableProviderProps) => {
+  const storeRef = useRef<TableStore>(null);
   if (!storeRef.current) {
-    storeRef.current = createStore<TableState<TColumnIds, TData>>()(() => ({
+    storeRef.current = createStore<TableState>()(() => ({
       columnIds,
       data,
       components,

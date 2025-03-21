@@ -1,6 +1,5 @@
 import type { ComponentProps } from 'react';
 import { TableProvider } from '../contexts/table-context';
-import type { Data } from '@/base/types';
 import type { TableComponent, TableState } from '../types';
 import { Table as DefaultTable } from '../components/table';
 import { TableHeader } from '../components/table-header';
@@ -22,11 +21,8 @@ const DEFAULT_TABLE_COMPONENTS = {
 
 type DefaultTableComponentNames = keyof typeof DEFAULT_TABLE_COMPONENTS;
 
-export interface UseTableOptions<
-  TColumnIds extends string,
-  TData extends Data,
-  TMetaComponentNames extends string,
-> extends Omit<TableState<TColumnIds, TData>, 'components'> {
+export interface UseTableOptions<TMetaComponentNames extends string>
+  extends Omit<TableState, 'components'> {
   components?: Partial<
     Record<TMetaComponentNames | DefaultTableComponentNames, TableComponent>
   >;
@@ -35,11 +31,11 @@ export interface UseTableOptions<
 export const createTableHook = <TMetaComponentNames extends string>(
   defaultComponents: Record<TMetaComponentNames, TableComponent>,
 ) => {
-  return <TColumnIds extends string, TData extends Data>({
+  return ({
     columnIds,
     data,
     components,
-  }: UseTableOptions<TColumnIds, TData, TMetaComponentNames>) => {
+  }: UseTableOptions<TMetaComponentNames>) => {
     const { Table, ...internals } = {
       ...DEFAULT_TABLE_COMPONENTS,
       ...defaultComponents,
