@@ -14,14 +14,14 @@ export const TableHeaderRow = ({
   className,
   ...htmlProps
 }: TableHeaderRowProps) => {
-  const columnIds = useTableStore(useShallow((state) => state.columnIds));
+  const columnOrder = useTableStore(useShallow((state) => state.columnOrder));
   const Head = useTableStore((state) => state.components.Head);
 
   return (
     <tr className={cn('border-y', className)} {...htmlProps}>
-      <SlotProvider slotIds={columnIds}>
-        {columnIds.map((columnId) => (
-          <Head key={`table-head-${columnId}`} columnId={columnId} />
+      <SlotProvider slotIds={columnOrder}>
+        {columnOrder.map((column: string) => (
+          <Head key={`table-head-${column}`} columnId={column} />
         ))}
         {children}
       </SlotProvider>

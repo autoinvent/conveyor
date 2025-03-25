@@ -7,7 +7,6 @@ import { withProfiler } from '@/../.storybook/decorators/profiler';
 
 import { Table as DefaultTable } from '../components/table';
 import { createTableHook } from '../utils/create-table-hook';
-import { TableRow } from '@/Table';
 
 const meta: Meta<typeof DefaultTable> = {
   title: 'Base UI/Table',
@@ -20,17 +19,21 @@ type Story = StoryObj<typeof meta>;
 
 const useTable = createTableHook({});
 
+type Person = {
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  sex: string;
+  zodiacSign: string;
+};
+
 export const BasicUsage: Story = {
   decorators: [withProfiler],
   render: () => {
     const [count, setCount] = useState(0);
 
-    const columnIds = useMemo(
-      () => ['firstName', 'middleName', 'lastName', 'sex', 'zodiacSign'],
-      [],
-    );
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    const data = useMemo(
+    const data: Person[] = useMemo(
       () =>
         Array.from(Array(100), () => ({
           firstName: faker.person.firstName(),
@@ -42,8 +45,6 @@ export const BasicUsage: Story = {
       [count],
     );
 
-    const Table = useTable({ columnIds, data });
-
     return (
       <>
         <button
@@ -54,8 +55,34 @@ export const BasicUsage: Story = {
         >
           press
         </button>
-        <Table />
+        <Custom data={data} />
       </>
     );
   },
+};
+
+const columns = [
+  'firstName',
+  'middleName',
+  'lastName',
+  'sex',
+  'zodiacSign',
+  'monkey',
+] as const;
+const Custom = ({ data }: { data: Person[] }) => {
+  const Table = useTable({ columns, data, components: {} });
+
+  return (
+    <Table>
+      <Table.Header />
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell
+            column="monkey"
+            render={({ column, rowData, columnData }) => `hello ${columnData}`}
+          />
+        </Table.Row>
+      </Table.Body>
+    </Table>
+  );
 };

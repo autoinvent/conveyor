@@ -4,8 +4,15 @@ import { useStore } from 'zustand';
 
 import { TableContext } from '../contexts/table-context';
 import type { TableState } from '../types';
+import type { Data } from '@/base/types';
 
-export const useTableStore = <T>(selector: (state: TableState) => T): T => {
+export const useTableStore = <
+  TColumn extends string,
+  TData extends Data,
+  TSelected,
+>(
+  selector: (state: TableState<TColumn, TData>) => TSelected,
+): TSelected => {
   const store = use(TableContext);
   if (!store) throw new Error('Missing TableContext in the tree.');
   return useStore(store, selector);

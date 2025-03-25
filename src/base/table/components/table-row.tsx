@@ -14,7 +14,7 @@ export const TableRow = ({
   className,
   ...htmlProps
 }: TableRowProps) => {
-  const columnIds = useTableStore(useShallow((state) => state.columnIds));
+  const columnOrder = useTableStore(useShallow((state) => state.columnOrder));
   const Cell = useTableStore((state) => state.components.Cell);
 
   return (
@@ -25,9 +25,9 @@ export const TableRow = ({
       )}
       {...htmlProps}
     >
-      <SlotProvider slotIds={columnIds}>
-        {columnIds.map((columnId) => (
-          <Cell key={`table-cell-${columnId}`} columnId={columnId} />
+      <SlotProvider slotIds={columnOrder}>
+        {columnOrder.map((column: string) => (
+          <Cell key={`table-cell-${column}`} column={column} />
         ))}
         {children}
       </SlotProvider>

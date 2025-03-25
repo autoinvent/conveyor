@@ -1,36 +1,18 @@
-import {
-  type PropsWithChildren,
-  createContext,
-  useEffect,
-  useRef,
-} from 'react';
+import { type ReactNode, createContext } from 'react';
 
-import { createStore } from 'zustand';
-
-import type { TableState, TableStore } from '../types';
+import type { TableStore } from '../types';
 
 export const TableContext = createContext<TableStore | null>(null);
 
-export interface TableProviderProps extends PropsWithChildren<TableState> {}
+export interface TableProviderProps {
+  store: TableStore | null;
+  children: ReactNode;
+}
 
-export const TableProvider = ({
-  columnIds,
-  data,
-  components,
-  children,
-}: TableProviderProps) => {
-  const storeRef = useRef<TableStore>(null);
-  if (!storeRef.current) {
-    storeRef.current = createStore<TableState>()(() => ({
-      columnIds,
-      data,
-      components,
-    }));
-  }
+export const TableProvider = ({ store, children }: TableProviderProps) => {
+  // useEffect(() => {
+  //   storeRef.current?.setState({ columnIds, data, components });
+  // }, [columnIds, data, components]);
 
-  useEffect(() => {
-    storeRef.current?.setState({ columnIds, data, components });
-  }, [columnIds, data, components]);
-
-  return <TableContext value={storeRef.current}>{children}</TableContext>;
+  return <TableContext value={store}>{children}</TableContext>;
 };

@@ -1,56 +1,74 @@
-import type { ComponentProps } from 'react';
+import { useEffect, useRef, useState, type ComponentProps } from 'react';
+import type { TableState, TableStore, TableComponents } from '../types';
+import { DEFAULT_TABLE_COMPONENTS } from '../types';
+
+import type { Data } from '@/base/types';
+import { createStore } from 'zustand';
 import { TableProvider } from '../contexts/table-context';
-import type { TableComponent, TableState } from '../types';
-import { Table as DefaultTable } from '../components/table';
-import { TableHeader } from '../components/table-header';
-import { TableHeaderRow } from '../components/table-header-row';
-import { TableHead } from '../components/table-head';
-import { TableBody } from '../components/table-body';
-import { TableRow } from '../components/table-row';
-import { TableCell } from '../components/table-cell';
 
-const DEFAULT_TABLE_COMPONENTS = {
-  Table: DefaultTable,
-  Header: TableHeader,
-  HeaderRow: TableHeaderRow,
-  Head: TableHead,
-  Body: TableBody,
-  Row: TableRow,
-  Cell: TableCell,
-};
-
-type DefaultTableComponentNames = keyof typeof DEFAULT_TABLE_COMPONENTS;
-
-export interface UseTableOptions<TMetaComponentNames extends string>
-  extends Omit<TableState, 'components'> {
-  components?: Partial<
-    Record<TMetaComponentNames | DefaultTableComponentNames, TableComponent>
-  >;
+export interface UseTableOptions<
+  TColumn extends string,
+  TData extends Data,
+  TComponents extends TableComponents,
+> extends Omit<TableState<TColumn, TData>, 'components' | 'columnOrder'> {
+  columnOrder?: NoInfer<TColumn[]>;
+  components?: Partial<TComponents>;
 }
 
-export const createTableHook = <TMetaComponentNames extends string>(
-  defaultComponents: Record<TMetaComponentNames, TableComponent>,
+export type CreateTableHook = <TDefaultComponents extends TableComponents>(
+  defaultComponents?: TDefaultComponents,
+) => <TColumn extends string, TData extends Data>(
+  opts: UseTableOptions<
+    TColumn,
+    TData,
+    typeof DEFAULT_TABLE_COMPONENTS & TDefaultComponents
+  >,
+) => (typeof DEFAULT_TABLE_COMPONENTS & TDefaultComponents)['Table'] &
+  (typeof DEFAULT_TABLE_COMPONENTS & TDefaultComponents);
+
+export const createTableHook = <TDefaultComponents extends TableComponents>(
+  defaultComponents?: TDefaultComponents,
 ) => {
-  return ({
-    columnIds,
+  const availableComponents = {
+    ...DEFAULT_TABLE_COMPONENTS,
+    ...defaultComponents,
+  };
+  return <TColumn extends string, TData extends Data>({
+    columns,
+    columnOrder = [...columns],
     data,
     components,
-  }: UseTableOptions<TMetaComponentNames>) => {
+  }: UseTableOptions<TColumn, TData, typeof availableComponents>) => {
     const { Table, ...internals } = {
-      ...DEFAULT_TABLE_COMPONENTS,
-      ...defaultComponents,
+      ...availableComponents,
       ...components,
     };
 
-    const WrappedTable = (props: ComponentProps<typeof Table>) => (
-      <TableProvider
-        columnIds={columnIds}
-        data={data}
-        components={{ Table, ...internals }}
-      >
-        <Table {...props} />
-      </TableProvider>
-    );
-    return Object.assign(WrappedTable, internals);
+    const storeRef = useRef<TableStore>(null);
+    if (!storeRef.current) {
+      storeRef.current = createStore<TableState<TColumn, TData>>()(() => ({
+        columns,
+        columnOrder,
+        data,
+        components: { Table: Table, ...internals },
+      }));
+    }
+
+    const [TableComponents] = useState(() => {
+      const TableWithProvider = (props: ComponentProps<typeof Table>) => {
+        return (
+          <TableProvider store={storeRef.current}>
+            <Table {...props} />
+          </TableProvider>
+        );
+      };
+      return Object.assign(TableWithProvider, internals);
+    });
+
+    useEffect(() => {
+      storeRef.current?.setState({ columnOrder, data });
+    }, [columnOrder, data]);
+
+    return TableComponents;
   };
 };

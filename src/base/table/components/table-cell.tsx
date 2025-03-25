@@ -9,36 +9,42 @@ import { cn } from '@/base/utils';
 import { useTableRowStore } from '../hooks/use-table-row-store';
 import { useTableStore } from '../hooks/use-table-store';
 
-export interface TableCellProps extends Omit<ComponentProps<'td'>, 'children'> {
-  columnId: string;
-  render?: FC<TableCellRenderProps>;
+export interface TableCellProps<TColumn extends string, TData extends Data>
+  extends Omit<ComponentProps<'td'>, 'children'> {
+  column: TColumn;
+  render?: FC<TableCellRenderProps<TColumn, TData>>;
 }
 
-export interface TableCellRenderProps {
+export interface TableCellRenderProps<
+  TColumn extends string,
+  TData extends Data,
+> {
   rowIndex: number;
-  rowData?: Data;
-  columnId: string;
-  columnData?: Data[string];
+  rowData: TData;
+  column: TColumn;
+  columnData: TData[TColumn];
 }
 
-export const TableCell = ({
-  columnId,
+export const TableCell = <TColumn extends string, TData extends Data>({
+  column,
   render: Render,
   className,
   ...htmlProps
-}: TableCellProps) => {
+}: TableCellProps<TColumn, TData>) => {
   const rowIndex = useTableRowStore((state) => state.rowIndex);
-  const rowData = useTableStore(useShallow((state) => state.data?.[rowIndex]));
+  const rowData = useTableStore<TColumn, TData, TData>(
+    useShallow((state) => state.data[rowIndex]),
+  );
 
-  const columnData = rowData?.[columnId];
+  const columnData = rowData[column];
   return (
-    <Slot slotId={columnId}>
+    <Slot slotId={column}>
       <td className={cn('px-2 py-1', className)} {...htmlProps}>
         {Render ? (
           <Render
             rowIndex={rowIndex}
             rowData={rowData}
-            columnId={columnId}
+            column={column}
             columnData={columnData}
           />
         ) : (
