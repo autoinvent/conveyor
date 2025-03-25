@@ -9,10 +9,13 @@ import { cn } from '@/base/utils';
 import { useTableRowStore } from '../hooks/use-table-row-store';
 import { useTableStore } from '../hooks/use-table-store';
 
-export interface TableCellProps<TColumn extends string, TData extends Data>
-  extends Omit<ComponentProps<'td'>, 'children'> {
-  column: TColumn;
-  render?: FC<TableCellRenderProps<TColumn, TData>>;
+export interface TableCellProps<
+  TColumn extends string,
+  TData extends Data,
+  TSelectedColumn extends TColumn,
+> extends Omit<ComponentProps<'td'>, 'children'> {
+  column: TSelectedColumn;
+  render?: FC<TableCellRenderProps<NoInfer<TSelectedColumn>, TData>>;
 }
 
 export interface TableCellRenderProps<
@@ -25,32 +28,34 @@ export interface TableCellRenderProps<
   columnData: TData[TColumn];
 }
 
-export const TableCell = <TColumn extends string, TData extends Data>({
-  column,
-  render: Render,
-  className,
-  ...htmlProps
-}: TableCellProps<TColumn, TData>) => {
-  const rowIndex = useTableRowStore((state) => state.rowIndex);
-  const rowData = useTableStore<TColumn, TData, TData>(
-    useShallow((state) => state.data[rowIndex]),
-  );
+export const TableCell =
+  <TColumn extends string, TData extends Data>() =>
+  <TSelectedColumn extends TColumn>({
+    column,
+    render: Render,
+    className,
+    ...htmlProps
+  }: TableCellProps<TColumn, TData, TSelectedColumn>) => {
+    const rowIndex = useTableRowStore((state) => state.rowIndex);
+    const rowData = useTableStore<TColumn, TData, TData>(
+      useShallow((state) => state.data[rowIndex]),
+    );
 
-  const columnData = rowData[column];
-  return (
-    <Slot slotId={column}>
-      <td className={cn('px-2 py-1', className)} {...htmlProps}>
-        {Render ? (
-          <Render
-            rowIndex={rowIndex}
-            rowData={rowData}
-            column={column}
-            columnData={columnData}
-          />
-        ) : (
-          columnData
-        )}
-      </td>
-    </Slot>
-  );
-};
+    const columnData = rowData[column];
+    return (
+      <Slot slotId={column}>
+        <td className={cn('px-2 py-1', className)} {...htmlProps}>
+          {Render ? (
+            <Render
+              rowIndex={rowIndex}
+              rowData={rowData}
+              column={column}
+              columnData={columnData}
+            />
+          ) : (
+            columnData
+          )}
+        </td>
+      </Slot>
+    );
+  };
