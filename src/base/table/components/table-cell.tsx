@@ -12,9 +12,9 @@ import { useTableStore } from '../hooks/use-table-store';
 export interface TableCellProps<
   TColumn extends string,
   TData extends Data,
-  TSelectedColumn extends TColumn,
+  TSelectedColumn extends string,
 > extends Omit<ComponentProps<'td'>, 'children'> {
-  column: TSelectedColumn;
+  column: TSelectedColumn & TColumn;
   render?: FC<TableCellRenderProps<NoInfer<TSelectedColumn>, TData>>;
 }
 
@@ -30,7 +30,7 @@ export interface TableCellRenderProps<
 
 export const TableCell =
   <TColumn extends string, TData extends Data>() =>
-  <TSelectedColumn extends TColumn>({
+  <TSelectedColumn extends string>({
     column,
     render: Render,
     className,

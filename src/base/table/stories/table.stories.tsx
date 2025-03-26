@@ -71,14 +71,13 @@ const columns = [
 ] as const;
 const Custom = ({ data }: { data: Person[] }) => {
   const Table = useTable({ columns, data, components: {} });
-
   return (
     <Table>
       <Table.Header />
       <Table.Body>
         <Table.Row>
           <Table.Cell
-            column="monkey"
+            column="firstName"
             render={({ column, rowData, columnData }) => `hello ${columnData}`}
           />
         </Table.Row>
