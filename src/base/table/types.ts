@@ -8,7 +8,7 @@ import { TableHead } from './components/table-head';
 import { TableBody } from './components/table-body';
 import { TableRow } from './components/table-row';
 import { TableCell } from './components/table-cell';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 export const DEFAULT_TABLE_COMPONENTS = {
   Table: <_TColumn, _TData>() => DefaultTable,
@@ -45,11 +45,11 @@ export interface TableComponents<
   Cell: () => TCell;
 }
 
-// export type TableComponents = Partial<
-//   Record<keyof typeof DEFAULT_TABLE_COMPONENTS, TableComponent>
-// >;
+export type TableComponents = Partial<
+  Record<keyof typeof DEFAULT_TABLE_COMPONENTS, TableComponent>
+>;
 
-export type TableComponent = <_TColumn, _TData>() => FC<any>;
+export type TableComponent = (p: any) => ReactNode;
 
 export type TableComponentWithTypes = <_TColumn, _TData>() => TableComponent;
 

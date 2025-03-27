@@ -77,7 +77,7 @@ const Custom = ({ data }: { data: Person[] }) => {
       <Table.Body>
         <Table.Row>
           <Table.Cell
-            column="firstName"
+            column=""
             render={({ column, rowData, columnData }) => `hello ${columnData}`}
           />
         </Table.Row>
