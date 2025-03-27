@@ -1,6 +1,7 @@
 import type { ComponentProps } from 'react';
 
 import { cn } from '@/base/utils';
+
 import { useTableStore } from '../hooks/use-table-store';
 
 export interface TableProps extends ComponentProps<'table'> {}

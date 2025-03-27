@@ -2,9 +2,10 @@ import { use } from 'react';
 
 import { useStore } from 'zustand';
 
+import type { Data } from '@/base/types';
+
 import { TableContext } from '../contexts/table-context';
 import type { TableState } from '../types';
-import type { Data } from '@/base/types';
 
 export const useTableStore = <
   TColumn extends string,

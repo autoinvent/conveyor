@@ -1,14 +1,16 @@
+import type { FC } from 'react';
+
 import type { StoreApi } from 'zustand';
 
 import type { Data } from '@/base/types';
+
 import { Table as DefaultTable } from './components/table';
+import { TableBody } from './components/table-body';
+import { TableCell } from './components/table-cell';
+import { TableHead } from './components/table-head';
 import { TableHeader } from './components/table-header';
 import { TableHeaderRow } from './components/table-header-row';
-import { TableHead } from './components/table-head';
-import { TableBody } from './components/table-body';
 import { TableRow } from './components/table-row';
-import { TableCell } from './components/table-cell';
-import type { FC } from 'react';
 
 export const DEFAULT_TABLE_COMPONENTS = {
   Table: DefaultTable,

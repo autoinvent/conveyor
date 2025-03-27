@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState, type ComponentProps } from 'react';
-import type { TableState, TableStore, TableComponent } from '../types';
-import { DEFAULT_TABLE_COMPONENTS } from '../types';
+
+import { createStore } from 'zustand';
 
 import type { Data } from '@/base/types';
-import { createStore } from 'zustand';
+
 import { TableProvider } from '../contexts/table-context';
+import type { TableState, TableStore, TableComponent } from '../types';
+import { DEFAULT_TABLE_COMPONENTS } from '../types';
 
 export type GetTableComponent<
   TDefault extends TableComponent,

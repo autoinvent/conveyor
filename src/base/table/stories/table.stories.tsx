@@ -4,11 +4,11 @@ import { faker } from '@faker-js/faker';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { withProfiler } from '@/../.storybook/decorators/profiler';
+import type { Data } from '@/base/types';
 
 import { Table as DefaultTable } from '../components/table';
-import { createTableHook } from '../utils/create-table-hook';
 import { TableCell, type TableCellProps } from '../components/table-cell';
-import type { Data } from '@/base/types';
+import { createTableHook } from '../utils/create-table-hook';
 
 const meta: Meta<typeof DefaultTable> = {
   title: 'Base UI/Table',
