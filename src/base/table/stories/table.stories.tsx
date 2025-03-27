@@ -7,6 +7,8 @@ import { withProfiler } from '@/../.storybook/decorators/profiler';
 
 import { Table as DefaultTable } from '../components/table';
 import { createTableHook } from '../utils/create-table-hook';
+import { TableCell, type TableCellProps } from '../components/table-cell';
+import type { Data } from '@/base/types';
 
 const meta: Meta<typeof DefaultTable> = {
   title: 'Base UI/Table',
@@ -17,7 +19,34 @@ const meta: Meta<typeof DefaultTable> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const useTable = createTableHook({});
+interface CustomCellProps<TColumn extends string, TData extends Data>
+  extends TableCellProps<TColumn, TData> {
+  background?: string;
+}
+const CustomCell = <TColumn extends string, TData extends Data>({
+  background = 'blue',
+  ...tableCellProps
+}: CustomCellProps<TColumn, TData>) => {
+  return (
+    <TableCell
+      className={`text-blue-400 text-red-400 text-${background}-400`}
+      {...tableCellProps}
+    />
+  );
+};
+const CustomCell2 = <TColumn extends string, TData extends Data>({
+  background = 'red',
+  ...tableCellProps
+}: CustomCellProps<TColumn, TData>) => {
+  return (
+    <TableCell
+      className={`text-blue-400 text-red-400 text-${background}-400`}
+      {...tableCellProps}
+    />
+  );
+};
+
+const useTable = createTableHook({ Cell: CustomCell });
 
 type Person = {
   firstName: string;
@@ -70,13 +99,14 @@ const columns = [
   'monkey',
 ] as const;
 const Custom = ({ data }: { data: Person[] }) => {
-  const Table = useTable({ columns, data, components: {} });
+  const Table = useTable({ columns, data, components: { Cell: CustomCell2 } });
   return (
     <Table>
       <Table.Header />
       <Table.Body>
         <Table.Row>
           <Table.Cell
+            background="red"
             column="firstName"
             render={({ columnData }) => `hello ${columnData}`}
           />
