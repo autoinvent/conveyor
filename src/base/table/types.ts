@@ -8,15 +8,15 @@ import { TableHead } from './components/table-head';
 import { TableBody } from './components/table-body';
 import { TableRow } from './components/table-row';
 import { TableCell } from './components/table-cell';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 
 export const DEFAULT_TABLE_COMPONENTS = {
-  Table: <_TColumn, _TData>() => DefaultTable,
-  Header: <_TColumn, _TData>() => TableHeader,
-  HeaderRow: <_TColumn, _TData>() => TableHeaderRow,
-  Head: <_TColumn, _TData>() => TableHead,
-  Body: <_TColumn, _TData>() => TableBody,
-  Row: <_TColumn, _TData>() => TableRow,
+  Table: DefaultTable,
+  Header: TableHeader,
+  HeaderRow: TableHeaderRow,
+  Head: TableHead,
+  Body: TableBody,
+  Row: TableRow,
   Cell: TableCell,
 };
 
@@ -36,20 +36,16 @@ export interface TableComponents<
   TRow extends TableComponent,
   TCell extends TableComponent,
 > {
-  Table: () => TTable;
-  Header: () => THeader;
-  HeaderRow: () => THeaderRow;
-  Head: () => THead;
-  Body: () => TBody;
-  Row: () => TRow;
-  Cell: () => TCell;
+  Table: TTable;
+  Header: THeader;
+  HeaderRow: THeaderRow;
+  Head: THead;
+  Body: TBody;
+  Row: TRow;
+  Cell: TCell;
 }
 
-export type TableComponents = Partial<
-  Record<keyof typeof DEFAULT_TABLE_COMPONENTS, TableComponent>
->;
-
-export type TableComponent = (p: any) => ReactNode;
+export type TableComponent = FC<any>;
 
 export type TableComponentWithTypes = <_TColumn, _TData>() => TableComponent;
 

@@ -5,15 +5,7 @@ import { DEFAULT_TABLE_COMPONENTS } from '../types';
 import type { Data } from '@/base/types';
 import { createStore } from 'zustand';
 import { TableProvider } from '../contexts/table-context';
-// import type { Table as DefaultTable } from '../components/table';
-// import type { TableHeader } from '../components/table-header';
-// import type { TableHeaderRow } from '../components/table-header-row';
-// import type { TableHead } from '../components/table-head';
-// import type { TableBody } from '../components/table-body';
-// import type { TableRow } from '../components/table-row';
-// import type { TableCell } from '../components/table-cell';
 
-// THIS IS THE ISSUE
 export type GetTableComponent<
   TDefault extends TableComponent,
   TComponent extends TableComponent | undefined,
@@ -37,66 +29,15 @@ export interface UseTableOptions<
 > extends Omit<TableState<TColumn, TData>, 'components' | 'columnOrder'> {
   columnOrder?: NoInfer<TColumn[]>;
   components?: {
-    Table?: () => TTable;
-    Header?: () => THeader;
-    HeaderRow?: () => THeaderRow;
-    Head?: () => THead;
-    Body?: () => TBody;
-    Row?: () => TRow;
-    Cell?: () => TCell;
+    Table?: TTable;
+    Header?: THeader;
+    HeaderRow?: THeaderRow;
+    Head?: THead;
+    Body?: TBody;
+    Row?: TRow;
+    Cell?: TCell;
   };
 }
-// export type CreateTableHook = <
-//   TTable extends TableComponent,
-//   THeader extends TableComponent,
-//   THeaderRow extends TableComponent,
-//   THead extends TableComponent,
-//   TBody extends TableComponent,
-//   TRow extends TableComponent,
-//   TCell extends TableComponent,
-// >(defaultComponents: {
-//   Table?: <_TColumn extends string, _TData extends Data>() => TTable;
-//   Header?: <_TColumn extends string, _TData extends Data>() => THeader;
-//   HeaderRow?: <_TColumn extends string, _TData extends Data>() => THeaderRow;
-//   Head?: <_TColumn extends string, _TData extends Data>() => THead;
-//   Body?: <_TColumn extends string, _TData extends Data>() => TBody;
-//   Row?: <_TColumn extends string, _TData extends Data>() => TRow;
-//   Cell?: <_TColumn extends string, _TData extends Data>() => TCell;
-// }) => <
-//   TColumn extends string,
-//   TData extends Data,
-//   UTable extends TableComponent,
-//   UHeader extends TableComponent,
-//   UHeaderRow extends TableComponent,
-//   UHead extends TableComponent,
-//   UBody extends TableComponent,
-//   URow extends TableComponent,
-//   UCell extends TableComponent,
-// >(
-//   opts: UseTableOptions<
-//     TColumn,
-//     TData,
-//     UTable,
-//     UHeader,
-//     UHeaderRow,
-//     UHead,
-//     UBody,
-//     URow,
-//     UCell
-//   >,
-// ) => {
-//   Table: GetTableComponent<
-//     typeof DEFAULT_TABLE_COMPONENTS.Table,
-//     () => TTable,
-//     () => UTable
-//   >;
-//   Header: GetTableComponent<typeof TableHeader, THeader, UHeader>;
-//   HeaderRow: GetTableComponent<typeof TableHeaderRow, THeaderRow, UHeaderRow>;
-//   Head: GetTableComponent<typeof TableHead, THead, UHead>;
-//   Body: GetTableComponent<typeof TableBody, TBody, UBody>;
-//   Row: GetTableComponent<typeof TableRow, TRow, URow>;
-//   Cell: GetTableComponent<typeof TableCell, TCell, UCell>;
-// } & GetTableComponent<typeof DefaultTable, TTable, UTable>;
 
 export const createTableHook = <
   TTable extends TableComponent | undefined,
@@ -107,13 +48,13 @@ export const createTableHook = <
   TRow extends TableComponent | undefined,
   TCell extends TableComponent | undefined,
 >(defaultComponents: {
-  Table?: <_TColumn extends string, _TData extends Data>() => TTable;
-  Header?: <_TColumn extends string, _TData extends Data>() => THeader;
-  HeaderRow?: <_TColumn extends string, _TData extends Data>() => THeaderRow;
-  Head?: <_TColumn extends string, _TData extends Data>() => THead;
-  Body?: <_TColumn extends string, _TData extends Data>() => TBody;
-  Row?: <_TColumn extends string, _TData extends Data>() => TRow;
-  Cell?: <_TColumn extends string, _TData extends Data>() => TCell;
+  Table?: TTable;
+  Header?: THeader;
+  HeaderRow?: THeaderRow;
+  Head?: THead;
+  Body?: TBody;
+  Row?: TRow;
+  Cell?: TCell;
 }) => {
   const availableComponents = {
     Table:
@@ -172,14 +113,11 @@ export const createTableHook = <
     URow,
     UCell
   >) => {
-    const untypedComponents = {
-      Table: (components?.Table === undefined
-        ? availableComponents.Table
-        : components.Table) as GetTableComponent<
-        TableComponent,
-        TTable,
-        UTable
-      >,
+    const { Table, ...internals } = {
+      Table:
+        components?.Table === undefined
+          ? availableComponents.Table
+          : components.Table,
       Header:
         components?.Header === undefined
           ? availableComponents.Header
@@ -200,33 +138,38 @@ export const createTableHook = <
         components?.Row === undefined
           ? availableComponents.Row
           : components.Row,
-      Cell: (components?.Cell === undefined
-        ? availableComponents.Cell
-        : components.Cell) as GetTableComponent<
-        ReturnType<typeof DEFAULT_TABLE_COMPONENTS.Cell>,
+      Cell:
+        components?.Cell === undefined
+          ? availableComponents.Cell
+          : components.Cell,
+    } as {
+      Table: TableComponent;
+      Header: GetTableComponent<
+        typeof DEFAULT_TABLE_COMPONENTS.Header,
+        THeader,
+        UHeader
+      >;
+      HeaderRow: GetTableComponent<
+        typeof DEFAULT_TABLE_COMPONENTS.HeaderRow,
+        THeaderRow,
+        UHeaderRow
+      >;
+      Head: GetTableComponent<
+        typeof DEFAULT_TABLE_COMPONENTS.Head,
+        THead,
+        UHead
+      >;
+      Body: GetTableComponent<
+        typeof DEFAULT_TABLE_COMPONENTS.Body,
+        TBody,
+        UBody
+      >;
+      Row: GetTableComponent<typeof DEFAULT_TABLE_COMPONENTS.Row, TRow, URow>;
+      Cell: GetTableComponent<
+        typeof DEFAULT_TABLE_COMPONENTS.Cell,
         TCell,
         UCell
-      >,
-    };
-
-    const typedComponents = {
-      Table: untypedComponents.Table<TColumn, TData>,
-      Header: untypedComponents.Header<TColumn, TData>,
-      HeaderRow: untypedComponents.HeaderRow<TColumn, TData>,
-      Head: untypedComponents.Head<TColumn, TData>,
-      Body: untypedComponents.Body<TColumn, TData>,
-      Row: untypedComponents.Row<TColumn, TData>,
-      Cell: untypedComponents.Cell<TColumn, TData>,
-    };
-
-    const { Table, ...internals } = {
-      Table: typedComponents.Table(),
-      Header: typedComponents.Header(),
-      HeaderRow: typedComponents.HeaderRow(),
-      Head: typedComponents.Head(),
-      Body: typedComponents.Body(),
-      Row: typedComponents.Row(),
-      Cell: typedComponents.Cell(),
+      >;
     };
 
     const storeRef = useRef<TableStore>(null);
@@ -240,7 +183,17 @@ export const createTableHook = <
     }
 
     const [TableComponents] = useState(() => {
-      const TableWithProvider = (props: ComponentProps<typeof Table>) => {
+      type TableProps = ComponentProps<
+        Exclude<
+          GetTableComponent<
+            typeof DEFAULT_TABLE_COMPONENTS.Table,
+            TTable,
+            UTable
+          >,
+          undefined
+        >
+      >;
+      const TableWithProvider = (props: TableProps) => {
         return (
           <TableProvider store={storeRef.current}>
             <Table {...props} />
