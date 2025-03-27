@@ -31,7 +31,7 @@
     "examples:vite-react-ts": "cd ./examples/vite-react-ts/ && pnpm dev",
     "examples:cdn": "cd ./examples/cdn/ && pnpm dev",
     "storybook": "storybook dev -p 6006 --no-open",
-    "biome:all": "pnpm format && pnpm lint && pnpm check",
+    "biome:all": "tsc && pnpm format && pnpm lint && pnpm check",
     "format": "prettier ./src --write && biome format --write",
     "lint": "biome lint --write",
     "check": "biome check --write"

@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState, type ComponentProps } from 'react';
+import { type ComponentProps, useEffect, useRef, useState } from 'react';
 
 import { createStore } from 'zustand';
 
 import type { Data } from '@/base/types';
 
 import { TableProvider } from '../contexts/table-context';
-import type { TableState, TableStore, TableComponent } from '../types';
+import type { TableComponent, TableState, TableStore } from '../types';
 import { DEFAULT_TABLE_COMPONENTS } from '../types';
 
 export type GetTableComponent<
