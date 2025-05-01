@@ -41,7 +41,7 @@ export const CancelEditAction = ({
         {...cancelEditProps}
         {...buttonProps}
       >
-        {children}
+        {cancelEditProps?.children ?? children}
       </Button>
     )
   );

@@ -38,7 +38,7 @@ export const DeleteAction = ({
         {...deleteProps}
         {...buttonProps}
       >
-        {children}
+        {deleteProps?.children ?? children}
       </Button>
     )
   );

@@ -38,7 +38,7 @@ export const EditAction = ({
         {...editProps}
         {...buttonProps}
       >
-        {children}
+        {editProps?.children ?? children}
       </Button>
     )
   );
