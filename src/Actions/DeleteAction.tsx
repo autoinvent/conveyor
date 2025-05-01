@@ -29,7 +29,7 @@ export const DeleteAction = ({
   });
 
   return (
-    onDelete != null && (
+    onDelete !== null && (
       <Button
         variant={variant}
         size={size}

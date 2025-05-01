@@ -87,3 +87,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const BasicUsage: Story = {};
+
+export const HidingActions: Story = {
+  args: {
+    actionOptions: {
+      actions: {
+        [Action.SUBMIT]: null,
+        [Action.DELETE]: null,
+      },
+    },
+  },
+};
