@@ -1,3 +1,6 @@
+## 1.11.3
+`bugfix`: Action props and actions now propagates properly.
+
 ## 1.11.2
 `bugfix`: Pagination will set the correct page after deletions.
 
