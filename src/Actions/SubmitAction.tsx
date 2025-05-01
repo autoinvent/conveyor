@@ -30,7 +30,7 @@ export const SubmitAction = ({
   });
 
   return (
-    onSubmit && (
+    onSubmit != null && (
       <Button
         variant={variant}
         size={size}

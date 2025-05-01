@@ -59,6 +59,8 @@ const meta = {
           new Promise((resolve) => setTimeout(resolve, 2000)),
         [Action.DELETE]: () =>
           new Promise((resolve) => setTimeout(resolve, 2000)),
+        [Action.CANCEL_EDIT]: () =>
+          new Promise((resolve) => setTimeout(resolve, 2000)),
       },
       actionProps: {
         [Action.SUBMIT]: { children: 'CREATE', variant: 'ghost-success' },

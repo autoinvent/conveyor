@@ -16,21 +16,29 @@ export const CancelEditAction = ({
   children = size === 'icon' ? <X className="h-4 w-4" /> : 'Cancel',
   ...buttonProps
 }: CancelEditActionProps) => {
-  const onCancelEditProp = useActionStore(
+  const getActionParams = useGetActionParams();
+  const onCancelEdit = useActionStore(
     (state) => state.actions?.[Action.CANCEL_EDIT],
   );
-  const getActionParams = useGetActionParams();
-  const { onCancelEdit } = getActionParams({});
-  const onCancelEditHandler =
-    onCancelEditProp === undefined ? onCancelEdit : onCancelEditProp;
+  const cancelEditProps = useActionStore(
+    (state) => state.actionProps?.[Action.CANCEL_EDIT],
+  );
+  const onCancelEditHandler = () => {
+    const actionParams = getActionParams({});
+    if (onCancelEdit) {
+      return onCancelEdit?.(actionParams);
+    }
+    return actionParams.onCancelEdit();
+  };
 
   return (
-    onCancelEditHandler && (
+    onCancelEdit !== null && (
       <Button
         variant={variant}
         size={size}
-        onClick={onCancelEdit}
-        onKeyUp={(e) => e.key === 'Enter' && onCancelEdit()}
+        onClick={onCancelEditHandler}
+        onKeyUp={(e) => e.key === 'Enter' && onCancelEditHandler()}
+        {...cancelEditProps}
         {...buttonProps}
       >
         {children}
