@@ -59,9 +59,20 @@ const meta = {
           new Promise((resolve) => setTimeout(resolve, 2000)),
         [Action.DELETE]: () =>
           new Promise((resolve) => setTimeout(resolve, 2000)),
+        [Action.CANCEL_EDIT]: ({ onCancelEdit }) => {
+          onCancelEdit();
+          alert('Canceling Edit...');
+        },
+        [Action.EDIT]: ({ onEdit }) => {
+          onEdit();
+          alert('Editing...');
+        },
       },
       actionProps: {
         [Action.SUBMIT]: { children: 'CREATE', variant: 'ghost-success' },
+        [Action.DELETE]: { children: 'TRASH', variant: 'ghost-success' },
+        [Action.CANCEL_EDIT]: { children: 'EXIT', variant: 'ghost-success' },
+        [Action.EDIT]: { children: 'MODIFY', variant: 'ghost-success' },
       },
     },
   },
@@ -76,3 +87,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const BasicUsage: Story = {};
+
+export const HidingActions: Story = {
+  args: {
+    actionOptions: {
+      actions: {
+        [Action.SUBMIT]: null,
+        [Action.DELETE]: null,
+      },
+    },
+  },
+};
