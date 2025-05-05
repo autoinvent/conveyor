@@ -16,21 +16,29 @@ export const EditAction = ({
   children = size === 'icon' ? <SquarePen className="h-4 w-4" /> : 'Edit',
   ...buttonProps
 }: EditActionProps) => {
-  const onEditProp = useActionStore((state) => state.actions?.[Action.EDIT]);
   const getActionParams = useGetActionParams();
-  const { onEdit } = getActionParams({});
-  const onEditHandler = onEditProp === undefined ? onEdit : onEditProp;
+  const onEdit = useActionStore((state) => state.actions?.[Action.EDIT]);
+  const editProps = useActionStore((state) => state.actionProps?.[Action.EDIT]);
+
+  const onEditHandler = () => {
+    const actionParams = getActionParams({});
+    if (onEdit) {
+      return onEdit?.(actionParams);
+    }
+    return actionParams.onEdit();
+  };
 
   return (
-    onEditHandler && (
+    onEdit !== null && (
       <Button
         variant={variant}
         size={size}
-        onClick={onEdit}
-        onKeyUp={(e) => e.key === 'Enter' && onEdit()}
+        onClick={onEditHandler}
+        onKeyUp={(e) => e.key === 'Enter' && onEditHandler()}
+        {...editProps}
         {...buttonProps}
       >
-        {children}
+        {editProps?.children ?? children}
       </Button>
     )
   );

@@ -20,21 +20,25 @@ export const DeleteAction = ({
   const getActionParams = useGetActionParams();
   const handleSubmit = useFormStore((state) => state.handleSubmit);
   const onDelete = useActionStore((state) => state.actions?.[Action.DELETE]);
+  const deleteProps = useActionStore(
+    (state) => state.actionProps?.[Action.DELETE],
+  );
 
   const onDeleteHandler = handleSubmit(async () => {
     await onDelete?.(getActionParams({}));
   });
 
   return (
-    onDelete && (
+    onDelete !== null && (
       <Button
         variant={variant}
         size={size}
         onClick={onDeleteHandler}
         onKeyUp={(e) => e.key === 'Enter' && onDeleteHandler()}
+        {...deleteProps}
         {...buttonProps}
       >
-        {children}
+        {deleteProps?.children ?? children}
       </Button>
     )
   );
