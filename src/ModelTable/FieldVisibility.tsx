@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { Eye } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
 import { Button } from '@/lib/components/ui/button';
 import {
@@ -33,12 +33,18 @@ export const FieldVisibility = <F extends string, T extends F>({
   options,
   children,
 }: FieldVisibilityProps<F, T>) => {
+  const isFiltered = fields.length !== fieldOrder.length;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {children ?? (
           <Button variant="outline" size="sm" className="h-8">
-            <Eye className="mr-2 h-4 w-4" />
+            {isFiltered ? (
+              <EyeOff className="mr-2 h-4 w-4" />
+            ) : (
+              <Eye className="mr-2 h-4 w-4" />
+            )}
             View
           </Button>
         )}
