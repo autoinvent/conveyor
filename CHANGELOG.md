@@ -1,3 +1,6 @@
+## 1.12.0
+`feature`: `FieldVisibility` icon changes to EyeOff when filtering columns.
+
 ## 1.11.3
 `bugfix`: Action props and actions now propagates properly.
 
