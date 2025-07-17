@@ -1,3 +1,6 @@
+## 1.12.1
+`bugfix`: Prevent React warning by deferring `onPageChange` call in `Pagination` to `useEffect` when `page > totalPages`
+
 ## 1.12.0
 `feature`: `FieldVisibility` icon changes to EyeOff when filtering columns.
 
