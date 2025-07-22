@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react';
+import { useEffect, type ComponentProps } from 'react';
 
 import { SelectInput } from '@/BasicInputs';
 import { cn } from '@/lib/utils';
@@ -68,9 +68,11 @@ export const Pagination = ({
     totalPages,
   );
 
-  if (page > totalPages) {
-    onPageChange(totalPages);
-  }
+  useEffect(() => {
+    if (page > totalPages) {
+      onPageChange(totalPages);
+    }
+  }, [page, totalPages, onPageChange]);
 
   return (
     <Shadcn.Pagination className={cn('py-2', className)} {...paginationProps}>
