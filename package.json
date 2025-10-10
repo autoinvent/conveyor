@@ -1,37 +1,20 @@
 {
-	"name": "@autoinvent/conveyor",
-	"version": "2.0.0-beta",
-	"description": "UI component library for model based data.",
+	"name": "@repo/root",
+	"version": "0.0.0",
 	"author": "Moebius Solutions",
-	"license": "BlueOak-1.0.0",
-	"keywords": [],
-	"type": "module",
-	"files": [
-		"dist"
-	],
-	"main": "./dist/conveyor.umd.cjs",
-	"module": "./dist/conveyor.js",
-	"types": "./index/conveyor.d.ts",
-	"exports": {
-		".": {
-			"import": {
-				"types": "./index/conveyor.d.ts",
-				"default": "./dist/conveyor.js"
-			},
-			"require": "./dist/conveyor.umd.cjs"
-		},
-		"./styles.css": "./dist/styles.css",
-		"./logo.svg": "./dist/logo.svg"
-	},
-	"scripts": {
-		"dev:init": "bun i && bun lefthook install",
-		"build": "tsc && vite build"
-	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.5",
 		"@types/bun": "^1.2.23",
-		"lefthook": "^1.13.6",
-		"typescript": "^5.9.3",
-		"vite": "^7.1.9"
-	}
+		"lefthook": "^1.13.6"
+	},
+	"description": "root monorepo",
+	"license": "BlueOak-1.0.0",
+	"private": true,
+	"scripts": {
+		"lint": "bun run --filter '*' lint",
+		"build": "bun run --filter '*' build"
+	},
+	"workspaces": [
+		"packages/*"
+	]
 }

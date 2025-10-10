@@ -1,17 +1,12 @@
 {
-  "recommendations": [
-    // git extensions
-    "mhutchie.git-graph",
-    // linting
-    "biomejs.biome",
-    "usernamehw.errorlens",
-    "yoavbls.pretty-ts-errors",
-    // intellisense
-    "bradlc.vscode-tailwindcss",
-    // style extensions
-    "kamikillerto.vscode-colorize",
-    "PKief.material-icon-theme",
-    // meta data
-    "wix.vscode-import-cost",
-  ]
+	"recommendations": [
+		"mhutchie.git-graph",
+		"biomejs.biome",
+		"usernamehw.errorlens",
+		"yoavbls.pretty-ts-errors",
+		"bradlc.vscode-tailwindcss",
+		"kamikillerto.vscode-colorize",
+		"PKief.material-icon-theme",
+		"wix.vscode-import-cost"
+	]
 }

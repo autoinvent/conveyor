@@ -1,20 +1,19 @@
-# dependencies
-node_modules
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 
+# dependencies
+**/node_modules
+
 # build files
-.build
-dist
-*.tgz
-*.tsbuildinfo
+**/dist
+**/*.tgz
+**/*.tsbuildinfo
 
 # misc
-.DS_Store
-*.env
-*.local
-.cache
-.idea
-.pnpm-store
+**/.DS_Store
+**/*.env
+**/*.local
+**/.cache
+**/.idea
+**/.pnpm-store

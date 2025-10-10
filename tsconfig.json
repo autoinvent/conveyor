@@ -1,47 +1,40 @@
 {
-  "compilerOptions": {
-    // Environment setup & latest features
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "target": "ESNext",
-    "jsx": "react-jsx",
-    "allowJs": false,
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["src/*"]
-    },
+	"compilerOptions": {
+		// Environment setup & latest features
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"target": "ESNext",
+		"jsx": "react-jsx",
+		"allowJs": false,
 
-    // Bundler mode
-    "module": "esnext",
-    "moduleDetection": "force",
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "verbatimModuleSyntax": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "tsBuildInfoFile": ".build/tsconfig.tsbuildinfo",
-    "composite": true,
+		// Bundler mode
+		"module": "esnext",
+		"moduleDetection": "force",
+		"moduleResolution": "bundler",
+		"esModuleInterop": true,
+		"verbatimModuleSyntax": true,
+		"emitDeclarationOnly": true,
+		"composite": true,
+		"declaration": true,
+		"sourceMap": true,
+		"declarationMap": true,
+		"noEmit": false,
 
-    // Best practices
-    "strict": true,
-    "skipLibCheck": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    "allowSyntheticDefaultImports": true,
-    "useDefineForClassFields": true,
+		// Best practices
+		"strict": true,
+		"skipLibCheck": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"allowSyntheticDefaultImports": true,
+		"useDefineForClassFields": true,
 
-    // Some stricter flags (disabled by default)
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true
-
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+		// Some stricter flags (disabled by default)
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"strictNullChecks": true,
+		"forceConsistentCasingInFileNames": true
+	}
 }

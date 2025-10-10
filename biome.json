@@ -8,7 +8,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["src/**/*", "package.json"]
+		"includes": ["**/*", "!**/node_modules", "!**/dist", "!**/old"]
 	},
 	"formatter": {
 		"enabled": true,

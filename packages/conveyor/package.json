@@ -1,0 +1,37 @@
+{
+	"name": "@autoinvent/conveyor",
+	"version": "2.0.0-beta",
+	"author": "Moebius Solutions",
+	"main": "./dist/conveyor.umd.cjs",
+	"module": "./dist/conveyor.js",
+	"devDependencies": {
+		"@biomejs/biome": "2.2.5",
+		"@types/bun": "^1.2.23",
+		"@vitejs/plugin-react": "^5.0.4",
+		"typescript": "^5.9.3",
+		"vite": "^7.1.9"
+	},
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/src/index.d.ts",
+				"default": "./dist/conveyor.js"
+			},
+			"require": "./dist/conveyor.umd.cjs"
+		},
+		"./styles.css": "./dist/styles.css"
+	},
+	"description": "UI component library for model based data.",
+	"files": [
+		"dist"
+	],
+	"keywords": [],
+	"license": "BlueOak-1.0.0",
+	"scripts": {
+		"lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off",
+		"clean": "rm -rf dist",
+		"build": "vite build && tsc"
+	},
+	"type": "module",
+	"types": "./dist/src/index.d.ts"
+}
