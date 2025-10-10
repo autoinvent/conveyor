@@ -11,7 +11,7 @@
 	"license": "BlueOak-1.0.0",
 	"private": true,
 	"scripts": {
-		"lint": "bun run --filter '*' lint",
+		"lint": "bun run --filter './packages/*' lint",
 		"build": "bun run --filter '*' build"
 	},
 	"workspaces": [
