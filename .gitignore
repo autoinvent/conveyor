@@ -17,3 +17,5 @@
 **/.cache
 **/.idea
 **/.pnpm-store
+*storybook.log
+storybook-static
