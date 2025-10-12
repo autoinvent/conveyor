@@ -1,0 +1,24 @@
+{
+	"name": "@repo/internal",
+	"private": "true",
+	"version": "0.0.0",
+	"author": "Moebius Solutions",
+	"devDependencies": {
+		"@biomejs/biome": "2.2.5",
+		"@types/bun": "^1.2.23",
+		"typescript": "^5.9.3"
+	},
+	"description": "Internal utilities and components for conveyor.",
+	"license": "BlueOak-1.0.0",
+	"scripts": {
+		"lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off",
+		"clean": "rm -rf dist",
+		"build": "vite build && tsc"
+	},
+	"type": "module",
+	"main": "index.ts",
+	"dependencies": {
+		"clsx": "^2.1.1",
+		"tailwind-merge": "^3.3.1"
+	}
+}

@@ -16,6 +16,8 @@
 		"clean": "bun run --filter './packages/*' clean"
 	},
 	"workspaces": [
-		"packages/*"
+		"packages/*",
+		"apps/*",
+		"internal/*"
 	]
 }
