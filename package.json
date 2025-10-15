@@ -13,7 +13,8 @@
 	"scripts": {
 		"lint": "bun run --filter './packages/*' lint",
 		"build": "bun run --filter './packages/*' build",
-		"clean": "bun run --filter './packages/*' clean"
+		"clean": "bun run --filter './packages/*' clean",
+		"storybook": "bun run --filter './apps/*' storybook"
 	},
 	"workspaces": [
 		"packages/*",

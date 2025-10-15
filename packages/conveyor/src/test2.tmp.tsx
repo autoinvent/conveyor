@@ -7,11 +7,12 @@ const BookFields = {
 
 
 export const fn = () => {
+  const rowid = '23hjjbjub32'
   return (
     <Table data={} columns>
-      <Table.Body>
-        <Table.Row className="" outerWrapper={} innerWrapper={} replace>
-          <Table.Cell column="name" replace />
+      <Table.Body target="default" empty>
+        <Table.Row target={rowid} className="" outerWrapper={} innerWrapper={} meta={} replace>
+          <Table.Cell target="name" replace />
         </Table.Row>
       </Table.Body>
     </Table>
@@ -21,17 +22,22 @@ export const fn = () => {
 
 const CommonTable = ({children}) => {
   return (
+    <div>
     <Table >
       <Table.Body>
         <Table.Row>
           <Table.Cell />
         </Table.Row>
       </Table.Body>
+      <Table.Footer/>
+      <Table.Caption/>
       {children}
     </Table>
+    </div>
   )
 }
 
-const TableCell = () => {
-  return TableCell
-}
+export const Table = createTable({
+  TableCell: () => {}
+  TableBody: () => {}
+})

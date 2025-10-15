@@ -2,16 +2,16 @@
 	"name": "@autoinvent/conveyor",
 	"version": "2.0.0-beta",
 	"author": "Moebius Solutions",
+	"description": "UI component library for model based data.",
+	"license": "BlueOak-1.0.0",
+	"keywords": [],
+	"files": [
+		"dist"
+	],
+	"type": "module",
 	"main": "./dist/conveyor.umd.cjs",
 	"module": "./dist/conveyor.js",
-	"devDependencies": {
-		"@biomejs/biome": "2.2.5",
-		"@types/bun": "^1.2.23",
-		"@vitejs/plugin-react": "^5.0.4",
-		"typescript": "^5.9.3",
-		"vite": "^7.1.9",
-		"@repo/internal": "workspace:*"
-	},
+	"types": "./dist/src/index.d.ts",
 	"exports": {
 		".": {
 			"import": {
@@ -20,19 +20,29 @@
 			},
 			"require": "./dist/conveyor.umd.cjs"
 		},
-		"./styles.css": "./dist/styles.css"
+		"./styles.css": "./dist/index.css"
 	},
-	"description": "UI component library for model based data.",
-	"files": [
-		"dist"
-	],
-	"keywords": [],
-	"license": "BlueOak-1.0.0",
 	"scripts": {
 		"lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off",
 		"clean": "rm -rf dist",
-		"build": "vite build && tsc"
+		"build": "bun run build:css && vite build && tsc",
+		"build:css": "bunx @tailwindcss/cli -i ./src/index.css -o ./public/index.css"
 	},
-	"type": "module",
-	"types": "./dist/src/index.d.ts"
+	"dependencies": {
+		"@repo/internal": "workspace:*"
+	},
+	"peerDependencies": {
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.5",
+		"@tailwindcss/cli": "^4.1.14",
+		"@tailwindcss/vite": "^4.1.14",
+		"@types/bun": "^1.2.23",
+		"@vitejs/plugin-react": "^5.0.4",
+		"tailwindcss": "^4.1.14",
+		"typescript": "^5.9.3",
+		"vite": "^7.1.9"
+	}
 }

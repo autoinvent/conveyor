@@ -1,12 +1,8 @@
 {
 	"extends": "../../tsconfig",
-	"include": ["src"],
+	"include": ["stories"],
 	"exclude": ["node_modules", "dist"],
 	"compilerOptions": {
-		"outDir": "dist",
-		"baseUrl": ".",
-		"paths": {
-			"~/*": ["src/*"]
-		}
+		"outDir": "dist"
 	}
 }

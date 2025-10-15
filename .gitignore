@@ -1,6 +1,6 @@
 # Editor directories and files
 .vscode/*
-!.vscode/extensions.json
+# !.vscode/settinfs.json
 
 # dependencies
 **/node_modules
