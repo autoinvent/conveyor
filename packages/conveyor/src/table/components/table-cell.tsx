@@ -1,4 +1,4 @@
-import { cn } from '@repo/internal';
+import { cn } from '@repo/internal'
 
 export function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
 	return (
@@ -10,5 +10,5 @@ export function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
 			)}
 			{...props}
 		/>
-	);
+	)
 }

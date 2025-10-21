@@ -1,5 +1,5 @@
 pre-commit:
   commands:
     check:
-      run: bun run lint {staged_files}
+      run: bun run lint --colors=off {staged_files}
       stage_fixed: true

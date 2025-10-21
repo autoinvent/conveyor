@@ -8,26 +8,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
 	plugins: [react(), tailwindcss()],
-	build: {
-		lib: {
-			entry: resolve(__dirname, 'src/index.ts'),
-			name: 'Conveyor',
-			fileName: 'conveyor',
-		},
-		sourcemap: true,
-		rollupOptions: {
-			external: ['react', 'react-dom'],
-			output: {
-				globals: {
-					react: 'React',
-					'react-dom': 'ReactDOM',
-				},
-			},
-		},
-	},
 	resolve: {
 		alias: {
-			'~': resolve(__dirname, 'src'),
+			'@': resolve(__dirname, '.storybook'),
 		},
 	},
 })

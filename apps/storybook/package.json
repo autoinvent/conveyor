@@ -19,17 +19,22 @@
 		"vite": "^7.1.9",
 		"vitest": "^3.2.4"
 	},
+	"peerDependencies": {
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0"
+	},
 	"description": "Storybook for conveyor.",
 	"license": "BlueOak-1.0.0",
 	"scripts": {
-		"lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off",
+		"lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true",
 		"clean": "rm -rf dist",
 		"build": "vite build && tsc",
-		"storybook": "storybook dev -p 6006",
+		"storybook": "storybook dev -p 6006 --ci",
 		"build-storybook": "storybook build"
 	},
 	"type": "module",
 	"dependencies": {
-		"@autoinvent/conveyor": "workspace:*"
+		"@autoinvent/conveyor": "workspace:*",
+		"@uidotdev/usehooks": "^2.4.1"
 	}
 }

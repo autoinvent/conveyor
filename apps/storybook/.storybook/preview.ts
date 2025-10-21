@@ -1,6 +1,6 @@
-import type { Preview } from '@storybook/react-vite';
+import type { Preview } from '@storybook/react-vite'
 
-import '@autoinvent/conveyor/styles.css';
+import '@autoinvent/conveyor/styles.css'
 
 const preview: Preview = {
 	parameters: {
@@ -18,6 +18,6 @@ const preview: Preview = {
 			test: 'todo',
 		},
 	},
-};
+}
 
-export default preview;
+export default preview

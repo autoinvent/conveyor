@@ -1,4 +1,4 @@
-import { cn } from '@repo/internal';
+import { cn } from '@repo/internal'
 
 export function TableBody({
 	className,
@@ -10,5 +10,5 @@ export function TableBody({
 			className={cn('[&_tr:last-child]:border-0', className)}
 			{...props}
 		/>
-	);
+	)
 }

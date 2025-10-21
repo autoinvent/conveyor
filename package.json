@@ -14,7 +14,7 @@
 		"lint": "bun run --filter './packages/*' lint",
 		"build": "bun run --filter './packages/*' build",
 		"clean": "bun run --filter './packages/*' clean",
-		"storybook": "bun run --filter './apps/*' storybook"
+		"storybook": "bun run --filter './apps/storybook' storybook"
 	},
 	"workspaces": [
 		"packages/*",

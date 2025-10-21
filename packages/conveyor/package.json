@@ -23,7 +23,7 @@
 		"./styles.css": "./dist/index.css"
 	},
 	"scripts": {
-		"lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off",
+		"lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true",
 		"clean": "rm -rf dist",
 		"build": "bun run build:css && vite build && tsc",
 		"build:css": "bunx @tailwindcss/cli -i ./src/index.css -o ./public/index.css"

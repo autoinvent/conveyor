@@ -1,9 +1,11 @@
 import { Table, TableBody, TableCell, TableRow } from '@autoinvent/conveyor';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { withPerformance } from '@/decorators/with-performance';
 
 const meta = {
-	title: 'Conveyor/Table',
+	title: 'Conveyor/Table/Table Peformance',
 	component: Table,
+	decorators: [withPerformance],
 	parameters: {
 		layout: 'centered',
 	},

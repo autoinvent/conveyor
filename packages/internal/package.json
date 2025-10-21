@@ -19,7 +19,7 @@
 		}
 	},
 	"scripts": {
-		"lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off",
+		"lint": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true",
 		"clean": "rm -rf dist",
 		"build": "vite build && tsc"
 	},
